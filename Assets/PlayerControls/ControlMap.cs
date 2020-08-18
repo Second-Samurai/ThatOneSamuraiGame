@@ -32,7 +32,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""id"": ""7d3b2d0c-6ef1-4db4-85ab-f1365c38ebdd"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""RotateCamera"",

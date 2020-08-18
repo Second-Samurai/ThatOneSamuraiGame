@@ -256,9 +256,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e637a21ae8beb0843b0348cf74a4b9d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canMove: 1
+  bCanMove: 1
+  bLockedOn: 0
   rotationSpeed: 4
   smoothingValue: 0.1
+  lockOnTarget: {fileID: 1627769421}
 --- !u!114 &784445213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -735,7 +737,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 964120388}
-  m_LocalRotation: {x: 0.011595771, y: 0.1624047, z: -0.0019086822, w: 0.9866543}
+  m_LocalRotation: {x: 0.011595737, y: 0.1624047, z: -0.0019086766, w: 0.9866543}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

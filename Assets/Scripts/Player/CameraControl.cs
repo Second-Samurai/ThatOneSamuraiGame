@@ -8,6 +8,7 @@ public class CameraControl : MonoBehaviour
     FreeLookAddOn _camScript;
     public GameObject cam;
     Vector2 rotationVector;
+    public Transform lockOnTarget;
 
     private void Start()
     {
@@ -24,4 +25,12 @@ public class CameraControl : MonoBehaviour
         if(rotationVector != Vector2.zero)
             _camScript.RotateCam(rotationVector);
     }
+
+    public void SetTarget(Transform target)
+    {
+        _camScript.SetTarget(target);
+    }
+
+
+
 }

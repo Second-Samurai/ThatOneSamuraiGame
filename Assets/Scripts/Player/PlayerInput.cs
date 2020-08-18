@@ -10,8 +10,8 @@ public class PlayerInput : MonoBehaviour
     public bool bCanMove = true, bLockedOn = false;
     public float rotationSpeed = 4f, smoothingValue = .1f;
     Animator _animator;
-
-    public Transform lockOnTarget;
+    CameraControl _camControl;
+    
 
     float _turnSmoothVelocity;
      
@@ -33,6 +33,7 @@ public class PlayerInput : MonoBehaviour
         else
             bLockedOn = false;
         _animator.SetBool("LockedOn", bLockedOn);
+
  
     }
   
@@ -62,9 +63,7 @@ public class PlayerInput : MonoBehaviour
                     float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, .1f);
 
                     transform.rotation = Quaternion.Euler(0f, _angle, 0f);
-                    //Vector3 lookDir = lockOnTarget.position - transform.position;
-                    //Quaternion lookRotation = Quaternion.LookRotation(lookDir, Vector3.up);
-                    //transform.rotation = lookRotation;
+                     
                 }
                 _animator.SetFloat("XInput", _inputVector.x, smoothingValue, Time.deltaTime);
                 _animator.SetFloat("YInput", _inputVector.y, smoothingValue, Time.deltaTime);

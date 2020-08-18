@@ -5,8 +5,34 @@ using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
-    void OnMovement() 
-    { 
+    Vector3 heading;
+    Vector2 inputVector;
+    public bool canMove = true;
+    public float rotationSpeed = 4f, smoothingValue = .1f;
+    Animator animator;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
+    void OnMovement(InputValue dir) 
+    {
+        inputVector = dir.Get<Vector2>();
+        Debug.Log(inputVector.magnitude);
         
+        
+    }
+
+
+    private void FixedUpdate()
+    {
+        animator.SetFloat("InputSpeed", inputVector.magnitude, smoothingValue, Time.deltaTime);
+        if (canMove)
+        {
+            heading = new Vector3(inputVector.x,0,inputVector.y);
+            if (heading != Vector3.zero)
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(heading), Time.deltaTime * rotationSpeed);
+        }
     }
 }

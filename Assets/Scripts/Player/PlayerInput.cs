@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerInput : MonoBehaviour
 {
 
-    Vector2 _inputVector;
+    Vector2 _inputVector, lastVector;
     public bool bCanMove = true, bLockedOn = false;
     public float rotationSpeed = 4f, smoothingValue = .1f;
     Animator _animator;
@@ -52,6 +52,7 @@ public class PlayerInput : MonoBehaviour
                     transform.rotation = Quaternion.Euler(0f, _angle, 0f);
                 }
                 _animator.SetFloat("InputSpeed", _inputVector.magnitude, smoothingValue, Time.deltaTime);
+                
             }
             else if (bLockedOn) 
             {
@@ -70,6 +71,7 @@ public class PlayerInput : MonoBehaviour
             
             }
         }
+        lastVector = _inputVector;
     }
      
 }

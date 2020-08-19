@@ -48,6 +48,10 @@ public class PlayerInput : MonoBehaviour
         _functions.EndBlock();
     }
 
+    void OnDodge()
+    {
+        _animator.SetTrigger("Dodge");
+    }
 
 
 
@@ -55,31 +59,21 @@ public class PlayerInput : MonoBehaviour
     {
         if (bCanMove)
         {
+            Vector3 _direction = new Vector3(_inputVector.x, 0, _inputVector.y).normalized;
+            if (_direction != Vector3.zero)
+            {
+                float _targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+                float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, .1f);
+
+                transform.rotation = Quaternion.Euler(0f, _angle, 0f);
+            }
             if (!bLockedOn)
             {
-                Vector3 _direction = new Vector3(_inputVector.x, 0, _inputVector.y).normalized;
-                if (_direction != Vector3.zero)
-                {
-                    float _targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-                    float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, .1f);
-
-                    transform.rotation = Quaternion.Euler(0f, _angle, 0f);
-                }
                 _animator.SetFloat("InputSpeed", _inputVector.magnitude, smoothingValue, Time.deltaTime);
                 
             }
             else if (bLockedOn) 
-            {
-
-                Vector3 _direction = new Vector3(_inputVector.x, 0, _inputVector.y).normalized;
-                if (_direction != Vector3.zero)
-                {
-                    float _targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-                    float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, .1f);
-
-                    transform.rotation = Quaternion.Euler(0f, _angle, 0f);
-                     
-                }
+            { 
                 _animator.SetFloat("XInput", _inputVector.x, smoothingValue, Time.deltaTime);
                 _animator.SetFloat("YInput", _inputVector.y, smoothingValue, Time.deltaTime);
             

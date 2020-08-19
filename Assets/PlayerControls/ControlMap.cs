@@ -65,6 +65,14 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=1)""
+                },
+                {
+                    ""name"": ""Dodge"",
+                    ""type"": ""Button"",
+                    ""id"": ""f1e70147-378b-429e-a976-ca9e31227a1e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -243,6 +251,28 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""action"": ""EndBlock"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e4a4f5ef-45b6-4a1d-919c-3fad052b9930"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Dodge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5aa8508c-ef6c-49c7-8f2c-7b5cd973a490"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Dodge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -285,6 +315,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         m_Gameplay_StartBlock = m_Gameplay.FindAction("StartBlock", throwIfNotFound: true);
         m_Gameplay_EndBlock = m_Gameplay.FindAction("EndBlock", throwIfNotFound: true);
         m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
+        m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -340,6 +371,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_StartBlock;
     private readonly InputAction m_Gameplay_EndBlock;
     private readonly InputAction m_Gameplay_Attack;
+    private readonly InputAction m_Gameplay_Dodge;
     public struct GameplayActions
     {
         private @ControlMap m_Wrapper;
@@ -350,6 +382,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         public InputAction @StartBlock => m_Wrapper.m_Gameplay_StartBlock;
         public InputAction @EndBlock => m_Wrapper.m_Gameplay_EndBlock;
         public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
+        public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -377,6 +410,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @Attack.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAttack;
+                @Dodge.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
+                @Dodge.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
+                @Dodge.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -399,6 +435,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
+                @Dodge.started += instance.OnDodge;
+                @Dodge.performed += instance.OnDodge;
+                @Dodge.canceled += instance.OnDodge;
             }
         }
     }
@@ -429,5 +468,6 @@ public class @ControlMap : IInputActionCollection, IDisposable
         void OnStartBlock(InputAction.CallbackContext context);
         void OnEndBlock(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnDodge(InputAction.CallbackContext context);
     }
 }

@@ -6,7 +6,7 @@ public class IKPuppet : MonoBehaviour
 {
     Animator animator;
     public Transform rHand, lHand;
-    public float IKWeight = 1f;
+    public float IKWeight = 1f, IKTargetWeight = 1f;
 
     public bool IKOn = false;
 
@@ -17,8 +17,8 @@ public class IKPuppet : MonoBehaviour
 
     private void OnAnimatorIK(int layerIndex)
     {
-        if (IKOn)
-        {
+        //if (IKOn)
+        //{
             animator.SetIKPosition(AvatarIKGoal.RightHand, rHand.position);
             animator.SetIKRotation(AvatarIKGoal.RightHand, rHand.rotation);
             animator.SetIKPositionWeight(AvatarIKGoal.RightHand, IKWeight);
@@ -27,6 +27,35 @@ public class IKPuppet : MonoBehaviour
             animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, IKWeight);
             animator.SetIKRotation(AvatarIKGoal.LeftHand, lHand.rotation);
             animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, IKWeight);
+        //}
+    }
+
+    public void EnableIK()
+    {
+        IKOn = true;
+        IKTargetWeight = .8f;
+    }
+    public void DisableIK() 
+    {
+        IKOn = false;
+        IKTargetWeight = 0f;
+    }
+
+    private void Update()
+    {
+        if (IKOn)
+        {
+            if (IKWeight < IKTargetWeight)
+                IKWeight += Time.deltaTime*3;
+            if (IKWeight > IKTargetWeight)
+                IKWeight = IKTargetWeight;
+        }
+        else
+        {
+            if (IKWeight > IKTargetWeight)
+                IKWeight -= Time.deltaTime*2;
+            if (IKWeight < IKTargetWeight)
+                IKWeight = IKTargetWeight;
         }
     }
 

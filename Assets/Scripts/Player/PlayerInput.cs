@@ -11,13 +11,14 @@ public class PlayerInput : MonoBehaviour
     public float rotationSpeed = 4f, smoothingValue = .1f;
     Animator _animator;
     CameraControl _camControl;
-    
+    PlayerFunctions _functions;
 
     float _turnSmoothVelocity;
      
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        _functions = GetComponent<PlayerFunctions>();
     }
 
     void OnMovement(InputValue dir) 
@@ -37,6 +38,19 @@ public class PlayerInput : MonoBehaviour
  
     }
   
+    void OnStartBlock()
+    {
+        _functions.StartBlock();
+    }
+
+    void OnEndBlock()
+    {
+        _functions.EndBlock();
+    }
+
+
+
+
     private void FixedUpdate()
     {
         if (bCanMove)

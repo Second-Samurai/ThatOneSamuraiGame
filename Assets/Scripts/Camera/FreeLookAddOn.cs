@@ -24,7 +24,7 @@ public class FreeLookAddOn : MonoBehaviour
         if (_bFlipY)
             rotDir.y = -rotDir.y;
         rotDir.x = rotDir.x * 180f;
-        Debug.LogWarning(rotDir);
+ 
         _cam.m_XAxis.Value += rotDir.x * lookSpeed * Time.deltaTime;
         _cam.m_YAxis.Value += rotDir.y * lookSpeed * Time.deltaTime;
     }

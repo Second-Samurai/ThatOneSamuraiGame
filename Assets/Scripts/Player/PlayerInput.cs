@@ -33,7 +33,7 @@ public class PlayerInput : MonoBehaviour
         Debug.Log(">> Light attack Triggered");
         if (!value.isPressed)
         {
-            _playerCombat.RunLightAttack(_animator);
+            _playerCombat.RunLightAttack();
         }
     }
 

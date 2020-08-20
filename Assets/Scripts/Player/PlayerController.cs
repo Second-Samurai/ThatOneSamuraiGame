@@ -15,8 +15,6 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     //NOTE: Once object is spawned through code init through awake instead.
     void Awake() {
-        this.gameObject.AddComponent<PCombatController>();
-        this.gameObject.AddComponent<PDamageController>();
     }
 
     void Start() {

@@ -12,6 +12,7 @@ public class PlayerInput : MonoBehaviour
     Animator _animator;
     CameraControl _camControl;
     PlayerFunctions _functions;
+    IPlayerCombat _playerCombat;
 
     float _turnSmoothVelocity;
      
@@ -19,11 +20,21 @@ public class PlayerInput : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _functions = GetComponent<PlayerFunctions>();
+        _playerCombat = this.GetComponent<IPlayerCombat>();
     }
 
     void OnMovement(InputValue dir) 
     {
         _inputVector = dir.Get<Vector2>(); 
+    }
+
+    private void OnAttack(InputValue value)
+    {
+        Debug.Log(">> Light attack Triggered");
+        if (!value.isPressed)
+        {
+            _playerCombat.RunLightAttack(_animator);
+        }
     }
 
     void OnLockOn()
@@ -52,8 +63,6 @@ public class PlayerInput : MonoBehaviour
     {
         _animator.SetTrigger("Dodge");
     }
-
-
 
     private void FixedUpdate()
     {

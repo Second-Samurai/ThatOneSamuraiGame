@@ -13,6 +13,8 @@ public class PlayerStateMachine : MonoBehaviour
 {
     PlayerState currentState;
 
+    //Summary: Implements new state for usage
+    //
     public void AddState<T>() where T : PlayerState 
     {
         if (currentState != null) {
@@ -23,6 +25,8 @@ public class PlayerStateMachine : MonoBehaviour
         currentState.BeginState();
     }
 
+    //Summary: Removes existent state attached
+    //
     public void RemoveState() 
     {
         if (currentState != null) {

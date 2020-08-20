@@ -18,7 +18,7 @@ namespace Enemy_Scripts
         public void SetState(EnemyState newEnemyState)
         {
             EnemyState = newEnemyState;
-            StartCoroutine(EnemyState.Start());
+            StartCoroutine(EnemyState.BeginState());
         }
     }
 }

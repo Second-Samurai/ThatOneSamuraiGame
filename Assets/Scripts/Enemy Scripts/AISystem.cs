@@ -1,4 +1,5 @@
 ﻿using System;
+using DG.Tweening;
 using Enemy_Scripts.Enemy_States;
 using UnityEngine;
 
@@ -20,21 +21,36 @@ namespace Enemy_Scripts
         public bool bIsIdle = false;
         public bool bIsLightAttacking = false;
         public bool bIsBlocking = false;
+        public bool bIsApproaching = false;
         public Material enemyMaterial;
 
+        //ENEMY MOVEMENT VARIABLES
+        public PlayerInput playerInput; // Used to check if the player is moving
+        public Transform targetTransform; // Target transform is the player
+        public Transform enemyTransform; // Set in inspector
+        public Tweener enemyMovementTweener; // Set by enemy states
+        
+        //Float offset added to the target location so the enemy doesn't clip into the floor 
+        //because the player's origin point is on the floor
+        public Vector3 floatOffset = Vector3.up * 2.0f;
+        
         #endregion
 
-        #region Unity Standard Functions
+        #region Basic Functions
 
         private void Start()
         {
+            //TODO: Replace with a scriptable object enemy manager that knows where the player is
+            playerInput = FindObjectOfType<PlayerInput>(); //Find the player input script
+            targetTransform = playerInput.gameObject.transform; //Find the player
+            
             //Start the enemy in an idle state
             SetState(new IdleEnemyState(this));
         }
         
-        //TODO: Remove Update later once more polish is done. These are just placeholders to test enemy states
         private void Update()
         {
+            //TODO: Remove these ifs later once more polish is done. These are just placeholders to test enemy states
             if (bIsIdle)
             {
                 bIsIdle = false;
@@ -50,8 +66,20 @@ namespace Enemy_Scripts
                 bIsBlocking = false;
                 OnBlock();
             }
+            if (bIsApproaching)
+            {
+                bIsApproaching = false;
+                OnApproachPlayer();
+            }
+            
+            // If a movement tweener is active and the player is moving...
+            if (enemyMovementTweener != null && playerInput.bIsMoving)
+            {
+                // Adjust the target position
+                enemyMovementTweener.ChangeEndValue(targetTransform.transform.position + floatOffset);
+            }
         }
-        
+
         #endregion
 
         // ENEMY STATE SWITCHING INFO
@@ -106,7 +134,7 @@ namespace Enemy_Scripts
 
         public void OnApproachPlayer()
         {
-        
+            SetState(new ApproachPlayerEnemyState(this));
         }
 
         public void OnCirclePlayer()

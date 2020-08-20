@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net.Configuration;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +8,7 @@ public class PlayerInput : MonoBehaviour
 {
 
     Vector2 _inputVector, lastVector;
+    public bool bIsMoving = false; //Used for enemy AISystem to change their target position on player move
     public bool bCanMove = true, bLockedOn = false;
     public float rotationSpeed = 4f, smoothingValue = .1f;
     Animator _animator;
@@ -21,9 +23,10 @@ public class PlayerInput : MonoBehaviour
         _functions = GetComponent<PlayerFunctions>();
     }
 
-    void OnMovement(InputValue dir) 
+    void OnMovement(InputValue dir)
     {
-        _inputVector = dir.Get<Vector2>(); 
+        bIsMoving = true;
+        _inputVector = dir.Get<Vector2>();
     }
 
     void OnLockOn()
@@ -66,6 +69,10 @@ public class PlayerInput : MonoBehaviour
                 float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, .1f);
 
                 transform.rotation = Quaternion.Euler(0f, _angle, 0f);
+            }
+            else
+            {
+                bIsMoving = false;
             }
             if (!bLockedOn)
             {

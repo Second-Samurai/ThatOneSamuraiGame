@@ -10,7 +10,7 @@ namespace Enemy_Scripts.Enemy_States
         {
         }
 
-        public override IEnumerator Start()
+        public override IEnumerator BeginState()
         {
             // Placeholder Behaviour, place actions here
             Debug.Log("is light attacking");

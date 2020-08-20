@@ -2,10 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PCombatController : MonoBehaviour
-{
-    public void Init() {
+//Empty For now
+public interface IPlayerCombat {
 
+}
+
+public class PCombatController : MonoBehaviour, IPlayerCombat
+{
+    PlayerInput playerInput;
+
+    public void Init(PlayerInput playerInput) {
+        this.playerInput = playerInput;
     }
 
     

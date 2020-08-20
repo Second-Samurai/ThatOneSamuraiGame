@@ -8,8 +8,10 @@ public interface IDamageable {
 
 public class PDamageController : MonoBehaviour, IDamageable
 {
-    public void Init() {
+    StatHandler playerStats;
 
+    public void Init(StatHandler playerStats) {
+        this.playerStats = playerStats;
     }
 
     public void OnEntityDamage()

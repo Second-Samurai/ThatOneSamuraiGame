@@ -6,10 +6,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Settings/PlayerSettings")]
 public class PlayerSettings : ScriptableObject
 {
-    public EntityStats platerStats;
+    [Header("Player Data")]
+    public EntityStatData platerStats;
 }
 
 [System.Serializable]
-public class EntityStats {
+public class EntityStatData 
+{
     public float baseDamage;
+    public float maxHealth;
 }

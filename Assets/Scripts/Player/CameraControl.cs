@@ -33,6 +33,19 @@ public class CameraControl : MonoBehaviour
         _lockedCamScript.SetTarget(target);
     }
 
+    public void LockOn()
+    {
+        bLockedOn = true;
+        SetTarget(lockOnTarget);
+        _lockedCamScript.cam.Priority = 11;
+    }
+
+    public void UnlockCam()
+    {
+        bLockedOn = false;
+        _lockedCamScript.cam.Priority = 9;
+    }
+
 
 
 }

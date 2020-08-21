@@ -31,9 +31,15 @@ public class PlayerInput : MonoBehaviour
     {
 
         if (!bLockedOn)
+        {
             bLockedOn = true;
+            _camControl.LockOn();
+        }
         else
+        {
             bLockedOn = false;
+            _camControl.UnlockCam();
+        }
         _animator.SetBool("LockedOn", bLockedOn);
         _camControl.bLockedOn = bLockedOn;
  

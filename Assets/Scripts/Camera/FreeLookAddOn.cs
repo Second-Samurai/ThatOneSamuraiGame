@@ -9,12 +9,12 @@ using UnityEngine.InputSystem;
 public class FreeLookAddOn : MonoBehaviour
 {
     public float lookSpeed = .5f; 
-    private CinemachineFreeLook _cam;
+    public CinemachineFreeLook cam;
     bool _bFlipY = true;
 
     void Start()
     {
-        _cam = GetComponent<CinemachineFreeLook>();
+        cam = GetComponent<CinemachineFreeLook>();
     }
 
      
@@ -25,12 +25,12 @@ public class FreeLookAddOn : MonoBehaviour
             rotDir.y = -rotDir.y;
         rotDir.x = rotDir.x * 180f;
  
-        _cam.m_XAxis.Value += rotDir.x * lookSpeed * Time.deltaTime;
-        _cam.m_YAxis.Value += rotDir.y * lookSpeed * Time.deltaTime;
+        cam.m_XAxis.Value += rotDir.x * lookSpeed * Time.deltaTime;
+        cam.m_YAxis.Value += rotDir.y * lookSpeed * Time.deltaTime;
     }
 
     public void SetTarget(Transform target)
     {
-        _cam.LookAt = target;
+        cam.LookAt = target;
     }
 }

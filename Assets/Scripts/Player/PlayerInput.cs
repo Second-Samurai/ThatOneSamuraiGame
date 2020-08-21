@@ -19,6 +19,7 @@ public class PlayerInput : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _functions = GetComponent<PlayerFunctions>();
+        _camControl = GetComponent<CameraControl>();
     }
 
     void OnMovement(InputValue dir) 
@@ -34,7 +35,7 @@ public class PlayerInput : MonoBehaviour
         else
             bLockedOn = false;
         _animator.SetBool("LockedOn", bLockedOn);
-
+        _camControl.bLockedOn = bLockedOn;
  
     }
   

@@ -5,14 +5,16 @@ using UnityEngine.InputSystem;
 
 public class CameraControl : MonoBehaviour
 {
-    FreeLookAddOn _camScript;
-    public GameObject cam;
+    FreeLookAddOn _camScript, _lockedCamScript;
+    public GameObject unlockedCam, lockedCam;
     Vector2 rotationVector;
     public Transform lockOnTarget;
+    public bool bLockedOn = false;
 
     private void Start()
     {
-        _camScript = cam.GetComponent<FreeLookAddOn>();
+        _camScript = unlockedCam.GetComponent<FreeLookAddOn>();
+        _lockedCamScript = lockedCam.GetComponent<FreeLookAddOn>();
     }
 
     void OnRotateCamera(InputValue rotDir) 
@@ -22,13 +24,13 @@ public class CameraControl : MonoBehaviour
 
     private void Update()
     {
-        if(rotationVector != Vector2.zero)
+        if(rotationVector != Vector2.zero && !bLockedOn)
             _camScript.RotateCam(rotationVector);
     }
 
     public void SetTarget(Transform target)
     {
-        _camScript.SetTarget(target);
+        _lockedCamScript.SetTarget(target);
     }
 
 

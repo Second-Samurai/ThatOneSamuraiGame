@@ -12,6 +12,7 @@ public class PlayerInput : MonoBehaviour
     Animator _animator;
     CameraControl _camControl;
     PlayerFunctions _functions;
+    public Transform target;
 
     float _turnSmoothVelocity;
      
@@ -67,24 +68,30 @@ public class PlayerInput : MonoBehaviour
         if (bCanMove)
         {
             Vector3 _direction = new Vector3(_inputVector.x, 0, _inputVector.y).normalized;
-            if (_direction != Vector3.zero)
+            if (_direction != Vector3.zero && !bLockedOn)
             {
                 float _targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
                 float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, .1f);
 
                 transform.rotation = Quaternion.Euler(0f, _angle, 0f);
-            }
-            if (!bLockedOn)
-            {
-                _animator.SetFloat("InputSpeed", _inputVector.magnitude, smoothingValue, Time.deltaTime);
-                
-            }
+
+            } 
+            
             else if (bLockedOn) 
-            { 
+            {
+                Vector3 lookDir = target.transform.position - transform.position;
+                Quaternion lookRot = Quaternion.LookRotation(lookDir);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, rotationSpeed);
+                transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+
+
                 _animator.SetFloat("XInput", _inputVector.x, smoothingValue, Time.deltaTime);
                 _animator.SetFloat("YInput", _inputVector.y, smoothingValue, Time.deltaTime);
             
             }
+            
+            _animator.SetFloat("InputSpeed", _inputVector.magnitude, smoothingValue, Time.deltaTime);
+
         }
         lastVector = _inputVector;
     }

@@ -29,7 +29,7 @@ public class FreeLookAddOn : MonoBehaviour
         cam.m_YAxis.Value += rotDir.y * lookSpeed * Time.deltaTime;
     }
 
-    public void SetTarget(Transform target)
+    public void SetTarget(Transform target, Transform player)
     {
         cam.LookAt = target;
     }

@@ -2157,6 +2157,7 @@ MonoBehaviour:
   bLockedOn: 0
   rotationSpeed: 4
   smoothingValue: 0.1
+  target: {fileID: 0}
 --- !u!95 &7190348978030205753
 Animator:
   serializedVersion: 3
@@ -2188,8 +2189,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e234c93e2dfdad43a1c61bb7ebf7214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
+  unlockedCam: {fileID: 0}
+  lockedCam: {fileID: 0}
   lockOnTarget: {fileID: 0}
+  player: {fileID: 0}
+  bLockedOn: 0
+  enemyTracker: {fileID: 0}
 --- !u!114 &7190348978030205755
 MonoBehaviour:
   m_ObjectHideFlags: 0

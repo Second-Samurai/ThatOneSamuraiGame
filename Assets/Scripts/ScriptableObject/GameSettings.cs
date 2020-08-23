@@ -7,4 +7,7 @@ public class GameSettings : ScriptableObject
 {
     [Header("Settings")]
     public PlayerSettings playerSettings;
+
+    [Header("Camera Objects")]
+    public GameObject thirdPersonViewCam;
 }

@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public interface IPlayerController {
     string GetStringID();
+    StatHandler GetPlayerStats();
 }
 
 public class PlayerController : MonoBehaviour, IPlayerController
@@ -13,25 +15,37 @@ public class PlayerController : MonoBehaviour, IPlayerController
     [HideInInspector] public PlayerSettings playerSettings;
     [HideInInspector] public PlayerStateMachine stateMachine;
 
+    [HideInInspector] public CameraControl cameraController;
+
     //NOTE: Once object is spawned through code init through awake instead.
     void Awake() {
+        //NOTE: This is only temporary to fix the camera referencing issues
+        GameManager.instance.playerController = this;
     }
 
-    void Start() {
-        playerSettings = GameManager.instance.gameSettings.playerSettings;
+    //Summary: Sets initial state and initialise variables
+    //
+    void Start()
+    {
+        GameManager gameManager = GameManager.instance;
+        playerSettings = gameManager.gameSettings.playerSettings;
         EntityStatData playerData = playerSettings.platerStats;
 
-        PlayerInput playerInput = this.GetComponent<PlayerInput>();
         playerStats = new StatHandler();
         playerStats.Init(playerData);
 
         stateMachine = this.gameObject.AddComponent<PlayerStateMachine>();
 
-        PCombatController combatController = this.GetComponent<PCombatController>();
-        combatController.Init(playerStats);
+        cameraController = this.GetComponent<CameraControl>();
+        cameraController.player = this.transform;
+        //cameraController.unlockedCam = gameManager.thirdPersonCamera;
 
-        PDamageController damageController = this.GetComponent<PDamageController>();
-        damageController.Init(playerStats);
+        //This assigns the thirdperson camera targets to this player
+        CinemachineFreeLook freeLockCamera = gameManager.thirdPersonCamera.GetComponent<CinemachineFreeLook>();
+        freeLockCamera.Follow = this.transform;
+        freeLockCamera.LookAt = this.transform;
+
+        SetState<PNormalState>();
     }
 
     //Summary: Clears and Sets the new specified state for player.
@@ -42,5 +56,10 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     public string GetStringID() {
         return playerID;
+    }
+
+    public StatHandler GetPlayerStats()
+    {
+        return playerStats;
     }
 }

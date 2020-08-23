@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
-{   
+{
     public static GameManager instance = null;
 
-    //Game Settings
+    [Header("Game Settings")]
     public GameSettings gameSettings;
 
-    void Awake() {
-        if(instance == null) {
+    public GameObject thirdPersonCamera;
+    [HideInInspector] public PlayerController playerController;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
             instance = this;
             DontDestroyOnLoad(gameObject);
-        } else {
+        }
+        else
+        {
             Destroy(gameObject);
         }
     }
@@ -21,6 +28,5 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 }

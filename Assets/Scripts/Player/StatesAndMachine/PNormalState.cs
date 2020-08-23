@@ -17,5 +17,34 @@ public class PNormalState : PlayerState
     public override void BeginState()
     {
         playerController = this.GetComponent<IPlayerController>();
+
+        PCombatController combatController = this.GetComponent<PCombatController>();
+        combatController.Init(playerController.GetPlayerStats());
+        combatController.UnblockCombatInputs();
+
+        PDamageController damageController = this.GetComponent<PDamageController>();
+        damageController.Init(playerController.GetPlayerStats());
+        damageController.EnableDamage();
+    }
+
+    //NOTE: THis is only if we are using colliders with triggers
+    private void OnTriggerEnter(Collider other)
+    {
+        if (true) return;
+    }
+
+    //NOTE: THis is only if we are using colliders with collision
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (true) return;
+    }
+
+    public override void EndState()
+    {
+        PCombatController combatController = this.GetComponent<PCombatController>();
+        combatController.BlockCombatInputs();
+
+        PDamageController damageController = this.GetComponent<PDamageController>();
+        damageController.DisableDamage();
     }
 }

@@ -31,8 +31,8 @@ public class LockOnTargetManager : MonoBehaviour
     public void SetTarget(Transform target, Transform player)
     {
 
-        targetHolder.transform.position = target.position + (player.position - target.position) / 2;
-        cam.LookAt = targetHolder.transform;
+       // targetHolder.transform.position = target.position + (player.position - target.position) / 2;
+        cam.LookAt = target.transform;
         _bLockedOn = true;
         _target = target;
         _player = player;

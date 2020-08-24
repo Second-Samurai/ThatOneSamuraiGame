@@ -14,7 +14,16 @@ public class CameraControl : MonoBehaviour
     public EnemyTracker enemyTracker;
     PlayerInput _playerInput;
 
-    private void Start()
+    /*private void Start()
+    {
+        _camScript = unlockedCam.GetComponent<FreeLookAddOn>();
+        _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
+        _playerInput = GetComponent<PlayerInput>();
+    }*/
+
+    //Summary: initialises camera manually through player controller.
+    //
+    public void Init()
     {
         _camScript = unlockedCam.GetComponent<FreeLookAddOn>();
         _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();

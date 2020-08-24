@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour, IPlayerController
     [HideInInspector] public StatHandler playerStats;
     [HideInInspector] public PlayerSettings playerSettings;
     [HideInInspector] public PlayerStateMachine stateMachine;
-
     [HideInInspector] public CameraControl cameraController;
 
     //NOTE: Once object is spawned through code init through awake instead.
@@ -25,7 +24,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     //Summary: Sets initial state and initialise variables
     //
-    void Start()
+    public void Init()
     {
         GameManager gameManager = GameManager.instance;
         playerSettings = gameManager.gameSettings.playerSettings;
@@ -36,19 +35,22 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
         stateMachine = this.gameObject.AddComponent<PlayerStateMachine>();
 
-        cameraController = this.GetComponent<CameraControl>();
-        cameraController.player = this.transform;
-        //cameraController.unlockedCam = gameManager.thirdPersonCamera;
-
         //This assigns the thirdperson camera targets to this player
-        CinemachineFreeLook freeLockCamera = gameManager.thirdPersonCamera.GetComponent<CinemachineFreeLook>();
+        CinemachineFreeLook freeLockCamera = gameManager.thirdPersonViewCamera.GetComponent<CinemachineFreeLook>();
         freeLockCamera.Follow = this.transform;
         freeLockCamera.LookAt = this.transform;
+
+        //Sets up the player's camera controller
+        cameraController = this.GetComponent<CameraControl>();
+        cameraController.unlockedCam = gameManager.thirdPersonViewCamera;
+        cameraController.player = this.transform;
+        cameraController.Init();
 
         SetState<PNormalState>();
     }
 
     //Summary: Clears and Sets the new specified state for player.
+    //
     public void SetState<T>() where T : PlayerState 
     {
         stateMachine.AddState<T>();

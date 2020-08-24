@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public interface IDamageable {
-    void OnEntityDamage();
+    void OnEntityDamage(float damage);
     void DisableDamage();
     void EnableDamage();
 }
@@ -18,7 +18,7 @@ public class PDamageController : MonoBehaviour, IDamageable
         this.playerStats = playerStats;
     }
 
-    public void OnEntityDamage()
+    public void OnEntityDamage(float damage)
     {
         if (_isDamageDisabled) return;
         Debug.Log("Player is Damaged");

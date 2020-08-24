@@ -18,6 +18,7 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     private int _comboHits;
 
     private bool _isInputBlocked = false;
+    private bool _isAttacking = false;
 
     public void Init(StatHandler playerStats) {
         this._playerStats = playerStats;
@@ -55,5 +56,36 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     public void UnblockCombatInputs()
     {
         _isInputBlocked = false;
+    }
+
+    public void BeginAttacking()
+    {
+        _isAttacking = true;
+    }
+
+    public void EndAttacking()
+    {
+        _isAttacking = false;
+    }
+
+    private void DetectCollision()
+    {
+
+    }
+
+    private float CalculateDamage()
+    {
+        return _playerStats.baseDamage;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!_isAttacking) return;
+        if (other.GetComponent<IPlayerController>() != null) return;
+
+        IDamageable attackEntity = other.GetComponent<IDamageable>();
+        if (attackEntity == null) return;
+
+        attackEntity.OnEntityDamage(CalculateDamage());
     }
 }

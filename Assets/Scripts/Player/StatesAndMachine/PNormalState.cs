@@ -33,12 +33,6 @@ public class PNormalState : PlayerState
         if (true) return;
     }
 
-    //NOTE: THis is only if we are using colliders with collision
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (true) return;
-    }
-
     public override void EndState()
     {
         PCombatController combatController = this.GetComponent<PCombatController>();

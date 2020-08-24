@@ -23,4 +23,9 @@ public class StatHandler
             _currentHealth = value;
         }
     }
+
+    public float baseDamage
+    {
+        get { return currentData.baseDamage;  }
+    }
 }

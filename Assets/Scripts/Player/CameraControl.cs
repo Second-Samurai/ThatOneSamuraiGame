@@ -14,6 +14,8 @@ public class CameraControl : MonoBehaviour
     public EnemyTracker enemyTracker;
     PlayerInput _playerInput;
 
+    public CinematicBars cinematicBars;
+
     private void Start()
     {
         _camScript = unlockedCam.GetComponent<FreeLookAddOn>();
@@ -40,7 +42,10 @@ public class CameraControl : MonoBehaviour
     public void LockOn()
     {
         if (GetTarget())
+        {
             _lockedCamScript.cam.Priority = 11;
+            cinematicBars.ShowBars(200f, .3f);
+        }
     }
 
     public void UnlockCam()
@@ -49,6 +54,7 @@ public class CameraControl : MonoBehaviour
         _lockedCamScript.cam.Priority = 9;
         _lockedCamScript.ClearTarget();
         lockOnTarget = null;
+        cinematicBars.HideBars(.3f);
     }
 
     public bool GetTarget()

@@ -8,7 +8,7 @@ public class LockOnTargetManager : MonoBehaviour
     public float lookSpeed = .5f;
     public CinemachineFreeLook cam;
     bool   _bLockedOn = false;
-    public GameObject targetHolder;
+    public GameObject targetHolder; //This is currently assigned by the player controller
     Transform _target, _player;
 
     void Start()
@@ -30,7 +30,6 @@ public class LockOnTargetManager : MonoBehaviour
 
     public void SetTarget(Transform target, Transform player)
     {
-
        // targetHolder.transform.position = target.position + (player.position - target.position) / 2;
         cam.LookAt = target.transform;
         _bLockedOn = true;

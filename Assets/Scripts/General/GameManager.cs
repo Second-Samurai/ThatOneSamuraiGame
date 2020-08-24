@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -13,7 +14,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public GameObject thirdPersonViewCamera;
     [HideInInspector] public PlayerController playerController;
     [HideInInspector] public Camera mainCamera;
-    [HideInInspector] public EnemyTracker enemyManager;
+    [HideInInspector] public EnemyTracker enemyTracker;
 
     void Awake()
     {
@@ -34,8 +35,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SetupPlayer();
         SetupEnemies();
+        SetupPlayer();
     }
 
     void SetupSceneCamera()
@@ -49,13 +50,28 @@ public class GameManager : MonoBehaviour
 
     void SetupPlayer()
     {
+        Vector3 targetHolderPos = gameSettings.targetHolderPrefab.transform.position;
+        GameObject tarrgetHolder = Instantiate(gameSettings.targetHolderPrefab, targetHolderPos, Quaternion.identity);
+
         GameObject playerObject = Instantiate(gameSettings.playerPrefab, transform.position, Quaternion.identity);
         playerController = playerObject.GetComponentInChildren<PlayerController>();
-        playerController.Init();
+        playerController.Init(tarrgetHolder);
     }
 
     void SetupEnemies()
     {
-        enemyManager = Instantiate(gameSettings.enemyManagerPrefab, transform.position, Quaternion.identity).GetComponent<EnemyTracker>();
+        enemyTracker = Instantiate(gameSettings.enemyManagerPrefab, transform.position, Quaternion.identity).GetComponent<EnemyTracker>();
+
+        //Sets up the test enemies for trackig
+        SetupTestScene();
+    }
+
+    void SetupTestScene()
+    {
+        TestStaticTarget[] testEnemies = FindObjectsOfType<TestStaticTarget>();
+        foreach (TestStaticTarget enemy in testEnemies)
+        {
+            enemyTracker.AddEnemy(enemy.transform);
+        }
     }
 }

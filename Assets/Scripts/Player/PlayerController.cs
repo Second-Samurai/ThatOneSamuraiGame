@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     //Summary: Sets initial state and initialise variables
     //
-    public void Init()
+    public void Init(GameObject targetHolder)
     {
         GameManager gameManager = GameManager.instance;
         playerSettings = gameManager.gameSettings.playerSettings;
@@ -44,7 +44,10 @@ public class PlayerController : MonoBehaviour, IPlayerController
         cameraController = this.GetComponent<CameraControl>();
         cameraController.unlockedCam = gameManager.thirdPersonViewCamera;
         cameraController.player = this.transform;
-        cameraController.Init();
+        cameraController.Init(gameManager.enemyTracker);
+
+        LockOnTargetManager lockOnManager = this.gameObject.GetComponentInChildren<LockOnTargetManager>();
+        lockOnManager.targetHolder = targetHolder;
 
         SetState<PNormalState>();
     }

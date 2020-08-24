@@ -10,4 +10,9 @@ public class GameSettings : ScriptableObject
 
     [Header("Camera Objects")]
     public GameObject thirdPersonViewCam;
+    public GameObject lockOnCameral;
+    public GameObject mainCamera;
+
+    [Header("Game Prefabs")]
+    public GameObject enemyManagerPrefab;
 }

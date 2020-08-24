@@ -73,6 +73,38 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""InitRewind"",
+                    ""type"": ""Button"",
+                    ""id"": ""3be9406a-147b-42e2-9464-c8a788c65bb7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""ScrubForward"",
+                    ""type"": ""Value"",
+                    ""id"": ""fb68f0ce-984f-4167-8e4d-d9c07aee1e24"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
+                },
+                {
+                    ""name"": ""ScrubBackward"",
+                    ""type"": ""Value"",
+                    ""id"": ""fd6e816c-1091-4ea7-9a26-79325a93cb37"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
+                },
+                {
+                    ""name"": ""Scrub"",
+                    ""type"": ""Value"",
+                    ""id"": ""a01967d2-ed35-4228-81c7-8f9483263fb6"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -200,7 +232,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""fab1d046-c9b5-4ccf-8af7-4a16bd769748"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -222,7 +254,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""798e952a-2f7d-458e-8499-fa34d44e1b7f"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -266,13 +298,112 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""5aa8508c-ef6c-49c7-8f2c-7b5cd973a490"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Dodge"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ad1995c5-6434-433f-8702-59a1d673bad0"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""InitRewind"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""90e30185-8f51-4e3a-9e3f-626a194d9159"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""InitRewind"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc5e184d-6722-4d6e-97f0-d75def961161"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ScrubForward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dd0f1acd-6b1b-4150-a5cd-4a454c189c1c"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ScrubForward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9f09dedd-5f9b-46bc-8720-6887997f196b"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ScrubBackward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2f2feca7-2f03-4442-8343-287a3eb418e6"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ScrubBackward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""66fc671d-2d06-47a2-a4f4-0377b90c409e"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scrub"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""406c72db-3bd6-4996-91fb-f2140230d46e"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Scrub"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""cd86892c-a2ac-4645-ae17-859e3587665b"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Scrub"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -316,6 +447,10 @@ public class @ControlMap : IInputActionCollection, IDisposable
         m_Gameplay_EndBlock = m_Gameplay.FindAction("EndBlock", throwIfNotFound: true);
         m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
         m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
+        m_Gameplay_InitRewind = m_Gameplay.FindAction("InitRewind", throwIfNotFound: true);
+        m_Gameplay_ScrubForward = m_Gameplay.FindAction("ScrubForward", throwIfNotFound: true);
+        m_Gameplay_ScrubBackward = m_Gameplay.FindAction("ScrubBackward", throwIfNotFound: true);
+        m_Gameplay_Scrub = m_Gameplay.FindAction("Scrub", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -372,6 +507,10 @@ public class @ControlMap : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_EndBlock;
     private readonly InputAction m_Gameplay_Attack;
     private readonly InputAction m_Gameplay_Dodge;
+    private readonly InputAction m_Gameplay_InitRewind;
+    private readonly InputAction m_Gameplay_ScrubForward;
+    private readonly InputAction m_Gameplay_ScrubBackward;
+    private readonly InputAction m_Gameplay_Scrub;
     public struct GameplayActions
     {
         private @ControlMap m_Wrapper;
@@ -383,6 +522,10 @@ public class @ControlMap : IInputActionCollection, IDisposable
         public InputAction @EndBlock => m_Wrapper.m_Gameplay_EndBlock;
         public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
         public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
+        public InputAction @InitRewind => m_Wrapper.m_Gameplay_InitRewind;
+        public InputAction @ScrubForward => m_Wrapper.m_Gameplay_ScrubForward;
+        public InputAction @ScrubBackward => m_Wrapper.m_Gameplay_ScrubBackward;
+        public InputAction @Scrub => m_Wrapper.m_Gameplay_Scrub;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -413,6 +556,18 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @Dodge.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
                 @Dodge.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
                 @Dodge.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
+                @InitRewind.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInitRewind;
+                @InitRewind.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInitRewind;
+                @InitRewind.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInitRewind;
+                @ScrubForward.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubForward;
+                @ScrubForward.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubForward;
+                @ScrubForward.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubForward;
+                @ScrubBackward.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubBackward;
+                @ScrubBackward.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubBackward;
+                @ScrubBackward.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubBackward;
+                @Scrub.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrub;
+                @Scrub.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrub;
+                @Scrub.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrub;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -438,6 +593,18 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @Dodge.started += instance.OnDodge;
                 @Dodge.performed += instance.OnDodge;
                 @Dodge.canceled += instance.OnDodge;
+                @InitRewind.started += instance.OnInitRewind;
+                @InitRewind.performed += instance.OnInitRewind;
+                @InitRewind.canceled += instance.OnInitRewind;
+                @ScrubForward.started += instance.OnScrubForward;
+                @ScrubForward.performed += instance.OnScrubForward;
+                @ScrubForward.canceled += instance.OnScrubForward;
+                @ScrubBackward.started += instance.OnScrubBackward;
+                @ScrubBackward.performed += instance.OnScrubBackward;
+                @ScrubBackward.canceled += instance.OnScrubBackward;
+                @Scrub.started += instance.OnScrub;
+                @Scrub.performed += instance.OnScrub;
+                @Scrub.canceled += instance.OnScrub;
             }
         }
     }
@@ -469,5 +636,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
         void OnEndBlock(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);
+        void OnInitRewind(InputAction.CallbackContext context);
+        void OnScrubForward(InputAction.CallbackContext context);
+        void OnScrubBackward(InputAction.CallbackContext context);
+        void OnScrub(InputAction.CallbackContext context);
     }
 }

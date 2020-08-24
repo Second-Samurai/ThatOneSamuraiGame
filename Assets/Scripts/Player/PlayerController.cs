@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
         cameraController.Init(gameManager.enemyTracker);
 
         LockOnTargetManager lockOnManager = this.gameObject.GetComponentInChildren<LockOnTargetManager>();
-        lockOnManager.targetHolder = targetHolder;
+        lockOnManager.targetHolder = targetHolder; //Sets the holder from the gamemanager into the LockOn script
 
         SetState<PNormalState>();
     }

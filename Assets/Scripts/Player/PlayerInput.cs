@@ -37,15 +37,25 @@ public class PlayerInput : MonoBehaviour
         {
             bLockedOn = true;
             _camControl.LockOn();
+            _animator.SetBool("LockedOn", bLockedOn);
+            _camControl.bLockedOn = bLockedOn;
         }
         else
         {
+            _camControl.LockOn();
+        }
+ 
+    }
+
+    void OnReleaseLockOn()
+    {
+        if (bLockedOn)
+        {
             bLockedOn = false;
             _camControl.UnlockCam();
+            _animator.SetBool("LockedOn", bLockedOn);
+            _camControl.bLockedOn = bLockedOn;
         }
-        _animator.SetBool("LockedOn", bLockedOn);
-        _camControl.bLockedOn = bLockedOn;
- 
     }
 
     //NOTE: The combat component requires to be instantiated early. Suggest input script to be instantated late.

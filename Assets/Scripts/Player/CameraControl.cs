@@ -14,6 +14,8 @@ public class CameraControl : MonoBehaviour
     public EnemyTracker enemyTracker;
     PlayerInput _playerInput;
 
+    public CinematicBars cinematicBars;
+
     /*private void Start()
     {
         _camScript = unlockedCam.GetComponent<FreeLookAddOn>();
@@ -21,15 +23,20 @@ public class CameraControl : MonoBehaviour
         _playerInput = GetComponent<PlayerInput>();
     }*/
 
-    //Summary: initialises camera manually through player controller.
-    //
-    public void Init(EnemyTracker enemyTracker)
+    //NOTE: this is called in player controller
+    public void Init(Transform playerTarget)
     {
+        GameManager gameManager = GameManager.instance;
+        CinematicBars cinematicBars = gameManager.mainCamera.GetComponentInChildren<CinematicBars>();
+
+        this.player = playerTarget;
+        this.unlockedCam = gameManager.thirdPersonViewCamera;
+        this.enemyTracker = gameManager.enemyTracker;
+        this.cinematicBars = cinematicBars;
+
         _camScript = unlockedCam.GetComponent<FreeLookAddOn>();
         _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
         _playerInput = GetComponent<PlayerInput>();
-
-        this.enemyTracker = enemyTracker;
     }
 
     void OnRotateCamera(InputValue rotDir) 
@@ -51,7 +58,10 @@ public class CameraControl : MonoBehaviour
     public void LockOn()
     {
         if (GetTarget())
+        {
             _lockedCamScript.cam.Priority = 11;
+            cinematicBars.ShowBars(200f, .3f);
+        }
     }
 
     public void UnlockCam()
@@ -60,6 +70,7 @@ public class CameraControl : MonoBehaviour
         _lockedCamScript.cam.Priority = 9;
         _lockedCamScript.ClearTarget();
         lockOnTarget = null;
+        cinematicBars.HideBars(.3f);
     }
 
     public bool GetTarget()

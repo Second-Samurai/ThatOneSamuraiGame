@@ -42,9 +42,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
         //Sets up the player's camera controller
         cameraController = this.GetComponent<CameraControl>();
-        cameraController.unlockedCam = gameManager.thirdPersonViewCamera;
-        cameraController.player = this.transform;
-        cameraController.Init(gameManager.enemyTracker);
+        cameraController.Init(this.transform);
 
         LockOnTargetManager lockOnManager = this.gameObject.GetComponentInChildren<LockOnTargetManager>();
         lockOnManager.targetHolder = targetHolder; //Sets the holder from the gamemanager into the LockOn script

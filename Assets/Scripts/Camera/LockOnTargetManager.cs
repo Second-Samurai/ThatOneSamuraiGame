@@ -8,8 +8,9 @@ public class LockOnTargetManager : MonoBehaviour
     public float lookSpeed = .5f;
     public CinemachineFreeLook cam;
     bool   _bLockedOn = false;
-    public GameObject targetHolder; //This is currently assigned by the player controller
+    public GameObject targetHolder;
     Transform _target, _player;
+    public float swapSpeed = 10f;
 
     void Start()
     {
@@ -24,13 +25,16 @@ public class LockOnTargetManager : MonoBehaviour
 
     void MoveTarget()
     {
-        targetHolder.transform.position = _target.position + (_player.position - _target.position) / 2;
+        //if (targetHolder.transform.position != _target.position)
+        //    targetHolder.transform.Translate(_target.position - targetHolder.transform.position * swapSpeed * Time.deltaTime);
+            
     }
 
 
     public void SetTarget(Transform target, Transform player)
     {
-       // targetHolder.transform.position = target.position + (player.position - target.position) / 2;
+
+       // targetHolder.transform.position = target.position;
         cam.LookAt = target.transform;
         _bLockedOn = true;
         _target = target;

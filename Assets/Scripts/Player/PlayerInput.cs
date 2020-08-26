@@ -6,14 +6,17 @@ using UnityEngine.InputSystem;
 public class PlayerInput : MonoBehaviour
 {
 
-    Vector2 _inputVector, lastVector;
-    public bool bCanMove = true, bLockedOn = false;
+    Vector2 _inputVector, lastVector, _cachedVector;
+    public bool bCanMove = true, bLockedOn = false, bMoveLocked = false;
     public float rotationSpeed = 4f, smoothingValue = .1f;
     Animator _animator;
     CameraControl _camControl;
     PlayerFunctions _functions;
     IPlayerCombat _playerCombat;
     public Transform target;
+    Rigidbody rb;
+
+    float dodgeForce = 10f;
 
     float _turnSmoothVelocity;
      
@@ -23,11 +26,17 @@ public class PlayerInput : MonoBehaviour
         _functions = GetComponent<PlayerFunctions>();
         _camControl = GetComponent<CameraControl>();
         _playerCombat = this.GetComponent<IPlayerCombat>();
+        rb = GetComponent<Rigidbody>();
     }
 
     void OnMovement(InputValue dir) 
     {
-        _inputVector = dir.Get<Vector2>(); 
+        Vector2 cachedDir;
+        cachedDir = dir.Get<Vector2>();
+        if (!bMoveLocked)
+            _inputVector = cachedDir;
+        else
+            _cachedVector = cachedDir;
     }
 
     void OnLockOn()
@@ -88,9 +97,20 @@ public class PlayerInput : MonoBehaviour
     void OnDodge()
     {
         _animator.SetTrigger("Dodge");
+        //StartCoroutine(DodgeImpulse(new Vector3(_inputVector.x,0,_inputVector.y), dodgeForce));
+        
     }
 
-
+    IEnumerator DodgeImpulse(Vector3 lastDir, float force)
+    {
+        float dodgeTimer = .15f;
+        while (dodgeTimer > 0f)
+        {
+            transform.position += lastDir.normalized * force * Time.deltaTime;
+            dodgeTimer -= Time.deltaTime;
+            yield return null;
+        }
+    }
 
     private void FixedUpdate()
     {
@@ -124,5 +144,20 @@ public class PlayerInput : MonoBehaviour
         }
         lastVector = _inputVector;
     }
-     
+
+
+
+    public void LockMoveInput()
+    {
+        bMoveLocked = true;
+        Debug.Log("locked");
+    }
+
+    public void UnlockMoveInput()
+    {
+        bMoveLocked = false;
+        _inputVector = _cachedVector;
+
+        Debug.Log("unlocked");
+    }
 }

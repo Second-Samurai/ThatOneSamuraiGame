@@ -7,7 +7,7 @@ public class PlayerInput : MonoBehaviour
 {
 
     Vector2 _inputVector, lastVector, _cachedVector;
-    public bool bCanMove = true, bLockedOn = false, bMoveLocked = false;
+    public bool bCanMove = true, bLockedOn = false, bMoveLocked = false, bIsDodging = false;
     public float rotationSpeed = 4f, smoothingValue = .1f;
     Animator _animator;
     CameraControl _camControl;
@@ -36,7 +36,11 @@ public class PlayerInput : MonoBehaviour
         if (!bMoveLocked)
             _inputVector = cachedDir;
         else
+        {
             _cachedVector = cachedDir;
+            if (cachedDir == Vector2.zero)
+                _inputVector = cachedDir;
+        }
     }
 
     void OnLockOn()
@@ -96,7 +100,8 @@ public class PlayerInput : MonoBehaviour
 
     void OnDodge()
     {
-        _animator.SetTrigger("Dodge");
+        if(_inputVector != Vector2.zero && !bIsDodging)
+            _animator.SetTrigger("Dodge");
         //StartCoroutine(DodgeImpulse(new Vector3(_inputVector.x,0,_inputVector.y), dodgeForce));
         
     }
@@ -133,10 +138,11 @@ public class PlayerInput : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, rotationSpeed);
                 transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
 
-
-                _animator.SetFloat("XInput", _inputVector.x, smoothingValue, Time.deltaTime);
-                _animator.SetFloat("YInput", _inputVector.y, smoothingValue, Time.deltaTime);
-            
+                if (!bMoveLocked)
+                {
+                    _animator.SetFloat("XInput", _inputVector.x, smoothingValue, Time.deltaTime);
+                    _animator.SetFloat("YInput", _inputVector.y, smoothingValue, Time.deltaTime);
+                }
             }
             
             _animator.SetFloat("InputSpeed", _inputVector.magnitude, smoothingValue, Time.deltaTime);
@@ -145,23 +151,29 @@ public class PlayerInput : MonoBehaviour
         lastVector = _inputVector;
     }
 
-
+    public void SetDodging(bool val)
+    {
+        bIsDodging = val;
+    }
 
     public void LockMoveInput()
     {
         bMoveLocked = true;
+        SetDodging(true);
         Debug.Log("locked");
     }
 
     public void UnlockMoveInput()
     {
         bMoveLocked = false;
+        Debug.Log(_inputVector + " - " + _cachedVector);
         if (_inputVector != _cachedVector && _cachedVector != Vector2.zero)
         {
             Debug.Log("set " + _inputVector + " to " + _cachedVector);
             _inputVector = _cachedVector;
         }
         Debug.Log("unlocked");
+        SetDodging(false);
     }
 
     public void Test()

@@ -86,6 +86,6 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         IDamageable attackEntity = other.GetComponent<IDamageable>();
         if (attackEntity == null) return;
 
-        attackEntity.OnEntityDamage(CalculateDamage());
+        attackEntity.OnEntityDamage(CalculateDamage(), this.gameObject);
     }
 }

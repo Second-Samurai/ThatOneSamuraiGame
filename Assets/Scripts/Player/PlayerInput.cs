@@ -35,12 +35,12 @@ public class PlayerInput : MonoBehaviour
     {
         Vector2 cachedDir;
         cachedDir = dir.Get<Vector2>();
-        if (!bMoveLocked)
+        if (!bMoveLocked) //normal movement
             _inputVector = cachedDir;
-        else
+        else //input during dodge
         {
             _cachedVector = cachedDir;
-            if (cachedDir == Vector2.zero)
+            if (cachedDir == Vector2.zero) 
                 _inputVector = cachedDir;
         }
     }
@@ -106,25 +106,18 @@ public class PlayerInput : MonoBehaviour
         {
             _animator.SetTrigger("Dodge");
             StopCoroutine("DodgeImpulse");
-            StartCoroutine(DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
+            StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
         }
     }
 
-    IEnumerator DodgeImpulse(Vector3 lastDir, float force)
-    {
-        float dodgeTimer = .15f; 
-        while (dodgeTimer > 0f)
-        {
-           // if(bLockedOn)
-            transform.Translate(lastDir.normalized * force * Time.deltaTime);
-            //else
-            //    transform.position += lastDir.normalized * force * Time.deltaTime;
-            dodgeTimer -= Time.deltaTime;
-            yield return null;
-        }
-    }
+   
 
     private void FixedUpdate()
+    {
+        MovePlayer();
+    }
+
+    private void MovePlayer()
     {
         if (bCanMove)
         {
@@ -136,9 +129,9 @@ public class PlayerInput : MonoBehaviour
 
                 transform.rotation = Quaternion.Euler(0f, _angle, 0f);
 
-            } 
-            
-            else if (bLockedOn) 
+            }
+
+            else if (bLockedOn)
             {
                 Vector3 lookDir = target.transform.position - transform.position;
                 Quaternion lookRot = Quaternion.LookRotation(lookDir);
@@ -151,7 +144,7 @@ public class PlayerInput : MonoBehaviour
                     _animator.SetFloat("YInput", _inputVector.y, smoothingValue, Time.deltaTime);
                 }
             }
-            
+
             _animator.SetFloat("InputSpeed", _inputVector.magnitude, smoothingValue, Time.deltaTime);
 
         }
@@ -176,6 +169,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (!bMoveLocked)
         {
+            Debug.LogWarning("Start Dodge");
             bMoveLocked = true;
             StartDodging();
         }
@@ -185,11 +179,13 @@ public class PlayerInput : MonoBehaviour
     {
         if (bMoveLocked)
         {
+            Debug.LogWarning("End Dodge");
             bMoveLocked = false; 
             if (_inputVector != _cachedVector && _cachedVector != Vector2.zero)
             {
                 Debug.Log("set " + _inputVector + " to " + _cachedVector);
                 _inputVector = _cachedVector;
+                _cachedVector = Vector2.zero;
             }
             EndDodging();
         }
@@ -198,7 +194,7 @@ public class PlayerInput : MonoBehaviour
 
     public void Test()
     {
-        _pDamageController.OnEntityDamage(1);
+        _pDamageController.OnEntityDamage(1, this.gameObject);
     }
 
     private void Update()

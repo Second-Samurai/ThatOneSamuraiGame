@@ -8,6 +8,7 @@ public class PlayerFunctions : MonoBehaviour
     public bool bIsBlocking = false;
     public float blockTimer = 0f;
     public float blockCooldown;
+    public bool bCanBlock = true;
 
     [Header("Parry Variables")]
     public bool bIsParrying = false;
@@ -20,8 +21,9 @@ public class PlayerFunctions : MonoBehaviour
 
     Animator _animator;
     PDamageController _pDamageController;
-    Rigidbody rb;
+    Rigidbody rb; 
 
+    
 
     private void Start()
     {
@@ -31,7 +33,7 @@ public class PlayerFunctions : MonoBehaviour
 
         _pDamageController = GetComponent<PDamageController>();
 
-        _animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>(); 
     }
     public void SetBlockCooldown()
     {
@@ -40,7 +42,7 @@ public class PlayerFunctions : MonoBehaviour
 
     public void StartBlock()
     {
-        if (!bIsBlocking && blockTimer == 0f)
+        if (!bIsBlocking && blockTimer == 0f && bCanBlock)
         {
             bIsBlocking = true;
             _bDontCheckParry = false;
@@ -142,8 +144,9 @@ public class PlayerFunctions : MonoBehaviour
         //particles
         //play blockbreak anim
         bIsBlocking = false;
-        _animator.SetTrigger("Guardbreak");
+        _animator.SetTrigger("GuardBreak");
         Debug.LogWarning("Guard broken!");
+        _IKPuppet.DisableIK();
     }
 
     public void KillPlayer()
@@ -151,5 +154,17 @@ public class PlayerFunctions : MonoBehaviour
         //play anim
         //trigger rewind
         Debug.LogError("Player killed!");
+    }
+
+    public void DisableBlock()
+    {
+        bCanBlock = false;
+        Debug.LogWarning("off");
+    }
+
+    public void EnableBlock()
+    {
+        bCanBlock = true;
+        Debug.LogWarning("on");
     }
 }

@@ -107,6 +107,8 @@ public class PlayerInput : MonoBehaviour
             _animator.SetTrigger("Dodge");
             StopCoroutine("DodgeImpulse");
             StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
+            if (_functions.bCanBlock == false)
+                _functions.EnableBlock();
         }
     }
 

@@ -100,18 +100,20 @@ public class PlayerInput : MonoBehaviour
 
     void OnDodge()
     {
-        if(_inputVector != Vector2.zero && !bIsDodging)
+        if (_inputVector != Vector2.zero && !bIsDodging)
+        {
             _animator.SetTrigger("Dodge");
-        //StartCoroutine(DodgeImpulse(new Vector3(_inputVector.x,0,_inputVector.y), dodgeForce));
-        
+            StopCoroutine("DodgeImpulse");
+            StartCoroutine(DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
+        }
     }
 
     IEnumerator DodgeImpulse(Vector3 lastDir, float force)
     {
-        float dodgeTimer = .15f;
+        float dodgeTimer = .15f; 
         while (dodgeTimer > 0f)
         {
-            transform.position += lastDir.normalized * force * Time.deltaTime;
+            transform.Translate(lastDir.normalized * force * Time.deltaTime);
             dodgeTimer -= Time.deltaTime;
             yield return null;
         }
@@ -158,22 +160,25 @@ public class PlayerInput : MonoBehaviour
 
     public void LockMoveInput()
     {
-        bMoveLocked = true;
-        SetDodging(true);
-        Debug.Log("locked");
+        if (!bMoveLocked)
+        {
+            bMoveLocked = true;
+            SetDodging(true); 
+        }
     }
 
     public void UnlockMoveInput()
     {
-        bMoveLocked = false;
-        Debug.Log(_inputVector + " - " + _cachedVector);
-        if (_inputVector != _cachedVector && _cachedVector != Vector2.zero)
+        if (bMoveLocked)
         {
-            Debug.Log("set " + _inputVector + " to " + _cachedVector);
-            _inputVector = _cachedVector;
+            bMoveLocked = false; 
+            if (_inputVector != _cachedVector && _cachedVector != Vector2.zero)
+            {
+                Debug.Log("set " + _inputVector + " to " + _cachedVector);
+                _inputVector = _cachedVector;
+            } 
+            SetDodging(false);
         }
-        Debug.Log("unlocked");
-        SetDodging(false);
     }
 
     public void Test()

@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class CameraControl : MonoBehaviour
 {
-    FreeLookAddOn _camScript; 
+    public FreeLookAddOn _camScript; 
     LockOnTargetManager _lockedCamScript;
     public GameObject unlockedCam, lockedCam;
     Vector2 rotationVector;

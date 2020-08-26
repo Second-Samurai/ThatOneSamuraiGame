@@ -19,4 +19,13 @@ public class EnemyTracker : MonoBehaviour
             currentEnemies.TrimExcess();
         }
     }
+
+    private void Awake()
+    {
+        GameObject[] addEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in addEnemies)
+        {
+            currentEnemies.Add(enemy.transform);
+        }
+    }
 }

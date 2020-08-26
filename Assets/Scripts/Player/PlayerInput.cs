@@ -15,6 +15,7 @@ public class PlayerInput : MonoBehaviour
     IPlayerCombat _playerCombat;
     public Transform target;
     Rigidbody rb;
+    PDamageController _pDamageController;
 
     float dodgeForce = 10f;
 
@@ -27,6 +28,7 @@ public class PlayerInput : MonoBehaviour
         _camControl = GetComponent<CameraControl>();
         _playerCombat = this.GetComponent<IPlayerCombat>();
         rb = GetComponent<Rigidbody>();
+        _pDamageController = GetComponent<PDamageController>();
     }
 
     void OnMovement(InputValue dir) 
@@ -113,7 +115,10 @@ public class PlayerInput : MonoBehaviour
         float dodgeTimer = .15f; 
         while (dodgeTimer > 0f)
         {
+           // if(bLockedOn)
             transform.Translate(lastDir.normalized * force * Time.deltaTime);
+            //else
+            //    transform.position += lastDir.normalized * force * Time.deltaTime;
             dodgeTimer -= Time.deltaTime;
             yield return null;
         }
@@ -153,9 +158,18 @@ public class PlayerInput : MonoBehaviour
         lastVector = _inputVector;
     }
 
-    public void SetDodging(bool val)
+    public void StartDodging()
     {
-        bIsDodging = val;
+        bIsDodging = true; 
+        _pDamageController.DisableDamage();
+       
+            
+    }
+
+    public void EndDodging()
+    {
+        bIsDodging = false;
+        _pDamageController.EnableDamage();
     }
 
     public void LockMoveInput()
@@ -163,7 +177,7 @@ public class PlayerInput : MonoBehaviour
         if (!bMoveLocked)
         {
             bMoveLocked = true;
-            SetDodging(true); 
+            StartDodging();
         }
     }
 
@@ -176,13 +190,20 @@ public class PlayerInput : MonoBehaviour
             {
                 Debug.Log("set " + _inputVector + " to " + _cachedVector);
                 _inputVector = _cachedVector;
-            } 
-            SetDodging(false);
+            }
+            EndDodging();
         }
     }
 
+
     public void Test()
     {
-        Debug.LogWarning(1);
+        _pDamageController.OnEntityDamage(1);
+    }
+
+    private void Update()
+    {
+        if (Keyboard.current.pKey.wasPressedThisFrame)
+            Test();
     }
 }

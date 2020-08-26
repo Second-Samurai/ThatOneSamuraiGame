@@ -156,8 +156,16 @@ public class PlayerInput : MonoBehaviour
     public void UnlockMoveInput()
     {
         bMoveLocked = false;
-        _inputVector = _cachedVector;
-
+        if (_inputVector != _cachedVector && _cachedVector != Vector2.zero)
+        {
+            Debug.Log("set " + _inputVector + " to " + _cachedVector);
+            _inputVector = _cachedVector;
+        }
         Debug.Log("unlocked");
+    }
+
+    public void Test()
+    {
+        Debug.LogWarning(1);
     }
 }

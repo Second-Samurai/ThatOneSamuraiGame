@@ -8,5 +8,7 @@ public class EnemySettings : ScriptableObject
     [Header("Test Data Objects")]
 
     [Space]
-    public EntityStatData testEnemeyData;
+    public EntityStatData enemyData;
+    
+    public Transform target;
 }

@@ -12,11 +12,7 @@ namespace Enemy_Scripts
     public class AISystem : EnemyStateMachine
     {
         #region Fields and Properties
-        
-        //TODO: Use a scriptable object for stats instead
-        [SerializeField] private float maxEnemyGuard;
-        [SerializeField] private float currentGuard;
-        
+
         //TODO: Remove later once more polish is done. These are just placeholders to test enemy states 
         public bool bIsIdle = false;
         public bool bIsLightAttacking = false;
@@ -24,12 +20,9 @@ namespace Enemy_Scripts
         public bool bIsApproaching = false;
         public Material enemyMaterial;
 
-        //ENEMY MOVEMENT VARIABLES
-        public PlayerInput playerInput; // Used to check if the player is moving
-        public Transform targetTransform; // Target transform is the player
-        public Transform enemyTransform; // Set in inspector
-        public Tweener enemyMovementTweener; // Set by enemy states
-        
+        //ENEMY SETTINGS [See EntityStatData for list of stats]
+        public EnemySettings enemySettings; // Taken from EnemySettings Scriptable object in start
+
         //Float offset added to the target location so the enemy doesn't clip into the floor 
         //because the player's origin point is on the floor
         public Vector3 floatOffset = Vector3.up * 2.0f;
@@ -40,9 +33,8 @@ namespace Enemy_Scripts
 
         private void Start()
         {
-            //TODO: Replace with a scriptable object enemy manager that knows where the player is
-            playerInput = FindObjectOfType<PlayerInput>(); //Find the player input script
-            targetTransform = playerInput.gameObject.transform; //Find the player
+            // Grab the enemy settings from the Game Manager > Game Settings > Enemy Settings
+            enemySettings = GameManager.instance.gameSettings.enemySettings;
             
             //Start the enemy in an idle state
             SetState(new IdleEnemyState(this));
@@ -70,13 +62,6 @@ namespace Enemy_Scripts
             {
                 bIsApproaching = false;
                 OnApproachPlayer();
-            }
-            
-            // If a movement tweener is active and the player is moving...
-            if (enemyMovementTweener != null && playerInput.bIsMoving)
-            {
-                // Adjust the target position
-                enemyMovementTweener.ChangeEndValue(targetTransform.transform.position + floatOffset);
             }
         }
 

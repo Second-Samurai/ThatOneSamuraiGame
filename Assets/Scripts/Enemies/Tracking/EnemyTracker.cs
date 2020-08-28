@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// ENEMY TRACKER INFO
+// Used to track all enemies in a scene through a list of transforms
+// This list is obtained by searching for enemy tags on awake
+
 public class EnemyTracker : MonoBehaviour
 {
     public List<Transform> currentEnemies;

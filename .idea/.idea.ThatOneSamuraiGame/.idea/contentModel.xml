@@ -31,12 +31,13 @@
         <e p="Scripts" t="Include">
           <e p="Camera" t="Include">
             <e p="FreeLookAddOn.cs" t="Include" />
+            <e p="LockOnTargetManager.cs" t="Include" />
             <e p="SimpleCameraController.cs" t="Include" />
           </e>
           <e p="DebugScripts" t="Include">
             <e p="CamFollow.cs" t="Include" />
           </e>
-          <e p="Enemy Scripts" t="Include">
+          <e p="Enemies" t="Include">
             <e p="AISystem.cs" t="Include" />
             <e p="Enemy States" t="Include">
               <e p="ApproachPlayerEnemyState.cs" t="Include" />
@@ -46,12 +47,41 @@
               <e p="LightAttackEnemyState.cs" t="Include" />
             </e>
             <e p="EnemyStateMachine.cs" t="Include" />
+            <e p="Tracking" t="Include">
+              <e p="EnemyTracker.cs" t="Include" />
+            </e>
+          </e>
+          <e p="General" t="Include">
+            <e p="EntityStatData.cs" t="Include" />
+            <e p="GameManager.cs" t="Include" />
+            <e p="StatHandler.cs" t="Include" />
           </e>
           <e p="Player" t="Include">
             <e p="CameraControl.cs" t="Include" />
             <e p="IKPuppet.cs" t="Include" />
+            <e p="PCombatController.cs" t="Include" />
+            <e p="PDamageController.cs" t="Include" />
+            <e p="PlayerController.cs" t="Include" />
             <e p="PlayerFunctions.cs" t="Include" />
             <e p="PlayerInput.cs" t="Include" />
+            <e p="StatesAndMachine" t="Include">
+              <e p="PlayerStateMachine.cs" t="Include" />
+              <e p="PNormalState.cs" t="Include" />
+              <e p="PRewindState.cs" t="Include" />
+            </e>
+          </e>
+          <e p="ScriptableObject" t="Include">
+            <e p="EnemySettings.cs" t="Include" />
+            <e p="GameSettings.cs" t="Include" />
+            <e p="PlayerSettings.cs" t="Include" />
+          </e>
+          <e p="Test" t="Include">
+            <e p="TestStaticTarget.cs" t="Include" />
+          </e>
+          <e p="UI" t="Include">
+            <e p="LockOn" t="Include">
+              <e p="CinematicBars.cs" t="Include" />
+            </e>
           </e>
         </e>
         <e p="TutorialInfo" t="Include">

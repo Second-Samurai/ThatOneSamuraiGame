@@ -1,4 +1,5 @@
-﻿using Enemy_Scripts.Enemy_States;
+﻿using System;
+using Enemy_Scripts.Enemy_States;
 using UnityEngine;
 
 namespace Enemy_Scripts
@@ -19,6 +20,12 @@ namespace Enemy_Scripts
         {
             EnemyState = newEnemyState;
             StartCoroutine(EnemyState.BeginState());
+        }
+
+        private void Update()
+        {
+            // Only run Tick() if enemy state is not null
+            EnemyState?.Tick();
         }
     }
 }

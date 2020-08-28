@@ -19,12 +19,18 @@ namespace Enemy_Scripts.Enemy_States
             AISystem = aiSystem;
         }
         
-        // A substitute for state start methods
+        // State start, update and end methods
+        // These are to be overriden in the enemy states
         public virtual IEnumerator BeginState()
         {
             yield break;
         }
-        
+
+        public virtual void Tick()
+        {
+            
+        }
+
         public virtual IEnumerator EndState()
         {
             yield break;

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1084561990}
   m_Layer: 0
   m_Name: Swordsman
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,5 +131,7 @@ MonoBehaviour:
   bIsBlocking: 0
   bIsApproaching: 0
   enemyMaterial: {fileID: 2100000, guid: 45227cfa32f089f4c995b8d6eeedec2a, type: 2}
-  targetObject: {fileID: 0}
+  playerInput: {fileID: 0}
+  targetTransform: {fileID: 0}
   enemyTransform: {fileID: 8884981518182307571}
+  floatOffset: {x: 0, y: 2, z: 0}

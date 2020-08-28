@@ -16,14 +16,12 @@ namespace Enemy_Scripts.Enemy_States
         public override IEnumerator BeginState()
         {
             // Placeholder Behaviour, place actions here
-            // Debug.Log("is approching");
-            // AISystem.enemyMaterial.color = Color.green;
+            Debug.Log("is approching");
+            AISystem.enemyMaterial.color = Color.green;
 
-            AISystem.enemyMovementTweener = AISystem.enemyTransform.DOMove(AISystem.targetTransform.transform.position + AISystem.floatOffset, _approachDuration);
-            
             yield return new WaitForSeconds(_approachDuration);
-
-            AISystem.enemyMovementTweener = null;
         }
+        
+        
     }
 }

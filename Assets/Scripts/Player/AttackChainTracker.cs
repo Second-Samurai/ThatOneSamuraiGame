@@ -8,11 +8,13 @@ public class AttackChainTracker : MonoBehaviour
     [SerializeField] int _inputCounter = 0;
     [SerializeField] float _lastInput = 0f;
     public float inputWindow = .9f;
+    PlayerInput _input;
 
     // Start is called before the first frame update
     void Start()
     {
         _animator = GetComponent<Animator>();
+        _input = GetComponent<PlayerInput>();
     }
 
     // Update is called once per frame
@@ -32,6 +34,7 @@ public class AttackChainTracker : MonoBehaviour
         if(_inputCounter == 1)
         {
             _animator.SetBool("FirstAttack", true);
+            _input.bCanDodge = false;
         }
         _inputCounter = Mathf.Clamp(_inputCounter, 0, 3);
     }
@@ -48,6 +51,7 @@ public class AttackChainTracker : MonoBehaviour
         {
             _animator.SetBool("FirstAttack", false);
             _inputCounter = 0;
+            _input.bCanDodge = true;
         }
     }
     public void CheckLoopCombo()
@@ -64,6 +68,7 @@ public class AttackChainTracker : MonoBehaviour
         {
             _animator.SetBool("SecondAttack", false);
             _inputCounter = 0;
+            _input.bCanDodge = true;
         }
     }
 
@@ -72,5 +77,6 @@ public class AttackChainTracker : MonoBehaviour
         _animator.SetBool("FirstAttack", false);
         _animator.SetBool("SecondAttack", false);
         _animator.SetBool("LoopAttack", false);
+        _input.bCanDodge = true;
     }
 }

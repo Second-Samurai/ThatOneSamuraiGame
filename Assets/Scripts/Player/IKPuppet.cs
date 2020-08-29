@@ -23,10 +23,10 @@ public class IKPuppet : MonoBehaviour
             animator.SetIKRotation(AvatarIKGoal.RightHand, rHand.rotation);
             animator.SetIKPositionWeight(AvatarIKGoal.RightHand, IKWeight);
             animator.SetIKRotationWeight(AvatarIKGoal.RightHand, IKWeight);
-            animator.SetIKPosition(AvatarIKGoal.LeftHand, lHand.position);
-            animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, IKWeight);
-            animator.SetIKRotation(AvatarIKGoal.LeftHand, lHand.rotation);
-            animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, IKWeight);
+            //animator.SetIKPosition(AvatarIKGoal.LeftHand, lHand.position);
+            //animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, IKWeight);
+            //animator.SetIKRotation(AvatarIKGoal.LeftHand, lHand.rotation);
+           // animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, IKWeight);
         //}
     }
 

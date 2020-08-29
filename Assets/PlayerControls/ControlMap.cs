@@ -112,7 +112,23 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""id"": ""49a3647a-04d7-4753-9c18-a0dfb073b98b"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold(duration=1.5),Press""
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""ToggleLockLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""bd0d209c-7483-408c-a191-99172ebbb538"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""ToggleLockRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""5661c98b-a309-46eb-a33a-5d0c715004c2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -434,6 +450,50 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""action"": ""ReleaseLockOn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7ce452a9-9034-40a7-8c4b-138d4c515200"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ToggleLockLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2082f3f7-03f8-42eb-815f-a5d89470f492"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ToggleLockLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""21ee589b-97f0-4fe1-a5df-1b5c266a9596"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ToggleLockRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0621afc2-aee6-44b0-8e00-8deaa209351f"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ToggleLockRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -482,6 +542,8 @@ public class @ControlMap : IInputActionCollection, IDisposable
         m_Gameplay_ScrubBackward = m_Gameplay.FindAction("ScrubBackward", throwIfNotFound: true);
         m_Gameplay_Scrub = m_Gameplay.FindAction("Scrub", throwIfNotFound: true);
         m_Gameplay_ReleaseLockOn = m_Gameplay.FindAction("ReleaseLockOn", throwIfNotFound: true);
+        m_Gameplay_ToggleLockLeft = m_Gameplay.FindAction("ToggleLockLeft", throwIfNotFound: true);
+        m_Gameplay_ToggleLockRight = m_Gameplay.FindAction("ToggleLockRight", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -543,6 +605,8 @@ public class @ControlMap : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_ScrubBackward;
     private readonly InputAction m_Gameplay_Scrub;
     private readonly InputAction m_Gameplay_ReleaseLockOn;
+    private readonly InputAction m_Gameplay_ToggleLockLeft;
+    private readonly InputAction m_Gameplay_ToggleLockRight;
     public struct GameplayActions
     {
         private @ControlMap m_Wrapper;
@@ -559,6 +623,8 @@ public class @ControlMap : IInputActionCollection, IDisposable
         public InputAction @ScrubBackward => m_Wrapper.m_Gameplay_ScrubBackward;
         public InputAction @Scrub => m_Wrapper.m_Gameplay_Scrub;
         public InputAction @ReleaseLockOn => m_Wrapper.m_Gameplay_ReleaseLockOn;
+        public InputAction @ToggleLockLeft => m_Wrapper.m_Gameplay_ToggleLockLeft;
+        public InputAction @ToggleLockRight => m_Wrapper.m_Gameplay_ToggleLockRight;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -604,6 +670,12 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @ReleaseLockOn.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReleaseLockOn;
                 @ReleaseLockOn.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReleaseLockOn;
                 @ReleaseLockOn.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReleaseLockOn;
+                @ToggleLockLeft.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToggleLockLeft;
+                @ToggleLockLeft.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToggleLockLeft;
+                @ToggleLockLeft.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToggleLockLeft;
+                @ToggleLockRight.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToggleLockRight;
+                @ToggleLockRight.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToggleLockRight;
+                @ToggleLockRight.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToggleLockRight;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -644,6 +716,12 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @ReleaseLockOn.started += instance.OnReleaseLockOn;
                 @ReleaseLockOn.performed += instance.OnReleaseLockOn;
                 @ReleaseLockOn.canceled += instance.OnReleaseLockOn;
+                @ToggleLockLeft.started += instance.OnToggleLockLeft;
+                @ToggleLockLeft.performed += instance.OnToggleLockLeft;
+                @ToggleLockLeft.canceled += instance.OnToggleLockLeft;
+                @ToggleLockRight.started += instance.OnToggleLockRight;
+                @ToggleLockRight.performed += instance.OnToggleLockRight;
+                @ToggleLockRight.canceled += instance.OnToggleLockRight;
             }
         }
     }
@@ -680,5 +758,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         void OnScrubBackward(InputAction.CallbackContext context);
         void OnScrub(InputAction.CallbackContext context);
         void OnReleaseLockOn(InputAction.CallbackContext context);
+        void OnToggleLockLeft(InputAction.CallbackContext context);
+        void OnToggleLockRight(InputAction.CallbackContext context);
     }
 }

@@ -7,18 +7,25 @@ public class RewindEntity : MonoBehaviour
     public bool isTravelling = false;
     public int currentIndex = 0;
     [SerializeField]
-    public List<TimeData> transformDataList;
+    public List<PositionalTimeData> transformDataList;
     public Transform thisTransform;
 
+    RewindInput _rewindInput;
+   
+
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
-        transformDataList = new List<TimeData>();
+        transformDataList = new List<PositionalTimeData>();
         thisTransform = gameObject.transform;
+
+        _rewindInput = gameObject.GetComponent<RewindInput>();
+        _rewindInput.StepForward += StepForward;
+        _rewindInput.StepBack += StepBack;
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    public virtual void FixedUpdate()
     {
         if (isTravelling == false) 
         {
@@ -34,8 +41,8 @@ public class RewindEntity : MonoBehaviour
         {
             transformDataList.RemoveAt(transformDataList.Count - 1);
         }
-
-        transformDataList.Insert(0, new TimeData(thisTransform.position, thisTransform.rotation));
+       
+        transformDataList.Insert(0, new PositionalTimeData(thisTransform.position, thisTransform.rotation));
     }
 
     public void ResetTimeline() 
@@ -47,7 +54,7 @@ public class RewindEntity : MonoBehaviour
         currentIndex = 0;
     }
 
-    public void StepBack() 
+    public virtual void StepBack() 
     {
 
         if (transformDataList.Count > 0) 
@@ -57,11 +64,11 @@ public class RewindEntity : MonoBehaviour
             {
                 currentIndex++;
             }
-            Debug.Log("StepBack");
+            //Debug.Log("StepBack");
         }
     }
 
-    public void StepForward()
+    public virtual void StepForward()
     {
         if (transformDataList.Count > 0)
         {
@@ -70,7 +77,7 @@ public class RewindEntity : MonoBehaviour
             {
                 currentIndex--;
             }
-            Debug.Log("StepForward");
+           // Debug.Log("StepForward");
         }
     }
 
@@ -78,6 +85,8 @@ public class RewindEntity : MonoBehaviour
     {
         thisTransform.position = transformDataList[currentIndex].position;
         thisTransform.rotation = transformDataList[currentIndex].rotation;
+
+
     }
 
 

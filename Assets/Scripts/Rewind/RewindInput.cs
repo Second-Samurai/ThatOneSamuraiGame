@@ -5,7 +5,13 @@ using UnityEngine.InputSystem;
 
 public class RewindInput : MonoBehaviour
 {
-   // private bool heldBack, heldForward = false;
+    public delegate void StepBackEvent();
+    public event StepBackEvent StepBack;
+
+    public delegate void StepForwardEvent();
+    public event StepForwardEvent StepForward;
+
+    // private bool heldBack, heldForward = false;
     private float rewindDirection;
     public bool isTravelling = false;
     private RewindEntity rewindEntity;
@@ -21,17 +27,18 @@ public class RewindInput : MonoBehaviour
     {
         if (isTravelling && rewindDirection < 0)
         {
-            Time.timeScale = .05f;
+            Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
-            rewindEntity.StepBack();
+            if (StepBack != null) StepBack();
             Debug.Log(Time.timeScale);
         }
 
         else if (isTravelling && rewindDirection > 0)
         {
-            Time.timeScale = .05f;
+            Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
-            rewindEntity.StepForward();
+            if(StepForward != null) StepForward();
+
         }
 
         if (isTravelling && rewindDirection == 0)
@@ -45,7 +52,7 @@ public class RewindInput : MonoBehaviour
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
         }
-        yield return wait;
+        yield return null;
 
         StartCoroutine(RewindCoroutine());
         

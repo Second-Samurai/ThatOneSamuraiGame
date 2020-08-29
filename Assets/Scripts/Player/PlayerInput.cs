@@ -10,7 +10,7 @@ public class PlayerInput : MonoBehaviour
     public bool bCanMove = true, bLockedOn = false;
     public float rotationSpeed = 4f, smoothingValue = .1f;
     Animator _animator;
-    CameraControl _camControl;
+    public CameraControl _camControl;
     PlayerFunctions _functions;
     public Transform target;
 

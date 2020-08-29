@@ -1,9 +1,9 @@
 ﻿using System;
-using DG.Tweening;
-using Enemy_Scripts.Enemy_States;
+using Enemies.Enemy_States;
+using Enemy_Scripts;
 using UnityEngine;
 
-namespace Enemy_Scripts
+namespace Enemies
 {
     // AI SYSTEM INFO
     // AISystem is responsible for receiving calls to tell the enemy what to perform. It should also
@@ -18,10 +18,10 @@ namespace Enemy_Scripts
         public bool bIsLightAttacking = false;
         public bool bIsBlocking = false;
         public bool bIsApproaching = false;
-        public Material enemyMaterial;
 
         //ENEMY SETTINGS [See EntityStatData for list of stats]
         public EnemySettings enemySettings; // Taken from EnemySettings Scriptable object in start
+        public bool bPlayerFound = false;
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
         //because the player's origin point is on the floor
@@ -40,7 +40,7 @@ namespace Enemy_Scripts
             SetState(new IdleEnemyState(this));
         }
         
-        private void Update()
+        protected new void Update()
         {
             //TODO: Remove these ifs later once more polish is done. These are just placeholders to test enemy states
             if (bIsIdle)
@@ -63,6 +63,8 @@ namespace Enemy_Scripts
                 bIsApproaching = false;
                 OnApproachPlayer();
             }
+
+            base.Update();
         }
 
         #endregion

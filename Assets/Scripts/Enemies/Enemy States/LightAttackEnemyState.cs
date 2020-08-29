@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Enemy_Scripts.Enemy_States
+namespace Enemies.Enemy_States
 {
     public class LightAttackEnemyState : EnemyState
     {
@@ -14,8 +14,7 @@ namespace Enemy_Scripts.Enemy_States
         {
             // Placeholder Behaviour, place actions here
             Debug.Log("is light attacking");
-            AISystem.enemyMaterial.color = Color.red;
-            
+
             yield break;
         }
     }

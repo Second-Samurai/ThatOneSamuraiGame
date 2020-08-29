@@ -14,6 +14,7 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
 {
     private StatHandler _playerStats;
     private Animator _animator;
+    private PSword _playerSword;
     private float _chargeTime;
     private int _comboHits;
 
@@ -23,6 +24,7 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     public void Init(StatHandler playerStats) {
         this._playerStats = playerStats;
         this._animator = this.GetComponent<Animator>();
+        _playerSword = this.GetComponentInChildren<PSword>();
     }
 
     public void RunLightAttack()

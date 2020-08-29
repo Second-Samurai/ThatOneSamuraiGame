@@ -12,6 +12,7 @@ public class GameSettings : ScriptableObject
     [Header("Camera Objects")]
     public GameObject thirdPersonViewCam;
     public GameObject mainCamera;
+    public GameObject dayPostProcessing;
 
     [Header("Game Prefabs")]
     public GameObject playerPrefab;

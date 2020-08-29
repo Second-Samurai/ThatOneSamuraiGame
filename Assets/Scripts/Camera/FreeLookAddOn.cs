@@ -12,9 +12,9 @@ public class FreeLookAddOn : MonoBehaviour
     public CinemachineFreeLook cam;
     bool _bFlipY = true;
 
-    void Start()
+    void Awake()
     {
-        cam = GetComponent<CinemachineFreeLook>();
+        cam = this.GetComponent<CinemachineFreeLook>();
     }
 
      

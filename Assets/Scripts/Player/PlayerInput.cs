@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net.Configuration;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,11 +8,13 @@ public class PlayerInput : MonoBehaviour
 {
 
     Vector2 _inputVector, lastVector;
+    public bool bIsMoving = false; //Used for enemy AISystem to change their target position on player move
     public bool bCanMove = true, bLockedOn = false;
     public float rotationSpeed = 4f, smoothingValue = .1f;
     Animator _animator;
     public CameraControl _camControl;
     PlayerFunctions _functions;
+    IPlayerCombat _playerCombat;
     public Transform target;
 
     float _turnSmoothVelocity;
@@ -21,11 +24,13 @@ public class PlayerInput : MonoBehaviour
         _animator = GetComponent<Animator>();
         _functions = GetComponent<PlayerFunctions>();
         _camControl = GetComponent<CameraControl>();
+        _playerCombat = this.GetComponent<IPlayerCombat>();
     }
 
-    void OnMovement(InputValue dir) 
+    void OnMovement(InputValue dir)
     {
-        _inputVector = dir.Get<Vector2>(); 
+        bIsMoving = true;
+        _inputVector = dir.Get<Vector2>();
     }
 
     void OnLockOn()
@@ -35,17 +40,44 @@ public class PlayerInput : MonoBehaviour
         {
             bLockedOn = true;
             _camControl.LockOn();
+            _animator.SetBool("LockedOn", bLockedOn);
+            _camControl.bLockedOn = bLockedOn;
         }
         else
         {
-            bLockedOn = false;
-            _camControl.UnlockCam();
+            _camControl.LockOn();
         }
-        _animator.SetBool("LockedOn", bLockedOn);
-        _camControl.bLockedOn = bLockedOn;
  
     }
-  
+
+    void OnReleaseLockOn()
+    {
+        if (bLockedOn)
+        {
+            bLockedOn = false;
+            _camControl.UnlockCam();
+            _animator.SetBool("LockedOn", bLockedOn);
+            _camControl.bLockedOn = bLockedOn;
+        }
+    }
+
+    //NOTE: The combat component requires to be instantiated early. Suggest input script to be instantated late.
+    private void OnAttack(InputValue value)
+    {
+        if (_playerCombat == null)
+        {
+            Debug.Log(">> Combat Component is missing");
+            _playerCombat = this.GetComponent<IPlayerCombat>();
+            return;
+        }
+
+        if (!value.isPressed)
+        {
+            Debug.Log(">> Light attack Triggered");
+            _playerCombat.RunLightAttack();
+        }
+    }
+
     void OnStartBlock()
     {
         _functions.StartBlock();

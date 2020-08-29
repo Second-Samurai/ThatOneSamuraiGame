@@ -27,7 +27,7 @@ public class TestStaticTarget : MonoBehaviour, IDamageable
         //Not needed
     }
 
-    public void OnEntityDamage(float damage)
+    public void OnEntityDamage(float damage, GameObject attacker)
     {
         if (!isDamageEnabled) return;
 

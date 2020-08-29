@@ -8,7 +8,7 @@ public class IKPuppet : MonoBehaviour
     public Transform rHand, lHand;
     public float IKWeight = 1f, IKTargetWeight = 1f;
 
-    public bool IKOn = false;
+    public bool IKOn = false, bCanIK = true;
 
     private void Start()
     {
@@ -19,21 +19,24 @@ public class IKPuppet : MonoBehaviour
     {
         //if (IKOn)
         //{
-            animator.SetIKPosition(AvatarIKGoal.RightHand, rHand.position);
-            animator.SetIKRotation(AvatarIKGoal.RightHand, rHand.rotation);
-            animator.SetIKPositionWeight(AvatarIKGoal.RightHand, IKWeight);
-            animator.SetIKRotationWeight(AvatarIKGoal.RightHand, IKWeight);
-            animator.SetIKPosition(AvatarIKGoal.LeftHand, lHand.position);
-            animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, IKWeight);
-            animator.SetIKRotation(AvatarIKGoal.LeftHand, lHand.rotation);
-            animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, IKWeight);
+        animator.SetIKPosition(AvatarIKGoal.RightHand, rHand.position);
+        animator.SetIKRotation(AvatarIKGoal.RightHand, rHand.rotation);
+        animator.SetIKPositionWeight(AvatarIKGoal.RightHand, IKWeight);
+        animator.SetIKRotationWeight(AvatarIKGoal.RightHand, IKWeight);
+        animator.SetIKPosition(AvatarIKGoal.LeftHand, lHand.position);
+        animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, IKWeight);
+        animator.SetIKRotation(AvatarIKGoal.LeftHand, lHand.rotation);
+        animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, IKWeight);
         //}
     }
 
     public void EnableIK()
     {
-        IKOn = true;
-        IKTargetWeight = .8f;
+        if (bCanIK)
+        {
+            IKOn = true;
+            IKTargetWeight = .5f;
+        }
     }
     public void DisableIK() 
     {

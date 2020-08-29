@@ -1,23 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Net.Configuration;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
 
-    Vector2 _inputVector, lastVector;
-    public bool bIsMoving = false; //Used for enemy AISystem to change their target position on player move
-    public bool bCanMove = true, bLockedOn = false;
+    Vector2 _inputVector, lastVector, _cachedVector;
+    public bool bCanMove = true, bLockedOn = false, bMoveLocked = false, bIsDodging = false, bCanDodge = true;
     public float rotationSpeed = 4f, smoothingValue = .1f;
     Animator _animator;
-    CameraControl _camControl;
+    public CameraControl _camControl;
     PlayerFunctions _functions;
     IPlayerCombat _playerCombat;
     public Transform target;
+    Rigidbody rb;
+    PDamageController _pDamageController;
+
+    float dodgeForce = 10f;
 
     float _turnSmoothVelocity;
+
+    bool _bDodgeCache = false;
+    public bool bCanBlock = true;
      
     private void Start()
     {
@@ -25,12 +30,22 @@ public class PlayerInput : MonoBehaviour
         _functions = GetComponent<PlayerFunctions>();
         _camControl = GetComponent<CameraControl>();
         _playerCombat = this.GetComponent<IPlayerCombat>();
+        rb = GetComponent<Rigidbody>();
+        _pDamageController = GetComponent<PDamageController>();
     }
 
-    void OnMovement(InputValue dir)
+    void OnMovement(InputValue dir) 
     {
-        bIsMoving = true;
-        _inputVector = dir.Get<Vector2>();
+        Vector2 cachedDir;
+        cachedDir = dir.Get<Vector2>();
+        if (!bMoveLocked) //normal movement
+            _inputVector = cachedDir;
+        else //input during dodge
+        {
+            _cachedVector = cachedDir;
+            if (cachedDir == Vector2.zero) 
+                _inputVector = cachedDir;
+        }
     }
 
     void OnLockOn()
@@ -45,21 +60,34 @@ public class PlayerInput : MonoBehaviour
         }
         else
         {
-            _camControl.LockOn();
-        }
- 
-    }
-
-    void OnReleaseLockOn()
-    {
-        if (bLockedOn)
-        {
             bLockedOn = false;
             _camControl.UnlockCam();
             _animator.SetBool("LockedOn", bLockedOn);
             _camControl.bLockedOn = bLockedOn;
         }
+ 
     }
+
+    void OnToggleLockLeft()
+    {
+        if (bLockedOn) _camControl.LockOn();
+    }
+
+    void OnToggleLockRight()
+    {
+        if (bLockedOn) _camControl.LockOn();
+    }
+
+    //void OnReleaseLockOn()
+    //{
+    //    if (bLockedOn)
+    //    {
+    //        bLockedOn = false;
+    //        _camControl.UnlockCam();
+    //        _animator.SetBool("LockedOn", bLockedOn);
+    //        _camControl.bLockedOn = bLockedOn;
+    //    }
+    //}
 
     //NOTE: The combat component requires to be instantiated early. Suggest input script to be instantated late.
     private void OnAttack(InputValue value)
@@ -80,7 +108,8 @@ public class PlayerInput : MonoBehaviour
 
     void OnStartBlock()
     {
-        _functions.StartBlock();
+        if(bCanBlock)
+            _functions.StartBlock();
     }
 
     void OnEndBlock()
@@ -90,12 +119,40 @@ public class PlayerInput : MonoBehaviour
 
     void OnDodge()
     {
-        _animator.SetTrigger("Dodge");
+        if (_inputVector != Vector2.zero && !bIsDodging && bCanDodge)
+        {
+            _animator.SetTrigger("Dodge");
+            StopCoroutine("DodgeImpulse");
+            StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
+            if (_functions.bCanBlock == false)
+                _functions.EnableBlock();
+            _functions.DisableBlock();
+        }
+        else if (_inputVector != Vector2.zero && !bIsDodging && !bCanDodge)
+        {
+            _bDodgeCache = true;
+
+        }
     }
 
-
+   
 
     private void FixedUpdate()
+    {
+        MovePlayer();
+        //if (_bDodgeCache && bCanDodge)
+        //{
+        //    _animator.SetTrigger("Dodge");
+        //    StopCoroutine("DodgeImpulse");
+        //    StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
+        //    if (_functions.bCanBlock == false)
+        //        _functions.EnableBlock();
+        //    _bDodgeCache = false;
+        //}
+
+    }
+
+    private void MovePlayer()
     {
         if (bCanMove)
         {
@@ -107,25 +164,77 @@ public class PlayerInput : MonoBehaviour
 
                 transform.rotation = Quaternion.Euler(0f, _angle, 0f);
 
-            } 
-            
-            else if (bLockedOn) 
+            }
+
+            else if (bLockedOn)
             {
                 Vector3 lookDir = target.transform.position - transform.position;
                 Quaternion lookRot = Quaternion.LookRotation(lookDir);
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, rotationSpeed);
                 transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
 
-
-                _animator.SetFloat("XInput", _inputVector.x, smoothingValue, Time.deltaTime);
-                _animator.SetFloat("YInput", _inputVector.y, smoothingValue, Time.deltaTime);
-            
+                if (!bMoveLocked)
+                {
+                    _animator.SetFloat("XInput", _inputVector.x, smoothingValue, Time.deltaTime);
+                    _animator.SetFloat("YInput", _inputVector.y, smoothingValue, Time.deltaTime);
+                }
             }
-            
+
             _animator.SetFloat("InputSpeed", _inputVector.magnitude, smoothingValue, Time.deltaTime);
 
         }
         lastVector = _inputVector;
     }
-     
+
+    public void StartDodging()
+    {
+        bIsDodging = true; 
+        _pDamageController.DisableDamage();
+       
+            
+    }
+
+    public void EndDodging()
+    {
+        bIsDodging = false;
+        _pDamageController.EnableDamage();
+    }
+
+    public void LockMoveInput()
+    {
+        if (!bMoveLocked)
+        {
+            Debug.LogWarning("Start Dodge");
+            bMoveLocked = true;
+            StartDodging();
+        }
+    }
+
+    public void UnlockMoveInput()
+    {
+        if (bMoveLocked)
+        {
+            Debug.LogWarning("End Dodge");
+            bMoveLocked = false; 
+            if (_inputVector != _cachedVector && _cachedVector != Vector2.zero)
+            {
+                Debug.Log("set " + _inputVector + " to " + _cachedVector);
+                _inputVector = _cachedVector;
+                _cachedVector = Vector2.zero;
+            }
+            EndDodging();
+        }
+    }
+
+
+    public void Test()
+    {
+        _pDamageController.OnEntityDamage(1, this.gameObject);
+    }
+
+    private void Update()
+    {
+        if (Keyboard.current.pKey.wasPressedThisFrame)
+            Test();
+    }
 }

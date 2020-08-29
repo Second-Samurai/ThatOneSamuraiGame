@@ -20,7 +20,7 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     private int _comboHits;
 
     private bool _isInputBlocked = false;
-    private bool _isAttacking = false;
+    public bool _isAttacking = false;
     private PlayerInput _playerInput;
     private PlayerFunctions _functions;
 
@@ -43,10 +43,13 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         _comboHits++;
         _comboHits = Mathf.Clamp(_comboHits, 0, 4);
         _chargeTime = 0;
-        if(!_isAttacking)
+        if (!_isAttacking)
+        {
             comboTracker.RegisterInput();
-        _animator.SetTrigger("AttackLight");
+            _animator.SetTrigger("AttackLight");
+        }
         _animator.SetInteger("ComboCount", _comboHits);
+
     }
 
     private void HeavyAttack()

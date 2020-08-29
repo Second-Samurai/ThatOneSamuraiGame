@@ -31,9 +31,13 @@ public class AttackChainTracker : MonoBehaviour
     {
         _inputCounter++;
         _lastInput = Time.time;
+        //_animator.SetTrigger("AttackLight");
         if(_inputCounter == 1)
         {
-            _animator.SetBool("FirstAttack", true);
+            //if(!_animator.GetBool("FirstAttack"))
+            //    _animator.SetBool("FirstAttack", true);
+            //else
+            //    _animator.SetBool("LoopAttack", true);
             _input.bCanDodge = false;
         }
         _inputCounter = Mathf.Clamp(_inputCounter, 0, 3);
@@ -43,7 +47,7 @@ public class AttackChainTracker : MonoBehaviour
     {
         if(_inputCounter >= 2)
         {
-            _animator.SetBool("SecondAttack", true);
+            //_animator.SetBool("SecondAttack", true);
             _animator.SetBool("LoopAttack", false);
             _animator.SetBool("FirstAttack", false);
         }
@@ -56,9 +60,10 @@ public class AttackChainTracker : MonoBehaviour
     }
     public void CheckLoopCombo()
     {
-        if (_inputCounter == 3)
+        if (_inputCounter >= 2)
         {
-            _animator.SetBool("LoopAttack", true);
+           // _animator.SetBool("LoopAttack", true);
+           // _animator.SetTrigger("AttackLight");
             _animator.SetBool("FirstAttack", false); 
             _animator.SetBool("SecondAttack", false);
 

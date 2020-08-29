@@ -105,6 +105,14 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""ReleaseLockOn"",
+                    ""type"": ""Button"",
+                    ""id"": ""49a3647a-04d7-4753-9c18-a0dfb073b98b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=1.5),Press""
                 }
             ],
             ""bindings"": [
@@ -404,6 +412,28 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""action"": ""Scrub"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5cb0fe6b-e53a-4704-8767-f338b4ed220f"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ReleaseLockOn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0bd73465-bdab-4f3c-b20d-3dec929e7847"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ReleaseLockOn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -451,6 +481,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         m_Gameplay_ScrubForward = m_Gameplay.FindAction("ScrubForward", throwIfNotFound: true);
         m_Gameplay_ScrubBackward = m_Gameplay.FindAction("ScrubBackward", throwIfNotFound: true);
         m_Gameplay_Scrub = m_Gameplay.FindAction("Scrub", throwIfNotFound: true);
+        m_Gameplay_ReleaseLockOn = m_Gameplay.FindAction("ReleaseLockOn", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -511,6 +542,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_ScrubForward;
     private readonly InputAction m_Gameplay_ScrubBackward;
     private readonly InputAction m_Gameplay_Scrub;
+    private readonly InputAction m_Gameplay_ReleaseLockOn;
     public struct GameplayActions
     {
         private @ControlMap m_Wrapper;
@@ -526,6 +558,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         public InputAction @ScrubForward => m_Wrapper.m_Gameplay_ScrubForward;
         public InputAction @ScrubBackward => m_Wrapper.m_Gameplay_ScrubBackward;
         public InputAction @Scrub => m_Wrapper.m_Gameplay_Scrub;
+        public InputAction @ReleaseLockOn => m_Wrapper.m_Gameplay_ReleaseLockOn;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -568,6 +601,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @Scrub.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrub;
                 @Scrub.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrub;
                 @Scrub.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrub;
+                @ReleaseLockOn.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReleaseLockOn;
+                @ReleaseLockOn.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReleaseLockOn;
+                @ReleaseLockOn.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReleaseLockOn;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -605,6 +641,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @Scrub.started += instance.OnScrub;
                 @Scrub.performed += instance.OnScrub;
                 @Scrub.canceled += instance.OnScrub;
+                @ReleaseLockOn.started += instance.OnReleaseLockOn;
+                @ReleaseLockOn.performed += instance.OnReleaseLockOn;
+                @ReleaseLockOn.canceled += instance.OnReleaseLockOn;
             }
         }
     }
@@ -640,5 +679,6 @@ public class @ControlMap : IInputActionCollection, IDisposable
         void OnScrubForward(InputAction.CallbackContext context);
         void OnScrubBackward(InputAction.CallbackContext context);
         void OnScrub(InputAction.CallbackContext context);
+        void OnReleaseLockOn(InputAction.CallbackContext context);
     }
 }

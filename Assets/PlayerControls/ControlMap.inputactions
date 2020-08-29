@@ -92,6 +92,14 @@
                     "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "ReleaseLockOn",
+                    "type": "Button",
+                    "id": "49a3647a-04d7-4753-9c18-a0dfb073b98b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(duration=1.5),Press"
                 }
             ],
             "bindings": [
@@ -391,6 +399,28 @@
                     "action": "Scrub",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "5cb0fe6b-e53a-4704-8767-f338b4ed220f",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ReleaseLockOn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0bd73465-bdab-4f3c-b20d-3dec929e7847",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ReleaseLockOn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

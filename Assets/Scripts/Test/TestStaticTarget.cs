@@ -11,7 +11,7 @@ public class TestStaticTarget : MonoBehaviour, IDamageable
 
     void Start()
     {
-        EntityStatData testData = GameManager.instance.gameSettings.enemySettings.testEnemeyData;
+        EntityStatData testData = GameManager.instance.gameSettings.enemySettings.enemyData;
 
         testEnemyStats = new StatHandler();
         testEnemyStats.Init(testData);
@@ -27,7 +27,7 @@ public class TestStaticTarget : MonoBehaviour, IDamageable
         //Not needed
     }
 
-    public void OnEntityDamage(float damage)
+    public void OnEntityDamage(float damage, GameObject attacker)
     {
         if (!isDamageEnabled) return;
 

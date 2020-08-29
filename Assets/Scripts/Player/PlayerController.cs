@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
     {
         GameManager gameManager = GameManager.instance;
         playerSettings = gameManager.gameSettings.playerSettings;
-        EntityStatData playerData = playerSettings.platerStats;
+        EntityStatData playerData = playerSettings.playerStats;
 
         playerStats = new StatHandler();
         playerStats.Init(playerData);

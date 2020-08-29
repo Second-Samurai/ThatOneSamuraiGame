@@ -35,14 +35,6 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""interactions"": ""Press""
                 },
                 {
-                    ""name"": ""ReleaseLockOn"",
-                    ""type"": ""Button"",
-                    ""id"": ""06bc7a92-102a-40d5-8891-1fb19f6b5893"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Hold(duration=1.5),Press""
-                },
-                {
                     ""name"": ""RotateCamera"",
                     ""type"": ""Value"",
                     ""id"": ""4583ff09-6513-4aca-b152-4d0df10adb13"",
@@ -81,6 +73,46 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""InitRewind"",
+                    ""type"": ""Button"",
+                    ""id"": ""3be9406a-147b-42e2-9464-c8a788c65bb7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""ScrubForward"",
+                    ""type"": ""Value"",
+                    ""id"": ""fb68f0ce-984f-4167-8e4d-d9c07aee1e24"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
+                },
+                {
+                    ""name"": ""ScrubBackward"",
+                    ""type"": ""Value"",
+                    ""id"": ""fd6e816c-1091-4ea7-9a26-79325a93cb37"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
+                },
+                {
+                    ""name"": ""Scrub"",
+                    ""type"": ""Value"",
+                    ""id"": ""a01967d2-ed35-4228-81c7-8f9483263fb6"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""ReleaseLockOn"",
+                    ""type"": ""Button"",
+                    ""id"": ""49a3647a-04d7-4753-9c18-a0dfb073b98b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=1.5),Press""
                 }
             ],
             ""bindings"": [
@@ -152,6 +184,28 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""b7872b9b-acf4-4d23-a0f6-36bf4fa2cc74"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""LockOn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a1d97cbf-ba02-4e42-b4e9-d064fb9e725c"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""LockOn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""37af880b-3068-4ec7-8897-0736725c59fc"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
@@ -186,7 +240,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""fab1d046-c9b5-4ccf-8af7-4a16bd769748"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -208,7 +262,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""798e952a-2f7d-458e-8499-fa34d44e1b7f"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -252,7 +306,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""5aa8508c-ef6c-49c7-8f2c-7b5cd973a490"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -262,7 +316,106 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4abc6ce7-d30d-4699-9bb9-6a5f20d29bb4"",
+                    ""id"": ""ad1995c5-6434-433f-8702-59a1d673bad0"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""InitRewind"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""90e30185-8f51-4e3a-9e3f-626a194d9159"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""InitRewind"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc5e184d-6722-4d6e-97f0-d75def961161"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ScrubForward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dd0f1acd-6b1b-4150-a5cd-4a454c189c1c"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ScrubForward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9f09dedd-5f9b-46bc-8720-6887997f196b"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ScrubBackward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2f2feca7-2f03-4442-8343-287a3eb418e6"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ScrubBackward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""66fc671d-2d06-47a2-a4f4-0377b90c409e"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scrub"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""406c72db-3bd6-4996-91fb-f2140230d46e"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Scrub"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""cd86892c-a2ac-4645-ae17-859e3587665b"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Scrub"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5cb0fe6b-e53a-4704-8767-f338b4ed220f"",
                     ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -273,34 +426,12 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""cf1b9ea7-1d91-4c69-93d3-93939fef4833"",
+                    ""id"": ""0bd73465-bdab-4f3c-b20d-3dec929e7847"",
                     ""path"": ""<Gamepad>/rightStickPress"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""ReleaseLockOn"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b7872b9b-acf4-4d23-a0f6-36bf4fa2cc74"",
-                    ""path"": ""<Keyboard>/leftCtrl"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""LockOn"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""a1d97cbf-ba02-4e42-b4e9-d064fb9e725c"",
-                    ""path"": ""<Gamepad>/rightStickPress"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""LockOn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -341,12 +472,16 @@ public class @ControlMap : IInputActionCollection, IDisposable
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_LockOn = m_Gameplay.FindAction("LockOn", throwIfNotFound: true);
-        m_Gameplay_ReleaseLockOn = m_Gameplay.FindAction("ReleaseLockOn", throwIfNotFound: true);
         m_Gameplay_RotateCamera = m_Gameplay.FindAction("RotateCamera", throwIfNotFound: true);
         m_Gameplay_StartBlock = m_Gameplay.FindAction("StartBlock", throwIfNotFound: true);
         m_Gameplay_EndBlock = m_Gameplay.FindAction("EndBlock", throwIfNotFound: true);
         m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
         m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
+        m_Gameplay_InitRewind = m_Gameplay.FindAction("InitRewind", throwIfNotFound: true);
+        m_Gameplay_ScrubForward = m_Gameplay.FindAction("ScrubForward", throwIfNotFound: true);
+        m_Gameplay_ScrubBackward = m_Gameplay.FindAction("ScrubBackward", throwIfNotFound: true);
+        m_Gameplay_Scrub = m_Gameplay.FindAction("Scrub", throwIfNotFound: true);
+        m_Gameplay_ReleaseLockOn = m_Gameplay.FindAction("ReleaseLockOn", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -398,24 +533,32 @@ public class @ControlMap : IInputActionCollection, IDisposable
     private IGameplayActions m_GameplayActionsCallbackInterface;
     private readonly InputAction m_Gameplay_Movement;
     private readonly InputAction m_Gameplay_LockOn;
-    private readonly InputAction m_Gameplay_ReleaseLockOn;
     private readonly InputAction m_Gameplay_RotateCamera;
     private readonly InputAction m_Gameplay_StartBlock;
     private readonly InputAction m_Gameplay_EndBlock;
     private readonly InputAction m_Gameplay_Attack;
     private readonly InputAction m_Gameplay_Dodge;
+    private readonly InputAction m_Gameplay_InitRewind;
+    private readonly InputAction m_Gameplay_ScrubForward;
+    private readonly InputAction m_Gameplay_ScrubBackward;
+    private readonly InputAction m_Gameplay_Scrub;
+    private readonly InputAction m_Gameplay_ReleaseLockOn;
     public struct GameplayActions
     {
         private @ControlMap m_Wrapper;
         public GameplayActions(@ControlMap wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
         public InputAction @LockOn => m_Wrapper.m_Gameplay_LockOn;
-        public InputAction @ReleaseLockOn => m_Wrapper.m_Gameplay_ReleaseLockOn;
         public InputAction @RotateCamera => m_Wrapper.m_Gameplay_RotateCamera;
         public InputAction @StartBlock => m_Wrapper.m_Gameplay_StartBlock;
         public InputAction @EndBlock => m_Wrapper.m_Gameplay_EndBlock;
         public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
         public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
+        public InputAction @InitRewind => m_Wrapper.m_Gameplay_InitRewind;
+        public InputAction @ScrubForward => m_Wrapper.m_Gameplay_ScrubForward;
+        public InputAction @ScrubBackward => m_Wrapper.m_Gameplay_ScrubBackward;
+        public InputAction @Scrub => m_Wrapper.m_Gameplay_Scrub;
+        public InputAction @ReleaseLockOn => m_Wrapper.m_Gameplay_ReleaseLockOn;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -431,9 +574,6 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @LockOn.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLockOn;
                 @LockOn.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLockOn;
                 @LockOn.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLockOn;
-                @ReleaseLockOn.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReleaseLockOn;
-                @ReleaseLockOn.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReleaseLockOn;
-                @ReleaseLockOn.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReleaseLockOn;
                 @RotateCamera.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRotateCamera;
                 @RotateCamera.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRotateCamera;
                 @RotateCamera.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRotateCamera;
@@ -449,6 +589,21 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @Dodge.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
                 @Dodge.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
                 @Dodge.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDodge;
+                @InitRewind.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInitRewind;
+                @InitRewind.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInitRewind;
+                @InitRewind.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInitRewind;
+                @ScrubForward.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubForward;
+                @ScrubForward.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubForward;
+                @ScrubForward.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubForward;
+                @ScrubBackward.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubBackward;
+                @ScrubBackward.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubBackward;
+                @ScrubBackward.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubBackward;
+                @Scrub.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrub;
+                @Scrub.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrub;
+                @Scrub.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrub;
+                @ReleaseLockOn.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReleaseLockOn;
+                @ReleaseLockOn.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReleaseLockOn;
+                @ReleaseLockOn.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReleaseLockOn;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -459,9 +614,6 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @LockOn.started += instance.OnLockOn;
                 @LockOn.performed += instance.OnLockOn;
                 @LockOn.canceled += instance.OnLockOn;
-                @ReleaseLockOn.started += instance.OnReleaseLockOn;
-                @ReleaseLockOn.performed += instance.OnReleaseLockOn;
-                @ReleaseLockOn.canceled += instance.OnReleaseLockOn;
                 @RotateCamera.started += instance.OnRotateCamera;
                 @RotateCamera.performed += instance.OnRotateCamera;
                 @RotateCamera.canceled += instance.OnRotateCamera;
@@ -477,6 +629,21 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @Dodge.started += instance.OnDodge;
                 @Dodge.performed += instance.OnDodge;
                 @Dodge.canceled += instance.OnDodge;
+                @InitRewind.started += instance.OnInitRewind;
+                @InitRewind.performed += instance.OnInitRewind;
+                @InitRewind.canceled += instance.OnInitRewind;
+                @ScrubForward.started += instance.OnScrubForward;
+                @ScrubForward.performed += instance.OnScrubForward;
+                @ScrubForward.canceled += instance.OnScrubForward;
+                @ScrubBackward.started += instance.OnScrubBackward;
+                @ScrubBackward.performed += instance.OnScrubBackward;
+                @ScrubBackward.canceled += instance.OnScrubBackward;
+                @Scrub.started += instance.OnScrub;
+                @Scrub.performed += instance.OnScrub;
+                @Scrub.canceled += instance.OnScrub;
+                @ReleaseLockOn.started += instance.OnReleaseLockOn;
+                @ReleaseLockOn.performed += instance.OnReleaseLockOn;
+                @ReleaseLockOn.canceled += instance.OnReleaseLockOn;
             }
         }
     }
@@ -503,11 +670,15 @@ public class @ControlMap : IInputActionCollection, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnLockOn(InputAction.CallbackContext context);
-        void OnReleaseLockOn(InputAction.CallbackContext context);
         void OnRotateCamera(InputAction.CallbackContext context);
         void OnStartBlock(InputAction.CallbackContext context);
         void OnEndBlock(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);
+        void OnInitRewind(InputAction.CallbackContext context);
+        void OnScrubForward(InputAction.CallbackContext context);
+        void OnScrubBackward(InputAction.CallbackContext context);
+        void OnScrub(InputAction.CallbackContext context);
+        void OnReleaseLockOn(InputAction.CallbackContext context);
     }
 }

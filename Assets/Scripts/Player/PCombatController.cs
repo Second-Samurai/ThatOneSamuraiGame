@@ -14,6 +14,7 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
 {
     private StatHandler _playerStats;
     private Animator _animator;
+    public AttackChainTracker comboTracker;
     private PSword _playerSword;
     private float _chargeTime;
     private int _comboHits;
@@ -24,9 +25,12 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     public void Init(StatHandler playerStats) {
         this._playerStats = playerStats;
         this._animator = this.GetComponent<Animator>();
+        comboTracker = GetComponent<AttackChainTracker>();
+
         _playerSword = this.GetComponentInChildren<PSword>();
         _playerSword.SetParentTransform(this.gameObject.transform);
     }
+     
 
     public void RunLightAttack()
     {
@@ -35,7 +39,8 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         _comboHits++;
         _comboHits = Mathf.Clamp(_comboHits, 0, 4);
         _chargeTime = 0;
-
+        if(!_isAttacking)
+            comboTracker.RegisterInput();
         _animator.SetTrigger("AttackLight");
         _animator.SetInteger("ComboCount", _comboHits);
     }
@@ -100,6 +105,6 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         IDamageable attackEntity = other.GetComponent<IDamageable>();
         if (attackEntity == null) return;
 
-        attackEntity.OnEntityDamage(CalculateDamage());
+        attackEntity.OnEntityDamage(CalculateDamage(), this.gameObject);
     }
 }

@@ -20,7 +20,9 @@ public class PlayerInput : MonoBehaviour
     float dodgeForce = 10f;
 
     float _turnSmoothVelocity;
-     
+     /// <summary>
+     /// ///
+     /// </summary>
     private void Start()
     {
         _animator = GetComponent<Animator>();

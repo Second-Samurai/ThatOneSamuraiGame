@@ -18,4 +18,7 @@ public class GameSettings : ScriptableObject
     public GameObject playerPrefab;
     public GameObject enemyManagerPrefab;
     public GameObject targetHolderPrefab;
+
+    [Header("Sword Effects")]
+    public GameObject swordSlash01;
 }

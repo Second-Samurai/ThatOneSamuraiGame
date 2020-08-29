@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public interface IDamageable {
-    void OnEntityDamage(float damage);
+    void OnEntityDamage(float damage, GameObject attacker);
     void DisableDamage();
     void EnableDamage();
 }
@@ -11,6 +11,7 @@ public interface IDamageable {
 public class PDamageController : MonoBehaviour, IDamageable
 {
     StatHandler playerStats;
+    PlayerFunctions _functions;
 
     private bool _isDamageDisabled = false;
 
@@ -18,9 +19,10 @@ public class PDamageController : MonoBehaviour, IDamageable
         this.playerStats = playerStats;
     }
 
-    public void OnEntityDamage(float damage)
+    public void OnEntityDamage(float damage, GameObject attacker)
     {
         if (_isDamageDisabled) return;
+        _functions.ApplyHit(attacker);
         Debug.Log("Player is Damaged");
     }
 
@@ -36,5 +38,10 @@ public class PDamageController : MonoBehaviour, IDamageable
     public void EnableDamage()
     {
         _isDamageDisabled = false;
+    }
+
+    private void Start()
+    {
+        _functions = GetComponent<PlayerFunctions>();
     }
 }

@@ -8,7 +8,7 @@ public class IKPuppet : MonoBehaviour
     public Transform rHand, lHand;
     public float IKWeight = 1f, IKTargetWeight = 1f;
 
-    public bool IKOn = false;
+    public bool IKOn = false, bCanIK = true;
 
     private void Start()
     {
@@ -32,8 +32,11 @@ public class IKPuppet : MonoBehaviour
 
     public void EnableIK()
     {
-        IKOn = true;
-        IKTargetWeight = .8f;
+        if (bCanIK)
+        {
+            IKOn = true;
+            IKTargetWeight = .8f;
+        }
     }
     public void DisableIK() 
     {

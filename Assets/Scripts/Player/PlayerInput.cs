@@ -7,7 +7,7 @@ public class PlayerInput : MonoBehaviour
 {
 
     Vector2 _inputVector, lastVector, _cachedVector;
-    public bool bCanMove = true, bLockedOn = false, bMoveLocked = false, bIsDodging = false;
+    public bool bCanMove = true, bLockedOn = false, bMoveLocked = false, bIsDodging = false, bCanDodge = true;
     public float rotationSpeed = 4f, smoothingValue = .1f;
     Animator _animator;
     public CameraControl _camControl;
@@ -20,9 +20,9 @@ public class PlayerInput : MonoBehaviour
     float dodgeForce = 10f;
 
     float _turnSmoothVelocity;
-     /// <summary>
-     /// ///
-     /// </summary>
+
+    bool _bDodgeCache = false;
+     
     private void Start()
     {
         _animator = GetComponent<Animator>();
@@ -104,13 +104,18 @@ public class PlayerInput : MonoBehaviour
 
     void OnDodge()
     {
-        if (_inputVector != Vector2.zero && !bIsDodging)
+        if (_inputVector != Vector2.zero && !bIsDodging && bCanDodge)
         {
             _animator.SetTrigger("Dodge");
             StopCoroutine("DodgeImpulse");
             StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
             if (_functions.bCanBlock == false)
                 _functions.EnableBlock();
+        }
+        else if (_inputVector != Vector2.zero && !bIsDodging && !bCanDodge)
+        {
+            _bDodgeCache = true;
+
         }
     }
 
@@ -119,6 +124,16 @@ public class PlayerInput : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
+        //if (_bDodgeCache && bCanDodge)
+        //{
+        //    _animator.SetTrigger("Dodge");
+        //    StopCoroutine("DodgeImpulse");
+        //    StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
+        //    if (_functions.bCanBlock == false)
+        //        _functions.EnableBlock();
+        //    _bDodgeCache = false;
+        //}
+
     }
 
     private void MovePlayer()

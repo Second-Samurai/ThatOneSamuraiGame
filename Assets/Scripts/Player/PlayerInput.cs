@@ -18,7 +18,9 @@ public class PlayerInput : MonoBehaviour
     public Transform target;
 
     float _turnSmoothVelocity;
-     
+     /// <summary>
+     /// ///
+     /// </summary>
     private void Start()
     {
         _animator = GetComponent<Animator>();

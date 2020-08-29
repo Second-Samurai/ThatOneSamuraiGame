@@ -1,13 +1,11 @@
 ﻿using System.Collections;
-using DG.Tweening;
+using Enemy_Scripts;
 using UnityEngine;
 
-namespace Enemy_Scripts.Enemy_States
+namespace Enemies.Enemy_States
 {
     public class ApproachPlayerEnemyState : EnemyState
     {
-        private float _approachDuration = 5.0f;
-        
         //Class constructor
         public ApproachPlayerEnemyState(AISystem aiSystem) : base(aiSystem)
         {
@@ -15,13 +13,27 @@ namespace Enemy_Scripts.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            // Placeholder Behaviour, place actions here
+            // TODO: Remove placeholder data
             Debug.Log("is approching");
-            AISystem.enemyMaterial.color = Color.green;
 
-            yield return new WaitForSeconds(_approachDuration);
+            AISystem.bPlayerFound = true;
+
+            yield break;
         }
-        
-        
+
+        public override void Tick()
+        {
+            // Get the true target point (float offset is added to get a more accurate player-enemy target point)
+            Vector3 target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
+            
+            // Get enemy speed data
+            float step = AISystem.enemySettings.enemyData.moveSpeed * Time.deltaTime;
+
+            if (AISystem.bPlayerFound)
+            {
+                AISystem.transform.position = Vector3.MoveTowards(AISystem.transform.position, target, step);
+                Debug.Log("Enemy is approaching player");
+            }
+        }
     }
 }

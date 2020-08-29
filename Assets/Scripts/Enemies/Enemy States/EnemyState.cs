@@ -1,8 +1,7 @@
 ﻿using System.Collections;
-using DG.Tweening;
-using UnityEngine;
+using Enemy_Scripts;
 
-namespace Enemy_Scripts.Enemy_States
+namespace Enemies.Enemy_States
 {
     // ENEMY STATE INFO
     // This acts as the connection between the state machine and states. All enemy states inherit from this class. Other

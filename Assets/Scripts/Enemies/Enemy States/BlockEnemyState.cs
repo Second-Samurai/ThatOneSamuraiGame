@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Enemy_Scripts.Enemy_States
+namespace Enemies.Enemy_States
 {
     public class BlockEnemyState : EnemyState
     {
@@ -14,8 +14,7 @@ namespace Enemy_Scripts.Enemy_States
         {
             // Placeholder Behaviour, place actions here
             Debug.Log("is blocking");
-            AISystem.enemyMaterial.color = Color.blue;
-            
+
             yield break;
         }
     }

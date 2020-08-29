@@ -35,7 +35,7 @@ public class IKPuppet : MonoBehaviour
         if (bCanIK)
         {
             IKOn = true;
-            IKTargetWeight = .8f;
+            IKTargetWeight = .5f;
         }
     }
     public void DisableIK() 

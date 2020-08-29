@@ -22,6 +22,7 @@ public class PlayerInput : MonoBehaviour
     float _turnSmoothVelocity;
 
     bool _bDodgeCache = false;
+    public bool bCanBlock = true;
      
     private void Start()
     {
@@ -94,7 +95,8 @@ public class PlayerInput : MonoBehaviour
 
     void OnStartBlock()
     {
-        _functions.StartBlock();
+        if(bCanBlock)
+            _functions.StartBlock();
     }
 
     void OnEndBlock()
@@ -111,6 +113,7 @@ public class PlayerInput : MonoBehaviour
             StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
             if (_functions.bCanBlock == false)
                 _functions.EnableBlock();
+            _functions.DisableBlock();
         }
         else if (_inputVector != Vector2.zero && !bIsDodging && !bCanDodge)
         {

@@ -10,7 +10,7 @@ public class PlayerInput : MonoBehaviour
     public bool bCanMove = true, bLockedOn = false, bMoveLocked = false, bIsDodging = false, bCanDodge = true;
     public float rotationSpeed = 4f, smoothingValue = .1f;
     Animator _animator;
-    CameraControl _camControl;
+    public CameraControl _camControl;
     PlayerFunctions _functions;
     IPlayerCombat _playerCombat;
     public Transform target;

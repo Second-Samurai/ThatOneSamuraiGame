@@ -14,6 +14,7 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
 {
     private StatHandler _playerStats;
     private Animator _animator;
+    public AttackChainTracker comboTracker;
     private float _chargeTime;
     private int _comboHits;
 
@@ -23,7 +24,9 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     public void Init(StatHandler playerStats) {
         this._playerStats = playerStats;
         this._animator = this.GetComponent<Animator>();
+        comboTracker = GetComponent<AttackChainTracker>();
     }
+     
 
     public void RunLightAttack()
     {
@@ -32,7 +35,7 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         _comboHits++;
         _comboHits = Mathf.Clamp(_comboHits, 0, 4);
         _chargeTime = 0;
-
+        comboTracker.RegisterInput();
         _animator.SetTrigger("AttackLight");
         _animator.SetInteger("ComboCount", _comboHits);
     }

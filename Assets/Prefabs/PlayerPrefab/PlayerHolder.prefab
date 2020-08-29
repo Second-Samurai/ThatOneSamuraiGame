@@ -3612,6 +3612,7 @@ GameObject:
   - component: {fileID: 7190348978030205754}
   - component: {fileID: 3573290503952778430}
   - component: {fileID: 3595111642221714922}
+  - component: {fileID: 1587125720}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3793,6 +3794,7 @@ MonoBehaviour:
   IKWeight: 0
   IKTargetWeight: 0
   IKOn: 0
+  bCanIK: 1
 --- !u!114 &7190348978030205754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3808,6 +3810,7 @@ MonoBehaviour:
   bIsBlocking: 0
   blockTimer: 0
   blockCooldown: 0.1
+  bCanBlock: 1
   bIsParrying: 0
   parryTimer: 0
   parryTimerTarget: 0.15
@@ -3823,6 +3826,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae65c89287994f29b670ae4aabc4b02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  comboTracker: {fileID: 1587125720}
 --- !u!114 &3595111642221714922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3835,6 +3839,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2e946e2f08245b382d16c4d80519c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1587125720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7190348978030205702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b82de740766591842a697ee7d77208f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inputCounter: 0
+  _lastInput: 0
+  inputWindow: 1.5
 --- !u!1 &7689637147947814519
 GameObject:
   m_ObjectHideFlags: 0
@@ -4083,7 +4102,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8000690493781306126
 Transform:
   m_ObjectHideFlags: 0

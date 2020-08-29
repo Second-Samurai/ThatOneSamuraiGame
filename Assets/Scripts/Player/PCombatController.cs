@@ -15,6 +15,7 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     private StatHandler _playerStats;
     private Animator _animator;
     public AttackChainTracker comboTracker;
+    private PSword _playerSword;
     private float _chargeTime;
     private int _comboHits;
 
@@ -25,6 +26,9 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         this._playerStats = playerStats;
         this._animator = this.GetComponent<Animator>();
         comboTracker = GetComponent<AttackChainTracker>();
+
+        _playerSword = this.GetComponentInChildren<PSword>();
+        _playerSword.SetParentTransform(this.gameObject.transform);
     }
      
 
@@ -62,11 +66,22 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         _isInputBlocked = false;
     }
 
+    //Summary: Enabled collision detection to apply damage to hit target.
+    //
     public void BeginAttacking()
     {
         _isAttacking = true;
     }
 
+    //Summary: Calls the sword's Slash creation func triggered by animation event.
+    //
+    public void BeginSwordEffect(float slashAngle)
+    {
+        _playerSword.CreateSlashEffect(slashAngle);
+    }
+
+    //Summary: Disables the detection of the sword.
+    //
     public void EndAttacking()
     {
         _isAttacking = false;

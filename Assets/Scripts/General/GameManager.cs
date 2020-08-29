@@ -46,6 +46,9 @@ public class GameManager : MonoBehaviour
 
         Vector3 mainCameraPos = gameSettings.mainCamera.transform.position;
         mainCamera = Instantiate(gameSettings.mainCamera, mainCameraPos, Quaternion.identity).GetComponent<Camera>();
+
+        //Add Post Processing
+        Instantiate(gameSettings.dayPostProcessing, transform.position, Quaternion.identity);
     }
 
     void SetupPlayer()

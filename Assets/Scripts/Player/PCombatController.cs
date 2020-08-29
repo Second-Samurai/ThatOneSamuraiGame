@@ -35,7 +35,8 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         _comboHits++;
         _comboHits = Mathf.Clamp(_comboHits, 0, 4);
         _chargeTime = 0;
-        comboTracker.RegisterInput();
+        if(!_isAttacking)
+            comboTracker.RegisterInput();
         _animator.SetTrigger("AttackLight");
         _animator.SetInteger("ComboCount", _comboHits);
     }

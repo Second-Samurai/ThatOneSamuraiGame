@@ -16,6 +16,7 @@ public class PlayerInput : MonoBehaviour
     public Transform target;
     Rigidbody rb;
     PDamageController _pDamageController;
+    PCombatController _pCombatController;
 
     float dodgeForce = 10f;
 
@@ -23,6 +24,7 @@ public class PlayerInput : MonoBehaviour
 
     bool _bDodgeCache = false;
     public bool bCanBlock = true;
+    public bool bOverrideMovement = false;
      
     private void Start()
     {
@@ -32,6 +34,7 @@ public class PlayerInput : MonoBehaviour
         _playerCombat = this.GetComponent<IPlayerCombat>();
         rb = GetComponent<Rigidbody>();
         _pDamageController = GetComponent<PDamageController>();
+        _pCombatController = GetComponent<PCombatController>();
     }
 
     void OnMovement(InputValue dir) 
@@ -77,6 +80,8 @@ public class PlayerInput : MonoBehaviour
     {
         if (bLockedOn) _camControl.LockOn();
     }
+
+    
 
     //void OnReleaseLockOn()
     //{
@@ -127,6 +132,7 @@ public class PlayerInput : MonoBehaviour
             if (_functions.bCanBlock == false)
                 _functions.EnableBlock();
             _functions.DisableBlock();
+            bOverrideMovement = false;
         }
         else if (_inputVector != Vector2.zero && !bIsDodging && !bCanDodge)
         {
@@ -182,6 +188,12 @@ public class PlayerInput : MonoBehaviour
 
             _animator.SetFloat("InputSpeed", _inputVector.magnitude, smoothingValue, Time.deltaTime);
 
+            if (bOverrideMovement)
+            {
+                transform.Translate(_direction * 3 * Time.deltaTime);
+                //StartCoroutine(_functions.DodgeImpulse(transform.forward, 3));
+            }
+
         }
         lastVector = _inputVector;
     }
@@ -200,11 +212,20 @@ public class PlayerInput : MonoBehaviour
         _pDamageController.EnableDamage();
     }
 
+    public void OverrideMovement()
+    {
+        bOverrideMovement = true;
+    }
+    public void RemoveOverride()
+    {
+        bOverrideMovement = false;
+    }
+
     public void LockMoveInput()
     {
         if (!bMoveLocked)
         {
-            Debug.LogWarning("Start Dodge");
+            //Debug.LogWarning("Start Dodge");
             bMoveLocked = true;
             StartDodging();
         }
@@ -214,7 +235,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (bMoveLocked)
         {
-            Debug.LogWarning("End Dodge");
+            //Debug.LogWarning("End Dodge");
             bMoveLocked = false; 
             if (_inputVector != _cachedVector && _cachedVector != Vector2.zero)
             {
@@ -236,5 +257,17 @@ public class PlayerInput : MonoBehaviour
     {
         if (Keyboard.current.pKey.wasPressedThisFrame)
             Test();
+    }
+
+    public void ResetDodge()
+    {
+        bCanDodge = true;
+      
+    }
+
+    public void BlockDodge()
+    {
+        bCanDodge = false;
+     
     }
 }

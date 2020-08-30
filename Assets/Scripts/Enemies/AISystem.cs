@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Enemies.Enemy_States;
 using Enemy_Scripts;
 using UnityEngine;
@@ -125,9 +126,22 @@ namespace Enemies
                 navMeshAgent.SetDestination(transform.position);
                 animator.SetBool("isDead", true);
                 OnEnemyDeath();
+                StartCoroutine(RemovePlayerFromScene());
             }
             else
                 Debug.LogWarning("Unknown attacker");
+        }
+
+        public IEnumerator RemovePlayerFromScene()
+        {
+            _enemyTracker = GameManager.instance.enemyTracker;
+            _enemyTracker.RemoveEnemy(transform);
+            
+            EDamageController eDamageController = GetComponent<EDamageController>();
+            eDamageController.DisableDamage();
+            
+            yield return new WaitForSeconds(2.0f);
+            gameObject.SetActive(false);
         }
 
         #endregion

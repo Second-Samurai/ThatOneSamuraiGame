@@ -12,6 +12,8 @@ public class ButtonController : MonoBehaviour
     {
         vcam.m_Priority = 0;
         menu.SetActive(false);
+        
+        Cursor.visible = false;
     }
 
     public void QuitGame() 

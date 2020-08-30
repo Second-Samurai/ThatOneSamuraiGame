@@ -5,14 +5,14 @@ using UnityEngine;
 public class BasicArcher : MonoBehaviour, IDamageable
 {
     public Transform player, shotOrigin;
-    enum CurrentState
+    public enum CurrentState
     {
         Idle,
         Aiming,
         Dead
     }
-    CurrentState currentState;
-    Vector3 lastDirection, shotDirection;
+    public CurrentState currentState;
+    public Vector3 lastDirection, shotDirection;
     public float attackRange = 20f, shotTimer = 0f, shotFrequency = 2f, aimDuration = .5f, aimCounter = 0f;
     public LineRenderer lineRenderer;
 

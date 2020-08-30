@@ -103,8 +103,13 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         if (other.GetComponent<IPlayerController>() != null) return;
 
         IDamageable attackEntity = other.GetComponent<IDamageable>();
-        if (attackEntity == null) return;
+        if (attackEntity == null)
+        {
+            _playerSword.CreateImpactEffect(other.transform, HitType.GeneralTarget);
+            return;
+        }
 
+        _playerSword.CreateImpactEffect(other.transform, HitType.DamageableTarget);
         attackEntity.OnEntityDamage(CalculateDamage(), this.gameObject);
     }
 }

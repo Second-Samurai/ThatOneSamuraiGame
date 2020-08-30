@@ -906,7 +906,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5395197160456847857}
   - component: {fileID: 4064537356241056022}
-  - component: {fileID: 4448967735172659956}
   m_Layer: 0
   m_Name: Alpha_Surface
   m_TagString: Untagged
@@ -1031,20 +1030,6 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.010044813, y: -0.070221275, z: 0.10508843}
     m_Extent: {x: 0.63708216, y: 0.8436643, z: 0.26559985}
   m_DirtyAABB: 0
---- !u!136 &4448967735172659956
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4448967735172659959}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.37
-  m_Height: 1.7616823
-  m_Direction: 1
-  m_Center: {x: 0.069022425, y: 0.8258706, z: 0.0505117}
 --- !u!1 &4484876425904916324
 GameObject:
   m_ObjectHideFlags: 0
@@ -2109,9 +2094,10 @@ GameObject:
   - component: {fileID: 7234922115759954018}
   - component: {fileID: 7234922115759954019}
   - component: {fileID: 7234922115759954016}
+  - component: {fileID: 1077441570}
   m_Layer: 0
   m_Name: Archer
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2191,7 +2177,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 7234922115759954016}
   arrow: {fileID: 5474719794975255004, guid: ee54be1405ff54d408c69796987d9e7b, type: 3}
   anim: {fileID: 7234922115759954021}
-  col: {fileID: 4448967735172659956}
+  col: {fileID: 0}
 --- !u!120 &7234922115759954016
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -2289,6 +2275,20 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!136 &1077441570
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7234922115759954020}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.37
+  m_Height: 1.7616823
+  m_Direction: 1
+  m_Center: {x: 0.069022425, y: 0.8258706, z: 0.0505117}
 --- !u!1 &7406341646570769472
 GameObject:
   m_ObjectHideFlags: 0

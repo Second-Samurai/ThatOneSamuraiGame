@@ -90,6 +90,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
         anim.SetTrigger("Death");
         col.enabled = false;
         currentState = CurrentState.Dead;
+        Debug.LogError("I Am dead");
     }
 
     public void DisableDamage()
@@ -101,4 +102,6 @@ public class BasicArcher : MonoBehaviour, IDamageable
     {
          
     }
+
+   
 }

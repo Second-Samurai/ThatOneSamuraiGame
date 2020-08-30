@@ -121,7 +121,8 @@ namespace Enemies
             {
                 Debug.Log("Enemy dead");
                 bIsDead = true;
-                navMeshAgent.enabled = false;
+                TempWinTracker.instance.enemyCount--;
+                navMeshAgent.SetDestination(transform.position);
                 animator.SetBool("isDead", true);
                 OnEnemyDeath();
             }

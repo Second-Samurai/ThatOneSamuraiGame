@@ -125,7 +125,7 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
             return;
         }
 
-        _playerSword.CreateImpactEffect(other.transform, HitType.DamageableTarget);
+        if(!other.gameObject.CompareTag("Boards")) _playerSword.CreateImpactEffect(other.transform, HitType.DamageableTarget);
         attackEntity.OnEntityDamage(CalculateDamage(), this.gameObject);
     }
 }

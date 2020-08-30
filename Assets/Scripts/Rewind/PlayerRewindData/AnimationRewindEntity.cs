@@ -11,6 +11,10 @@ public class AnimationRewindEntity : RewindEntity
     [SerializeField]
     private Animator animator;
     public AnimatorClipInfo[] m_CurrentClipInfo;
+    
+    
+    //meeds extraction
+    public PlayerFunctions func;
 
  
     // Start is called before the first frame update
@@ -52,7 +56,7 @@ public class AnimationRewindEntity : RewindEntity
         //move to animation rewind entity
         animationDataList.Insert(0, new AnimationTimeData(animator.GetCurrentAnimatorStateInfo(0).normalizedTime, m_CurrentClipInfo[0].clip.name, 
                                                                     animator.GetFloat("InputSpeed"), animator.GetFloat("XInput"), animator.GetFloat("YInput"), animator.GetBool("LockedOn"), 
-                                                                        animator.GetBool("VGuard"), animator.GetInteger("ComboCount"), animator.GetBool("FirstAttack"), animator.GetBool("SecondAttack"), animator.GetBool("LoopAttack")));
+                                                                        animator.GetBool("VGuard"), animator.GetInteger("ComboCount"), animator.GetBool("FirstAttack"), animator.GetBool("SecondAttack"), animator.GetBool("LoopAttack"), animator.GetBool("isDead")));
        
         
         base.RecordPast();
@@ -99,8 +103,8 @@ public class AnimationRewindEntity : RewindEntity
         animator.SetBool("FirstAttack", animationDataList[currentIndex].firstAttack);
         animator.SetBool("SecondAttack", animationDataList[currentIndex].secondAttack);
         animator.SetBool("LoopAttack", animationDataList[currentIndex].loopAttack);
-
-
+        animator.SetBool("isDead", animationDataList[currentIndex].isDead);
+        func.bIsDead = animationDataList[currentIndex].isDead;
         base.SetPosition();
     }
 }

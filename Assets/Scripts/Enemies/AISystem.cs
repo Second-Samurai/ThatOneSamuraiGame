@@ -33,6 +33,7 @@ namespace Enemies
         
         //DAMAGE CONTROLS
         private EDamageController _eDamageController;
+        public bool bIsDead = false;
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
         //because the player's origin point is on the floor
@@ -117,7 +118,14 @@ namespace Enemies
             if(attacker.GetComponent<AISystem>())
                 Debug.Log("Friendly Fire hit");
             else if (attacker.GetComponent<PlayerController>())
+            {
                 Debug.Log("Enemy dead");
+                bIsDead = true;
+                TempWinTracker.instance.enemyCount--;
+                navMeshAgent.SetDestination(transform.position);
+                animator.SetBool("isDead", true);
+                OnEnemyDeath();
+            }
             else
                 Debug.LogWarning("Unknown attacker");
         }
@@ -186,6 +194,7 @@ namespace Enemies
 
         public void OnEnemyStun()
         {
+            animator.SetBool("IsGuardBroken", true);
             SetState(new EnemyStunState(this));
         }
 

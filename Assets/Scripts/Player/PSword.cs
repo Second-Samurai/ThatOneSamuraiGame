@@ -87,6 +87,10 @@ public class PSword : MonoBehaviour
 
         RaycastHit hit;
         RaycastHit[] hitResult = Physics.RaycastAll(startPosition, rayDirection, 50f);
+        if(hitResult.Length == 0)
+        {
+            return this.transform.position;
+        }
         hit = hitResult.Where(x => x.collider.GetComponent<IDamageable>() != null && x.collider.GetComponent<IPlayerController>() == null).First();
 
         if (hit.collider == null)

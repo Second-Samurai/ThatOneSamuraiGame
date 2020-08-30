@@ -69,7 +69,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 236493706904972886}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.03
   m_Height: 0.75
   m_Direction: 1
@@ -914,6 +914,7 @@ GameObject:
   - component: {fileID: 4859386077817762498}
   - component: {fileID: 6172298693684681763}
   - component: {fileID: 8039654808727826465}
+  - component: {fileID: 1306912687601202513}
   m_Layer: 10
   m_Name: Swordsman
   m_TagString: Enemy
@@ -1017,6 +1018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ada7e2de23250543821ffcc013558cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyGuard: {fileID: 0}
 --- !u!195 &6522754280232175845
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1099,12 +1101,21 @@ MonoBehaviour:
   currentIndex: 0
   transformDataList: []
   thisTransform: {fileID: 0}
-  timeThreasholdVariable:
-    UseConstant: 1
-    ConstantValue: 0
-    Variable: {fileID: 11400000, guid: 775f2401269f70f4e8a0dd25dc9aa33a, type: 2}
   animationDataList: []
   animator: {fileID: 0}
+--- !u!114 &1306912687601202513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3425785415115621781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5d2b33ee34e7144aad7397ce0999ece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swordCollider: {fileID: 7417129179977977798}
 --- !u!1 &3459501116160272521
 GameObject:
   m_ObjectHideFlags: 0

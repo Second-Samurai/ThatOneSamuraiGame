@@ -21,10 +21,10 @@ public class PlayerFunctions : MonoBehaviour
 
     Animator _animator;
     PDamageController _pDamageController;
-    Rigidbody rb; 
+    Rigidbody rb;
+    public bool bIsDead = false;
 
-    
-
+    public GameObject rewindTut;
     private void Start()
     {
         _IKPuppet = GetComponent<IKPuppet>();
@@ -66,6 +66,9 @@ public class PlayerFunctions : MonoBehaviour
     {
         CheckBlockCooldown();
         CheckParry();
+        //remove this
+        if (bIsDead) rewindTut.SetActive(true);
+        else rewindTut.SetActive(false);
         
     }
 
@@ -127,6 +130,7 @@ public class PlayerFunctions : MonoBehaviour
         }
         else
         {
+            Debug.LogError(1);
             KillPlayer();
         }
 
@@ -152,9 +156,15 @@ public class PlayerFunctions : MonoBehaviour
 
     public void KillPlayer()
     {
-        //play anim
-        //trigger rewind
-        Debug.LogError("Player killed!");
+        if (!bIsDead)
+        {
+            //play anim
+            _animator.SetTrigger("Death");
+            _animator.SetBool("isDead", true);
+            //trigger rewind
+            bIsDead = true;
+            Debug.LogError("Player killed!");
+        }
     }
 
     public void DisableBlock()

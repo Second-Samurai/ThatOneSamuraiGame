@@ -827,6 +827,9 @@ GameObject:
   - component: {fileID: 998991882838057994}
   - component: {fileID: 6108884622922320191}
   - component: {fileID: 6522754280232175845}
+  - component: {fileID: 4859386077817762498}
+  - component: {fileID: 6172298693684681763}
+  - component: {fileID: 8039654808727826465}
   m_Layer: 10
   m_Name: Swordsman
   m_TagString: Enemy
@@ -928,6 +931,7 @@ MonoBehaviour:
   bIsIdle: 0
   bIsBlocking: 0
   enemySettings: {fileID: 11400000, guid: 8a3d28b117cd0421d98e5b33c8168471, type: 2}
+  navMeshAgent: {fileID: 0}
   floatOffset: {x: 0, y: 2, z: 0}
 --- !u!195 &6522754280232175845
 NavMeshAgent:
@@ -951,6 +955,67 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &4859386077817762498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3425785415115621781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: 0}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: 
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &6172298693684681763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3425785415115621781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22fbb3e342d31fa489ba9b812584c5a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTravelling: 0
+--- !u!114 &8039654808727826465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3425785415115621781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9235aef44d5755944bd7a6dd4a40110a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTravelling: 0
+  currentIndex: 0
+  transformDataList: []
+  thisTransform: {fileID: 0}
+  animationDataList: []
+  animator: {fileID: 0}
 --- !u!1 &3459501116160272521
 GameObject:
   m_ObjectHideFlags: 0

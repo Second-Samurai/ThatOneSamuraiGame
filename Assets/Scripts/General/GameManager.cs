@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Camera mainCamera;
     [HideInInspector] public EnemyTracker enemyTracker;
 
+    //UICanvases
+    [HideInInspector] public GameObject guardMeterCanvas;
+
     void Awake()
     {
         if (instance == null)
@@ -29,7 +32,7 @@ public class GameManager : MonoBehaviour
         }
 
         SetupSceneCamera();
-        //SetupPlayer();
+        SetupUI();
     }
 
     // Start is called before the first frame update
@@ -49,6 +52,11 @@ public class GameManager : MonoBehaviour
 
         //Add Post Processing
         Instantiate(gameSettings.dayPostProcessing, transform.position, Quaternion.identity);
+    }
+
+    void SetupUI()
+    {
+        guardMeterCanvas = Instantiate(gameSettings.guardCanvasPrefab, transform.position, Quaternion.identity);
     }
 
     void SetupPlayer()
@@ -77,6 +85,15 @@ public class GameManager : MonoBehaviour
         {
             enemyTracker.AddEnemy(enemy.transform);
         }
+    }
+
+    //POSSIBLY PARTITION INTO A UI MANAGER
+    public UIGuardMeter CreateEntityGuardMeter(Transform entityTransform, StatHandler entityStatHandler)
+    {
+        UIGuardMeter guardMeter = Instantiate(gameSettings.guardMeterPrefab, guardMeterCanvas.transform).GetComponent<UIGuardMeter>();
+        guardMeter.Init(entityTransform, entityStatHandler, mainCamera, guardMeterCanvas.GetComponent<RectTransform>());
+        Debug.Log(">> GameManager: Guard Meter Added");
+        return guardMeter;
     }
 
 }

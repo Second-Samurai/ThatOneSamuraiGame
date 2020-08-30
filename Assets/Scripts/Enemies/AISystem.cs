@@ -4,13 +4,19 @@ using Enemy_Scripts;
 using UnityEngine;
 using UnityEngine.AI;
 
+public interface IEnemyStates
+{
+    void OnEnemyStun();
+    void OnApproachPlayer();
+}
+
 namespace Enemies
 {
     // AI SYSTEM INFO
     // AISystem is responsible for receiving calls to tell the enemy what to perform. It should also
     // Be responsible for storing enemy data (i.e. Guard meter, remaining guard etc.) BUT
     // any enemy behaviours should be handled through the state machine
-    public class AISystem : EnemyStateMachine
+    public class AISystem : EnemyStateMachine, IEnemyStates
     {
         #region Fields and Properties
 

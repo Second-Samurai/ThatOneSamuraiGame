@@ -22,6 +22,11 @@ public class CameraRewindEntity : RewindEntity
 
         }
 
+        if (isTravelling) 
+        { 
+        
+        }
+
     }
     
     public new void RecordPast()

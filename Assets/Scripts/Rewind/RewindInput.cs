@@ -74,7 +74,7 @@ public class RewindInput : MonoBehaviour
     }
 
 
-    void OnScrub(InputValue value) 
+    void OnScrub(InputValue value)
     {
 
         rewindDirection = value.Get<float>();

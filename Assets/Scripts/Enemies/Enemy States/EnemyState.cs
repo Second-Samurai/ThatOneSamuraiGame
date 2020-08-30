@@ -37,9 +37,9 @@ namespace Enemies.Enemy_States
             
         }
 
-        protected void PositionTowardsPlayer(Transform transform, Vector3 target)
+        protected void PositionTowardsTarget(Transform transform, Vector3 target)
         {
-            if (AISystem.GetPlayerFound())
+            if (AISystem.bPlayerFound)
             {
                 // Look at the target to move into their direction
                 transform.LookAt(target);

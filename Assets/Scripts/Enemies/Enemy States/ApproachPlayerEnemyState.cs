@@ -17,14 +17,18 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            AISystem.animator.SetBool("IsApproaching", true);
+            
+            // Set player to be found in AISystem
+            AISystem.bPlayerFound = true;
+            AISystem.animator.SetBool("PlayerFound", true);
+            
+            // Get stopApproachRange, target object and current enemy transform
             _stopApproachingRange = AISystem.enemySettings.stopApproachingRange;
-            AISystem.SetPlayerFound(true);
-            AISystem.SetApproaching(true);
-
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             _transform = AISystem.transform;
 
-            PositionTowardsPlayer(_transform, _target);
+            PositionTowardsTarget(_transform, _target);
             
             yield break;
         }
@@ -46,7 +50,7 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
-            AISystem.SetApproaching(false);
+            AISystem.animator.SetBool("IsApproaching", false);
                 
             // TODO: Change to circling, for demo purposes the enemy will just swing to attack
             AISystem.OnLightAttack();

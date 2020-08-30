@@ -17,6 +17,7 @@ public class UIGuardMeter : MonoBehaviour
 
     private Vector3 _entityDir;
     private Vector3 _cameraForward;
+    private Vector3 _entityPosition;
     private Vector2 _screenPosition;
 
     private bool _canStayOff = true;
@@ -112,7 +113,10 @@ public class UIGuardMeter : MonoBehaviour
     //
     public void SetMeterPosition()
     {
-        _screenPosition = RectTransformUtility.WorldToScreenPoint(mainCamera, _entityTransform.position);
+        _entityPosition = _entityTransform.position;
+        _entityPosition.y += 3.5f;
+
+        _screenPosition = RectTransformUtility.WorldToScreenPoint(mainCamera, _entityPosition);
         _scaledXPos = parentCanvasRect.rect.width * (_screenPosition.x / Screen.width) * 1;
         _scaledYPos = parentCanvasRect.rect.height * (_screenPosition.y / Screen.height) * 1;
 

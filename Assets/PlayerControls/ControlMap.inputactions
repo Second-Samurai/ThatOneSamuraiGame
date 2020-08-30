@@ -99,7 +99,23 @@
                     "id": "49a3647a-04d7-4753-9c18-a0dfb073b98b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold(duration=1.5),Press"
+                    "interactions": "Press"
+                },
+                {
+                    "name": "ToggleLockLeft",
+                    "type": "Button",
+                    "id": "bd0d209c-7483-408c-a191-99172ebbb538",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "ToggleLockRight",
+                    "type": "Button",
+                    "id": "5661c98b-a309-46eb-a33a-5d0c715004c2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
                 }
             ],
             "bindings": [
@@ -419,6 +435,50 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "ReleaseLockOn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7ce452a9-9034-40a7-8c4b-138d4c515200",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ToggleLockLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2082f3f7-03f8-42eb-815f-a5d89470f492",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ToggleLockLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "21ee589b-97f0-4fe1-a5df-1b5c266a9596",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ToggleLockRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0621afc2-aee6-44b0-8e00-8deaa209351f",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ToggleLockRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

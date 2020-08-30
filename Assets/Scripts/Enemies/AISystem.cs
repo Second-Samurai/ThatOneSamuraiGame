@@ -1,27 +1,38 @@
 ﻿using System;
-using DG.Tweening;
-using Enemy_Scripts.Enemy_States;
+using Enemies.Enemy_States;
+using Enemy_Scripts;
 using UnityEngine;
+using UnityEngine.AI;
 
-namespace Enemy_Scripts
+public interface IEnemyStates
+{
+    void OnEnemyStun();
+    void OnApproachPlayer();
+}
+
+namespace Enemies
 {
     // AI SYSTEM INFO
     // AISystem is responsible for receiving calls to tell the enemy what to perform. It should also
     // Be responsible for storing enemy data (i.e. Guard meter, remaining guard etc.) BUT
     // any enemy behaviours should be handled through the state machine
-    public class AISystem : EnemyStateMachine
+    public class AISystem : EnemyStateMachine, IEnemyStates
     {
         #region Fields and Properties
 
-        //TODO: Remove later once more polish is done. These are just placeholders to test enemy states 
-        public bool bIsIdle = false;
-        public bool bIsLightAttacking = false;
-        public bool bIsBlocking = false;
-        public bool bIsApproaching = false;
-        public Material enemyMaterial;
-
         //ENEMY SETTINGS [See EntityStatData for list of stats]
         public EnemySettings enemySettings; // Taken from EnemySettings Scriptable object in start
+        private EnemyTracker _enemyTracker;
+        
+        //ANIMATOR
+        public Animator animator;
+        public bool bPlayerFound = false;
+        
+        //NAVMESH
+        public NavMeshAgent navMeshAgent;
+        
+        //DAMAGE CONTROLS
+        private EDamageController _eDamageController;
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
         //because the player's origin point is on the floor
@@ -29,44 +40,90 @@ namespace Enemy_Scripts
         
         #endregion
 
-        #region Basic Functions
+        #region Unity Monobehaviour Functions
 
         private void Start()
         {
             // Grab the enemy settings from the Game Manager > Game Settings > Enemy Settings
             enemySettings = GameManager.instance.gameSettings.enemySettings;
-            
-            //Start the enemy in an idle state
+
+            // Start the enemy in an idle state
             SetState(new IdleEnemyState(this));
+            
+            // Set up animator parameters
+            animator = GetComponent<Animator>();
+            animator.SetFloat("ApproachSpeedMultiplier", enemySettings.enemyData.moveSpeed);
+            
+            // Set up nav mesh parameters
+            navMeshAgent = GetComponent<NavMeshAgent>();
+            
+            // Set up Damage Controller
+            _eDamageController = GetComponent<EDamageController>();
+            StatHandler statHandler = new StatHandler(); // Stat handler = stats that can be modified
+            statHandler.Init(enemySettings.enemyData); // enemySettings.enemyData = initial scriptable objects values
+            _eDamageController.Init(statHandler);
+            _eDamageController.EnableDamage();
         }
         
-        private void Update()
+        protected new void Update()
         {
-            //TODO: Remove these ifs later once more polish is done. These are just placeholders to test enemy states
-            if (bIsIdle)
-            {
-                bIsIdle = false;
-                OnIdle();
-            }
-            if (bIsLightAttacking)
-            {
-                bIsLightAttacking = false;
-                OnLightAttack();
-            }
-            if (bIsBlocking)
-            {
-                bIsBlocking = false;
-                OnBlock();
-            }
-            if (bIsApproaching)
-            {
-                bIsApproaching = false;
-                OnApproachPlayer();
-            }
+            base.Update();
         }
 
         #endregion
+        
+        #region Enemy Utility Funcitons
 
+        public float GetAnimationLength(string animationName)
+        {
+            AnimationClip animationClip = new AnimationClip();
+            bool bFoundClip = false;
+            
+            foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips)
+            {
+                if (clip.name == animationName)
+                {
+                    animationClip = clip;
+                    bFoundClip = true;
+                    break;
+                }
+            }
+
+            if (bFoundClip)
+            {
+                return animationClip.length;
+            }
+            else
+            {
+                Debug.LogWarning("Animation " + animationName + " could not be found");
+                return 0;
+            }
+        }
+        
+        public void ApplyHit(GameObject attacker)
+        {
+            // if (bIsParrying)
+            // {
+            //     TriggerParry(attacker); 
+            // }
+            // else if (bIsBlocking)
+            // {
+            //     TriggerBlock(attacker); 
+            // }
+            // else
+            // {
+            //     KillPlayer();
+            // }
+            if(attacker.GetComponent<AISystem>())
+                Debug.Log("Friendly Fire hit");
+            else if (attacker.GetComponent<PlayerController>())
+                Debug.Log("Enemy dead");
+            else
+                Debug.LogWarning("Unknown attacker");
+        }
+
+        #endregion
+        
         // ENEMY STATE SWITCHING INFO
         // Any time an enemy gets a combat maneuver called, their state will switch
         // Upon switching states, they override the EnemyState Start() method to perform their action
@@ -129,7 +186,7 @@ namespace Enemy_Scripts
 
         public void OnEnemyStun()
         {
-            
+            SetState(new EnemyStunState(this));
         }
 
         public void OnEnemyRecovery()
@@ -139,7 +196,7 @@ namespace Enemy_Scripts
 
         public void OnEnemyDeath()
         {
-            
+            SetState(new EnemyDeathState(this));
         }
 
         #endregion

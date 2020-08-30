@@ -112,6 +112,7 @@ public class PlayerFunctions : MonoBehaviour
             dodgeTimer -= Time.deltaTime;
             yield return null;
         }
+        EnableBlock();
     }
 
     public void ApplyHit(GameObject attacker)
@@ -159,12 +160,14 @@ public class PlayerFunctions : MonoBehaviour
     public void DisableBlock()
     {
         bCanBlock = false;
-        Debug.LogWarning("off");
+        //Debug.LogWarning("off");
+
+        _IKPuppet.DisableIK();
     }
 
     public void EnableBlock()
     {
         bCanBlock = true;
-        Debug.LogWarning("on");
+        //Debug.LogWarning("on");
     }
 }

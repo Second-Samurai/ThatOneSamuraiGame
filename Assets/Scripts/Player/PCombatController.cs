@@ -20,7 +20,10 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     private int _comboHits;
 
     private bool _isInputBlocked = false;
-    private bool _isAttacking = false;
+    public bool _isAttacking = false;
+    private PlayerInput _playerInput;
+    private PlayerFunctions _functions;
+    public Collider attackCol;
 
     public void Init(StatHandler playerStats) {
         this._playerStats = playerStats;
@@ -29,6 +32,9 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
 
         _playerSword = this.GetComponentInChildren<PSword>();
         _playerSword.SetParentTransform(this.gameObject.transform);
+        _playerInput = GetComponent<PlayerInput>();
+        _functions = GetComponent<PlayerFunctions>();
+        attackCol = GetComponentInChildren<BoxCollider>();
     }
      
 
@@ -39,10 +45,13 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         _comboHits++;
         _comboHits = Mathf.Clamp(_comboHits, 0, 4);
         _chargeTime = 0;
-        if(!_isAttacking)
+        if (!_isAttacking)
+        {
             comboTracker.RegisterInput();
-        _animator.SetTrigger("AttackLight");
+            _animator.SetTrigger("AttackLight");
+        }
         _animator.SetInteger("ComboCount", _comboHits);
+
     }
 
     private void HeavyAttack()
@@ -71,6 +80,8 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     public void BeginAttacking()
     {
         _isAttacking = true;
+        _functions.DisableBlock();
+        attackCol.enabled = true;
     }
 
     //Summary: Calls the sword's Slash creation func triggered by animation event.
@@ -85,6 +96,8 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     public void EndAttacking()
     {
         _isAttacking = false;
+        _functions.EnableBlock();
+        attackCol.enabled = false;
     }
 
     private void DetectCollision()

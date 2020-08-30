@@ -16,12 +16,15 @@ public class PlayerInput : MonoBehaviour
     public Transform target;
     Rigidbody rb;
     PDamageController _pDamageController;
+    PCombatController _pCombatController;
 
     float dodgeForce = 10f;
 
     float _turnSmoothVelocity;
 
     bool _bDodgeCache = false;
+    public bool bCanBlock = true;
+    public bool bOverrideMovement = false;
      
     private void Start()
     {
@@ -31,6 +34,7 @@ public class PlayerInput : MonoBehaviour
         _playerCombat = this.GetComponent<IPlayerCombat>();
         rb = GetComponent<Rigidbody>();
         _pDamageController = GetComponent<PDamageController>();
+        _pCombatController = GetComponent<PCombatController>();
     }
 
     void OnMovement(InputValue dir) 
@@ -59,21 +63,36 @@ public class PlayerInput : MonoBehaviour
         }
         else
         {
-            _camControl.LockOn();
-        }
- 
-    }
-
-    void OnReleaseLockOn()
-    {
-        if (bLockedOn)
-        {
             bLockedOn = false;
             _camControl.UnlockCam();
             _animator.SetBool("LockedOn", bLockedOn);
             _camControl.bLockedOn = bLockedOn;
         }
+ 
     }
+
+    void OnToggleLockLeft()
+    {
+        if (bLockedOn) _camControl.LockOn();
+    }
+
+    void OnToggleLockRight()
+    {
+        if (bLockedOn) _camControl.LockOn();
+    }
+
+    
+
+    //void OnReleaseLockOn()
+    //{
+    //    if (bLockedOn)
+    //    {
+    //        bLockedOn = false;
+    //        _camControl.UnlockCam();
+    //        _animator.SetBool("LockedOn", bLockedOn);
+    //        _camControl.bLockedOn = bLockedOn;
+    //    }
+    //}
 
     //NOTE: The combat component requires to be instantiated early. Suggest input script to be instantated late.
     private void OnAttack(InputValue value)
@@ -94,7 +113,8 @@ public class PlayerInput : MonoBehaviour
 
     void OnStartBlock()
     {
-        _functions.StartBlock();
+        if(bCanBlock)
+            _functions.StartBlock();
     }
 
     void OnEndBlock()
@@ -107,10 +127,15 @@ public class PlayerInput : MonoBehaviour
         if (_inputVector != Vector2.zero && !bIsDodging && bCanDodge)
         {
             _animator.SetTrigger("Dodge");
-            StopCoroutine("DodgeImpulse");
-            StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
+            if (bLockedOn)
+            {
+                StopCoroutine("DodgeImpulse");
+                StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
+            }
             if (_functions.bCanBlock == false)
                 _functions.EnableBlock();
+            _functions.DisableBlock();
+            bOverrideMovement = false;
         }
         else if (_inputVector != Vector2.zero && !bIsDodging && !bCanDodge)
         {
@@ -166,6 +191,12 @@ public class PlayerInput : MonoBehaviour
 
             _animator.SetFloat("InputSpeed", _inputVector.magnitude, smoothingValue, Time.deltaTime);
 
+            if (bOverrideMovement)
+            {
+                transform.Translate(_direction * 3 * Time.deltaTime);
+                //StartCoroutine(_functions.DodgeImpulse(transform.forward, 3));
+            }
+
         }
         lastVector = _inputVector;
     }
@@ -184,11 +215,20 @@ public class PlayerInput : MonoBehaviour
         _pDamageController.EnableDamage();
     }
 
+    public void OverrideMovement()
+    {
+        bOverrideMovement = true;
+    }
+    public void RemoveOverride()
+    {
+        bOverrideMovement = false;
+    }
+
     public void LockMoveInput()
     {
         if (!bMoveLocked)
         {
-            Debug.LogWarning("Start Dodge");
+            //Debug.LogWarning("Start Dodge");
             bMoveLocked = true;
             StartDodging();
         }
@@ -198,7 +238,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (bMoveLocked)
         {
-            Debug.LogWarning("End Dodge");
+            //Debug.LogWarning("End Dodge");
             bMoveLocked = false; 
             if (_inputVector != _cachedVector && _cachedVector != Vector2.zero)
             {
@@ -220,5 +260,17 @@ public class PlayerInput : MonoBehaviour
     {
         if (Keyboard.current.pKey.wasPressedThisFrame)
             Test();
+    }
+
+    public void ResetDodge()
+    {
+        bCanDodge = true;
+      
+    }
+
+    public void BlockDodge()
+    {
+        bCanDodge = false;
+     
     }
 }

@@ -6,8 +6,9 @@ using UnityEngine.Events;
 public class Guarding : MonoBehaviour
 {
     public bool canGuard = true;
-    public bool isStunned = false; //This is temporary make state when possible
+    public bool isStunned = false;
 
+    public IEnemyStates enemyStates; //Might need to rename the interface better
     [HideInInspector] public StatHandler statHandler;
     [HideInInspector] public UnityEvent OnGuardEvent = new UnityEvent();
 
@@ -18,6 +19,8 @@ public class Guarding : MonoBehaviour
         GameManager gameManager = GameManager.instance;
         UIGuardMeter guardMeter = gameManager.CreateEntityGuardMeter(this.transform, statHandler);
         OnGuardEvent.AddListener(guardMeter.UpdateGuideMeter);
+
+        enemyStates = this.GetComponent<IEnemyStates>();
     }
 
     //Summary: Runs guard and checks if it can guard
@@ -59,6 +62,10 @@ public class Guarding : MonoBehaviour
         isStunned = true;
         canGuard = false;
         StartCoroutine(AwaitNextDamage(6));
+
+        //Create state
+        Debug.Log(">> Guarding: Now in enemy stun state");
+        enemyStates.OnEnemyStun();
     }
 
     private IEnumerator AwaitNextDamage(float time)
@@ -76,13 +83,10 @@ public class Guarding : MonoBehaviour
 
     private IEnumerator GuardCoolDown(float time)
     {
-        //float timer = time;
         float coolVal = (statHandler.maxGuard - statHandler.CurrentGuard / time) * Time.deltaTime;
 
         while (statHandler.CurrentGuard < statHandler.maxGuard)
         {
-            //timer -= Time.deltaTime;
-            //RestoreGuard(lerpTime);
             statHandler.CurrentGuard += coolVal;
             OnGuardEvent.Invoke();
             yield return null;
@@ -91,7 +95,15 @@ public class Guarding : MonoBehaviour
         Debug.Log("Guard has been RESTORED");
         statHandler.CurrentGuard = statHandler.maxGuard;
         OnGuardEvent.Invoke();
-        isStunned = false; //Switch back to active attack state
+
+        if(canGuard == false)
+        {
+            //Switch back to active attack state
+            //Debug.Log(">> Guarding: Now in approach player state");
+            //enemyStates.OnApproachPlayer();
+        }
+
+        isStunned = false;
         canGuard = true;
     }
 }

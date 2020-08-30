@@ -13,7 +13,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
     }
     CurrentState currentState;
     Vector3 lastDirection, shotDirection;
-    public float attackRange = 20f, shotTimer = 0f, shotFrequency = 2f, aimDuration = 1f, aimCounter = 0f;
+    public float attackRange = 20f, shotTimer = 0f, shotFrequency = 2f, aimDuration = .5f, aimCounter = 0f;
     public LineRenderer lineRenderer;
 
     public GameObject arrow;
@@ -68,7 +68,8 @@ public class BasicArcher : MonoBehaviour, IDamageable
             {
                 if(aimCounter >= aimDuration)
                 {
-                    GameObject _arrow = Instantiate(arrow, shotOrigin.position, Quaternion.identity);
+                    GameObject _arrow = ObjectPooler.instance.ReturnObject("Arrow");
+                    //GameObject _arrow = Instantiate(arrow, shotOrigin.position, Quaternion.identity);
                     _arrow.transform.position = shotOrigin.position;
                     _arrow.GetComponent<Projectile>().Launch(shotDirection);
                     anim.SetTrigger("Fire");

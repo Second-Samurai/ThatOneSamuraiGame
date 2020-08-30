@@ -11,7 +11,9 @@ public class EnemySettings : ScriptableObject
     public EntityStatData enemyData;
 
     public float stopApproachingRange;
-    
+
+    public float followUpAttackRange;
+
     // Scriptable object items saved in runtime are to be made private
     private Transform _target;
 

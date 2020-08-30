@@ -9,6 +9,19 @@ public class EnemySettings : ScriptableObject
 
     [Space]
     public EntityStatData enemyData;
+
+    public float stopApproachingRange;
     
-    public Transform target;
+    // Scriptable object items saved in runtime are to be made private
+    private Transform _target;
+
+    public Transform GetTarget()
+    {
+        return _target;
+    }
+
+    public void SetTarget(Transform target)
+    {
+        _target = target;
+    }
 }

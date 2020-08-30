@@ -1,5 +1,5 @@
 ﻿using System;
-using Enemy_Scripts.Enemy_States;
+using Enemies.Enemy_States;
 using UnityEngine;
 
 namespace Enemy_Scripts
@@ -22,10 +22,13 @@ namespace Enemy_Scripts
             StartCoroutine(EnemyState.BeginState());
         }
 
-        private void Update()
+        protected void Update()
         {
             // Only run Tick() if enemy state is not null
-            EnemyState?.Tick();
+            if (EnemyState != null)
+            {
+                EnemyState.Tick();
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ public class CameraRewindEntity : RewindEntity
 
     // FUNCTIONALITY NEEDS TO BE ADDED
     public List<CameraTimeData> cameraDataList;
+
     // Start is called before the first frame update
     protected new void Start()
     {

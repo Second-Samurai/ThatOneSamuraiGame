@@ -9,7 +9,7 @@ public class CameraControl : MonoBehaviour
     LockOnTargetManager _lockedCamScript;
     public GameObject unlockedCam, lockedCam;
     Vector2 rotationVector;
-    public Transform lockOnTarget, player;
+    public Transform lockOnTarget, player, lockOnNullDummy;
     public bool bLockedOn = false;
     public EnemyTracker enemyTracker;
     PlayerInput _playerInput;
@@ -62,6 +62,7 @@ public class CameraControl : MonoBehaviour
             _lockedCamScript.cam.Priority = 11;
             cinematicBars.ShowBars(200f, .3f);
         }
+
     }
 
     public void UnlockCam()
@@ -82,29 +83,39 @@ public class CameraControl : MonoBehaviour
         {
             enemyTracker = GameManager.instance.enemyTracker;
         }
-
-        foreach (Transform enemy in enemyTracker.currentEnemies)
+        if (enemyTracker.currentEnemies.Count > 0)
         {
-            float distance = Vector3.Distance(player.position, enemy.position);
-            if (distance < closest && enemy != lockOnTarget)
-            { 
-                closest = distance;
-                nextEnemy = enemy; 
+            foreach (Transform enemy in enemyTracker.currentEnemies)
+            {
+                float distance = Vector3.Distance(player.position, enemy.position);
+                if (distance < closest && enemy != lockOnTarget)
+                {
+                    closest = distance;
+                    nextEnemy = enemy;
+                }
             }
-        }
 
-        if (nextEnemy != lockOnTarget)
-        {
-            lockOnTarget = nextEnemy;
-            _playerInput.target = lockOnTarget;
+            if (nextEnemy != lockOnTarget)
+            {
+                lockOnTarget = nextEnemy;
+                _playerInput.target = lockOnTarget;
+            }
+
+            if (lockOnTarget != null)
+            {
+                SetTarget(lockOnTarget);
+                bLockedOn = true;
+            }
+            return bLockedOn;
         }
-        
-        if (lockOnTarget != null)
+        else
         {
-            SetTarget(lockOnTarget);
+            
+            _playerInput.target = lockOnNullDummy;
+            SetTarget(lockOnNullDummy);
             bLockedOn = true;
+            return bLockedOn;
         }
-        return bLockedOn;
     }
 
 }

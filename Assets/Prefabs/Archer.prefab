@@ -2139,6 +2139,8 @@ GameObject:
   - component: {fileID: 7234922115759954019}
   - component: {fileID: 7234922115759954016}
   - component: {fileID: 1077441570}
+  - component: {fileID: 1084155100}
+  - component: {fileID: 1084155101}
   m_Layer: 0
   m_Name: Archer
   m_TagString: Enemy
@@ -2214,6 +2216,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   shotOrigin: {fileID: 5233075012213559319}
+  currentState: 0
+  lastDirection: {x: 0, y: 0, z: 0}
+  shotDirection: {x: 0, y: 0, z: 0}
   attackRange: 20
   shotTimer: 0
   shotFrequency: 2
@@ -2334,6 +2339,55 @@ CapsuleCollider:
   m_Height: 1.7616823
   m_Direction: 1
   m_Center: {x: 0.069022425, y: 0.8258706, z: 0.0505117}
+--- !u!114 &1084155100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7234922115759954020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc369a88d2730dc4e812432fc0aa290f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTravelling: 0
+  currentIndex: 0
+  transformDataList: []
+  thisTransform: {fileID: 0}
+  animationDataList: []
+  animator: {fileID: 0}
+--- !u!114 &1084155101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7234922115759954020}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 924a5fc00dcd6f741b39deeb1870810a,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Gameplay
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &7406341646570769472
 GameObject:
   m_ObjectHideFlags: 0

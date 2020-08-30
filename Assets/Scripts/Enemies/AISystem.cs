@@ -21,6 +21,7 @@ namespace Enemies
 
         //ENEMY SETTINGS [See EntityStatData for list of stats]
         public EnemySettings enemySettings; // Taken from EnemySettings Scriptable object in start
+        private EnemyTracker _enemyTracker;
         private bool _bPlayerFound = false;
         
         //ANIMATOR
@@ -32,13 +33,13 @@ namespace Enemies
         
         #endregion
 
-        #region Basic Functions and Utility
+        #region Unity Monobehaviour Functions
 
         private void Start()
         {
             // Grab the enemy settings from the Game Manager > Game Settings > Enemy Settings
             enemySettings = GameManager.instance.gameSettings.enemySettings;
-            
+
             //Start the enemy in an idle state
             SetState(new IdleEnemyState(this));
             
@@ -73,7 +74,22 @@ namespace Enemies
 
             base.Update();
         }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Player") && _enemyTracker == null)
+            {
+                _enemyTracker = GameManager.instance.enemyTracker;
+                _enemyTracker.AddEnemy(this.transform);
+                
+                OnApproachPlayer();
+            }
+        }
+
+        #endregion
         
+        #region Enemy Utility Funcitons
+
         public bool GetPlayerFound()
         {
             return _bPlayerFound;
@@ -86,7 +102,7 @@ namespace Enemies
         }
 
         #endregion
-
+        
         // ENEMY STATE SWITCHING INFO
         // Any time an enemy gets a combat maneuver called, their state will switch
         // Upon switching states, they override the EnemyState Start() method to perform their action

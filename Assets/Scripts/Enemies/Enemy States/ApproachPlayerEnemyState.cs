@@ -7,6 +7,8 @@ namespace Enemies.Enemy_States
     public class ApproachPlayerEnemyState : EnemyState
     {
         private float _stopApproachingRange;
+        private Transform _transform;
+        private Vector3 _target;
         
         //Class constructor
         public ApproachPlayerEnemyState(AISystem aiSystem) : base(aiSystem)
@@ -18,6 +20,11 @@ namespace Enemies.Enemy_States
             _stopApproachingRange = AISystem.enemySettings.stopApproachingRange;
             AISystem.SetPlayerFound(true);
             AISystem.SetApproaching(true);
+
+            _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
+            _transform = AISystem.transform;
+
+            PositionTowardsPlayer(_transform, _target);
             
             yield break;
         }
@@ -25,14 +32,13 @@ namespace Enemies.Enemy_States
         public override void Tick()
         {
             // Get the true target point (float offset is added to get a more accurate player-enemy target point)
-            Vector3 target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            Transform transform = AISystem.transform;
+            _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
 
-            PositionTowardsPlayer(transform, target);
-            // Enemy movement itself is handled with root motion
+            // Enemy movement itself is handled with root motion and navMeshAgent set destination
+            AISystem.navMeshAgent.SetDestination(_target);
             
             // Change to circling state when close enough to the player
-            if (InRange(transform.position, target, _stopApproachingRange))
+            if (InRange(_transform.position, _target, _stopApproachingRange))
             {
                 EndState();
             }

@@ -5,6 +5,9 @@ namespace Enemies.Enemy_States
 {
     public class LightAttackEnemyState : EnemyState
     {
+        private Vector3 _target;
+        private Transform _transform;
+        
         //Class constructor
         public LightAttackEnemyState(AISystem aiSystem) : base(aiSystem)
         {
@@ -16,19 +19,25 @@ namespace Enemies.Enemy_States
             Debug.Log("is light attacking");
             
             // Get the true target point (float offset is added to get a more accurate player-enemy target point)
-            Vector3 target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            Transform transform = AISystem.transform;
+            _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
+            _transform = AISystem.transform;
             
-            PositionTowardsPlayer(transform, target);
+            PositionTowardsPlayer(_transform, _target);
             
             AISystem.SetLightAttacking(true);
             yield return new WaitForSeconds(2.0f);
+
+            EndState();
+        }
+
+        public override void EndState()
+        {
             AISystem.SetLightAttacking(false);
             
             // Check current distance to determine next action
-            target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
+            _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             
-            if (InRange(transform.position, target, AISystem.enemySettings.stopApproachingRange))
+            if (InRange(_transform.position, _target, AISystem.enemySettings.stopApproachingRange))
                 AISystem.OnLightAttack(); // Light attack again if close enough
             else
                 AISystem.OnApproachPlayer(); // Approach player if they are too far away

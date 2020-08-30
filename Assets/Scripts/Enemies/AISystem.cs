@@ -14,20 +14,19 @@ namespace Enemies
     {
         #region Fields and Properties
 
-        //TODO: Remove later once more polish is done. These are just placeholders to test enemy states 
-        public bool bIsIdle = false;
-        public bool bIsBlocking = false;
-
         //ENEMY SETTINGS [See EntityStatData for list of stats]
         public EnemySettings enemySettings; // Taken from EnemySettings Scriptable object in start
         private EnemyTracker _enemyTracker;
         
         //ANIMATOR
-        private Animator _animator;
-        private bool _bPlayerFound = false;
+        public Animator animator;
+        public bool bPlayerFound = false;
         
         //NAVMESH
         public NavMeshAgent navMeshAgent;
+        
+        //DAMAGE CONTROLS
+        private EDamageController _eDamageController;
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
         //because the player's origin point is on the floor
@@ -42,31 +41,26 @@ namespace Enemies
             // Grab the enemy settings from the Game Manager > Game Settings > Enemy Settings
             enemySettings = GameManager.instance.gameSettings.enemySettings;
 
-            //Start the enemy in an idle state
+            // Start the enemy in an idle state
             SetState(new IdleEnemyState(this));
             
-            //Set up animator parameters
-            _animator = GetComponent<Animator>();
-            _animator.SetFloat("ApproachSpeedMultiplier", enemySettings.enemyData.moveSpeed);
+            // Set up animator parameters
+            animator = GetComponent<Animator>();
+            animator.SetFloat("ApproachSpeedMultiplier", enemySettings.enemyData.moveSpeed);
             
-            //Set up nav mesh parameters
+            // Set up nav mesh parameters
             navMeshAgent = GetComponent<NavMeshAgent>();
+            
+            // Set up Damage Controller
+            _eDamageController = GetComponent<EDamageController>();
+            StatHandler statHandler = new StatHandler(); // Stat handler = stats that can be modified
+            statHandler.Init(enemySettings.enemyData); // enemySettings.enemyData = initial scriptable objects values
+            _eDamageController.Init(statHandler);
+            _eDamageController.EnableDamage();
         }
         
         protected new void Update()
         {
-            //TODO: Remove these ifs later once more polish is done. These are just placeholders to test enemy states
-            if (bIsIdle)
-            {
-                bIsIdle = false;
-                OnIdle();
-            }
-            if (bIsBlocking)
-            {
-                bIsBlocking = false;
-                OnBlock();
-            }
-
             base.Update();
         }
 
@@ -90,7 +84,7 @@ namespace Enemies
             AnimationClip animationClip = new AnimationClip();
             bool bFoundClip = false;
             
-            foreach (AnimationClip clip in _animator.runtimeAnimatorController.animationClips)
+            foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips)
             {
                 if (clip.name == animationName)
                 {
@@ -111,25 +105,26 @@ namespace Enemies
             }
         }
         
-        public bool GetPlayerFound()
+        public void ApplyHit(GameObject attacker)
         {
-            return _bPlayerFound;
-        }
-
-        public void SetPlayerFound(bool playerFound)
-        {
-            _bPlayerFound = playerFound;
-            _animator.SetBool("PlayerFound", playerFound);
-        }
-
-        public void SetLightAttacking(bool isLightAttacking)
-        {
-            _animator.SetBool("IsLightAttacking", isLightAttacking);
-        }
-        
-        public void SetApproaching(bool isApproaching)
-        {
-            _animator.SetBool("IsApproaching", isApproaching);
+            // if (bIsParrying)
+            // {
+            //     TriggerParry(attacker); 
+            // }
+            // else if (bIsBlocking)
+            // {
+            //     TriggerBlock(attacker); 
+            // }
+            // else
+            // {
+            //     KillPlayer();
+            // }
+            if(attacker.GetComponent<AISystem>())
+                Debug.Log("Friendly Fire hit");
+            else if (attacker.GetComponent<PlayerController>())
+                Debug.Log("Enemy dead");
+            else
+                Debug.LogWarning("Unknown attacker");
         }
 
         #endregion
@@ -196,7 +191,7 @@ namespace Enemies
 
         public void OnEnemyStun()
         {
-            
+            SetState(new EnemyStunState(this));
         }
 
         public void OnEnemyRecovery()
@@ -206,7 +201,7 @@ namespace Enemies
 
         public void OnEnemyDeath()
         {
-            
+            SetState(new EnemyDeathState(this));
         }
 
         #endregion

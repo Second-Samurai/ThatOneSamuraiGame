@@ -21,7 +21,10 @@ namespace Enemies
 
         //ENEMY SETTINGS [See EntityStatData for list of stats]
         public EnemySettings enemySettings; // Taken from EnemySettings Scriptable object in start
-        public bool bPlayerFound = false;
+        private bool _bPlayerFound = false;
+        
+        //ANIMATOR
+        private Animator _animator;
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
         //because the player's origin point is on the floor
@@ -29,7 +32,7 @@ namespace Enemies
         
         #endregion
 
-        #region Basic Functions
+        #region Basic Functions and Utility
 
         private void Start()
         {
@@ -38,6 +41,10 @@ namespace Enemies
             
             //Start the enemy in an idle state
             SetState(new IdleEnemyState(this));
+            
+            //Set up animator parameters
+            _animator = GetComponent<Animator>();
+            _animator.SetFloat("ApproachSpeedMultiplier", enemySettings.enemyData.moveSpeed);
         }
         
         protected new void Update()
@@ -65,6 +72,17 @@ namespace Enemies
             }
 
             base.Update();
+        }
+        
+        public bool GetPlayerFound()
+        {
+            return _bPlayerFound;
+        }
+
+        public void SetPlayerFound(bool playerFound)
+        {
+            _bPlayerFound = playerFound;
+            _animator.SetBool("PlayerFound", playerFound);
         }
 
         #endregion

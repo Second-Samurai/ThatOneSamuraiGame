@@ -57,7 +57,7 @@ public class AnimationRewindEntity : RewindEntity
         animationDataList.Insert(0, new AnimationTimeData(animator.GetCurrentAnimatorStateInfo(0).normalizedTime, m_CurrentClipInfo[0].clip.name, 
                                                                     animator.GetFloat("InputSpeed"), animator.GetFloat("XInput"), animator.GetFloat("XInput"), animator.GetBool("LockedOn")));
        
-        Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + "   :   " + m_CurrentClipInfo[0].clip.name);
+        //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + "   :   " + m_CurrentClipInfo[0].clip.name);
         
         base.RecordPast();
     }

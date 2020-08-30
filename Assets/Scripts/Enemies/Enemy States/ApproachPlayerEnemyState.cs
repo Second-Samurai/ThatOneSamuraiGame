@@ -16,8 +16,8 @@ namespace Enemies.Enemy_States
             // TODO: Remove placeholder data
             Debug.Log("is approching");
 
-            AISystem.bPlayerFound = true;
-
+            AISystem.SetPlayerFound(true);
+            
             yield break;
         }
 
@@ -25,14 +25,17 @@ namespace Enemies.Enemy_States
         {
             // Get the true target point (float offset is added to get a more accurate player-enemy target point)
             Vector3 target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            
-            // Get enemy speed data
-            float step = AISystem.enemySettings.enemyData.moveSpeed * Time.deltaTime;
+            Transform transform = AISystem.transform;
 
-            if (AISystem.bPlayerFound)
+            if (AISystem.GetPlayerFound())
             {
-                AISystem.transform.position = Vector3.MoveTowards(AISystem.transform.position, target, step);
-                Debug.Log("Enemy is approaching player");
+                // Look at the target to move into their direction
+                transform.LookAt(target);
+                //Ignore the X and Z rotations
+                transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+                
+                // Enemy movement is handled with root motion
+                
             }
         }
     }

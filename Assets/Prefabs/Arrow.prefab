@@ -50,7 +50,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5474719794975255004}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -91,7 +91,7 @@ SphereCollider:
   m_GameObject: {fileID: 5474719794975255004}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
@@ -110,8 +110,8 @@ MonoBehaviour:
   direction: {x: 0, y: 0, z: 0}
   active: 1
   hitEnemies: 0
-  renderer: {fileID: 0}
-  collider: {fileID: 0}
+  renderer: {fileID: 5474719794975255010}
+  collider: {fileID: 5474719794975255005}
 --- !u!54 &2318245124420116354
 Rigidbody:
   m_ObjectHideFlags: 0

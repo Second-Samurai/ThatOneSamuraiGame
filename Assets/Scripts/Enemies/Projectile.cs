@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour
 
     int damageAmount = 1;
 
-    float speed = 40f;
+    float speed = 80f;
 
     GameObject player;
     public Vector3 direction;
@@ -25,7 +25,7 @@ public class Projectile : MonoBehaviour
         //GameObject managerObject;
         //managerObject = GameObject.FindGameObjectWithTag("Manager");
         //manager = managerObject.GetComponent<GameManager>();
-        player = GameManager.instance.playerController.gameObject;
+       // player = GameManager.instance.playerController.gameObject;
 
         rb = GetComponent<Rigidbody>();
 
@@ -94,9 +94,9 @@ public class Projectile : MonoBehaviour
         {
             yield return new WaitForSeconds(delay);
         }
-        // DisableMethod();
-        //  ObjectPooler.instance.AddObject("Bullet", gameObject);
-        Destroy(this.gameObject);
+        DisableMethod();
+        ObjectPooler.instance.AddObject("Arrow", gameObject);
+       // Destroy(this.gameObject);
     }
 
     //disable

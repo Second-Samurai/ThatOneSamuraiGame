@@ -113,7 +113,7 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     private void OnTriggerEnter(Collider other)
     {
         if (!_isAttacking) return;
-        if (other.GetComponent<IPlayerController>() != null) return;
+       // if (other.GetComponent<IPlayerController>() != null) return;
 
         IDamageable attackEntity = other.GetComponent<IDamageable>();
         if (attackEntity == null) return;

@@ -11,9 +11,17 @@ public class RewindEntity : MonoBehaviour
     public Transform thisTransform;
 
     RewindInput _rewindInput;
-   
+
+    //[Header("TimeThreashold")]
+
+    //public TimeThreasholdReferance timeThreasholdVariable;
 
     // Start is called before the first frame update
+    //protected void Awake()
+    //{
+    //    timeThreasholdVariable.Variable.TimeThreashold = 10f;
+    //}
+
     protected void Start()
     {
         transformDataList = new List<PositionalTimeData>();
@@ -22,6 +30,8 @@ public class RewindEntity : MonoBehaviour
         _rewindInput = gameObject.GetComponent<RewindInput>();
         _rewindInput.StepForward += StepForward;
         _rewindInput.StepBack += StepBack;
+
+
     }
 
     // Update is called once per frame

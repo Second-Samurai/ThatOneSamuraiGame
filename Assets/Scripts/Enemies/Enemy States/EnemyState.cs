@@ -1,8 +1,9 @@
 ﻿using System.Collections;
-using DG.Tweening;
+using System.Runtime.CompilerServices;
+using Enemy_Scripts;
 using UnityEngine;
 
-namespace Enemy_Scripts.Enemy_States
+namespace Enemies.Enemy_States
 {
     // ENEMY STATE INFO
     // This acts as the connection between the state machine and states. All enemy states inherit from this class. Other
@@ -31,9 +32,25 @@ namespace Enemy_Scripts.Enemy_States
             
         }
 
-        public virtual IEnumerator EndState()
+        public virtual void EndState()
         {
-            yield break;
+            
+        }
+
+        protected void PositionTowardsPlayer(Transform transform, Vector3 target)
+        {
+            if (AISystem.GetPlayerFound())
+            {
+                // Look at the target to move into their direction
+                transform.LookAt(target);
+                //Ignore the X and Z rotations
+                transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+            }
+        }
+
+        protected bool InRange(Vector3 position, Vector3 targetPosition, float stopApproachingRange)
+        {
+            return Vector3.Distance(position, targetPosition) < stopApproachingRange;
         }
     }
 }

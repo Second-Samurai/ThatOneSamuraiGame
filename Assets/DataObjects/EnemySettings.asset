@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26bf5dc9244540148343bc0737052c6, type: 3}
   m_Name: EnemySettings
   m_EditorClassIdentifier: 
-  testEnemyData:
-    baseDamage: 20
+  enemyData:
+    baseDamage: 10
     maxHealth: 100
+    maxGuard: 3
+    currentGuard: 3
     moveSpeed: 1
-  target: {fileID: 8000690492512742470, guid: dffd8b7a96a9d0d4ab010cff1fd4ac94, type: 3}
+  stopApproachingRange: 3.8
+  followUpAttackRange: 3.6
+  rotationSpeed: 10

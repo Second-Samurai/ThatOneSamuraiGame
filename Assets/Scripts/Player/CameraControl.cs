@@ -78,6 +78,10 @@ public class CameraControl : MonoBehaviour
         float closest = Mathf.Infinity;
         Transform nextEnemy = null;
 
+        if (enemyTracker == null)
+        {
+            enemyTracker = GameManager.instance.enemyTracker;
+        }
 
         foreach (Transform enemy in enemyTracker.currentEnemies)
         {

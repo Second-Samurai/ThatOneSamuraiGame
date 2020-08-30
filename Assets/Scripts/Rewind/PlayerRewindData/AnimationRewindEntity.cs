@@ -12,17 +12,13 @@ public class AnimationRewindEntity : RewindEntity
     private Animator animator;
     public AnimatorClipInfo[] m_CurrentClipInfo;
 
-    // to be extracted;
-    private PlayerInput playerInput;
-
+ 
     // Start is called before the first frame update
     protected new void Start()
     {
         animationDataList = new List<AnimationTimeData>();
         animator = gameObject.GetComponent<Animator>();
 
-        // to be extracted
-        playerInput = gameObject.GetComponent<PlayerInput>();
         base.Start();
     }
 
@@ -55,9 +51,9 @@ public class AnimationRewindEntity : RewindEntity
 
         //move to animation rewind entity
         animationDataList.Insert(0, new AnimationTimeData(animator.GetCurrentAnimatorStateInfo(0).normalizedTime, m_CurrentClipInfo[0].clip.name, 
-                                                                    animator.GetFloat("InputSpeed"), animator.GetFloat("XInput"), animator.GetFloat("XInput"), animator.GetBool("LockedOn")));
+                                                                    animator.GetFloat("InputSpeed"), animator.GetFloat("XInput"), animator.GetFloat("YInput"), animator.GetBool("LockedOn"), 
+                                                                        animator.GetBool("VGuard"), animator.GetInteger("ComboCount"), animator.GetBool("FirstAttack"), animator.GetBool("SecondAttack"), animator.GetBool("LoopAttack")));
        
-        //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + "   :   " + m_CurrentClipInfo[0].clip.name);
         
         base.RecordPast();
     }
@@ -98,19 +94,13 @@ public class AnimationRewindEntity : RewindEntity
         animator.SetFloat("XInput", animationDataList[currentIndex].xInput);
         animator.SetFloat("YInput", animationDataList[currentIndex].yInput);
         animator.SetBool("LockedOn", animationDataList[currentIndex].lockedOn);
-        
-        //to be extracted
+        animator.SetBool("VGuard", animationDataList[currentIndex].vGuard);
+        animator.SetInteger("ComboCount", animationDataList[currentIndex].comboCount);
+        animator.SetBool("FirstAttack", animationDataList[currentIndex].firstAttack);
+        animator.SetBool("SecondAttack", animationDataList[currentIndex].secondAttack);
+        animator.SetBool("LoopAttack", animationDataList[currentIndex].loopAttack);
 
-        if (playerInput.bLockedOn != animationDataList[currentIndex].lockedOn)
-        {
-            playerInput.bLockedOn = animationDataList[currentIndex].lockedOn;
-            if (playerInput.bLockedOn)
-                playerInput._camControl.LockOn();
-            else 
-            {
-                playerInput._camControl.UnlockCam();
-            }
-        }
+
         base.SetPosition();
     }
 }

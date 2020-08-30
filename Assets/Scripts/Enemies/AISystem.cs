@@ -2,6 +2,7 @@
 using Enemies.Enemy_States;
 using Enemy_Scripts;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Enemies
 {
@@ -24,6 +25,9 @@ namespace Enemies
         //ANIMATOR
         private Animator _animator;
         private bool _bPlayerFound = false;
+        
+        //NAVMESH
+        public NavMeshAgent navMeshAgent;
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
         //because the player's origin point is on the floor
@@ -44,6 +48,9 @@ namespace Enemies
             //Set up animator parameters
             _animator = GetComponent<Animator>();
             _animator.SetFloat("ApproachSpeedMultiplier", enemySettings.enemyData.moveSpeed);
+            
+            //Set up nav mesh parameters
+            navMeshAgent = GetComponent<NavMeshAgent>();
         }
         
         protected new void Update()

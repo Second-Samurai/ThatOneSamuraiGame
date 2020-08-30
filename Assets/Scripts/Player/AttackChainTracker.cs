@@ -38,7 +38,8 @@ public class AttackChainTracker : MonoBehaviour
             //    _animator.SetBool("FirstAttack", true);
             //else
             //    _animator.SetBool("LoopAttack", true);
-            _input.bCanDodge = false;
+           // _input.bCanDodge = false;
+            //Debug.LogError("DodgeOff");
         }
         _inputCounter = Mathf.Clamp(_inputCounter, 0, 3);
     }
@@ -50,12 +51,14 @@ public class AttackChainTracker : MonoBehaviour
             //_animator.SetBool("SecondAttack", true);
             _animator.SetBool("LoopAttack", false);
             _animator.SetBool("FirstAttack", false);
+
         }
         else
         {
             _animator.SetBool("FirstAttack", false);
             _inputCounter = 0;
-            _input.bCanDodge = true;
+           // _input.bCanDodge = true;
+         //   Debug.LogError("DodgeOn1");
         }
     }
     public void CheckLoopCombo()
@@ -73,7 +76,8 @@ public class AttackChainTracker : MonoBehaviour
         {
             _animator.SetBool("SecondAttack", false);
             _inputCounter = 0;
-            _input.bCanDodge = true;
+          //  _input.bCanDodge = true;
+        //    Debug.LogError("DodgeOn2");
         }
     }
 
@@ -82,6 +86,7 @@ public class AttackChainTracker : MonoBehaviour
         _animator.SetBool("FirstAttack", false);
         _animator.SetBool("SecondAttack", false);
         _animator.SetBool("LoopAttack", false);
-        _input.bCanDodge = true;
+     //   _input.bCanDodge = true;
+        //Debug.LogError("DodgeOn");
     }
 }

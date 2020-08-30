@@ -225,7 +225,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (!bMoveLocked)
         {
-            Debug.LogWarning("Start Dodge");
+            //Debug.LogWarning("Start Dodge");
             bMoveLocked = true;
             StartDodging();
         }
@@ -235,7 +235,7 @@ public class PlayerInput : MonoBehaviour
     {
         if (bMoveLocked)
         {
-            Debug.LogWarning("End Dodge");
+            //Debug.LogWarning("End Dodge");
             bMoveLocked = false; 
             if (_inputVector != _cachedVector && _cachedVector != Vector2.zero)
             {
@@ -257,5 +257,17 @@ public class PlayerInput : MonoBehaviour
     {
         if (Keyboard.current.pKey.wasPressedThisFrame)
             Test();
+    }
+
+    public void ResetDodge()
+    {
+        bCanDodge = true;
+      
+    }
+
+    public void BlockDodge()
+    {
+        bCanDodge = false;
+     
     }
 }

@@ -93,6 +93,8 @@ public class CameraControl : MonoBehaviour
                     closest = distance;
                     nextEnemy = enemy;
                 }
+                if (nextEnemy == null && lockOnTarget != null)
+                    nextEnemy = lockOnTarget;
             }
 
             if (nextEnemy != lockOnTarget)

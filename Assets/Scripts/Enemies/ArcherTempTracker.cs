@@ -15,4 +15,13 @@ public class ArcherTempTracker : MonoBehaviour
              
         }
     }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player") && _enemyTracker == null)
+        {
+            _enemyTracker = GameManager.instance.enemyTracker;
+            _enemyTracker.RemoveEnemy(this.transform);
+
+        }
+    }
 }

@@ -89,7 +89,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
     public void OnEntityDamage(float damage, GameObject attacker)
     {
         anim.SetTrigger("Death");
-        col.enabled = false;
+        //col.enabled = false;
         currentState = CurrentState.Dead;
         Debug.LogError("I Am dead");
     }

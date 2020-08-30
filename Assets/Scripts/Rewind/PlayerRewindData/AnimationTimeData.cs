@@ -15,10 +15,11 @@ public class AnimationTimeData
     public bool firstAttack;
     public bool secondAttack;
     public bool loopAttack;
+    public bool isDead;
 
     // new anim params
 
-    public AnimationTimeData(float _currentFrame, string _currentClip, float _inputSpeed, float _xInput, float _yinput, bool _lockedOn, bool _vGuard, int _comboCount, bool _firstAttack, bool _secondAttack, bool _loopAttack)
+    public AnimationTimeData(float _currentFrame, string _currentClip, float _inputSpeed, float _xInput, float _yinput, bool _lockedOn, bool _vGuard, int _comboCount, bool _firstAttack, bool _secondAttack, bool _loopAttack, bool _isDead)
     {
         currentFrame = _currentFrame;
         currentClip = _currentClip;
@@ -31,10 +32,6 @@ public class AnimationTimeData
         firstAttack = _firstAttack;
         secondAttack = _secondAttack;
         loopAttack = _loopAttack;
-
-
-        
-
-
+        isDead = _isDead;  
     }
 }

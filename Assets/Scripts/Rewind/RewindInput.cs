@@ -73,6 +73,16 @@ public class RewindInput : MonoBehaviour
         }
     }
 
+    public void DeathRewind()
+    {
+        isTravelling = true;
+        rewindEntity.isTravelling = isTravelling;
+        // Debug.Log("rewinding");
+        if (isTravelling)
+        {
+            StartCoroutine("RewindCoroutine");
+        }
+    }
 
     void OnScrub(InputValue value)
     {

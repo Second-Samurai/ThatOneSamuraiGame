@@ -66,7 +66,7 @@ public class RewindInput : MonoBehaviour
         }
         isTravelling = !isTravelling;
         rewindEntity.isTravelling = isTravelling;
-        //Debug.Log("rewinding");
+        Debug.Log("rewinding");
         if (isTravelling) 
         {
             StartCoroutine("RewindCoroutine");    

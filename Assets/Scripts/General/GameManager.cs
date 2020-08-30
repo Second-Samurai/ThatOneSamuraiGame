@@ -35,8 +35,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SetupEnemies();
         SetupPlayer();
+        SetupEnemies();
     }
 
     void SetupSceneCamera()
@@ -46,6 +46,9 @@ public class GameManager : MonoBehaviour
 
         Vector3 mainCameraPos = gameSettings.mainCamera.transform.position;
         mainCamera = Instantiate(gameSettings.mainCamera, mainCameraPos, Quaternion.identity).GetComponent<Camera>();
+
+        //Add Post Processing
+        Instantiate(gameSettings.dayPostProcessing, transform.position, Quaternion.identity);
     }
 
     void SetupPlayer()
@@ -61,7 +64,7 @@ public class GameManager : MonoBehaviour
     void SetupEnemies()
     {
         enemyTracker = Instantiate(gameSettings.enemyManagerPrefab, transform.position, Quaternion.identity).GetComponent<EnemyTracker>();
-        gameSettings.enemySettings.target = gameSettings.playerPrefab.transform;
+        gameSettings.enemySettings.SetTarget(FindObjectOfType<PlayerController>().transform);
         
         //Sets up the test enemies for tracking
         SetupTestScene();

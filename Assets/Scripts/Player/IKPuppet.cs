@@ -19,14 +19,14 @@ public class IKPuppet : MonoBehaviour
     {
         //if (IKOn)
         //{
-            animator.SetIKPosition(AvatarIKGoal.RightHand, rHand.position);
-            animator.SetIKRotation(AvatarIKGoal.RightHand, rHand.rotation);
-            animator.SetIKPositionWeight(AvatarIKGoal.RightHand, IKWeight);
-            animator.SetIKRotationWeight(AvatarIKGoal.RightHand, IKWeight);
-            animator.SetIKPosition(AvatarIKGoal.LeftHand, lHand.position);
-            animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, IKWeight);
-            animator.SetIKRotation(AvatarIKGoal.LeftHand, lHand.rotation);
-            animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, IKWeight);
+        animator.SetIKPosition(AvatarIKGoal.RightHand, rHand.position);
+        animator.SetIKRotation(AvatarIKGoal.RightHand, rHand.rotation);
+        animator.SetIKPositionWeight(AvatarIKGoal.RightHand, IKWeight);
+        animator.SetIKRotationWeight(AvatarIKGoal.RightHand, IKWeight);
+        animator.SetIKPosition(AvatarIKGoal.LeftHand, lHand.position);
+        animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, IKWeight);
+        animator.SetIKRotation(AvatarIKGoal.LeftHand, lHand.rotation);
+        animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, IKWeight);
         //}
     }
 
@@ -35,7 +35,7 @@ public class IKPuppet : MonoBehaviour
         if (bCanIK)
         {
             IKOn = true;
-            IKTargetWeight = .8f;
+            IKTargetWeight = .5f;
         }
     }
     public void DisableIK() 

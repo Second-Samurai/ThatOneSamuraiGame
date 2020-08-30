@@ -34,11 +34,16 @@ namespace Enemies.Enemy_States
             // Change to circling state when close enough to the player
             if (InRange(transform.position, target, _stopApproachingRange))
             {
-                AISystem.SetApproaching(false);
-                
-                // TODO: Change to circling, for demo purposes the enemy will just swing to attack
-                AISystem.OnLightAttack();
+                EndState();
             }
+        }
+
+        public override void EndState()
+        {
+            AISystem.SetApproaching(false);
+                
+            // TODO: Change to circling, for demo purposes the enemy will just swing to attack
+            AISystem.OnLightAttack();
         }
     }
 }

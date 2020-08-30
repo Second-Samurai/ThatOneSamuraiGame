@@ -23,11 +23,7 @@ namespace Enemies
         
         //ANIMATOR
         private Animator _animator;
-        
-        //ENEMY BOOLS
         private bool _bPlayerFound = false;
-        private bool _bIsLightAttacking = false;
-        private bool _bIsApproaching = false;
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
         //because the player's origin point is on the floor
@@ -95,13 +91,11 @@ namespace Enemies
 
         public void SetLightAttacking(bool isLightAttacking)
         {
-            _bIsLightAttacking = isLightAttacking;
             _animator.SetBool("IsLightAttacking", isLightAttacking);
         }
         
         public void SetApproaching(bool isApproaching)
         {
-            _bIsApproaching = isApproaching;
             _animator.SetBool("IsApproaching", isApproaching);
         }
 

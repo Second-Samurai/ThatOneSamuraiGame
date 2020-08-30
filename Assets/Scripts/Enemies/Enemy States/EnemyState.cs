@@ -31,9 +31,9 @@ namespace Enemies.Enemy_States
             
         }
 
-        public virtual IEnumerator EndState()
+        public virtual void EndState()
         {
-            yield break;
+            
         }
 
         protected void PositionTowardsPlayer(Transform transform, Vector3 target)

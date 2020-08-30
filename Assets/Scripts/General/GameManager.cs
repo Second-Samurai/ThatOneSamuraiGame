@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
     public UIGuardMeter CreateEntityGuardMeter(Transform entityTransform, StatHandler entityStatHandler)
     {
         UIGuardMeter guardMeter = Instantiate(gameSettings.guardMeterPrefab, guardMeterCanvas.transform).GetComponent<UIGuardMeter>();
-        guardMeter.Init(entityTransform, entityStatHandler);
+        guardMeter.Init(entityTransform, entityStatHandler, mainCamera, guardMeterCanvas.GetComponent<RectTransform>());
         Debug.Log(">> GameManager: Guard Meter Added");
         return guardMeter;
     }

@@ -13,7 +13,7 @@ public class StatHandler
         this._currentGuard = currentData.maxGuard;
     }
 
-    //--------Health Related Variables--------
+    #region HEALTH RELATED VARIABLES
 
     public float maxHealth
     {
@@ -28,14 +28,18 @@ public class StatHandler
         {
             _currentHealth = value;
 
-            if (_currentHealth < 0)
-            {
+            if (_currentHealth < 0) {
                 _currentHealth = 0; //Ground value to zero
+            }
+            else if (_currentHealth > currentData.maxHealth) {
+                _currentHealth = currentData.maxHealth;
             }
         }
     }
 
-    //---------Guard Related Variables----------
+    #endregion
+
+    #region GUARD RELATED VARIABLES
 
     public float maxGuard
     {
@@ -50,17 +54,23 @@ public class StatHandler
         {
             _currentGuard = value;
 
-            if (_currentGuard < 0)
-            {
+            if (_currentGuard < 0){
                 _currentGuard = 0; //Ground value to zero
+            }
+            else if (_currentGuard > currentData.maxGuard){
+                _currentGuard = currentData.maxGuard;
             }
         }
     }
 
-    //---------Damage Related Variables---------
+    #endregion
+
+    #region DAMAGE RELATED VARIABLES
 
     public float baseDamage
     {
         get { return currentData.baseDamage;  }
     }
+
+    #endregion
 }

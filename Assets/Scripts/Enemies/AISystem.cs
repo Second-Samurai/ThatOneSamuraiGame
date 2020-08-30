@@ -15,17 +15,19 @@ namespace Enemies
 
         //TODO: Remove later once more polish is done. These are just placeholders to test enemy states 
         public bool bIsIdle = false;
-        public bool bIsLightAttacking = false;
         public bool bIsBlocking = false;
-        public bool bIsApproaching = false;
 
         //ENEMY SETTINGS [See EntityStatData for list of stats]
         public EnemySettings enemySettings; // Taken from EnemySettings Scriptable object in start
         private EnemyTracker _enemyTracker;
-        private bool _bPlayerFound = false;
         
         //ANIMATOR
         private Animator _animator;
+        
+        //ENEMY BOOLS
+        private bool _bPlayerFound = false;
+        private bool _bIsLightAttacking = false;
+        private bool _bIsApproaching = false;
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
         //because the player's origin point is on the floor
@@ -56,20 +58,10 @@ namespace Enemies
                 bIsIdle = false;
                 OnIdle();
             }
-            if (bIsLightAttacking)
-            {
-                bIsLightAttacking = false;
-                OnLightAttack();
-            }
             if (bIsBlocking)
             {
                 bIsBlocking = false;
                 OnBlock();
-            }
-            if (bIsApproaching)
-            {
-                bIsApproaching = false;
-                OnApproachPlayer();
             }
 
             base.Update();
@@ -99,6 +91,18 @@ namespace Enemies
         {
             _bPlayerFound = playerFound;
             _animator.SetBool("PlayerFound", playerFound);
+        }
+
+        public void SetLightAttacking(bool isLightAttacking)
+        {
+            _bIsLightAttacking = isLightAttacking;
+            _animator.SetBool("IsLightAttacking", isLightAttacking);
+        }
+        
+        public void SetApproaching(bool isApproaching)
+        {
+            _bIsApproaching = isApproaching;
+            _animator.SetBool("IsApproaching", isApproaching);
         }
 
         #endregion

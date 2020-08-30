@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Enemy_Scripts;
+using UnityEngine;
 
 namespace Enemies.Enemy_States
 {
@@ -33,6 +34,22 @@ namespace Enemies.Enemy_States
         public virtual IEnumerator EndState()
         {
             yield break;
+        }
+
+        protected void PositionTowardsPlayer(Transform transform, Vector3 target)
+        {
+            if (AISystem.GetPlayerFound())
+            {
+                // Look at the target to move into their direction
+                transform.LookAt(target);
+                //Ignore the X and Z rotations
+                transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+            }
+        }
+
+        protected bool InRange(Vector3 position, Vector3 targetPosition, float stopApproachingRange)
+        {
+            return Vector3.Distance(position, targetPosition) < stopApproachingRange;
         }
     }
 }

@@ -6,6 +6,8 @@ namespace Enemies.Enemy_States
 {
     public class ApproachPlayerEnemyState : EnemyState
     {
+        private float _stopApproachingRange;
+        
         //Class constructor
         public ApproachPlayerEnemyState(AISystem aiSystem) : base(aiSystem)
         {
@@ -13,10 +15,9 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            // TODO: Remove placeholder data
-            Debug.Log("is approching");
-
+            _stopApproachingRange = AISystem.enemySettings.stopApproachingRange;
             AISystem.SetPlayerFound(true);
+            AISystem.SetApproaching(true);
             
             yield break;
         }
@@ -27,15 +28,16 @@ namespace Enemies.Enemy_States
             Vector3 target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             Transform transform = AISystem.transform;
 
-            if (AISystem.GetPlayerFound())
+            PositionTowardsPlayer(transform, target);
+            // Enemy movement itself is handled with root motion
+            
+            // Change to circling state when close enough to the player
+            if (InRange(transform.position, target, _stopApproachingRange))
             {
-                // Look at the target to move into their direction
-                transform.LookAt(target);
-                //Ignore the X and Z rotations
-                transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+                AISystem.SetApproaching(false);
                 
-                // Enemy movement is handled with root motion
-                
+                // TODO: Change to circling, for demo purposes the enemy will just swing to attack
+                AISystem.OnLightAttack();
             }
         }
     }

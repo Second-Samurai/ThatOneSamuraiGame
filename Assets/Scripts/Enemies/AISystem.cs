@@ -78,6 +78,32 @@ namespace Enemies
         
         #region Enemy Utility Funcitons
 
+        public float GetAnimationLength(string animationName)
+        {
+            AnimationClip animationClip = new AnimationClip();
+            bool bFoundClip = false;
+            
+            foreach (AnimationClip clip in _animator.runtimeAnimatorController.animationClips)
+            {
+                if (clip.name == animationName)
+                {
+                    animationClip = clip;
+                    bFoundClip = true;
+                    break;
+                }
+            }
+
+            if (bFoundClip)
+            {
+                return animationClip.length;
+            }
+            else
+            {
+                Debug.LogWarning("Animation " + animationName + " could not be found");
+                return 0;
+            }
+        }
+        
         public bool GetPlayerFound()
         {
             return _bPlayerFound;

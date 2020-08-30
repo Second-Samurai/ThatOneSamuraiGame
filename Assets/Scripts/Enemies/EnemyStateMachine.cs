@@ -14,7 +14,7 @@ namespace Enemy_Scripts
     public class EnemyStateMachine : MonoBehaviour
     {
         // Breaking standard naming conventions for the sake of state naming
-        protected EnemyState EnemyState; // Holds the current enemy state
+        public EnemyState EnemyState; // Holds the current enemy state
 
         public void SetState(EnemyState newEnemyState)
         {

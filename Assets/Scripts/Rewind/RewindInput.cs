@@ -30,7 +30,7 @@ public class RewindInput : MonoBehaviour
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
             if (StepBack != null) StepBack();
-            Debug.Log(Time.timeScale);
+           // Debug.Log(Time.timeScale);
         }
 
         else if (isTravelling && rewindDirection > 0)
@@ -66,7 +66,7 @@ public class RewindInput : MonoBehaviour
         }
         isTravelling = !isTravelling;
         rewindEntity.isTravelling = isTravelling;
-        Debug.Log("rewinding");
+       // Debug.Log("rewinding");
         if (isTravelling) 
         {
             StartCoroutine("RewindCoroutine");    

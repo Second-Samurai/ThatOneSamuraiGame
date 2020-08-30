@@ -27,4 +27,10 @@ public class GameSettings : ScriptableObject
 
     [Space]
     public GameObject sparkFallOff01;
+
+    [Header("UI Prefabs")]
+    public GameObject guardCanvasPrefab;
+
+    [Space]
+    public GameObject guardMeterPrefab;
 }

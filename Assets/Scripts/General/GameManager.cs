@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Camera mainCamera;
     [HideInInspector] public EnemyTracker enemyTracker;
 
+    //UICanvases
+    [HideInInspector] public GameObject guardMeterCanvas;
+
     void Awake()
     {
         if (instance == null)
@@ -29,6 +32,7 @@ public class GameManager : MonoBehaviour
         }
 
         SetupSceneCamera();
+        SetupUI();
         //SetupPlayer();
     }
 
@@ -51,6 +55,11 @@ public class GameManager : MonoBehaviour
         Instantiate(gameSettings.dayPostProcessing, transform.position, Quaternion.identity);
     }
 
+    void SetupUI()
+    {
+        guardMeterCanvas = Instantiate(gameSettings.guardCanvasPrefab, transform.position, Quaternion.identity);
+    }
+
     void SetupPlayer()
     {
         Vector3 targetHolderPos = gameSettings.targetHolderPrefab.transform.position;
@@ -63,7 +72,8 @@ public class GameManager : MonoBehaviour
 
     void SetupEnemies()
     {
-        enemyTracker = Instantiate(gameSettings.enemyManagerPrefab, transform.position, Quaternion.identity).GetComponent<EnemyTracker>();
+        //enemyTracker = Instantiate(gameSettings.enemyManagerPrefab, transform.position, Quaternion.identity).GetComponent<EnemyTracker>();
+        enemyTracker = FindObjectOfType<EnemyTracker>();
         gameSettings.enemySettings.target = gameSettings.playerPrefab.transform;
         
         //Sets up the test enemies for tracking
@@ -77,6 +87,15 @@ public class GameManager : MonoBehaviour
         {
             enemyTracker.AddEnemy(enemy.transform);
         }
+    }
+
+    //POSSIBLY PARTITION INTO A UI MANAGER
+    public UIGuardMeter CreateEntityGuardMeter(Transform entityTransform, StatHandler entityStatHandler)
+    {
+        UIGuardMeter guardMeter = Instantiate(gameSettings.guardMeterPrefab, guardMeterCanvas.transform).GetComponent<UIGuardMeter>();
+        guardMeter.Init(entityTransform, entityStatHandler);
+        Debug.Log(">> GameManager: Guard Meter Added");
+        return guardMeter;
     }
 
 }

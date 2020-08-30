@@ -100,8 +100,11 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     private void OnTriggerEnter(Collider other)
     {
         if (!_isAttacking) return;
+
+        //Returns when the entity is itself the player
         if (other.GetComponent<IPlayerController>() != null) return;
 
+        //Collects IDamageable component of the entity
         IDamageable attackEntity = other.GetComponent<IDamageable>();
         if (attackEntity == null)
         {

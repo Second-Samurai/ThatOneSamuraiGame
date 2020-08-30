@@ -21,6 +21,8 @@ public class PSword : MonoBehaviour
         _swordmanTransform = parentTransform;
     }
 
+    //Summary: Creates particle slash effect when triggered
+    //
     public void CreateSlashEffect(float slashAngle)
     {
         //Sets position vector of sword
@@ -36,6 +38,8 @@ public class PSword : MonoBehaviour
         StartCoroutine(DestroyAfterTime(slash, 3f));
     }
 
+    //Summary: Creates impact efects during trigger collision
+    //
     public void CreateImpactEffect(Transform targetPosition, HitType type) //!!!! Might need to change to an enum driven effect
     {
         Vector3 impactPosition = Vector3.zero;
@@ -55,6 +59,8 @@ public class PSword : MonoBehaviour
         }
     }
 
+    //Summary: Creates particle effects relevant to player hitting damageable entity
+    //
     private void CreateDamageableImpact(Vector3 impactPosition, Vector3 impactRotation)
     {
         GameObject sparkImpact = Instantiate(_gameSettings.slashImpact01, impactPosition, Quaternion.Euler(impactRotation));
@@ -63,13 +69,15 @@ public class PSword : MonoBehaviour
         StartCoroutine(DestroyAfterTime(sparkFalloff, 4f));
     }
 
+    //Summary: Creates particle effects when hitting non damageable items
+    //
     private void CreateGeneralImpact(Vector3 impactPosition, Vector3 impactRotation)
     {
         GameObject sparkFalloff = Instantiate(_gameSettings.sparkFallOff01, impactPosition, Quaternion.Euler(impactRotation));
         StartCoroutine(DestroyAfterTime(sparkFalloff, 4f));
     }
 
-    //Summary: Uses raycast to determine the hitpoint from trigger impact
+    //Summary: Uses raycast to determine the hitpoint from player to target
     //
     private Vector3 RayCastToHitPoint(Transform hitTarget)
     {
@@ -90,6 +98,8 @@ public class PSword : MonoBehaviour
         return hit.point;
     }
 
+    //Summary: Destroys after the timer completes
+    //
     IEnumerator DestroyAfterTime(GameObject effect, float time)
     {
         float timer = time;

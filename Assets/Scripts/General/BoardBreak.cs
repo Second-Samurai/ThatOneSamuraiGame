@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BoardBreak : MonoBehaviour, IDamageable
 {
-    List<Rigidbody> boards = new List<Rigidbody>();
+    public List<Rigidbody> boards = new List<Rigidbody>();
     public BoxCollider thisCol;
 
     private void Start()

@@ -43,10 +43,11 @@ public class SwordsmanSwingTrigger : MonoBehaviour
     
     private IEnumerator DisableCollider()
     {
-        _swordCollider.enabled = false;
+        //_swordCollider.enabled = false;
         yield return new WaitForSeconds(colliderDelay);
-        _swordCollider.enabled = true;
+        //_swordCollider.enabled = true;
     }
     
-    
+  
+
 }

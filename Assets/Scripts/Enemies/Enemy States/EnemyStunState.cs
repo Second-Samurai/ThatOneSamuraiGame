@@ -18,6 +18,10 @@ namespace Enemies.Enemy_States
         {
             // Placeholder Behaviour, place actions here
             Debug.Log("EnemyState: Enemy is stunned");
+            
+            // Stop the navmesh pathfinding
+            AISystem.navMeshAgent.SetDestination(AISystem.transform.position);
+            AISystem.navMeshAgent.enabled = false;
 
             yield break;
         }

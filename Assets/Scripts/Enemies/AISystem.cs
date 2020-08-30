@@ -64,17 +64,6 @@ namespace Enemies
             base.Update();
         }
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.CompareTag("Player") && _enemyTracker == null)
-            {
-                _enemyTracker = GameManager.instance.enemyTracker;
-                _enemyTracker.AddEnemy(this.transform);
-                
-                OnApproachPlayer();
-            }
-        }
-
         #endregion
         
         #region Enemy Utility Funcitons

@@ -15,9 +15,15 @@ public class EDamageController : MonoBehaviour, IDamageable
     public void OnEntityDamage(float damage, GameObject attacker)
     {
         if (_isDamageDisabled) return;
-
-        Debug.Log("Entity damage for enemy");
-        aiSystem.ApplyHit(attacker);
+        
+        if (attacker.layer == LayerMask.NameToLayer("Player"))
+        {
+            aiSystem.ApplyHit(attacker);
+        }
+        else
+        {
+            Debug.Log(attacker.layer.ToString());
+        }
     }
 
     /* Summary: This disables the damage from this component.

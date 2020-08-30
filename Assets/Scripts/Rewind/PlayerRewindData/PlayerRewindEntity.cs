@@ -8,6 +8,8 @@ public class PlayerRewindEntity : AnimationRewindEntity
     public List<PlayerTimeData> playerDataList;
 
     private PlayerInput playerInput;
+
+
     // Start is called before the first frame update
     protected new void Start()
     {

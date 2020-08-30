@@ -9,6 +9,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
     public List<EnemyRewindData> enemyDataList;
 
     private AISystem aISystem;
+
     // Start is called before the first frame update
     protected new void Start()
     {

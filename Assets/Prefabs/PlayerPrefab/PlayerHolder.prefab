@@ -3660,6 +3660,7 @@ GameObject:
   - component: {fileID: 3595111642221714922}
   - component: {fileID: 1587125720}
   - component: {fileID: 256180852}
+  - component: {fileID: 7013484700549080453}
   - component: {fileID: 256180853}
   m_Layer: 9
   m_Name: Player
@@ -3923,8 +3924,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isTravelling: 0
   currentIndex: 0
+  transformDataList: []
   thisTransform: {fileID: 0}
+  timeThreasholdVariable:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 0}
   animator: {fileID: 0}
+--- !u!114 &7013484700549080453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7190348978030205702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f2d7738f76554c4ba1519c47cb0b2f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTravelling: 0
+  currentIndex: 0
+  transformDataList: []
+  thisTransform: {fileID: 0}
+  timeThreasholdVariable:
+    UseConstant: 1
+    ConstantValue: 0
+    Variable: {fileID: 11400000, guid: 775f2401269f70f4e8a0dd25dc9aa33a, type: 2}
 --- !u!114 &256180853
 MonoBehaviour:
   m_ObjectHideFlags: 0

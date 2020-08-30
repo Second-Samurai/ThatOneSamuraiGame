@@ -13,7 +13,7 @@ public class AnimationRewindEntity : RewindEntity
     public AnimatorClipInfo[] m_CurrentClipInfo;
 
     // to be extracted;
-    private PlayerInput playerInput;
+   // private PlayerInput playerInput;
 
     // Start is called before the first frame update
     protected new void Start()
@@ -22,7 +22,7 @@ public class AnimationRewindEntity : RewindEntity
         animator = gameObject.GetComponent<Animator>();
 
         // to be extracted
-        playerInput = gameObject.GetComponent<PlayerInput>();
+       // playerInput = gameObject.GetComponent<PlayerInput>();
         base.Start();
     }
 
@@ -101,16 +101,16 @@ public class AnimationRewindEntity : RewindEntity
         
         //to be extracted
 
-        if (playerInput.bLockedOn != animationDataList[currentIndex].lockedOn)
-        {
-            playerInput.bLockedOn = animationDataList[currentIndex].lockedOn;
-            if (playerInput.bLockedOn)
-                playerInput._camControl.LockOn();
-            else 
-            {
-                playerInput._camControl.UnlockCam();
-            }
-        }
+        //if (playerInput.bLockedOn != animationDataList[currentIndex].lockedOn)
+        //{
+        //    playerInput.bLockedOn = animationDataList[currentIndex].lockedOn;
+        //    if (playerInput.bLockedOn)
+        //        playerInput._camControl.LockOn();
+        //    else 
+        //    {
+        //        playerInput._camControl.UnlockCam();
+        //    }
+        //}
         base.SetPosition();
     }
 }

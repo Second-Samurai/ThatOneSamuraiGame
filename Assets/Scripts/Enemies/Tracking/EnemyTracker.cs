@@ -12,7 +12,10 @@ public class EnemyTracker : MonoBehaviour
 
     public void AddEnemy(Transform enemy)
     {
-        currentEnemies.Add(enemy);
+        if (!currentEnemies.Contains(enemy))
+        {
+            currentEnemies.Add(enemy);
+        }
     }
 
     public void RemoveEnemy(Transform enemy)

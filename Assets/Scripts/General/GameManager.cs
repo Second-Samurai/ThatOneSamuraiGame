@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
         TestStaticTarget[] testEnemies = FindObjectsOfType<TestStaticTarget>();
         foreach (TestStaticTarget enemy in testEnemies)
         {
-            enemyTracker.AddEnemy(enemy.transform);
+            enemyTracker.AddEnemy(enemy.GetComponentInParent<Rigidbody>().gameObject.transform);
         }
     }
 

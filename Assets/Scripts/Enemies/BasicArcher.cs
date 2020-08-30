@@ -23,7 +23,8 @@ public class BasicArcher : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        player = GameManager.instance.playerController.gameObject.transform;
+        if(GameManager.instance.playerController != null)
+            player = GameManager.instance.playerController.gameObject.transform;
       //  lineRenderer = GetComponent<LineRenderer>();
     }
 
@@ -91,7 +92,12 @@ public class BasicArcher : MonoBehaviour, IDamageable
         anim.SetTrigger("Death");
         //col.enabled = false;
         currentState = CurrentState.Dead;
-        Debug.LogError("I Am dead");
+        //Debug.LogError("I Am dead");
+        
+        EnemyTracker enemyTracker = GameManager.instance.enemyTracker;
+        enemyTracker.RemoveEnemy(transform);
+        
+        Invoke("HideArcher", 2.0f);
     }
 
     public void DisableDamage()
@@ -102,6 +108,11 @@ public class BasicArcher : MonoBehaviour, IDamageable
     public void EnableDamage()
     {
          
+    }
+
+    private void HideArcher()
+    {
+        gameObject.SetActive(false);
     }
 
    

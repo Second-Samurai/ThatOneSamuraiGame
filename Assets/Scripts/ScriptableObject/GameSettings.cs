@@ -21,4 +21,16 @@ public class GameSettings : ScriptableObject
 
     [Header("Sword Effects")]
     public GameObject swordSlash01;
+
+    [Header("Spark Effects")]
+    public GameObject slashImpact01;
+
+    [Space]
+    public GameObject sparkFallOff01;
+
+    [Header("UI Prefabs")]
+    public GameObject guardCanvasPrefab;
+
+    [Space]
+    public GameObject guardMeterPrefab;
 }

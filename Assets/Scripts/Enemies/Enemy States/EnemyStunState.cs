@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+public interface ICheck {
+    string GetName();
+}
+
 namespace Enemies.Enemy_States
 {
     public class EnemyStunState : EnemyState
@@ -13,7 +17,7 @@ namespace Enemies.Enemy_States
         public override IEnumerator BeginState()
         {
             // Placeholder Behaviour, place actions here
-            Debug.Log("is stunned");
+            Debug.Log("EnemyState: Enemy is stunned");
 
             yield break;
         }

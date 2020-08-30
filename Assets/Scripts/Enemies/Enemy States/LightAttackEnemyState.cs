@@ -15,13 +15,14 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            // Get the true target point (float offset is added to get a more accurate player-enemy target point)
+            // Get the target object and current enemy transform
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             _transform = AISystem.transform;
             
-            PositionTowardsPlayer(_transform, _target);
+            PositionTowardsTarget(_transform, _target);
 
-            AISystem.SetLightAttacking(true);
+            AISystem.animator.SetBool("IsLightAttacking", true);
+            
             yield return new WaitForSeconds(AISystem.GetAnimationLength("SwordsmanLightAttack"));
 
             EndState();
@@ -29,7 +30,7 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
-            AISystem.SetLightAttacking(false);
+            AISystem.animator.SetBool("IsLightAttacking", false);
             
             // Check current distance to determine next action
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;

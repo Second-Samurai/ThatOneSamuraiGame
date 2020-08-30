@@ -56,11 +56,15 @@
             <e p="CamFollow.cs" t="Include" />
           </e>
           <e p="Enemies" t="Include">
+            <e p="AddToTracker.cs" t="Include" />
             <e p="AISystem.cs" t="Include" />
+            <e p="EDamageController.cs" t="Include" />
             <e p="Enemy States" t="Include">
               <e p="ApproachPlayerEnemyState.cs" t="Include" />
               <e p="BlockEnemyState.cs" t="Include" />
+              <e p="EnemyDeathState.cs" t="Include" />
               <e p="EnemyState.cs" t="Include" />
+              <e p="EnemyStunState.cs" t="Include" />
               <e p="IdleEnemyState.cs" t="Include" />
               <e p="LightAttackEnemyState.cs" t="Include" />
             </e>
@@ -93,8 +97,22 @@
             </e>
           </e>
           <e p="Rewind" t="Include">
-            <e p="AnimationRewindEntity.cs" t="Include" />
-            <e p="AnimationTimeData.cs" t="Include" />
+            <e p="AIRewindData" t="Include">
+              <e p="AIAnimationRewindEntity.cs" t="Include" />
+              <e p="AIAnimationTimeData.cs" t="Include" />
+              <e p="EnemyRewindData.cs" t="Include" />
+              <e p="EnemyRewindEntity.cs" t="Include" />
+            </e>
+            <e p="CameraRewindData" t="Include">
+              <e p="CameraRewindEntity.cs" t="Include" />
+              <e p="CameraTimeData.cs" t="Include" />
+            </e>
+            <e p="PlayerRewindData" t="Include">
+              <e p="AnimationRewindEntity.cs" t="Include" />
+              <e p="AnimationTimeData.cs" t="Include" />
+              <e p="PlayerRewindEntity.cs" t="Include" />
+              <e p="PlayerTimeData.cs" t="Include" />
+            </e>
             <e p="PositionalTimeData.cs" t="Include" />
             <e p="RewindEntity.cs" t="Include" />
             <e p="RewindInput.cs" t="Include" />

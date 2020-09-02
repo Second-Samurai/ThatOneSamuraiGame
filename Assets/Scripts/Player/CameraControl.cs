@@ -120,4 +120,29 @@ public class CameraControl : MonoBehaviour
         }
     }
 
+    public IEnumerator RollCam()
+    {
+        while(_lockedCamScript.cam.m_Lens.Dutch > -10)
+        {
+            _lockedCamScript.cam.m_Lens.Dutch -= Time.deltaTime * 3f;
+            _lockedCamScript.cam.m_Lens.FieldOfView -= Time.deltaTime * 3f;
+            yield return null;
+        }
+    }
+
+    public IEnumerator ResetCamRoll()
+    {
+        while (_lockedCamScript.cam.m_Lens.Dutch < 0)
+        {
+            _lockedCamScript.cam.m_Lens.Dutch += Time.deltaTime * 30f;
+            if (_lockedCamScript.cam.m_Lens.FieldOfView < 40)
+            {
+                _lockedCamScript.cam.m_Lens.FieldOfView += Time.deltaTime * 100f;
+            }
+            else _lockedCamScript.cam.m_Lens.FieldOfView = 40f;
+            yield return null;
+        }
+        _lockedCamScript.cam.m_Lens.Dutch = 0f;
+    }
+
 }

@@ -109,6 +109,14 @@ public class PlayerInput : MonoBehaviour
             Debug.Log(">> Light attack Triggered");
             _playerCombat.RunLightAttack();
         }
+
+        if (_animator.GetBool("HeavyAttackHeld")) _animator.SetBool("HeavyAttackHeld", false);
+    }
+
+    void OnStartHeavy()
+    {
+        if (!_animator.GetBool("HeavyAttackHeld"))
+            _animator.SetBool("HeavyAttackHeld", true);
     }
 
     void OnStartBlock()

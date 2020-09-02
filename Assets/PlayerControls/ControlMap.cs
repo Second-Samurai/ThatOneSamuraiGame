@@ -129,6 +129,14 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""StartHeavy"",
+                    ""type"": ""Button"",
+                    ""id"": ""29d73101-4da2-4199-99f3-8f4d7d6cd25e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=0.6,pressPoint=0.5),Press""
                 }
             ],
             ""bindings"": [
@@ -494,6 +502,17 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""action"": ""ToggleLockRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""17ad6dd6-9a2a-4a9e-9dfa-bf9f27fa785b"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""StartHeavy"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -544,6 +563,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         m_Gameplay_ReleaseLockOn = m_Gameplay.FindAction("ReleaseLockOn", throwIfNotFound: true);
         m_Gameplay_ToggleLockLeft = m_Gameplay.FindAction("ToggleLockLeft", throwIfNotFound: true);
         m_Gameplay_ToggleLockRight = m_Gameplay.FindAction("ToggleLockRight", throwIfNotFound: true);
+        m_Gameplay_StartHeavy = m_Gameplay.FindAction("StartHeavy", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -607,6 +627,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_ReleaseLockOn;
     private readonly InputAction m_Gameplay_ToggleLockLeft;
     private readonly InputAction m_Gameplay_ToggleLockRight;
+    private readonly InputAction m_Gameplay_StartHeavy;
     public struct GameplayActions
     {
         private @ControlMap m_Wrapper;
@@ -625,6 +646,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         public InputAction @ReleaseLockOn => m_Wrapper.m_Gameplay_ReleaseLockOn;
         public InputAction @ToggleLockLeft => m_Wrapper.m_Gameplay_ToggleLockLeft;
         public InputAction @ToggleLockRight => m_Wrapper.m_Gameplay_ToggleLockRight;
+        public InputAction @StartHeavy => m_Wrapper.m_Gameplay_StartHeavy;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -676,6 +698,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @ToggleLockRight.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToggleLockRight;
                 @ToggleLockRight.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToggleLockRight;
                 @ToggleLockRight.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToggleLockRight;
+                @StartHeavy.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStartHeavy;
+                @StartHeavy.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStartHeavy;
+                @StartHeavy.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStartHeavy;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -722,6 +747,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @ToggleLockRight.started += instance.OnToggleLockRight;
                 @ToggleLockRight.performed += instance.OnToggleLockRight;
                 @ToggleLockRight.canceled += instance.OnToggleLockRight;
+                @StartHeavy.started += instance.OnStartHeavy;
+                @StartHeavy.performed += instance.OnStartHeavy;
+                @StartHeavy.canceled += instance.OnStartHeavy;
             }
         }
     }
@@ -760,5 +788,6 @@ public class @ControlMap : IInputActionCollection, IDisposable
         void OnReleaseLockOn(InputAction.CallbackContext context);
         void OnToggleLockLeft(InputAction.CallbackContext context);
         void OnToggleLockRight(InputAction.CallbackContext context);
+        void OnStartHeavy(InputAction.CallbackContext context);
     }
 }

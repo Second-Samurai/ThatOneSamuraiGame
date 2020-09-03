@@ -14,6 +14,7 @@ public class ButtonController : MonoBehaviour
         menu.SetActive(false);
         
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void QuitGame() 

@@ -23,6 +23,7 @@ namespace Enemies
 
         //ENEMY SETTINGS [See EntityStatData for list of stats]
         public EnemySettings enemySettings; // Taken from EnemySettings Scriptable object in start
+        public StatHandler statHandler;
         private EnemyTracker _enemyTracker;
         
         //ANIMATOR
@@ -61,7 +62,7 @@ namespace Enemies
             
             // Set up Damage Controller
             _eDamageController = GetComponent<EDamageController>();
-            StatHandler statHandler = new StatHandler(); // Stat handler = stats that can be modified
+            statHandler = new StatHandler(); // Stat handler = stats that can be modified
             statHandler.Init(enemySettings.enemyData); // enemySettings.enemyData = initial scriptable objects values
             _eDamageController.Init(statHandler);
             _eDamageController.EnableDamage();

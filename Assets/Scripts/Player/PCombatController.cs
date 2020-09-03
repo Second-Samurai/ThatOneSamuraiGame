@@ -8,23 +8,31 @@ public interface IPlayerCombat {
     void RunLightAttack();
     void BlockCombatInputs();
     void UnblockCombatInputs();
+    void SheathSword();
+    void UnsheathSword();
 }
 
 public class PCombatController : MonoBehaviour, IPlayerCombat
 {
-    private StatHandler _playerStats;
-    private Animator _animator;
-    public AttackChainTracker comboTracker;
-    private PSword _playerSword;
-    private float _chargeTime;
-    private int _comboHits;
-
-    private bool _isInputBlocked = false;
+    //Public variables
     public bool _isAttacking = false;
-    private PlayerInput _playerInput;
-    private PlayerFunctions _functions;
+
+    public AttackChainTracker comboTracker;
     public Collider attackCol;
 
+    //Private Variables
+    private PlayerInput _playerInput;
+    private PlayerFunctions _functions;
+    private StatHandler _playerStats;
+    private Animator _animator;
+    private PSword _playerSword;
+
+    private float _chargeTime;
+    private int _comboHits;
+    private bool _isInputBlocked = false;
+
+    // Summary: Initialises references and values on spawn
+    //
     public void Init(StatHandler playerStats) {
         this._playerStats = playerStats;
         this._animator = this.GetComponent<Animator>();
@@ -37,7 +45,9 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         attackCol = GetComponentInChildren<BoxCollider>();
     }
      
-
+    /// <summary>
+    /// Primary method for running Light Attacks.
+    /// </summary>
     public void RunLightAttack()
     {
         if (_isInputBlocked) return;
@@ -60,6 +70,7 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     }
 
     //Summary: Resets the AttackCombo after 'Animation Event' has finished.
+    //
     public void ResetAttackCombo() {
         _animator.ResetTrigger("AttackLight");
         _comboHits = 0;
@@ -73,6 +84,16 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     public void UnblockCombatInputs()
     {
         _isInputBlocked = false;
+    }
+
+    public void SheathSword()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void UnsheathSword()
+    {
+        throw new System.NotImplementedException();
     }
 
     //Summary: Enabled collision detection to apply damage to hit target.
@@ -98,11 +119,6 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         _isAttacking = false;
         _functions.EnableBlock();
         attackCol.enabled = false;
-    }
-
-    private void DetectCollision()
-    {
-
     }
 
     private float CalculateDamage()

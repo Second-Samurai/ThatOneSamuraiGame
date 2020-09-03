@@ -8,6 +8,7 @@ public class GameSettings : ScriptableObject
     [Header("Settings")]
     public PlayerSettings playerSettings;
     public EnemySettings enemySettings;
+    public InputSettings inputSettings;
 
     [Header("Camera Objects")]
     public GameObject thirdPersonViewCam;

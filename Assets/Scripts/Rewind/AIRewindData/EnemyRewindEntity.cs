@@ -39,7 +39,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         }
 
         //move to arguments need to be added rewind entity
-        enemyDataList.Insert(0, new EnemyRewindData(aISystem.EnemyState));
+        enemyDataList.Insert(0, new EnemyRewindData(aISystem.EnemyState, aISystem.statHandler));
 
         base.RecordPast();
     }
@@ -71,8 +71,13 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
 
     public new void SetPosition()
     {
-        aISystem.SetState(enemyDataList[currentIndex].enemyState);
+        aISystem.statHandler = enemyDataList[currentIndex].statHandler;
         // needs to set the enemy targeting
         base.SetPosition();
+    }
+
+    public void ApplyData() 
+    {
+        aISystem.SetState(enemyDataList[currentIndex].enemyState);
     }
 }

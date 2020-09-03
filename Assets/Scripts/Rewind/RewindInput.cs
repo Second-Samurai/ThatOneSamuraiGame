@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Enemies;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -17,11 +18,17 @@ public class RewindInput : MonoBehaviour
     private RewindEntity rewindEntity;
     WaitForSecondsRealtime wait = new WaitForSecondsRealtime(.05f);
 
+    private EnemyTracker enemyTracker;
+
+    
     // Start is called before the first frame update
     void Start()
     {
         rewindEntity = gameObject.GetComponent<RewindEntity>();
+        enemyTracker = GameManager.instance.enemyTracker;
+        Debug.LogWarning(enemyTracker);
     }
+
 
     IEnumerator RewindCoroutine() 
     {
@@ -60,15 +67,27 @@ public class RewindInput : MonoBehaviour
 
     void OnInitRewind() 
     {
+        //checking if true
         if (isTravelling)
         {
             rewindEntity.ResetTimeline();
+            for (int i = 0; i < enemyTracker.currentEnemies.Count; i++)
+            {
+                enemyTracker.currentEnemies[i].gameObject.GetComponent<EnemyRewindEntity>().ApplyData();
+            }
         }
         isTravelling = !isTravelling;
+
+        //if you start rewinding BUT you where not initially rewinding this shit triggers
         rewindEntity.isTravelling = isTravelling;
        // Debug.Log("rewinding");
         if (isTravelling) 
         {
+
+            for (int i = 0; i < enemyTracker.currentEnemies.Count; i++) 
+            {
+                enemyTracker.currentEnemies[i].gameObject.GetComponent<AISystem>().OnEnemyRewind();
+            }
             StartCoroutine("RewindCoroutine");    
         }
     }

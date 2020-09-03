@@ -19,7 +19,8 @@ namespace Enemies
     // any enemy behaviours should be handled through the state machine
     public class AISystem : EnemyStateMachine, IEnemyStates
     {
-        #region Fields and Properties
+        
+#region Fields and Properties
 
         //ENEMY SETTINGS [See EntityStatData for list of stats]
         public EnemySettings enemySettings; // Taken from EnemySettings Scriptable object in start
@@ -42,7 +43,6 @@ namespace Enemies
         public Vector3 floatOffset = Vector3.up * 2.0f;
         
         #endregion
-
         #region Unity Monobehaviour Functions
 
         private void Start()
@@ -221,6 +221,12 @@ namespace Enemies
         public void OnEnemyDeath()
         {
             SetState(new EnemyDeathState(this));
+        }
+
+        public void OnEnemyRewind() 
+        {
+            SetState(new EnemyRewindState(this));
+
         }
 
         #endregion

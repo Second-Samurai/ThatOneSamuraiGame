@@ -87,7 +87,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
         }
     }
 
-    public void OnEntityDamage(float damage, GameObject attacker)
+    public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
         anim.SetTrigger("Death");
         //col.enabled = false;

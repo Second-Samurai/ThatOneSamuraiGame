@@ -274,7 +274,7 @@ public class PlayerInput : MonoBehaviour
 
     public void Test()
     {
-        _pDamageController.OnEntityDamage(1, this.gameObject);
+        _pDamageController.OnEntityDamage(1, this.gameObject, false);
     }
 
     private void Update()

@@ -36,7 +36,7 @@ public class SwordsmanSwingTrigger : MonoBehaviour
             }
             else
             {
-                damagable.OnEntityDamage(_aiSystem.enemySettings.enemyData.baseDamage, this.gameObject);
+                damagable.OnEntityDamage(_aiSystem.enemySettings.enemyData.baseDamage, this.gameObject, false);
             }
         }
     }

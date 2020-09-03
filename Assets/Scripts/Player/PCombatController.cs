@@ -113,7 +113,6 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     private void OnTriggerEnter(Collider other)
     {
         if (!_isAttacking) return;
-
         //Returns when the entity is itself the player
         if (other.GetComponent<IPlayerController>() != null) return;
 
@@ -126,6 +125,6 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         }
 
         if(!other.gameObject.CompareTag("Boards")) _playerSword.CreateImpactEffect(other.transform, HitType.DamageableTarget);
-        attackEntity.OnEntityDamage(CalculateDamage(), this.gameObject);
+        attackEntity.OnEntityDamage(CalculateDamage(), this.gameObject, false);
     }
 }

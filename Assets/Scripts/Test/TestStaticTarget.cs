@@ -42,7 +42,7 @@ public class TestStaticTarget : MonoBehaviour, IDamageable
         //Not needed
     }
 
-    public void OnEntityDamage(float damage, GameObject attacker)
+    public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
         if (!isDamageEnabled) return;
         /*if (canGuard && !isStunned)

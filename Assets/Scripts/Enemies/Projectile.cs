@@ -63,7 +63,7 @@ public class Projectile : MonoBehaviour
             }
             else
             {
-                damagable.OnEntityDamage(damageAmount, this.gameObject);
+                damagable.OnEntityDamage(damageAmount, this.gameObject, false);
                 StartCoroutine(Die(0f));
             }
         }
@@ -77,7 +77,7 @@ public class Projectile : MonoBehaviour
         else if (damagable != null && hitEnemies)
         {
 
-            damagable.OnEntityDamage(damageAmount, this.gameObject);
+            damagable.OnEntityDamage(damageAmount, this.gameObject, false);
             StartCoroutine(Die(0f));
 
         }

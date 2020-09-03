@@ -10,13 +10,19 @@ public class AIAnimationTimeData
     public bool bPlayerFound;
     public bool bIsLightAttacking;
     public bool bIsApproaching;
+    public bool bIsGuardBroken;
+    public bool bIsDead;
 
-    public AIAnimationTimeData(float _currentFrame, string _currentClip, bool b_PlayerFound, bool b_IsLightAttacking, bool b_IsApproaching) 
+
+
+    public AIAnimationTimeData(float _currentFrame, string _currentClip, bool b_PlayerFound, bool b_IsLightAttacking, bool b_IsApproaching, bool _IsGuardBroken, bool _IsDead) 
     {
         currentFrame = _currentFrame;
         currentClip = _currentClip;
         bPlayerFound = b_PlayerFound;
         bIsLightAttacking = b_IsLightAttacking;
         bIsApproaching = b_IsApproaching;
+        bIsGuardBroken = _IsGuardBroken;
+        bIsDead = _IsDead;
     }
 }

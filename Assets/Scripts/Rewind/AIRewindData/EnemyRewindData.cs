@@ -7,9 +7,11 @@ using UnityEngine;
 public class EnemyRewindData
 {
     public EnemyState enemyState;
+    public StatHandler statHandler;
 
-    public EnemyRewindData(EnemyState _enemyState) 
+    public EnemyRewindData(EnemyState _enemyState, StatHandler _statHandler) 
     {
         enemyState = _enemyState;
+        statHandler = _statHandler;
     }
 }

@@ -53,7 +53,7 @@ public class AIAnimationRewindEntity : RewindEntity
 
         //move to animation rewind entity
         animationDataList.Insert(0, new AIAnimationTimeData(animator.GetCurrentAnimatorStateInfo(0).normalizedTime, m_CurrentClipInfo[0].clip.name,
-                                                                     animator.GetBool("PlayerFound"), animator.GetBool("IsLightAttacking"), animator.GetBool("IsApproaching")));
+                                                                     animator.GetBool("PlayerFound"), animator.GetBool("IsLightAttacking"), animator.GetBool("IsApproaching"), animator.GetBool("IsGuardBroken"), animator.GetBool("IsDead")));
 
         //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + "   :   " + m_CurrentClipInfo[0].clip.name);
 
@@ -95,6 +95,8 @@ public class AIAnimationRewindEntity : RewindEntity
         animator.SetBool("PlayerFound", animationDataList[currentIndex].bPlayerFound);
         animator.SetBool("IsLightAttacking", animationDataList[currentIndex].bIsLightAttacking);
         animator.SetBool("IsApproaching", animationDataList[currentIndex].bIsApproaching);
+        animator.SetBool("IsGuardBroken", animationDataList[currentIndex].bIsGuardBroken);
+        animator.SetBool("IsDead", animationDataList[currentIndex].bIsDead);
 
         base.SetPosition();
     }

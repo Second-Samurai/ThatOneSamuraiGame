@@ -124,7 +124,7 @@ namespace Enemies
                 bIsDead = true;
                 TempWinTracker.instance.enemyCount--;
                 navMeshAgent.SetDestination(transform.position);
-                animator.SetBool("isDead", true);
+                animator.SetBool("IsDead", true);
                 OnEnemyDeath();
                 StartCoroutine(RemovePlayerFromScene());
             }

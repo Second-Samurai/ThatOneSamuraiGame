@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public GameObject thirdPersonViewCamera;
     [HideInInspector] public PlayerController playerController;
     [HideInInspector] public Camera mainCamera;
-    [HideInInspector] public EnemyTracker enemyTracker;
+    public EnemyTracker enemyTracker;
 
     //UICanvases
     [HideInInspector] public GameObject guardMeterCanvas;
@@ -81,9 +81,15 @@ public class GameManager : MonoBehaviour
     void SetupTestScene()
     {
         TestStaticTarget[] testEnemies = FindObjectsOfType<TestStaticTarget>();
+
+        Debug.Log(testEnemies.Length);
+
+        //Check if there is none
+        if (testEnemies.Length == 0) return;
+
         foreach (TestStaticTarget enemy in testEnemies)
         {
-            enemyTracker.AddEnemy(enemy.GetComponentInParent<Rigidbody>().gameObject.transform);
+            enemyTracker.AddEnemy(enemy.GetComponentInParent<Transform>());
         }
     }
 

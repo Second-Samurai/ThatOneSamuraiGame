@@ -25,6 +25,8 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     private PlayerFunctions _functions;
     public Collider attackCol;
 
+    public bool isUnblockable = false;
+
     public void Init(StatHandler playerStats) {
         this._playerStats = playerStats;
         this._animator = this.GetComponent<Animator>();
@@ -105,6 +107,16 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
 
     }
 
+    public void Unblockable()
+    {
+        isUnblockable = true;
+    }
+
+    public void EndUnblockable()
+    {
+        isUnblockable = false;
+    }
+
     private float CalculateDamage()
     {
         return _playerStats.baseDamage;
@@ -125,6 +137,6 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         }
 
         if(!other.gameObject.CompareTag("Boards")) _playerSword.CreateImpactEffect(other.transform, HitType.DamageableTarget);
-        attackEntity.OnEntityDamage(CalculateDamage(), this.gameObject, false);
+        attackEntity.OnEntityDamage(CalculateDamage(), this.gameObject, isUnblockable);
     }
 }

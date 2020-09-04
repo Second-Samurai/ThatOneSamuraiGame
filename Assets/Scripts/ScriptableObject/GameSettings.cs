@@ -23,6 +23,10 @@ public class GameSettings : ScriptableObject
     [Header("Sword Effects")]
     public GameObject swordSlash01;
 
+    [Space]
+    public GameObject largeParry;
+    public GameObject smallParry;
+
     [Header("Spark Effects")]
     public GameObject slashImpact01;
 

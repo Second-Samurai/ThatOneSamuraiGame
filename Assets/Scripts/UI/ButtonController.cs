@@ -11,10 +11,12 @@ public class ButtonController : MonoBehaviour
     public void CloseMenu()
     {
         vcam.m_Priority = 0;
-        menu.SetActive(false);
+        optionsVCam.m_Priority = 0;
+        optionsMenu.SetActive(false);
         
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        menu.SetActive(false);
     }
 
     public void QuitGame() 

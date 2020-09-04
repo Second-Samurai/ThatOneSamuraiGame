@@ -23,6 +23,7 @@ namespace Enemies
 
         //ENEMY SETTINGS [See EntityStatData for list of stats]
         public EnemySettings enemySettings; // Taken from EnemySettings Scriptable object in start
+        public StatHandler statHandler;
         private EnemyTracker _enemyTracker;
         
         //ANIMATOR
@@ -61,7 +62,7 @@ namespace Enemies
             
             // Set up Damage Controller
             _eDamageController = GetComponent<EDamageController>();
-            StatHandler statHandler = new StatHandler(); // Stat handler = stats that can be modified
+            statHandler = new StatHandler(); // Stat handler = stats that can be modified
             statHandler.Init(enemySettings.enemyData); // enemySettings.enemyData = initial scriptable objects values
             _eDamageController.Init(statHandler);
             _eDamageController.EnableDamage();
@@ -124,7 +125,7 @@ namespace Enemies
                 bIsDead = true;
                 TempWinTracker.instance.enemyCount--;
                 navMeshAgent.SetDestination(transform.position);
-                animator.SetBool("isDead", true);
+                animator.SetBool("IsDead", true);
                 OnEnemyDeath();
                 StartCoroutine(RemovePlayerFromScene());
             }

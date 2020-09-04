@@ -5,8 +5,8 @@ using Cinemachine;
 
 public class ButtonController : MonoBehaviour
 {
-    public CinemachineVirtualCamera vcam;
-    public GameObject menu;
+    public CinemachineVirtualCamera vcam, optionsVCam;
+    public GameObject menu, optionsMenu;
     
     public void CloseMenu()
     {
@@ -20,5 +20,21 @@ public class ButtonController : MonoBehaviour
     public void QuitGame() 
     {
         Application.Quit();
+    }
+
+    public void OptionsMenu()
+    {
+        vcam.m_Priority = 0;
+        menu.SetActive(false);
+        optionsVCam.m_Priority = 20;
+        optionsMenu.SetActive(true);
+    }
+
+    public void MainMenu()
+    {
+        optionsVCam.m_Priority = 0;
+        optionsMenu.SetActive(false);
+        vcam.m_Priority = 20;
+        menu.SetActive(true);
     }
 }

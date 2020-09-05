@@ -78,7 +78,7 @@ public class PlayerFunctions : MonoBehaviour
         //remove this
         if (bIsDead) rewindTut.SetActive(true);
         else rewindTut.SetActive(false);
-        Debug.Log(_inputComponent.currentActionMap);
+        //Debug.Log(_inputComponent.currentActionMap);
         
     }
 

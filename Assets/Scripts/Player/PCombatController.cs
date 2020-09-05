@@ -30,6 +30,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     private EntityCombatType _combatType; //TODO: May need to relook at this variable
     private WSwordEffect _playerSword;
     private EntityAttackRegister _attackRegister;
+    private CloseEnemyGuideControl _guideController;
     private StatHandler _playerStats;
     private Animator _animator;
 
@@ -51,6 +52,9 @@ public class PCombatController : MonoBehaviour, ICombatController
 
         _attackRegister = new EntityAttackRegister();
         _attackRegister.Init(this.gameObject, EntityType.Player, _playerSword);
+
+        _guideController = new CloseEnemyGuideControl();
+        _guideController.Init(this.gameObject.transform);
     }
 
     /// <summary>
@@ -69,7 +73,7 @@ public class PCombatController : MonoBehaviour, ICombatController
             _animator.SetTrigger("AttackLight");
         }
         _animator.SetInteger("ComboCount", _comboHits);
-
+        _guideController.MoveToNearestEnemy();
     }
 
     private void HeavyAttack()

@@ -115,5 +115,13 @@ public class BasicArcher : MonoBehaviour, IDamageable
         gameObject.SetActive(false);
     }
 
-   
+    public bool CheckCanDamage()
+    {
+        return true;
+    }
+
+    public EntityType GetEntityType()
+    {
+        return EntityType.Enemy;
+    }
 }

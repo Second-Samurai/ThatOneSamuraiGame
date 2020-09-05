@@ -11,7 +11,7 @@ public class AIAnimationRewindEntity : RewindEntity
     public AnimatorClipInfo[] m_CurrentClipInfo;
 
     // to be extracted;
-    // private PlayerInput playerInput;
+    // private PlayerInputScript playerInput;
 
     // Start is called before the first frame update
     protected new void Start()
@@ -20,7 +20,7 @@ public class AIAnimationRewindEntity : RewindEntity
         animator = gameObject.GetComponent<Animator>();
 
         // to be extracted
-        // playerInput = gameObject.GetComponent<PlayerInput>();
+        // playerInput = gameObject.GetComponent<PlayerInputScript>();
         base.Start();
     }
 

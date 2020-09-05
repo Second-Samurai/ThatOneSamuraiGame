@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerInputScript : MonoBehaviour
 {
 
     Vector2 _inputVector, lastVector, _cachedVector;
@@ -165,6 +165,10 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    void OnPause()
+    {
+        _functions.Pause();
+    }
    
 
     private void FixedUpdate()

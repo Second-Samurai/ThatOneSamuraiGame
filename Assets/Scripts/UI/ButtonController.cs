@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using UnityEngine.InputSystem;
 
 public class ButtonController : MonoBehaviour
 {
     public CinemachineVirtualCamera vcam, optionsVCam;
     public GameObject menu, optionsMenu;
+    PlayerInput _input;
     
     public void CloseMenu()
     {
@@ -16,6 +18,7 @@ public class ButtonController : MonoBehaviour
         
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        _input.SwitchCurrentActionMap("Gameplay");
         menu.SetActive(false);
     }
 
@@ -38,5 +41,11 @@ public class ButtonController : MonoBehaviour
         optionsMenu.SetActive(false);
         vcam.m_Priority = 20;
         menu.SetActive(true);
+    }
+
+    private void Start()
+    {
+        _input = GameManager.instance.playerController.gameObject.GetComponent<PlayerInput>();
+        _input.SwitchCurrentActionMap("Menu");
     }
 }

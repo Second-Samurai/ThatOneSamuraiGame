@@ -6752,6 +6752,18 @@ Transform:
   m_Father: {fileID: 420482090}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &1817828428 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1165835648, guid: dffd8b7a96a9d0d4ab010cff1fd4ac94,
+    type: 3}
+  m_PrefabInstance: {fileID: 8000690493878486361}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caeaa84a7d846a342baccd84eb79bbdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1832899074
 GameObject:
   m_ObjectHideFlags: 0
@@ -8221,10 +8233,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1563720797}
     m_Modifications:
-    - target: {fileID: 464069629, guid: 9714bb2a435b1f045a71323b558b09fc, type: 3}
-      propertyPath: m_Priority
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 4712481421370957618, guid: 9714bb2a435b1f045a71323b558b09fc,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -8289,11 +8297,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SwordCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 4712481421495368286, guid: 9714bb2a435b1f045a71323b558b09fc,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9714bb2a435b1f045a71323b558b09fc, type: 3}
@@ -8614,37 +8617,37 @@ PrefabInstance:
     - target: {fileID: 6189320608083562478, guid: 9e84217bef2dc4331acc0cc6ac999d56,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.2313657
+      value: -4.414373
       objectReference: {fileID: 0}
     - target: {fileID: 6189320608083562478, guid: 9e84217bef2dc4331acc0cc6ac999d56,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.97148824
+      value: -1.4474068
       objectReference: {fileID: 0}
     - target: {fileID: 6189320608083562478, guid: 9e84217bef2dc4331acc0cc6ac999d56,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.789237
+      value: 7.950611
       objectReference: {fileID: 0}
     - target: {fileID: 6189320608083562478, guid: 9e84217bef2dc4331acc0cc6ac999d56,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.006495111
+      value: 0.13216929
       objectReference: {fileID: 0}
     - target: {fileID: 6189320608083562478, guid: 9e84217bef2dc4331acc0cc6ac999d56,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.08958776
+      value: -0.17536227
       objectReference: {fileID: 0}
     - target: {fileID: 6189320608083562478, guid: 9e84217bef2dc4331acc0cc6ac999d56,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00058424426
+      value: -0.02375299
       objectReference: {fileID: 0}
     - target: {fileID: 6189320608083562478, guid: 9e84217bef2dc4331acc0cc6ac999d56,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9959576
+      value: -0.9753026
       objectReference: {fileID: 0}
     - target: {fileID: 6189320608083562478, guid: 9e84217bef2dc4331acc0cc6ac999d56,
         type: 3}
@@ -8762,6 +8765,16 @@ PrefabInstance:
       propertyPath: targetHolder
       value: 
       objectReference: {fileID: 321205824}
+    - target: {fileID: 4165856846162870898, guid: dffd8b7a96a9d0d4ab010cff1fd4ac94,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1817828428}
+    - target: {fileID: 4165856846162870898, guid: dffd8b7a96a9d0d4ab010cff1fd4ac94,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DisableOptionsMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 7190348978030205752, guid: dffd8b7a96a9d0d4ab010cff1fd4ac94,
         type: 3}
       propertyPath: unlockedCam

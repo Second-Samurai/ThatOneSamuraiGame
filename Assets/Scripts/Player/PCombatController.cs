@@ -21,7 +21,7 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
 
     private bool _isInputBlocked = false;
     public bool _isAttacking = false;
-    private PlayerInput _playerInput;
+    private PlayerInputScript _playerInput;
     private PlayerFunctions _functions;
     public Collider attackCol;
 
@@ -34,7 +34,7 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
 
         _playerSword = this.GetComponentInChildren<PSword>();
         _playerSword.SetParentTransform(this.gameObject.transform);
-        _playerInput = GetComponent<PlayerInput>();
+        _playerInput = GetComponent<PlayerInputScript>();
         _functions = GetComponent<PlayerFunctions>();
         attackCol = GetComponentInChildren<BoxCollider>();
     }

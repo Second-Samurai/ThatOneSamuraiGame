@@ -137,6 +137,14 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Hold(duration=0.6,pressPoint=0.5),Press""
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""58f1a698-757e-425c-aefc-947683b1f9ee"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -513,6 +521,66 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""action"": ""StartHeavy"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cc95f931-6a77-4210-87eb-ba4358b8a391"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ba895857-51d3-41d4-b1e0-0eaf4e766be1"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Menu"",
+            ""id"": ""662f04ed-858b-43ee-97dc-40bc7f27d5ba"",
+            ""actions"": [
+                {
+                    ""name"": ""Unpause"",
+                    ""type"": ""Button"",
+                    ""id"": ""2938e789-f18e-4651-a9f9-e5d9748bc73d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""d497907a-1d27-4257-a51a-395d516b4fb8"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Unpause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ae79d780-8f61-4cc0-8f8b-e4b1586252c4"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Unpause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -564,6 +632,10 @@ public class @ControlMap : IInputActionCollection, IDisposable
         m_Gameplay_ToggleLockLeft = m_Gameplay.FindAction("ToggleLockLeft", throwIfNotFound: true);
         m_Gameplay_ToggleLockRight = m_Gameplay.FindAction("ToggleLockRight", throwIfNotFound: true);
         m_Gameplay_StartHeavy = m_Gameplay.FindAction("StartHeavy", throwIfNotFound: true);
+        m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
+        // Menu
+        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+        m_Menu_Unpause = m_Menu.FindAction("Unpause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -628,6 +700,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_ToggleLockLeft;
     private readonly InputAction m_Gameplay_ToggleLockRight;
     private readonly InputAction m_Gameplay_StartHeavy;
+    private readonly InputAction m_Gameplay_Pause;
     public struct GameplayActions
     {
         private @ControlMap m_Wrapper;
@@ -647,6 +720,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         public InputAction @ToggleLockLeft => m_Wrapper.m_Gameplay_ToggleLockLeft;
         public InputAction @ToggleLockRight => m_Wrapper.m_Gameplay_ToggleLockRight;
         public InputAction @StartHeavy => m_Wrapper.m_Gameplay_StartHeavy;
+        public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -701,6 +775,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @StartHeavy.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStartHeavy;
                 @StartHeavy.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStartHeavy;
                 @StartHeavy.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStartHeavy;
+                @Pause.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -750,10 +827,46 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @StartHeavy.started += instance.OnStartHeavy;
                 @StartHeavy.performed += instance.OnStartHeavy;
                 @StartHeavy.canceled += instance.OnStartHeavy;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
+
+    // Menu
+    private readonly InputActionMap m_Menu;
+    private IMenuActions m_MenuActionsCallbackInterface;
+    private readonly InputAction m_Menu_Unpause;
+    public struct MenuActions
+    {
+        private @ControlMap m_Wrapper;
+        public MenuActions(@ControlMap wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Unpause => m_Wrapper.m_Menu_Unpause;
+        public InputActionMap Get() { return m_Wrapper.m_Menu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+        public void SetCallbacks(IMenuActions instance)
+        {
+            if (m_Wrapper.m_MenuActionsCallbackInterface != null)
+            {
+                @Unpause.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnUnpause;
+                @Unpause.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnUnpause;
+                @Unpause.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnUnpause;
+            }
+            m_Wrapper.m_MenuActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Unpause.started += instance.OnUnpause;
+                @Unpause.performed += instance.OnUnpause;
+                @Unpause.canceled += instance.OnUnpause;
+            }
+        }
+    }
+    public MenuActions @Menu => new MenuActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -789,5 +902,10 @@ public class @ControlMap : IInputActionCollection, IDisposable
         void OnToggleLockLeft(InputAction.CallbackContext context);
         void OnToggleLockRight(InputAction.CallbackContext context);
         void OnStartHeavy(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
+    }
+    public interface IMenuActions
+    {
+        void OnUnpause(InputAction.CallbackContext context);
     }
 }

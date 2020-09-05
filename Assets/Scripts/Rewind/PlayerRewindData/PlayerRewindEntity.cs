@@ -7,7 +7,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
 
     public List<PlayerTimeData> playerDataList;
 
-    private PlayerInput playerInput;
+    private PlayerInputScript playerInput;
 
 
     // Start is called before the first frame update
@@ -15,7 +15,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
     {
         playerDataList = new List<PlayerTimeData>();
 
-        playerInput = gameObject.GetComponent<PlayerInput>();
+        playerInput = gameObject.GetComponent<PlayerInputScript>();
         base.Start();
 
     }

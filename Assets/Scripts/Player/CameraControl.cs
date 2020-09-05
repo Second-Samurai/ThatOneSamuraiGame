@@ -12,7 +12,7 @@ public class CameraControl : MonoBehaviour
     public Transform lockOnTarget, player, lockOnNullDummy;
     public bool bLockedOn = false;
     public EnemyTracker enemyTracker;
-    PlayerInput _playerInput;
+    PlayerInputScript _playerInput;
 
     public CinematicBars cinematicBars;
 
@@ -20,7 +20,7 @@ public class CameraControl : MonoBehaviour
     {
         _camScript = unlockedCam.GetComponent<FreeLookAddOn>();
         _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
-        _playerInput = GetComponent<PlayerInput>();
+        _playerInput = GetComponent<PlayerInputScript>();
     }*/
 
     //NOTE: this is called in player controller
@@ -36,7 +36,7 @@ public class CameraControl : MonoBehaviour
 
         _camScript = unlockedCam.GetComponent<FreeLookAddOn>();
         _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
-        _playerInput = GetComponent<PlayerInput>();
+        _playerInput = GetComponent<PlayerInputScript>();
     }
 
     void OnRotateCamera(InputValue rotDir) 

@@ -8,13 +8,13 @@ public class AttackChainTracker : MonoBehaviour
     [SerializeField] int _inputCounter = 0;
     [SerializeField] float _lastInput = 0f;
     public float inputWindow = .9f;
-    PlayerInput _input;
+    PlayerInputScript _input;
 
     // Start is called before the first frame update
     void Start()
     {
         _animator = GetComponent<Animator>();
-        _input = GetComponent<PlayerInput>();
+        _input = GetComponent<PlayerInputScript>();
     }
 
     // Update is called once per frame

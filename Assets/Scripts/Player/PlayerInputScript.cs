@@ -17,6 +17,7 @@ public class PlayerInputScript : MonoBehaviour
     Rigidbody rb;
     PDamageController _pDamageController;
     PCombatController _pCombatController;
+    PlayerInput _inputComponent;
 
     float dodgeForce = 10f;
 
@@ -28,6 +29,7 @@ public class PlayerInputScript : MonoBehaviour
      
     private void Start()
     {
+        _inputComponent = GetComponent<PlayerInput>();
         _animator = GetComponent<Animator>();
         _functions = GetComponent<PlayerFunctions>();
         _camControl = GetComponent<CameraControl>();
@@ -298,4 +300,15 @@ public class PlayerInputScript : MonoBehaviour
         bCanDodge = false;
      
     }
+
+    public void EnableInput()
+    {
+        _inputComponent.enabled = true;
+    }
+
+    public void DisableInput()
+    {
+        _inputComponent.enabled = false;
+    }
+
 }

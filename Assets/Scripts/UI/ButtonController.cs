@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
-using UnityEngine.InputSystem;
+using UnityEngine.InputSystem; 
 
 public class ButtonController : MonoBehaviour
 {
     public CinemachineVirtualCamera vcam, optionsVCam;
     public GameObject menu, optionsMenu;
     PlayerInput _input;
+    public GameObject cutscene;
     
     public void CloseMenu()
     {
@@ -18,7 +19,8 @@ public class ButtonController : MonoBehaviour
         
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        _input.SwitchCurrentActionMap("Gameplay");
+        //_input.SwitchCurrentActionMap("Gameplay");
+        cutscene.SetActive(true);
         menu.SetActive(false);
     }
 

@@ -25,7 +25,7 @@ public class BoardBreak : MonoBehaviour, IDamageable
        
     }
 
-    public void OnEntityDamage(float damage, GameObject attacker)
+    public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
         thisCol.enabled = false;
         foreach (Rigidbody board in boards)

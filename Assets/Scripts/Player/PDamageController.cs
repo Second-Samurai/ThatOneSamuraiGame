@@ -7,7 +7,7 @@ public interface IDamageable {
     EntityType GetEntityType();
     bool CheckCanDamage();
 
-    void OnEntityDamage(float damage, GameObject attacker);
+    void OnEntityDamage(float damage, GameObject attacker, bool unblockable);
     void DisableDamage();
     void EnableDamage();
 }
@@ -23,10 +23,10 @@ public class PDamageController : MonoBehaviour, IDamageable
         this.playerStats = playerStats;
     }
 
-    public void OnEntityDamage(float damage, GameObject attacker)
+    public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
         if (_isDamageDisabled) return;
-        _functions.ApplyHit(attacker);
+        _functions.ApplyHit(attacker, unblockable);
         Debug.Log("Player is Damaged");
     }
 

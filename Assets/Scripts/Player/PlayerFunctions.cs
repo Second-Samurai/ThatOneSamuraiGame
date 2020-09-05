@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerFunctions : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class PlayerFunctions : MonoBehaviour
     PDamageController _pDamageController;
     Rigidbody rb;
     public bool bIsDead = false;
+
+    public RectTransform screenCenter;
 
     public GameObject rewindTut;
     private void Start()
@@ -118,21 +121,25 @@ public class PlayerFunctions : MonoBehaviour
         EnableBlock();
     }
 
-    public void ApplyHit(GameObject attacker)
+    public void ApplyHit(GameObject attacker, bool unblockable)
     {
-        if (bIsParrying)
+        if (!unblockable)
         {
-            TriggerParry(attacker); 
+            if (bIsParrying)
+            {
+                TriggerParry(attacker);
+            }
+            else if (bIsBlocking)
+            {
+                TriggerBlock(attacker);
+            }
+            else
+            {
+                Debug.LogError(1);
+                KillPlayer();
+            }
         }
-        else if (bIsBlocking)
-        {
-            TriggerBlock(attacker); 
-        }
-        else
-        {
-            Debug.LogError(1);
-            KillPlayer();
-        }
+        else KillPlayer();
 
     }
 
@@ -179,5 +186,11 @@ public class PlayerFunctions : MonoBehaviour
     {
         bCanBlock = true;
         //Debug.LogWarning("on");
+    }
+ 
+    public void SnapToEnemy()
+    {
+        //Vector3 CenterPos = GetMousePosition(screenCenter.position, Camera.main);
+        //Vector3 attackDir = 
     }
 }

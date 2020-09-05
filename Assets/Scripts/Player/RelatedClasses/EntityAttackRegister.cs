@@ -25,24 +25,24 @@ public class EntityAttackRegister
     /// <summary>
     /// Registers attack to the intended target after colliding.
     /// </summary>
-    public void RegisterAttackTarget(IDamageable attackedEntity, Collider collider, float damage, bool canEffect)
+    public void RegisterAttackTarget(IDamageable attackedEntity, Collider collider, float damage, bool canEffect, bool unBlockable)
     {
         //Filters out attached entity type
         if (attackedEntity.GetEntityType() == _attachedEntityType) return;
 
         if (attackedEntity.GetEntityType() == EntityType.Player)
-            RegisterPlayer(collider, canEffect);
+            RegisterPlayer(collider, canEffect, unBlockable);
 
         if (attackedEntity.GetEntityType() == EntityType.Enemy)
-            RegisterEnemy(attackedEntity, collider, damage, canEffect);
+            RegisterEnemy(attackedEntity, collider, damage, canEffect, unBlockable);
 
         if (attackedEntity.GetEntityType() == EntityType.Destructible)
-            RegisterDestructible(collider, canEffect);
+            RegisterDestructible(collider, canEffect, unBlockable);
     }
 
     // Summary: Registers damage to player (NOT DEVELOPED)
     //
-    private void RegisterPlayer(Collider collider, bool canEffect)
+    private void RegisterPlayer(Collider collider, bool canEffect, bool unBlockable)
     {
         if (!canEffect) return;
         _attachedSword.CreateImpactEffect(collider.transform, HitType.DamageableTarget);
@@ -50,10 +50,10 @@ public class EntityAttackRegister
 
     // Summary: Registers damage to enemy
     //
-    private void RegisterEnemy(IDamageable target, Collider collider, float damage, bool canEffect)
+    private void RegisterEnemy(IDamageable target, Collider collider, float damage, bool canEffect, bool unBlockable)
     {
         Debug.Log(">> EntityAttackRegister: Logged Enemy");
-        target.OnEntityDamage(damage, _attachedEntity);
+        target.OnEntityDamage(damage, _attachedEntity, unBlockable);
 
         if (!canEffect) return;
         _attachedSword.CreateImpactEffect(collider.transform, HitType.DamageableTarget);
@@ -61,7 +61,7 @@ public class EntityAttackRegister
 
     // Summary: Registers damage to destructible object
     //
-    private void RegisterDestructible(Collider collider, bool canEffect)
+    private void RegisterDestructible(Collider collider, bool canEffect, bool unBlockable)
     {
         Debug.Log(">> EntityAttackRegister: Logged Destructable");
 

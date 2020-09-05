@@ -109,6 +109,27 @@ public class PlayerInput : MonoBehaviour
             Debug.Log(">> Light attack Triggered");
             _playerCombat.RunLightAttack();
         }
+
+        if (_animator.GetBool("HeavyAttackHeld"))
+        {
+            _animator.SetBool("HeavyAttackHeld", false);
+            //_camControl.StopCoroutine(_camControl.ResetCamRoll());
+            //_camControl.StopCoroutine("RollCam");
+            _camControl.StopAllCoroutines();
+            _camControl.StartCoroutine(_camControl.ResetCamRoll());
+        }
+    }
+
+    void OnStartHeavy()
+    {
+        if (!_animator.GetBool("HeavyAttackHeld"))
+        {
+            _animator.SetBool("HeavyAttackHeld", true);
+            //_camControl.StopCoroutine(_camControl.RollCam());
+            //_camControl.StopCoroutine(_camControl.ResetCamRoll());
+            _camControl.StopAllCoroutines();
+            _camControl.StartCoroutine(_camControl.RollCam());
+        }
     }
 
     void OnStartBlock()
@@ -253,7 +274,7 @@ public class PlayerInput : MonoBehaviour
 
     public void Test()
     {
-        _pDamageController.OnEntityDamage(1, this.gameObject);
+        _pDamageController.OnEntityDamage(1, this.gameObject, false);
     }
 
     private void Update()

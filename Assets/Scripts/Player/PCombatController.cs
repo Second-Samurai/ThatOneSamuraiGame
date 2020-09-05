@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 //Empty For now
-public interface ICombatController {
+public interface ICombatController
+{
     EntityCombatType GetCombatType();
 
     void RunLightAttack();
@@ -17,27 +18,25 @@ public interface ICombatController {
 public class PCombatController : MonoBehaviour, ICombatController
 {
     //Public variables
-    public bool _isAttacking = false;
-
     public AttackChainTracker comboTracker;
     public Collider attackCol;
+    public bool _isAttacking = false;
+    public bool isUnblockable = false;
 
     //Private Variables
     private PlayerInput _playerInput;
     private PlayerFunctions _functions;
     private PDamageController _damageController;
-    private EntityCombatType _combatType;
-    private StatHandler _playerStats;
-    private Animator _animator;
+    private EntityCombatType _combatType; //TODO: May need to relook at this variable
     private WSwordEffect _playerSword;
     private EntityAttackRegister _attackRegister;
+    private StatHandler _playerStats;
+    private Animator _animator;
 
     private float _chargeTime;
     private int _comboHits;
     private bool _isInputBlocked = false;
 
-    // Summary: Initialises references and values on spawn
-    //
     public void Init(StatHandler playerStats) {
         this._playerStats = playerStats;
         this._animator = this.GetComponent<Animator>();
@@ -53,7 +52,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         _attackRegister = new EntityAttackRegister();
         _attackRegister.Init(this.gameObject, EntityType.Player, _playerSword);
     }
-     
+
     /// <summary>
     /// Primary method for running Light Attacks.
     /// </summary>
@@ -70,6 +69,7 @@ public class PCombatController : MonoBehaviour, ICombatController
             _animator.SetTrigger("AttackLight");
         }
         _animator.SetInteger("ComboCount", _comboHits);
+
     }
 
     private void HeavyAttack()
@@ -78,7 +78,6 @@ public class PCombatController : MonoBehaviour, ICombatController
     }
 
     //Summary: Resets the AttackCombo after 'Animation Event' has finished.
-    //
     public void ResetAttackCombo() {
         _animator.ResetTrigger("AttackLight");
         _comboHits = 0;
@@ -87,23 +86,11 @@ public class PCombatController : MonoBehaviour, ICombatController
     public void BlockCombatInputs()
     {
         _isInputBlocked = true;
-        _combatType = EntityCombatType.Block;
     }
 
     public void UnblockCombatInputs()
     {
         _isInputBlocked = false;
-        _combatType = EntityCombatType.Attack;
-    }
-
-    public void SheathSword()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void UnsheathSword()
-    {
-        throw new System.NotImplementedException();
     }
 
     //Summary: Enabled collision detection to apply damage to hit target.
@@ -131,9 +118,24 @@ public class PCombatController : MonoBehaviour, ICombatController
         attackCol.enabled = false;
     }
 
-    public EntityCombatType GetCombatType()
+    public void Unblockable()
     {
-        return _combatType;
+        isUnblockable = true;
+    }
+
+    public void EndUnblockable()
+    {
+        isUnblockable = false;
+    }
+
+    public void SheathSword()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void UnsheathSword()
+    {
+        throw new System.NotImplementedException();
     }
 
     private float CalculateDamage()
@@ -141,10 +143,16 @@ public class PCombatController : MonoBehaviour, ICombatController
         return _playerStats.baseDamage;
     }
 
+    public EntityCombatType GetCombatType()
+    {
+        return _combatType;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (!_isAttacking) return;
 
+        //Collects IDamageable component of the entity
         IDamageable attackEntity = other.GetComponent<IDamageable>();
         if (attackEntity == null)
         {
@@ -153,7 +161,6 @@ public class PCombatController : MonoBehaviour, ICombatController
         }
 
         //Registers attack to the attackRegister
-        _attackRegister.RegisterAttackTarget(attackEntity, other, CalculateDamage(), true);
-
+        _attackRegister.RegisterAttackTarget(attackEntity, other, CalculateDamage(), true, isUnblockable);
     }
 }

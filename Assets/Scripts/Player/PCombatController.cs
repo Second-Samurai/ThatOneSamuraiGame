@@ -4,40 +4,58 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 //Empty For now
-public interface IPlayerCombat {
+public interface ICombatController
+{
+    EntityCombatType GetCombatType();
+
     void RunLightAttack();
     void BlockCombatInputs();
     void UnblockCombatInputs();
+    void SheathSword();
+    void UnsheathSword();
 }
 
-public class PCombatController : MonoBehaviour, IPlayerCombat
+public class PCombatController : MonoBehaviour, ICombatController
 {
-    private StatHandler _playerStats;
-    private Animator _animator;
+    //Public variables
     public AttackChainTracker comboTracker;
-    private PSword _playerSword;
-    private float _chargeTime;
-    private int _comboHits;
-
-    private bool _isInputBlocked = false;
+    public Collider attackCol;
     public bool _isAttacking = false;
+    public bool isUnblockable = false;
+
+    //Private Variables
     private PlayerInput _playerInput;
     private PlayerFunctions _functions;
-    public Collider attackCol;
+    private PDamageController _damageController;
+    private EntityCombatType _combatType; //TODO: May need to relook at this variable
+    private WSwordEffect _playerSword;
+    private EntityAttackRegister _attackRegister;
+    private StatHandler _playerStats;
+    private Animator _animator;
+
+    private float _chargeTime;
+    private int _comboHits;
+    private bool _isInputBlocked = false;
 
     public void Init(StatHandler playerStats) {
         this._playerStats = playerStats;
         this._animator = this.GetComponent<Animator>();
         comboTracker = GetComponent<AttackChainTracker>();
 
-        _playerSword = this.GetComponentInChildren<PSword>();
+        _playerSword = this.GetComponentInChildren<WSwordEffect>();
         _playerSword.SetParentTransform(this.gameObject.transform);
         _playerInput = GetComponent<PlayerInput>();
+        _damageController = GetComponent<PDamageController>();
         _functions = GetComponent<PlayerFunctions>();
         attackCol = GetComponentInChildren<BoxCollider>();
-    }
-     
 
+        _attackRegister = new EntityAttackRegister();
+        _attackRegister.Init(this.gameObject, EntityType.Player, _playerSword);
+    }
+
+    /// <summary>
+    /// Primary method for running Light Attacks.
+    /// </summary>
     public void RunLightAttack()
     {
         if (_isInputBlocked) return;
@@ -100,9 +118,24 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         attackCol.enabled = false;
     }
 
-    private void DetectCollision()
+    public void Unblockable()
     {
+        isUnblockable = true;
+    }
 
+    public void EndUnblockable()
+    {
+        isUnblockable = false;
+    }
+
+    public void SheathSword()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void UnsheathSword()
+    {
+        throw new System.NotImplementedException();
     }
 
     private float CalculateDamage()
@@ -110,12 +143,14 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         return _playerStats.baseDamage;
     }
 
+    public EntityCombatType GetCombatType()
+    {
+        return _combatType;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (!_isAttacking) return;
-
-        //Returns when the entity is itself the player
-        if (other.GetComponent<IPlayerController>() != null) return;
 
         //Collects IDamageable component of the entity
         IDamageable attackEntity = other.GetComponent<IDamageable>();
@@ -125,7 +160,7 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
             return;
         }
 
-        if(!other.gameObject.CompareTag("Boards")) _playerSword.CreateImpactEffect(other.transform, HitType.DamageableTarget);
-        attackEntity.OnEntityDamage(CalculateDamage(), this.gameObject);
+        //Registers attack to the attackRegister
+        _attackRegister.RegisterAttackTarget(attackEntity, other, CalculateDamage(), true, isUnblockable);
     }
 }

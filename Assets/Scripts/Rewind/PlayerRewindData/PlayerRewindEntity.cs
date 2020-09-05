@@ -7,7 +7,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
 
     public List<PlayerTimeData> playerDataList;
 
-    private PlayerInput playerInput;
+    private PlayerInputScript playerInput;
 
 
     // Start is called before the first frame update
@@ -15,7 +15,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
     {
         playerDataList = new List<PlayerTimeData>();
 
-        playerInput = gameObject.GetComponent<PlayerInput>();
+        playerInput = gameObject.GetComponent<PlayerInputScript>();
         base.Start();
 
     }
@@ -83,7 +83,14 @@ public class PlayerRewindEntity : AnimationRewindEntity
                 playerInput._camControl.UnlockCam();
             }
         }
+       
         // needs to set the enemy targeting
         base.SetPosition();
+    }
+
+    public override void ApplyData()
+    {
+        if (playerInput._functions.bIsDead) playerInput._functions._inputComponent.SwitchCurrentActionMap("Dead");
+        else playerInput._functions._inputComponent.SwitchCurrentActionMap("Gameplay");
     }
 }

@@ -17,19 +17,27 @@ public class EDamageController : MonoBehaviour, IDamageable
         enemyGuard.Init(_enemyStats);
     }
 
-    public void OnEntityDamage(float damage, GameObject attacker)
+    public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
-        if (_isDamageDisabled) return;
-        
-        if (attacker.layer == LayerMask.NameToLayer("Player"))
+        if (!unblockable)
         {
-            if (enemyGuard.CheckIfEntityGuarding(damage)) return;
 
-            aiSystem.ApplyHit(attacker);
+            if (_isDamageDisabled) return;
+
+            if (attacker.layer == LayerMask.NameToLayer("Player"))
+            {
+                if (enemyGuard.CheckIfEntityGuarding(damage)) return;
+
+                aiSystem.ApplyHit(attacker);
+            }
+            else
+            {
+                Debug.Log(attacker.layer.ToString());
+            }
         }
         else
         {
-            Debug.Log(attacker.layer.ToString());
+            aiSystem.ApplyHit(attacker);
         }
     }
 
@@ -50,5 +58,15 @@ public class EDamageController : MonoBehaviour, IDamageable
     private void Start()
     {
         aiSystem = GetComponent<AISystem>();
+    }
+
+    public bool CheckCanDamage()
+    {
+        return _isDamageDisabled;
+    }
+
+    public EntityType GetEntityType()
+    {
+        return EntityType.Enemy;
     }
 }

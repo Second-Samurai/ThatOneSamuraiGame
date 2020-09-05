@@ -1,5 +1,4 @@
-﻿using Enemies;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -17,18 +16,14 @@ public class RewindInput : MonoBehaviour
     public bool isTravelling = false;
     private RewindEntity rewindEntity;
     WaitForSecondsRealtime wait = new WaitForSecondsRealtime(.05f);
+    PlayerInput _inputComponent;
 
-    private EnemyTracker enemyTracker;
-
-    
     // Start is called before the first frame update
     void Start()
     {
         rewindEntity = gameObject.GetComponent<RewindEntity>();
-        enemyTracker = GameManager.instance.enemyTracker;
-        Debug.LogWarning(enemyTracker);
+        _inputComponent = GetComponent<PlayerInput>();
     }
-
 
     IEnumerator RewindCoroutine() 
     {
@@ -67,29 +62,29 @@ public class RewindInput : MonoBehaviour
 
     void OnInitRewind() 
     {
-        //checking if true
+        _inputComponent.SwitchCurrentActionMap("Rewind");
+        if (!isTravelling)
+        {
+            isTravelling = true;
+            rewindEntity.isTravelling = isTravelling;
+            // Debug.Log("rewinding");
+            if (isTravelling)
+            {
+                StartCoroutine("RewindCoroutine");
+            }
+        }
+    }
+
+    void OnEndRewind()
+    {
+        rewindEntity.ApplyData();
+        _inputComponent.SwitchCurrentActionMap("Gameplay");
         if (isTravelling)
         {
             rewindEntity.ResetTimeline();
-            for (int i = 0; i < enemyTracker.currentEnemies.Count; i++)
-            {
-                enemyTracker.currentEnemies[i].gameObject.GetComponent<EnemyRewindEntity>().ApplyData();
-            }
         }
-        isTravelling = !isTravelling;
-
-        //if you start rewinding BUT you where not initially rewinding this shit triggers
-        rewindEntity.isTravelling = isTravelling;
-       // Debug.Log("rewinding");
-        if (isTravelling) 
-        {
-
-            for (int i = 0; i < enemyTracker.currentEnemies.Count; i++) 
-            {
-                enemyTracker.currentEnemies[i].gameObject.GetComponent<AISystem>().OnEnemyRewind();
-            }
-            StartCoroutine("RewindCoroutine");    
-        }
+        isTravelling = false;
+        rewindEntity.isTravelling = false; 
     }
 
     public void DeathRewind()

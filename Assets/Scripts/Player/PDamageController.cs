@@ -4,7 +4,10 @@ using Enemies;
 using UnityEngine;
 
 public interface IDamageable {
-    void OnEntityDamage(float damage, GameObject attacker);
+    EntityType GetEntityType();
+    bool CheckCanDamage();
+
+    void OnEntityDamage(float damage, GameObject attacker, bool unblockable);
     void DisableDamage();
     void EnableDamage();
 }
@@ -20,10 +23,10 @@ public class PDamageController : MonoBehaviour, IDamageable
         this.playerStats = playerStats;
     }
 
-    public void OnEntityDamage(float damage, GameObject attacker)
+    public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
         if (_isDamageDisabled) return;
-        _functions.ApplyHit(attacker);
+        _functions.ApplyHit(attacker, unblockable);
         Debug.Log("Player is Damaged");
     }
 
@@ -44,5 +47,15 @@ public class PDamageController : MonoBehaviour, IDamageable
     private void Start()
     {
         _functions = GetComponent<PlayerFunctions>();
+    }
+
+    public bool CheckCanDamage()
+    {
+        return _isDamageDisabled;
+    }
+
+    public EntityType GetEntityType()
+    {
+        return EntityType.Player;
     }
 }

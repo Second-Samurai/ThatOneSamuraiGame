@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class PSword : MonoBehaviour
+public class WSwordEffect : MonoBehaviour
 {
     private GameSettings _gameSettings;
     private Transform _swordmanTransform;
@@ -14,15 +14,17 @@ public class PSword : MonoBehaviour
         _gameSettings = GameManager.instance.gameSettings;
     }
 
-    //Summary: This sets the sword holder parent of this sword
-    //
+    /// <summary>
+    /// This sets the sword holder transform to this sword
+    /// </summary>
     public void SetParentTransform(Transform parentTransform)
     {
         _swordmanTransform = parentTransform;
     }
 
-    //Summary: Creates particle slash effect when triggered
-    //
+    /// <summary>
+    /// Creates particle slash effect when triggered
+    /// </summary>
     public void CreateSlashEffect(float slashAngle)
     {
         //Sets position vector of sword
@@ -38,8 +40,17 @@ public class PSword : MonoBehaviour
         StartCoroutine(DestroyAfterTime(slash, 3f));
     }
 
-    //Summary: Creates impact efects during trigger collision
-    //
+    /// <summary>
+    /// Creates particle parry effect when triggered
+    /// </summary>
+    public void CreateParryEffect(float slashAngle)
+    {
+
+    }
+
+    /// <summary>
+    /// Creates impact efects during trigger collision
+    /// </summary>
     public void CreateImpactEffect(Transform targetPosition, HitType type) //!!!! Might need to change to an enum driven effect
     {
         Vector3 impactPosition = Vector3.zero;
@@ -47,13 +58,13 @@ public class PSword : MonoBehaviour
 
         if (type == HitType.DamageableTarget)
         {
-            Debug.Log(">> PSword: Impact Raycast triggered");
+            //Debug.Log(">> PSword: Impact Raycast triggered");
             impactPosition = RayCastToHitPoint(targetPosition);
             CreateDamageableImpact(impactPosition, impactRotation);
         }
         else
         {
-            Debug.Log(">> PSword: Impact effect triggered");
+            //Debug.Log(">> PSword: Impact effect triggered");
             impactPosition = this.transform.position;
             CreateGeneralImpact(impactPosition, impactRotation);
         }
@@ -75,6 +86,11 @@ public class PSword : MonoBehaviour
     {
         GameObject sparkFalloff = Instantiate(_gameSettings.sparkFallOff01, impactPosition, Quaternion.Euler(impactRotation));
         StartCoroutine(DestroyAfterTime(sparkFalloff, 4f));
+    }
+
+    private void CreateParryEffect()
+    {
+
     }
 
     //Summary: Uses raycast to determine the hitpoint from player to target

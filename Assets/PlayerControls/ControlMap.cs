@@ -83,7 +83,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""interactions"": ""Press""
                 },
                 {
-                    ""name"": ""ScrubForward"",
+                    ""name"": ""ScrubForwardOLD"",
                     ""type"": ""Value"",
                     ""id"": ""fb68f0ce-984f-4167-8e4d-d9c07aee1e24"",
                     ""expectedControlType"": ""Button"",
@@ -91,7 +91,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""interactions"": ""Press(behavior=2)""
                 },
                 {
-                    ""name"": ""ScrubBackward"",
+                    ""name"": ""ScrubBackwardOLD"",
                     ""type"": ""Value"",
                     ""id"": ""fd6e816c-1091-4ea7-9a26-79325a93cb37"",
                     ""expectedControlType"": ""Button"",
@@ -99,7 +99,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""interactions"": ""Press(behavior=2)""
                 },
                 {
-                    ""name"": ""Scrub"",
+                    ""name"": ""ScrubOLD"",
                     ""type"": ""Value"",
                     ""id"": ""a01967d2-ed35-4228-81c7-8f9483263fb6"",
                     ""expectedControlType"": ""Axis"",
@@ -129,6 +129,22 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""StartHeavy"",
+                    ""type"": ""Button"",
+                    ""id"": ""29d73101-4da2-4199-99f3-8f4d7d6cd25e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=0.6,pressPoint=0.5),Press""
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""58f1a698-757e-425c-aefc-947683b1f9ee"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -359,7 +375,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""ScrubForward"",
+                    ""action"": ""ScrubForwardOLD"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -370,7 +386,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""ScrubForward"",
+                    ""action"": ""ScrubForwardOLD"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -381,7 +397,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""ScrubBackward"",
+                    ""action"": ""ScrubBackwardOLD"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -392,7 +408,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""ScrubBackward"",
+                    ""action"": ""ScrubBackwardOLD"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -403,7 +419,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Scrub"",
+                    ""action"": ""ScrubOLD"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -414,7 +430,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Scrub"",
+                    ""action"": ""ScrubOLD"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -425,7 +441,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Scrub"",
+                    ""action"": ""ScrubOLD"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -494,6 +510,216 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""action"": ""ToggleLockRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""17ad6dd6-9a2a-4a9e-9dfa-bf9f27fa785b"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""StartHeavy"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cc95f931-6a77-4210-87eb-ba4358b8a391"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ba895857-51d3-41d4-b1e0-0eaf4e766be1"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Rewind"",
+            ""id"": ""de798162-45d1-45f2-ab63-79fef9aab4a3"",
+            ""actions"": [
+                {
+                    ""name"": ""ScrubForward"",
+                    ""type"": ""Value"",
+                    ""id"": ""5e049e25-2a04-4788-98c9-b80ccd6c4902"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
+                },
+                {
+                    ""name"": ""ScrubBackward"",
+                    ""type"": ""Value"",
+                    ""id"": ""072df395-b600-4639-aa7e-334447017907"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
+                },
+                {
+                    ""name"": ""Scrub"",
+                    ""type"": ""Value"",
+                    ""id"": ""20d4465d-c314-49ba-bbee-0182099a77d1"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""EndRewind"",
+                    ""type"": ""Button"",
+                    ""id"": ""79a9d872-5340-4333-8f11-7577c02c03cf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""b00d62cb-6871-43b0-b8cd-33f48d6e4ee3"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ScrubForward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0fbdc32-1ad7-4332-84ba-b44c20c77fa8"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ScrubForward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3175aadf-090a-4079-ba70-7a88ee651466"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""ScrubBackward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb808d0d-df4f-46c0-9902-462749ae839e"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""ScrubBackward"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""1f59be54-64fb-480c-b051-21570d1b079c"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scrub"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""aaa1bd4e-05e2-49dd-9d34-ed98cca85ba4"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Scrub"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""04c2f116-7a8f-4f84-aaba-0d2aab4a0882"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Scrub"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7ee15c39-35af-42ed-b9b3-7331e19b09fb"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""EndRewind"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc3e5acf-1194-46b2-a6ca-ab70ab3750b3"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""EndRewind"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Menu"",
+            ""id"": ""662f04ed-858b-43ee-97dc-40bc7f27d5ba"",
+            ""actions"": [
+                {
+                    ""name"": ""Unpause"",
+                    ""type"": ""Button"",
+                    ""id"": ""2938e789-f18e-4651-a9f9-e5d9748bc73d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""d497907a-1d27-4257-a51a-395d516b4fb8"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Unpause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ae79d780-8f61-4cc0-8f8b-e4b1586252c4"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Unpause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -538,12 +764,23 @@ public class @ControlMap : IInputActionCollection, IDisposable
         m_Gameplay_Attack = m_Gameplay.FindAction("Attack", throwIfNotFound: true);
         m_Gameplay_Dodge = m_Gameplay.FindAction("Dodge", throwIfNotFound: true);
         m_Gameplay_InitRewind = m_Gameplay.FindAction("InitRewind", throwIfNotFound: true);
-        m_Gameplay_ScrubForward = m_Gameplay.FindAction("ScrubForward", throwIfNotFound: true);
-        m_Gameplay_ScrubBackward = m_Gameplay.FindAction("ScrubBackward", throwIfNotFound: true);
-        m_Gameplay_Scrub = m_Gameplay.FindAction("Scrub", throwIfNotFound: true);
+        m_Gameplay_ScrubForwardOLD = m_Gameplay.FindAction("ScrubForwardOLD", throwIfNotFound: true);
+        m_Gameplay_ScrubBackwardOLD = m_Gameplay.FindAction("ScrubBackwardOLD", throwIfNotFound: true);
+        m_Gameplay_ScrubOLD = m_Gameplay.FindAction("ScrubOLD", throwIfNotFound: true);
         m_Gameplay_ReleaseLockOn = m_Gameplay.FindAction("ReleaseLockOn", throwIfNotFound: true);
         m_Gameplay_ToggleLockLeft = m_Gameplay.FindAction("ToggleLockLeft", throwIfNotFound: true);
         m_Gameplay_ToggleLockRight = m_Gameplay.FindAction("ToggleLockRight", throwIfNotFound: true);
+        m_Gameplay_StartHeavy = m_Gameplay.FindAction("StartHeavy", throwIfNotFound: true);
+        m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
+        // Rewind
+        m_Rewind = asset.FindActionMap("Rewind", throwIfNotFound: true);
+        m_Rewind_ScrubForward = m_Rewind.FindAction("ScrubForward", throwIfNotFound: true);
+        m_Rewind_ScrubBackward = m_Rewind.FindAction("ScrubBackward", throwIfNotFound: true);
+        m_Rewind_Scrub = m_Rewind.FindAction("Scrub", throwIfNotFound: true);
+        m_Rewind_EndRewind = m_Rewind.FindAction("EndRewind", throwIfNotFound: true);
+        // Menu
+        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+        m_Menu_Unpause = m_Menu.FindAction("Unpause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -601,12 +838,14 @@ public class @ControlMap : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Attack;
     private readonly InputAction m_Gameplay_Dodge;
     private readonly InputAction m_Gameplay_InitRewind;
-    private readonly InputAction m_Gameplay_ScrubForward;
-    private readonly InputAction m_Gameplay_ScrubBackward;
-    private readonly InputAction m_Gameplay_Scrub;
+    private readonly InputAction m_Gameplay_ScrubForwardOLD;
+    private readonly InputAction m_Gameplay_ScrubBackwardOLD;
+    private readonly InputAction m_Gameplay_ScrubOLD;
     private readonly InputAction m_Gameplay_ReleaseLockOn;
     private readonly InputAction m_Gameplay_ToggleLockLeft;
     private readonly InputAction m_Gameplay_ToggleLockRight;
+    private readonly InputAction m_Gameplay_StartHeavy;
+    private readonly InputAction m_Gameplay_Pause;
     public struct GameplayActions
     {
         private @ControlMap m_Wrapper;
@@ -619,12 +858,14 @@ public class @ControlMap : IInputActionCollection, IDisposable
         public InputAction @Attack => m_Wrapper.m_Gameplay_Attack;
         public InputAction @Dodge => m_Wrapper.m_Gameplay_Dodge;
         public InputAction @InitRewind => m_Wrapper.m_Gameplay_InitRewind;
-        public InputAction @ScrubForward => m_Wrapper.m_Gameplay_ScrubForward;
-        public InputAction @ScrubBackward => m_Wrapper.m_Gameplay_ScrubBackward;
-        public InputAction @Scrub => m_Wrapper.m_Gameplay_Scrub;
+        public InputAction @ScrubForwardOLD => m_Wrapper.m_Gameplay_ScrubForwardOLD;
+        public InputAction @ScrubBackwardOLD => m_Wrapper.m_Gameplay_ScrubBackwardOLD;
+        public InputAction @ScrubOLD => m_Wrapper.m_Gameplay_ScrubOLD;
         public InputAction @ReleaseLockOn => m_Wrapper.m_Gameplay_ReleaseLockOn;
         public InputAction @ToggleLockLeft => m_Wrapper.m_Gameplay_ToggleLockLeft;
         public InputAction @ToggleLockRight => m_Wrapper.m_Gameplay_ToggleLockRight;
+        public InputAction @StartHeavy => m_Wrapper.m_Gameplay_StartHeavy;
+        public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -658,15 +899,15 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @InitRewind.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInitRewind;
                 @InitRewind.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInitRewind;
                 @InitRewind.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInitRewind;
-                @ScrubForward.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubForward;
-                @ScrubForward.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubForward;
-                @ScrubForward.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubForward;
-                @ScrubBackward.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubBackward;
-                @ScrubBackward.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubBackward;
-                @ScrubBackward.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubBackward;
-                @Scrub.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrub;
-                @Scrub.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrub;
-                @Scrub.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrub;
+                @ScrubForwardOLD.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubForwardOLD;
+                @ScrubForwardOLD.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubForwardOLD;
+                @ScrubForwardOLD.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubForwardOLD;
+                @ScrubBackwardOLD.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubBackwardOLD;
+                @ScrubBackwardOLD.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubBackwardOLD;
+                @ScrubBackwardOLD.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubBackwardOLD;
+                @ScrubOLD.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubOLD;
+                @ScrubOLD.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubOLD;
+                @ScrubOLD.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnScrubOLD;
                 @ReleaseLockOn.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReleaseLockOn;
                 @ReleaseLockOn.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReleaseLockOn;
                 @ReleaseLockOn.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReleaseLockOn;
@@ -676,6 +917,12 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @ToggleLockRight.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToggleLockRight;
                 @ToggleLockRight.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToggleLockRight;
                 @ToggleLockRight.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToggleLockRight;
+                @StartHeavy.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStartHeavy;
+                @StartHeavy.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStartHeavy;
+                @StartHeavy.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStartHeavy;
+                @Pause.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -704,15 +951,15 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @InitRewind.started += instance.OnInitRewind;
                 @InitRewind.performed += instance.OnInitRewind;
                 @InitRewind.canceled += instance.OnInitRewind;
-                @ScrubForward.started += instance.OnScrubForward;
-                @ScrubForward.performed += instance.OnScrubForward;
-                @ScrubForward.canceled += instance.OnScrubForward;
-                @ScrubBackward.started += instance.OnScrubBackward;
-                @ScrubBackward.performed += instance.OnScrubBackward;
-                @ScrubBackward.canceled += instance.OnScrubBackward;
-                @Scrub.started += instance.OnScrub;
-                @Scrub.performed += instance.OnScrub;
-                @Scrub.canceled += instance.OnScrub;
+                @ScrubForwardOLD.started += instance.OnScrubForwardOLD;
+                @ScrubForwardOLD.performed += instance.OnScrubForwardOLD;
+                @ScrubForwardOLD.canceled += instance.OnScrubForwardOLD;
+                @ScrubBackwardOLD.started += instance.OnScrubBackwardOLD;
+                @ScrubBackwardOLD.performed += instance.OnScrubBackwardOLD;
+                @ScrubBackwardOLD.canceled += instance.OnScrubBackwardOLD;
+                @ScrubOLD.started += instance.OnScrubOLD;
+                @ScrubOLD.performed += instance.OnScrubOLD;
+                @ScrubOLD.canceled += instance.OnScrubOLD;
                 @ReleaseLockOn.started += instance.OnReleaseLockOn;
                 @ReleaseLockOn.performed += instance.OnReleaseLockOn;
                 @ReleaseLockOn.canceled += instance.OnReleaseLockOn;
@@ -722,10 +969,106 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @ToggleLockRight.started += instance.OnToggleLockRight;
                 @ToggleLockRight.performed += instance.OnToggleLockRight;
                 @ToggleLockRight.canceled += instance.OnToggleLockRight;
+                @StartHeavy.started += instance.OnStartHeavy;
+                @StartHeavy.performed += instance.OnStartHeavy;
+                @StartHeavy.canceled += instance.OnStartHeavy;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
+
+    // Rewind
+    private readonly InputActionMap m_Rewind;
+    private IRewindActions m_RewindActionsCallbackInterface;
+    private readonly InputAction m_Rewind_ScrubForward;
+    private readonly InputAction m_Rewind_ScrubBackward;
+    private readonly InputAction m_Rewind_Scrub;
+    private readonly InputAction m_Rewind_EndRewind;
+    public struct RewindActions
+    {
+        private @ControlMap m_Wrapper;
+        public RewindActions(@ControlMap wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ScrubForward => m_Wrapper.m_Rewind_ScrubForward;
+        public InputAction @ScrubBackward => m_Wrapper.m_Rewind_ScrubBackward;
+        public InputAction @Scrub => m_Wrapper.m_Rewind_Scrub;
+        public InputAction @EndRewind => m_Wrapper.m_Rewind_EndRewind;
+        public InputActionMap Get() { return m_Wrapper.m_Rewind; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(RewindActions set) { return set.Get(); }
+        public void SetCallbacks(IRewindActions instance)
+        {
+            if (m_Wrapper.m_RewindActionsCallbackInterface != null)
+            {
+                @ScrubForward.started -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrubForward;
+                @ScrubForward.performed -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrubForward;
+                @ScrubForward.canceled -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrubForward;
+                @ScrubBackward.started -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrubBackward;
+                @ScrubBackward.performed -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrubBackward;
+                @ScrubBackward.canceled -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrubBackward;
+                @Scrub.started -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrub;
+                @Scrub.performed -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrub;
+                @Scrub.canceled -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrub;
+                @EndRewind.started -= m_Wrapper.m_RewindActionsCallbackInterface.OnEndRewind;
+                @EndRewind.performed -= m_Wrapper.m_RewindActionsCallbackInterface.OnEndRewind;
+                @EndRewind.canceled -= m_Wrapper.m_RewindActionsCallbackInterface.OnEndRewind;
+            }
+            m_Wrapper.m_RewindActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @ScrubForward.started += instance.OnScrubForward;
+                @ScrubForward.performed += instance.OnScrubForward;
+                @ScrubForward.canceled += instance.OnScrubForward;
+                @ScrubBackward.started += instance.OnScrubBackward;
+                @ScrubBackward.performed += instance.OnScrubBackward;
+                @ScrubBackward.canceled += instance.OnScrubBackward;
+                @Scrub.started += instance.OnScrub;
+                @Scrub.performed += instance.OnScrub;
+                @Scrub.canceled += instance.OnScrub;
+                @EndRewind.started += instance.OnEndRewind;
+                @EndRewind.performed += instance.OnEndRewind;
+                @EndRewind.canceled += instance.OnEndRewind;
+            }
+        }
+    }
+    public RewindActions @Rewind => new RewindActions(this);
+
+    // Menu
+    private readonly InputActionMap m_Menu;
+    private IMenuActions m_MenuActionsCallbackInterface;
+    private readonly InputAction m_Menu_Unpause;
+    public struct MenuActions
+    {
+        private @ControlMap m_Wrapper;
+        public MenuActions(@ControlMap wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Unpause => m_Wrapper.m_Menu_Unpause;
+        public InputActionMap Get() { return m_Wrapper.m_Menu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+        public void SetCallbacks(IMenuActions instance)
+        {
+            if (m_Wrapper.m_MenuActionsCallbackInterface != null)
+            {
+                @Unpause.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnUnpause;
+                @Unpause.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnUnpause;
+                @Unpause.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnUnpause;
+            }
+            m_Wrapper.m_MenuActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Unpause.started += instance.OnUnpause;
+                @Unpause.performed += instance.OnUnpause;
+                @Unpause.canceled += instance.OnUnpause;
+            }
+        }
+    }
+    public MenuActions @Menu => new MenuActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -754,11 +1097,24 @@ public class @ControlMap : IInputActionCollection, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);
         void OnInitRewind(InputAction.CallbackContext context);
-        void OnScrubForward(InputAction.CallbackContext context);
-        void OnScrubBackward(InputAction.CallbackContext context);
-        void OnScrub(InputAction.CallbackContext context);
+        void OnScrubForwardOLD(InputAction.CallbackContext context);
+        void OnScrubBackwardOLD(InputAction.CallbackContext context);
+        void OnScrubOLD(InputAction.CallbackContext context);
         void OnReleaseLockOn(InputAction.CallbackContext context);
         void OnToggleLockLeft(InputAction.CallbackContext context);
         void OnToggleLockRight(InputAction.CallbackContext context);
+        void OnStartHeavy(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
+    }
+    public interface IRewindActions
+    {
+        void OnScrubForward(InputAction.CallbackContext context);
+        void OnScrubBackward(InputAction.CallbackContext context);
+        void OnScrub(InputAction.CallbackContext context);
+        void OnEndRewind(InputAction.CallbackContext context);
+    }
+    public interface IMenuActions
+    {
+        void OnUnpause(InputAction.CallbackContext context);
     }
 }

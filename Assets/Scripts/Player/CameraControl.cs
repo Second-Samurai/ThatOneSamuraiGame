@@ -12,7 +12,7 @@ public class CameraControl : MonoBehaviour
     public Transform lockOnTarget, player, lockOnNullDummy;
     public bool bLockedOn = false;
     public EnemyTracker enemyTracker;
-    PlayerInput _playerInput;
+    PlayerInputScript _playerInput;
 
     public CinematicBars cinematicBars;
 
@@ -20,7 +20,7 @@ public class CameraControl : MonoBehaviour
     {
         _camScript = unlockedCam.GetComponent<FreeLookAddOn>();
         _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
-        _playerInput = GetComponent<PlayerInput>();
+        _playerInput = GetComponent<PlayerInputScript>();
     }*/
 
     //NOTE: this is called in player controller
@@ -36,7 +36,7 @@ public class CameraControl : MonoBehaviour
 
         _camScript = unlockedCam.GetComponent<FreeLookAddOn>();
         _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
-        _playerInput = GetComponent<PlayerInput>();
+        _playerInput = GetComponent<PlayerInputScript>();
     }
 
     void OnRotateCamera(InputValue rotDir) 
@@ -118,6 +118,31 @@ public class CameraControl : MonoBehaviour
             bLockedOn = true;
             return bLockedOn;
         }
+    }
+
+    public IEnumerator RollCam()
+    {
+        while(_lockedCamScript.cam.m_Lens.Dutch > -10)
+        {
+            _lockedCamScript.cam.m_Lens.Dutch -= Time.deltaTime * 3f;
+            _lockedCamScript.cam.m_Lens.FieldOfView -= Time.deltaTime * 3f;
+            yield return null;
+        }
+    }
+
+    public IEnumerator ResetCamRoll()
+    {
+        while (_lockedCamScript.cam.m_Lens.Dutch < 0)
+        {
+            _lockedCamScript.cam.m_Lens.Dutch += Time.deltaTime * 30f;
+            if (_lockedCamScript.cam.m_Lens.FieldOfView < 40)
+            {
+                _lockedCamScript.cam.m_Lens.FieldOfView += Time.deltaTime * 100f;
+            }
+            else _lockedCamScript.cam.m_Lens.FieldOfView = 40f;
+            yield return null;
+        }
+        _lockedCamScript.cam.m_Lens.Dutch = 0f;
     }
 
 }

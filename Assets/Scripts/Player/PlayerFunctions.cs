@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class PlayerFunctions : MonoBehaviour
 {
@@ -24,7 +26,12 @@ public class PlayerFunctions : MonoBehaviour
     Rigidbody rb;
     public bool bIsDead = false;
 
+    public RectTransform screenCenter;
+
     public GameObject rewindTut;
+    public GameObject pauseMenu;
+
+    public PlayerInput _inputComponent;
     private void Start()
     {
         _IKPuppet = GetComponent<IKPuppet>();
@@ -33,7 +40,9 @@ public class PlayerFunctions : MonoBehaviour
 
         _pDamageController = GetComponent<PDamageController>();
 
-        _animator = GetComponent<Animator>(); 
+        _animator = GetComponent<Animator>();
+
+        _inputComponent = GetComponent<PlayerInput>();
     }
     public void SetBlockCooldown()
     {
@@ -69,6 +78,7 @@ public class PlayerFunctions : MonoBehaviour
         //remove this
         if (bIsDead) rewindTut.SetActive(true);
         else rewindTut.SetActive(false);
+        Debug.Log(_inputComponent.currentActionMap);
         
     }
 
@@ -118,21 +128,25 @@ public class PlayerFunctions : MonoBehaviour
         EnableBlock();
     }
 
-    public void ApplyHit(GameObject attacker)
+    public void ApplyHit(GameObject attacker, bool unblockable)
     {
-        if (bIsParrying)
+        if (!unblockable)
         {
-            TriggerParry(attacker); 
+            if (bIsParrying)
+            {
+                TriggerParry(attacker);
+            }
+            else if (bIsBlocking)
+            {
+                TriggerBlock(attacker);
+            }
+            else
+            {
+                Debug.LogError(1);
+                KillPlayer();
+            }
         }
-        else if (bIsBlocking)
-        {
-            TriggerBlock(attacker); 
-        }
-        else
-        {
-            Debug.LogError(1);
-            KillPlayer();
-        }
+        else KillPlayer();
 
     }
 
@@ -163,7 +177,9 @@ public class PlayerFunctions : MonoBehaviour
             _animator.SetBool("isDead", true);
             //trigger rewind
             bIsDead = true;
+            _inputComponent.SwitchCurrentActionMap("Rewind");
             Debug.LogError("Player killed!");
+
         }
     }
 
@@ -179,5 +195,16 @@ public class PlayerFunctions : MonoBehaviour
     {
         bCanBlock = true;
         //Debug.LogWarning("on");
+    }
+ 
+    public void SnapToEnemy()
+    {
+        //Vector3 CenterPos = GetMousePosition(screenCenter.position, Camera.main);
+        //Vector3 attackDir = 
+    }
+
+    public void Pause()
+    {
+        pauseMenu.SetActive(true);
     }
 }

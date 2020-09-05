@@ -95,14 +95,14 @@ public class UIGuardMeter : MonoBehaviour
                 _canStayOff = true;
             }
 
-            Debug.Log(">> GuideMeter: is disabled");
+            //Debug.Log(">> GuideMeter: is disabled");
             return false;
         }
 
         //Checks if the dot product is pointing behind camera
         if (Vector3.Dot(_cameraForward, _entityDir) < 0)
         {
-            Debug.Log(">> GuideMeter: is disabled");
+            //Debug.Log(">> GuideMeter: is disabled");
             return false;
         }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerInputScript : MonoBehaviour
 {
 
     Vector2 _inputVector, lastVector, _cachedVector;
@@ -11,8 +11,8 @@ public class PlayerInput : MonoBehaviour
     public float rotationSpeed = 4f, smoothingValue = .1f;
     Animator _animator;
     public CameraControl _camControl;
-    PlayerFunctions _functions;
-    IPlayerCombat _playerCombat;
+    public PlayerFunctions _functions;
+    ICombatController _playerCombat;
     public Transform target;
     Rigidbody rb;
     PDamageController _pDamageController;
@@ -31,7 +31,7 @@ public class PlayerInput : MonoBehaviour
         _animator = GetComponent<Animator>();
         _functions = GetComponent<PlayerFunctions>();
         _camControl = GetComponent<CameraControl>();
-        _playerCombat = this.GetComponent<IPlayerCombat>();
+        _playerCombat = this.GetComponent<ICombatController>();
         rb = GetComponent<Rigidbody>();
         _pDamageController = GetComponent<PDamageController>();
         _pCombatController = GetComponent<PCombatController>();
@@ -100,7 +100,7 @@ public class PlayerInput : MonoBehaviour
         if (_playerCombat == null)
         {
             Debug.Log(">> Combat Component is missing");
-            _playerCombat = this.GetComponent<IPlayerCombat>();
+            _playerCombat = this.GetComponent<ICombatController>();
             return;
         }
 
@@ -108,6 +108,27 @@ public class PlayerInput : MonoBehaviour
         {
             Debug.Log(">> Light attack Triggered");
             _playerCombat.RunLightAttack();
+        }
+
+        if (_animator.GetBool("HeavyAttackHeld"))
+        {
+            _animator.SetBool("HeavyAttackHeld", false);
+            //_camControl.StopCoroutine(_camControl.ResetCamRoll());
+            //_camControl.StopCoroutine("RollCam");
+            _camControl.StopAllCoroutines();
+            _camControl.StartCoroutine(_camControl.ResetCamRoll());
+        }
+    }
+
+    void OnStartHeavy()
+    {
+        if (!_animator.GetBool("HeavyAttackHeld"))
+        {
+            _animator.SetBool("HeavyAttackHeld", true);
+            //_camControl.StopCoroutine(_camControl.RollCam());
+            //_camControl.StopCoroutine(_camControl.ResetCamRoll());
+            _camControl.StopAllCoroutines();
+            _camControl.StartCoroutine(_camControl.RollCam());
         }
     }
 
@@ -144,6 +165,10 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    void OnPause()
+    {
+        _functions.Pause();
+    }
    
 
     private void FixedUpdate()
@@ -253,7 +278,7 @@ public class PlayerInput : MonoBehaviour
 
     public void Test()
     {
-        _pDamageController.OnEntityDamage(1, this.gameObject);
+        _pDamageController.OnEntityDamage(1, this.gameObject, false);
     }
 
     private void Update()

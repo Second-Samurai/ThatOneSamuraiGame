@@ -33,4 +33,9 @@ public class FreeLookAddOn : MonoBehaviour
     {
         cam.LookAt = target;
     }
+
+    public void SetSensitivity(float sensitivity)
+    {
+        lookSpeed = sensitivity;
+    }
 }

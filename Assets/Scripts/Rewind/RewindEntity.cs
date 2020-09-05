@@ -99,5 +99,9 @@ public class RewindEntity : MonoBehaviour
 
     }
 
+    public virtual void ApplyData()
+    {
+
+    }
 
 }

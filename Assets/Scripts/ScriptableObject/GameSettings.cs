@@ -8,6 +8,7 @@ public class GameSettings : ScriptableObject
     [Header("Settings")]
     public PlayerSettings playerSettings;
     public EnemySettings enemySettings;
+    public InputSettings inputSettings;
 
     [Header("Camera Objects")]
     public GameObject thirdPersonViewCam;
@@ -21,6 +22,10 @@ public class GameSettings : ScriptableObject
 
     [Header("Sword Effects")]
     public GameObject swordSlash01;
+
+    [Space]
+    public GameObject largeParry;
+    public GameObject smallParry;
 
     [Header("Spark Effects")]
     public GameObject slashImpact01;

@@ -7,14 +7,9 @@ using UnityEngine.Events;
 public class TestStaticTarget : MonoBehaviour, IDamageable
 {
     public bool isDamageEnabled = true;
-    //public bool canGuard = true;
-    //public bool isStunned = false; //This is temporary make state when possible
-
-    //A stunned state is probably required 
 
     [HideInInspector] public StatHandler testEnemyStats;
     [HideInInspector] public Guarding enemyGuard;
-    //[HideInInspector] public UnityEvent OnGuardEvent = new UnityEvent();
 
 
     void Start()
@@ -26,10 +21,6 @@ public class TestStaticTarget : MonoBehaviour, IDamageable
 
         enemyGuard = this.gameObject.AddComponent<Guarding>();
         enemyGuard.Init(testEnemyStats);
-
-        //GameManager gameManager = GameManager.instance;
-        //UIGuardMeter guardMeter = gameManager.CreateEntityGuardMeter(this.transform, testEnemyStats);
-        //OnGuardEvent.AddListener(guardMeter.UpdateGuideMeter);
     }
 
     public void DisableDamage()
@@ -45,15 +36,7 @@ public class TestStaticTarget : MonoBehaviour, IDamageable
     public void OnEntityDamage(float damage, GameObject attacker)
     {
         if (!isDamageEnabled) return;
-        /*if (canGuard && !isStunned)
-        {
-            StopAllCoroutines();
 
-            //if(testEnemyStats.CurrentGuard )
-
-            CalculateGuard(damage);
-            return;
-        }*/
         if (enemyGuard.CheckIfEntityGuarding(damage)) return;
 
         //Applies damage
@@ -64,5 +47,15 @@ public class TestStaticTarget : MonoBehaviour, IDamageable
     {
         testEnemyStats.CurrentHealth -= damage;
         Debug.Log(">> " + gameObject.name + ", Damage applied: " + damage);
+    }
+
+    public bool CheckCanDamage()
+    {
+        return true;
+    }
+
+    public EntityType GetEntityType()
+    {
+        return EntityType.Enemy;
     }
 }

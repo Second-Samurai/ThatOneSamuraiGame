@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 //Empty For now
-public interface IPlayerCombat {
+public interface ICombatController {
+    EntityCombatType GetCombatType();
+
     void RunLightAttack();
     void BlockCombatInputs();
     void UnblockCombatInputs();
@@ -12,7 +14,7 @@ public interface IPlayerCombat {
     void UnsheathSword();
 }
 
-public class PCombatController : MonoBehaviour, IPlayerCombat
+public class PCombatController : MonoBehaviour, ICombatController
 {
     //Public variables
     public bool _isAttacking = false;
@@ -23,9 +25,12 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     //Private Variables
     private PlayerInput _playerInput;
     private PlayerFunctions _functions;
+    private PDamageController _damageController;
+    private EntityCombatType _combatType;
     private StatHandler _playerStats;
     private Animator _animator;
-    private PSword _playerSword;
+    private WSwordEffect _playerSword;
+    private EntityAttackRegister _attackRegister;
 
     private float _chargeTime;
     private int _comboHits;
@@ -38,11 +43,15 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         this._animator = this.GetComponent<Animator>();
         comboTracker = GetComponent<AttackChainTracker>();
 
-        _playerSword = this.GetComponentInChildren<PSword>();
+        _playerSword = this.GetComponentInChildren<WSwordEffect>();
         _playerSword.SetParentTransform(this.gameObject.transform);
         _playerInput = GetComponent<PlayerInput>();
+        _damageController = GetComponent<PDamageController>();
         _functions = GetComponent<PlayerFunctions>();
         attackCol = GetComponentInChildren<BoxCollider>();
+
+        _attackRegister = new EntityAttackRegister();
+        _attackRegister.Init(this.gameObject, EntityType.Player, _playerSword);
     }
      
     /// <summary>
@@ -61,7 +70,6 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
             _animator.SetTrigger("AttackLight");
         }
         _animator.SetInteger("ComboCount", _comboHits);
-
     }
 
     private void HeavyAttack()
@@ -79,11 +87,13 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     public void BlockCombatInputs()
     {
         _isInputBlocked = true;
+        _combatType = EntityCombatType.Block;
     }
 
     public void UnblockCombatInputs()
     {
         _isInputBlocked = false;
+        _combatType = EntityCombatType.Attack;
     }
 
     public void SheathSword()
@@ -121,6 +131,11 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
         attackCol.enabled = false;
     }
 
+    public EntityCombatType GetCombatType()
+    {
+        return _combatType;
+    }
+
     private float CalculateDamage()
     {
         return _playerStats.baseDamage;
@@ -130,10 +145,6 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
     {
         if (!_isAttacking) return;
 
-        //Returns when the entity is itself the player
-        if (other.GetComponent<IPlayerController>() != null) return;
-
-        //Collects IDamageable component of the entity
         IDamageable attackEntity = other.GetComponent<IDamageable>();
         if (attackEntity == null)
         {
@@ -141,7 +152,8 @@ public class PCombatController : MonoBehaviour, IPlayerCombat
             return;
         }
 
-        if(!other.gameObject.CompareTag("Boards")) _playerSword.CreateImpactEffect(other.transform, HitType.DamageableTarget);
-        attackEntity.OnEntityDamage(CalculateDamage(), this.gameObject);
+        //Registers attack to the attackRegister
+        _attackRegister.RegisterAttackTarget(attackEntity, other, CalculateDamage(), true);
+
     }
 }

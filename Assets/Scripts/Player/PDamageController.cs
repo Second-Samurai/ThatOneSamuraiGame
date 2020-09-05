@@ -4,6 +4,9 @@ using Enemies;
 using UnityEngine;
 
 public interface IDamageable {
+    EntityType GetEntityType();
+    bool CheckCanDamage();
+
     void OnEntityDamage(float damage, GameObject attacker);
     void DisableDamage();
     void EnableDamage();
@@ -44,5 +47,15 @@ public class PDamageController : MonoBehaviour, IDamageable
     private void Start()
     {
         _functions = GetComponent<PlayerFunctions>();
+    }
+
+    public bool CheckCanDamage()
+    {
+        return _isDamageDisabled;
+    }
+
+    public EntityType GetEntityType()
+    {
+        return EntityType.Player;
     }
 }

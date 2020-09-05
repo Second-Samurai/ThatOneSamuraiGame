@@ -6,6 +6,7 @@ public class BoardBreak : MonoBehaviour, IDamageable
 {
     public List<Rigidbody> boards = new List<Rigidbody>();
     public BoxCollider thisCol;
+    public StatHandler statHandler; //objects with idamageable require this
 
     private void Start()
     {
@@ -34,5 +35,13 @@ public class BoardBreak : MonoBehaviour, IDamageable
         }
     }
 
-    
+    public bool CheckCanDamage()
+    {
+        return true;
+    }
+
+    public EntityType GetEntityType()
+    {
+        return EntityType.Destructible;
+    }
 }

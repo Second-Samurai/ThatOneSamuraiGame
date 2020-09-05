@@ -12,7 +12,7 @@ public class PlayerInput : MonoBehaviour
     Animator _animator;
     public CameraControl _camControl;
     PlayerFunctions _functions;
-    IPlayerCombat _playerCombat;
+    ICombatController _playerCombat;
     public Transform target;
     Rigidbody rb;
     PDamageController _pDamageController;
@@ -31,7 +31,7 @@ public class PlayerInput : MonoBehaviour
         _animator = GetComponent<Animator>();
         _functions = GetComponent<PlayerFunctions>();
         _camControl = GetComponent<CameraControl>();
-        _playerCombat = this.GetComponent<IPlayerCombat>();
+        _playerCombat = this.GetComponent<ICombatController>();
         rb = GetComponent<Rigidbody>();
         _pDamageController = GetComponent<PDamageController>();
         _pCombatController = GetComponent<PCombatController>();
@@ -100,7 +100,7 @@ public class PlayerInput : MonoBehaviour
         if (_playerCombat == null)
         {
             Debug.Log(">> Combat Component is missing");
-            _playerCombat = this.GetComponent<IPlayerCombat>();
+            _playerCombat = this.GetComponent<ICombatController>();
             return;
         }
 

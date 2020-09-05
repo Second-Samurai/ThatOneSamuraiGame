@@ -51,4 +51,14 @@ public class EDamageController : MonoBehaviour, IDamageable
     {
         aiSystem = GetComponent<AISystem>();
     }
+
+    public bool CheckCanDamage()
+    {
+        return _isDamageDisabled;
+    }
+
+    public EntityType GetEntityType()
+    {
+        return EntityType.Enemy;
+    }
 }

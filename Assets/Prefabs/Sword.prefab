@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3382333992990730575}
-  - component: {fileID: 6294473813513506751}
-  m_Layer: 11
+  - component: {fileID: 9045346364742973533}
+  m_Layer: 9
   m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,14 +26,14 @@ Transform:
   m_GameObject: {fileID: 3382333992990730574}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.73, y: 1.86, z: -5.45}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1.2499999}
   m_Children:
   - {fileID: 2988929614132678355}
   - {fileID: 2988929613920184473}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6294473813513506751
+--- !u!114 &9045346364742973533
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,6 +127,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Katana-Blade
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8d5191df4bbf8294380700e3d9df0110,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d5191df4bbf8294380700e3d9df0110, type: 3}
 --- !u!4 &2988929614132678355 stripped
@@ -202,10 +207,35 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.76
       objectReference: {fileID: 0}
+    - target: {fileID: -5568371526223589888, guid: d2ee8a69fa7599b4295086f4198e997d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -1484000759336623469, guid: d2ee8a69fa7599b4295086f4198e997d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: -27154995322827956, guid: d2ee8a69fa7599b4295086f4198e997d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d2ee8a69fa7599b4295086f4198e997d,
         type: 3}
       propertyPath: m_Name
       value: Katana-Hilt
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d2ee8a69fa7599b4295086f4198e997d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8513859187771203891, guid: d2ee8a69fa7599b4295086f4198e997d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2ee8a69fa7599b4295086f4198e997d, type: 3}

@@ -5,22 +5,23 @@ using UnityEngine;
 public class AIAnimationRewindEntity : RewindEntity
 {
     public List<AIAnimationTimeData> animationDataList;
-    // to be extrated
+
     [SerializeField]
     private Animator animator;
     public AnimatorClipInfo[] m_CurrentClipInfo;
 
-    // to be extracted;
-    // private PlayerInputScript playerInput;
+
 
     // Start is called before the first frame update
     protected new void Start()
     {
+        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
         animationDataList = new List<AIAnimationTimeData>();
         animator = gameObject.GetComponent<Animator>();
 
-        // to be extracted
-        // playerInput = gameObject.GetComponent<PlayerInputScript>();
+        _rewindInput.Reset += ResetTimeline;
+
+       
         base.Start();
     }
 
@@ -40,6 +41,15 @@ public class AIAnimationRewindEntity : RewindEntity
         }
 
 
+    }
+
+    public new void ResetTimeline()
+    {
+        for (int i = currentIndex; i >= 0; i--)
+        {
+            animationDataList.RemoveAt(i);
+        }
+        animationDataList.TrimExcess();
     }
 
     public new void RecordPast()
@@ -65,9 +75,9 @@ public class AIAnimationRewindEntity : RewindEntity
 
         if (animationDataList.Count > 0)
         {
-            SetPosition();
             if (currentIndex < animationDataList.Count - 1)
             {
+              SetPosition();
                 currentIndex++;
             }
             Debug.LogWarning("animStepBack");
@@ -78,9 +88,9 @@ public class AIAnimationRewindEntity : RewindEntity
     {
         if (animationDataList.Count > 0)
         {
-            SetPosition();
             if (currentIndex > 0)
             {
+                SetPosition();
                 currentIndex--;
             }
             Debug.LogWarning("animStepForward");

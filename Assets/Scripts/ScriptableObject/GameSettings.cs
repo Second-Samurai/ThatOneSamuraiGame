@@ -38,4 +38,7 @@ public class GameSettings : ScriptableObject
 
     [Space]
     public GameObject guardMeterPrefab;
+
+    [Header("RewindManager")]
+    public GameObject rewindManager;
 }

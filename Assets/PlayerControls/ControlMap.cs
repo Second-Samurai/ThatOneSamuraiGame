@@ -551,22 +551,6 @@ public class @ControlMap : IInputActionCollection, IDisposable
             ""id"": ""de798162-45d1-45f2-ab63-79fef9aab4a3"",
             ""actions"": [
                 {
-                    ""name"": ""ScrubForward"",
-                    ""type"": ""Value"",
-                    ""id"": ""5e049e25-2a04-4788-98c9-b80ccd6c4902"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Press(behavior=2)""
-                },
-                {
-                    ""name"": ""ScrubBackward"",
-                    ""type"": ""Value"",
-                    ""id"": ""072df395-b600-4639-aa7e-334447017907"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Press(behavior=2)""
-                },
-                {
                     ""name"": ""Scrub"",
                     ""type"": ""Value"",
                     ""id"": ""20d4465d-c314-49ba-bbee-0182099a77d1"",
@@ -584,50 +568,6 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""b00d62cb-6871-43b0-b8cd-33f48d6e4ee3"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""ScrubForward"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""a0fbdc32-1ad7-4332-84ba-b44c20c77fa8"",
-                    ""path"": ""<Gamepad>/dpad/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""ScrubForward"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3175aadf-090a-4079-ba70-7a88ee651466"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""ScrubBackward"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""eb808d0d-df4f-46c0-9902-462749ae839e"",
-                    ""path"": ""<Gamepad>/dpad/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""ScrubBackward"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": ""1D Axis"",
                     ""id"": ""1f59be54-64fb-480c-b051-21570d1b079c"",
@@ -774,8 +714,6 @@ public class @ControlMap : IInputActionCollection, IDisposable
         m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
         // Rewind
         m_Rewind = asset.FindActionMap("Rewind", throwIfNotFound: true);
-        m_Rewind_ScrubForward = m_Rewind.FindAction("ScrubForward", throwIfNotFound: true);
-        m_Rewind_ScrubBackward = m_Rewind.FindAction("ScrubBackward", throwIfNotFound: true);
         m_Rewind_Scrub = m_Rewind.FindAction("Scrub", throwIfNotFound: true);
         m_Rewind_EndRewind = m_Rewind.FindAction("EndRewind", throwIfNotFound: true);
         // Menu
@@ -983,16 +921,12 @@ public class @ControlMap : IInputActionCollection, IDisposable
     // Rewind
     private readonly InputActionMap m_Rewind;
     private IRewindActions m_RewindActionsCallbackInterface;
-    private readonly InputAction m_Rewind_ScrubForward;
-    private readonly InputAction m_Rewind_ScrubBackward;
     private readonly InputAction m_Rewind_Scrub;
     private readonly InputAction m_Rewind_EndRewind;
     public struct RewindActions
     {
         private @ControlMap m_Wrapper;
         public RewindActions(@ControlMap wrapper) { m_Wrapper = wrapper; }
-        public InputAction @ScrubForward => m_Wrapper.m_Rewind_ScrubForward;
-        public InputAction @ScrubBackward => m_Wrapper.m_Rewind_ScrubBackward;
         public InputAction @Scrub => m_Wrapper.m_Rewind_Scrub;
         public InputAction @EndRewind => m_Wrapper.m_Rewind_EndRewind;
         public InputActionMap Get() { return m_Wrapper.m_Rewind; }
@@ -1004,12 +938,6 @@ public class @ControlMap : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_RewindActionsCallbackInterface != null)
             {
-                @ScrubForward.started -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrubForward;
-                @ScrubForward.performed -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrubForward;
-                @ScrubForward.canceled -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrubForward;
-                @ScrubBackward.started -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrubBackward;
-                @ScrubBackward.performed -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrubBackward;
-                @ScrubBackward.canceled -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrubBackward;
                 @Scrub.started -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrub;
                 @Scrub.performed -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrub;
                 @Scrub.canceled -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrub;
@@ -1020,12 +948,6 @@ public class @ControlMap : IInputActionCollection, IDisposable
             m_Wrapper.m_RewindActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @ScrubForward.started += instance.OnScrubForward;
-                @ScrubForward.performed += instance.OnScrubForward;
-                @ScrubForward.canceled += instance.OnScrubForward;
-                @ScrubBackward.started += instance.OnScrubBackward;
-                @ScrubBackward.performed += instance.OnScrubBackward;
-                @ScrubBackward.canceled += instance.OnScrubBackward;
                 @Scrub.started += instance.OnScrub;
                 @Scrub.performed += instance.OnScrub;
                 @Scrub.canceled += instance.OnScrub;
@@ -1108,8 +1030,6 @@ public class @ControlMap : IInputActionCollection, IDisposable
     }
     public interface IRewindActions
     {
-        void OnScrubForward(InputAction.CallbackContext context);
-        void OnScrubBackward(InputAction.CallbackContext context);
         void OnScrub(InputAction.CallbackContext context);
         void OnEndRewind(InputAction.CallbackContext context);
     }

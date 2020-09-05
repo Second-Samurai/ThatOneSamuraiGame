@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public GameObject thirdPersonViewCamera;
     [HideInInspector] public PlayerController playerController;
     [HideInInspector] public Camera mainCamera;
+    public RewindManager rewindManager;
     public EnemyTracker enemyTracker;
 
     //UICanvases
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
 
         SetupSceneCamera();
         SetupUI();
+        SetupRewind();
     }
 
     // Start is called before the first frame update
@@ -82,7 +84,7 @@ public class GameManager : MonoBehaviour
     {
         TestStaticTarget[] testEnemies = FindObjectsOfType<TestStaticTarget>();
 
-        Debug.Log(testEnemies.Length);
+       // Debug.Log(testEnemies.Length);
 
         //Check if there is none
         if (testEnemies.Length == 0) return;
@@ -91,6 +93,11 @@ public class GameManager : MonoBehaviour
         {
             enemyTracker.AddEnemy(enemy.GetComponentInParent<Transform>());
         }
+    }
+
+    void SetupRewind() 
+    { 
+        rewindManager = Instantiate(gameSettings.rewindManager, transform.position, Quaternion.identity).GetComponent<RewindManager>();
     }
 
     //POSSIBLY PARTITION INTO A UI MANAGER

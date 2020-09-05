@@ -10,7 +10,7 @@ public class RewindEntity : MonoBehaviour
     public List<PositionalTimeData> transformDataList;
     public Transform thisTransform;
 
-    RewindInput _rewindInput;
+    public RewindManager _rewindInput;
 
     //[Header("TimeThreashold")]
 
@@ -27,10 +27,12 @@ public class RewindEntity : MonoBehaviour
         transformDataList = new List<PositionalTimeData>();
         thisTransform = gameObject.transform;
 
-        _rewindInput = gameObject.GetComponent<RewindInput>();
+        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
+        _rewindInput.rewindObjects.Add(this);
         _rewindInput.StepForward += StepForward;
         _rewindInput.StepBack += StepBack;
 
+        _rewindInput.Reset += ResetTimeline;
 
     }
 
@@ -62,6 +64,7 @@ public class RewindEntity : MonoBehaviour
             transformDataList.RemoveAt(i);
         }
         currentIndex = 0;
+        transformDataList.TrimExcess();
     }
 
     public virtual void StepBack() 
@@ -69,10 +72,15 @@ public class RewindEntity : MonoBehaviour
 
         if (transformDataList.Count > 0) 
         {
-            SetPosition();
             if (currentIndex < transformDataList.Count - 1) 
             {
                 currentIndex++;
+                if (currentIndex >= transformDataList.Count - 1)
+                {
+                    currentIndex = transformDataList.Count - 1;
+                }
+                SetPosition();
+                
             }
             //Debug.Log("StepBack");
         }
@@ -82,9 +90,9 @@ public class RewindEntity : MonoBehaviour
     {
         if (transformDataList.Count > 0)
         {
-            SetPosition();
             if (currentIndex > 0)
             {
+                SetPosition();
                 currentIndex--;
             }
            // Debug.Log("StepForward");

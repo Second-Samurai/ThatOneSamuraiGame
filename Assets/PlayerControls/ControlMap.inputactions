@@ -70,7 +70,7 @@
                     "interactions": "Press"
                 },
                 {
-                    "name": "ScrubForward",
+                    "name": "ScrubForwardOLD",
                     "type": "Value",
                     "id": "fb68f0ce-984f-4167-8e4d-d9c07aee1e24",
                     "expectedControlType": "Button",
@@ -78,7 +78,7 @@
                     "interactions": "Press(behavior=2)"
                 },
                 {
-                    "name": "ScrubBackward",
+                    "name": "ScrubBackwardOLD",
                     "type": "Value",
                     "id": "fd6e816c-1091-4ea7-9a26-79325a93cb37",
                     "expectedControlType": "Button",
@@ -86,7 +86,7 @@
                     "interactions": "Press(behavior=2)"
                 },
                 {
-                    "name": "Scrub",
+                    "name": "ScrubOLD",
                     "type": "Value",
                     "id": "a01967d2-ed35-4228-81c7-8f9483263fb6",
                     "expectedControlType": "Axis",
@@ -362,7 +362,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "ScrubForward",
+                    "action": "ScrubForwardOLD",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -373,7 +373,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "ScrubForward",
+                    "action": "ScrubForwardOLD",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -384,7 +384,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "ScrubBackward",
+                    "action": "ScrubBackwardOLD",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -395,7 +395,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "ScrubBackward",
+                    "action": "ScrubBackwardOLD",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -406,7 +406,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Scrub",
+                    "action": "ScrubOLD",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -417,7 +417,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Scrub",
+                    "action": "ScrubOLD",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -428,7 +428,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Scrub",
+                    "action": "ScrubOLD",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -528,6 +528,145 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Rewind",
+            "id": "de798162-45d1-45f2-ab63-79fef9aab4a3",
+            "actions": [
+                {
+                    "name": "ScrubForward",
+                    "type": "Value",
+                    "id": "5e049e25-2a04-4788-98c9-b80ccd6c4902",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "ScrubBackward",
+                    "type": "Value",
+                    "id": "072df395-b600-4639-aa7e-334447017907",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "Scrub",
+                    "type": "Value",
+                    "id": "20d4465d-c314-49ba-bbee-0182099a77d1",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "EndRewind",
+                    "type": "Button",
+                    "id": "79a9d872-5340-4333-8f11-7577c02c03cf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b00d62cb-6871-43b0-b8cd-33f48d6e4ee3",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ScrubForward",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a0fbdc32-1ad7-4332-84ba-b44c20c77fa8",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ScrubForward",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3175aadf-090a-4079-ba70-7a88ee651466",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "ScrubBackward",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eb808d0d-df4f-46c0-9902-462749ae839e",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ScrubBackward",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "1f59be54-64fb-480c-b051-21570d1b079c",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scrub",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "aaa1bd4e-05e2-49dd-9d34-ed98cca85ba4",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Scrub",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "04c2f116-7a8f-4f84-aaba-0d2aab4a0882",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Scrub",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "7ee15c39-35af-42ed-b9b3-7331e19b09fb",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "EndRewind",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fc3e5acf-1194-46b2-a6ca-ab70ab3750b3",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "EndRewind",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

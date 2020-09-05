@@ -16,11 +16,13 @@ public class RewindInput : MonoBehaviour
     public bool isTravelling = false;
     private RewindEntity rewindEntity;
     WaitForSecondsRealtime wait = new WaitForSecondsRealtime(.05f);
+    PlayerInput _inputComponent;
 
     // Start is called before the first frame update
     void Start()
     {
         rewindEntity = gameObject.GetComponent<RewindEntity>();
+        _inputComponent = GetComponent<PlayerInput>();
     }
 
     IEnumerator RewindCoroutine() 
@@ -60,17 +62,29 @@ public class RewindInput : MonoBehaviour
 
     void OnInitRewind() 
     {
+        _inputComponent.SwitchCurrentActionMap("Rewind");
+        if (!isTravelling)
+        {
+            isTravelling = true;
+            rewindEntity.isTravelling = isTravelling;
+            // Debug.Log("rewinding");
+            if (isTravelling)
+            {
+                StartCoroutine("RewindCoroutine");
+            }
+        }
+    }
+
+    void OnEndRewind()
+    {
+        rewindEntity.ApplyData();
+        _inputComponent.SwitchCurrentActionMap("Gameplay");
         if (isTravelling)
         {
             rewindEntity.ResetTimeline();
         }
-        isTravelling = !isTravelling;
-        rewindEntity.isTravelling = isTravelling;
-       // Debug.Log("rewinding");
-        if (isTravelling) 
-        {
-            StartCoroutine("RewindCoroutine");    
-        }
+        isTravelling = false;
+        rewindEntity.isTravelling = false; 
     }
 
     public void DeathRewind()

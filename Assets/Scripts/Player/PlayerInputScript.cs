@@ -11,7 +11,7 @@ public class PlayerInputScript : MonoBehaviour
     public float rotationSpeed = 4f, smoothingValue = .1f;
     Animator _animator;
     public CameraControl _camControl;
-    PlayerFunctions _functions;
+    public PlayerFunctions _functions;
     ICombatController _playerCombat;
     public Transform target;
     Rigidbody rb;

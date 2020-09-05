@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class PlayerFunctions : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class PlayerFunctions : MonoBehaviour
 
     public GameObject rewindTut;
     public GameObject pauseMenu;
+
+    public PlayerInput _inputComponent;
     private void Start()
     {
         _IKPuppet = GetComponent<IKPuppet>();
@@ -37,7 +40,9 @@ public class PlayerFunctions : MonoBehaviour
 
         _pDamageController = GetComponent<PDamageController>();
 
-        _animator = GetComponent<Animator>(); 
+        _animator = GetComponent<Animator>();
+
+        _inputComponent = GetComponent<PlayerInput>();
     }
     public void SetBlockCooldown()
     {
@@ -73,6 +78,7 @@ public class PlayerFunctions : MonoBehaviour
         //remove this
         if (bIsDead) rewindTut.SetActive(true);
         else rewindTut.SetActive(false);
+        Debug.Log(_inputComponent.currentActionMap);
         
     }
 
@@ -171,7 +177,9 @@ public class PlayerFunctions : MonoBehaviour
             _animator.SetBool("isDead", true);
             //trigger rewind
             bIsDead = true;
+            _inputComponent.SwitchCurrentActionMap("Rewind");
             Debug.LogError("Player killed!");
+
         }
     }
 

@@ -3,14 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Identification and filtering of nearest enemies
+/// </summary>
 public class CloseEnemyGuideControl
 {
     private Transform _attachedPlayer;
+    //private Rigidbody _attachedRigidbody;
     private Transform _lastEnemy = null;
+    //private PCombatController _playerCombat;
+    private AttackSlide _slideController;
 
-    public void Init(Transform playerTransform)
+    private PlayerSettings _settings;
+
+    public void Init(PCombatController playerCombat, Transform playerTransform, Rigidbody rigidbody)
     {
         this._attachedPlayer = playerTransform;
+        _settings = GameManager.instance.gameSettings.playerSettings;
+
+        _slideController = new AttackSlide();
+        _slideController.Init(playerCombat, rigidbody);
     }
 
     /// <summary>
@@ -18,16 +30,32 @@ public class CloseEnemyGuideControl
     /// </summary>
     public void MoveToNearestEnemy()
     {
-        //Check if last enemy is null else slide to player
-        Debug.Log(">> Closest Enemy: " + FindClosestEnemy());
-        //TODO: Check if last enerfy is still valid to attack
+        if (CheckLastAttackedEnemy()) return;
+
+        GameObject result = FindClosestEnemy();
+
+        if (result != null)
+        {
+            _lastEnemy = result.transform;
+            _slideController.SlideToEnemy(_lastEnemy);
+        }
     }
 
-    // Summary: Modifies player's movement to slide closer during attack to enemy
+    // Summary: Checks whether last registered attacked enemy is valid to attack
     //
-    private void SlideToEnemy(Transform closestEnemy)
+    private bool CheckLastAttackedEnemy()
     {
+        if (_lastEnemy != null)
+        {
+            Vector3 direction = (_lastEnemy.position - _attachedPlayer.position).normalized;
+            if (CheckIfForward(direction) && CheckMinDistance(_attachedPlayer.position, _lastEnemy.position, _settings.minimumAttackDist))
+            {
+                _slideController.SlideToEnemy(_lastEnemy);
+                return true;
+            }
+        }
 
+        return false;
     }
 
     // Summary: Gets the closest enemy from collection of nearby enemies.
@@ -61,7 +89,7 @@ public class CloseEnemyGuideControl
     //
     private List<GameObject> GetNearbyObjects()
     {
-        List<Collider> hitColliders = Physics.OverlapSphere(_attachedPlayer.position, 10).Where(x => x.GetComponent<IDamageable>() != null).ToList();
+        List<Collider> hitColliders = Physics.OverlapSphere(_attachedPlayer.position, _settings.detectionRadius).Where(x => x.GetComponent<IDamageable>() != null).ToList();
         List<GameObject> nearbyEnemies = new List<GameObject>();
         IDamageable entities;
 
@@ -101,17 +129,21 @@ public class CloseEnemyGuideControl
     {
         GameObject nearestEnemy = forwardEnemies[0];
         float closestDistance = Vector3.Distance(_attachedPlayer.position, forwardEnemies[0].transform.position);
-        float calcDistance = 0;
 
         for (int i = 0; i < forwardEnemies.Count; i++)
         {
-            calcDistance = Vector3.Distance(_attachedPlayer.position, forwardEnemies[i].transform.position);
-
-            if (calcDistance < closestDistance)
+            if (CheckMinDistance(_attachedPlayer.position, forwardEnemies[i].transform.position, closestDistance))
                 nearestEnemy = forwardEnemies[i];
         }
 
         return nearestEnemy;
+    }
+
+    // Summary: Checks the distance between two positions and whether its below the threshold
+    //
+    private bool CheckMinDistance(Vector3 playerPos, Vector3 enemyPos, float threshold)
+    {
+        return Vector3.Distance(playerPos, enemyPos) < threshold;
     }
 
     // Summary: Checks whether enemy entity is forward
@@ -119,17 +151,6 @@ public class CloseEnemyGuideControl
     private bool CheckIfForward(Vector3 enemyDirection)
     {
         Debug.Log(">> Dot Product Result: " + Vector3.Dot(_attachedPlayer.forward.normalized, enemyDirection));
-        return Vector3.Dot(_attachedPlayer.forward.normalized, enemyDirection) > 0.7f;
+        return Vector3.Dot(_attachedPlayer.forward.normalized, enemyDirection) > _settings.forwardDotLimit;
     }
-
-    // Summary: Checks whether enemy entitiy is on the same elevation
-    //
-    private bool CheckIfSameElevation(Transform enemyTransform)
-    {
-        float heightDist = Vector3.Distance(_attachedPlayer.position, enemyTransform.position);
-        if (heightDist > 1.5f) return false;
-
-        return true;
-    }
-
 }

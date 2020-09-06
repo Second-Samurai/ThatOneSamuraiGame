@@ -28,7 +28,7 @@ namespace Enemy_Scripts
             if (EnemyState != null)
             {
                 EnemyState.Tick();
-                Debug.LogError(EnemyState);
+                // Debug.Log(EnemyState);
             }
         }
     }

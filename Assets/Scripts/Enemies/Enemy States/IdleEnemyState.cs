@@ -13,7 +13,7 @@ namespace Enemies.Enemy_States
         public override IEnumerator BeginState()
         {
             // Placeholder Behaviour, place actions here
-            Debug.Log("is idle");
+            // Debug.Log("is idle");
 
             yield break;
         }

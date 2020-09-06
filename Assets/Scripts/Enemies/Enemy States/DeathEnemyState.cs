@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Enemies.Enemy_States
 {
-    public class EnemyDeathState : EnemyState
+    public class DeathEnemyState : EnemyState
     {
         //Class constructor
-        public EnemyDeathState(AISystem aiSystem) : base(aiSystem)
+        public DeathEnemyState(AISystem aiSystem) : base(aiSystem)
         {
         }
 

@@ -210,7 +210,7 @@ namespace Enemies
         public void OnEnemyStun()
         {
             animator.SetBool("IsGuardBroken", true);
-            SetState(new EnemyStunState(this));
+            SetState(new StunEnemyState(this));
         }
 
         public void OnEnemyRecovery()
@@ -220,12 +220,12 @@ namespace Enemies
 
         public void OnEnemyDeath()
         {
-            SetState(new EnemyDeathState(this));
+            SetState(new DeathEnemyState(this));
         }
 
         public void OnEnemyRewind() 
         {
-            SetState(new EnemyRewindState(this));
+            SetState(new RewindEnemyState(this));
 
         }
 

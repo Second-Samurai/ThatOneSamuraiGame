@@ -7,10 +7,10 @@ public interface ICheck {
 
 namespace Enemies.Enemy_States
 {
-    public class EnemyStunState : EnemyState
+    public class StunEnemyState : EnemyState
     {
         //Class constructor
-        public EnemyStunState(AISystem aiSystem) : base(aiSystem)
+        public StunEnemyState(AISystem aiSystem) : base(aiSystem)
         {
         }
 

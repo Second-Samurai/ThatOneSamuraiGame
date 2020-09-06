@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Enemies.Enemy_States
 {
-    public class EnemyRewindState : EnemyState
+    public class RewindEnemyState : EnemyState
     {
         //Class constructor
-        public EnemyRewindState(AISystem aiSystem) : base(aiSystem)
+        public RewindEnemyState(AISystem aiSystem) : base(aiSystem)
         {
         }
 

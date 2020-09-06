@@ -37,8 +37,15 @@
             <e p="NavMeshSurface.cs" t="Include" />
           </e>
         </e>
+        <e p="OptionsMenu.cs" t="Include" />
+        <e p="PauseMenu.cs" t="Include" />
         <e p="PlayerControls" t="Include">
           <e p="ControlMap.cs" t="Include" />
+        </e>
+        <e p="Prefabs" t="Include">
+          <e p="Managers" t="Include">
+            <e p="RewindManager.cs" t="Include" />
+          </e>
         </e>
         <e p="ScriptableObjectInterfaces" t="Include">
           <e p="GameEvent.cs" t="Include" />
@@ -64,11 +71,12 @@
             <e p="Enemy States" t="Include">
               <e p="ApproachPlayerEnemyState.cs" t="Include" />
               <e p="BlockEnemyState.cs" t="Include" />
-              <e p="EnemyDeathState.cs" t="Include" />
+              <e p="DeathEnemyState.cs" t="Include" />
               <e p="EnemyState.cs" t="Include" />
-              <e p="EnemyStunState.cs" t="Include" />
               <e p="IdleEnemyState.cs" t="Include" />
               <e p="LightAttackEnemyState.cs" t="Include" />
+              <e p="RewindEnemyState.cs" t="Include" />
+              <e p="StunEnemyState.cs" t="Include" />
             </e>
             <e p="EnemyStateMachine.cs" t="Include" />
             <e p="Projectile.cs" t="Include" />
@@ -92,11 +100,17 @@
             <e p="IKPuppet.cs" t="Include" />
             <e p="PCombatController.cs" t="Include" />
             <e p="PDamageController.cs" t="Include" />
+            <e p="PFeetGrounded.cs" t="Include" />
             <e p="PlayerController.cs" t="Include" />
             <e p="PlayerFunctions.cs" t="Include" />
-            <e p="PlayerInput.cs" t="Include" />
-            <e p="PSword.cs" t="Include" />
+            <e p="PlayerInputScript.cs" t="Include" />
+            <e p="RelatedClasses" t="Include">
+              <e p="AttackSlide.cs" t="Include" />
+              <e p="CloseEnemyGuideControl.cs" t="Include" />
+              <e p="EntityAttackRegister.cs" t="Include" />
+            </e>
             <e p="StatesAndMachine" t="Include">
+              <e p="PDeathState.cs" t="Include" />
               <e p="PlayerStateMachine.cs" t="Include" />
               <e p="PNormalState.cs" t="Include" />
               <e p="PRewindState.cs" t="Include" />
@@ -108,10 +122,6 @@
               <e p="AIAnimationTimeData.cs" t="Include" />
               <e p="EnemyRewindData.cs" t="Include" />
               <e p="EnemyRewindEntity.cs" t="Include" />
-              <e p="TempArcher" t="Include">
-                <e p="TempArcherTimeData.cs" t="Include" />
-                <e p="TempArcherTimeEntity.cs" t="Include" />
-              </e>
             </e>
             <e p="CameraRewindData" t="Include">
               <e p="CameraRewindEntity.cs" t="Include" />
@@ -134,6 +144,7 @@
           <e p="ScriptableObject" t="Include">
             <e p="EnemySettings.cs" t="Include" />
             <e p="GameSettings.cs" t="Include" />
+            <e p="InputSettings.cs" t="Include" />
             <e p="PlayerSettings.cs" t="Include" />
           </e>
           <e p="Test" t="Include">
@@ -147,6 +158,9 @@
             </e>
             <e p="Popop.cs" t="Include" />
             <e p="UIGuardMeter.cs" t="Include" />
+          </e>
+          <e p="Weapon" t="Include">
+            <e p="WSwordEffect.cs" t="Include" />
           </e>
         </e>
         <e p="Shaders" t="Include">

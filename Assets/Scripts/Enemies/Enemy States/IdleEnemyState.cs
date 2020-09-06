@@ -12,8 +12,8 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            // Placeholder Behaviour, place actions here
-            // Debug.Log("is idle");
+            // When time rewinds to idle state, player is no longer found
+            AISystem.animator.SetBool("PlayerFound", false);
 
             yield break;
         }

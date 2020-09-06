@@ -16,17 +16,9 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            // Placeholder Behaviour, place actions here
-            Debug.Log("EnemyState: Enemy is stunned");
+            AISystem.animator.SetBool("IsGuardBroken", true);
 
             yield break;
-        }
-
-        public override void Tick()
-        {
-            base.Tick();
-            // TODO: Fix this to be more efficient
-            AISystem.navMeshAgent.ResetPath();
         }
     }
 }

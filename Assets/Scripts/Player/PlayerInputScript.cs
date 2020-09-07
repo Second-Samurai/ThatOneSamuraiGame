@@ -18,6 +18,7 @@ public class PlayerInputScript : MonoBehaviour
     PDamageController _pDamageController;
     PCombatController _pCombatController;
     public PlayerInput _inputComponent;
+    Camera _cam;
 
     float dodgeForce = 10f;
 
@@ -37,6 +38,7 @@ public class PlayerInputScript : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         _pDamageController = GetComponent<PDamageController>();
         _pCombatController = GetComponent<PCombatController>();
+        _cam = Camera.main;
     }
 
     void OnMovement(InputValue dir) 
@@ -195,7 +197,7 @@ public class PlayerInputScript : MonoBehaviour
             Vector3 _direction = new Vector3(_inputVector.x, 0, _inputVector.y).normalized;
             if (_direction != Vector3.zero && !bLockedOn)
             {
-                float _targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+                float _targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + _cam.transform.eulerAngles.y;
                 float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, .1f);
 
                 transform.rotation = Quaternion.Euler(0f, _angle, 0f);

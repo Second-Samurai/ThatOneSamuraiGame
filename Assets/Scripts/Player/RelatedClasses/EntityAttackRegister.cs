@@ -52,7 +52,6 @@ public class EntityAttackRegister
     //
     private void RegisterEnemy(IDamageable target, Collider collider, float damage, bool canEffect, bool unBlockable)
     {
-        Debug.Log(">> EntityAttackRegister: Logged Enemy");
         target.OnEntityDamage(damage, _attachedEntity, unBlockable);
 
         if (!canEffect) return;
@@ -63,7 +62,6 @@ public class EntityAttackRegister
     //
     private void RegisterDestructible(IDamageable target, float damage, Collider collider, bool canEffect, bool unBlockable)
     {
-        Debug.Log(">> EntityAttackRegister: Logged Destructable");
         target.OnEntityDamage(damage, _attachedEntity, unBlockable);
 
         if (!canEffect) return;

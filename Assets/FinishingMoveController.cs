@@ -5,12 +5,15 @@ using UnityEngine.Playables;
 using Cinemachine;
 using UnityEngine.Events;
 using UnityEngine.Timeline;
+using Enemies;
 
 public class FinishingMoveController : MonoBehaviour
 {
     PlayableDirector _cutsceneDirector;
 
     public PlayableAsset[] finishingMoves;
+
+    GameObject targetEnemy;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +39,8 @@ public class FinishingMoveController : MonoBehaviour
     public void SetTargetEnemy(Animator enemy)
     {
         BindToTrack("Animation Track (1)", enemy);
+
+        targetEnemy = enemy.gameObject;
     }
 
     public void SelectFinishingMove()
@@ -48,6 +53,11 @@ public class FinishingMoveController : MonoBehaviour
         SetTargetEnemy(enemy.GetComponentInChildren<Animator>());
         SelectFinishingMove();
         _cutsceneDirector.Play();
+    }
+
+    public void KillEnemy()
+    {
+        targetEnemy.GetComponent<AISystem>().OnEnemyDeath();
     }
 
    

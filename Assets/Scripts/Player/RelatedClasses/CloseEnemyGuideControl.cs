@@ -9,9 +9,7 @@ using UnityEngine;
 public class CloseEnemyGuideControl
 {
     private Transform _attachedPlayer;
-    //private Rigidbody _attachedRigidbody;
     private Transform _lastEnemy = null;
-    //private PCombatController _playerCombat;
     private AttackSlide _slideController;
 
     private PlayerSettings _settings;
@@ -150,7 +148,7 @@ public class CloseEnemyGuideControl
     //
     private bool CheckIfForward(Vector3 enemyDirection)
     {
-        Debug.Log(">> Dot Product Result: " + Vector3.Dot(_attachedPlayer.forward.normalized, enemyDirection));
+        //Debug.Log(">> Dot Product Result: " + Vector3.Dot(_attachedPlayer.forward.normalized, enemyDirection));
         return Vector3.Dot(_attachedPlayer.forward.normalized, enemyDirection) > _settings.forwardDotLimit;
     }
 }

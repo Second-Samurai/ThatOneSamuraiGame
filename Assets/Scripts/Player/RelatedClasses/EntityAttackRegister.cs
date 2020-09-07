@@ -37,7 +37,7 @@ public class EntityAttackRegister
             RegisterEnemy(attackedEntity, collider, damage, canEffect, unBlockable);
 
         if (attackedEntity.GetEntityType() == EntityType.Destructible)
-            RegisterDestructible(collider, canEffect, unBlockable);
+            RegisterDestructible(attackedEntity, damage, collider, canEffect, unBlockable);
     }
 
     // Summary: Registers damage to player (NOT DEVELOPED)
@@ -61,9 +61,10 @@ public class EntityAttackRegister
 
     // Summary: Registers damage to destructible object
     //
-    private void RegisterDestructible(Collider collider, bool canEffect, bool unBlockable)
+    private void RegisterDestructible(IDamageable target, float damage, Collider collider, bool canEffect, bool unBlockable)
     {
         Debug.Log(">> EntityAttackRegister: Logged Destructable");
+        target.OnEntityDamage(damage, _attachedEntity, unBlockable);
 
         if (!canEffect) return;
         _attachedSword.CreateImpactEffect(collider.transform, HitType.DamageableTarget);

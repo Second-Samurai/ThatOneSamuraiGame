@@ -28,6 +28,8 @@ public class EDamageController : MonoBehaviour, IDamageable
             {
                 if (enemyGuard.CheckIfEntityGuarding(damage)) return;
 
+                
+
                 aiSystem.ApplyHit(attacker);
             }
             else
@@ -35,6 +37,7 @@ public class EDamageController : MonoBehaviour, IDamageable
                 Debug.Log(attacker.layer.ToString());
             }
         }
+        else if (enemyGuard.isStunned && unblockable) { Debug.Log("FINISHER"); attacker.GetComponentInChildren<FinishingMoveController>().PlayFinishingMove(gameObject); return; }
         else
         {
             aiSystem.ApplyHit(attacker);

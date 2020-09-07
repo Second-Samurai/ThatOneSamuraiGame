@@ -11,9 +11,14 @@ public class FinishingMoveController : MonoBehaviour
 {
     PlayableDirector _cutsceneDirector;
 
+    public GameObject detector;
+
     public PlayableAsset[] finishingMoves;
 
     GameObject targetEnemy;
+
+    List<Transform> enemies; 
+    List<AISystem> enemiesCache;
 
     // Start is called before the first frame update
     void Start()
@@ -50,14 +55,28 @@ public class FinishingMoveController : MonoBehaviour
 
     public void PlayFinishingMove(GameObject enemy)
     {
+        detector.SetActive(false);
+        
         SetTargetEnemy(enemy.GetComponentInChildren<Animator>());
         SelectFinishingMove();
         _cutsceneDirector.Play();
+        
+        enemies = GameManager.instance.enemyTracker.currentEnemies;
+        for (int i = 0; i < enemies.Count-1; i++)
+        {
+            enemiesCache[i] = enemies[i].gameObject.GetComponent<AISystem>();
+            enemies[i].gameObject.GetComponent<AISystem>().OnEnemyRewind();
+        }
     }
 
     public void KillEnemy()
     {
         targetEnemy.GetComponent<AISystem>().OnEnemyDeath();
+        detector.SetActive(true);
+        for (int i = 0; i < enemies.Count - 1; i++)
+        {
+            enemies[i].gameObject.GetComponent<AISystem>().EnemyState = enemiesCache[i].EnemyState;
+        }
     }
 
    

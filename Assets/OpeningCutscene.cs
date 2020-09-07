@@ -5,12 +5,14 @@ using UnityEngine.Playables;
 using Cinemachine;
 using UnityEngine.Events;
 using UnityEngine.Timeline;
+using UnityEngine.InputSystem;
 
 public class OpeningCutscene : MonoBehaviour
 {
     PlayableDirector _cutsceneDirector;
     UnityEvent endCutscene;
     public SignalReceiver signalReceiver;
+    bool bSkipped = false;
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +50,15 @@ public class OpeningCutscene : MonoBehaviour
     public void ChangeCamPriority()
     {
         GameManager.instance.thirdPersonViewCamera.GetComponent<FreeLookAddOn>().SetPriority(11);
-    } 
+    }
+
+    private void Update()
+    {
+        if (Keyboard.current.escapeKey.wasPressedThisFrame && !bSkipped) 
+        {
+            _cutsceneDirector.time = _cutsceneDirector.duration - 3;
+            bSkipped = true;
+        } 
+    }
 
 }

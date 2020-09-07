@@ -19,6 +19,7 @@ public class PlayerInputScript : MonoBehaviour
     PCombatController _pCombatController;
     public PlayerInput _inputComponent;
     Camera _cam;
+    public FinishingMoveController finishingMoveController;
 
     float dodgeForce = 10f;
 
@@ -39,6 +40,7 @@ public class PlayerInputScript : MonoBehaviour
         _pDamageController = GetComponent<PDamageController>();
         _pCombatController = GetComponent<PCombatController>();
         _cam = Camera.main;
+        finishingMoveController = GetComponentInChildren<FinishingMoveController>();
     }
 
     void OnMovement(InputValue dir) 
@@ -289,6 +291,10 @@ public class PlayerInputScript : MonoBehaviour
     {
         if (Keyboard.current.pKey.wasPressedThisFrame)
             Test();
+        if (Keyboard.current.oKey.wasPressedThisFrame)
+        {
+            finishingMoveController.PlayFinishingMove(target.gameObject);
+        }
     }
 
     public void ResetDodge()

@@ -92,7 +92,6 @@ public class Guarding : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("Guard has been RESTORED");
         statHandler.CurrentGuard = statHandler.maxGuard;
         OnGuardEvent.Invoke();
 

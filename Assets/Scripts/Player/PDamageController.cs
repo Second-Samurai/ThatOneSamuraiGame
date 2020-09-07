@@ -14,10 +14,11 @@ public interface IDamageable {
 
 public class PDamageController : MonoBehaviour, IDamageable
 {
-    StatHandler playerStats;
-    PlayerFunctions _functions;
+    [Header("God Mode")]
+    public bool _canDamage = false; //Change to private later on
 
-    private bool _isDamageDisabled = false;
+    private StatHandler playerStats;
+    private PlayerFunctions _functions;
 
     public void Init(StatHandler playerStats) {
         this.playerStats = playerStats;
@@ -25,7 +26,7 @@ public class PDamageController : MonoBehaviour, IDamageable
 
     public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
-        if (_isDamageDisabled) return;
+        if (!_canDamage) return;
         _functions.ApplyHit(attacker, unblockable);
         Debug.Log("Player is Damaged");
     }
@@ -36,12 +37,12 @@ public class PDamageController : MonoBehaviour, IDamageable
     //
     public void DisableDamage()
     {
-        _isDamageDisabled = true;
+        _canDamage = false;
     }
 
     public void EnableDamage()
     {
-        _isDamageDisabled = false;
+        _canDamage = true;
     }
 
     private void Start()
@@ -51,7 +52,7 @@ public class PDamageController : MonoBehaviour, IDamageable
 
     public bool CheckCanDamage()
     {
-        return _isDamageDisabled;
+        return _canDamage;
     }
 
     public EntityType GetEntityType()

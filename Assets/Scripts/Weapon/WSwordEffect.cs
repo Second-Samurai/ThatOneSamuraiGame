@@ -102,16 +102,22 @@ public class WSwordEffect : MonoBehaviour
         Vector3 rayDirection = hitTarget.transform.position - startPosition;
 
         RaycastHit hit;
-        RaycastHit[] hitResult = Physics.RaycastAll(startPosition, rayDirection, 50f);
+        RaycastHit[] hitResult = Physics.RaycastAll(startPosition, rayDirection, 15f);
         if(hitResult.Length == 0)
         {
             return this.transform.position;
         }
-        hit = hitResult.Where(x => x.collider.GetComponent<IDamageable>() != null && x.collider.GetComponent<IPlayerController>() == null).First();
+
+        hit = hitResult.Where(predicate: x => x.collider.GetComponent<IDamageable>() != null).FirstOrDefault();
 
         if (hit.collider == null)
         {
             Debug.LogWarning(">> PSword: hit raycast has returned nothing");
+            return this.transform.position;
+        }
+
+        if (hit.collider.GetComponent<IDamageable>().GetEntityType() != EntityType.Player)
+        {
             return this.transform.position;
         }
 

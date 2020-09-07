@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //---IMPROVEMENTS--- /////////////////////////////////////
-//TODO: During slide instead of just forward, it slides towards the enemy.
+//TODO: Smooth velocity on close slide
 
 /// <summary>
 /// Handling slide manuvers to target enemy during attacks
@@ -28,10 +28,14 @@ public class AttackSlide
     //
     public void SlideToEnemy(Transform targetEnemy)
     {
-        if (CheckWithinMinDist(targetEnemy)) return;
+        if (CheckWithinMinDist(targetEnemy))
+        {
+            //Debug.Log(">> AttackSlide: Is within minimum: " + (Vector3.Distance(_playerRB.transform.position, targetEnemy.position) <= _settings.minimumAttackDist));
+            return;
+        }
 
-        _combatController.StopCoroutine(SlideOverTime());
-        _combatController.StartCoroutine(SlideOverTime());
+        _combatController.StopCoroutine(SlideOverTime(targetEnemy));
+        _combatController.StartCoroutine(SlideOverTime(targetEnemy));
     }
 
     // Summary: Checks whether the player is within the minimum dist against enemy
@@ -39,18 +43,30 @@ public class AttackSlide
     private bool CheckWithinMinDist(Transform targetEnemy)
     {
         float distance = Vector3.Distance(_playerRB.transform.position, targetEnemy.position);
-
         return distance <= _settings.minimumAttackDist;
+    }
+
+    private void FaceTowardsEnemy(Transform targetEnemy)
+    {
+        Vector3 direction = targetEnemy.position - _playerRB.transform.position;
+        float angle = Vector3.Angle(_playerRB.transform.forward, direction);
+        angle *= Vector3.Dot(_playerRB.transform.right.normalized, direction.normalized) < 0 ? -1 : 1;
+
+        _playerRB.transform.Rotate(0, angle, 0);
     }
 
     // Summary: Coroutine for sliding player to forward target
     //
-    private IEnumerator SlideOverTime()
+    private IEnumerator SlideOverTime(Transform targetEnemy)
     {
         float velocity = _settings.slideSpeed;
 
+        FaceTowardsEnemy(targetEnemy);
+
         while (velocity > 0)
         {
+            if (CheckWithinMinDist(targetEnemy)) yield break;
+
             velocity -= _settings.slideSpeed * _settings.slideDuration;
             _playerRB.position += _playerRB.transform.forward * velocity;
             yield return null;

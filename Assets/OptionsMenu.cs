@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class OptionsMenu : MonoBehaviour
 {
     public FreeLookAddOn camera;
-    Slider _sensitivitySlider;
+    Slider _sensitivitySlider; 
 
     private void Start()
     {

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Game Settings")]
     public GameSettings gameSettings;
+    public Transform playerSpawnPoint;
 
     //Hidden accessible variables
     [HideInInspector] public GameObject thirdPersonViewCamera;
@@ -18,6 +19,9 @@ public class GameManager : MonoBehaviour
 
     //UICanvases
     [HideInInspector] public GameObject guardMeterCanvas;
+
+
+    PlayerInputScript _player;
 
     void Awake()
     {
@@ -64,9 +68,10 @@ public class GameManager : MonoBehaviour
         Vector3 targetHolderPos = gameSettings.targetHolderPrefab.transform.position;
         GameObject tarrgetHolder = Instantiate(gameSettings.targetHolderPrefab, targetHolderPos, Quaternion.identity);
 
-        GameObject playerObject = Instantiate(gameSettings.playerPrefab, transform.position, Quaternion.identity);
+        GameObject playerObject = Instantiate(gameSettings.playerPrefab, playerSpawnPoint.position, Quaternion.identity);
         playerController = playerObject.GetComponentInChildren<PlayerController>();
         playerController.Init(tarrgetHolder);
+        _player = playerObject.GetComponentInChildren<PlayerInputScript>();
     }
 
     void SetupEnemies()
@@ -102,4 +107,15 @@ public class GameManager : MonoBehaviour
         return guardMeter;
     }
 
+    public void EnableInput()
+    {
+        _player.EnableInput();
+    }
+
+    public void DisableInput()
+    {
+        _player.DisableInput();
+    }
+
+    
 }

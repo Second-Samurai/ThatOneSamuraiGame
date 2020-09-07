@@ -17,7 +17,7 @@ public class PlayerInputScript : MonoBehaviour
     Rigidbody rb;
     PDamageController _pDamageController;
     PCombatController _pCombatController;
-    PlayerInput _inputComponent;
+    public PlayerInput _inputComponent;
 
     float dodgeForce = 10f;
 

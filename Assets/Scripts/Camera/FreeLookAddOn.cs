@@ -38,4 +38,9 @@ public class FreeLookAddOn : MonoBehaviour
     {
         lookSpeed = sensitivity;
     }
+
+    public void SetPriority(int var)
+    {
+        cam.m_Priority = var;
+    }
 }

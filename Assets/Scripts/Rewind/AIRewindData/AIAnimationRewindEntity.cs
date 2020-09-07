@@ -5,22 +5,23 @@ using UnityEngine;
 public class AIAnimationRewindEntity : RewindEntity
 {
     public List<AIAnimationTimeData> animationDataList;
-    // to be extrated
+
     [SerializeField]
     private Animator animator;
     public AnimatorClipInfo[] m_CurrentClipInfo;
 
-    // to be extracted;
-    // private PlayerInputScript playerInput;
+
 
     // Start is called before the first frame update
     protected new void Start()
     {
+        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
         animationDataList = new List<AIAnimationTimeData>();
         animator = gameObject.GetComponent<Animator>();
 
-        // to be extracted
-        // playerInput = gameObject.GetComponent<PlayerInputScript>();
+        _rewindInput.Reset += ResetTimeline;
+
+       
         base.Start();
     }
 
@@ -42,6 +43,15 @@ public class AIAnimationRewindEntity : RewindEntity
 
     }
 
+    public new void ResetTimeline()
+    {
+        for (int i = currentIndex; i >= 0; i--)
+        {
+            animationDataList.RemoveAt(i);
+        }
+        animationDataList.TrimExcess();
+    }
+
     public new void RecordPast()
     {
         //how much data is cached before list starts being culled (currently 10 seconds)
@@ -53,7 +63,7 @@ public class AIAnimationRewindEntity : RewindEntity
 
         //move to animation rewind entity
         animationDataList.Insert(0, new AIAnimationTimeData(animator.GetCurrentAnimatorStateInfo(0).normalizedTime, m_CurrentClipInfo[0].clip.name,
-                                                                     animator.GetBool("PlayerFound"), animator.GetBool("IsLightAttacking"), animator.GetBool("IsApproaching")));
+                                                                     animator.GetBool("PlayerFound"), animator.GetBool("IsLightAttacking"), animator.GetBool("IsApproaching"), animator.GetBool("IsGuardBroken"), animator.GetBool("IsDead")));
 
         //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + "   :   " + m_CurrentClipInfo[0].clip.name);
 
@@ -65,9 +75,9 @@ public class AIAnimationRewindEntity : RewindEntity
 
         if (animationDataList.Count > 0)
         {
-            SetPosition();
             if (currentIndex < animationDataList.Count - 1)
             {
+              SetPosition();
                 currentIndex++;
             }
             Debug.LogWarning("animStepBack");
@@ -78,9 +88,9 @@ public class AIAnimationRewindEntity : RewindEntity
     {
         if (animationDataList.Count > 0)
         {
-            SetPosition();
             if (currentIndex > 0)
             {
+                SetPosition();
                 currentIndex--;
             }
             Debug.LogWarning("animStepForward");
@@ -95,6 +105,8 @@ public class AIAnimationRewindEntity : RewindEntity
         animator.SetBool("PlayerFound", animationDataList[currentIndex].bPlayerFound);
         animator.SetBool("IsLightAttacking", animationDataList[currentIndex].bIsLightAttacking);
         animator.SetBool("IsApproaching", animationDataList[currentIndex].bIsApproaching);
+        animator.SetBool("IsGuardBroken", animationDataList[currentIndex].bIsGuardBroken);
+        animator.SetBool("IsDead", animationDataList[currentIndex].bIsDead);
 
         base.SetPosition();
     }

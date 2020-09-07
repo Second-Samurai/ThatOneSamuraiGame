@@ -538,22 +538,6 @@
             "id": "de798162-45d1-45f2-ab63-79fef9aab4a3",
             "actions": [
                 {
-                    "name": "ScrubForward",
-                    "type": "Value",
-                    "id": "5e049e25-2a04-4788-98c9-b80ccd6c4902",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press(behavior=2)"
-                },
-                {
-                    "name": "ScrubBackward",
-                    "type": "Value",
-                    "id": "072df395-b600-4639-aa7e-334447017907",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press(behavior=2)"
-                },
-                {
                     "name": "Scrub",
                     "type": "Value",
                     "id": "20d4465d-c314-49ba-bbee-0182099a77d1",
@@ -571,50 +555,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "b00d62cb-6871-43b0-b8cd-33f48d6e4ee3",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ScrubForward",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a0fbdc32-1ad7-4332-84ba-b44c20c77fa8",
-                    "path": "<Gamepad>/dpad/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "ScrubForward",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3175aadf-090a-4079-ba70-7a88ee651466",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ScrubBackward",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "eb808d0d-df4f-46c0-9902-462749ae839e",
-                    "path": "<Gamepad>/dpad/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "ScrubBackward",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "1D Axis",
                     "id": "1f59be54-64fb-480c-b051-21570d1b079c",

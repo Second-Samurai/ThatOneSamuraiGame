@@ -1,0 +1,38 @@
+﻿using System.Collections;
+using UnityEngine;
+
+namespace Enemies.Enemy_States
+{
+    public class RewindEnemyState : EnemyState
+    {
+        //Class constructor
+        public RewindEnemyState(AISystem aiSystem) : base(aiSystem)
+        {
+        }
+
+        public override void Tick()
+        {
+            base.Tick();
+        }
+
+        public override IEnumerator BeginState()
+        {
+            Animator anim = AISystem.animator;
+            
+            // Set the player to no longer being found
+            AISystem.bPlayerFound = false;
+            AISystem.animator.SetBool("PlayerFound", false);
+            
+            // Set all suitable animation bools to false
+            anim.SetBool("IsLightAttacking", false);
+            anim.SetBool("IsApproaching", false);
+            anim.SetBool("IsGuardBroken", false);
+            
+            // Set enemy to no longer being dead
+            AISystem.bIsDead = false;
+            anim.SetBool("IsDead", false);
+
+            yield break;
+        }
+    }
+}

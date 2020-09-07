@@ -5,60 +5,28 @@ using UnityEngine.InputSystem;
 
 public class RewindInput : MonoBehaviour
 {
-    public delegate void StepBackEvent();
-    public event StepBackEvent StepBack;
+    private RewindManager rewindManager;
+    //public delegate void StepBackEvent();
+    //public event StepBackEvent StepBack;
 
-    public delegate void StepForwardEvent();
-    public event StepForwardEvent StepForward;
+    //public delegate void StepForwardEvent();
+    //public event StepForwardEvent StepForward;
 
     // private bool heldBack, heldForward = false;
-    private float rewindDirection;
     public bool isTravelling = false;
-    private RewindEntity rewindEntity;
-    WaitForSecondsRealtime wait = new WaitForSecondsRealtime(.05f);
+  
     PlayerInput _inputComponent;
 
     // Start is called before the first frame update
     void Start()
     {
-        rewindEntity = gameObject.GetComponent<RewindEntity>();
+        //rewindEntity = gameObject.GetComponent<RewindEntity>();
         _inputComponent = GetComponent<PlayerInput>();
+
+        rewindManager = GameManager.instance.rewindManager;
     }
 
-    IEnumerator RewindCoroutine() 
-    {
-        if (isTravelling && rewindDirection < 0)
-        {
-            Time.timeScale = 1f;
-            Time.fixedDeltaTime = Time.timeScale * .02f;
-            if (StepBack != null) StepBack();
-           // Debug.Log(Time.timeScale);
-        }
-
-        else if (isTravelling && rewindDirection > 0)
-        {
-            Time.timeScale = 1f;
-            Time.fixedDeltaTime = Time.timeScale * .02f;
-            if(StepForward != null) StepForward();
-
-        }
-
-        if (isTravelling && rewindDirection == 0)
-        {
-            Time.timeScale = 0f;
-            Time.fixedDeltaTime = Time.timeScale * .02f;
-        }
-
-        if (!isTravelling && Time.timeScale != 1f)
-        {
-            Time.timeScale = 1f;
-            Time.fixedDeltaTime = Time.timeScale * .02f;
-        }
-        yield return null;
-
-        StartCoroutine(RewindCoroutine());
-        
-    }
+   
 
     void OnInitRewind() 
     {
@@ -66,41 +34,37 @@ public class RewindInput : MonoBehaviour
         if (!isTravelling)
         {
             isTravelling = true;
-            rewindEntity.isTravelling = isTravelling;
+            rewindManager.isTravelling = true;
+            rewindManager.StartRewind();
             // Debug.Log("rewinding");
-            if (isTravelling)
-            {
-                StartCoroutine("RewindCoroutine");
-            }
         }
+
     }
 
     void OnEndRewind()
     {
-        rewindEntity.ApplyData();
-        _inputComponent.SwitchCurrentActionMap("Gameplay");
+
         if (isTravelling)
         {
-            rewindEntity.ResetTimeline();
+            _inputComponent.SwitchCurrentActionMap("Gameplay");
+
+            isTravelling = false;
+            //rewindEntity.isTravelling = false;
+            rewindManager.EndRewind();
+            rewindManager.isTravelling = false;
         }
-        isTravelling = false;
-        rewindEntity.isTravelling = false; 
     }
 
     public void DeathRewind()
     {
-        isTravelling = true;
-        rewindEntity.isTravelling = isTravelling;
-        // Debug.Log("rewinding");
-        if (isTravelling)
-        {
-            StartCoroutine("RewindCoroutine");
-        }
+
+            OnInitRewind();
+
     }
 
     void OnScrub(InputValue value)
     {
 
-        rewindDirection = value.Get<float>();
+        rewindManager.rewindDirection = value.Get<float>();
     }
 }

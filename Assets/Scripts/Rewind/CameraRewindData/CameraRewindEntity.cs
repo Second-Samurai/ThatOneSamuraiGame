@@ -11,7 +11,10 @@ public class CameraRewindEntity : RewindEntity
     // Start is called before the first frame update
     protected new void Start()
     {
+        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
         cameraDataList = new List<CameraTimeData>();
+
+        _rewindInput.Reset += ResetTimeline;
         base.Start();
     }
 
@@ -29,7 +32,16 @@ public class CameraRewindEntity : RewindEntity
         }
 
     }
-    
+
+    public new void ResetTimeline()
+    {
+        for (int i = currentIndex; i > 0; i--)
+        {
+            cameraDataList.RemoveAt(i);
+        }
+        cameraDataList.TrimExcess();
+    }
+
     public new void RecordPast()
     {
         //maybe make 10f into a global variable
@@ -50,9 +62,9 @@ public class CameraRewindEntity : RewindEntity
 
         if (cameraDataList.Count > 0)
         {
-            SetPosition();
             if (currentIndex < cameraDataList.Count - 1)
             {
+                SetPosition();
                 currentIndex++;
             }
         }
@@ -62,9 +74,9 @@ public class CameraRewindEntity : RewindEntity
     {
         if (cameraDataList.Count > 0)
         {
-            SetPosition();
             if (currentIndex > 0)
             {
+                SetPosition();
                 currentIndex--;
             }
         }

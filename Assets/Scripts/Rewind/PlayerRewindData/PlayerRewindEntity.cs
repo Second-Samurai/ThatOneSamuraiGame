@@ -13,9 +13,11 @@ public class PlayerRewindEntity : AnimationRewindEntity
     // Start is called before the first frame update
     protected new void Start()
     {
+        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
         playerDataList = new List<PlayerTimeData>();
 
         playerInput = gameObject.GetComponent<PlayerInputScript>();
+        _rewindInput.Reset += ResetTimeline;
         base.Start();
 
     }
@@ -29,6 +31,18 @@ public class PlayerRewindEntity : AnimationRewindEntity
         }
 
     }
+
+    public new void ResetTimeline()
+    {
+
+        for (int i = currentIndex; i > 0; i--)
+        {
+            playerDataList.RemoveAt(i);
+        }
+
+        playerDataList.TrimExcess();
+    }
+
 
     public new void RecordPast()
     {
@@ -50,10 +64,16 @@ public class PlayerRewindEntity : AnimationRewindEntity
 
         if (playerDataList.Count > 0)
         {
-            SetPosition();
             if (currentIndex < playerDataList.Count - 1)
             {
+                Debug.Log("COUNT " + playerDataList.Count);
                 currentIndex++;
+                if (currentIndex >= playerDataList.Count - 1)
+                {
+                    Debug.Log("CashMoney");
+                    currentIndex = playerDataList.Count - 1;
+                }
+                SetPosition();
             }
         }
     }
@@ -62,9 +82,9 @@ public class PlayerRewindEntity : AnimationRewindEntity
     {
         if (playerDataList.Count > 0)
         {
-            SetPosition();
             if (currentIndex > 0)
             {
+                SetPosition();
                 currentIndex--;
             }
         }

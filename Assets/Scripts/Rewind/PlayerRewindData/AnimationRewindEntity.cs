@@ -20,8 +20,10 @@ public class AnimationRewindEntity : RewindEntity
     // Start is called before the first frame update
     protected new void Start()
     {
+        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
         animationDataList = new List<AnimationTimeData>();
         animator = gameObject.GetComponent<Animator>();
+        _rewindInput.Reset += ResetTimeline;
 
         base.Start();
     }
@@ -42,6 +44,16 @@ public class AnimationRewindEntity : RewindEntity
         }
        
 
+    }
+
+    public new void ResetTimeline()
+    {
+        for (int i = currentIndex; i > 0; i--)
+        {
+            animationDataList.RemoveAt(i);
+        }
+        animationDataList.TrimExcess();
+        //base.ResetTimeline();
     }
 
     public new void RecordPast()
@@ -67,10 +79,15 @@ public class AnimationRewindEntity : RewindEntity
 
         if (animationDataList.Count > 0)
         {
-            SetPosition();
             if (currentIndex < animationDataList.Count - 1)
             {
                 currentIndex++;
+
+                if (currentIndex >= animationDataList.Count - 1)
+                {
+                    currentIndex = animationDataList.Count - 1;
+                }
+                SetPosition();
             }
             Debug.LogWarning("animStepBack");
         }
@@ -80,9 +97,9 @@ public class AnimationRewindEntity : RewindEntity
     {
         if (animationDataList.Count > 0)
         {
-            SetPosition();
             if (currentIndex > 0)
             {
+                SetPosition();
                 currentIndex--;
             }
             Debug.LogWarning("animStepForward");

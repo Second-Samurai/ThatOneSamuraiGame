@@ -13,9 +13,11 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
     // Start is called before the first frame update
     protected new void Start()
     {
+        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
         enemyDataList = new List<EnemyRewindData>();
         base.Start();
 
+        _rewindInput.Reset += ResetTimeline;
         aISystem = gameObject.GetComponent<AISystem>();
     }
 
@@ -29,6 +31,15 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
 
     }
 
+    public new void ResetTimeline()
+    {
+        for (int i = currentIndex; i > 0; i--)
+        {
+            enemyDataList.RemoveAt(i);
+        }
+        enemyDataList.TrimExcess();
+    }
+
     public new void RecordPast()
     {
         //maybe make 10f into a global variable
@@ -39,7 +50,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         }
 
         //move to arguments need to be added rewind entity
-        enemyDataList.Insert(0, new EnemyRewindData(aISystem.EnemyState));
+        enemyDataList.Insert(0, new EnemyRewindData(aISystem.EnemyState, aISystem.statHandler));
 
         base.RecordPast();
     }
@@ -49,9 +60,9 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
 
         if (enemyDataList.Count > 0)
         {
-            SetPosition();
             if (currentIndex < enemyDataList.Count - 1)
             {
+                SetPosition();
                 currentIndex++;
             }
         }
@@ -61,9 +72,9 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
     {
         if (enemyDataList.Count > 0)
         {
-            SetPosition();
             if (currentIndex > 0)
             {
+                SetPosition();
                 currentIndex--;
             }
         }
@@ -71,8 +82,13 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
 
     public new void SetPosition()
     {
-        aISystem.SetState(enemyDataList[currentIndex].enemyState);
+        aISystem.statHandler = enemyDataList[currentIndex].statHandler;
         // needs to set the enemy targeting
         base.SetPosition();
+    }
+
+    public override void ApplyData() 
+    {
+        aISystem.SetState(enemyDataList[currentIndex].enemyState);
     }
 }

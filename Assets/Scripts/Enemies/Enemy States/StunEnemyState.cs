@@ -1,19 +1,22 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+public interface ICheck {
+    string GetName();
+}
+
 namespace Enemies.Enemy_States
 {
-    public class EnemyDeathState : EnemyState
+    public class StunEnemyState : EnemyState
     {
         //Class constructor
-        public EnemyDeathState(AISystem aiSystem) : base(aiSystem)
+        public StunEnemyState(AISystem aiSystem) : base(aiSystem)
         {
         }
 
         public override IEnumerator BeginState()
         {
-            // Placeholder Behaviour, place actions here
-            Debug.Log("is dead");
+            AISystem.animator.SetBool("IsGuardBroken", true);
 
             yield break;
         }

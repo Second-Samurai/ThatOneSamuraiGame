@@ -13,6 +13,7 @@ public interface ICombatController
     void UnblockCombatInputs();
     void SheathSword();
     void UnsheathSword();
+
 }
 
 public class PCombatController : MonoBehaviour, ICombatController
@@ -30,6 +31,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     private EntityCombatType _combatType; //TODO: May need to relook at this variable
     private WSwordEffect _playerSword;
     private EntityAttackRegister _attackRegister;
+    private CloseEnemyGuideControl _guideController;
     private StatHandler _playerStats;
     private Animator _animator;
 
@@ -51,6 +53,9 @@ public class PCombatController : MonoBehaviour, ICombatController
 
         _attackRegister = new EntityAttackRegister();
         _attackRegister.Init(this.gameObject, EntityType.Player, _playerSword);
+
+        _guideController = new CloseEnemyGuideControl();
+        _guideController.Init(this, this.gameObject.transform, this.GetComponent<Rigidbody>());
     }
 
     /// <summary>
@@ -69,7 +74,6 @@ public class PCombatController : MonoBehaviour, ICombatController
             _animator.SetTrigger("AttackLight");
         }
         _animator.SetInteger("ComboCount", _comboHits);
-
     }
 
     private void HeavyAttack()
@@ -100,6 +104,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         _isAttacking = true;
         _functions.DisableBlock();
         attackCol.enabled = true;
+        _guideController.MoveToNearestEnemy();
     }
 
     //Summary: Calls the sword's Slash creation func triggered by animation event.

@@ -108,7 +108,7 @@ public class PlayerInputScript : MonoBehaviour
 
         if (!value.isPressed)
         {
-            Debug.Log(">> Light attack Triggered");
+            //Debug.Log(">> Light attack Triggered");
             _playerCombat.RunLightAttack();
         }
 

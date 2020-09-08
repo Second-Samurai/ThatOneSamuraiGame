@@ -80,7 +80,7 @@ namespace Enemies
             eDamageController.EnableDamage();
 
             // Start the enemy in an idle state
-            SetState(new IdleEnemyState(this));
+            OnIdle();
         }
         
         protected new void Update()
@@ -129,6 +129,11 @@ namespace Enemies
         public void OnSpecialAttack()
         {
         
+        }
+        
+        public void OnQuickBlock()
+        {
+            SetState(new QuickBlockEnemyState(this));
         }
 
         public void OnBlock()

@@ -36,13 +36,17 @@ namespace Enemies.Enemy_States
 
             // Run end state after TRUE animation length minus last frame deltaTime
             yield return new WaitForSeconds(animatorStateInfo.length * _lengthMultiplier - Time.deltaTime);
-
+            
+            // Only run the end state of light attack if the enemy isn't stunned or dead
+            if (anim.GetBool("IsGuardBroken") || anim.GetBool("IsDead"))
+                yield break;
+            
             EndState();
         }
 
         public override void EndState()
         {
-            Debug.Log("swing is finished");
+            //Debug.Log("swing is finished");
             
             AISystem.animator.SetBool("IsLightAttacking", false);
             

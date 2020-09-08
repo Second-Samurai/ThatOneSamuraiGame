@@ -25,6 +25,9 @@ namespace Enemies.Enemy_States
             // Enemy can no longer be damaged, enemies can no longer damage the player
             AISystem.eDamageController.DisableDamage();
             
+            // Stop the navMeshAgent from tracking
+            AISystem.navMeshAgent.isStopped = true;
+            
             //Disable weapon for melee wielders
             if (AISystem.enemyType == EnemyType.SWORDSMAN || AISystem.enemyType == EnemyType.GLAIVEWIELDER)
             {

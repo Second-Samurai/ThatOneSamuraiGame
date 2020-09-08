@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using Enemies.Enemy_States;
+﻿using Enemies.Enemy_States;
 using Enemy_Scripts;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,6 +7,14 @@ public interface IEnemyStates
 {
     void OnEnemyStun();
     void OnApproachPlayer();
+}
+
+public enum EnemyType
+{
+    SWORDSMAN,
+    ARCHER,
+    GLAIVEWIELDER,
+    BOSS
 }
 
 namespace Enemies
@@ -21,6 +27,11 @@ namespace Enemies
     {
         
         #region Fields and Properties
+        
+        //ENEMY TYPE, SET IN PREFAB INSPECTOR
+        public EnemyType enemyType;
+        //WEAPON COLLIDER, SET IN PREFAB INSPECTOR
+        public CapsuleCollider meleeCollider;
 
         //ENEMY SETTINGS [See EntityStatData for list of stats]
         public EnemySettings enemySettings; // Taken from EnemySettings Scriptable object in start
@@ -67,7 +78,7 @@ namespace Enemies
             statHandler.Init(enemySettings.enemyData); // enemySettings.enemyData = initial scriptable objects values
             eDamageController.Init(statHandler);
             eDamageController.EnableDamage();
-            
+
             // Start the enemy in an idle state
             SetState(new IdleEnemyState(this));
         }

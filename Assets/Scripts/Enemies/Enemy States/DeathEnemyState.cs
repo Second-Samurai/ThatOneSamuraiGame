@@ -12,8 +12,9 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            // Debug.Log("Enemy dead");
+            
             // Set enemy status to dead
-            Debug.Log("Enemy dead");
             AISystem.bIsDead = true;
             AISystem.animator.SetBool("IsDead", true);
             
@@ -21,8 +22,14 @@ namespace Enemies.Enemy_States
             TempWinTracker.instance.enemyCount--;
             AISystem.enemyTracker.RemoveEnemy(AISystem.transform);
             
-            // Enemy can no longer be damaged
+            // Enemy can no longer be damaged, enemies can no longer damage the player
             AISystem.eDamageController.DisableDamage();
+            
+            //Disable weapon for melee wielders
+            if (AISystem.enemyType == EnemyType.SWORDSMAN || AISystem.enemyType == EnemyType.GLAIVEWIELDER)
+            {
+                AISystem.meleeCollider.enabled = false;
+            }
             
             // Wait 2.0 seconds then de spawn the enemy
             yield return new WaitForSeconds(2.0f);

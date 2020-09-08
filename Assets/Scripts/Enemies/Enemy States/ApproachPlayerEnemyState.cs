@@ -17,6 +17,9 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            // Start the navMeshAgent tracking
+            AISystem.navMeshAgent.isStopped = false;
+            
             AISystem.animator.SetBool("IsApproaching", true);
             
             // Set player to be found in AISystem

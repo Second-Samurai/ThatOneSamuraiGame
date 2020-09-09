@@ -15,6 +15,7 @@ public class FreeLookAddOn : MonoBehaviour
     void Awake()
     {
         cam = this.GetComponent<CinemachineFreeLook>();
+        if (PlayerPrefs.GetFloat("Sensitivity") != 0) SetSensitivity(PlayerPrefs.GetFloat("Sensitivity"));
     }
 
      
@@ -37,6 +38,7 @@ public class FreeLookAddOn : MonoBehaviour
     public void SetSensitivity(float sensitivity)
     {
         lookSpeed = sensitivity;
+        PlayerPrefs.SetFloat("Sensitivity", sensitivity);
     }
 
     public void SetPriority(int var)

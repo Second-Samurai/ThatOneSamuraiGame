@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Enemies.Enemy_States
 {
-    public class LightAttackEnemyState : EnemyState
+    public class QuickBlockEnemyState : EnemyState
     {
+        private Animator anim;
         private Vector3 _target;
-        private Transform _transform;
         
         // Length multiplier is used to get the real animation length time.
-        // Where 1 = full length, 0.8f is used because 20% of the animation is exit time
-        private float _lengthMultiplier = 0.8f; 
-
+        // Where 1 = full length, 0.6f is used because 40% of the animation is exit time
+        private float _lengthMultiplier = 0.6f; 
+        
         //Class constructor
-        public LightAttackEnemyState(AISystem aiSystem) : base(aiSystem)
+        public QuickBlockEnemyState(AISystem aiSystem) : base(aiSystem)
         {
         }
 
@@ -21,21 +21,20 @@ namespace Enemies.Enemy_States
         {
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
-            
-            Animator anim = AISystem.animator;
 
-            // Get the target object and current enemy transform
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            _transform = AISystem.transform;
             
-            PositionTowardsTarget(_transform, _target);
+            PositionTowardsTarget(AISystem.transform, _target);
             
-            // Set enemy to light attack and store animator state
-            anim.SetBool("IsLightAttacking", true);
+            anim = AISystem.animator;
+            
+            anim.SetBool("IsQuickBlocking", true);
 
             // Need to wait until next frame before the state switches
             yield return null;
             AnimatorStateInfo animatorStateInfo = anim.GetCurrentAnimatorStateInfo(0);
+            
+            Debug.Log(animatorStateInfo.length);
 
             // Run end state after TRUE animation length minus last frame deltaTime
             yield return new WaitForSeconds(animatorStateInfo.length * _lengthMultiplier - Time.deltaTime);
@@ -49,14 +48,13 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
-            //Debug.Log("swing is finished");
-            
-            AISystem.animator.SetBool("IsLightAttacking", false);
+            anim.SetBool("IsQuickBlocking", false);
             
             // Check current distance to determine next action
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-
-            if (InRange(_transform.position, _target, AISystem.enemySettings.followUpAttackRange))
+            
+            // TODO: Remove this. Temporary state switch until blocking is introduced
+            if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.followUpAttackRange))
             {
                 AISystem.OnLightAttack(); // Light attack again if close enough
             }
@@ -64,6 +62,9 @@ namespace Enemies.Enemy_States
             {
                 AISystem.OnApproachPlayer(); // Approach player if they are too far away
             }
+            
+            // TODO: Replace with this
+            //AISystem.OnBlock();
         }
     }
 }

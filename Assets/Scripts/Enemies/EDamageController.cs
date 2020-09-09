@@ -26,7 +26,11 @@ public class EDamageController : MonoBehaviour, IDamageable
 
             if (attacker.layer == LayerMask.NameToLayer("Player"))
             {
-                if (enemyGuard.CheckIfEntityGuarding(damage)) return;
+                if (enemyGuard.CheckIfEntityGuarding(damage))
+                {
+                    aiSystem.OnQuickBlock();
+                    return;
+                }
 
                 
 

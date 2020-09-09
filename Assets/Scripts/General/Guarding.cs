@@ -64,7 +64,6 @@ public class Guarding : MonoBehaviour
         StartCoroutine(AwaitNextDamage(6));
 
         //Create state
-        Debug.Log(">> Guarding: Now in enemy stun state");
         enemyStates.OnEnemyStun();
     }
 

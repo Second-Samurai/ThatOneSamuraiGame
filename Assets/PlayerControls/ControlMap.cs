@@ -136,7 +136,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""id"": ""29d73101-4da2-4199-99f3-8f4d7d6cd25e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold(duration=0.6,pressPoint=0.5),Press""
+                    ""interactions"": ""Hold(duration=0.3,pressPoint=0.5),Press""
                 },
                 {
                     ""name"": ""Pause"",

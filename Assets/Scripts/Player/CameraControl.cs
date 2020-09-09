@@ -145,4 +145,9 @@ public class CameraControl : MonoBehaviour
         _lockedCamScript.cam.m_Lens.Dutch = 0f;
     }
 
+    public void EndGuardBreakCam()
+    {
+        _lockedCamScript.EndGuardBreakCam();
+    }
+
 }

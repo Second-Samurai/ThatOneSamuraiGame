@@ -32,7 +32,7 @@ public class EDamageController : MonoBehaviour, IDamageable
                     return;
                 }
 
-                
+                if(enemyGuard.isStunned) attacker.GetComponentInChildren<LockOnTargetManager>().EndGuardBreakCam();
 
                 aiSystem.ApplyHit(attacker);
             }
@@ -41,7 +41,13 @@ public class EDamageController : MonoBehaviour, IDamageable
                 Debug.Log(attacker.layer.ToString());
             }
         }
-        else if (enemyGuard.isStunned && unblockable) { Debug.Log("FINISHER"); attacker.GetComponentInChildren<FinishingMoveController>().PlayFinishingMove(gameObject); return; }
+        else if (enemyGuard.isStunned && unblockable)
+        {
+            Debug.Log("FINISHER");
+            attacker.GetComponentInChildren<LockOnTargetManager>().EndGuardBreakCam();
+            attacker.GetComponentInChildren<FinishingMoveController>().PlayFinishingMove(gameObject);
+            return;
+        }
         else
         {
             aiSystem.ApplyHit(attacker);

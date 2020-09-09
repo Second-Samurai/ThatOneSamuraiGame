@@ -26,7 +26,13 @@ public class EDamageController : MonoBehaviour, IDamageable
 
             if (attacker.layer == LayerMask.NameToLayer("Player"))
             {
-                if (enemyGuard.CheckIfEntityGuarding(damage)) return;
+                if (enemyGuard.CheckIfEntityGuarding(damage))
+                {
+                    aiSystem.OnQuickBlock();
+                    return;
+                }
+
+                if(enemyGuard.isStunned) attacker.GetComponentInChildren<LockOnTargetManager>().EndGuardBreakCam();
 
                 aiSystem.ApplyHit(attacker);
             }
@@ -34,6 +40,13 @@ public class EDamageController : MonoBehaviour, IDamageable
             {
                 Debug.Log(attacker.layer.ToString());
             }
+        }
+        else if (enemyGuard.isStunned && unblockable)
+        {
+            Debug.Log("FINISHER");
+            attacker.GetComponentInChildren<LockOnTargetManager>().EndGuardBreakCam();
+            attacker.GetComponentInChildren<FinishingMoveController>().PlayFinishingMove(gameObject);
+            return;
         }
         else
         {

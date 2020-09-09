@@ -52,5 +52,13 @@ namespace Enemies.Enemy_States
         {
             return Vector3.Distance(position, targetPosition) < stopApproachingRange;
         }
+
+        protected bool IsGuardBrokenOrDead()
+        {
+            if (AISystem.animator.GetBool("IsGuardBroken") || AISystem.animator.GetBool("IsDead"))
+                return true;
+
+            return false;
+        }
     }
 }

@@ -16,7 +16,7 @@ public class Projectile : MonoBehaviour
     Rigidbody rb;
     public bool active = true;
     public bool hitEnemies = false;
-    public MeshRenderer renderer;
+    public GameObject arrowModel;
     public Collider collider;
 
     //initialize
@@ -30,13 +30,13 @@ public class Projectile : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         collider = GetComponent<Collider>();
-        renderer = GetComponent<MeshRenderer>();
     }
 
     //launches projectile in target direction
-    public void Launch(Vector3 target)
+    public void Launch(Vector3 target, Vector3 playerPos)
     {
         EnableMethod();
+        transform.LookAt(playerPos);
         direction = target.normalized * speed;
         direction.y = 0f;
         rb.velocity = direction;
@@ -102,7 +102,7 @@ public class Projectile : MonoBehaviour
     //disable
     public void DisableMethod()
     {
-        renderer.enabled = false;
+        arrowModel.SetActive(false);
         collider.enabled = false;
         rb.velocity = Vector3.zero;
         hitEnemies = false;
@@ -111,7 +111,7 @@ public class Projectile : MonoBehaviour
     //enable
     public void EnableMethod()
     {
-        renderer.enabled = true;
+        arrowModel.SetActive(true);
         collider.enabled = true;
     }
 

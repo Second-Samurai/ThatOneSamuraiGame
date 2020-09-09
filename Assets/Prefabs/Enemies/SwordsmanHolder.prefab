@@ -999,10 +999,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac4ad1a99ac52af4a9b1b39f5eea1b54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 0
+  meleeCollider: {fileID: 7417129179977977798}
   enemySettings: {fileID: 11400000, guid: 8a3d28b117cd0421d98e5b33c8168471, type: 2}
+  enemyTracker: {fileID: 0}
   animator: {fileID: 0}
   bPlayerFound: 0
   navMeshAgent: {fileID: 0}
+  eDamageController: {fileID: 0}
   bIsDead: 0
   floatOffset: {x: 0, y: 2, z: 0}
 --- !u!114 &2117012874348089057
@@ -1056,6 +1060,7 @@ MonoBehaviour:
   currentIndex: 0
   transformDataList: []
   thisTransform: {fileID: 0}
+  _rewindInput: {fileID: 0}
   animationDataList: []
   animator: {fileID: 0}
 --- !u!114 &1306912687601202513

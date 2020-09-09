@@ -32,6 +32,8 @@ public class PlayerFunctions : MonoBehaviour
     public GameObject pauseMenu;
 
     public PlayerInput _inputComponent;
+
+    public GameObject lSword, rSword;
     private void Start()
     {
         _IKPuppet = GetComponent<IKPuppet>();

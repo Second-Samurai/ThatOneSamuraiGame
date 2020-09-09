@@ -59,13 +59,13 @@ public class Guarding : MonoBehaviour
     private void BreakGuard()
     {
         Debug.Log("Guard has been BROKEN");
+        GameManager.instance.playerController.gameObject.GetComponentInChildren<LockOnTargetManager>().GuardBreakCam(this.transform);
         isStunned = true;
         canGuard = false;
         StartCoroutine(AwaitNextDamage(6));
 
         //Create state
-        Debug.Log(">> Guarding: Now in enemy stun state");
-        //enemyStates.OnEnemyStun();
+        enemyStates.OnEnemyStun();
     }
 
     private IEnumerator AwaitNextDamage(float time)

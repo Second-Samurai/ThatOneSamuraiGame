@@ -19,6 +19,9 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            // Stop the navMeshAgent from tracking
+            AISystem.navMeshAgent.isStopped = true;
+            
             Animator anim = AISystem.animator;
 
             // Get the target object and current enemy transform
@@ -36,13 +39,17 @@ namespace Enemies.Enemy_States
 
             // Run end state after TRUE animation length minus last frame deltaTime
             yield return new WaitForSeconds(animatorStateInfo.length * _lengthMultiplier - Time.deltaTime);
-
+            
+            // Only run the end state of light attack if the enemy isn't stunned or dead
+            if (IsGuardBrokenOrDead())
+                yield break;
+            
             EndState();
         }
 
         public override void EndState()
         {
-            Debug.Log("swing is finished");
+            //Debug.Log("swing is finished");
             
             AISystem.animator.SetBool("IsLightAttacking", false);
             

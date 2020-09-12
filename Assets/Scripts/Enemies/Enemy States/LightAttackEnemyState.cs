@@ -33,18 +33,25 @@ namespace Enemies.Enemy_States
             // Set enemy to light attack and store animator state
             anim.SetBool("IsLightAttacking", true);
 
-            // Need to wait until next frame before the state switches
-            yield return null;
-            AnimatorStateInfo animatorStateInfo = anim.GetCurrentAnimatorStateInfo(0);
+            //TODO: USE ANIMATION EVENTS
+            #region OPTIMISE THIS
 
-            // Run end state after TRUE animation length minus last frame deltaTime
-            yield return new WaitForSeconds(animatorStateInfo.length * _lengthMultiplier - Time.deltaTime);
+            // Need to wait until next frame before the state switches
+            // yield return null;
+            // AnimatorStateInfo animatorStateInfo = anim.GetCurrentAnimatorStateInfo(0);
+            //
+            // // Run end state after TRUE animation length minus last frame deltaTime
+            // yield return new WaitForSeconds(animatorStateInfo.length * _lengthMultiplier - Time.deltaTime);
             
-            // Only run the end state of light attack if the enemy isn't stunned or dead
-            if (IsGuardBrokenOrDead())
-                yield break;
+            yield break;
             
-            EndState();
+            // // Only run the end state of light attack if the enemy isn't stunned or dead
+            // if (IsGuardBrokenOrDead())
+            //     yield break;
+
+            #endregion
+            
+            //EndState();
         }
 
         public override void EndState()

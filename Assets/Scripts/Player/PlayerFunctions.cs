@@ -63,14 +63,14 @@ public class PlayerFunctions : MonoBehaviour
 
     public void EndBlock()
     {
-        if (bIsBlocking)
-        {
+       // if (bIsBlocking)
+       // {
             bIsBlocking = false;
             bIsParrying = false;
             parryTimer = 0f;
             _IKPuppet.DisableIK();
             SetBlockCooldown();
-        }
+       // }
     }
 
     private void Update()

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    //Singleton instance
     public static GameManager instance = null;
 
     [Header("Game Settings")]
@@ -13,7 +14,7 @@ public class GameManager : MonoBehaviour
 
     //Hidden accessible variables
     [HideInInspector] public GameObject thirdPersonViewCamera;
-    public PlayerController playerController;
+    [HideInInspector] public PlayerController playerController;
     [HideInInspector] public Camera mainCamera;
     public RewindManager rewindManager;
     public EnemyTracker enemyTracker;
@@ -21,8 +22,8 @@ public class GameManager : MonoBehaviour
     //UICanvases
     [HideInInspector] public GameObject guardMeterCanvas;
 
-
-    PlayerInputScript _player;
+    //Private variables
+    private PlayerInputScript _player;
 
     void Awake()
     {
@@ -67,11 +68,23 @@ public class GameManager : MonoBehaviour
 
     void SetupPlayer()
     {
+        GameObject playerObject = GameObject.FindObjectOfType<PlayerController>();
+        if(playerController != null)
+        {
+            playerController = playerObject.GetComponent<PlayerController>();
+            InitialisePlayer();
+        }
+
         Vector3 targetHolderPos = gameSettings.targetHolderPrefab.transform.position;
         GameObject tarrgetHolder = Instantiate(gameSettings.targetHolderPrefab, targetHolderPos, Quaternion.identity);
 
         GameObject playerObject = Instantiate(gameSettings.playerPrefab, playerSpawnPoint.position, Quaternion.identity);
         playerController = playerObject.GetComponentInChildren<PlayerController>();
+        InitialisePlayer();
+    }
+
+    void InitialisePlayer()
+    {
         playerController.Init(tarrgetHolder);
         _player = playerObject.GetComponentInChildren<PlayerInputScript>();
     }

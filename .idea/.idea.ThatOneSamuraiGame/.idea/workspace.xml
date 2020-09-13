@@ -34,18 +34,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="277b553a-507f-45c4-9474-e11dde3b220c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Animation/Animations/Swordsman/Hit/SwordsmanQuickBlock.fbx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Animation/Animations/Swordsman/Hit/SwordsmanQuickBlock.fbx.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/QuickBlockEnemyState.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/QuickBlockEnemyState.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ThatOneSamuraiGame/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ThatOneSamuraiGame/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.ThatOneSamuraiGame/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.ThatOneSamuraiGame/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/Animations/Player/Attacking/AnimationClips/RHAND SlashEDIT.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/Animations/Player/Attacking/AnimationClips/RHAND SlashEDIT.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/Animations/Swordsman/Attacking/SwordsmanLightAttackEdit.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/Animations/Swordsman/Attacking/SwordsmanLightAttackEdit.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animation/AnimatorControllers/Player.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/AnimatorControllers/Player.controller" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Animation/AnimatorControllers/Swordsman.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/AnimatorControllers/Swordsman.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemies/AISystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemies/AISystem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemies/EDamageController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemies/EDamageController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/ApproachPlayerEnemyState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/ApproachPlayerEnemyState.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/EnemyState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/EnemyState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/TutorialSetup.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TutorialSetup.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/LightAttackEnemyState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/LightAttackEnemyState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemies/EnemyStateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemies/EnemyStateMachine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,18 +92,18 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/ButtonController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/IdleEnemyState.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/RewindEnemyState.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/EnemyStateMachine.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/BasicArcher.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Projectile.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/General/Guarding.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/DeathEnemyState.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/StunEnemyState.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/EnemyState.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/AISystem.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/EDamageController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/LightAttackEnemyState.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/ApproachPlayerEnemyState.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/QuickBlockEnemyState.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/EnemyState.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/EnemyStateMachine.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/LightAttackEnemyState.cs" />
       </list>
     </option>
   </component>
@@ -167,6 +165,7 @@
       <workItem from="1599386353511" duration="7825000" />
       <workItem from="1599531140065" duration="3957000" />
       <workItem from="1599539097720" duration="5927000" />
+      <workItem from="1599902818185" duration="3545000" />
     </task>
     <servers />
   </component>
@@ -185,6 +184,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
@@ -198,6 +198,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="535" y="136" key="RiderGenerateDialog/0.0.1536.824@0.0.1536.824" timestamp="1598819550754" />
+    <state x="93" y="93" width="1350" height="638" key="VCS.FileHistoryDialog" timestamp="1599908492547">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="93" y="93" width="1350" height="638" key="VCS.FileHistoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1599908492547" />
     <state x="425" y="187" key="run.anything.popup" timestamp="1598820264320">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

@@ -68,25 +68,26 @@ public class GameManager : MonoBehaviour
 
     void SetupPlayer()
     {
-        GameObject playerObject = GameObject.FindObjectOfType<PlayerController>();
+        Vector3 targetHolderPos = gameSettings.targetHolderPrefab.transform.position;
+        GameObject targetHolder = Instantiate(gameSettings.targetHolderPrefab, targetHolderPos, Quaternion.identity);
+
+        PlayerController playerControl = GameObject.FindObjectOfType<PlayerController>();
         if(playerController != null)
         {
-            playerController = playerObject.GetComponent<PlayerController>();
-            InitialisePlayer();
+            playerController = playerControl;
+            InitialisePlayer(targetHolder);
+            return;
         }
-
-        Vector3 targetHolderPos = gameSettings.targetHolderPrefab.transform.position;
-        GameObject tarrgetHolder = Instantiate(gameSettings.targetHolderPrefab, targetHolderPos, Quaternion.identity);
 
         GameObject playerObject = Instantiate(gameSettings.playerPrefab, playerSpawnPoint.position, Quaternion.identity);
         playerController = playerObject.GetComponentInChildren<PlayerController>();
-        InitialisePlayer();
+        InitialisePlayer(targetHolder);
     }
 
-    void InitialisePlayer()
+    void InitialisePlayer(GameObject targetHolder)
     {
-        playerController.Init(tarrgetHolder);
-        _player = playerObject.GetComponentInChildren<PlayerInputScript>();
+        playerController.Init(targetHolder);
+        _player = playerController.GetComponentInChildren<PlayerInputScript>();
     }
 
     void SetupEnemies()

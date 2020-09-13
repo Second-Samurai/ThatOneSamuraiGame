@@ -13,7 +13,7 @@ public interface ICombatController
     void UnblockCombatInputs();
     void SheathSword();
     void UnsheathSword();
-
+    bool CheckIsAttacking();
 }
 
 public class PCombatController : MonoBehaviour, ICombatController
@@ -45,7 +45,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         comboTracker = GetComponent<AttackChainTracker>();
 
         _playerSword = this.GetComponentInChildren<WSwordEffect>();
-        _playerSword.SetParentTransform(this.gameObject.transform);
+        _playerSword.Init(this.gameObject.transform);
         _playerInput = GetComponent<PlayerInput>();
         _damageController = GetComponent<PDamageController>();
         _functions = GetComponent<PlayerFunctions>();
@@ -143,6 +143,11 @@ public class PCombatController : MonoBehaviour, ICombatController
         throw new System.NotImplementedException();
     }
 
+    public bool CheckIsAttacking()
+    {
+        return _isAttacking;
+    }
+
     private float CalculateDamage()
     {
         return _playerStats.baseDamage;
@@ -161,6 +166,9 @@ public class PCombatController : MonoBehaviour, ICombatController
         IDamageable attackEntity = other.GetComponent<IDamageable>();
         if (attackEntity == null)
         {
+            //Check for their attacks (thus parry)
+
+
             _playerSword.CreateImpactEffect(other.transform, HitType.GeneralTarget);
             return;
         }

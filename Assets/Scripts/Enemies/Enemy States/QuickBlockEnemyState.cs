@@ -5,13 +5,8 @@ namespace Enemies.Enemy_States
 {
     public class QuickBlockEnemyState : EnemyState
     {
-        private Animator anim;
         private Vector3 _target;
-        
-        // Length multiplier is used to get the real animation length time.
-        // Where 1 = full length, 0.6f is used because 40% of the animation is exit time
-        private float _lengthMultiplier = 0.6f; 
-        
+
         //Class constructor
         public QuickBlockEnemyState(AISystem aiSystem) : base(aiSystem)
         {
@@ -19,36 +14,24 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            ResetAnimationBools();
+            
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
 
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            
             PositionTowardsTarget(AISystem.transform, _target);
             
-            anim = AISystem.animator;
+            AISystem.animator.SetBool("IsQuickBlocking", true);
             
-            anim.SetBool("IsQuickBlocking", true);
-
-            // Need to wait until next frame before the state switches
-            yield return null;
-            AnimatorStateInfo animatorStateInfo = anim.GetCurrentAnimatorStateInfo(0);
+            yield break;
             
-            Debug.Log(animatorStateInfo.length);
-
-            // Run end state after TRUE animation length minus last frame deltaTime
-            yield return new WaitForSeconds(animatorStateInfo.length * _lengthMultiplier - Time.deltaTime);
-            
-            // Only run the end state of light attack if the enemy isn't stunned or dead
-            if (IsGuardBrokenOrDead())
-                yield break;
-            
-            EndState();
+            // NOTE: End state is called through an animation event in the light attack animation
         }
 
         public override void EndState()
         {
-            anim.SetBool("IsQuickBlocking", false);
+            AISystem.animator.SetBool("IsQuickBlocking", false);
             
             // Check current distance to determine next action
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;

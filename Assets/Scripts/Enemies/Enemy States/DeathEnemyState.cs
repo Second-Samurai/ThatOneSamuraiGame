@@ -5,6 +5,8 @@ namespace Enemies.Enemy_States
 {
     public class DeathEnemyState : EnemyState
     {
+        private float _despawnTimer = 4.0f;
+        
         //Class constructor
         public DeathEnemyState(AISystem aiSystem) : base(aiSystem)
         {
@@ -34,8 +36,8 @@ namespace Enemies.Enemy_States
                 AISystem.meleeCollider.enabled = false;
             }
             
-            // Wait 2.0 seconds then de spawn the enemy
-            yield return new WaitForSeconds(2.0f);
+            // Wait for de spawn seconds then de spawn the enemy
+            yield return new WaitForSeconds(_despawnTimer);
             AISystem.gameObject.SetActive(false);
         }
     }

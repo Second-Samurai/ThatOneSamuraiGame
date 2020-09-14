@@ -77,6 +77,8 @@ namespace Enemies.Enemy_States
             anim.SetBool("IsLightAttacking", false);
             anim.SetBool("IsApproaching", false);
             anim.SetBool("IsQuickBlocking", false);
+            anim.SetBool("IsStrafing", false);
+            anim.SetFloat("StrafeDirectionX", 0);
             
             // NOTE: Anims like PlayerFound, IsDead and IsGuardBroken should be treated separately to this function
         }

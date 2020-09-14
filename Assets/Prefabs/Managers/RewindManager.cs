@@ -22,6 +22,11 @@ public class RewindManager : MonoBehaviour
     public delegate void ResetEvent();
     public event ResetEvent Reset;
 
+    public TimeThreasholdReferance timeThreashold;
+
+    public float rewindTime;
+
+
 
     PostProcessingController postProcessingController;
 
@@ -31,6 +36,7 @@ public class RewindManager : MonoBehaviour
     {
 
         postProcessingController = GameManager.instance.postProcessingController;
+        rewindTime = Mathf.Round(timeThreashold.Variable.TimeThreashold * (1f / Time.fixedDeltaTime));
     }
 
     IEnumerator RewindCoroutine()

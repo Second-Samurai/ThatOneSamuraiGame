@@ -53,12 +53,16 @@ namespace Enemies.Enemy_States
             return Vector3.Distance(position, targetPosition) < stopApproachingRange;
         }
 
-        protected bool IsGuardBrokenOrDead()
+        protected void ResetAnimationBools()
         {
-            if (AISystem.animator.GetBool("IsGuardBroken") || AISystem.animator.GetBool("IsDead"))
-                return true;
-
-            return false;
+            Animator anim = AISystem.animator;
+            
+            // Set all suitable animation bools to false
+            anim.SetBool("IsLightAttacking", false);
+            anim.SetBool("IsApproaching", false);
+            anim.SetBool("IsQuickBlocking", false);
+            
+            // NOTE: Anims like PlayerFound, IsDead and IsGuardBroken should be treated separately to this function
         }
     }
 }

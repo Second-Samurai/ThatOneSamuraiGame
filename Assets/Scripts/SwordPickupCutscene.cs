@@ -9,8 +9,8 @@ public class SwordPickupCutscene : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player")) 
         { 
-            PickupSword(); Debug.Log(other.gameObject.name); 
-        
+            PickupSword();
+            //Debug.Log(other.gameObject.name); 
         }
     }
 

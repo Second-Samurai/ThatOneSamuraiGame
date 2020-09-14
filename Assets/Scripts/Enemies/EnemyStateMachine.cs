@@ -18,6 +18,7 @@ namespace Enemy_Scripts
 
         public void SetState(EnemyState newEnemyState)
         {
+            // NOTE: Potential garbage being accumulated with the new keyword???
             EnemyState = newEnemyState;
             StartCoroutine(EnemyState.BeginState());
         }
@@ -30,6 +31,11 @@ namespace Enemy_Scripts
                 EnemyState.Tick();
                 // Debug.Log(EnemyState);
             }
+        }
+
+        public void EndState()
+        {
+            EnemyState.EndState();
         }
     }
 }

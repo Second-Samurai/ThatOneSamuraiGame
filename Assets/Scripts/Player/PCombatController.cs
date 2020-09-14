@@ -6,13 +6,11 @@ using UnityEngine.InputSystem;
 //Empty For now
 public interface ICombatController
 {
-    EntityCombatType GetCombatType();
-
-    void RunLightAttack();
+    void RunLightAttack();  // May be redundant
     void BlockCombatInputs();
     void UnblockCombatInputs();
-    void SheathSword();
-    void UnsheathSword();
+    void SheathSword();  // May be redundant
+    void UnsheathSword();  // May be redundant
     bool CheckIsAttacking();
 }
 
@@ -28,7 +26,6 @@ public class PCombatController : MonoBehaviour, ICombatController
     private PlayerInput _playerInput;
     private PlayerFunctions _functions;
     private PDamageController _damageController;
-    private EntityCombatType _combatType; //TODO: May need to relook at this variable
     private WSwordEffect _playerSword;
     private EntityAttackRegister _attackRegister;
     private CloseEnemyGuideControl _guideController;
@@ -39,7 +36,11 @@ public class PCombatController : MonoBehaviour, ICombatController
     private int _comboHits;
     private bool _isInputBlocked = false;
 
-    public void Init(StatHandler playerStats) {
+    /// <summary>
+    /// Initialises Combat Controller variables and related class components
+    /// </summary>
+    public void Init(StatHandler playerStats)
+    {
         this._playerStats = playerStats;
         this._animator = this.GetComponent<Animator>();
         comboTracker = GetComponent<AttackChainTracker>();
@@ -123,6 +124,9 @@ public class PCombatController : MonoBehaviour, ICombatController
         attackCol.enabled = false;
     }
 
+    //Summary: Methods towards enabling and disabling player blocking
+    //
+
     public void Unblockable()
     {
         isUnblockable = true;
@@ -132,6 +136,9 @@ public class PCombatController : MonoBehaviour, ICombatController
     {
         isUnblockable = false;
     }
+
+    //Summary: Methods related to enabling and disabled sword usage
+    //
 
     public void SheathSword()
     {
@@ -151,11 +158,6 @@ public class PCombatController : MonoBehaviour, ICombatController
     private float CalculateDamage()
     {
         return _playerStats.baseDamage;
-    }
-
-    public EntityCombatType GetCombatType()
-    {
-        return _combatType;
     }
 
     private void OnTriggerEnter(Collider other)

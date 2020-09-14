@@ -23,9 +23,8 @@ namespace Enemies.Enemy_States
             AISystem.bPlayerFound = false;
             AISystem.animator.SetBool("PlayerFound", false);
             
-            // Set all suitable animation bools to false
-            anim.SetBool("IsLightAttacking", false);
-            anim.SetBool("IsApproaching", false);
+            ResetAnimationBools();
+            
             anim.SetBool("IsGuardBroken", false);
             
             // Set enemy to no longer being dead

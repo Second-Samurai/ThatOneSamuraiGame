@@ -172,7 +172,7 @@ namespace Enemies
 
         public void OnCirclePlayer()
         {
-        
+            SetState(new CircleEnemyState(this));
         }
 
         public void OnEnemyStun()

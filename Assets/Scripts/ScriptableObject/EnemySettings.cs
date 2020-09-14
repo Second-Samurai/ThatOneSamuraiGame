@@ -10,6 +10,8 @@ public class EnemySettings : ScriptableObject
     [Space]
     public EntityStatData enemyData;
 
+    public float circleSpeed;
+
     public float stopApproachingRange;
 
     public float followUpAttackRange;

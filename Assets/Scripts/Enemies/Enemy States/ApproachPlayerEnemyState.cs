@@ -7,7 +7,6 @@ namespace Enemies.Enemy_States
     public class ApproachPlayerEnemyState : EnemyState
     {
         private float _stopApproachingRange;
-        private Transform _transform;
         private Vector3 _target;
         
         //Class constructor
@@ -29,9 +28,8 @@ namespace Enemies.Enemy_States
             // Get stopApproachRange, target object and current enemy transform
             _stopApproachingRange = AISystem.enemySettings.stopApproachingRange;
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            _transform = AISystem.transform;
 
-            PositionTowardsTarget(_transform, _target);
+            PositionTowardsTarget(AISystem.transform, _target);
             
             yield break;
         }
@@ -45,7 +43,7 @@ namespace Enemies.Enemy_States
             AISystem.navMeshAgent.SetDestination(_target);
             
             // Change to circling state when close enough to the player
-            if (InRange(_transform.position, _target, _stopApproachingRange))
+            if (InRange(AISystem.transform.position, _target, _stopApproachingRange))
             {
                 EndState();
             }
@@ -54,9 +52,8 @@ namespace Enemies.Enemy_States
         public override void EndState()
         {
             AISystem.animator.SetBool("IsApproaching", false);
-                
-            // TODO: Change to circling, for demo purposes the enemy will just swing to attack
-            AISystem.OnLightAttack();
+            
+            AISystem.OnCirclePlayer();
         }
     }
 }

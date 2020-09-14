@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Camera mainCamera;
     public RewindManager rewindManager;
     public EnemyTracker enemyTracker;
+    public PostProcessingController postProcessingController;
 
     //UICanvases
     [HideInInspector] public GameObject guardMeterCanvas;
@@ -57,7 +58,7 @@ public class GameManager : MonoBehaviour
         mainCamera = Instantiate(gameSettings.mainCamera, mainCameraPos, Quaternion.identity).GetComponent<Camera>();
 
         //Add Post Processing
-        Instantiate(gameSettings.dayPostProcessing, transform.position, Quaternion.identity);
+        postProcessingController = Instantiate(gameSettings.dayPostProcessing, transform.position, Quaternion.identity).GetComponent<PostProcessingController>();
     }
 
     void SetupUI()

@@ -14,9 +14,8 @@ public class RewindInput : MonoBehaviour
 
     // private bool heldBack, heldForward = false;
     public bool isTravelling = false;
-  
+    public GameObject rewindTut;
     PlayerInput _inputComponent;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +25,7 @@ public class RewindInput : MonoBehaviour
         rewindManager = GameManager.instance.rewindManager;
     }
 
-   
+  
 
     void OnInitRewind() 
     {
@@ -36,6 +35,8 @@ public class RewindInput : MonoBehaviour
             isTravelling = true;
             rewindManager.isTravelling = true;
             rewindManager.StartRewind();
+            rewindTut.SetActive(true);
+            GameManager.instance.postProcessingController.EnableRewindColourFilter();
             // Debug.Log("rewinding");
         }
 
@@ -47,17 +48,18 @@ public class RewindInput : MonoBehaviour
         if (isTravelling)
         {
             _inputComponent.SwitchCurrentActionMap("Gameplay");
-
+            GameManager.instance.postProcessingController.DisableRewindColourFilter();
             isTravelling = false;
             //rewindEntity.isTravelling = false;
             rewindManager.EndRewind();
+            rewindTut.SetActive(false);
             rewindManager.isTravelling = false;
         }
     }
 
     public void DeathRewind()
     {
-
+        Debug.Log("DEAD");
             OnInitRewind();
 
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Enemies;
 
 public class Guarding : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class Guarding : MonoBehaviour
     public IEnemyStates enemyStates; //Might need to rename the interface better
     [HideInInspector] public StatHandler statHandler;
     [HideInInspector] public UnityEvent OnGuardEvent = new UnityEvent();
+    AISystem _AISystem;
+    
 
     public void Init(StatHandler statHandler)
     {
@@ -19,7 +22,7 @@ public class Guarding : MonoBehaviour
         GameManager gameManager = GameManager.instance;
         UIGuardMeter guardMeter = gameManager.CreateEntityGuardMeter(this.transform, statHandler);
         OnGuardEvent.AddListener(guardMeter.UpdateGuideMeter);
-
+        _AISystem = GetComponent<AISystem>();
         enemyStates = this.GetComponent<IEnemyStates>();
     }
 
@@ -98,11 +101,13 @@ public class Guarding : MonoBehaviour
         if(canGuard == false)
         {
             //Switch back to active attack state
-            //Debug.Log(">> Guarding: Now in approach player state");
-            //enemyStates.OnApproachPlayer();
+            Debug.Log(">> Guarding: Now in approach player state");
+            enemyStates.OnApproachPlayer();
         }
 
         isStunned = false;
+        _AISystem.animator.SetBool("IsGuardBroken", false);
+        _AISystem.navMeshAgent.isStopped = false;
         canGuard = true;
     }
 }

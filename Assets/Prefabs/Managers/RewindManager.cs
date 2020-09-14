@@ -22,10 +22,15 @@ public class RewindManager : MonoBehaviour
     public delegate void ResetEvent();
     public event ResetEvent Reset;
 
+
+    PostProcessingController postProcessingController;
+
+
     // Start is called before the first frame update
     void Start()
     {
 
+        postProcessingController = GameManager.instance.postProcessingController;
     }
 
     IEnumerator RewindCoroutine()
@@ -35,6 +40,7 @@ public class RewindManager : MonoBehaviour
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
             if (StepBack != null) StepBack();
+            postProcessingController.WarpLensToTargetAmount(-.6f);
             // Debug.Log(Time.timeScale);
         }
 
@@ -43,6 +49,7 @@ public class RewindManager : MonoBehaviour
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
             if (StepForward != null) StepForward();
+            postProcessingController.WarpLensToTargetAmount(-.6f);
 
         }
 
@@ -50,12 +57,14 @@ public class RewindManager : MonoBehaviour
         {
             Time.timeScale = 0f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
+            postProcessingController.WarpLensToTargetAmount(0f);
         }
 
         if (!isTravelling && Time.timeScale != 1f)
         {
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
+            postProcessingController.WarpLensToTargetAmount(0f);
         }
         yield return null;
 

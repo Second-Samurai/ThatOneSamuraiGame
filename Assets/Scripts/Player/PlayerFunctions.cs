@@ -28,7 +28,7 @@ public class PlayerFunctions : MonoBehaviour
 
     public RectTransform screenCenter;
 
-    public GameObject rewindTut;
+   
     public GameObject pauseMenu;
 
     public PlayerInput _inputComponent;
@@ -78,8 +78,7 @@ public class PlayerFunctions : MonoBehaviour
         CheckBlockCooldown();
         CheckParry();
         //remove this
-        if (bIsDead) rewindTut.SetActive(true);
-        else rewindTut.SetActive(false);
+        
 
         
     }

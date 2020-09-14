@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5505262569109149174}
   - component: {fileID: 5505262569109149175}
+  - component: {fileID: 3818919955973838191}
+  - component: {fileID: 66279929307559108}
   m_Layer: 0
   m_Name: Day_Global_PostPrcessing
   m_TagString: Untagged
@@ -44,7 +46,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGlobal: 1
-  priority: 0
+  priority: 1
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: ec56cc11b791b4a16a9ea43678c038dd, type: 2}
+--- !u!114 &3818919955973838191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5505262569109149176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c5d6408c47dff84596f01656eb0946c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultVolume: {fileID: 5505262569109149175}
+  rewindVolume: {fileID: 66279929307559108}
+--- !u!114 &66279929307559108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5505262569109149176}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 35fcc0f69bcba4b44a21930bffdccfc3, type: 2}

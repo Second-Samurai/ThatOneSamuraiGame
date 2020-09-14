@@ -107,6 +107,7 @@ public class Guarding : MonoBehaviour
 
         isStunned = false;
         _AISystem.animator.SetBool("IsGuardBroken", false);
+        _AISystem.animator.SetBool("IsQuickBlocking", false);
         _AISystem.navMeshAgent.isStopped = false;
         canGuard = true;
     }

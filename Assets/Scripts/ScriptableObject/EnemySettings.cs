@@ -16,6 +16,8 @@ public class EnemySettings : ScriptableObject
     
     public float circleToChaseRange;
 
+    public float circleThreatenRange;
+
     public float followUpAttackRange;
 
     // Scriptable object items saved in runtime are to be made private

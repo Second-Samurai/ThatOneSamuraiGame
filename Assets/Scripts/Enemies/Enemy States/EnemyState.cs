@@ -53,6 +53,22 @@ namespace Enemies.Enemy_States
             return Vector3.Distance(position, targetPosition) < stopApproachingRange;
         }
 
+        protected void ChooseActionUsingDistance(Vector3 target)
+        {
+            if (InRange(AISystem.transform.position, target, AISystem.enemySettings.followUpAttackRange))
+            {
+                AISystem.OnLightAttack(); // Light attack again if close enough
+            }
+            else if(InRange(AISystem.transform.position, target, AISystem.enemySettings.chaseToCircleRange))
+            {
+                AISystem.OnCirclePlayer(); // Start circling if in close enough range
+            }
+            else
+            {
+                AISystem.OnApproachPlayer(); // Approach player if they are too far away
+            }
+        }
+
         protected void ResetAnimationBools()
         {
             Animator anim = AISystem.animator;

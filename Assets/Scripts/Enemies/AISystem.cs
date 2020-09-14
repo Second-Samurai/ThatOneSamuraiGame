@@ -196,6 +196,11 @@ namespace Enemies
 
         }
 
+        public void OnRetract()
+        {
+            SetState(new RetractEnemyState(this));
+        }
+
         #endregion
     }
 }

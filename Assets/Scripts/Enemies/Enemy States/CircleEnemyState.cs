@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace Enemies.Enemy_States
 {
@@ -7,6 +9,8 @@ namespace Enemies.Enemy_States
     {
         private Vector3 _target;
         private float _circleToChaseRange;
+        private float _circleThreatenRange;
+        private bool _bIsThreatened = false;
 
         //Class constructor
         public CircleEnemyState(AISystem aiSystem) : base(aiSystem)
@@ -24,6 +28,7 @@ namespace Enemies.Enemy_States
             
             // Cache the range value so we're not always getting it in the tick function
             _circleToChaseRange = AISystem.enemySettings.circleToChaseRange;
+            _circleThreatenRange = AISystem.enemySettings.circleThreatenRange;
             
             AISystem.animator.SetBool("IsStrafing", true);
 
@@ -39,9 +44,14 @@ namespace Enemies.Enemy_States
             PositionTowardsTarget(AISystem.transform, _target);
             
             // Change to chase state when too far from the player
-            if (!InRange(AISystem.transform.position, _target, _circleToChaseRange))
+            if(InRange(AISystem.transform.position, _target, _circleThreatenRange))
             {
-                Debug.Log("Called");
+                _bIsThreatened = true;
+                EndState();
+            }
+            // Change to chase state when too far from the player
+            else if (!InRange(AISystem.transform.position, _target, _circleToChaseRange))
+            {
                 EndState();
             }
         }
@@ -52,7 +62,12 @@ namespace Enemies.Enemy_States
             
             AISystem.animator.SetFloat("StrafeDirectionX", 0);
             
-            AISystem.OnApproachPlayer();
+            // If threatened, do a threatened response (i.e. if the player is close)
+            // Else approach the player again (i.e. if the player is far)
+            if(_bIsThreatened)
+                PickThreatenedResponse();
+            else
+                AISystem.OnApproachPlayer();
         }
 
         // Set the strafe direction
@@ -68,5 +83,33 @@ namespace Enemies.Enemy_States
                 AISystem.animator.SetFloat("StrafeDirectionX", 1.0f);
             }
         }
+        
+        // Pick a random action to perform when the player approaches the enemy
+        private void PickThreatenedResponse()
+        {
+            // Reset threatened value
+            _bIsThreatened = false;
+            
+            int actionNumber = Random.Range(0, 3);
+            
+            switch(actionNumber)
+            {
+                case 0: // LIGHT ATTACK
+                    AISystem.OnLightAttack();
+                    break;
+                case 1: // START BLOCKING //TODO: CHANGE TO ACTUAL BLOCKING STATE
+                    // AISystem.OnBlock();
+                    AISystem.OnQuickBlock();
+                    break;
+                case 2: // RETRACT BACK //TODO: CHANGE TO ACTUAL RETRACTING STATE
+                    // AISystem.OnRetract();
+                    AISystem.OnLightAttack();
+                    break;
+                default:
+                    Debug.LogError("Enemy action response is out of bounds");
+                    break;
+            }
+        }
+        
     }
 }

@@ -37,14 +37,7 @@ namespace Enemies.Enemy_States
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             
             // TODO: Remove this. Temporary state switch until blocking is introduced
-            if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.followUpAttackRange))
-            {
-                AISystem.OnLightAttack(); // Light attack again if close enough
-            }
-            else
-            {
-                AISystem.OnApproachPlayer(); // Approach player if they are too far away
-            }
+            ChooseActionUsingDistance(_target);
             
             // TODO: Replace with this
             //AISystem.OnBlock();

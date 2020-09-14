@@ -12,7 +12,9 @@ public class EnemySettings : ScriptableObject
 
     public float circleSpeed;
 
-    public float stopApproachingRange;
+    public float chaseToCircleRange;
+    
+    public float circleToChaseRange;
 
     public float followUpAttackRange;
 

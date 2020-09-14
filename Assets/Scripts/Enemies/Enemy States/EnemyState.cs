@@ -12,6 +12,8 @@ namespace Enemies.Enemy_States
         // Breaking standard naming conventions for the sake of state naming
         protected AISystem AISystem;
 
+        private float _rotationSpeed = 4.0f;
+
         // Class constructor that takes in the AISystem
         protected EnemyState(AISystem aiSystem)
         {
@@ -39,9 +41,9 @@ namespace Enemies.Enemy_States
         {
             if (AISystem.bPlayerFound)
             {
-                // Look at the target to move into their direction
-                transform.LookAt(target);
-                //Ignore the X and Z rotations
+                Vector3 lookDir = target - transform.position;
+                Quaternion lookRot = Quaternion.LookRotation(lookDir);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, _rotationSpeed);
                 transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
             }
         }

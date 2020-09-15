@@ -30,14 +30,14 @@ public class SwordsmanSwingTrigger : MonoBehaviour
         {
             StartCoroutine(DisableCollider());
             
-            if (other.gameObject.GetComponent<PlayerFunctions>().bIsParrying)
-            {
-                Debug.Log("Attack Parried");
-            }
-            else
-            {
-                damagable.OnEntityDamage(_aiSystem.enemySettings.enemyData.baseDamage, this.gameObject, false);
-            }
+            //if (other.gameObject.GetComponent<PlayerFunctions>().bIsParrying)
+            //{
+            //    Debug.Log("Attack Parried");
+            //}
+            //else
+            //{
+            damagable.OnEntityDamage(_aiSystem.enemySettings.enemyData.baseDamage, _aiSystem.gameObject, false);
+            //
         }
     }
     

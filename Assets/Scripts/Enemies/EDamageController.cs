@@ -58,6 +58,13 @@ public class EDamageController : MonoBehaviour, IDamageable
      *          But can be only used when in a state that does
      *          not require it.*/
     //
+
+    public void OnParried()
+    {
+        enemyGuard.CheckIfEntityGuarding(2);
+        aiSystem.animator.SetTrigger("Parried");
+    }
+
     public void DisableDamage()
     {
         _isDamageDisabled = true;

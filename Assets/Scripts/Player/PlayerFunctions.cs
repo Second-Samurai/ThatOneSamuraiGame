@@ -28,7 +28,8 @@ public class PlayerFunctions : MonoBehaviour
 
     public RectTransform screenCenter;
 
-   
+    public ParryEffects parryEffects;
+
     public GameObject pauseMenu;
 
     public PlayerInput _inputComponent;
@@ -57,6 +58,7 @@ public class PlayerFunctions : MonoBehaviour
         {
             bIsBlocking = true;
             _bDontCheckParry = false;
+            parryEffects.PlayGleam();
             _IKPuppet.EnableIK();
         }
     }
@@ -129,13 +131,13 @@ public class PlayerFunctions : MonoBehaviour
         EnableBlock();
     }
 
-    public void ApplyHit(GameObject attacker, bool unblockable)
+    public void ApplyHit(GameObject attacker, bool unblockable, float damage)
     {
         if (!unblockable)
         {
             if (bIsParrying)
             {
-                TriggerParry(attacker);
+                TriggerParry(attacker, damage);
             }
             else if (bIsBlocking)
             {
@@ -151,18 +153,17 @@ public class PlayerFunctions : MonoBehaviour
 
     }
 
-    public void TriggerParry(GameObject attacker)
+    public void TriggerParry(GameObject attacker, float damage)
     {
-        //rotate to face attacker
-        //Damage attacker's guard meter
+        attacker.GetComponent<EDamageController>().OnParried(damage); //Damage attacker's guard meter
+        parryEffects.PlayParry();
         Debug.LogWarning("Parried " + attacker.name);
 
     }
     public void TriggerBlock(GameObject attacker)
     {
         //rotate to face attacker
-        //particles
-        //play blockbreak anim
+        parryEffects.PlayBlock();
         bIsBlocking = false;
         _animator.SetTrigger("GuardBreak");
         Debug.LogWarning("Guard broken!");

@@ -59,9 +59,9 @@ public class EDamageController : MonoBehaviour, IDamageable
      *          not require it.*/
     //
 
-    public void OnParried()
+    public void OnParried(float damage)
     {
-        enemyGuard.CheckIfEntityGuarding(2);
+        enemyGuard.CheckIfEntityGuarding(damage);
         aiSystem.animator.SetTrigger("Parried");
     }
 

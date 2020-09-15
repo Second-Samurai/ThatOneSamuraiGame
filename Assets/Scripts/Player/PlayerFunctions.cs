@@ -131,13 +131,13 @@ public class PlayerFunctions : MonoBehaviour
         EnableBlock();
     }
 
-    public void ApplyHit(GameObject attacker, bool unblockable)
+    public void ApplyHit(GameObject attacker, bool unblockable, float damage)
     {
         if (!unblockable)
         {
             if (bIsParrying)
             {
-                TriggerParry(attacker);
+                TriggerParry(attacker, damage);
             }
             else if (bIsBlocking)
             {
@@ -153,9 +153,9 @@ public class PlayerFunctions : MonoBehaviour
 
     }
 
-    public void TriggerParry(GameObject attacker)
+    public void TriggerParry(GameObject attacker, float damage)
     {
-        attacker.GetComponent<EDamageController>().OnParried(); //Damage attacker's guard meter
+        attacker.GetComponent<EDamageController>().OnParried(damage); //Damage attacker's guard meter
         parryEffects.PlayParry();
         Debug.LogWarning("Parried " + attacker.name);
 

@@ -157,6 +157,7 @@ public class PlayerFunctions : MonoBehaviour
     {
         parryEffects.PlayParry();
         if(attacker != null) attacker.GetComponent<EDamageController>().OnParried(damage); //Damage attacker's guard meter
+        GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(.7f);
         Debug.LogWarning("Parried " + attacker.name);
 
     }
@@ -164,6 +165,7 @@ public class PlayerFunctions : MonoBehaviour
     {
         //rotate to face attacker
         parryEffects.PlayBlock();
+        GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);
         bIsBlocking = false;
         _animator.SetTrigger("GuardBreak");
         Debug.LogWarning("Guard broken!");
@@ -181,6 +183,8 @@ public class PlayerFunctions : MonoBehaviour
             bIsDead = true;
             _inputComponent.SwitchCurrentActionMap("Rewind");
             Debug.LogError("Player killed!");
+            GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);
+            GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.3f);
 
         }
     }

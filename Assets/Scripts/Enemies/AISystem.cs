@@ -48,6 +48,7 @@ namespace Enemies
         //DAMAGE CONTROLS
         public EDamageController eDamageController;
         public bool bIsDead = false;
+        //NOTE: isStunned is handled in Guarding script, inside the eDamageController script
         
         //DODGE VARIABLES
         public float dodgeDirectionX, dodgeDirectionZ = 0;

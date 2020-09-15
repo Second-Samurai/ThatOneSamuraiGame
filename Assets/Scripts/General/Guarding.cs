@@ -12,7 +12,7 @@ public class Guarding : MonoBehaviour
     public IEnemyStates enemyStates; //Might need to rename the interface better
     [HideInInspector] public StatHandler statHandler;
     [HideInInspector] public UnityEvent OnGuardEvent = new UnityEvent();
-    AISystem _AISystem;
+    private AISystem _aiSystem;
     
 
     public void Init(StatHandler statHandler)
@@ -22,7 +22,7 @@ public class Guarding : MonoBehaviour
         GameManager gameManager = GameManager.instance;
         UIGuardMeter guardMeter = gameManager.CreateEntityGuardMeter(this.transform, statHandler);
         OnGuardEvent.AddListener(guardMeter.UpdateGuideMeter);
-        _AISystem = GetComponent<AISystem>();
+        _aiSystem = GetComponent<AISystem>();
         enemyStates = this.GetComponent<IEnemyStates>();
     }
 
@@ -106,9 +106,11 @@ public class Guarding : MonoBehaviour
         }
 
         isStunned = false;
-        _AISystem.animator.SetBool("IsGuardBroken", false);
-        _AISystem.animator.SetBool("IsQuickBlocking", false);
-        _AISystem.navMeshAgent.isStopped = false;
+        _aiSystem.animator.SetBool("IsGuardBroken", false);
+        _aiSystem.animator.SetBool("IsQuickBlocking", false);
         canGuard = true;
+        
+        //Commented out this line since it's handled in OnApproachPlayer
+        //_AISystem.navMeshAgent.isStopped = false;
     }
 }

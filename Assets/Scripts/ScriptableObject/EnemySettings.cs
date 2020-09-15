@@ -12,7 +12,8 @@ public class EnemySettings : ScriptableObject
 
     public float circleSpeed;
     
-    [Space]
+    public float dodgeForce;
+    
     [Header("Range Checks")]
     public float chaseToCircleRange;
     

@@ -57,7 +57,18 @@ namespace Enemies.Enemy_States
         {
             if (InRange(AISystem.transform.position, target, AISystem.enemySettings.followUpAttackRange))
             {
-                AISystem.OnLightAttack(); // Light attack again if close enough
+                // If close enough, make a decision
+                int decision = Random.Range(0, 2);
+
+                if (decision == 0) // Dodge backwards
+                {
+                    AISystem.dodgeDirectionZ = -1;
+                    AISystem.OnDodge();
+                }
+                else // Attack player
+                {
+                    AISystem.OnLightAttack(); 
+                }
             }
             else if(InRange(AISystem.transform.position, target, AISystem.enemySettings.chaseToCircleRange))
             {
@@ -79,6 +90,7 @@ namespace Enemies.Enemy_States
             anim.SetBool("IsQuickBlocking", false);
             anim.SetBool("IsStrafing", false);
             anim.SetFloat("StrafeDirectionX", 0);
+            anim.SetBool("IsDodging", false);
             
             // NOTE: Anims like PlayerFound, IsDead and IsGuardBroken should be treated separately to this function
         }

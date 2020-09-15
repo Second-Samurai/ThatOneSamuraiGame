@@ -48,6 +48,9 @@ namespace Enemies
         //DAMAGE CONTROLS
         public EDamageController eDamageController;
         public bool bIsDead = false;
+        
+        //DODGE VARIABLES
+        public float dodgeDirectionX, dodgeDirectionZ = 0;
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
         //because the player's origin point is on the floor
@@ -148,7 +151,7 @@ namespace Enemies
 
         public void OnDodge()
         {
-        
+            SetState(new DodgeEnemyState(this));
         }
     
         #endregion
@@ -193,12 +196,6 @@ namespace Enemies
         public void OnEnemyRewind() 
         {
             SetState(new RewindEnemyState(this));
-
-        }
-
-        public void OnRetract()
-        {
-            SetState(new RetractEnemyState(this));
         }
 
         #endregion

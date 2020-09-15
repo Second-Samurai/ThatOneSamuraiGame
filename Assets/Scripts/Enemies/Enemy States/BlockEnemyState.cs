@@ -14,8 +14,6 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            ResetAnimationBools();
-            
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
 
@@ -30,9 +28,9 @@ namespace Enemies.Enemy_States
             EndState();
         }
 
+        // TODO: Detect if the enemy is hit mid block here
         public override void Tick()
         {
-            // Detect if the enemy is hit mid block
             base.Tick();
         }
 
@@ -51,14 +49,14 @@ namespace Enemies.Enemy_States
             if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.circleThreatenRange))
             {
                 int decision = Random.Range(0, 2);
-                if (decision == 0)
+                if (decision == 0) // Go for an attack
                 {
                     AISystem.OnLightAttack();
                 }
-                else
+                else // Dodge backwards
                 {
-                    // TODO: Change to retract state
-                    AISystem.OnLightAttack();
+                    AISystem.dodgeDirectionZ = -1;
+                    AISystem.OnDodge();
                 }
             }
             else

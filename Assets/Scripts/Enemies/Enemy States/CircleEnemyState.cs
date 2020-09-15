@@ -19,12 +19,8 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            ResetAnimationBools();
-            
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
-            
-            ResetAnimationBools();
 
             PickStrafeDirection();
             
@@ -102,9 +98,9 @@ namespace Enemies.Enemy_States
                 case 1: // START BLOCKING
                     AISystem.OnBlock();
                     break;
-                case 2: // RETRACT BACK //TODO: CHANGE TO ACTUAL RETRACTING STATE
-                    // AISystem.OnRetract();
-                    AISystem.OnLightAttack();
+                case 2: // RETRACT BACK
+                    AISystem.dodgeDirectionZ = -1;
+                    AISystem.OnDodge();
                     break;
                 default:
                     Debug.LogError("Enemy action response is out of bounds");

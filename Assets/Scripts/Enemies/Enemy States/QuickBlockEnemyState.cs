@@ -36,11 +36,16 @@ namespace Enemies.Enemy_States
             // Check current distance to determine next action
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             
-            // TODO: Randomly do one of the following
-            // Choose to block
-            // Choose to retract
-            // Choose to attack again
-            ChooseActionUsingDistance(_target);
+            // Move to block state OR choose an action using distance
+            int decision = Random.Range(0, 4);
+            if (decision == 0)
+            {
+                AISystem.OnBlock();
+            }
+            else
+            {
+                ChooseActionUsingDistance(_target);
+            }
         }
     }
 }

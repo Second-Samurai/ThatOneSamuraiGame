@@ -36,11 +36,11 @@ namespace Enemies.Enemy_States
             // Check current distance to determine next action
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             
-            // TODO: Remove this. Temporary state switch until blocking is introduced
+            // TODO: Randomly do one of the following
+            // Choose to block
+            // Choose to retract
+            // Choose to attack again
             ChooseActionUsingDistance(_target);
-            
-            // TODO: Replace with this
-            //AISystem.OnBlock();
         }
     }
 }

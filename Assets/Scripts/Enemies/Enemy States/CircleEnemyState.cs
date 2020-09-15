@@ -99,9 +99,8 @@ namespace Enemies.Enemy_States
                 case 0: // LIGHT ATTACK
                     AISystem.OnLightAttack();
                     break;
-                case 1: // START BLOCKING //TODO: CHANGE TO ACTUAL BLOCKING STATE
-                    // AISystem.OnBlock();
-                    AISystem.OnQuickBlock();
+                case 1: // START BLOCKING
+                    AISystem.OnBlock();
                     break;
                 case 2: // RETRACT BACK //TODO: CHANGE TO ACTUAL RETRACTING STATE
                     // AISystem.OnRetract();

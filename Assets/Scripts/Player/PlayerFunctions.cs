@@ -155,8 +155,8 @@ public class PlayerFunctions : MonoBehaviour
 
     public void TriggerParry(GameObject attacker, float damage)
     {
-        attacker.GetComponent<EDamageController>().OnParried(damage); //Damage attacker's guard meter
         parryEffects.PlayParry();
+        if(attacker != null) attacker.GetComponent<EDamageController>().OnParried(damage); //Damage attacker's guard meter
         Debug.LogWarning("Parried " + attacker.name);
 
     }

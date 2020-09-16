@@ -21,7 +21,7 @@ namespace Enemy_Scripts
             EnemyState = newEnemyState;
             StartCoroutine(EnemyState.BeginState());
             
-            //Debug.Log("Switching States: "+newEnemyState);
+            Debug.Log("Switching States: "+newEnemyState);
         }
 
         protected void FixedUpdate()
@@ -34,10 +34,21 @@ namespace Enemy_Scripts
             }
         }
         
-        // Called in animation events to trigger end state
+        //ANIMATION CALLED EVENTS
+
+        #region Animation Called Events
+
         public void EndState()
         {
             EnemyState.EndState();
         }
+
+        public void StopRotating()
+        {
+            EnemyState.StopRotating();
+        }
+
+        #endregion
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿using Enemies.Enemy_States;
+﻿using System.Collections;
+using Enemies.Enemy_States;
 using Enemy_Scripts;
 using UnityEngine;
 using UnityEngine.AI;
@@ -98,6 +99,37 @@ namespace Enemies
             else
             {
                 Debug.LogWarning("Unknown attacker");
+            }
+        }
+
+        // Called from dodgestate
+        public void DodgeImpulse(Vector3 lastDir, float force)
+        {
+            StopAllCoroutines();
+            StartCoroutine(DodgeImpulseCoroutine(lastDir, force));
+        }
+
+        // Called from an animation event in lightattackstate
+        public void DodgeImpulseAnimationEvent()
+        {
+            StopAllCoroutines();
+            if (Vector3.Distance(transform.position, enemySettings.GetTarget().position) > enemySettings.followUpAttackRange)
+            {
+                Debug.LogError(transform.position - enemySettings.GetTarget().position);
+                StartCoroutine(DodgeImpulseCoroutine(transform.position - enemySettings.GetTarget().position, enemySettings.dodgeForce));
+            }
+        }
+        
+        // Coroutines cannot exist in enemystate since it's not a monobehavior, so we handle it here
+        private IEnumerator DodgeImpulseCoroutine(Vector3 lastDir, float force)
+        {
+            float dodgeTimer = .15f;
+            while (dodgeTimer > 0f)
+            {
+                transform.Translate(lastDir.normalized * force * Time.deltaTime);
+                
+                dodgeTimer -= Time.deltaTime;
+                yield return null;
             }
         }
 

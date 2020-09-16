@@ -19,15 +19,17 @@ public class EDamageController : MonoBehaviour, IDamageable
 
     public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
+        if (_isDamageDisabled) return;
+        
         if (!unblockable)
         {
-
-            if (_isDamageDisabled) return;
-
             if (attacker.layer == LayerMask.NameToLayer("Player"))
             {
+                // If enemy can guard and isn't stunned, reduce guard by damage amount and do the following
                 if (enemyGuard.CheckIfEntityGuarding(damage))
                 {
+                    // If enemy still has left over guard meter AFTER CheckIfEntityGuarding, go to the quick block state
+                    // The following 3 lines do not occur if the enemy is guard broken through the previous CheckIfEntityGuarding
                     if (enemyGuard.canGuard)
                     {
                         _aiSystem.OnQuickBlock();
@@ -53,7 +55,8 @@ public class EDamageController : MonoBehaviour, IDamageable
         }
         else
         {
-            _aiSystem.ApplyHit(attacker);
+            Debug.LogWarning("WARNING: Attack not on player layer");
+            //_aiSystem.ApplyHit(attacker);
         }
     }
 

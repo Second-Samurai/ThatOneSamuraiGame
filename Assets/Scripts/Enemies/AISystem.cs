@@ -3,12 +3,6 @@ using Enemy_Scripts;
 using UnityEngine;
 using UnityEngine.AI;
 
-public interface IEnemyStates
-{
-    void OnEnemyStun();
-    void OnApproachPlayer();
-}
-
 public enum EnemyType
 {
     SWORDSMAN,
@@ -23,7 +17,7 @@ namespace Enemies
     // AISystem is responsible for receiving calls to tell the enemy what to perform. It should also
     // Be responsible for storing enemy data (i.e. Guard meter, remaining guard etc.) BUT
     // any enemy behaviours should be handled through the state machine
-    public class AISystem : EnemyStateMachine, IEnemyStates
+    public class AISystem : EnemyStateMachine
     {
         
         #region Fields and Properties
@@ -186,7 +180,7 @@ namespace Enemies
 
         public void OnEnemyRecovery()
         {
-            
+            SetState(new RecoveryEnemyState(this));
         }
 
         public void OnEnemyDeath()

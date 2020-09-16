@@ -87,12 +87,19 @@ namespace Enemies.Enemy_States
             // Set all suitable animation bools to false
             anim.SetBool("IsLightAttacking", false);
             anim.SetBool("IsApproaching", false);
+            anim.SetBool("IsBlocking", false);
             anim.SetBool("IsQuickBlocking", false);
             anim.SetBool("IsStrafing", false);
             anim.SetFloat("StrafeDirectionX", 0);
             anim.SetBool("IsDodging", false);
-            
+            anim.ResetTrigger("Parried");
+
             // NOTE: Anims like PlayerFound, IsDead and IsGuardBroken should be treated separately to this function
+        }
+
+        protected bool IsDeadOrGuardBroken()
+        {
+            return AISystem.bIsDead || AISystem.eDamageController.enemyGuard.isStunned;
         }
     }
 }

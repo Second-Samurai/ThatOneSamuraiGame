@@ -9,7 +9,8 @@ public class Guarding : MonoBehaviour
     public bool canGuard = true;
     public bool isStunned = false;
 
-    public IEnemyStates enemyStates; //Might need to rename the interface better
+    private float _guardCooldownTime = 8;
+    
     [HideInInspector] public StatHandler statHandler;
     [HideInInspector] public UnityEvent OnGuardEvent = new UnityEvent();
     private AISystem _aiSystem;
@@ -23,7 +24,6 @@ public class Guarding : MonoBehaviour
         UIGuardMeter guardMeter = gameManager.CreateEntityGuardMeter(this.transform, statHandler);
         OnGuardEvent.AddListener(guardMeter.UpdateGuideMeter);
         _aiSystem = GetComponent<AISystem>();
-        enemyStates = this.GetComponent<IEnemyStates>();
     }
 
     //Summary: Runs guard and checks if it can guard
@@ -67,8 +67,8 @@ public class Guarding : MonoBehaviour
         canGuard = false;
         StartCoroutine(AwaitNextDamage(6));
 
-        //Create state
-        enemyStates.OnEnemyStun();
+        //Switch States
+        _aiSystem.OnEnemyStun();
     }
 
     private IEnumerator AwaitNextDamage(float time)
@@ -81,36 +81,35 @@ public class Guarding : MonoBehaviour
             yield return null;
         }
 
-        StartCoroutine(GuardCoolDown(8));
+        StartCoroutine(GuardCoolDown(_guardCooldownTime));
     }
 
+    // Count down the remaining guard cooldown time through the GuardCoolDown co-routine
+    // Stops the co-routine if the enemy is dead
     private IEnumerator GuardCoolDown(float time)
     {
-        float coolVal = (statHandler.maxGuard - statHandler.CurrentGuard / time) * Time.deltaTime;
-
-        while (statHandler.CurrentGuard < statHandler.maxGuard)
+        if (_aiSystem.bIsDead)
         {
-            statHandler.CurrentGuard += coolVal;
+            StopCoroutine(GuardCoolDown(_guardCooldownTime));
+        }
+        else
+        {
+            float coolVal = (statHandler.maxGuard - statHandler.CurrentGuard / time) * Time.deltaTime;
+
+            while (statHandler.CurrentGuard < statHandler.maxGuard)
+            {
+                statHandler.CurrentGuard += coolVal;
+                OnGuardEvent.Invoke();
+                yield return null;
+            }
+
+            statHandler.CurrentGuard = statHandler.maxGuard;
             OnGuardEvent.Invoke();
-            yield return null;
+
+            
+            isStunned = false;
+            canGuard = true;
+            _aiSystem.OnEnemyRecovery();
         }
-
-        statHandler.CurrentGuard = statHandler.maxGuard;
-        OnGuardEvent.Invoke();
-
-        if(canGuard == false)
-        {
-            //Switch back to active attack state
-            Debug.Log(">> Guarding: Now in approach player state");
-            enemyStates.OnApproachPlayer();
-        }
-
-        isStunned = false;
-        _aiSystem.animator.SetBool("IsGuardBroken", false);
-        _aiSystem.animator.SetBool("IsQuickBlocking", false);
-        canGuard = true;
-        
-        //Commented out this line since it's handled in OnApproachPlayer
-        //_AISystem.navMeshAgent.isStopped = false;
     }
 }

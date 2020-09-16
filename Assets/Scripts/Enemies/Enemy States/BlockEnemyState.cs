@@ -34,11 +34,15 @@ namespace Enemies.Enemy_States
             base.Tick();
         }
 
+        // End state should only be performed if the enemy hasn't died or got guard broken mid block
         public override void EndState()
         {
-            AISystem.animator.SetBool("IsBlocking", false);
+            if (!IsDeadOrGuardBroken())
+            {
+                AISystem.animator.SetBool("IsBlocking", false);
             
-            ChooseAfterBlockOption();
+                ChooseAfterBlockOption();
+            }
         }
 
         private void ChooseAfterBlockOption()

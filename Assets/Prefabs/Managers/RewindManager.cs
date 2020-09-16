@@ -13,7 +13,7 @@ public class RewindManager : MonoBehaviour
     public event StepForwardEvent StepForward;
 
     public float rewindDirection;
-    public bool isTravelling = false;
+    public bool isTravelling = true;
 
     WaitForSecondsRealtime wait = new WaitForSecondsRealtime(.05f);
 
@@ -45,11 +45,13 @@ public class RewindManager : MonoBehaviour
         if (rewindUI == null) 
             rewindUI = GameManager.instance.playerController.gameObject.GetComponentInChildren<RewindBar>();
         playerRewindEntity = GameManager.instance.playerController.gameObject.GetComponent<PlayerRewindEntity>();
+        isTravelling = true;
     }
 
     private void Update()
     {
         IncreaseResource();
+        Debug.Log(isTravelling);
     }
 
     void UpdateRewindUI()

@@ -24,7 +24,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
 
     public override void FixedUpdate()
     {
-        if (isTravelling == false)
+        if (_rewindInput.isTravelling == false)
         {
             RecordPast();
 

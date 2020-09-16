@@ -20,7 +20,7 @@ public class CameraRewindEntity : RewindEntity
 
     public override void FixedUpdate()
     {
-        if (isTravelling == false)
+        if (_rewindInput.isTravelling == false)
         {
             RecordPast();
 

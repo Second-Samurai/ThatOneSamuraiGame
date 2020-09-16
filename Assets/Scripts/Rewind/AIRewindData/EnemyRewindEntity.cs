@@ -23,7 +23,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
 
     public override void FixedUpdate()
     {
-        if (isTravelling == false)
+        if (_rewindInput.isTravelling == false)
         {
             RecordPast();
 

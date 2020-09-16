@@ -38,7 +38,7 @@ public class RewindEntity : MonoBehaviour
     // Update is called once per frame
     public virtual void FixedUpdate()
     {
-        if (isTravelling == false) 
+        if (_rewindInput.isTravelling == false) 
         {
             RecordPast();
             

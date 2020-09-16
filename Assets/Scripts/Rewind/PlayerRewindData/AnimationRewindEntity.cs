@@ -31,7 +31,7 @@ public class AnimationRewindEntity : RewindEntity
     // Update is called once per frame
     public override void FixedUpdate()
     {
-        if (isTravelling == false)
+        if (_rewindInput.isTravelling == false)
         {
             RecordPast();
             animator.applyRootMotion = true;

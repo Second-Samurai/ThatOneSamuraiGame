@@ -11,12 +11,15 @@ GameObject:
   - component: {fileID: 4765790831838350960}
   - component: {fileID: 8470327619635036629}
   - component: {fileID: 5938085574091355423}
+  - component: {fileID: 8969435096184094153}
+  - component: {fileID: 2067940633445021275}
+  - component: {fileID: 1143104116479184567}
   m_Layer: 0
   m_Name: rock_18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4765790831838350960
 Transform:
@@ -58,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 670224309865224971, guid: 08b39ee835aa54b339bc3b6ad83eb3a9, type: 3}
+  - {fileID: 2100000, guid: 289268bfc888444268a8d265aee86eb4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,3 +82,43 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!136 &8969435096184094153
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5289668177561228490}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.04637551
+  m_Height: 0.1683431
+  m_Direction: 1
+  m_Center: {x: 0.010737935, y: 0.017137766, z: -0.024080127}
+--- !u!135 &2067940633445021275
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5289668177561228490}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.0318503
+  m_Center: {x: -0.018413778, y: -0.0035672926, z: 0.02663106}
+--- !u!135 &1143104116479184567
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5289668177561228490}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.006425004
+  m_Center: {x: -0.054483723, y: 0.0062387777, z: 0.015424392}

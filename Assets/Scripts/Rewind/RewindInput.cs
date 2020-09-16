@@ -61,7 +61,8 @@ public class RewindInput : MonoBehaviour
     public void DeathRewind()
     {
         Debug.Log("DEAD");
-            OnInitRewind();
+        rewindManager.ReduceRewindAmount();
+        OnInitRewind();
 
     }
 

@@ -77,6 +77,7 @@ public class FinishingMoveController : MonoBehaviour
         {
             enemies[i].gameObject.GetComponent<AISystem>().EnemyState = enemiesCache[i].EnemyState;
         }
+        GameManager.instance.rewindManager.IncreaseRewindAmount();
     }
 
    

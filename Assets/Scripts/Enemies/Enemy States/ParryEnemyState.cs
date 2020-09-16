@@ -14,10 +14,6 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            // Get target position and face towards it
-            _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            PositionTowardsTarget(AISystem.transform, _target);
-            
             // Disable canParry
             AISystem.eDamageController.enemyGuard.canParry = false;
             
@@ -26,6 +22,13 @@ namespace Enemies.Enemy_States
             AISystem.animator.SetBool("IsParried", true);
 
             yield break;
+        }
+        
+        public override void Tick()
+        {
+            // Get target position and face towards it
+            _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
+            PositionTowardsTarget(AISystem.transform, _target);
         }
 
         // End state is called by animation event

@@ -27,11 +27,7 @@ namespace Enemies.Enemy_States
             // Set player to be found in AISystem
             AISystem.bPlayerFound = true;
             AISystem.animator.SetBool("PlayerFound", true);
-            
-            // Find target and position towards them
-            _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            PositionTowardsTarget(AISystem.transform, _target);
-            
+
             yield break;
         }
 
@@ -39,7 +35,8 @@ namespace Enemies.Enemy_States
         {
             // Get the true target point (float offset is added to get a more accurate player-enemy target point)
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-
+            PositionTowardsTarget(AISystem.transform, _target);
+            
             // Enemy movement itself is handled with root motion and navMeshAgent set destination
             AISystem.navMeshAgent.SetDestination(_target);
             

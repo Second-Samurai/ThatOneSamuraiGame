@@ -51,7 +51,7 @@ public class RewindManager : MonoBehaviour
     private void Update()
     {
         IncreaseResource();
-        Debug.Log(isTravelling);
+        //Debug.Log(isTravelling);
     }
 
     void UpdateRewindUI()

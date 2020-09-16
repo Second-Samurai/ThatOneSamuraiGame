@@ -54,13 +54,15 @@ public class RewindInput : MonoBehaviour
             rewindManager.EndRewind();
             rewindTut.SetActive(false);
             rewindManager.isTravelling = false;
+            rewindManager.ResetRewind();
         }
     }
 
     public void DeathRewind()
     {
         Debug.Log("DEAD");
-            OnInitRewind();
+        rewindManager.ReduceRewindAmount();
+        OnInitRewind();
 
     }
 

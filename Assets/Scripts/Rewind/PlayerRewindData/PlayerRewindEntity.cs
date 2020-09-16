@@ -24,7 +24,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
 
     public override void FixedUpdate()
     {
-        if (isTravelling == false)
+        if (_rewindInput.isTravelling == false)
         {
             RecordPast();
 
@@ -48,7 +48,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
     {
         //maybe make 10f into a global variable
         //how much data is cached before list starts being culled (currently 10 seconds)
-        if (playerDataList.Count > Mathf.Round(10f * (1f / Time.fixedDeltaTime)))
+        if (playerDataList.Count > _rewindInput.rewindTime)
         {
             playerDataList.RemoveAt(playerDataList.Count - 1);
         }

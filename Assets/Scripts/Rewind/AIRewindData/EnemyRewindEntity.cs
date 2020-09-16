@@ -23,7 +23,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
 
     public override void FixedUpdate()
     {
-        if (isTravelling == false)
+        if (_rewindInput.isTravelling == false)
         {
             RecordPast();
 
@@ -44,7 +44,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
     {
         //maybe make 10f into a global variable
         //how much data is cached before list starts being culled (currently 10 seconds)
-        if (enemyDataList.Count > Mathf.Round(10f * (1f / Time.fixedDeltaTime)))
+        if (enemyDataList.Count > _rewindInput.rewindTime)
         {
             enemyDataList.RemoveAt(enemyDataList.Count - 1);
         }

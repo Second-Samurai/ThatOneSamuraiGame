@@ -17,15 +17,24 @@ namespace Enemies.Enemy_States
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
 
-            // Get the target object and current enemy transform
-            _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            PositionTowardsTarget(AISystem.transform, _target);
-            
+            // Jump forward if the player is too far away
+            if (!InRange(AISystem.transform.position, _target, AISystem.enemySettings.followUpAttackRange))
+            {
+                DodgeImpulse(_target.normalized, AISystem.enemySettings.dodgeForce);
+            }
+
             AISystem.animator.SetBool("IsLightAttacking", true);
 
             yield break;
 
             // NOTE: End state is called through an animation event in the light attack animation
+        }
+        
+        public override void Tick()
+        {
+            // Get target position and face towards it
+            _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
+            PositionTowardsTarget(AISystem.transform, _target);
         }
 
         public override void EndState()
@@ -34,15 +43,9 @@ namespace Enemies.Enemy_States
             
             // Check current distance to determine next action
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-
-            if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.followUpAttackRange))
-            {
-                AISystem.OnLightAttack(); // Light attack again if close enough
-            }
-            else
-            {
-                AISystem.OnApproachPlayer(); // Approach player if they are too far away
-            }
+            
+            // In enemy state, choose a following action based on player distance
+            ChooseActionUsingDistance(_target);
         }
     }
 }

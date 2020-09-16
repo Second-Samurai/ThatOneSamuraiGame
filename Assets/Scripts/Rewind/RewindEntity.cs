@@ -33,23 +33,23 @@ public class RewindEntity : MonoBehaviour
         _rewindInput.StepBack += StepBack;
 
         _rewindInput.Reset += ResetTimeline;
-
     }
 
     // Update is called once per frame
     public virtual void FixedUpdate()
     {
-        if (isTravelling == false) 
+        if (_rewindInput.isTravelling == false) 
         {
             RecordPast();
             
         }
+        //Debug.Log(_rewindInput.rewindTime);
     }
 
     public void RecordPast() 
     {
         //how much data is cached before list starts being culled (currently 10 seconds)
-        if (transformDataList.Count > Mathf.Round(10f * (1f / Time.fixedDeltaTime))) 
+        if (transformDataList.Count > _rewindInput.rewindTime) 
         {
             transformDataList.RemoveAt(transformDataList.Count - 1);
         }

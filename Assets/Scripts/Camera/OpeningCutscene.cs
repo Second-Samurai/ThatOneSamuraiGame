@@ -61,4 +61,9 @@ public class OpeningCutscene : MonoBehaviour
         } 
     }
 
+    public void StartRewindRecording()
+    {
+        GameManager.instance.rewindManager.isTravelling = false;
+    }
+
 }

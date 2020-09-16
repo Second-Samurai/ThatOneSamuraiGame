@@ -31,7 +31,7 @@ public class AnimationRewindEntity : RewindEntity
     // Update is called once per frame
     public override void FixedUpdate()
     {
-        if (isTravelling == false)
+        if (_rewindInput.isTravelling == false)
         {
             RecordPast();
             animator.applyRootMotion = true;
@@ -59,7 +59,7 @@ public class AnimationRewindEntity : RewindEntity
     public new void RecordPast()
     {
         //how much data is cached before list starts being culled (currently 10 seconds)
-        if (animationDataList.Count > Mathf.Round(10f * (1f / Time.fixedDeltaTime)))
+        if (animationDataList.Count > _rewindInput.rewindTime)
         {
             animationDataList.RemoveAt(animationDataList.Count - 1);
         }
@@ -68,7 +68,8 @@ public class AnimationRewindEntity : RewindEntity
         //move to animation rewind entity
         animationDataList.Insert(0, new AnimationTimeData(animator.GetCurrentAnimatorStateInfo(0).normalizedTime, m_CurrentClipInfo[0].clip.name, 
                                                                     animator.GetFloat("InputSpeed"), animator.GetFloat("XInput"), animator.GetFloat("YInput"), animator.GetBool("LockedOn"), 
-                                                                        animator.GetBool("VGuard"), animator.GetInteger("ComboCount"), animator.GetBool("FirstAttack"), animator.GetBool("SecondAttack"), animator.GetBool("LoopAttack"), animator.GetBool("isDead")));
+                                                                        animator.GetBool("VGuard"), animator.GetInteger("ComboCount"), animator.GetBool("FirstAttack"), animator.GetBool("SecondAttack"), 
+                                                                            animator.GetBool("LoopAttack"), animator.GetBool("isDead"), animator.GetBool("HeavyAttackHeld"), animator.GetBool("FinisherSetup")));
        
         
         base.RecordPast();
@@ -110,7 +111,7 @@ public class AnimationRewindEntity : RewindEntity
     {
         animator.enabled = true;
         animator.Play(animationDataList[currentIndex].currentClip, 0, animationDataList[currentIndex].currentFrame);
-       // animator.enabled = false;
+        // animator.enabled = false;
         animator.SetFloat("InputSpeed", animationDataList[currentIndex].inputSpeed);
         animator.SetFloat("XInput", animationDataList[currentIndex].xInput);
         animator.SetFloat("YInput", animationDataList[currentIndex].yInput);
@@ -122,6 +123,16 @@ public class AnimationRewindEntity : RewindEntity
         animator.SetBool("LoopAttack", animationDataList[currentIndex].loopAttack);
         animator.SetBool("isDead", animationDataList[currentIndex].isDead);
         func.bIsDead = animationDataList[currentIndex].isDead;
+        animator.SetBool("HeavyAttackHeld", animationDataList[currentIndex].HeavyAttackHeld);
+        animator.SetBool("FinisherSetup", animationDataList[currentIndex].FinisherSetup);
+
         base.SetPosition();
+    }
+
+    public override void ApplyData()
+    {
+       
+
+        //base.ApplyData();
     }
 }

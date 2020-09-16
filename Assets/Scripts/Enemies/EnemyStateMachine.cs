@@ -1,5 +1,4 @@
-﻿using System;
-using Enemies.Enemy_States;
+﻿using Enemies.Enemy_States;
 using UnityEngine;
 
 namespace Enemy_Scripts
@@ -21,6 +20,8 @@ namespace Enemy_Scripts
             // NOTE: Potential garbage being accumulated with the new keyword???
             EnemyState = newEnemyState;
             StartCoroutine(EnemyState.BeginState());
+            
+            Debug.Log("Switching States: "+newEnemyState);
         }
 
         protected void Update()

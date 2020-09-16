@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Runtime.CompilerServices;
-using Enemy_Scripts;
 using UnityEngine;
 
 namespace Enemies.Enemy_States
@@ -13,6 +11,8 @@ namespace Enemies.Enemy_States
     {
         // Breaking standard naming conventions for the sake of state naming
         protected AISystem AISystem;
+
+        private float _rotationSpeed = 4.0f;
 
         // Class constructor that takes in the AISystem
         protected EnemyState(AISystem aiSystem)
@@ -41,9 +41,9 @@ namespace Enemies.Enemy_States
         {
             if (AISystem.bPlayerFound)
             {
-                // Look at the target to move into their direction
-                transform.LookAt(target);
-                //Ignore the X and Z rotations
+                Vector3 lookDir = target - transform.position;
+                Quaternion lookRot = Quaternion.LookRotation(lookDir);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, _rotationSpeed);
                 transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
             }
         }
@@ -53,6 +53,33 @@ namespace Enemies.Enemy_States
             return Vector3.Distance(position, targetPosition) < stopApproachingRange;
         }
 
+        protected void ChooseActionUsingDistance(Vector3 target)
+        {
+            if (InRange(AISystem.transform.position, target, AISystem.enemySettings.followUpAttackRange))
+            {
+                // If close enough, make a decision
+                int decision = Random.Range(0, 2);
+
+                if (decision == 0) // Dodge backwards
+                {
+                    AISystem.dodgeDirectionZ = -1;
+                    AISystem.OnDodge();
+                }
+                else // Attack player
+                {
+                    AISystem.OnLightAttack(); 
+                }
+            }
+            else if(InRange(AISystem.transform.position, target, AISystem.enemySettings.chaseToCircleRange))
+            {
+                AISystem.OnCirclePlayer(); // Start circling if in close enough range
+            }
+            else
+            {
+                AISystem.OnApproachPlayer(); // Approach player if they are too far away
+            }
+        }
+
         protected void ResetAnimationBools()
         {
             Animator anim = AISystem.animator;
@@ -60,9 +87,19 @@ namespace Enemies.Enemy_States
             // Set all suitable animation bools to false
             anim.SetBool("IsLightAttacking", false);
             anim.SetBool("IsApproaching", false);
+            anim.SetBool("IsBlocking", false);
             anim.SetBool("IsQuickBlocking", false);
-            
+            anim.SetBool("IsStrafing", false);
+            anim.SetFloat("StrafeDirectionX", 0);
+            anim.SetBool("IsDodging", false);
+            anim.ResetTrigger("Parried");
+
             // NOTE: Anims like PlayerFound, IsDead and IsGuardBroken should be treated separately to this function
+        }
+
+        protected bool IsDeadOrGuardBroken()
+        {
+            return AISystem.bIsDead || AISystem.eDamageController.enemyGuard.isStunned;
         }
     }
 }

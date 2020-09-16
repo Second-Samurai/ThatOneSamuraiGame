@@ -177,6 +177,11 @@ namespace Enemies
         {
             SetState(new StunEnemyState(this));
         }
+        
+        public void OnParryStun()
+        {
+            SetState(new ParryStunEnemyState(this));
+        }
 
         public void OnEnemyRecovery()
         {

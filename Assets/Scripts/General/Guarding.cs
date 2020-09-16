@@ -121,10 +121,12 @@ public class Guarding : MonoBehaviour
             statHandler.CurrentGuard = statHandler.maxGuard;
             OnGuardEvent.Invoke();
 
-            
+            if (isStunned)
+            {
+                _aiSystem.OnEnemyRecovery();
+            }
             isStunned = false;
             canGuard = true;
-            _aiSystem.OnEnemyRecovery();
         }
     }
 }

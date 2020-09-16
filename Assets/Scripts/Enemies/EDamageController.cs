@@ -76,8 +76,16 @@ public class EDamageController : MonoBehaviour, IDamageable
 
     public void OnParried(float damage)
     {
-        enemyGuard.CheckIfEntityGuarding(damage);
-        _aiSystem.animator.SetTrigger("Parried");
+        // Stun if enemy can guard
+        if (enemyGuard.CheckIfEntityGuarding(damage))
+        {
+            _aiSystem.OnParryStun();
+        }
+        // Kill enemy if they cant
+        else
+        {
+            _aiSystem.OnEnemyDeath();
+        }
     }
 
     public void DisableDamage()

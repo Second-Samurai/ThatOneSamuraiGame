@@ -1,10 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public interface ICheck {
-    string GetName();
-}
-
 namespace Enemies.Enemy_States
 {
     public class StunEnemyState : EnemyState
@@ -16,6 +12,10 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            //NOTE: A majority of the guard broken behaviour is handled in Guarding and EDamageController
+            
+            ResetAnimationBools();
+            
             // Set the guard broken animator bool to true, to ideally play the animation
             AISystem.animator.SetBool("IsGuardBroken", true);
 

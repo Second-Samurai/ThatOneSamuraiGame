@@ -34,15 +34,9 @@ namespace Enemies.Enemy_States
             
             // Check current distance to determine next action
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-
-            if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.followUpAttackRange))
-            {
-                AISystem.OnLightAttack(); // Light attack again if close enough
-            }
-            else
-            {
-                AISystem.OnApproachPlayer(); // Approach player if they are too far away
-            }
+            
+            // In enemy state, choose a following action based on player distance
+            ChooseActionUsingDistance(_target);
         }
     }
 }

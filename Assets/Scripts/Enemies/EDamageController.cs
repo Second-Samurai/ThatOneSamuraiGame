@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class EDamageController : MonoBehaviour, IDamageable
 {
-    StatHandler _enemyStats;
-    AISystem aiSystem;
+    private StatHandler _enemyStats;
+    private AISystem _aiSystem;
 
     [HideInInspector] public Guarding enemyGuard;
 
@@ -28,13 +28,16 @@ public class EDamageController : MonoBehaviour, IDamageable
             {
                 if (enemyGuard.CheckIfEntityGuarding(damage))
                 {
-                    aiSystem.OnQuickBlock();
+                    if (enemyGuard.canGuard)
+                    {
+                        _aiSystem.OnQuickBlock();
+                    }
                     return;
                 }
 
                 if(enemyGuard.isStunned) attacker.GetComponentInChildren<LockOnTargetManager>().EndGuardBreakCam();
 
-                aiSystem.ApplyHit(attacker);
+                _aiSystem.ApplyHit(attacker);
             }
             else
             {
@@ -50,7 +53,7 @@ public class EDamageController : MonoBehaviour, IDamageable
         }
         else
         {
-            aiSystem.ApplyHit(attacker);
+            _aiSystem.ApplyHit(attacker);
         }
     }
 
@@ -62,7 +65,7 @@ public class EDamageController : MonoBehaviour, IDamageable
     public void OnParried(float damage)
     {
         enemyGuard.CheckIfEntityGuarding(damage);
-        aiSystem.animator.SetTrigger("Parried");
+        _aiSystem.animator.SetTrigger("Parried");
     }
 
     public void DisableDamage()
@@ -77,7 +80,7 @@ public class EDamageController : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        aiSystem = GetComponent<AISystem>();
+        _aiSystem = GetComponent<AISystem>();
     }
 
     public bool CheckCanDamage()

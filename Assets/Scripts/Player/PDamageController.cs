@@ -27,7 +27,7 @@ public class PDamageController : MonoBehaviour, IDamageable
     public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
         if (!_canDamage) return;
-        _functions.ApplyHit(attacker, unblockable);
+        _functions.ApplyHit(attacker, unblockable, damage);
         Debug.Log("Player is Damaged");
     }
 

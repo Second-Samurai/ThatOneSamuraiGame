@@ -6,13 +6,15 @@ using Enemies;
 
 public class Guarding : MonoBehaviour
 {
+    public bool canParry = false;
     public bool canGuard = true;
     public bool isStunned = false;
 
-    public IEnemyStates enemyStates; //Might need to rename the interface better
+    private float _guardCooldownTime = 8;
+    
     [HideInInspector] public StatHandler statHandler;
     [HideInInspector] public UnityEvent OnGuardEvent = new UnityEvent();
-    AISystem _AISystem;
+    private AISystem _aiSystem;
     
 
     public void Init(StatHandler statHandler)
@@ -22,8 +24,19 @@ public class Guarding : MonoBehaviour
         GameManager gameManager = GameManager.instance;
         UIGuardMeter guardMeter = gameManager.CreateEntityGuardMeter(this.transform, statHandler);
         OnGuardEvent.AddListener(guardMeter.UpdateGuideMeter);
-        _AISystem = GetComponent<AISystem>();
-        enemyStates = this.GetComponent<IEnemyStates>();
+        _aiSystem = GetComponent<AISystem>();
+    }
+    
+    // Called in animation events to open the enemy's guard
+    public void DropGuard()
+    {
+        canGuard = false;
+    }
+    
+    // Called in animation events to return the enemy's guard option
+    public void RaiseGuard()
+    {
+        canGuard = true;
     }
 
     //Summary: Runs guard and checks if it can guard
@@ -62,13 +75,15 @@ public class Guarding : MonoBehaviour
     private void BreakGuard()
     {
         Debug.Log("Guard has been BROKEN");
+        GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.1f);
+        GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(.7f);
         GameManager.instance.playerController.gameObject.GetComponentInChildren<LockOnTargetManager>().GuardBreakCam(this.transform);
         isStunned = true;
         canGuard = false;
         StartCoroutine(AwaitNextDamage(6));
 
-        //Create state
-        enemyStates.OnEnemyStun();
+        //Switch States
+        _aiSystem.OnEnemyStun();
     }
 
     private IEnumerator AwaitNextDamage(float time)
@@ -81,34 +96,37 @@ public class Guarding : MonoBehaviour
             yield return null;
         }
 
-        StartCoroutine(GuardCoolDown(8));
+        StartCoroutine(GuardCoolDown(_guardCooldownTime));
     }
 
+    // Count down the remaining guard cooldown time through the GuardCoolDown co-routine
+    // Stops the co-routine if the enemy is dead
     private IEnumerator GuardCoolDown(float time)
     {
-        float coolVal = (statHandler.maxGuard - statHandler.CurrentGuard / time) * Time.deltaTime;
-
-        while (statHandler.CurrentGuard < statHandler.maxGuard)
+        if (_aiSystem.bIsDead)
         {
-            statHandler.CurrentGuard += coolVal;
+            StopCoroutine(GuardCoolDown(_guardCooldownTime));
+        }
+        else
+        {
+            float coolVal = (statHandler.maxGuard - statHandler.CurrentGuard / time) * Time.deltaTime;
+
+            while (statHandler.CurrentGuard < statHandler.maxGuard)
+            {
+                statHandler.CurrentGuard += coolVal;
+                OnGuardEvent.Invoke();
+                yield return null;
+            }
+
+            statHandler.CurrentGuard = statHandler.maxGuard;
             OnGuardEvent.Invoke();
-            yield return null;
+
+            if (isStunned)
+            {
+                _aiSystem.OnEnemyRecovery();
+            }
+            isStunned = false;
+            canGuard = true;
         }
-
-        statHandler.CurrentGuard = statHandler.maxGuard;
-        OnGuardEvent.Invoke();
-
-        if(canGuard == false)
-        {
-            //Switch back to active attack state
-            Debug.Log(">> Guarding: Now in approach player state");
-            enemyStates.OnApproachPlayer();
-        }
-
-        isStunned = false;
-        _AISystem.animator.SetBool("IsGuardBroken", false);
-        _AISystem.animator.SetBool("IsQuickBlocking", false);
-        _AISystem.navMeshAgent.isStopped = false;
-        canGuard = true;
     }
 }

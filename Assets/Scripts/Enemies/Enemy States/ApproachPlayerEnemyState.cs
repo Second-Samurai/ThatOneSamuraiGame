@@ -6,9 +6,8 @@ namespace Enemies.Enemy_States
 {
     public class ApproachPlayerEnemyState : EnemyState
     {
-        private float _stopApproachingRange;
-        private Transform _transform;
         private Vector3 _target;
+        private float _chaseToCircleRange;
         
         //Class constructor
         public ApproachPlayerEnemyState(AISystem aiSystem) : base(aiSystem)
@@ -20,18 +19,18 @@ namespace Enemies.Enemy_States
             // Start the navMeshAgent tracking
             AISystem.navMeshAgent.isStopped = false;
             
+            // Cache the range value so we're not always getting it in the tick function
+            _chaseToCircleRange = AISystem.enemySettings.chaseToCircleRange;
+            
             AISystem.animator.SetBool("IsApproaching", true);
             
             // Set player to be found in AISystem
             AISystem.bPlayerFound = true;
             AISystem.animator.SetBool("PlayerFound", true);
             
-            // Get stopApproachRange, target object and current enemy transform
-            _stopApproachingRange = AISystem.enemySettings.stopApproachingRange;
+            // Find target and position towards them
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            _transform = AISystem.transform;
-
-            PositionTowardsTarget(_transform, _target);
+            PositionTowardsTarget(AISystem.transform, _target);
             
             yield break;
         }
@@ -45,7 +44,7 @@ namespace Enemies.Enemy_States
             AISystem.navMeshAgent.SetDestination(_target);
             
             // Change to circling state when close enough to the player
-            if (InRange(_transform.position, _target, _stopApproachingRange))
+            if (InRange(AISystem.transform.position, _target, _chaseToCircleRange))
             {
                 EndState();
             }
@@ -54,9 +53,8 @@ namespace Enemies.Enemy_States
         public override void EndState()
         {
             AISystem.animator.SetBool("IsApproaching", false);
-                
-            // TODO: Change to circling, for demo purposes the enemy will just swing to attack
-            AISystem.OnLightAttack();
+            
+            AISystem.OnCirclePlayer();
         }
     }
 }

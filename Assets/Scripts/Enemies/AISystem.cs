@@ -3,12 +3,6 @@ using Enemy_Scripts;
 using UnityEngine;
 using UnityEngine.AI;
 
-public interface IEnemyStates
-{
-    void OnEnemyStun();
-    void OnApproachPlayer();
-}
-
 public enum EnemyType
 {
     SWORDSMAN,
@@ -23,7 +17,7 @@ namespace Enemies
     // AISystem is responsible for receiving calls to tell the enemy what to perform. It should also
     // Be responsible for storing enemy data (i.e. Guard meter, remaining guard etc.) BUT
     // any enemy behaviours should be handled through the state machine
-    public class AISystem : EnemyStateMachine, IEnemyStates
+    public class AISystem : EnemyStateMachine
     {
         
         #region Fields and Properties
@@ -48,6 +42,10 @@ namespace Enemies
         //DAMAGE CONTROLS
         public EDamageController eDamageController;
         public bool bIsDead = false;
+        //NOTE: isStunned is handled in Guarding script, inside the eDamageController script
+        
+        //DODGE VARIABLES
+        public float dodgeDirectionX, dodgeDirectionZ = 0;
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
         //because the player's origin point is on the floor
@@ -143,12 +141,12 @@ namespace Enemies
 
         public void OnParry()
         {
-        
+            SetState(new ParryEnemyState(this));
         }
 
         public void OnDodge()
         {
-        
+            SetState(new DodgeEnemyState(this));
         }
     
         #endregion
@@ -172,17 +170,22 @@ namespace Enemies
 
         public void OnCirclePlayer()
         {
-        
+            SetState(new CircleEnemyState(this));
         }
 
         public void OnEnemyStun()
         {
             SetState(new StunEnemyState(this));
         }
+        
+        public void OnParryStun()
+        {
+            SetState(new ParryStunEnemyState(this));
+        }
 
         public void OnEnemyRecovery()
         {
-            
+            SetState(new RecoveryEnemyState(this));
         }
 
         public void OnEnemyDeath()
@@ -193,7 +196,6 @@ namespace Enemies
         public void OnEnemyRewind() 
         {
             SetState(new RewindEnemyState(this));
-
         }
 
         #endregion

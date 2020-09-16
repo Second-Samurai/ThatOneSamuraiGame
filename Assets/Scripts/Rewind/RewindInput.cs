@@ -54,6 +54,7 @@ public class RewindInput : MonoBehaviour
             rewindManager.EndRewind();
             rewindTut.SetActive(false);
             rewindManager.isTravelling = false;
+            rewindManager.ResetRewind();
         }
     }
 

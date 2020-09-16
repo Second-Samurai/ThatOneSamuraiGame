@@ -26,9 +26,13 @@ public class RewindManager : MonoBehaviour
 
     public float rewindTime;
 
-
-
     PostProcessingController postProcessingController;
+
+    public float rewindResource = 0f, maxRewindResource = 10f;
+
+    public RewindBar rewindUI;
+
+    PlayerRewindEntity playerRewindEntity;
 
 
     // Start is called before the first frame update
@@ -37,26 +41,82 @@ public class RewindManager : MonoBehaviour
 
         postProcessingController = GameManager.instance.postProcessingController;
         rewindTime = Mathf.Round(timeThreashold.Variable.TimeThreashold * (1f / Time.fixedDeltaTime));
+        //rewindResource = maxRewindResource;
+        if (rewindUI == null) 
+            rewindUI = GameManager.instance.playerController.gameObject.GetComponentInChildren<RewindBar>();
+        playerRewindEntity = GameManager.instance.playerController.gameObject.GetComponent<PlayerRewindEntity>();
+    }
+
+    private void Update()
+    {
+        IncreaseResource();
+    }
+
+    void UpdateRewindUI()
+    {
+        rewindUI.UpdateRewindAmount(rewindResource);
+    }
+
+    public void ResetRewind()
+    {
+       // rewindResource = maxRewindResource;
+    }
+
+    public void ReduceRewindAmount()
+    {
+        if(maxRewindResource > 0)
+        {
+            float f = rewindResource / maxRewindResource;
+            maxRewindResource -= 2;
+            rewindResource = maxRewindResource * f;
+        }
+    }
+
+    public void IncreaseRewindAmount()
+    {
+        if (maxRewindResource < 10)
+        {
+            float f = rewindResource / maxRewindResource;
+            maxRewindResource += 2;
+            rewindResource = maxRewindResource * f;
+        }
+    }
+
+    void IncreaseResource()
+    {
+        if (rewindResource < maxRewindResource && !isTravelling)
+        {
+            rewindResource += Time.deltaTime;
+        }
+        else if (rewindResource > maxRewindResource)
+        {
+            rewindResource = maxRewindResource;
+        }
     }
 
     IEnumerator RewindCoroutine()
     {
-        if (isTravelling && rewindDirection < 0)
+        if (isTravelling && rewindDirection < 0 && rewindResource > 0 && playerRewindEntity.currentIndex < playerRewindEntity.playerDataList.Count-1)
         {
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
             if (StepBack != null) StepBack();
             postProcessingController.WarpLensToTargetAmount(-.6f);
+            rewindResource -= Time.deltaTime;
+            if (rewindResource < 0) 
+                rewindResource = 0;
             // Debug.Log(Time.timeScale);
         }
 
-        else if (isTravelling && rewindDirection > 0)
+        else if (isTravelling && rewindDirection > 0 && rewindResource < maxRewindResource && playerRewindEntity.currentIndex > 0)
         {
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
             if (StepForward != null) StepForward();
             postProcessingController.WarpLensToTargetAmount(-.6f);
-
+            rewindResource += Time.deltaTime;
+            if (rewindResource > maxRewindResource) 
+                rewindResource = maxRewindResource;
         }
 
         if (isTravelling && rewindDirection == 0)
@@ -72,6 +132,10 @@ public class RewindManager : MonoBehaviour
             Time.fixedDeltaTime = Time.timeScale * .02f;
             postProcessingController.WarpLensToTargetAmount(0f);
         }
+
+        if(rewindUI != null)
+            UpdateRewindUI();
+
         yield return null;
 
         StartCoroutine(RewindCoroutine());
@@ -87,6 +151,8 @@ public class RewindManager : MonoBehaviour
                 entity.isTravelling = true;
             }
             StartCoroutine("RewindCoroutine");
+            if (rewindUI != null)
+                UpdateRewindUI();
         }
 
     }

@@ -55,7 +55,7 @@ public class AIAnimationRewindEntity : RewindEntity
     public new void RecordPast()
     {
         //how much data is cached before list starts being culled (currently 10 seconds)
-        if (animationDataList.Count > Mathf.Round(10f * (1f / Time.fixedDeltaTime)))
+        if (animationDataList.Count > _rewindInput.rewindTime)
         {
             animationDataList.RemoveAt(animationDataList.Count - 1);
         }
@@ -63,7 +63,8 @@ public class AIAnimationRewindEntity : RewindEntity
 
         //move to animation rewind entity
         animationDataList.Insert(0, new AIAnimationTimeData(animator.GetCurrentAnimatorStateInfo(0).normalizedTime, m_CurrentClipInfo[0].clip.name,
-                                                                     animator.GetBool("PlayerFound"), animator.GetBool("IsLightAttacking"), animator.GetBool("IsApproaching"), animator.GetBool("IsGuardBroken"), animator.GetBool("IsDead")));
+                                                                     animator.GetBool("PlayerFound"), animator.GetBool("IsLightAttacking"), animator.GetBool("IsApproaching"), animator.GetBool("IsGuardBroken"), animator.GetBool("IsDead"),
+                                                                     animator.GetBool("IsQuickBlocking")));
 
         //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + "   :   " + m_CurrentClipInfo[0].clip.name);
 
@@ -107,6 +108,7 @@ public class AIAnimationRewindEntity : RewindEntity
         animator.SetBool("IsApproaching", animationDataList[currentIndex].bIsApproaching);
         animator.SetBool("IsGuardBroken", animationDataList[currentIndex].bIsGuardBroken);
         animator.SetBool("IsDead", animationDataList[currentIndex].bIsDead);
+        animator.SetBool("IsQuickBlocking", animationDataList[currentIndex].IsQuickBlocking);
 
         base.SetPosition();
     }

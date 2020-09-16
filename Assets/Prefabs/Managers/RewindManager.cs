@@ -22,7 +22,10 @@ public class RewindManager : MonoBehaviour
     public delegate void ResetEvent();
     public event ResetEvent Reset;
 
-    //public float rewindAmount, maxRewindAmount = 10f;
+    public TimeThreasholdReferance timeThreashold;
+
+    public float rewindTime;
+
 
 
     PostProcessingController postProcessingController;
@@ -33,17 +36,17 @@ public class RewindManager : MonoBehaviour
     {
 
         postProcessingController = GameManager.instance.postProcessingController;
+        rewindTime = Mathf.Round(timeThreashold.Variable.TimeThreashold * (1f / Time.fixedDeltaTime));
     }
 
     IEnumerator RewindCoroutine()
     {
-        if (isTravelling && rewindDirection < 0 )
+        if (isTravelling && rewindDirection < 0)
         {
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
             if (StepBack != null) StepBack();
             postProcessingController.WarpLensToTargetAmount(-.6f);
-            
             // Debug.Log(Time.timeScale);
         }
 
@@ -53,7 +56,6 @@ public class RewindManager : MonoBehaviour
             Time.fixedDeltaTime = Time.timeScale * .02f;
             if (StepForward != null) StepForward();
             postProcessingController.WarpLensToTargetAmount(-.6f);
-            
 
         }
 

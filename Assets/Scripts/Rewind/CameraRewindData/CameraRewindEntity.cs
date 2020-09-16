@@ -46,7 +46,7 @@ public class CameraRewindEntity : RewindEntity
     {
         //maybe make 10f into a global variable
         //how much data is cached before list starts being culled (currently 10 seconds)
-        if (cameraDataList.Count > Mathf.Round(10f * (1f / Time.fixedDeltaTime)))
+        if (cameraDataList.Count > _rewindInput.rewindTime)
         {
             cameraDataList.RemoveAt(cameraDataList.Count - 1);
         }

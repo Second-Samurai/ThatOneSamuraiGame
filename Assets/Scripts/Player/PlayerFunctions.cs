@@ -184,7 +184,7 @@ public class PlayerFunctions : MonoBehaviour
             _inputComponent.SwitchCurrentActionMap("Rewind");
             Debug.LogError("Player killed!");
             GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);
-            GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.3f);
+            //GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.3f);
 
         }
     }

@@ -84,7 +84,8 @@ public class EDamageController : MonoBehaviour, IDamageable
         // Kill enemy if they cant
         else
         {
-            _aiSystem.OnEnemyDeath();
+            _aiSystem.OnParryStun();
+            //_aiSystem.OnEnemyDeath();
         }
     }
 

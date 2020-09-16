@@ -6,6 +6,7 @@ using Enemies;
 
 public class Guarding : MonoBehaviour
 {
+    public bool canParry = false;
     public bool canGuard = true;
     public bool isStunned = false;
 

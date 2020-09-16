@@ -25,6 +25,15 @@ public class EDamageController : MonoBehaviour, IDamageable
         {
             if (attacker.layer == LayerMask.NameToLayer("Player"))
             {
+                // Summary: Perform an enemy parry if the enemy canParry
+                // Currently canParry is only set true and false in BlockEnemyState script
+                // and set to false in the ParryEnemyState script
+                if (enemyGuard.canParry)
+                {
+                    _aiSystem.OnParry();
+                    return;
+                }
+                
                 // If enemy can guard and isn't stunned, reduce guard by damage amount and do the following
                 if (enemyGuard.CheckIfEntityGuarding(damage))
                 {

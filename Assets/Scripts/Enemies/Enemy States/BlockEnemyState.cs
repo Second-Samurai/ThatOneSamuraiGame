@@ -16,11 +16,15 @@ namespace Enemies.Enemy_States
         {
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
-
+            
+            // Get target position and face towards it
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             PositionTowardsTarget(AISystem.transform, _target);
             
             AISystem.animator.SetBool("IsBlocking", true);
+            
+            // While blocking, set the enemy to be able to parry
+            AISystem.eDamageController.enemyGuard.canParry = true;
             
             // Wait between min and max block time before dropping guard
             yield return new WaitForSeconds(Random.Range(AISystem.enemySettings.minBlockTime, AISystem.enemySettings.maxBlockTime));
@@ -28,17 +32,16 @@ namespace Enemies.Enemy_States
             EndState();
         }
 
-        // TODO: Detect if the enemy is hit mid block here
-        public override void Tick()
-        {
-            base.Tick();
-        }
-
-        // End state should only be performed if the enemy hasn't died or got guard broken mid block
+        // End state should only be performed if the following hasn't occurend mid block
+        //    1. Enemy hasn't died
+        //    2. Hasn't got guard broken 
+        //    3. Been attacked (triggering a parry)
         public override void EndState()
         {
-            if (!IsDeadOrGuardBroken())
+            if (!IsDeadOrGuardBroken() && !AISystem.animator.GetBool("IsParried"))
             {
+                AISystem.eDamageController.enemyGuard.canParry = false;
+                
                 AISystem.animator.SetBool("IsBlocking", false);
             
                 ChooseAfterBlockOption();

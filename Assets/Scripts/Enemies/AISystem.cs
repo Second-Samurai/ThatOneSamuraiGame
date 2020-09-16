@@ -141,7 +141,7 @@ namespace Enemies
 
         public void OnParry()
         {
-        
+            SetState(new ParryEnemyState(this));
         }
 
         public void OnDodge()

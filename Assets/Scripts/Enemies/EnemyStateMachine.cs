@@ -33,7 +33,8 @@ namespace Enemy_Scripts
                 // Debug.Log(EnemyState);
             }
         }
-
+        
+        // Called in animation events to trigger end state
         public void EndState()
         {
             EnemyState.EndState();

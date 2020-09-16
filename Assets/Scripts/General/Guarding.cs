@@ -6,6 +6,7 @@ using Enemies;
 
 public class Guarding : MonoBehaviour
 {
+    public bool canParry = false;
     public bool canGuard = true;
     public bool isStunned = false;
 
@@ -24,6 +25,18 @@ public class Guarding : MonoBehaviour
         UIGuardMeter guardMeter = gameManager.CreateEntityGuardMeter(this.transform, statHandler);
         OnGuardEvent.AddListener(guardMeter.UpdateGuideMeter);
         _aiSystem = GetComponent<AISystem>();
+    }
+    
+    // Called in animation events to open the enemy's guard
+    public void DropGuard()
+    {
+        canGuard = false;
+    }
+    
+    // Called in animation events to return the enemy's guard option
+    public void RaiseGuard()
+    {
+        canGuard = true;
     }
 
     //Summary: Runs guard and checks if it can guard
@@ -108,10 +121,12 @@ public class Guarding : MonoBehaviour
             statHandler.CurrentGuard = statHandler.maxGuard;
             OnGuardEvent.Invoke();
 
-            
+            if (isStunned)
+            {
+                _aiSystem.OnEnemyRecovery();
+            }
             isStunned = false;
             canGuard = true;
-            _aiSystem.OnEnemyRecovery();
         }
     }
 }

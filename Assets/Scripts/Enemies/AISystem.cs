@@ -141,7 +141,7 @@ namespace Enemies
 
         public void OnParry()
         {
-        
+            SetState(new ParryEnemyState(this));
         }
 
         public void OnDodge()
@@ -176,6 +176,11 @@ namespace Enemies
         public void OnEnemyStun()
         {
             SetState(new StunEnemyState(this));
+        }
+        
+        public void OnParryStun()
+        {
+            SetState(new ParryStunEnemyState(this));
         }
 
         public void OnEnemyRecovery()

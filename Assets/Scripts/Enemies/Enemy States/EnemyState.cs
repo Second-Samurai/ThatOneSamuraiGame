@@ -89,6 +89,7 @@ namespace Enemies.Enemy_States
             anim.SetBool("IsApproaching", false);
             anim.SetBool("IsBlocking", false);
             anim.SetBool("IsQuickBlocking", false);
+            anim.SetBool("IsParried", false);
             anim.SetBool("IsStrafing", false);
             anim.SetFloat("StrafeDirectionX", 0);
             anim.SetBool("IsDodging", false);

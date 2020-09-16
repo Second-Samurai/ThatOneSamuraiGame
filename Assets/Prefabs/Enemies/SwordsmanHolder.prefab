@@ -86,7 +86,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f22fe0ac21db524eaf79bfa725bbeee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderDelay: 0.6
 --- !u!1 &294981490109971877
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,6 +1007,8 @@ MonoBehaviour:
   navMeshAgent: {fileID: 0}
   eDamageController: {fileID: 0}
   bIsDead: 0
+  dodgeDirectionX: 0
+  dodgeDirectionZ: 0
   floatOffset: {x: 0, y: 2, z: 0}
 --- !u!114 &2117012874348089057
 MonoBehaviour:
@@ -1075,7 +1076,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5d2b33ee34e7144aad7397ce0999ece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _swordCollider: {fileID: 7417129179977977798}
+  swordCollider: {fileID: 7417129179977977798}
 --- !u!1 &3459501116160272521
 GameObject:
   m_ObjectHideFlags: 0

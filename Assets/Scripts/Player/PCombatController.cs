@@ -102,7 +102,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     //
     public void BeginAttacking()
     {
-       // _isAttacking = true;
+        _isAttacking = true;
         _functions.DisableBlock();
         attackCol.enabled = true;
         _guideController.MoveToNearestEnemy();
@@ -119,7 +119,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     //
     public void EndAttacking()
     {
-        //_isAttacking = false;
+        _isAttacking = false;
         _functions.EnableBlock();
         attackCol.enabled = false;
     }

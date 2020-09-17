@@ -102,5 +102,10 @@ namespace Enemies.Enemy_States
         {
             return AISystem.bIsDead || AISystem.eDamageController.enemyGuard.isStunned;
         }
+        
+        protected void DodgeImpulse(Vector3 lastDir, float force)
+        {
+            AISystem.transform.Translate(lastDir.normalized * force * Time.deltaTime);
+        }
     }
 }

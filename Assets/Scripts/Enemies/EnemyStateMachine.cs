@@ -24,7 +24,7 @@ namespace Enemy_Scripts
             Debug.LogWarning("Switching States: "+newEnemyState);
         }
 
-        protected void Update()
+        protected void FixedUpdate()
         {
             // Only run Tick() if enemy state is not null
             if (EnemyState != null)

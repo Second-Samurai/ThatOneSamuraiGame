@@ -19,9 +19,6 @@ namespace Enemies.Enemy_States
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
 
-            _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            PositionTowardsTarget(AISystem.transform, _target);
-            
             AISystem.animator.SetBool("IsQuickBlocking", true);
             
             yield break;
@@ -32,10 +29,7 @@ namespace Enemies.Enemy_States
         public override void EndState()
         {
             AISystem.animator.SetBool("IsQuickBlocking", false);
-            
-            // Check current distance to determine next action
-            _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            
+
             // Move to block state OR choose an action using distance
             int decision = Random.Range(0, 4);
             if (decision == 0)

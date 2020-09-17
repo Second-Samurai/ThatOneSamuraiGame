@@ -41,10 +41,5 @@ namespace Enemies.Enemy_States
             
             ChooseActionUsingDistance(target);
         }
-
-        private void DodgeImpulse(Vector3 lastDir, float force)
-        {
-            AISystem.transform.Translate(lastDir.normalized * force * Time.deltaTime);
-        }
     }
 }

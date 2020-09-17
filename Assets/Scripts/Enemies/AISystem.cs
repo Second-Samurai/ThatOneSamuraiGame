@@ -80,11 +80,6 @@ namespace Enemies
             // Start the enemy in an idle state
             OnIdle();
         }
-        
-        protected new void Update()
-        {
-            base.Update();
-        }
 
         #endregion
         

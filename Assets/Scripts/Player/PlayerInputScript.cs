@@ -220,6 +220,7 @@ public class PlayerInputScript : MonoBehaviour
                 }
             }
 
+            
             _animator.SetFloat("InputSpeed", _inputVector.magnitude, smoothingValue, Time.deltaTime);
 
             if (bOverrideMovement)

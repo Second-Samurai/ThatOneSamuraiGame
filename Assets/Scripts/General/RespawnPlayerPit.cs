@@ -9,7 +9,10 @@ public class RespawnPlayerPit : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
-            other.gameObject.transform.position = respawnPoint.position;
+        {
+            other.gameObject.GetComponent<PlayerFunctions>().KillPlayer();
+        }
+           // other.gameObject.transform.position = respawnPoint.position;
     }
  
 }

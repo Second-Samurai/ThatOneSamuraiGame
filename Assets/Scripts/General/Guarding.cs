@@ -87,7 +87,7 @@ public class Guarding : MonoBehaviour
         Debug.Log("Guard has been BROKEN");
         GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.1f);
         GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(.7f);
-        GameManager.instance.playerController.gameObject.GetComponentInChildren<LockOnTargetManager>().GuardBreakCam(this.transform);
+        //GameManager.instance.playerController.gameObject.GetComponentInChildren<LockOnTargetManager>().GuardBreakCam(this.transform);
         isStunned = true;
         canGuard = false;
         StartCoroutine(AwaitNextDamage(6));

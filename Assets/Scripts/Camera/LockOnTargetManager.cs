@@ -7,9 +7,9 @@ public class LockOnTargetManager : MonoBehaviour
 {
     public float lookSpeed = .5f;
     public CinemachineFreeLook cam;
-    bool   _bLockedOn = false;
+    public bool   _bLockedOn = false;
     public GameObject targetHolder;
-    Transform _target, _player;
+    public Transform _target, _player;
     public float swapSpeed = 10f;
     public FinisherCam finisherCam;
 

@@ -65,7 +65,7 @@ public class AIAnimationRewindEntity : RewindEntity
         animationDataList.Insert(0, new AIAnimationTimeData(animator.GetCurrentAnimatorStateInfo(0).normalizedTime, m_CurrentClipInfo[0].clip.name,
                                                                      animator.GetBool("PlayerFound"), animator.GetBool("IsLightAttacking"), animator.GetBool("IsApproaching"), animator.GetBool("IsGuardBroken"), animator.GetBool("IsDead"),
                                                                      animator.GetBool("IsQuickBlocking"), animator.GetBool("IsBlocking"), animator.GetBool("IsParried"), animator.GetBool("IsStrafing"), 
-                                                                     animator.GetFloat("StrafeDirectionX"), animator.GetBool("IsDodging"), animator.GetFloat("DodgeDirectonX"), animator.GetFloat("DodgeDirectionZ")));
+                                                                     animator.GetFloat("StrafeDirectionX"), animator.GetBool("IsDodging"), animator.GetFloat("DodgeDirectionX"), animator.GetFloat("DodgeDirectionZ")));
 
         //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + "   :   " + m_CurrentClipInfo[0].clip.name);
 
@@ -115,7 +115,7 @@ public class AIAnimationRewindEntity : RewindEntity
         animator.SetBool("IsStrafing", animationDataList[currentIndex].IsStrafing);
         animator.SetFloat("StrafeDirectionX", animationDataList[currentIndex].StrafeDirectionX);
         animator.SetBool("IsDodging", animationDataList[currentIndex].IsDodging);
-        animator.SetFloat("DodgeDirectonX", animationDataList[currentIndex].dodgeDirectionX);
+        animator.SetFloat("DodgeDirectionX", animationDataList[currentIndex].dodgeDirectionX);
         animator.SetFloat("DodgeDirectionZ", animationDataList[currentIndex].dodgeDirectionZ);
         base.SetPosition();
     }

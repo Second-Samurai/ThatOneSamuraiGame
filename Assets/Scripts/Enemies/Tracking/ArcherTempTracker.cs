@@ -20,8 +20,13 @@ public class ArcherTempTracker : MonoBehaviour
         if (other.CompareTag("Player") && _enemyTracker == null)
         {
             _enemyTracker = GameManager.instance.enemyTracker;
-            _enemyTracker.RemoveEnemy(this.transform);
+            _enemyTracker.RemoveEnemy(GetComponentInParent<Rigidbody>().gameObject.transform);
 
+        }
+        else if (other.CompareTag("Player"))
+        {
+            Debug.LogError("REMOVED");
+            _enemyTracker.RemoveEnemy(GetComponentInParent<Rigidbody>().gameObject.transform);
         }
     }
 }

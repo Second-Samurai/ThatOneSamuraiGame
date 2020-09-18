@@ -71,9 +71,7 @@ namespace Enemies.Enemy_States
                 }
                 else // Attack player
                 {
-                    AISystem.dodgeDirectionZ = -1;
-                    AISystem.OnDodge();
-                    //AISystem.OnLightAttack(); 
+                    AISystem.OnLightAttack(); 
                 }
             }
             else if(InRange(AISystem.transform.position, target, AISystem.enemySettings.chaseToCircleRange))

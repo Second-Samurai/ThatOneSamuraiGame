@@ -14,8 +14,6 @@ namespace Enemies.Enemy_States
         {
             // Stop guard broken animation stop
             AISystem.animator.SetBool("IsGuardBroken", false);
-            
-            
 
             yield break;
         }

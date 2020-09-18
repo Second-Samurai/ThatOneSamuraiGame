@@ -54,7 +54,7 @@ public class CameraRewindEntity : RewindEntity
         }
 
         //move to arguments need to be added rewind entity
-        cameraDataList.Insert(0, new CameraTimeData(lockOnTargetManager._bLockedOn, lockOnTargetManager._target));
+        cameraDataList.Insert(0, new CameraTimeData(lockOnTargetManager._bLockedOn, lockOnTargetManager._target, lockOnTargetManager._player));
 
         base.RecordPast();
     }
@@ -86,7 +86,12 @@ public class CameraRewindEntity : RewindEntity
 
     public new void SetPosition()
     {
-        lockOnTargetManager._target = cameraDataList[currentIndex].target;
+        if (cameraDataList[currentIndex].target != null && cameraDataList[currentIndex].player != null)
+        {
+            lockOnTargetManager._target = cameraDataList[currentIndex].target;
+            lockOnTargetManager._player = cameraDataList[currentIndex].player;
+            lockOnTargetManager.SetTarget(cameraDataList[currentIndex].target, cameraDataList[currentIndex].player);
+        }
         // needs to set the enemy targeting
         base.SetPosition();
     }
@@ -94,6 +99,7 @@ public class CameraRewindEntity : RewindEntity
     public override void ApplyData()
     {
         lockOnTargetManager._bLockedOn = cameraDataList[currentIndex].bIsLockedOn;
+
 
         //base.ApplyData();
     }

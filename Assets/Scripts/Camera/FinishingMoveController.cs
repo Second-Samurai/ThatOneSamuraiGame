@@ -75,12 +75,12 @@ public class FinishingMoveController : MonoBehaviour
     {
         targetEnemy.GetComponent<AISystem>().OnEnemyDeath();
         detector.SetActive(true);
+        GameManager.instance.rewindManager.IncreaseRewindAmount();
+        playerInputScript.EnableMovement();
         for (int i = 0; i < enemies.Count - 1; i++)
         {
             enemies[i].gameObject.GetComponent<AISystem>().EnemyState = enemiesCache[i].EnemyState;
         }
-        GameManager.instance.rewindManager.IncreaseRewindAmount();
-        playerInputScript.EnableMovement();
     }
 
    

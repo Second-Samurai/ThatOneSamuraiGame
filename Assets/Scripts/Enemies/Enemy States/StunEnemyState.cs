@@ -16,6 +16,9 @@ namespace Enemies.Enemy_States
             
             ResetAnimationBools();
             
+            // Start a new impatience countdown
+            AISystem.enemyTracker.StartImpatienceCountdown();
+
             // Set the guard broken animator bool to true, to ideally play the animation
             AISystem.animator.SetBool("IsGuardBroken", true);
             AISystem.animator.SetTrigger("BreakGuard");

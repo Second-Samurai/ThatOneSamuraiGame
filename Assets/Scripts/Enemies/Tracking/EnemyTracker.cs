@@ -32,13 +32,14 @@ public class EnemyTracker : MonoBehaviour
         
         if (_impatienceMeter > 0)
         {
+            Debug.Log("Reducing impatience");
             _impatienceMeter -= Time.deltaTime;
         }
         else
         {
             _impatienceMeter = 0;
             _bReduceImpatience = false;
-            targetEnemy.GetComponent<AISystem>().OnCloseDistance();
+            PickApproachingTarget();
         }
     }
 
@@ -62,7 +63,6 @@ public class EnemyTracker : MonoBehaviour
     public void SetTarget(Transform newTargetEnemy)
     {
         targetEnemy = newTargetEnemy;
-        StartImpatienceCountdown();
     }
 
     public void ClearTarget()
@@ -71,10 +71,40 @@ public class EnemyTracker : MonoBehaviour
         targetEnemy = null;
     }
 
-    // Called when target is locked on OR when the enemy circling you and is the lock on target
+    // Called when an enemy enters the circling state, stunned state or death state
     public void StartImpatienceCountdown()
     {
         _bReduceImpatience = true;
         _impatienceMeter = Random.Range(_enemySettings.minImpatienceTime, _enemySettings.maxImpatienceTime);
+    }
+    
+    private void PickApproachingTarget()
+    {
+        // Don't pick a target if no enemies are in the tracker
+        if (currentEnemies.Count <= 0)
+            return;
+        
+        int targetSelector = Random.Range(0, 10);
+
+        // 30% chance if there are enemies in the list, 100% if there is no target enemy
+        if(targetSelector < 3 || targetEnemy == null)
+        {
+            // Go through and find an enemy that isn't stunned to approach
+            foreach (Transform enemy in currentEnemies)
+            {
+                AISystem aiSystem = enemy.GetComponent<AISystem>();
+                
+                // Only close distance if the enemy isn't stunned
+                if (!aiSystem.eDamageController.enemyGuard.isStunned)
+                {
+                    aiSystem.OnCloseDistance();
+                    break;
+                }
+            }
+        }
+        else // 70% chance
+        {
+            targetEnemy.GetComponent<AISystem>().OnCloseDistance();
+        }
     }
 }

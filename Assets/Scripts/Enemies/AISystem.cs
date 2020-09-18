@@ -196,6 +196,11 @@ namespace Enemies
             SetState(new ApproachPlayerEnemyState(this));
         }
 
+        public void OnCloseDistance()
+        {
+            SetState(new CloseDistanceEnemyState(this));
+        }
+
         public void OnCirclePlayer()
         {
             SetState(new CircleEnemyState(this));

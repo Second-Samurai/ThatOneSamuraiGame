@@ -52,6 +52,7 @@ public class CameraControl : MonoBehaviour
 
     public void SetTarget(Transform target)
     {
+        enemyTracker.SetTarget(target);
         _lockedCamScript.SetTarget(target, player);
     }
 
@@ -67,6 +68,8 @@ public class CameraControl : MonoBehaviour
 
     public void UnlockCam()
     {
+        enemyTracker.ClearTarget();
+        
         bLockedOn = false;
         _lockedCamScript.cam.Priority = 9;
         _lockedCamScript.ClearTarget();

@@ -34,6 +34,8 @@ public class PlayerFunctions : MonoBehaviour
 
     public PlayerInput _inputComponent;
 
+    public PlayerInputScript playerInputScript;
+
     public GameObject lSword, rSword;
     private void Start()
     {
@@ -46,6 +48,8 @@ public class PlayerFunctions : MonoBehaviour
         _animator = GetComponent<Animator>();
 
         _inputComponent = GetComponent<PlayerInput>();
+
+        playerInputScript = GetComponent<PlayerInputScript>();
     }
     public void SetBlockCooldown()
     {
@@ -80,9 +84,14 @@ public class PlayerFunctions : MonoBehaviour
         CheckBlockCooldown();
         CheckParry();
         //remove this
-        
 
-        
+        if(bIsDead && playerInputScript.bCanMove) 
+            playerInputScript.DisableMovement();
+        else if(!bIsDead && !playerInputScript.bCanMove) 
+            playerInputScript.EnableMovement();
+
+
+
     }
 
     private void CheckParry()
@@ -133,13 +142,13 @@ public class PlayerFunctions : MonoBehaviour
 
     public void ApplyHit(GameObject attacker, bool unblockable, float damage)
     {
-        if (!unblockable)
+        if (bIsParrying)
         {
-            if (bIsParrying)
-            {
-                TriggerParry(attacker, damage);
-            }
-            else if (bIsBlocking)
+            TriggerParry(attacker, damage);
+        }
+        else if (!unblockable)
+        {
+            if (bIsBlocking)
             {
                 TriggerBlock(attacker);
             }
@@ -158,7 +167,7 @@ public class PlayerFunctions : MonoBehaviour
         parryEffects.PlayParry();
         if(attacker != null) attacker.GetComponent<EDamageController>().OnParried(damage); //Damage attacker's guard meter
         GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(.7f);
-        Debug.LogWarning("Parried " + attacker.name);
+        //Debug.LogWarning("Parried " + attacker.name);
 
     }
     public void TriggerBlock(GameObject attacker)
@@ -181,6 +190,7 @@ public class PlayerFunctions : MonoBehaviour
             _animator.SetBool("isDead", true);
             //trigger rewind
             bIsDead = true;
+            
             _inputComponent.SwitchCurrentActionMap("Rewind");
             Debug.LogError("Player killed!");
             GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);

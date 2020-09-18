@@ -915,7 +915,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706497719}
-  m_LocalRotation: {x: 0.10321546, y: 0.08513632, z: -0.008867465, w: 0.9909691}
+  m_LocalRotation: {x: 0.10321542, y: 0.08513632, z: -0.008867462, w: 0.9909691}
   m_LocalPosition: {x: -5.897802, y: 0.61309767, z: -3.225974}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
@@ -1391,7 +1391,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 872777319}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.77, y: 0.865, z: -1.155}
+  m_LocalPosition: {x: 0.77, y: 0.8650001, z: -1.1549995}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 1084396948}
@@ -2284,6 +2284,7 @@ MonoBehaviour:
   detector: {fileID: 7064398079334822694}
   finishingMoves:
   - {fileID: 11400000, guid: be4ae4b6aa8ea824f87be1f26c096d8c, type: 2}
+  playerInputScript: {fileID: 8000690494251821637}
 --- !u!114 &2062461257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3115,7 +3116,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1961897087}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.0094745, y: 1.3449999, z: -1.6800478}
+  m_LocalPosition: {x: 1.0094745, y: 1.3450001, z: -1.6800478}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 1622896587}
@@ -12233,7 +12234,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7190348978030205702}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
@@ -12298,7 +12299,13 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'mixamorig:LeftFoot'\n\tTransform 'mixamorig:LeftHandThumb2'\n\tTransform
+    'mixamorig:LeftHandIndex1'\n\tTransform 'mixamorig:LeftHandPinky2'\n\tTransform
+    'mixamorig:RightHandRing2'\n\tTransform 'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform
+    'mixamorig:LeftHandThumb3'\n\tTransform 'mixamorig:RightArm'\n\tTransform 'mixamorig:LeftLeg'\n\tand
+    more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -12381,6 +12388,7 @@ MonoBehaviour:
   parryEffects: {fileID: 168730605037404344}
   pauseMenu: {fileID: 1165835643}
   _inputComponent: {fileID: 0}
+  playerInputScript: {fileID: 0}
   lSword: {fileID: 9177697929894721672}
   rSword: {fileID: 6569554472278779936}
 --- !u!114 &3595111642221714922
@@ -12777,13 +12785,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8000690493444974431}
-  m_LocalRotation: {x: 0.0047742897, y: -0.036639158, z: -0.12912463, w: 0.9909398}
-  m_LocalPosition: {x: -0.401, y: 1.45, z: 0.387}
+  m_LocalRotation: {x: -0.036947973, y: -0.00025795173, z: 0.9992928, w: 0.0069765477}
+  m_LocalPosition: {x: 0.027, y: 1.45, z: 0.483}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7530740819673022908}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: -4.235, z: -14.848001}
+  m_LocalEulerAnglesHint: {x: 0, y: -4.235, z: 179.2}
 --- !u!1 &8000690493781306127
 GameObject:
   m_ObjectHideFlags: 0

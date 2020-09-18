@@ -20,6 +20,9 @@ namespace Enemies.Enemy_States
             // Disable the block animation, start the parry animation
             AISystem.animator.SetBool("IsBlocking", false);
             AISystem.animator.SetBool("IsParried", true);
+            
+            // Make the attack unblockable
+            AISystem.bIsUnblockable = true;
 
             yield break;
         }
@@ -35,6 +38,9 @@ namespace Enemies.Enemy_States
         public override void EndState()
         {
             AISystem.animator.SetBool("IsParried", false);
+            
+            // Restore future attacks to be blockable
+            AISystem.bIsUnblockable = false;
 
             AISystem.dodgeDirectionZ = -1.0f;
             AISystem.OnDodge();

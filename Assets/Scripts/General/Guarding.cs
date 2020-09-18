@@ -43,6 +43,16 @@ public class Guarding : MonoBehaviour
     //
     public bool CheckIfEntityGuarding(float damage)
     {
+        // This is only used for the swordsman parrying. For when they're parring AND they get parried by the player.
+        // This exists because canGuard is set to false while the enemy is parring so they can be killed while
+        // doing the parry animation.
+        if (_aiSystem.animator.GetBool("IsParried"))
+        {
+            StopAllCoroutines();
+            CalculateGuard(damage);
+            return true;
+        }
+        
         if (canGuard && !isStunned)
         {
             StopAllCoroutines();

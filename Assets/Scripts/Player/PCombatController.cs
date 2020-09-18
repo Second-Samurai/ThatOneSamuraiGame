@@ -69,11 +69,11 @@ public class PCombatController : MonoBehaviour, ICombatController
         _comboHits++;
         _comboHits = Mathf.Clamp(_comboHits, 0, 4);
         _chargeTime = 0;
-        if (!_isAttacking)
-        {
+        //if (!_isAttacking)
+        //{
             comboTracker.RegisterInput();
             _animator.SetTrigger("AttackLight");
-        }
+        //}
         _animator.SetInteger("ComboCount", _comboHits);
     }
 
@@ -84,7 +84,7 @@ public class PCombatController : MonoBehaviour, ICombatController
 
     //Summary: Resets the AttackCombo after 'Animation Event' has finished.
     public void ResetAttackCombo() {
-        _animator.ResetTrigger("AttackLight");
+        //_animator.ResetTrigger("AttackLight");
         _comboHits = 0;
     }
 

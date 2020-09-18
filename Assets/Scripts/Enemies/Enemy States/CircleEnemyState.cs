@@ -88,17 +88,21 @@ namespace Enemies.Enemy_States
             // Reset threatened value
             _bIsThreatened = false;
             
-            int actionNumber = Random.Range(0, 3);
+            int actionNumber = Random.Range(0, 10);
+            if(AISystem.enemyType == EnemyType.TUTORIALENEMY)
+            {
+                actionNumber = 3;
+            }
             
             switch(actionNumber)
             {
-                case 0: // LIGHT ATTACK
+                case int i when (i > 4): // LIGHT ATTACK
                     AISystem.OnLightAttack();
                     break;
-                case 1: // START BLOCKING
+                case int i when (i > 2 && i <= 4): // START BLOCKING
                     AISystem.OnBlock();
                     break;
-                case 2: // RETRACT BACK
+                case int i when (i > -1 && i <= 2): // RETRACT BACK
                     AISystem.dodgeDirectionZ = -1;
                     AISystem.OnDodge();
                     break;

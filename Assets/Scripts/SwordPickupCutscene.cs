@@ -17,7 +17,7 @@ public class SwordPickupCutscene : MonoBehaviour
     void PickupSword()
     {
         PlayerFunctions player = GameManager.instance.playerController.gameObject.GetComponent<PlayerFunctions>();
-        player.lSword.SetActive(true);
+        //player.lSword.SetActive(true);
         player.rSword.SetActive(true);
         this.gameObject.SetActive(false);
     }

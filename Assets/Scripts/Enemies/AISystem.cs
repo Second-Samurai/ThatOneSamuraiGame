@@ -9,7 +9,8 @@ public enum EnemyType
     SWORDSMAN,
     ARCHER,
     GLAIVEWIELDER,
-    BOSS
+    BOSS,
+    TUTORIALENEMY
 }
 
 namespace Enemies

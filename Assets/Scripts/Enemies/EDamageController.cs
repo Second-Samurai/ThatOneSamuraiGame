@@ -62,10 +62,10 @@ public class EDamageController : MonoBehaviour, IDamageable
             attacker.GetComponentInChildren<FinishingMoveController>().PlayFinishingMove(gameObject);
             return;
         }
-        else
+        else if (unblockable)
         {
-            Debug.LogWarning("WARNING: Attack not on player layer");
-            //_aiSystem.ApplyHit(attacker);
+            //Debug.LogWarning("WARNING: Attack not on player layer");
+            _aiSystem.ApplyHit(attacker);
         }
     }
 

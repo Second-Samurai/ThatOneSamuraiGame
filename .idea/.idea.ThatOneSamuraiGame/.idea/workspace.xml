@@ -34,9 +34,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="277b553a-507f-45c4-9474-e11dde3b220c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Animation/AnimatorControllers/Swordsman.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animation/AnimatorControllers/Swordsman.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/TutorialSetup.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TutorialSetup.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/RecoveryEnemyState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/RecoveryEnemyState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemies/AISystem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemies/AISystem.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,22 +46,22 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Enemies/EDamageController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.0.0/InputSystem/Plugins/PlayerInput/PlayerInput.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/RecoveryEnemyState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/ParryStunEnemyState.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.shadergraph@7.3.1/Editor/Drawing/Controls/PopupControl.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/General/EntityStatData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Enemies/AddToTracker.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/ParryEnemyState.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/CircleEnemyState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Enemies/SwordsmanSwingTrigger.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/CloseDistanceEnemyState.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@1.0.0/InputSystem/Plugins/PlayerInput/PlayerInput.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/RecoveryEnemyState.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.shadergraph@7.3.1/Editor/Drawing/Controls/PopupControl.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/CircleEnemyState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/QuickBlockEnemyState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/DodgeEnemyState.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assets/Scripts/Enemy Scripts/AISystem.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemy Scripts/Enemy States/ApproachPlayerEnemyState.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemy Scripts/Enemy States/EnemyState.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemy Scripts/EnemyStateMachine.cs" />
@@ -99,7 +97,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/EnemyState.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/LightAttackEnemyState.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/CircleEnemyState.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/AISystem.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/SwordsmanSwingTrigger.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/ParryEnemyState.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Player/PCombatController.cs" />
@@ -108,12 +105,14 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Tracking/EnemyTracker.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Player/CameraControl.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/UIGuardMeter.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/EnemyStateMachine.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Player/PlayerFunctions.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/EDamageController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/ParryStunEnemyState.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/QuickBlockEnemyState.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/RecoveryEnemyState.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/EnemyStateMachine.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/AISystem.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Enemies/Enemy States/CloseDistanceEnemyState.cs" />
       </list>
     </option>
   </component>
@@ -181,7 +180,7 @@
       <workItem from="1600257577486" duration="7476000" />
       <workItem from="1600390184949" duration="644000" />
       <workItem from="1600391285127" duration="4653000" />
-      <workItem from="1600405131784" duration="329000" />
+      <workItem from="1600405131784" duration="711000" />
     </task>
     <servers />
   </component>

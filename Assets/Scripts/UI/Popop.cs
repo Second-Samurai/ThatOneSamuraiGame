@@ -28,4 +28,16 @@ public class Popop : MonoBehaviour
             popup.SetActive(false);
         }
     }
+
+    public void ChangePopup(GameObject _popup)
+    {
+        if (popup.activeSelf)
+        {
+            popup.SetActive(false);
+            popup = _popup;
+            popup.SetActive(true);
+            popupImage = popup.GetComponentInChildren<Image>();
+            popupImage.DOFade(1, 1.5f);
+        }
+    }
 }

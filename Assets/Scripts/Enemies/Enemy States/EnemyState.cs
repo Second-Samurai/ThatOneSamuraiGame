@@ -72,6 +72,7 @@ namespace Enemies.Enemy_States
                 else // Attack player
                 {
                     AISystem.OnLightAttack(); 
+                    //AISystem.OnDodge();
                 }
             }
             else if(InRange(AISystem.transform.position, target, AISystem.enemySettings.chaseToCircleRange))

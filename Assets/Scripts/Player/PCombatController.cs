@@ -73,7 +73,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         //{
             comboTracker.RegisterInput();
             _animator.SetTrigger("AttackLight");
-            Debug.LogError("CLICK");
+            //Debug.LogError("CLICK");
         //}
         _animator.SetInteger("ComboCount", _comboHits);
     }

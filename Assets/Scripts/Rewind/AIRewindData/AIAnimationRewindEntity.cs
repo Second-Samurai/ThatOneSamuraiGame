@@ -64,7 +64,8 @@ public class AIAnimationRewindEntity : RewindEntity
         //move to animation rewind entity
         animationDataList.Insert(0, new AIAnimationTimeData(animator.GetCurrentAnimatorStateInfo(0).normalizedTime, m_CurrentClipInfo[0].clip.name,
                                                                      animator.GetBool("PlayerFound"), animator.GetBool("IsLightAttacking"), animator.GetBool("IsApproaching"), animator.GetBool("IsGuardBroken"), animator.GetBool("IsDead"),
-                                                                     animator.GetBool("IsQuickBlocking")));
+                                                                     animator.GetBool("IsQuickBlocking"), animator.GetBool("IsBlocking"), animator.GetBool("IsParried"), animator.GetBool("IsStrafing"), 
+                                                                     animator.GetFloat("StrafeDirectionX"), animator.GetBool("IsDodging"), animator.GetFloat("DodgeDirectonX"), animator.GetFloat("DodgeDirectionZ")));
 
         //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + "   :   " + m_CurrentClipInfo[0].clip.name);
 
@@ -109,7 +110,13 @@ public class AIAnimationRewindEntity : RewindEntity
         animator.SetBool("IsGuardBroken", animationDataList[currentIndex].bIsGuardBroken);
         animator.SetBool("IsDead", animationDataList[currentIndex].bIsDead);
         animator.SetBool("IsQuickBlocking", animationDataList[currentIndex].IsQuickBlocking);
-
+        animator.SetBool("IsBlocking", animationDataList[currentIndex].IsBlocking);
+        animator.SetBool("IsParried", animationDataList[currentIndex].IsParried);
+        animator.SetBool("IsStrafing", animationDataList[currentIndex].IsStrafing);
+        animator.SetFloat("StrafeDirectionX", animationDataList[currentIndex].StrafeDirectionX);
+        animator.SetBool("IsDodging", animationDataList[currentIndex].IsDodging);
+        animator.SetFloat("DodgeDirectonX", animationDataList[currentIndex].dodgeDirectionX);
+        animator.SetFloat("DodgeDirectionZ", animationDataList[currentIndex].dodgeDirectionZ);
         base.SetPosition();
     }
 }

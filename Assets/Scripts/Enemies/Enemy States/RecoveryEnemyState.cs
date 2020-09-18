@@ -21,8 +21,7 @@ namespace Enemies.Enemy_States
         // End state is called at the end of the recovery animation through animation events
         public override void EndState()
         {
-            AISystem.animator.SetBool("IsApproaching", true);
-            AISystem.OnApproachPlayer();
+            ChooseActionUsingDistance(AISystem.enemySettings.GetTarget().position + AISystem.floatOffset);
         }
     }
 }

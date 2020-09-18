@@ -115,8 +115,7 @@ namespace Enemies
             StopAllCoroutines();
             if (Vector3.Distance(transform.position, enemySettings.GetTarget().position) > enemySettings.followUpAttackRange)
             {
-                Debug.LogError(transform.position - enemySettings.GetTarget().position);
-                StartCoroutine(DodgeImpulseCoroutine(transform.position - enemySettings.GetTarget().position, enemySettings.dodgeForce));
+                StartCoroutine(DodgeImpulseCoroutine(transform.parent.forward, enemySettings.dodgeForce));
             }
         }
         

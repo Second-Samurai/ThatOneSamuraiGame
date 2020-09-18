@@ -87,9 +87,20 @@ public class EnemyTracker : MonoBehaviour
         int targetSelector = Random.Range(0, 10);
 
         // 30% chance if there are enemies in the list, 100% if there is no target enemy
-        if(targetSelector < 3 || targetEnemy == null) 
+        if(targetSelector < 3 || targetEnemy == null)
         {
-            currentEnemies[0].GetComponent<AISystem>().OnCloseDistance();
+            // Go through and find an enemy that isn't stunned to approach
+            foreach (Transform enemy in currentEnemies)
+            {
+                AISystem aiSystem = enemy.GetComponent<AISystem>();
+                
+                // Only close distance if the enemy isn't stunned
+                if (!aiSystem.eDamageController.enemyGuard.isStunned)
+                {
+                    aiSystem.OnCloseDistance();
+                    break;
+                }
+            }
         }
         else // 70% chance
         {

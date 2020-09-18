@@ -11,7 +11,6 @@ using Random = UnityEngine.Random;
 public class EnemyTracker : MonoBehaviour
 {
     public List<Transform> currentEnemies;
-    public List<Transform> stunnedEnemies;
     public Transform targetEnemy;
 
     private EnemySettings _enemySettings;
@@ -44,25 +43,16 @@ public class EnemyTracker : MonoBehaviour
         }
     }
 
-    public void AddEnemy(Transform enemy, bool IsStunned)
+    public void AddEnemy(Transform enemy)
     {
-        if (IsStunned && !stunnedEnemies.Contains(enemy))
-        {
-            stunnedEnemies.Add(enemy);
-            currentEnemies.Remove(enemy);
-        }
-        else if (!currentEnemies.Contains(enemy))
+        if (!currentEnemies.Contains(enemy))
         {
             currentEnemies.Add(enemy);
         }
     }
 
-    public void RemoveEnemy(Transform enemy, bool IsStunned)
+    public void RemoveEnemy(Transform enemy)
     {
-        if (IsStunned && stunnedEnemies.Contains(enemy))
-        {
-            stunnedEnemies.Remove(enemy);
-        }
         if (currentEnemies.Contains(enemy))
         {
             currentEnemies.Remove(enemy);

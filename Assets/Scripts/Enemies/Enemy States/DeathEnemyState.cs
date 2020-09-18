@@ -20,10 +20,9 @@ namespace Enemies.Enemy_States
             AISystem.bIsDead = true;
             AISystem.animator.SetBool("IsDead", true);
             
-            // Remove enemy from temp enemy count and enemy tracker (both the stunned and non-stunned enemy lists)
+            // Remove enemy from temp enemy count and enemy tracker
             TempWinTracker.instance.enemyCount--;
-            AISystem.enemyTracker.RemoveEnemy(AISystem.transform, true);
-            AISystem.enemyTracker.RemoveEnemy(AISystem.transform, false);
+            AISystem.enemyTracker.RemoveEnemy(AISystem.transform);
             
             // Enemy can no longer be damaged, enemies can no longer damage the player
             AISystem.eDamageController.DisableDamage();

@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
 
         foreach (TestStaticTarget enemy in testEnemies)
         {
-            enemyTracker.AddEnemy(enemy.GetComponentInParent<Transform>(), false);
+            enemyTracker.AddEnemy(enemy.GetComponentInParent<Transform>());
         }
     }
 

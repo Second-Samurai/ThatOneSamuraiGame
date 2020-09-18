@@ -14,9 +14,6 @@ namespace Enemies.Enemy_States
         {
             // Stop guard broken animation stop
             AISystem.animator.SetBool("IsGuardBroken", false);
-            
-            AISystem.enemyTracker.RemoveEnemy(AISystem.transform, true);
-            AISystem.enemyTracker.AddEnemy(AISystem.transform, false);
 
             yield break;
         }

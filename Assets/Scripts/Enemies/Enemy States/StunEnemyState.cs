@@ -16,8 +16,6 @@ namespace Enemies.Enemy_States
             
             ResetAnimationBools();
             
-            // Add the enemy to the stun list (will automatically remove it from the enemy list
-            AISystem.enemyTracker.AddEnemy(AISystem.transform, true);
             // Start a new impatience countdown
             AISystem.enemyTracker.StartImpatienceCountdown();
 

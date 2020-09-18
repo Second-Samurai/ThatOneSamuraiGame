@@ -62,6 +62,7 @@ public class FinishingMoveController : MonoBehaviour
         SetTargetEnemy(enemy.GetComponentInChildren<Animator>());
         SelectFinishingMove();
         _cutsceneDirector.Play();
+        playerInputScript.bCanAttack = false;
         
         enemies = GameManager.instance.enemyTracker.currentEnemies;
         for (int i = 0; i < enemies.Count-1; i++)
@@ -76,6 +77,7 @@ public class FinishingMoveController : MonoBehaviour
         targetEnemy.GetComponent<AISystem>().OnEnemyDeath();
         detector.SetActive(true);
         GameManager.instance.rewindManager.IncreaseRewindAmount();
+        playerInputScript.bCanAttack = true;
         playerInputScript.EnableMovement();
         for (int i = 0; i < enemies.Count - 1; i++)
         {

@@ -7,7 +7,7 @@ public class PlayerInputScript : MonoBehaviour
 {
 
     Vector2 _inputVector, lastVector, _cachedVector;
-    public bool bCanMove = true, bLockedOn = false, bMoveLocked = false, bIsDodging = false, bCanDodge = true;
+    public bool bCanMove = true, bLockedOn = false, bMoveLocked = false, bIsDodging = false, bCanDodge = true, bCanAttack = false;
     public float rotationSpeed = 4f, smoothingValue = .1f;
     Animator _animator;
     public CameraControl _camControl;
@@ -105,38 +105,44 @@ public class PlayerInputScript : MonoBehaviour
     //NOTE: The combat component requires to be instantiated early. Suggest input script to be instantated late.
     private void OnAttack(InputValue value)
     {
-        //Debug.LogError(">> Light attack Triggered");
-        if (_playerCombat == null)
+        if (bCanAttack)
         {
-            Debug.Log(">> Combat Component is missing");
-            _playerCombat = this.GetComponent<ICombatController>();
-            return;
-        }
+            //Debug.LogError(">> Light attack Triggered");
+            if (_playerCombat == null)
+            {
+                Debug.Log(">> Combat Component is missing");
+                _playerCombat = this.GetComponent<ICombatController>();
+                return;
+            }
 
-        if (!value.isPressed)
-        {
-            _playerCombat.RunLightAttack();
-        }
+            if (!value.isPressed)
+            {
+                _playerCombat.RunLightAttack();
+            }
 
-        if (_animator.GetBool("HeavyAttackHeld"))
-        {
-            _animator.SetBool("HeavyAttackHeld", false);
-            //_camControl.StopCoroutine(_camControl.ResetCamRoll());
-            //_camControl.StopCoroutine("RollCam");
-            _camControl.StopAllCoroutines();
-            _camControl.StartCoroutine(_camControl.ResetCamRoll());
+            if (_animator.GetBool("HeavyAttackHeld"))
+            {
+                _animator.SetBool("HeavyAttackHeld", false);
+                //_camControl.StopCoroutine(_camControl.ResetCamRoll());
+                //_camControl.StopCoroutine("RollCam");
+                _camControl.StopAllCoroutines();
+                _camControl.StartCoroutine(_camControl.ResetCamRoll());
+            }
         }
     }
 
     void OnStartHeavy()
     {
-        if (!_animator.GetBool("HeavyAttackHeld"))
+        if (bCanAttack)
         {
-            _animator.SetBool("HeavyAttackHeld", true);
-            //_camControl.StopCoroutine(_camControl.RollCam());
-            //_camControl.StopCoroutine(_camControl.ResetCamRoll());
-            _camControl.StopAllCoroutines();
-            _camControl.StartCoroutine(_camControl.RollCam());
+            if (!_animator.GetBool("HeavyAttackHeld"))
+            {
+                _animator.SetBool("HeavyAttackHeld", true);
+                //_camControl.StopCoroutine(_camControl.RollCam());
+                //_camControl.StopCoroutine(_camControl.ResetCamRoll());
+                _camControl.StopAllCoroutines();
+                _camControl.StartCoroutine(_camControl.RollCam());
+            }
         }
     }
 

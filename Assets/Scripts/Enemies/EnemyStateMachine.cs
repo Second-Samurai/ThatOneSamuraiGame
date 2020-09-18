@@ -24,7 +24,7 @@ namespace Enemy_Scripts
             //Debug.Log("Switching States: "+newEnemyState);
         }
 
-        protected void Update()
+        protected void FixedUpdate()
         {
             // Only run Tick() if enemy state is not null
             if (EnemyState != null)
@@ -34,10 +34,21 @@ namespace Enemy_Scripts
             }
         }
         
-        // Called in animation events to trigger end state
+        //ANIMATION CALLED EVENTS
+
+        #region Animation Called Events
+
         public void EndState()
         {
             EnemyState.EndState();
         }
+
+        public void StopRotating()
+        {
+            EnemyState.StopRotating();
+        }
+
+        #endregion
+        
     }
 }

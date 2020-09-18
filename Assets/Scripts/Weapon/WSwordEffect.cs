@@ -8,18 +8,24 @@ public class WSwordEffect : MonoBehaviour
     private GameSettings _gameSettings;
     private Transform _swordmanTransform;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        _gameSettings = GameManager.instance.gameSettings;
-    }
+    //Effect scripts
+    private SwordImpactEffect _impactEffector;
+    private ParryEffect _parryEffect;
+
 
     /// <summary>
     /// This sets the sword holder transform to this sword
     /// </summary>
-    public void SetParentTransform(Transform parentTransform)
+    public void Init(Transform parentTransform)
     {
+        _gameSettings = GameManager.instance.gameSettings;
         _swordmanTransform = parentTransform;
+
+        _impactEffector = new SwordImpactEffect();
+        _impactEffector.Init(_gameSettings, this, parentTransform);
+
+        _parryEffect = new ParryEffect();
+        _parryEffect.Init();
     }
 
     /// <summary>
@@ -43,7 +49,7 @@ public class WSwordEffect : MonoBehaviour
     /// <summary>
     /// Creates particle parry effect when triggered
     /// </summary>
-    public void CreateParryEffect(float slashAngle)
+    public void CreateParryEffect(float slashAngle, Transform targetPosition, ParryType type)
     {
 
     }
@@ -58,75 +64,19 @@ public class WSwordEffect : MonoBehaviour
 
         if (type == HitType.DamageableTarget)
         {
-            //Debug.Log(">> PSword: Impact Raycast triggered");
-            impactPosition = RayCastToHitPoint(targetPosition);
-            CreateDamageableImpact(impactPosition, impactRotation);
+            impactPosition = _impactEffector.RayCastToHitPoint(targetPosition);
+            _impactEffector.CreateDamageableImpact(impactPosition, impactRotation);
         }
         else
         {
-            //Debug.Log(">> PSword: Impact effect triggered");
             impactPosition = this.transform.position;
-            CreateGeneralImpact(impactPosition, impactRotation);
+            _impactEffector.CreateGeneralImpact(impactPosition, impactRotation);
         }
-    }
-
-    //Summary: Creates particle effects relevant to player hitting damageable entity
-    //
-    private void CreateDamageableImpact(Vector3 impactPosition, Vector3 impactRotation)
-    {
-        GameObject sparkImpact = Instantiate(_gameSettings.slashImpact01, impactPosition, Quaternion.Euler(impactRotation));
-        GameObject sparkFalloff = Instantiate(_gameSettings.sparkFallOff01, impactPosition, Quaternion.Euler(impactRotation));
-        StartCoroutine(DestroyAfterTime(sparkImpact, 4f));
-        StartCoroutine(DestroyAfterTime(sparkFalloff, 4f));
-    }
-
-    //Summary: Creates particle effects when hitting non damageable items
-    //
-    private void CreateGeneralImpact(Vector3 impactPosition, Vector3 impactRotation)
-    {
-        GameObject sparkFalloff = Instantiate(_gameSettings.sparkFallOff01, impactPosition, Quaternion.Euler(impactRotation));
-        StartCoroutine(DestroyAfterTime(sparkFalloff, 4f));
-    }
-
-    private void CreateParryEffect()
-    {
-
-    }
-
-    //Summary: Uses raycast to determine the hitpoint from player to target
-    //
-    private Vector3 RayCastToHitPoint(Transform hitTarget)
-    {
-        Vector3 startPosition = _swordmanTransform.position;
-        startPosition.y = transform.position.y;
-        Vector3 rayDirection = hitTarget.transform.position - startPosition;
-
-        RaycastHit hit;
-        RaycastHit[] hitResult = Physics.RaycastAll(startPosition, rayDirection, 15f);
-        if(hitResult.Length == 0)
-        {
-            return this.transform.position;
-        }
-
-        hit = hitResult.Where(predicate: x => x.collider.GetComponent<IDamageable>() != null).FirstOrDefault();
-
-        if (hit.collider == null)
-        {
-            Debug.LogWarning(">> PSword: hit raycast has returned nothing");
-            return this.transform.position;
-        }
-
-        if (hit.collider.GetComponent<IDamageable>().GetEntityType() != EntityType.Player)
-        {
-            return this.transform.position;
-        }
-
-        return hit.point;
     }
 
     //Summary: Destroys after the timer completes
     //
-    IEnumerator DestroyAfterTime(GameObject effect, float time)
+    public IEnumerator DestroyAfterTime(GameObject effect, float time)
     {
         float timer = time;
 
@@ -140,8 +90,3 @@ public class WSwordEffect : MonoBehaviour
     }
 }
 
-public enum HitType
-{
-    DamageableTarget,
-    GeneralTarget,
-}

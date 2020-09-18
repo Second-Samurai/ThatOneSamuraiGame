@@ -20,8 +20,7 @@ namespace Enemies.Enemy_States
             AISystem.animator.SetFloat("DodgeDirectionZ", AISystem.dodgeDirectionZ);
             AISystem.animator.SetBool("IsDodging", true);
             
-            // Dodge direction is set in AISystem from other states
-            DodgeImpulse(new Vector3(AISystem.dodgeDirectionX, 0, AISystem.dodgeDirectionZ), AISystem.enemySettings.dodgeForce);
+            AISystem.DodgeImpulse(new Vector3(AISystem.dodgeDirectionX, 0, AISystem.dodgeDirectionZ), AISystem.enemySettings.dodgeForce);
 
             yield break;
             
@@ -40,11 +39,6 @@ namespace Enemies.Enemy_States
             Vector3 target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             
             ChooseActionUsingDistance(target);
-        }
-
-        private void DodgeImpulse(Vector3 lastDir, float force)
-        {
-            AISystem.transform.Translate(lastDir.normalized * force * Time.deltaTime);
         }
     }
 }

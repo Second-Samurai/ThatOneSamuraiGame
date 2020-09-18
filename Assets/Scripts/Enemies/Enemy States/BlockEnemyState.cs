@@ -16,11 +16,7 @@ namespace Enemies.Enemy_States
         {
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
-            
-            // Get target position and face towards it
-            _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            PositionTowardsTarget(AISystem.transform, _target);
-            
+
             AISystem.animator.SetBool("IsBlocking", true);
             
             // While blocking, set the enemy to be able to parry
@@ -30,6 +26,13 @@ namespace Enemies.Enemy_States
             yield return new WaitForSeconds(Random.Range(AISystem.enemySettings.minBlockTime, AISystem.enemySettings.maxBlockTime));
             
             EndState();
+        }
+
+        public override void Tick()
+        {
+            // Get target position and face towards it
+            _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
+            PositionTowardsTarget(AISystem.transform, _target);
         }
 
         // End state should only be performed if the following hasn't occurend mid block
@@ -56,7 +59,11 @@ namespace Enemies.Enemy_States
             if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.circleThreatenRange))
             {
                 int decision = Random.Range(0, 2);
-                if (decision == 0) // Go for an attack
+                if(AISystem.enemyType == EnemyType.TUTORIALENEMY)
+                {
+                    AISystem.OnCirclePlayer();
+                }
+                else if (decision == 0) // Go for an attack
                 {
                     AISystem.OnLightAttack();
                 }

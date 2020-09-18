@@ -43,7 +43,7 @@ public class RewindEntity : MonoBehaviour
             RecordPast();
             
         }
-        Debug.Log(_rewindInput.rewindTime);
+        //Debug.Log(_rewindInput.rewindTime);
     }
 
     public void RecordPast() 

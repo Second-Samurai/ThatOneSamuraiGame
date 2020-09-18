@@ -9,6 +9,7 @@ using UnityEngine;
 public class EnemyTracker : MonoBehaviour
 {
     public List<Transform> currentEnemies;
+    public Transform targetEnemy;
 
     public void AddEnemy(Transform enemy)
     {
@@ -25,6 +26,16 @@ public class EnemyTracker : MonoBehaviour
             currentEnemies.Remove(enemy);
             currentEnemies.TrimExcess();
         }
+    }
+
+    public void SetTarget(Transform newTargetEnemy)
+    {
+        targetEnemy = newTargetEnemy;
+    }
+
+    public void ClearTarget()
+    {
+        targetEnemy = null;
     }
 
     private void Awake()

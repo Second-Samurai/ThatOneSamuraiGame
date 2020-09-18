@@ -103,6 +103,7 @@ public class PlayerInputScript : MonoBehaviour
     //NOTE: The combat component requires to be instantiated early. Suggest input script to be instantated late.
     private void OnAttack(InputValue value)
     {
+        Debug.LogError(">> Light attack Triggered");
         if (_playerCombat == null)
         {
             Debug.Log(">> Combat Component is missing");
@@ -112,7 +113,6 @@ public class PlayerInputScript : MonoBehaviour
 
         if (!value.isPressed)
         {
-            //Debug.Log(">> Light attack Triggered");
             _playerCombat.RunLightAttack();
         }
 
@@ -197,7 +197,7 @@ public class PlayerInputScript : MonoBehaviour
         if (bCanMove)
         {
             Vector3 _direction = new Vector3(_inputVector.x, 0, _inputVector.y).normalized;
-            if (_direction != Vector3.zero && !bLockedOn)
+            if (_direction != Vector3.zero && !bLockedOn && !bOverrideMovement)
             {
                 float _targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + _cam.transform.eulerAngles.y;
                 float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, .1f);
@@ -220,11 +220,12 @@ public class PlayerInputScript : MonoBehaviour
                 }
             }
 
+            
             _animator.SetFloat("InputSpeed", _inputVector.magnitude, smoothingValue, Time.deltaTime);
 
             if (bOverrideMovement)
             {
-                transform.Translate(_direction * 3 * Time.deltaTime);
+                //transform.Translate(_direction * 3 * Time.deltaTime);
                 //StartCoroutine(_functions.DodgeImpulse(transform.forward, 3));
             }
 

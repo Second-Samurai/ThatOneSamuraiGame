@@ -9,6 +9,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
     public List<EnemyRewindData> enemyDataList;
 
     private AISystem aISystem;
+    public Collider swordCollider;
 
     // Start is called before the first frame update
     protected new void Start()
@@ -19,6 +20,8 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
 
         _rewindInput.Reset += ResetTimeline;
         aISystem = gameObject.GetComponent<AISystem>();
+       
+
     }
 
     public override void FixedUpdate()
@@ -28,6 +31,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
             RecordPast();
 
         }
+        DisableCollider();
 
     }
 
@@ -50,7 +54,9 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         }
 
         //move to arguments need to be added rewind entity
-        enemyDataList.Insert(0, new EnemyRewindData(aISystem.EnemyState, aISystem.statHandler));
+        enemyDataList.Insert(0, new EnemyRewindData(aISystem.EnemyState, swordCollider.enabled,
+                                                    aISystem.eDamageController.enemyGuard.canGuard, aISystem.eDamageController.enemyGuard.canParry, aISystem.eDamageController.enemyGuard.isStunned,
+                                                    aISystem.eDamageController.enemyGuard._guardCooldownTime, aISystem.bIsDead, aISystem.bIsUnblockable));
 
         base.RecordPast();
     }
@@ -80,9 +86,26 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         }
     }
 
+    // can be called in rewind input if needed incase jaiden yells at me for using update
+    public void DisableCollider() 
+    {
+        if (_rewindInput.isTravelling == true)
+        {
+            swordCollider.enabled = false;
+        }
+
+    }
+
     public new void SetPosition()
     {
-        aISystem.statHandler = enemyDataList[currentIndex].statHandler;
+        aISystem.eDamageController.enemyGuard.canGuard = enemyDataList[currentIndex].canGuard;
+        aISystem.eDamageController.enemyGuard.canParry = enemyDataList[currentIndex].canParry;
+        aISystem.eDamageController.enemyGuard.isStunned = enemyDataList[currentIndex].isStunned;
+        aISystem.eDamageController.enemyGuard._guardCooldownTime = enemyDataList[currentIndex].guardCooldownTime;
+        aISystem.bIsDead = enemyDataList[currentIndex].bIsDead;
+        aISystem.bIsUnblockable = enemyDataList[currentIndex].bIsUnblockable;
+        Debug.LogError(enemyDataList[currentIndex].bIsDead);
+
         // needs to set the enemy targeting
         base.SetPosition();
     }
@@ -90,5 +113,6 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
     public override void ApplyData() 
     {
         aISystem.SetState(enemyDataList[currentIndex].enemyState);
+        swordCollider.enabled = enemyDataList[currentIndex].swordCollider;
     }
 }

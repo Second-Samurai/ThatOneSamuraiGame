@@ -38,7 +38,7 @@ namespace Enemies.Enemy_States
             
             // Wait for de spawn seconds then de spawn the enemy
             yield return new WaitForSeconds(_despawnTimer);
-            AISystem.gameObject.SetActive(false);
+            //AISystem.gameObject.SetActive(false);
         }
     }
 }

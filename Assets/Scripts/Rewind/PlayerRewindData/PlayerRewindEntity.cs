@@ -9,7 +9,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
 
     private PlayerInputScript playerInput;
 
-
+    public Collider swordCollider;
     // Start is called before the first frame update
     protected new void Start()
     {
@@ -29,6 +29,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
             RecordPast();
 
         }
+        DisableCollider();
 
     }
 
@@ -54,7 +55,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
         }
 
         //move to arguments need to be added rewind entity
-        playerDataList.Insert(0, new PlayerTimeData(playerInput.bLockedOn));
+        playerDataList.Insert(0, new PlayerTimeData(playerInput.bLockedOn, swordCollider.enabled));
 
         base.RecordPast();
     }
@@ -90,6 +91,16 @@ public class PlayerRewindEntity : AnimationRewindEntity
         }
     }
 
+    // can be called in rewind input if needed incase jaiden yells at me for using update
+    public void DisableCollider()
+    {
+        if (_rewindInput.isTravelling == true)
+        {
+            swordCollider.enabled = false;
+        }
+ 
+    }
+
     public new void SetPosition()
     {
 
@@ -112,5 +123,6 @@ public class PlayerRewindEntity : AnimationRewindEntity
     {
         if (playerInput._functions.bIsDead) playerInput._functions._inputComponent.SwitchCurrentActionMap("Dead");
         else playerInput._functions._inputComponent.SwitchCurrentActionMap("Gameplay");
+        swordCollider.enabled = playerDataList[currentIndex].swordCollider;
     }
 }

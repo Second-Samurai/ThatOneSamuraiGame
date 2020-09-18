@@ -290,12 +290,12 @@ public class PlayerInputScript : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current.pKey.wasPressedThisFrame)
-            Test();
-        if (Keyboard.current.oKey.wasPressedThisFrame)
-        {
-            finishingMoveController.PlayFinishingMove(target.gameObject);
-        }
+        //if (Keyboard.current.pKey.wasPressedThisFrame)
+        //    Test();
+        //if (Keyboard.current.oKey.wasPressedThisFrame)
+        //{
+        //    finishingMoveController.PlayFinishingMove(target.gameObject);
+        //}
     }
 
     public void ResetDodge()

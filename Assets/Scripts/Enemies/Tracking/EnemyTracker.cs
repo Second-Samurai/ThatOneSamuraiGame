@@ -32,7 +32,7 @@ public class EnemyTracker : MonoBehaviour
         
         if (_impatienceMeter > 0)
         {
-            Debug.Log("Reducing impatience");
+            //Debug.Log("Reducing impatience");
             _impatienceMeter -= Time.deltaTime;
         }
         else

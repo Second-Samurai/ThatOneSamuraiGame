@@ -21,7 +21,7 @@ namespace Enemy_Scripts
             EnemyState = newEnemyState;
             StartCoroutine(EnemyState.BeginState());
             
-            //Debug.Log("Switching States: "+newEnemyState);
+            Debug.Log("Switching States: "+newEnemyState);
         }
 
         protected void FixedUpdate()

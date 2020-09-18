@@ -159,9 +159,7 @@ public class PlayerInputScript : MonoBehaviour
                 StopCoroutine("DodgeImpulse");
                 StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
             }
-            if (_functions.bCanBlock == false)
-                _functions.EnableBlock();
-            _functions.DisableBlock();
+           
             bOverrideMovement = false;
         }
         else if (_inputVector != Vector2.zero && !bIsDodging && !bCanDodge)
@@ -237,14 +235,15 @@ public class PlayerInputScript : MonoBehaviour
     {
         bIsDodging = true; 
         _pDamageController.DisableDamage();
-       
-            
+        _functions.DisableBlock();
+
     }
 
     public void EndDodging()
     {
         bIsDodging = false;
         _pDamageController.EnableDamage();
+        _functions.EnableBlock();
     }
 
     public void OverrideMovement()

@@ -30,7 +30,7 @@ public class RewindInput : MonoBehaviour
     void OnInitRewind() 
     {
         _inputComponent.SwitchCurrentActionMap("Rewind");
-        if (!isTravelling)
+        if (!isTravelling && rewindManager.maxRewindResource != 0)
         {
             isTravelling = true;
             rewindManager.isTravelling = true;
@@ -38,6 +38,15 @@ public class RewindInput : MonoBehaviour
             rewindTut.SetActive(true);
             GameManager.instance.postProcessingController.EnableRewindColourFilter();
             // Debug.Log("rewinding");
+        }
+        else if (!isTravelling && rewindManager.maxRewindResource == 0) 
+        {
+            isTravelling = true;
+            rewindManager.isTravelling = true;
+            rewindManager.StartRewind();
+            rewindManager.isTravelling = false;
+            GameManager.instance.postProcessingController.EnableRewindColourFilter();
+
         }
 
     }

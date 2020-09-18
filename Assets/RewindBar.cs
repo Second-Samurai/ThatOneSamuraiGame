@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class RewindBar : MonoBehaviour
 {
     Slider healthSlider;
+    public Image rewindBar;
 
     private void Start()
     {
@@ -25,5 +26,21 @@ public class RewindBar : MonoBehaviour
         healthSlider.maxValue = amount;
 
         healthSlider.value = healthSlider.maxValue * tempValue;
+    }
+    private void OnEnable()
+    {
+        UpdateBarColor();
+    }
+
+    public void UpdateBarColor() 
+    {
+        if (GameManager.instance.rewindManager.rewindResource <= 2f)
+        {
+            rewindBar.GetComponent<Image>().color = new Color32(221, 76, 87, 100);
+        }
+        else 
+        {
+            rewindBar.GetComponent<Image>().color = new Color32(76, 101, 221, 100);
+        }
     }
 }

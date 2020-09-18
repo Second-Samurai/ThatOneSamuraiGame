@@ -35,12 +35,12 @@ public class GameOverMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Keyboard.current.lKey.wasPressedThisFrame)
-        {
-            TextFadeIn();
-            Invoke("ReturnToMenu", 10f);
-            Invoke("TextFadeOut", 5f);
-        }
+        //if (Keyboard.current.lKey.wasPressedThisFrame)
+        //{
+        //    TextFadeIn();
+        //    Invoke("ReturnToMenu", 10f);
+        //    Invoke("TextFadeOut", 5f);
+        //}
     }
 
     public void ReturnToMenu()

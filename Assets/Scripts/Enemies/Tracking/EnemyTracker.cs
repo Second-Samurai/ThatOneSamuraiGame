@@ -94,8 +94,8 @@ public class EnemyTracker : MonoBehaviour
             {
                 AISystem aiSystem = enemy.GetComponent<AISystem>();
                 
-                // Only close distance if the enemy isn't stunned
-                if (!aiSystem.eDamageController.enemyGuard.isStunned)
+                // Only close distance if the enemy isn't stunned and is strafing
+                if (!aiSystem.eDamageController.enemyGuard.isStunned && aiSystem.animator.GetBool("IsStrafing"))
                 {
                     aiSystem.OnCloseDistance();
                     break;

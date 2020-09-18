@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Enemies;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
@@ -165,7 +166,10 @@ public class PlayerFunctions : MonoBehaviour
     public void TriggerParry(GameObject attacker, float damage)
     {
         parryEffects.PlayParry();
-        if(attacker != null) attacker.GetComponent<EDamageController>().OnParried(damage); //Damage attacker's guard meter
+        if(attacker != null)
+        {
+            attacker.GetComponent<EDamageController>().OnParried(damage); //Damage attacker's guard meter
+        }
         GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(.7f);
         //Debug.LogWarning("Parried " + attacker.name);
 

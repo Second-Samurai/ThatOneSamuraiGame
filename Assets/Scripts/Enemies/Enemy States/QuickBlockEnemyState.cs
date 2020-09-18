@@ -28,6 +28,7 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
+            _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             AISystem.animator.SetBool("IsQuickBlocking", false);
 
             // Move to block state OR choose an action using distance

@@ -18,11 +18,14 @@ namespace Enemies.Enemy_States
             
             // Set the guard broken animator bool to true, to ideally play the animation
             AISystem.animator.SetBool("IsGuardBroken", true);
+            AISystem.animator.SetTrigger("BreakGuard");
 
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
 
-            yield break;
+            yield return null;
+            
+            AISystem.animator.ResetTrigger("BreakGuard");
         }
     }
 }

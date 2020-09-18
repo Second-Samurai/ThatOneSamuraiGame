@@ -11,6 +11,7 @@ using Random = UnityEngine.Random;
 public class EnemyTracker : MonoBehaviour
 {
     public List<Transform> currentEnemies;
+    public List<Transform> stunnedEnemies;
     public Transform targetEnemy;
 
     private EnemySettings _enemySettings;
@@ -32,26 +33,36 @@ public class EnemyTracker : MonoBehaviour
         
         if (_impatienceMeter > 0)
         {
+            Debug.Log("Reducing impatience");
             _impatienceMeter -= Time.deltaTime;
         }
         else
         {
             _impatienceMeter = 0;
             _bReduceImpatience = false;
-            targetEnemy.GetComponent<AISystem>().OnCloseDistance();
+            PickApproachingTarget();
         }
     }
 
-    public void AddEnemy(Transform enemy)
+    public void AddEnemy(Transform enemy, bool IsStunned)
     {
-        if (!currentEnemies.Contains(enemy))
+        if (IsStunned && !stunnedEnemies.Contains(enemy))
+        {
+            stunnedEnemies.Add(enemy);
+            currentEnemies.Remove(enemy);
+        }
+        else if (!currentEnemies.Contains(enemy))
         {
             currentEnemies.Add(enemy);
         }
     }
 
-    public void RemoveEnemy(Transform enemy)
+    public void RemoveEnemy(Transform enemy, bool IsStunned)
     {
+        if (IsStunned && stunnedEnemies.Contains(enemy))
+        {
+            stunnedEnemies.Remove(enemy);
+        }
         if (currentEnemies.Contains(enemy))
         {
             currentEnemies.Remove(enemy);
@@ -62,7 +73,6 @@ public class EnemyTracker : MonoBehaviour
     public void SetTarget(Transform newTargetEnemy)
     {
         targetEnemy = newTargetEnemy;
-        StartImpatienceCountdown();
     }
 
     public void ClearTarget()
@@ -71,10 +81,29 @@ public class EnemyTracker : MonoBehaviour
         targetEnemy = null;
     }
 
-    // Called when target is locked on OR when the enemy circling you and is the lock on target
+    // Called when an enemy enters the circling state, stunned state or death state
     public void StartImpatienceCountdown()
     {
         _bReduceImpatience = true;
         _impatienceMeter = Random.Range(_enemySettings.minImpatienceTime, _enemySettings.maxImpatienceTime);
+    }
+    
+    private void PickApproachingTarget()
+    {
+        // Don't pick a target if no enemies are in the tracker
+        if (currentEnemies.Count <= 0)
+            return;
+        
+        int targetSelector = Random.Range(0, 10);
+
+        // 30% chance if there are enemies in the list, 100% if there is no target enemy
+        if(targetSelector < 3 || targetEnemy == null) 
+        {
+            currentEnemies[0].GetComponent<AISystem>().OnCloseDistance();
+        }
+        else // 70% chance
+        {
+            targetEnemy.GetComponent<AISystem>().OnCloseDistance();
+        }
     }
 }

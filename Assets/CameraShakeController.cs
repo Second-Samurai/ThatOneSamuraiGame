@@ -19,7 +19,7 @@ public class CameraShakeController : MonoBehaviour
     public void ShakeCamera(float amount)
     {
         cam = mainCamera.ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineFreeLook>();
-        noise = cam.GetComponent<CinemachineBasicMultiChannelPerlin>();
+        //noise = cam.GetComponent<CinemachineBasicMultiChannelPerlin>();
         StopAllCoroutines();
         if(noise != null) 
             StartCoroutine(CameraShakeCR(amount));

@@ -95,7 +95,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
         //Debug.LogError("I Am dead");
         
         EnemyTracker enemyTracker = GameManager.instance.enemyTracker;
-        enemyTracker.RemoveEnemy(transform);
+        enemyTracker.RemoveEnemy(transform, false);
         
         Invoke("HideArcher", 2.0f);
     }

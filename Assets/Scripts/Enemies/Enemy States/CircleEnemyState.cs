@@ -19,11 +19,10 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            if (AISystem.enemyTracker.targetEnemy == AISystem.transform)
-            {
-                AISystem.enemyTracker.StartImpatienceCountdown();
-            }
-            
+            // For the enemy tracker, restart the impatience countdown
+            // See enemy tracker for more details
+            AISystem.enemyTracker.StartImpatienceCountdown();
+
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
 

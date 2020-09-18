@@ -24,7 +24,6 @@ namespace Enemies.Enemy_States
         // End state is called through an animation event at the end of the animation
         public override void EndState()
         {
-            Debug.Log("Parry end state called");
             AISystem.animator.ResetTrigger("Parried");
             
             if(AISystem.enemyType == EnemyType.TUTORIALENEMY)

@@ -27,8 +27,18 @@ namespace Enemies.Enemy_States
             Debug.Log("Parry end state called");
             AISystem.animator.ResetTrigger("Parried");
             
-            // In enemy state, choose a following action based on player distance
-            ChooseActionUsingDistance(AISystem.enemySettings.GetTarget().position + AISystem.floatOffset);
+            if(AISystem.enemyType == EnemyType.TUTORIALENEMY)
+            {
+                AISystem.dodgeDirectionZ = -1;
+                AISystem.OnDodge();
+            }
+            else 
+            {
+                // In enemy state, choose a following action based on player distance
+                ChooseActionUsingDistance(AISystem.enemySettings.GetTarget().position + AISystem.floatOffset);
+            }
+            
+            
         }
     }
 }

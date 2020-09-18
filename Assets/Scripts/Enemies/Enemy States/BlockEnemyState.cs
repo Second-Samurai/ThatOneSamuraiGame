@@ -59,7 +59,11 @@ namespace Enemies.Enemy_States
             if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.circleThreatenRange))
             {
                 int decision = Random.Range(0, 2);
-                if (decision == 0) // Go for an attack
+                if(AISystem.enemyType == EnemyType.TUTORIALENEMY)
+                {
+                    AISystem.OnCirclePlayer();
+                }
+                else if (decision == 0) // Go for an attack
                 {
                     AISystem.OnLightAttack();
                 }

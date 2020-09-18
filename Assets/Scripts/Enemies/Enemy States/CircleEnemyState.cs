@@ -89,6 +89,10 @@ namespace Enemies.Enemy_States
             _bIsThreatened = false;
             
             int actionNumber = Random.Range(0, 10);
+            if(AISystem.enemyType == EnemyType.TUTORIALENEMY)
+            {
+                actionNumber = 3;
+            }
             
             switch(actionNumber)
             {

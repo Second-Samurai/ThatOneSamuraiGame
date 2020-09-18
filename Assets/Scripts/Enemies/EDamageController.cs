@@ -79,13 +79,11 @@ public class EDamageController : MonoBehaviour, IDamageable
         // Stun if enemy can guard
         if (enemyGuard.CheckIfEntityGuarding(damage))
         {
-            _aiSystem.OnParryStun();
-        }
-        // Kill enemy if they cant
-        else
-        {
-            _aiSystem.OnParryStun();
-            //_aiSystem.OnEnemyDeath();
+            // DO NOT TRIGGER PARRY STUN IF THE ENEMY IS ALREADY STUNNED
+            if (!enemyGuard.isStunned)
+            {
+                _aiSystem.OnParryStun();
+            }
         }
     }
 

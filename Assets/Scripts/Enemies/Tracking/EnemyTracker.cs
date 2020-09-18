@@ -32,7 +32,7 @@ public class EnemyTracker : MonoBehaviour
         
         if (_impatienceMeter > 0)
         {
-            Debug.Log("Reducing impatience");
+            //Debug.Log("Reducing impatience");
             _impatienceMeter -= Time.deltaTime;
         }
         else
@@ -94,8 +94,8 @@ public class EnemyTracker : MonoBehaviour
             {
                 AISystem aiSystem = enemy.GetComponent<AISystem>();
                 
-                // Only close distance if the enemy isn't stunned
-                if (!aiSystem.eDamageController.enemyGuard.isStunned)
+                // Only close distance if the enemy isn't stunned and is strafing
+                if (!aiSystem.eDamageController.enemyGuard.isStunned && aiSystem.animator.GetBool("IsStrafing"))
                 {
                     aiSystem.OnCloseDistance();
                     break;

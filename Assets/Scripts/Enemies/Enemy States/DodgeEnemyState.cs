@@ -38,8 +38,7 @@ namespace Enemies.Enemy_States
             // Get the true target point (float offset is added to get a more accurate player-enemy target point)
             Vector3 target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             
-            if(!IsDeadOrGuardBroken())
-                ChooseActionUsingDistance(target);
+            ChooseActionUsingDistance(target);
         }
     }
 }

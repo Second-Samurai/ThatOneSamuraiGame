@@ -10,7 +10,7 @@ public class Guarding : MonoBehaviour
     public bool canGuard = true;
     public bool isStunned = false;
 
-    private float _guardCooldownTime = 8;
+    public float _guardCooldownTime = 8;
     
     [HideInInspector] public StatHandler statHandler;
     [HideInInspector] public UnityEvent OnGuardEvent = new UnityEvent();

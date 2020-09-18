@@ -16,6 +16,8 @@ public class RewindInput : MonoBehaviour
     public bool isTravelling = false;
     public GameObject rewindTut;
     PlayerInput _inputComponent;
+
+    PlayerFunctions playerFunction;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,12 +25,15 @@ public class RewindInput : MonoBehaviour
         _inputComponent = GetComponent<PlayerInput>();
 
         rewindManager = GameManager.instance.rewindManager;
+        playerFunction = gameObject.GetComponent<PlayerFunctions>();
+
     }
 
   
 
     void OnInitRewind() 
     {
+
         _inputComponent.SwitchCurrentActionMap("Rewind");
         if (!isTravelling && rewindManager.maxRewindResource != 0)
         {
@@ -54,7 +59,7 @@ public class RewindInput : MonoBehaviour
     void OnEndRewind()
     {
 
-        if (isTravelling)
+        if (isTravelling && !playerFunction.bIsDead)
         {
             _inputComponent.SwitchCurrentActionMap("Gameplay");
             GameManager.instance.postProcessingController.DisableRewindColourFilter();

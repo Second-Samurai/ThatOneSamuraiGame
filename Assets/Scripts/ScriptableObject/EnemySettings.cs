@@ -9,25 +9,20 @@ public class EnemySettings : ScriptableObject
 
     [Space]
     public EntityStatData enemyData;
-
     public float circleSpeed;
-    
     public float dodgeForce;
     
     [Header("Range Checks")]
     public float chaseToCircleRange;
-    
     public float circleToChaseRange;
-
     public float circleThreatenRange;
-
     public float followUpAttackRange;
     
-    [Space]
     [Header("Time intervals")]
     public float minBlockTime;
-    
     public float maxBlockTime;
+    public float minImpatienceTime;
+    public float maxImpatienceTime;
 
     // Scriptable object items saved in runtime are to be made private
     private Transform _target;

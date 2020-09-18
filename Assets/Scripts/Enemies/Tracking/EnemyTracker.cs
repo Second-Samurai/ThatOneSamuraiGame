@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using Enemies;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 // ENEMY TRACKER INFO
 // Used to track all enemies in a scene through a list of transforms
@@ -10,6 +12,35 @@ public class EnemyTracker : MonoBehaviour
 {
     public List<Transform> currentEnemies;
     public Transform targetEnemy;
+
+    private EnemySettings _enemySettings;
+    private float _impatienceMeter;
+    private bool _bReduceImpatience;
+
+    private void Start()
+    {
+        _enemySettings = GameManager.instance.gameSettings.enemySettings;
+    }
+
+    private void Update()
+    {
+        // Only run update if _bReduceImpatience is true
+        if (!_bReduceImpatience)
+        {
+            return;
+        }
+        
+        if (_impatienceMeter > 0)
+        {
+            _impatienceMeter -= Time.deltaTime;
+        }
+        else
+        {
+            _impatienceMeter = 0;
+            _bReduceImpatience = false;
+            targetEnemy.GetComponent<AISystem>().OnCloseDistance();
+        }
+    }
 
     public void AddEnemy(Transform enemy)
     {
@@ -31,19 +62,19 @@ public class EnemyTracker : MonoBehaviour
     public void SetTarget(Transform newTargetEnemy)
     {
         targetEnemy = newTargetEnemy;
+        StartImpatienceCountdown();
     }
 
     public void ClearTarget()
     {
+        _bReduceImpatience = false;
         targetEnemy = null;
     }
 
-    private void Awake()
+    // Called when target is locked on OR when the enemy circling you and is the lock on target
+    public void StartImpatienceCountdown()
     {
-        // GameObject[] addEnemies = GameObject.FindGameObjectsWithTag("Enemy");
-        // foreach (GameObject enemy in addEnemies)
-        // {
-        //     currentEnemies.Add(enemy.transform);
-        // }
+        _bReduceImpatience = true;
+        _impatienceMeter = Random.Range(_enemySettings.minImpatienceTime, _enemySettings.maxImpatienceTime);
     }
 }

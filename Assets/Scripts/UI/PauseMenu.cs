@@ -32,8 +32,16 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = timeScale;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        _input.SwitchCurrentActionMap("Gameplay");
-        gameObject.SetActive(false);
+        if (GameManager.instance.rewindManager.isTravelling == true)
+        {
+            _input.SwitchCurrentActionMap("Rewind");
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            _input.SwitchCurrentActionMap("Gameplay");
+            gameObject.SetActive(false);
+        }
     }
 
     public void OptionsMenu()

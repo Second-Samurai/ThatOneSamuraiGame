@@ -112,6 +112,7 @@ public class AnimationRewindEntity : RewindEntity
         animator.enabled = true;
         animator.Play(animationDataList[currentIndex].currentClip, 0, animationDataList[currentIndex].currentFrame);
         // animator.enabled = false;
+        func.bIsDead = animationDataList[currentIndex].isDead;
         animator.SetFloat("InputSpeed", animationDataList[currentIndex].inputSpeed);
         animator.SetFloat("XInput", animationDataList[currentIndex].xInput);
         animator.SetFloat("YInput", animationDataList[currentIndex].yInput);
@@ -122,7 +123,6 @@ public class AnimationRewindEntity : RewindEntity
         animator.SetBool("SecondAttack", animationDataList[currentIndex].secondAttack);
         animator.SetBool("LoopAttack", animationDataList[currentIndex].loopAttack);
         animator.SetBool("isDead", animationDataList[currentIndex].isDead);
-        func.bIsDead = animationDataList[currentIndex].isDead;
         animator.SetBool("HeavyAttackHeld", animationDataList[currentIndex].HeavyAttackHeld);
         animator.SetBool("FinisherSetup", animationDataList[currentIndex].FinisherSetup);
 
@@ -131,7 +131,7 @@ public class AnimationRewindEntity : RewindEntity
 
     public override void ApplyData()
     {
-       
+
 
         //base.ApplyData();
     }

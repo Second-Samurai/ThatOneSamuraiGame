@@ -14,6 +14,7 @@ public class RewindManager : MonoBehaviour
     public delegate void StepForwardEvent();
     public event StepForwardEvent StepForward;
 
+
     public float rewindDirection;
     public bool isTravelling = true;
 
@@ -204,5 +205,4 @@ public class RewindManager : MonoBehaviour
         }
     }
 
-    
 }

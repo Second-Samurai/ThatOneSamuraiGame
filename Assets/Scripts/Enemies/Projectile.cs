@@ -59,7 +59,8 @@ public class Projectile : MonoBehaviour
             {
                 rb.velocity = Vector3.zero;
                 rb.velocity = -direction;
-               // manager.StartCoroutine("HitPause");
+                hitEnemies = true;
+                // manager.StartCoroutine("HitPause");
             }
             else
             {

@@ -20,6 +20,7 @@ public class PlayerInputScript : MonoBehaviour
     public PlayerInput _inputComponent;
     Camera _cam;
     public FinishingMoveController finishingMoveController;
+    public GameEvent onLockOnEvent;
 
     float dodgeForce = 10f;
 
@@ -74,6 +75,7 @@ public class PlayerInputScript : MonoBehaviour
             _animator.SetBool("LockedOn", bLockedOn);
             _camControl.bLockedOn = bLockedOn;
         }
+        onLockOnEvent.Raise();
  
     }
 

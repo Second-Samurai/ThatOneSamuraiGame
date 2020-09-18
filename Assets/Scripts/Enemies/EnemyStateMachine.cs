@@ -30,7 +30,7 @@ namespace Enemy_Scripts
             if (EnemyState != null)
             {
                 EnemyState.Tick();
-                // Debug.Log(EnemyState);
+                 Debug.Log(EnemyState);
             }
         }
         

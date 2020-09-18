@@ -559,6 +559,14 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""bb9ae5c8-0b93-44e0-b002-2b0380f4e35a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""EndRewind"",
                     ""type"": ""Button"",
                     ""id"": ""79a9d872-5340-4333-8f11-7577c02c03cf"",
@@ -620,6 +628,28 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""EndRewind"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d073472c-397a-4020-af2a-1f9f3156a45c"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""36d3e65c-b284-4ec8-9f12-e1470389606f"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -715,6 +745,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         // Rewind
         m_Rewind = asset.FindActionMap("Rewind", throwIfNotFound: true);
         m_Rewind_Scrub = m_Rewind.FindAction("Scrub", throwIfNotFound: true);
+        m_Rewind_Pause = m_Rewind.FindAction("Pause", throwIfNotFound: true);
         m_Rewind_EndRewind = m_Rewind.FindAction("EndRewind", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
@@ -922,12 +953,14 @@ public class @ControlMap : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Rewind;
     private IRewindActions m_RewindActionsCallbackInterface;
     private readonly InputAction m_Rewind_Scrub;
+    private readonly InputAction m_Rewind_Pause;
     private readonly InputAction m_Rewind_EndRewind;
     public struct RewindActions
     {
         private @ControlMap m_Wrapper;
         public RewindActions(@ControlMap wrapper) { m_Wrapper = wrapper; }
         public InputAction @Scrub => m_Wrapper.m_Rewind_Scrub;
+        public InputAction @Pause => m_Wrapper.m_Rewind_Pause;
         public InputAction @EndRewind => m_Wrapper.m_Rewind_EndRewind;
         public InputActionMap Get() { return m_Wrapper.m_Rewind; }
         public void Enable() { Get().Enable(); }
@@ -941,6 +974,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @Scrub.started -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrub;
                 @Scrub.performed -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrub;
                 @Scrub.canceled -= m_Wrapper.m_RewindActionsCallbackInterface.OnScrub;
+                @Pause.started -= m_Wrapper.m_RewindActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_RewindActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_RewindActionsCallbackInterface.OnPause;
                 @EndRewind.started -= m_Wrapper.m_RewindActionsCallbackInterface.OnEndRewind;
                 @EndRewind.performed -= m_Wrapper.m_RewindActionsCallbackInterface.OnEndRewind;
                 @EndRewind.canceled -= m_Wrapper.m_RewindActionsCallbackInterface.OnEndRewind;
@@ -951,6 +987,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @Scrub.started += instance.OnScrub;
                 @Scrub.performed += instance.OnScrub;
                 @Scrub.canceled += instance.OnScrub;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
                 @EndRewind.started += instance.OnEndRewind;
                 @EndRewind.performed += instance.OnEndRewind;
                 @EndRewind.canceled += instance.OnEndRewind;
@@ -1031,6 +1070,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
     public interface IRewindActions
     {
         void OnScrub(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
         void OnEndRewind(InputAction.CallbackContext context);
     }
     public interface IMenuActions

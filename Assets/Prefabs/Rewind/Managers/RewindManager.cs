@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class RewindManager : MonoBehaviour
 {
@@ -32,6 +34,10 @@ public class RewindManager : MonoBehaviour
 
     public RewindBar rewindUI;
 
+    public Canvas gameOverCanvas;
+
+    private GameOverMenu gameOverMenu;
+
     PlayerRewindEntity playerRewindEntity;
 
 
@@ -42,15 +48,19 @@ public class RewindManager : MonoBehaviour
         postProcessingController = GameManager.instance.postProcessingController;
         rewindTime = Mathf.Round(timeThreashold.Variable.TimeThreashold * (1f / Time.fixedDeltaTime));
         //rewindResource = maxRewindResource;
-        if (rewindUI == null) 
+        if (rewindUI == null)
             rewindUI = GameManager.instance.playerController.gameObject.GetComponentInChildren<RewindBar>();
         playerRewindEntity = GameManager.instance.playerController.gameObject.GetComponent<PlayerRewindEntity>();
         isTravelling = true;
+
+        gameOverMenu = GameManager.instance.gameObject.GetComponentInChildren<GameOverMenu>();
     }
 
     private void Update()
     {
         IncreaseResource();
+
+       
         //Debug.Log(isTravelling);
     }
 
@@ -72,8 +82,16 @@ public class RewindManager : MonoBehaviour
             maxRewindResource -= 2;
             rewindResource = maxRewindResource * f;
         }
-    }
+       
+        if (maxRewindResource <= 0) 
+        {
+            gameOverMenu.TextFadeIn();
+            gameOverMenu.Invoke("ReturnToMenu", 10f);
+            gameOverMenu.Invoke("TextFadeOut", 5f);
+        }
 
+    }
+   
     public void IncreaseRewindAmount()
     {
         if (maxRewindResource < 10)
@@ -107,6 +125,9 @@ public class RewindManager : MonoBehaviour
             rewindResource -= Time.deltaTime;
             if (rewindResource < 0) 
                 rewindResource = 0;
+                rewindUI.UpdateBarColor();
+
+
             // Debug.Log(Time.timeScale);
         }
 
@@ -119,13 +140,19 @@ public class RewindManager : MonoBehaviour
             rewindResource += Time.deltaTime;
             if (rewindResource > maxRewindResource) 
                 rewindResource = maxRewindResource;
+            rewindUI.UpdateBarColor();
         }
 
-        if (isTravelling && rewindDirection == 0)
+        if (isTravelling && rewindDirection == 0 && maxRewindResource != 0)
         {
             Time.timeScale = 0f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
             postProcessingController.WarpLensToTargetAmount(0f);
+        }
+        else if (maxRewindResource == 0) 
+        {
+            Time.timeScale = 1f;
+            Time.fixedDeltaTime = Time.timeScale * .02f;
         }
 
         if (!isTravelling && Time.timeScale != 1f)

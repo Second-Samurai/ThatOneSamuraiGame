@@ -13,6 +13,10 @@ namespace Enemies.Enemy_States
         protected AISystem AISystem;
 
         private float _rotationSpeed = 4.0f;
+        
+        // Currently only used for light attack rotation
+        // TODO: Use in other states
+        public bool bIsRotating = true;
 
         // Class constructor that takes in the AISystem
         protected EnemyState(AISystem aiSystem)
@@ -55,7 +59,7 @@ namespace Enemies.Enemy_States
 
         protected void ChooseActionUsingDistance(Vector3 target)
         {
-            if (InRange(AISystem.transform.position, target, AISystem.enemySettings.followUpAttackRange))
+            if (InRange(AISystem.transform.position, target, AISystem.enemySettings.circleThreatenRange))
             {
                 // If close enough, make a decision
                 int decision = Random.Range(0, 2);
@@ -102,10 +106,10 @@ namespace Enemies.Enemy_States
         {
             return AISystem.bIsDead || AISystem.eDamageController.enemyGuard.isStunned;
         }
-        
-        protected void DodgeImpulse(Vector3 lastDir, float force)
+
+        public virtual void StopRotating()
         {
-            AISystem.transform.Translate(lastDir.normalized * force * Time.deltaTime);
+            bIsRotating = false;
         }
     }
 }

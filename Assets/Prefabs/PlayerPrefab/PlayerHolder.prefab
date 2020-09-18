@@ -2284,6 +2284,7 @@ MonoBehaviour:
   detector: {fileID: 7064398079334822694}
   finishingMoves:
   - {fileID: 11400000, guid: be4ae4b6aa8ea824f87be1f26c096d8c, type: 2}
+  playerInputScript: {fileID: 8000690494251821637}
 --- !u!114 &2062461257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12298,7 +12299,13 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'mixamorig:LeftFoot'\n\tTransform 'mixamorig:LeftHandThumb2'\n\tTransform
+    'mixamorig:LeftHandIndex1'\n\tTransform 'mixamorig:LeftHandPinky2'\n\tTransform
+    'mixamorig:RightHandRing2'\n\tTransform 'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform
+    'mixamorig:LeftHandThumb3'\n\tTransform 'mixamorig:RightArm'\n\tTransform 'mixamorig:LeftLeg'\n\tand
+    more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -12381,6 +12388,7 @@ MonoBehaviour:
   parryEffects: {fileID: 168730605037404344}
   pauseMenu: {fileID: 1165835643}
   _inputComponent: {fileID: 0}
+  playerInputScript: {fileID: 0}
   lSword: {fileID: 9177697929894721672}
   rSword: {fileID: 6569554472278779936}
 --- !u!114 &3595111642221714922

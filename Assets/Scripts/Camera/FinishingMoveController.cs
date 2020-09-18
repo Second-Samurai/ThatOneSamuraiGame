@@ -15,6 +15,8 @@ public class FinishingMoveController : MonoBehaviour
 
     public PlayableAsset[] finishingMoves;
 
+    public PlayerInputScript playerInputScript;
+
     GameObject targetEnemy;
 
     List<Transform> enemies; 
@@ -56,7 +58,7 @@ public class FinishingMoveController : MonoBehaviour
     public void PlayFinishingMove(GameObject enemy)
     {
         detector.SetActive(false);
-        
+        playerInputScript.DisableMovement();
         SetTargetEnemy(enemy.GetComponentInChildren<Animator>());
         SelectFinishingMove();
         _cutsceneDirector.Play();
@@ -78,6 +80,7 @@ public class FinishingMoveController : MonoBehaviour
             enemies[i].gameObject.GetComponent<AISystem>().EnemyState = enemiesCache[i].EnemyState;
         }
         GameManager.instance.rewindManager.IncreaseRewindAmount();
+        playerInputScript.EnableMovement();
     }
 
    

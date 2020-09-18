@@ -320,4 +320,14 @@ public class PlayerInputScript : MonoBehaviour
         _inputComponent.enabled = false;
     }
 
+    public void DisableMovement()
+    {
+        bCanMove = false;
+    }
+
+    public void EnableMovement()
+    {
+        bCanMove = true;
+    }
+
 }

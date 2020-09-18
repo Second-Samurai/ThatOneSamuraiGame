@@ -103,7 +103,7 @@ public class PlayerInputScript : MonoBehaviour
     //NOTE: The combat component requires to be instantiated early. Suggest input script to be instantated late.
     private void OnAttack(InputValue value)
     {
-        Debug.LogError(">> Light attack Triggered");
+        //Debug.LogError(">> Light attack Triggered");
         if (_playerCombat == null)
         {
             Debug.Log(">> Combat Component is missing");

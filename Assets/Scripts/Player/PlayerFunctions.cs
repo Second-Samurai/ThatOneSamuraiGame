@@ -142,13 +142,13 @@ public class PlayerFunctions : MonoBehaviour
 
     public void ApplyHit(GameObject attacker, bool unblockable, float damage)
     {
-        if (!unblockable)
+        if (bIsParrying)
         {
-            if (bIsParrying)
-            {
-                TriggerParry(attacker, damage);
-            }
-            else if (bIsBlocking)
+            TriggerParry(attacker, damage);
+        }
+        else if (!unblockable)
+        {
+            if (bIsBlocking)
             {
                 TriggerBlock(attacker);
             }
@@ -167,7 +167,7 @@ public class PlayerFunctions : MonoBehaviour
         parryEffects.PlayParry();
         if(attacker != null) attacker.GetComponent<EDamageController>().OnParried(damage); //Damage attacker's guard meter
         GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(.7f);
-        Debug.LogWarning("Parried " + attacker.name);
+        //Debug.LogWarning("Parried " + attacker.name);
 
     }
     public void TriggerBlock(GameObject attacker)

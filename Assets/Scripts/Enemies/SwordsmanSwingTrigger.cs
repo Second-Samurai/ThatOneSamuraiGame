@@ -25,14 +25,7 @@ public class SwordsmanSwingTrigger : MonoBehaviour
         IDamageable damagable = other.gameObject.GetComponent<IDamageable>();
         if (other.GetComponent<PlayerController>())
         {
-            //if (other.gameObject.GetComponent<PlayerFunctions>().bIsParrying)
-            //{
-            //    Debug.Log("Attack Parried");
-            //}
-            //else
-            //{
-            damagable.OnEntityDamage(_aiSystem.enemySettings.enemyData.baseDamage, _aiSystem.gameObject, false);
-            //
+            damagable.OnEntityDamage(_aiSystem.enemySettings.enemyData.baseDamage, _aiSystem.gameObject, _aiSystem.bIsUnblockable);
         }
     }
 }

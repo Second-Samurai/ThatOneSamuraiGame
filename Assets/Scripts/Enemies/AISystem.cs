@@ -44,6 +44,7 @@ namespace Enemies
         //DAMAGE CONTROLS
         public EDamageController eDamageController;
         public bool bIsDead = false;
+        public bool bIsUnblockable = false;
         //NOTE: isStunned is handled in Guarding script, inside the eDamageController script
         
         //DODGE VARIABLES

@@ -546,6 +546,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "bb9ae5c8-0b93-44e0-b002-2b0380f4e35a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "EndRewind",
                     "type": "Button",
                     "id": "79a9d872-5340-4333-8f11-7577c02c03cf",
@@ -607,6 +615,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "EndRewind",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d073472c-397a-4020-af2a-1f9f3156a45c",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "36d3e65c-b284-4ec8-9f12-e1470389606f",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

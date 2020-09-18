@@ -34,6 +34,8 @@ public class PlayerFunctions : MonoBehaviour
 
     public PlayerInput _inputComponent;
 
+    public PlayerInputScript playerInputScript;
+
     public GameObject lSword, rSword;
     private void Start()
     {
@@ -46,6 +48,8 @@ public class PlayerFunctions : MonoBehaviour
         _animator = GetComponent<Animator>();
 
         _inputComponent = GetComponent<PlayerInput>();
+
+        playerInputScript = GetComponent<PlayerInputScript>();
     }
     public void SetBlockCooldown()
     {
@@ -80,9 +84,14 @@ public class PlayerFunctions : MonoBehaviour
         CheckBlockCooldown();
         CheckParry();
         //remove this
-        
 
-        
+        if(bIsDead && playerInputScript.bCanMove) 
+            playerInputScript.DisableMovement();
+        else if(!bIsDead && !playerInputScript.bCanMove) 
+            playerInputScript.EnableMovement();
+
+
+
     }
 
     private void CheckParry()
@@ -181,6 +190,7 @@ public class PlayerFunctions : MonoBehaviour
             _animator.SetBool("isDead", true);
             //trigger rewind
             bIsDead = true;
+            
             _inputComponent.SwitchCurrentActionMap("Rewind");
             Debug.LogError("Player killed!");
             GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);

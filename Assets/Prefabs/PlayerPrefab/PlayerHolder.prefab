@@ -1714,7 +1714,7 @@ MonoBehaviour:
     FieldOfView: 40
     OrthographicSize: 10
     NearClipPlane: 0.1
-    FarClipPlane: 5000
+    FarClipPlane: 600
     Dutch: 0
     LensShift: {x: 0, y: 0}
   m_Transitions:
@@ -3153,7 +3153,7 @@ MonoBehaviour:
     FieldOfView: 40
     OrthographicSize: 10
     NearClipPlane: 0.1
-    FarClipPlane: 5000
+    FarClipPlane: 170
     Dutch: 0
     LensShift: {x: 0, y: 0}
   m_Transitions:
@@ -12362,6 +12362,7 @@ MonoBehaviour:
   bMoveLocked: 0
   bIsDodging: 0
   bCanDodge: 1
+  bCanAttack: 0
   rotationSpeed: 4
   smoothingValue: 0.1
   _camControl: {fileID: 7190348978030205752}
@@ -14265,15 +14266,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 287a90e02ab25d148b1e5144bdc15eb2, type: 3}
---- !u!1 &6569554472278779936 stripped
+--- !u!1 &6335112416548345095 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 2463784596806194281, guid: 287a90e02ab25d148b1e5144bdc15eb2,
-    type: 3}
-  m_PrefabInstance: {fileID: 8726465302486269001}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5791750414272639642 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2988929614132678355, guid: 287a90e02ab25d148b1e5144bdc15eb2,
+  m_CorrespondingSourceObject: {fileID: 3382333992990730574, guid: 287a90e02ab25d148b1e5144bdc15eb2,
     type: 3}
   m_PrefabInstance: {fileID: 8726465302486269001}
   m_PrefabAsset: {fileID: 0}
@@ -14283,9 +14278,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8726465302486269001}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6335112416548345095 stripped
+--- !u!1 &6569554472278779936 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 3382333992990730574, guid: 287a90e02ab25d148b1e5144bdc15eb2,
+  m_CorrespondingSourceObject: {fileID: 2463784596806194281, guid: 287a90e02ab25d148b1e5144bdc15eb2,
+    type: 3}
+  m_PrefabInstance: {fileID: 8726465302486269001}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5791750414272639642 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2988929614132678355, guid: 287a90e02ab25d148b1e5144bdc15eb2,
     type: 3}
   m_PrefabInstance: {fileID: 8726465302486269001}
   m_PrefabAsset: {fileID: 0}

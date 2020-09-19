@@ -20,7 +20,8 @@ namespace Enemies.Enemy_States
             AISystem.animator.SetFloat("DodgeDirectionZ", AISystem.dodgeDirectionZ);
             AISystem.animator.SetBool("IsDodging", true);
             
-            AISystem.DodgeImpulse(new Vector3(AISystem.dodgeDirectionX, 0, AISystem.dodgeDirectionZ), AISystem.enemySettings.dodgeForce);
+            AISystem.DodgeImpulse(new Vector3(AISystem.dodgeDirectionX, 0, AISystem.dodgeDirectionZ),
+                AISystem.enemySettings.GetEnemyStatType(AISystem.enemyType).dodgeForce);
 
             yield break;
             

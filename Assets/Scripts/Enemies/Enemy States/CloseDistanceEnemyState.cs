@@ -20,7 +20,7 @@ namespace Enemies.Enemy_States
             AISystem.navMeshAgent.isStopped = false;
             
             // Cache the range value so we're not always getting it in the tick function
-            _followUpAttackRange = AISystem.enemySettings.followUpAttackRange;
+            _followUpAttackRange = AISystem.enemySettings.shortRange;
             
             AISystem.animator.SetBool("IsClosingDistance", true);
 

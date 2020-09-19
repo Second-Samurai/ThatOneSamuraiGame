@@ -23,7 +23,9 @@ namespace Enemies.Enemy_States
             AISystem.eDamageController.enemyGuard.canParry = true;
             
             // Wait between min and max block time before dropping guard
-            yield return new WaitForSeconds(Random.Range(AISystem.enemySettings.minBlockTime, AISystem.enemySettings.maxBlockTime));
+            yield return new WaitForSeconds(Random.Range(
+                AISystem.enemySettings.GetEnemyStatType(AISystem.enemyType).minBlockTime,
+                AISystem.enemySettings.GetEnemyStatType(AISystem.enemyType).maxBlockTime));
             
             EndState();
         }
@@ -56,7 +58,7 @@ namespace Enemies.Enemy_States
             // Check current distance to determine next action
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
 
-            if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.circleThreatenRange))
+            if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.shortMidRange))
             {
                 int decision = Random.Range(0, 2);
                 if(AISystem.enemyType == EnemyType.TUTORIALENEMY)

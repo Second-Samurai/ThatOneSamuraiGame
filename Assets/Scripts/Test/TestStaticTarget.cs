@@ -14,7 +14,7 @@ public class TestStaticTarget : MonoBehaviour, IDamageable
 
     void Start()
     {
-        EntityStatData testData = GameManager.instance.gameSettings.enemySettings.enemyData;
+        EntityStatData testData = GameManager.instance.gameSettings.enemySettings.tutorialEnemyStats.enemyData;
 
         testEnemyStats = new StatHandler();
         testEnemyStats.Init(testData);

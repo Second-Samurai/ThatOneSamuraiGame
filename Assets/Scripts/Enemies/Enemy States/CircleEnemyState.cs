@@ -29,8 +29,8 @@ namespace Enemies.Enemy_States
             PickStrafeDirection();
             
             // Cache the range value so we're not always getting it in the tick function
-            _circleToChaseRange = AISystem.enemySettings.circleToChaseRange;
-            _circleThreatenRange = AISystem.enemySettings.circleThreatenRange;
+            _circleToChaseRange = AISystem.enemySettings.longRange;
+            _circleThreatenRange = AISystem.enemySettings.shortMidRange;
             
             AISystem.animator.SetBool("IsStrafing", true);
 

@@ -75,7 +75,8 @@ public class Guarding : MonoBehaviour
             OnGuardEvent.Invoke();
             return;
         }
-
+        if(_aiSystem.animator.GetBool("IsQuickBlocking"))
+            _aiSystem.EndState();
         StartCoroutine(AwaitNextDamage(3));
         OnGuardEvent.Invoke();
     }
@@ -85,8 +86,8 @@ public class Guarding : MonoBehaviour
     private void BreakGuard()
     {
         Debug.Log("Guard has been BROKEN");
-        GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.1f);
-        GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(.7f);
+        //GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.1f);
+        //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(.7f);
         //GameManager.instance.playerController.gameObject.GetComponentInChildren<LockOnTargetManager>().GuardBreakCam(this.transform);
         isStunned = true;
         canGuard = false;

@@ -65,10 +65,11 @@ public class FinishingMoveController : MonoBehaviour
         playerInputScript.bCanAttack = false;
         
         enemies = GameManager.instance.enemyTracker.currentEnemies;
+        Debug.LogError(enemies.Count);
         for (int i = 0; i < enemies.Count-1; i++)
         {
-            enemiesCache[i] = enemies[i].gameObject.GetComponent<AISystem>();
-            enemies[i].gameObject.GetComponent<AISystem>().OnEnemyRewind();
+            enemiesCache[i] = enemies[i].GetComponent<AISystem>();
+            enemies[i].GetComponent<AISystem>().OnEnemyRewind();
         }
     }
 
@@ -81,7 +82,7 @@ public class FinishingMoveController : MonoBehaviour
         playerInputScript.EnableMovement();
         for (int i = 0; i < enemies.Count - 1; i++)
         {
-            enemies[i].gameObject.GetComponent<AISystem>().EnemyState = enemiesCache[i].EnemyState;
+            enemies[i].GetComponent<AISystem>().EnemyState = enemiesCache[i].EnemyState;
         }
     }
 

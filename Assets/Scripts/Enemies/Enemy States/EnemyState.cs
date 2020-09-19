@@ -59,7 +59,7 @@ namespace Enemies.Enemy_States
 
         protected void ChooseActionUsingDistance(Vector3 target)
         {
-            if (InRange(AISystem.transform.position, target, AISystem.enemySettings.circleThreatenRange))
+            if (InRange(AISystem.transform.position, target, AISystem.enemySettings.shortMidRange))
             {
                 // If close enough, make a decision
                 int decision = Random.Range(0, 2);
@@ -75,7 +75,7 @@ namespace Enemies.Enemy_States
                     //AISystem.OnDodge();
                 }
             }
-            else if(InRange(AISystem.transform.position, target, AISystem.enemySettings.chaseToCircleRange))
+            else if(InRange(AISystem.transform.position, target, AISystem.enemySettings.midRange))
             {
                 AISystem.OnCirclePlayer(); // Start circling if in close enough range
             }

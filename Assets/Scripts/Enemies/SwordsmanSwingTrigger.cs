@@ -25,7 +25,7 @@ public class SwordsmanSwingTrigger : MonoBehaviour
         IDamageable damagable = other.gameObject.GetComponent<IDamageable>();
         if (other.GetComponent<PlayerController>())
         {
-            damagable.OnEntityDamage(_aiSystem.enemySettings.enemyData.baseDamage, _aiSystem.gameObject, _aiSystem.bIsUnblockable);
+            damagable.OnEntityDamage(_aiSystem.enemySettings.GetEnemyStatType(_aiSystem.enemyType).enemyData.baseDamage, _aiSystem.gameObject, _aiSystem.bIsUnblockable);
         }
     }
 }

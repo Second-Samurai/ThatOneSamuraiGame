@@ -23,7 +23,7 @@ namespace Enemies.Enemy_States
             
             yield break;
             
-            // NOTE: End state is called through an animation event in the light attack animation
+            // NOTE: End state is called through an animation event in the quick block animation
         }
 
         public override void EndState()
@@ -32,7 +32,7 @@ namespace Enemies.Enemy_States
             AISystem.animator.SetBool("IsQuickBlocking", false);
 
             // Move to block state OR choose an action using distance
-            int decision = Random.Range(0, 4);
+            int decision = Random.Range(0, 2);
             if (decision == 0)
             {
                 AISystem.OnBlock();

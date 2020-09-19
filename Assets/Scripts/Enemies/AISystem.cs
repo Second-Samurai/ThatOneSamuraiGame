@@ -1,8 +1,10 @@
 ﻿using System.Collections;
+using System.Diagnostics;
 using Enemies.Enemy_States;
 using Enemy_Scripts;
 using UnityEngine;
 using UnityEngine.AI;
+using Debug = UnityEngine.Debug;
 
 public enum EnemyType
 {
@@ -66,17 +68,20 @@ namespace Enemies
             // Get the enemy tracker
             enemyTracker = GameManager.instance.enemyTracker;
 
-            // Set up animator parameters
+            // Set up animator
             animator = GetComponent<Animator>();
-            animator.SetFloat("ApproachSpeedMultiplier", enemySettings.enemyData.moveSpeed);
-            
+
             // Set up nav mesh parameters
             navMeshAgent = GetComponent<NavMeshAgent>();
             
             // Set up Damage Controller
             eDamageController = GetComponent<EDamageController>();
             statHandler = new StatHandler(); // Stat handler = stats that can be modified
-            statHandler.Init(enemySettings.enemyData); // enemySettings.enemyData = initial scriptable objects values
+            
+            // Assign stats based on the enemy type
+            SetupEnemyType();
+            
+            // Set up damage controller continues
             eDamageController.Init(statHandler);
             eDamageController.EnableDamage();
 
@@ -87,6 +92,35 @@ namespace Enemies
         #endregion
         
         #region Enemy Utility Funcitons
+
+        // Assign stats based on the enemy type
+        private void SetupEnemyType()
+        {
+            // enemySettings.enemyData = initial scriptable objects values
+            
+            switch (enemyType)
+            {
+                case EnemyType.SWORDSMAN:
+                    statHandler.Init(enemySettings.swordsmanStats.enemyData); 
+                    animator.SetFloat("ApproachSpeedMultiplier", enemySettings.swordsmanStats.enemyData.moveSpeed);
+                    animator.SetFloat("CircleSpeedMultiplier", enemySettings.swordsmanStats.circleSpeed);
+                    break;
+                case EnemyType.ARCHER:
+                    break;
+                case EnemyType.GLAIVEWIELDER:
+                    break;
+                case EnemyType.TUTORIALENEMY:
+                    break;
+                case EnemyType.BOSS:
+                    statHandler.Init(enemySettings.bossStats.enemyData); 
+                    animator.SetFloat("ApproachSpeedMultiplier", enemySettings.bossStats.enemyData.moveSpeed);
+                    animator.SetFloat("CircleSpeedMultiplier", enemySettings.bossStats.circleSpeed);
+                    break;
+                default:
+                    Debug.LogError("Error: Could not find suitable enemy type");
+                    break;
+            }
+        }
 
         public void ApplyHit(GameObject attacker)
         {
@@ -115,9 +149,9 @@ namespace Enemies
         public void DodgeImpulseAnimationEvent()
         {
             StopAllCoroutines();
-            if (Vector3.Distance(transform.position, enemySettings.GetTarget().position) > enemySettings.followUpAttackRange)
+            if (Vector3.Distance(transform.position, enemySettings.GetTarget().position) > enemySettings.shortRange)
             {
-                StartCoroutine(DodgeImpulseCoroutine(transform.parent.forward, enemySettings.dodgeForce));
+                StartCoroutine(DodgeImpulseCoroutine(transform.parent.forward, enemySettings.GetEnemyStatType(enemyType).dodgeForce));
             }
         }
         

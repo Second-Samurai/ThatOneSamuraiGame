@@ -24,7 +24,8 @@ public class AnimationRewindEntity : RewindEntity
         animationDataList = new List<AnimationTimeData>();
         animator = gameObject.GetComponent<Animator>();
         _rewindInput.Reset += ResetTimeline;
-
+        _rewindInput.OnEndRewind += EnableEvents;
+        _rewindInput.OnStartRewind += DisableEvents;
         base.Start();
     }
 
@@ -45,7 +46,15 @@ public class AnimationRewindEntity : RewindEntity
        
 
     }
+    public void DisableEvents()
+    {
+        animator.fireEvents = false;
+    }
 
+    public void EnableEvents()
+    {
+        animator.fireEvents = true;
+    }
     public new void ResetTimeline()
     {
         for (int i = currentIndex; i > 0; i--)

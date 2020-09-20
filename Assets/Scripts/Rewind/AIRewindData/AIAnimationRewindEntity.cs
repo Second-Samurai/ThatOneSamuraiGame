@@ -20,7 +20,8 @@ public class AIAnimationRewindEntity : RewindEntity
         animator = gameObject.GetComponent<Animator>();
 
         _rewindInput.Reset += ResetTimeline;
-
+        _rewindInput.OnStartRewind += DisableEvents;
+        _rewindInput.OnEndRewind += EnableEvents;
        
         base.Start();
     }
@@ -41,6 +42,16 @@ public class AIAnimationRewindEntity : RewindEntity
         }
 
 
+    }
+
+    public void DisableEvents()
+    {
+        animator.fireEvents = false;
+    }
+
+    public void EnableEvents()
+    {
+        animator.fireEvents = true;
     }
 
     public new void ResetTimeline()

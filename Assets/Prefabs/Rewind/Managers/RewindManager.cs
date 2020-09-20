@@ -14,6 +14,13 @@ public class RewindManager : MonoBehaviour
     public delegate void StepForwardEvent();
     public event StepForwardEvent StepForward;
 
+    public delegate void StartRewindEvent();
+    public event StartRewindEvent OnStartRewind;
+
+    public delegate void EndRewindEvent();
+    public event EndRewindEvent OnEndRewind;
+
+
 
     public float rewindDirection;
     public bool isTravelling = true;
@@ -176,6 +183,7 @@ public class RewindManager : MonoBehaviour
     {
         if (isTravelling)
         {
+            OnStartRewind();
             foreach (RewindEntity entity in rewindObjects) 
             {
                 entity.isTravelling = true;
@@ -191,6 +199,7 @@ public class RewindManager : MonoBehaviour
     {
         if (isTravelling)
         {
+            OnEndRewind();
             isTravelling = false;
             foreach (RewindEntity entity in rewindObjects)
             {

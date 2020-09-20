@@ -89,11 +89,11 @@ public class PlayerRewindEntity : AnimationRewindEntity
         {
             if (currentIndex < playerDataList.Count - 1)
             {
-                Debug.Log("COUNT " + playerDataList.Count);
+               // Debug.Log("COUNT " + playerDataList.Count);
                 currentIndex++;
                 if (currentIndex >= playerDataList.Count - 1)
                 {
-                    Debug.Log("CashMoney");
+                   // Debug.Log("CashMoney");
                     currentIndex = playerDataList.Count - 1;
                 }
                 SetPosition();

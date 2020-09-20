@@ -14,7 +14,7 @@ public class Projectile : MonoBehaviour
 
     GameObject player;
     public Vector3 direction;
-    Rigidbody rb;
+    public Rigidbody rb;
     public bool active = true;
     public bool hitEnemies = false;
     public GameObject arrowModel;

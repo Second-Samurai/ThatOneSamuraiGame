@@ -11,7 +11,10 @@ GameObject:
   - component: {fileID: 2615212799794028318}
   - component: {fileID: 1433483586853933243}
   - component: {fileID: 3747055310965630065}
-  - component: {fileID: 2184858048876556551}
+  - component: {fileID: 7255726610077607183}
+  - component: {fileID: 4979794612897342813}
+  - component: {fileID: 8185809632682426015}
+  - component: {fileID: 7550227987915375642}
   m_Layer: 0
   m_Name: rock_21
   m_TagString: Untagged
@@ -80,7 +83,21 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &2184858048876556551
+--- !u!136 &7255726610077607183
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3386929587756156324}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.16913086
+  m_Height: 0.5373366
+  m_Direction: 1
+  m_Center: {x: -0.030956328, y: 0.13478667, z: 0}
+--- !u!135 &4979794612897342813
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,5 +108,31 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3656558
-  m_Center: {x: -0.014901957, y: 0.010222594, z: 4.2520137e-17}
+  m_Radius: 0.12096727
+  m_Center: {x: -0.47405958, y: 0.056119803, z: -0.059401445}
+--- !u!135 &8185809632682426015
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3386929587756156324}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.13541657
+  m_Center: {x: -0.014901996, y: 0.0063509643, z: -0.3676471}
+--- !u!135 &7550227987915375642
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3386929587756156324}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.20766139
+  m_Center: {x: 0.35274518, y: -0.046628833, z: 0}

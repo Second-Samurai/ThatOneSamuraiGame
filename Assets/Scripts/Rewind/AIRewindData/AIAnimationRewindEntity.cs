@@ -32,12 +32,12 @@ public class AIAnimationRewindEntity : RewindEntity
         if (_rewindInput.isTravelling == false)
         {
             RecordPast();
-            animator.applyRootMotion = true;
-            animator.enabled = true;
+            
+           // animator.enabled = true;
         }
         else
         {
-            animator.applyRootMotion = false;
+           
 
         }
 
@@ -47,11 +47,14 @@ public class AIAnimationRewindEntity : RewindEntity
     public void DisableEvents()
     {
         animator.fireEvents = false;
+        animator.applyRootMotion = false;
     }
 
     public void EnableEvents()
     {
         animator.fireEvents = true;
+        animator.applyRootMotion = true;
+
     }
 
     public new void ResetTimeline()
@@ -113,8 +116,8 @@ public class AIAnimationRewindEntity : RewindEntity
 
     public new void SetPosition()
     {
-        animator.enabled = true;
-        animator.Play(animationDataList[currentIndex].currentClip, 0, animationDataList[currentIndex].currentFrame);
+        base.SetPosition();
+       // animator.enabled = true;
         // animator.enabled = false;
         animator.SetBool("PlayerFound", animationDataList[currentIndex].bPlayerFound);
         animator.SetBool("IsLightAttacking", animationDataList[currentIndex].bIsLightAttacking);
@@ -130,6 +133,6 @@ public class AIAnimationRewindEntity : RewindEntity
         animator.SetFloat("DodgeDirectionX", animationDataList[currentIndex].dodgeDirectionX);
         animator.SetFloat("DodgeDirectionZ", animationDataList[currentIndex].dodgeDirectionZ);
         animator.SetBool("IsClosingDistance", animationDataList[currentIndex].IsClosingDistance);
-        base.SetPosition();
+        animator.Play(animationDataList[currentIndex].currentClip, 0, animationDataList[currentIndex].currentFrame);
     }
 }

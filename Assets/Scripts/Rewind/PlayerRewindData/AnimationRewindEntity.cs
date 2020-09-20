@@ -35,12 +35,12 @@ public class AnimationRewindEntity : RewindEntity
         if (_rewindInput.isTravelling == false)
         {
             RecordPast();
-            animator.applyRootMotion = true;
-            animator.enabled = true;
+            
+            //animator.enabled = true;
         }
         else 
         {
-            animator.applyRootMotion = false;
+            
           
         }
        
@@ -49,11 +49,13 @@ public class AnimationRewindEntity : RewindEntity
     public void DisableEvents()
     {
         animator.fireEvents = false;
+        animator.applyRootMotion = false;
     }
 
     public void EnableEvents()
     {
         animator.fireEvents = true;
+        animator.applyRootMotion = true;
     }
     public new void ResetTimeline()
     {
@@ -118,8 +120,8 @@ public class AnimationRewindEntity : RewindEntity
 
     public new void SetPosition()
     {
-        animator.enabled = true;
-        animator.Play(animationDataList[currentIndex].currentClip, 0, animationDataList[currentIndex].currentFrame);
+        base.SetPosition();
+        //animator.enabled = true;
         // animator.enabled = false;
         func.bIsDead = animationDataList[currentIndex].isDead;
         animator.SetFloat("InputSpeed", animationDataList[currentIndex].inputSpeed);
@@ -135,7 +137,7 @@ public class AnimationRewindEntity : RewindEntity
         animator.SetBool("HeavyAttackHeld", animationDataList[currentIndex].HeavyAttackHeld);
         animator.SetBool("FinisherSetup", animationDataList[currentIndex].FinisherSetup);
 
-        base.SetPosition();
+        animator.Play(animationDataList[currentIndex].currentClip, 0, animationDataList[currentIndex].currentFrame);
     }
 
     public override void ApplyData()

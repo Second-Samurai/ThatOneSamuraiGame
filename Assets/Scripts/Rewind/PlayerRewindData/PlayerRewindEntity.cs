@@ -10,6 +10,9 @@ public class PlayerRewindEntity : AnimationRewindEntity
     private PlayerInputScript playerInput;
 
     public Collider swordCollider;
+
+    public Rigidbody gameObjectRigidbody;
+
     // Start is called before the first frame update
     protected new void Start()
     {
@@ -18,6 +21,11 @@ public class PlayerRewindEntity : AnimationRewindEntity
 
         playerInput = gameObject.GetComponent<PlayerInputScript>();
         _rewindInput.Reset += ResetTimeline;
+
+
+        _rewindInput.OnEndRewind += EnableEvents;
+        _rewindInput.OnStartRewind += DisableEvents;
+        gameObjectRigidbody = gameObject.GetComponent<Rigidbody>();
         base.Start();
 
     }
@@ -31,6 +39,20 @@ public class PlayerRewindEntity : AnimationRewindEntity
         }
         DisableCollider();
 
+    }
+
+    //setting rigidbodys to kinimatic
+    public new void DisableEvents()
+    {
+        gameObjectRigidbody.isKinematic = true;
+        base.DisableEvents();
+    }
+
+    public new void EnableEvents()
+    {
+        gameObjectRigidbody.isKinematic = false;
+
+        base.EnableEvents();
     }
 
     public new void ResetTimeline()

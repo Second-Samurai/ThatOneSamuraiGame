@@ -11,6 +11,9 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
     private AISystem aISystem;
     public Collider swordCollider;
 
+    public Rigidbody gameObjectRigidbody;
+
+
     // Start is called before the first frame update
     protected new void Start()
     {
@@ -20,7 +23,9 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
 
         _rewindInput.Reset += ResetTimeline;
         aISystem = gameObject.GetComponent<AISystem>();
-       
+
+        _rewindInput.OnEndRewind += EnableEvents;
+        _rewindInput.OnStartRewind += DisableEvents;
 
     }
 
@@ -34,6 +39,22 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         DisableCollider();
 
     }
+
+    //setting rigidbodys to kinimatic
+
+    public new void DisableEvents()
+    {
+        gameObjectRigidbody.isKinematic = true;
+        base.DisableEvents();
+    }
+
+    public new void EnableEvents()
+    {
+        gameObjectRigidbody.isKinematic = false;
+
+        base.EnableEvents();
+    }
+
 
     public new void ResetTimeline()
     {

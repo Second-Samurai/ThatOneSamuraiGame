@@ -44,12 +44,12 @@ public class AnimationRewindEntity : RewindEntity
           
         }
        
-
     }
     public void DisableEvents()
     {
         animator.fireEvents = false;
         animator.applyRootMotion = false;
+
     }
 
     public void EnableEvents()
@@ -101,7 +101,7 @@ public class AnimationRewindEntity : RewindEntity
                 }
                 SetPosition();
             }
-            Debug.LogWarning("animStepBack");
+           // Debug.LogWarning("animStepBack");
         }
     }
 
@@ -114,7 +114,7 @@ public class AnimationRewindEntity : RewindEntity
                 SetPosition();
                 currentIndex--;
             }
-            Debug.LogWarning("animStepForward");
+           // Debug.LogWarning("animStepForward");
         }
     }
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 { //script for basic projectile
 
+    TrailRenderer trail;
     GameManager manager;
 
     int damageAmount = 1;
@@ -30,6 +31,7 @@ public class Projectile : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         collider = GetComponent<Collider>();
+        trail = GetComponentInChildren<TrailRenderer>();
     }
 
     //launches projectile in target direction
@@ -40,6 +42,7 @@ public class Projectile : MonoBehaviour
         direction = target.normalized * speed;
         direction.y = 0f;
         rb.velocity = direction;
+        trail.emitting = true;
         StartCoroutine(Die(3f));
     }
 
@@ -96,6 +99,7 @@ public class Projectile : MonoBehaviour
             yield return new WaitForSeconds(delay);
         }
         DisableMethod();
+        trail.emitting = false;
         ObjectPooler.instance.AddObject("Arrow", gameObject);
        // Destroy(this.gameObject);
     }
@@ -113,6 +117,7 @@ public class Projectile : MonoBehaviour
     public void EnableMethod()
     {
         arrowModel.SetActive(true);
+        trail.Clear();
         collider.enabled = true;
     }
 

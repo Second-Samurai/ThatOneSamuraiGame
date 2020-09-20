@@ -11,7 +11,8 @@ public class AnimationRewindEntity : RewindEntity
     [SerializeField]
     private Animator animator;
     public AnimatorClipInfo[] m_CurrentClipInfo;
-    
+
+    [SerializeField]
     
     //meeds extraction
     public PlayerFunctions func;
@@ -64,6 +65,7 @@ public class AnimationRewindEntity : RewindEntity
             animationDataList.RemoveAt(i);
         }
         animationDataList.TrimExcess();
+
         //base.ResetTimeline();
     }
 
@@ -82,7 +84,6 @@ public class AnimationRewindEntity : RewindEntity
                                                                         animator.GetBool("VGuard"), animator.GetInteger("ComboCount"), animator.GetBool("FirstAttack"), animator.GetBool("SecondAttack"), 
                                                                             animator.GetBool("LoopAttack"), animator.GetBool("isDead"), animator.GetBool("HeavyAttackHeld"), animator.GetBool("FinisherSetup")));
        
-        
         base.RecordPast();
     }
 

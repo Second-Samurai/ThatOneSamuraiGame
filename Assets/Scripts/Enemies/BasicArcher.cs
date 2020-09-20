@@ -62,7 +62,6 @@ public class BasicArcher : MonoBehaviour, IDamageable
                 }
                 else if (shotTimer < shotFrequency)
                 {
-                    anim.SetBool("Aiming", false);
                     shotTimer += Time.deltaTime;
                 }
             }

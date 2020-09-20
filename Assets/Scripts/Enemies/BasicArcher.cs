@@ -5,12 +5,12 @@ using UnityEngine;
 public class BasicArcher : MonoBehaviour, IDamageable
 {
     public Transform player, shotOrigin;
-    public enum CurrentState
-    {
-        Idle,
-        Aiming,
-        Dead
-    }
+    //public enum CurrentState
+    //{
+    //    Idle,
+    //    Aiming,
+    //    Dead
+    //}
     public CurrentState currentState;
     public Vector3 lastDirection, shotDirection;
     public float attackRange = 20f, shotTimer = 0f, shotFrequency = 2f, aimDuration = .5f, aimCounter = 0f;
@@ -124,4 +124,12 @@ public class BasicArcher : MonoBehaviour, IDamageable
     {
         return EntityType.Enemy;
     }
+
+}
+//moved down here for referencing
+public enum CurrentState
+{
+    Idle,
+    Aiming,
+    Dead
 }

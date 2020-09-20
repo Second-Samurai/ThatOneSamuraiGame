@@ -7,7 +7,8 @@ namespace Enemies.Enemy_States
     public class CloseDistanceEnemyState : EnemyState
     {
         private Vector3 _target;
-        private float _followUpAttackRange;
+        private float _longRange;
+        private float _shortRange;
         
         //Class constructor
         public CloseDistanceEnemyState(AISystem aiSystem) : base(aiSystem)
@@ -20,7 +21,8 @@ namespace Enemies.Enemy_States
             AISystem.navMeshAgent.isStopped = false;
             
             // Cache the range value so we're not always getting it in the tick function
-            _followUpAttackRange = AISystem.enemySettings.shortRange;
+            _longRange = AISystem.enemySettings.longRange;
+            _shortRange = AISystem.enemySettings.shortRange;
             
             AISystem.animator.SetBool("IsClosingDistance", true);
 
@@ -37,7 +39,12 @@ namespace Enemies.Enemy_States
             AISystem.navMeshAgent.SetDestination(_target);
             
             // Change to circling state when close enough to the player
-            if (InRange(AISystem.transform.position, _target, _followUpAttackRange))
+            if (InRange(AISystem.transform.position, _target, _shortRange))
+            {
+                EndState();
+            }
+            // Change to chase state when too far from the player
+            else if (!InRange(AISystem.transform.position, _target, _longRange))
             {
                 EndState();
             }
@@ -47,7 +54,16 @@ namespace Enemies.Enemy_States
         {
             AISystem.animator.SetBool("IsClosingDistance", false);
             
-            AISystem.OnLightAttack();
+            // Change to circling state when close enough to the player
+            if (InRange(AISystem.transform.position, _target, _shortRange))
+            {
+                AISystem.OnLightAttack();
+            }
+            // Change to chase state when too far from the player
+            else if (!InRange(AISystem.transform.position, _target, _longRange))
+            {
+                AISystem.OnApproachPlayer();
+            }
         }
     }
 }

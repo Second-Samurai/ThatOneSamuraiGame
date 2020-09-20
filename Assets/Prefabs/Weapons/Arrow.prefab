@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: -9204135818095723250}
   - component: {fileID: 2318245124420116354}
   - component: {fileID: 794741132112651647}
+  - component: {fileID: 2770657943739048715}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -176,6 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0, z: 0}
+  rb: {fileID: 0}
   active: 1
   hitEnemies: 0
   arrowModel: {fileID: 3706256611960401077}
@@ -209,6 +211,26 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.13062584, y: 0.15543962, z: 3.9463387}
   m_Center: {x: 0.051314175, y: 0.011962771, z: 1.9386845}
+--- !u!114 &2770657943739048715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5474719794975255004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 726686d73b7ad6d4e8e12311e9ec429a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isTravelling: 0
+  currentIndex: 0
+  transformDataList: []
+  thisTransform: {fileID: 0}
+  _rewindInput: {fileID: 0}
+  ProjectileDataList: []
+  gameObjectRigidbody: {fileID: 0}
+  projectile: {fileID: 0}
 --- !u!1001 &4588654623092019684
 PrefabInstance:
   m_ObjectHideFlags: 0

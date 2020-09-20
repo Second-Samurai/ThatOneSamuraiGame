@@ -12,6 +12,7 @@ public class RewindEntity : MonoBehaviour
 
     public RewindManager _rewindInput;
 
+
     //[Header("TimeThreashold")]
 
     //public TimeThreasholdReferance timeThreasholdVariable;
@@ -33,6 +34,9 @@ public class RewindEntity : MonoBehaviour
         _rewindInput.StepBack += StepBack;
 
         _rewindInput.Reset += ResetTimeline;
+
+
+       
     }
 
     // Update is called once per frame
@@ -45,6 +49,8 @@ public class RewindEntity : MonoBehaviour
         }
         //Debug.Log(_rewindInput.rewindTime);
     }
+
+   
 
     public void RecordPast() 
     {

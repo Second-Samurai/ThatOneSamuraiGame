@@ -8,8 +8,8 @@ namespace Enemies.Enemy_States
     public class CircleEnemyState : EnemyState
     {
         private Vector3 _target;
-        private float _circleToChaseRange;
-        private float _circleThreatenRange;
+        private float _longRange;
+        private float _midRange;
         private bool _bIsThreatened = false;
 
         //Class constructor
@@ -29,8 +29,8 @@ namespace Enemies.Enemy_States
             PickStrafeDirection();
             
             // Cache the range value so we're not always getting it in the tick function
-            _circleToChaseRange = AISystem.enemySettings.longRange;
-            _circleThreatenRange = AISystem.enemySettings.shortMidRange;
+            _longRange = AISystem.enemySettings.longRange;
+            _midRange = AISystem.enemySettings.shortMidRange;
             
             AISystem.animator.SetBool("IsStrafing", true);
 
@@ -46,13 +46,13 @@ namespace Enemies.Enemy_States
             PositionTowardsTarget(AISystem.transform, _target);
             
             // Change to chase state when too far from the player
-            if(InRange(AISystem.transform.position, _target, _circleThreatenRange))
+            if(InRange(AISystem.transform.position, _target, _midRange))
             {
                 _bIsThreatened = true;
                 EndState();
             }
             // Change to chase state when too far from the player
-            else if (!InRange(AISystem.transform.position, _target, _circleToChaseRange))
+            else if (!InRange(AISystem.transform.position, _target, _longRange))
             {
                 EndState();
             }

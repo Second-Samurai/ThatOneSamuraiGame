@@ -11,6 +11,9 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
     private AISystem aISystem;
     public Collider swordCollider;
 
+    public Rigidbody gameObjectRigidbody;
+
+
     // Start is called before the first frame update
     protected new void Start()
     {
@@ -20,7 +23,12 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
 
         _rewindInput.Reset += ResetTimeline;
         aISystem = gameObject.GetComponent<AISystem>();
-       
+
+        _rewindInput.OnEndRewind += EnableEvents;
+        _rewindInput.OnStartRewind += DisableEvents;
+
+        gameObjectRigidbody = gameObject.GetComponent<Rigidbody>();
+
 
     }
 
@@ -34,6 +42,22 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         DisableCollider();
 
     }
+
+    //setting rigidbodys to kinimatic
+
+    public new void DisableEvents()
+    {
+        gameObjectRigidbody.isKinematic = true;
+        base.DisableEvents();
+    }
+
+    public new void EnableEvents()
+    {
+        gameObjectRigidbody.isKinematic = false;
+
+        base.EnableEvents();
+    }
+
 
     public new void ResetTimeline()
     {
@@ -56,7 +80,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         //move to arguments need to be added rewind entity
         enemyDataList.Insert(0, new EnemyRewindData(aISystem.EnemyState, swordCollider.enabled,
                                                     aISystem.eDamageController.enemyGuard.canGuard, aISystem.eDamageController.enemyGuard.canParry, aISystem.eDamageController.enemyGuard.isStunned,
-                                                    aISystem.eDamageController.enemyGuard._guardCooldownTime, aISystem.bIsDead, aISystem.bIsUnblockable));
+                                                    aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard, aISystem.bIsDead, aISystem.bIsUnblockable));
 
         base.RecordPast();
     }
@@ -101,7 +125,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         aISystem.eDamageController.enemyGuard.canGuard = enemyDataList[currentIndex].canGuard;
         aISystem.eDamageController.enemyGuard.canParry = enemyDataList[currentIndex].canParry;
         aISystem.eDamageController.enemyGuard.isStunned = enemyDataList[currentIndex].isStunned;
-        aISystem.eDamageController.enemyGuard._guardCooldownTime = enemyDataList[currentIndex].guardCooldownTime;
+        aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard = enemyDataList[currentIndex].currentGuard;
         aISystem.bIsDead = enemyDataList[currentIndex].bIsDead;
         aISystem.bIsUnblockable = enemyDataList[currentIndex].bIsUnblockable;
         //Debug.LogError(enemyDataList[currentIndex].bIsDead);

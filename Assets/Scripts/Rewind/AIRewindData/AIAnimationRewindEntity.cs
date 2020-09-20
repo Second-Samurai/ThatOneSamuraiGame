@@ -44,13 +44,14 @@ public class AIAnimationRewindEntity : RewindEntity
 
     }
 
-    public void DisableEvents()
+    public  void DisableEvents()
     {
         animator.fireEvents = false;
         animator.applyRootMotion = false;
+  
     }
 
-    public void EnableEvents()
+    public  void EnableEvents()
     {
         animator.fireEvents = true;
         animator.applyRootMotion = true;
@@ -97,7 +98,7 @@ public class AIAnimationRewindEntity : RewindEntity
               SetPosition();
                 currentIndex++;
             }
-            Debug.LogWarning("animStepBack");
+            //Debug.LogWarning("animStepBack");
         }
     }
 
@@ -110,7 +111,7 @@ public class AIAnimationRewindEntity : RewindEntity
                 SetPosition();
                 currentIndex--;
             }
-            Debug.LogWarning("animStepForward");
+           // Debug.LogWarning("animStepForward");
         }
     }
 

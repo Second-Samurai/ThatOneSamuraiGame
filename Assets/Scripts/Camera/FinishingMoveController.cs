@@ -18,7 +18,7 @@ public class FinishingMoveController : MonoBehaviour
     public PlayerInputScript playerInputScript;
 
     GameObject targetEnemy;
-
+    PDamageController damageController;
     List<Transform> enemies; 
     List<AISystem> enemiesCache;
 
@@ -27,6 +27,7 @@ public class FinishingMoveController : MonoBehaviour
     {
         _cutsceneDirector = GetComponent<PlayableDirector>();
         BindToTrack("Cinemachine Track", GameManager.instance.mainCamera.GetComponent<CinemachineBrain>());
+        damageController = GameManager.instance.playerController.gameObject.GetComponent<PDamageController>();
     }
 
    
@@ -58,6 +59,7 @@ public class FinishingMoveController : MonoBehaviour
     public void PlayFinishingMove(GameObject enemy)
     {
         detector.SetActive(false);
+        damageController.DisableDamage();
         playerInputScript.DisableMovement();
         SetTargetEnemy(enemy.GetComponentInChildren<Animator>());
         SelectFinishingMove();
@@ -80,6 +82,7 @@ public class FinishingMoveController : MonoBehaviour
         GameManager.instance.rewindManager.IncreaseRewindAmount();
         playerInputScript.bCanAttack = true;
         playerInputScript.EnableMovement();
+        damageController.EnableDamage();
         for (int i = 0; i < enemies.Count - 1; i++)
         {
             enemies[i].GetComponent<AISystem>().EnemyState = enemiesCache[i].EnemyState;

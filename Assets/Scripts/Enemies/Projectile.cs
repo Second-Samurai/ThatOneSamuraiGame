@@ -40,7 +40,7 @@ public class Projectile : MonoBehaviour
         EnableMethod();
         transform.LookAt(playerPos);
         direction = target.normalized * speed;
-        direction.y = 0f;
+        //direction.y = 0f;
         rb.velocity = direction;
         trail.emitting = true;
         StartCoroutine(Die(3f));

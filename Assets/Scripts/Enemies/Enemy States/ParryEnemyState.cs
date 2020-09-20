@@ -16,7 +16,7 @@ namespace Enemies.Enemy_States
         {
             // Disable canParry
             AISystem.eDamageController.enemyGuard.canParry = false;
-            
+            AISystem.parryEffects.PlayParry();
             // Disable the block animation, start the parry animation
             AISystem.animator.SetBool("IsBlocking", false);
             AISystem.animator.SetBool("IsParried", true);

@@ -55,6 +55,9 @@ namespace Enemies
         //Float offset added to the target location so the enemy doesn't clip into the floor 
         //because the player's origin point is on the floor
         public Vector3 floatOffset = Vector3.up * 2.0f;
+
+        //PARTICLES
+        public ParryEffects parryEffects;
         
         #endregion
         

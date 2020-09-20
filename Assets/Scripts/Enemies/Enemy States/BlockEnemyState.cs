@@ -16,7 +16,7 @@ namespace Enemies.Enemy_States
         {
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
-
+            AISystem.parryEffects.PlayGleam();
             AISystem.animator.SetBool("IsBlocking", true);
             
             // While blocking, set the enemy to be able to parry

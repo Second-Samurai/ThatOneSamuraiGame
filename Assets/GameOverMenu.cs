@@ -45,6 +45,8 @@ public class GameOverMenu : MonoBehaviour
 
     public void ReturnToMenu()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
         blackImage.DOFade(0, 5.0f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

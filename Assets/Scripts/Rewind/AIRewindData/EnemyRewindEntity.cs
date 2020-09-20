@@ -27,6 +27,9 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         _rewindInput.OnEndRewind += EnableEvents;
         _rewindInput.OnStartRewind += DisableEvents;
 
+        gameObjectRigidbody = gameObject.GetComponent<Rigidbody>();
+
+
     }
 
     public override void FixedUpdate()

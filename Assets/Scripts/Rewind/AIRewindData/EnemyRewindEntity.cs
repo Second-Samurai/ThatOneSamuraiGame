@@ -80,7 +80,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         //move to arguments need to be added rewind entity
         enemyDataList.Insert(0, new EnemyRewindData(aISystem.EnemyState, swordCollider.enabled,
                                                     aISystem.eDamageController.enemyGuard.canGuard, aISystem.eDamageController.enemyGuard.canParry, aISystem.eDamageController.enemyGuard.isStunned,
-                                                    aISystem.eDamageController.enemyGuard._guardCooldownTime, aISystem.bIsDead, aISystem.bIsUnblockable));
+                                                    aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard, aISystem.bIsDead, aISystem.bIsUnblockable));
 
         base.RecordPast();
     }
@@ -125,7 +125,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         aISystem.eDamageController.enemyGuard.canGuard = enemyDataList[currentIndex].canGuard;
         aISystem.eDamageController.enemyGuard.canParry = enemyDataList[currentIndex].canParry;
         aISystem.eDamageController.enemyGuard.isStunned = enemyDataList[currentIndex].isStunned;
-        aISystem.eDamageController.enemyGuard._guardCooldownTime = enemyDataList[currentIndex].guardCooldownTime;
+        aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard = enemyDataList[currentIndex].currentGuard;
         aISystem.bIsDead = enemyDataList[currentIndex].bIsDead;
         aISystem.bIsUnblockable = enemyDataList[currentIndex].bIsUnblockable;
         //Debug.LogError(enemyDataList[currentIndex].bIsDead);

@@ -10,12 +10,11 @@ public class Guarding : MonoBehaviour
     public bool canGuard = true;
     public bool isStunned = false;
 
-    public float _guardCooldownTime = 8;
+    private float _guardCooldownTime;
     
     [HideInInspector] public StatHandler statHandler;
     [HideInInspector] public UnityEvent OnGuardEvent = new UnityEvent();
     private AISystem _aiSystem;
-    
 
     public void Init(StatHandler statHandler)
     {
@@ -25,6 +24,8 @@ public class Guarding : MonoBehaviour
         UIGuardMeter guardMeter = gameManager.CreateEntityGuardMeter(this.transform, statHandler);
         OnGuardEvent.AddListener(guardMeter.UpdateGuideMeter);
         _aiSystem = GetComponent<AISystem>();
+
+        _guardCooldownTime = _aiSystem.enemySettings.GetEnemyStatType(_aiSystem.enemyType).guardCooldown;
     }
     
     // Called in animation events to open the enemy's guard
@@ -77,7 +78,7 @@ public class Guarding : MonoBehaviour
         }
         if(_aiSystem.animator.GetBool("IsQuickBlocking"))
             _aiSystem.EndState();
-        StartCoroutine(AwaitNextDamage(3));
+        StartCoroutine(AwaitNextDamage(_guardCooldownTime));
         OnGuardEvent.Invoke();
     }
 
@@ -107,7 +108,7 @@ public class Guarding : MonoBehaviour
             yield return null;
         }
 
-        StartCoroutine(GuardCoolDown(_guardCooldownTime));
+        StartCoroutine(GuardCoolDown(8));
     }
 
     // Count down the remaining guard cooldown time through the GuardCoolDown co-routine
@@ -116,7 +117,7 @@ public class Guarding : MonoBehaviour
     {
         if (_aiSystem.bIsDead)
         {
-            StopCoroutine(GuardCoolDown(_guardCooldownTime));
+            StopCoroutine(GuardCoolDown(8));
         }
         else
         {

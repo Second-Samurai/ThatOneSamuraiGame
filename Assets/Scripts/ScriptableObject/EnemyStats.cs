@@ -9,6 +9,7 @@ public class EnemyStats : ScriptableObject
     public EntityStatData enemyData;
     public float circleSpeed;
     public float dodgeForce;
+    public float guardCooldown;
     
     [Header("Blocking Time intervals")]
     public float minBlockTime;

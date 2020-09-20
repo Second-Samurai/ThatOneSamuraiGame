@@ -138,5 +138,9 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
     {
         aISystem.SetState(enemyDataList[currentIndex].enemyState);
         swordCollider.enabled = enemyDataList[currentIndex].swordCollider;
+        if (!aISystem.bIsDead)
+        {
+            aISystem.eDamageController.EnableDamage();
+        }
     }
 }

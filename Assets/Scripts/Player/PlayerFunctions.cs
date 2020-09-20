@@ -182,7 +182,7 @@ public class PlayerFunctions : MonoBehaviour
         //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);
         bIsBlocking = false;
         _animator.SetTrigger("GuardBreak");
-        Debug.LogWarning("Guard broken!");
+        //Debug.LogWarning("Guard broken!");
         _IKPuppet.DisableIK();
     }
 
@@ -197,7 +197,7 @@ public class PlayerFunctions : MonoBehaviour
             bIsDead = true;
             
             _inputComponent.SwitchCurrentActionMap("Rewind");
-            Debug.LogError("Player killed!");
+            //Debug.LogError("Player killed!");
             //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);
             //GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.3f);
 

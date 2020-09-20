@@ -104,7 +104,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         aISystem.eDamageController.enemyGuard._guardCooldownTime = enemyDataList[currentIndex].guardCooldownTime;
         aISystem.bIsDead = enemyDataList[currentIndex].bIsDead;
         aISystem.bIsUnblockable = enemyDataList[currentIndex].bIsUnblockable;
-        Debug.LogError(enemyDataList[currentIndex].bIsDead);
+        //Debug.LogError(enemyDataList[currentIndex].bIsDead);
 
         // needs to set the enemy targeting
         base.SetPosition();

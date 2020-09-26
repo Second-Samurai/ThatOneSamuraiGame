@@ -13,6 +13,7 @@ public class AttackSlide
     private PCombatController _combatController;
     private Rigidbody _playerRB;
     private PlayerSettings _settings;
+    private float _targetDistance;
 
     /// <summary>
     /// Attack slide Init function
@@ -42,8 +43,8 @@ public class AttackSlide
     //
     private bool CheckWithinMinDist(Transform targetEnemy)
     {
-        float distance = Vector3.Distance(_playerRB.transform.position, targetEnemy.position);
-        return distance <= _settings.minimumAttackDist;
+        _targetDistance = Vector3.Magnitude(_playerRB.transform.position - targetEnemy.position);
+        return _targetDistance <= _settings.minimumAttackDist;
     }
 
     private void FaceTowardsEnemy(Transform targetEnemy)

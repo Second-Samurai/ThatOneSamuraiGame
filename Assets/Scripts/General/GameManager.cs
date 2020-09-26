@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
 
     //Hidden accessible variables
     [HideInInspector] public GameObject thirdPersonViewCamera;
-    [HideInInspector] public PlayerController playerController;
     [HideInInspector] public Camera mainCamera;
+    public PlayerController playerController;
     public RewindManager rewindManager;
     public EnemyTracker enemyTracker;
     public PostProcessingController postProcessingController;

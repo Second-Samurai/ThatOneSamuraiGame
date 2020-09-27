@@ -316,7 +316,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e242a578-3f0e-4434-8b9d-9cfad5be29f0"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -518,6 +518,17 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
+                    ""action"": ""StartHeavy"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d0615405-a612-4b1d-96c2-7077a3bc04d2"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""StartHeavy"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

@@ -37,8 +37,8 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
         //This assigns the thirdperson camera targets to this player
         CinemachineFreeLook freeLockCamera = gameManager.thirdPersonViewCamera.GetComponent<CinemachineFreeLook>();
-        freeLockCamera.Follow = this.transform;
-        freeLockCamera.LookAt = this.transform;
+        //freeLockCamera.Follow = this.transform;
+        //freeLockCamera.LookAt = this.transform;
 
         //Sets up the player's camera controller
         cameraController = this.GetComponent<CameraControl>();

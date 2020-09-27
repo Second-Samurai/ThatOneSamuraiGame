@@ -5,18 +5,18 @@ using UnityEngine.UI;
 
 public class OptionsMenu : MonoBehaviour
 {
-    public FreeLookAddOn camera;
+    public PlayerCamTargetController camTargetScript;
     Slider _sensitivitySlider; 
 
     private void Start()
     {
-        camera = GameManager.instance.playerController.gameObject.GetComponent<CameraControl>()._camScript;
+        camTargetScript = GameManager.instance.playerController.gameObject.GetComponent<CameraControl>().camTargetScript;
         _sensitivitySlider = GetComponentInChildren<Slider>();
-        _sensitivitySlider.value = camera.lookSpeed;
+        _sensitivitySlider.value = camTargetScript.rotationSpeed;
     }
 
     public void SetSensitivity(float var)
     {
-        camera.SetSensitivity(var);
+        camTargetScript.SetSensitivity(var);
     }
 }

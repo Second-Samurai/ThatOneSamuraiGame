@@ -1835,6 +1835,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6754410809755015513, guid: 35ff588111febbc44a6c9b1e614494dc,
+        type: 3}
+      propertyPath: thirdPersonViewCamera
+      value: 
+      objectReference: {fileID: 1352296032}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35ff588111febbc44a6c9b1e614494dc, type: 3}
 --- !u!1 &279719258
@@ -5765,21 +5770,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 384454882247359061}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1352296033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1352296032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb7194dc27b9df64c8beca7482ee8e0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerIndex: -1
-  XYAxis: {fileID: 6723290518423851488, guid: 924a5fc00dcd6f741b39deeb1870810a, type: 3}
-  ZAxis: {fileID: 0}
 --- !u!1001 &1363332122
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6486,6 +6476,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Archer (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7234922115759954021, guid: 75a43092b469b4740ba18cdc90873c36,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8010861367417176798, guid: 75a43092b469b4740ba18cdc90873c36,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7179,6 +7174,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Archer (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234922115759954021, guid: 75a43092b469b4740ba18cdc90873c36,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8010861367417176798, guid: 75a43092b469b4740ba18cdc90873c36,
         type: 3}
@@ -8507,12 +8507,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnPoint: {fileID: 473791812}
---- !u!1 &2058859164 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5396101924856148862, guid: d0e771a27eb332343aecfd6dc9bd5533,
-    type: 3}
-  m_PrefabInstance: {fileID: 5396101923607511522}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2058859166 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5396101924856148860, guid: d0e771a27eb332343aecfd6dc9bd5533,
@@ -8525,7 +8519,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 5396101923607511522}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2058859164}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 319d2fe34a804e245819465c9505ea59, type: 3}
@@ -9020,30 +9014,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 384454882243083327, guid: 3f7b0705999c4aa4699b9dea4ab75f6c,
-        type: 3}
-      propertyPath: Damping.z
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 384454883045989428, guid: 3f7b0705999c4aa4699b9dea4ab75f6c,
         type: 3}
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 1077987587}
-    - target: {fileID: 384454883045989428, guid: 3f7b0705999c4aa4699b9dea4ab75f6c,
-        type: 3}
-      propertyPath: m_Priority
-      value: 11
-      objectReference: {fileID: 0}
     - target: {fileID: 384454883045989429, guid: 3f7b0705999c4aa4699b9dea4ab75f6c,
         type: 3}
       propertyPath: m_Name
       value: 3rd Person Camera
-      objectReference: {fileID: 0}
-    - target: {fileID: 384454883045989429, guid: 3f7b0705999c4aa4699b9dea4ab75f6c,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 384454883045989431, guid: 3f7b0705999c4aa4699b9dea4ab75f6c,
         type: 3}
@@ -9100,8 +9079,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 384454882243083326, guid: 3f7b0705999c4aa4699b9dea4ab75f6c, type: 3}
+    - target: {fileID: 6720650519821614831, guid: 3f7b0705999c4aa4699b9dea4ab75f6c,
+        type: 3}
+      propertyPath: camTargetController
+      value: 
+      objectReference: {fileID: 8000690493878486362}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f7b0705999c4aa4699b9dea4ab75f6c, type: 3}
 --- !u!1001 &572806300702451331
 PrefabInstance:
@@ -9389,6 +9372,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Archer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234922115759954021, guid: 75a43092b469b4740ba18cdc90873c36,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8010861367417176798, guid: 75a43092b469b4740ba18cdc90873c36,
         type: 3}
@@ -9821,11 +9809,16 @@ PrefabInstance:
       propertyPath: posOffset.y
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6326023133747577652, guid: dffd8b7a96a9d0d4ab010cff1fd4ac94,
+        type: 3}
+      propertyPath: rotationSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7190348978030205752, guid: dffd8b7a96a9d0d4ab010cff1fd4ac94,
         type: 3}
       propertyPath: unlockedCam
       value: 
-      objectReference: {fileID: 2058859164}
+      objectReference: {fileID: 1352296032}
     - target: {fileID: 7190348978030205752, guid: dffd8b7a96a9d0d4ab010cff1fd4ac94,
         type: 3}
       propertyPath: enemyTracker
@@ -9836,6 +9829,11 @@ PrefabInstance:
       propertyPath: cinematicBars
       value: 
       objectReference: {fileID: 1225666178}
+    - target: {fileID: 7190348978030205752, guid: dffd8b7a96a9d0d4ab010cff1fd4ac94,
+        type: 3}
+      propertyPath: _camScript
+      value: 
+      objectReference: {fileID: 8000690493878486362}
     - target: {fileID: 8000690492512742470, guid: dffd8b7a96a9d0d4ab010cff1fd4ac94,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9903,6 +9901,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dffd8b7a96a9d0d4ab010cff1fd4ac94, type: 3}
+--- !u!114 &8000690493878486362 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6326023133747577652, guid: dffd8b7a96a9d0d4ab010cff1fd4ac94,
+    type: 3}
+  m_PrefabInstance: {fileID: 8000690493878486361}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2585027126136847b0ce00fa1e8ff22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &9099220254016171940
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -24,6 +24,7 @@ public class CameraControl : MonoBehaviour
         _playerInput = GetComponent<PlayerInputScript>();
     }*/
 
+ 
     //NOTE: this is called in player controller
     public void Init(Transform playerTarget)
     {
@@ -35,9 +36,21 @@ public class CameraControl : MonoBehaviour
         this.enemyTracker = gameManager.enemyTracker;
         this.cinematicBars = cinematicBars;
 
+        if (!unlockedCam)
+        {
+            Debug.LogError("Third person camera object not assigned in inspector! Please assign");
+        }
+
+        if (!camScript)
+        {
+            Debug.LogWarning("Third Person Camera not assigned in inspector! Assigning via Init call");
+            camScript = unlockedCam.GetComponent<ThirdPersonCamController>();
+            camTargetScript = camScript.camTargetController;
+        }
+
         //_camScript = unlockedCam.GetComponent<Player>();
-        camScript = unlockedCam.GetComponent<ThirdPersonCamController>();
-        camTargetScript = camScript.camTargetController;
+       
+       
         _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
         _playerInput = GetComponent<PlayerInputScript>();
     }

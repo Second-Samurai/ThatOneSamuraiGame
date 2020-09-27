@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
     {
         if (!thirdPersonViewCamera)
         {
+            Debug.LogError("No third person camera in scene! Adding new object but please assign in inspector instead!");
             Vector3 thirdPersonViewPos = gameSettings.thirdPersonViewCam.transform.position;
             thirdPersonViewCamera = Instantiate(gameSettings.thirdPersonViewCam, thirdPersonViewPos, Quaternion.identity);
 

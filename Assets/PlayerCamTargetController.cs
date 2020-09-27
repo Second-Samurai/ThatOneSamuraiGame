@@ -10,7 +10,17 @@ public class PlayerCamTargetController : MonoBehaviour
     public float rotationSpeed = 1f;
     float mouseX, mouseY;
     //public bool invertY = false;
-     
+
+
+    private void Start()
+    {
+        if (!player)
+        {
+            Debug.LogWarning("Player not assigned in inspector! Trying to find through manager");
+            player = GameManager.instance.playerController.gameObject;
+        }
+    }
+
     private void LateUpdate()
     {
         transform.position = player.transform.position + posOffset;

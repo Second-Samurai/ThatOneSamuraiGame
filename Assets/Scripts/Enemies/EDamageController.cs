@@ -31,6 +31,7 @@ public class EDamageController : MonoBehaviour, IDamageable
                 if (enemyGuard.canParry)
                 {
                     _aiSystem.OnParry();
+                    attacker.GetComponent<PCombatController>().IsParried();
                     return;
                 }
                 

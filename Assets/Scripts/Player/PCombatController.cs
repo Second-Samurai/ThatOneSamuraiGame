@@ -23,7 +23,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     public bool isUnblockable = false;
 
     //Private Variables
-    private PlayerInput _playerInput;
+    private PlayerInputScript _playerInput;
     private PlayerFunctions _functions;
     private PDamageController _damageController;
     private WSwordEffect _playerSword;
@@ -47,7 +47,7 @@ public class PCombatController : MonoBehaviour, ICombatController
 
         _playerSword = this.GetComponentInChildren<WSwordEffect>();
         _playerSword.Init(this.gameObject.transform);
-        _playerInput = GetComponent<PlayerInput>();
+        _playerInput = GetComponent<PlayerInputScript>();
         _damageController = GetComponent<PDamageController>();
         _functions = GetComponent<PlayerFunctions>();
         attackCol = GetComponentInChildren<BoxCollider>();
@@ -178,5 +178,15 @@ public class PCombatController : MonoBehaviour, ICombatController
 
         //Registers attack to the attackRegister
         _attackRegister.RegisterAttackTarget(attackEntity, other, CalculateDamage(), true, isUnblockable);
+    }
+
+    public void IsParried()
+    {
+        Debug.Log("Player Parried!");
+        EndUnblockable();
+        EndAttacking();
+        _playerInput.ResetDodge();
+        _playerInput.RemoveOverride();
+        _animator.SetTrigger("IsParried");
     }
 }

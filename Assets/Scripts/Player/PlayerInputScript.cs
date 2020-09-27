@@ -7,7 +7,7 @@ public class PlayerInputScript : MonoBehaviour
 {
 
     Vector2 _inputVector, lastVector, _cachedVector;
-    public bool bCanMove = true, bLockedOn = false, bMoveLocked = false, bIsDodging = false, bCanDodge = true, bCanAttack = false;
+    public bool bCanMove = true, bLockedOn = false, bMoveLocked = false, bIsDodging = false, bCanDodge = true, bCanAttack = false, bGotParried = false;
     public float rotationSpeed = 4f, smoothingValue = .1f;
     Animator _animator;
     public CameraControl _camControl;
@@ -21,6 +21,7 @@ public class PlayerInputScript : MonoBehaviour
     Camera _cam;
     public FinishingMoveController finishingMoveController;
     public GameEvent onLockOnEvent;
+    HitstopController hitstopController;
 
     float dodgeForce = 10f;
 
@@ -42,6 +43,7 @@ public class PlayerInputScript : MonoBehaviour
         _pCombatController = GetComponent<PCombatController>();
         _cam = Camera.main;
         finishingMoveController = GetComponentInChildren<FinishingMoveController>();
+        hitstopController = GameManager.instance.GetComponent<HitstopController>();
     }
 
     void OnMovement(InputValue dir) 
@@ -128,6 +130,7 @@ public class PlayerInputScript : MonoBehaviour
                 _camControl.StopAllCoroutines();
                 _camControl.StartCoroutine(_camControl.ResetCamRoll());
             }
+            if (hitstopController.bIsSlowing) hitstopController.CancelEffects();
         }
     }
 
@@ -148,9 +151,15 @@ public class PlayerInputScript : MonoBehaviour
 
     void OnStartBlock()
     {
-        if(bCanBlock)
+        if (bCanBlock)
+        {
             _functions.StartBlock();
+            if (bGotParried) EndSlowEffects();
+
+        }
     }
+
+   
 
     void OnEndBlock()
     {
@@ -162,6 +171,7 @@ public class PlayerInputScript : MonoBehaviour
         if (_inputVector != Vector2.zero && !bIsDodging && bCanDodge)
         {
             _animator.SetTrigger("Dodge");
+            if (bGotParried) EndSlowEffects();
             if (bLockedOn)
             {
                 StopCoroutine("DodgeImpulse");
@@ -336,6 +346,21 @@ public class PlayerInputScript : MonoBehaviour
     {
         bCanMove = true;
     }
-     
 
+    public void GotParried()
+    {
+        bGotParried = true;
+        Debug.LogError(bGotParried);
+    }
+
+    public void EndGotParried()
+    {
+        bGotParried = false;
+    }
+
+    private void EndSlowEffects()
+    {
+        EndGotParried();
+        hitstopController.CancelEffects();
+    }
 }

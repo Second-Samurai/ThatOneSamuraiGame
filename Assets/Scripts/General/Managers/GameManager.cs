@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
         }
 
         SetupSceneCamera();
+        SetupScene();
         SetupUI();
         SetupRewind();
     }
@@ -48,6 +49,18 @@ public class GameManager : MonoBehaviour
     {
         SetupPlayer();
         SetupEnemies();
+    }
+
+    void SetupScene()
+    {
+        List<Transform> sceneLoaders = GameObject.FindObjectsOfType<Transform>().
+            Where(o => o.GetComponent<ISceneLoader>() != null).ToList();
+
+        for (int i = 0; i < sceneLoaders.Count; i++)
+        {
+            ISceneLoader loader = sceneLoaders[i].GetComponent<ISceneLoader>();
+            loader.Initialise(mainCamera.transform);
+        }
     }
 
     void SetupSceneCamera()

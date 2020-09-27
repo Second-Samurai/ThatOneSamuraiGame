@@ -57,6 +57,7 @@ public class PCombatController : MonoBehaviour, ICombatController
 
         _guideController = new CloseEnemyGuideControl();
         _guideController.Init(this, this.gameObject.transform, this.GetComponent<Rigidbody>());
+        //Debug.Log(_guideController);
     }
 
     /// <summary>

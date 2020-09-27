@@ -12,18 +12,18 @@ using UnityEngine;
 
 public class PNormalState : PlayerState
 {
-    IPlayerController playerController;
+    IEntity playerEntity;
 
     public override void BeginState()
     {
-        playerController = this.GetComponent<IPlayerController>();
+        playerEntity = this.GetComponent<IEntity>();
 
         PCombatController combatController = this.GetComponent<PCombatController>();
-        combatController.Init(playerController.GetPlayerStats());
+        combatController.Init(playerEntity.GetPlayerStats());
         combatController.UnblockCombatInputs();
 
         PDamageController damageController = this.GetComponent<PDamageController>();
-        damageController.Init(playerController.GetPlayerStats());
+        damageController.Init(playerEntity.GetPlayerStats());
         damageController.EnableDamage();
     }
 

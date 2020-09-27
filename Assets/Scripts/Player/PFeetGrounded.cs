@@ -48,7 +48,7 @@ public class PFeetGrounded : MonoBehaviour
     //
     private bool CheckIsGrounded()
     {
-        Debug.DrawRay(footBaseTransform.position, -Vector3.up, Color.cyan);
+        //Debug.DrawRay(footBaseTransform.position, -Vector3.up, Color.cyan);
         if (Physics.Raycast(footBaseTransform.position, -Vector3.up, out _rayHit, 3f))
         {
             _groundPosition = _rayHit.point;

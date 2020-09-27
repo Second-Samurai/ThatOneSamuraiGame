@@ -5,7 +5,8 @@ using UnityEngine.InputSystem;
 
 public class CameraControl : MonoBehaviour
 {
-    public FreeLookAddOn _camScript; 
+    public PlayerCamTargetController camTargetScript;
+    public ThirdPersonCamController camScript;
     LockOnTargetManager _lockedCamScript;
     public GameObject unlockedCam, lockedCam;
     Vector2 rotationVector;
@@ -34,7 +35,9 @@ public class CameraControl : MonoBehaviour
         this.enemyTracker = gameManager.enemyTracker;
         this.cinematicBars = cinematicBars;
 
-        _camScript = unlockedCam.GetComponent<FreeLookAddOn>();
+        //_camScript = unlockedCam.GetComponent<Player>();
+        camScript = unlockedCam.GetComponent<ThirdPersonCamController>();
+        camTargetScript = camScript.camTargetController;
         _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
         _playerInput = GetComponent<PlayerInputScript>();
     }
@@ -46,8 +49,8 @@ public class CameraControl : MonoBehaviour
 
     private void Update()
     {
-        if(rotationVector != Vector2.zero && !bLockedOn)
-            _camScript.RotateCam(rotationVector);
+        if (rotationVector != Vector2.zero && !bLockedOn)
+            camTargetScript.RotateCam(rotationVector);
     }
 
     public void SetTarget(Transform target)

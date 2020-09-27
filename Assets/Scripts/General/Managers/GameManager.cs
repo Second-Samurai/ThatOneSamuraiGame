@@ -13,9 +13,9 @@ public class GameManager : MonoBehaviour
     public Transform playerSpawnPoint;
 
     //Hidden accessible variables
-    [HideInInspector] public GameObject thirdPersonViewCamera;
-    [HideInInspector] public PlayerController playerController;
     [HideInInspector] public Camera mainCamera;
+    public GameObject thirdPersonViewCamera;
+    public PlayerController playerController;
     public RewindManager rewindManager;
     public EnemyTracker enemyTracker;
     public PostProcessingController postProcessingController;
@@ -52,9 +52,12 @@ public class GameManager : MonoBehaviour
 
     void SetupSceneCamera()
     {
-        Vector3 thirdPersonViewPos = gameSettings.thirdPersonViewCam.transform.position;
-        thirdPersonViewCamera = Instantiate(gameSettings.thirdPersonViewCam, thirdPersonViewPos, Quaternion.identity);
+        if (!thirdPersonViewCamera)
+        {
+            Vector3 thirdPersonViewPos = gameSettings.thirdPersonViewCam.transform.position;
+            thirdPersonViewCamera = Instantiate(gameSettings.thirdPersonViewCam, thirdPersonViewPos, Quaternion.identity);
 
+        }
         Vector3 mainCameraPos = gameSettings.mainCamera.transform.position;
         mainCamera = Instantiate(gameSettings.mainCamera, mainCameraPos, Quaternion.identity).GetComponent<Camera>();
 

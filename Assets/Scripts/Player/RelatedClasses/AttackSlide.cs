@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//---IMPROVEMENTS--- /////////////////////////////////////
-//TODO: Smooth velocity on close slide
-
 /// <summary>
 /// Handling slide manuvers to target enemy during attacks
 /// </summary>

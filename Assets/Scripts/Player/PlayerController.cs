@@ -8,7 +8,14 @@ public interface IPlayerController {
     StatHandler GetPlayerStats();
 }
 
-public class PlayerController : MonoBehaviour, IPlayerController
+//Replace to this
+public interface IEntity
+{
+    string GetStringID();
+    StatHandler GetPlayerStats();
+}
+
+public class PlayerController : MonoBehaviour, IEntity
 {
     public string playerID = "defaultID1234";
     [HideInInspector] public StatHandler playerStats;

@@ -15,7 +15,6 @@ public class CloseEnemyGuideControl
     private PlayerSettings settings;
 
     private List<GameObject> _enemyCollection;
-    //private List<Collider> _collectedColliders;
     private GameObject _closestEnemy;
 
     public void Init(PCombatController playerCombat, Transform playerTransform, Rigidbody rigidbody)

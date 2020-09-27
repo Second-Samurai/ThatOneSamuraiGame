@@ -7,7 +7,7 @@ public class PlayerInputScript : MonoBehaviour
 {
 
     Vector2 _inputVector, lastVector, _cachedVector;
-    public bool bCanMove = true, bLockedOn = false, bMoveLocked = false, bIsDodging = false, bCanDodge = true, bCanAttack = false, bGotParried = false;
+    public bool bCanMove = true, bLockedOn = false, bMoveLocked = false, bIsDodging = false, bCanDodge = true, bCanAttack = false, bGotParried = false, bIsSheathed = false;
     public float rotationSpeed = 4f, smoothingValue = .1f;
     Animator _animator;
     public CameraControl _camControl;
@@ -122,15 +122,17 @@ public class PlayerInputScript : MonoBehaviour
                 _playerCombat.RunLightAttack();
             }
 
-            if (_animator.GetBool("HeavyAttackHeld"))
-            {
-                _animator.SetBool("HeavyAttackHeld", false);
-                //_camControl.StopCoroutine(_camControl.ResetCamRoll());
-                //_camControl.StopCoroutine("RollCam");
-                _camControl.StopAllCoroutines();
-                _camControl.StartCoroutine(_camControl.ResetCamRoll());
-            }
+           
             if (hitstopController.bIsSlowing) hitstopController.CancelEffects();
+        }
+        if (_animator.GetBool("HeavyAttackHeld"))
+        {
+            bIsSheathed = false;
+            _animator.SetBool("HeavyAttackHeld", false);
+            //_camControl.StopCoroutine(_camControl.ResetCamRoll());
+            //_camControl.StopCoroutine("RollCam");
+            _camControl.StopAllCoroutines();
+            _camControl.StartCoroutine(_camControl.ResetCamRoll());
         }
     }
 
@@ -140,6 +142,7 @@ public class PlayerInputScript : MonoBehaviour
         {
             if (!_animator.GetBool("HeavyAttackHeld"))
             {
+                bIsSheathed = true;
                 _animator.SetBool("HeavyAttackHeld", true);
                 //_camControl.StopCoroutine(_camControl.RollCam());
                 //_camControl.StopCoroutine(_camControl.ResetCamRoll());
@@ -171,6 +174,7 @@ public class PlayerInputScript : MonoBehaviour
         if (_inputVector != Vector2.zero && !bIsDodging && bCanDodge)
         {
             _animator.SetTrigger("Dodge");
+            _animator.ResetTrigger("AttackLight");
             if (bGotParried) EndSlowEffects();
             if (bLockedOn)
             {
@@ -213,7 +217,7 @@ public class PlayerInputScript : MonoBehaviour
         if (bCanMove)
         {
             Vector3 _direction = new Vector3(_inputVector.x, 0, _inputVector.y).normalized;
-            if (_direction != Vector3.zero && !bLockedOn && !bOverrideMovement)
+            if (_direction != Vector3.zero && !bLockedOn && !bOverrideMovement && !bIsSheathed)
             {
                 float _targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + _cam.transform.eulerAngles.y;
                 float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, .1f);
@@ -251,7 +255,14 @@ public class PlayerInputScript : MonoBehaviour
 
     public void StartDodging()
     {
-        bIsDodging = true; 
+        bIsSheathed = false;
+        bCanAttack = false;
+        bIsDodging = true;
+        //if (_animator.GetBool("HeavyAttackHeld"))
+        //{
+        //    _animator.SetBool("HeavyAttackHeld", false);
+        //    _camControl.StartCoroutine(_camControl.ResetCamRoll());
+        //}
         _pDamageController.DisableDamage();
         _functions.DisableBlock();
 
@@ -259,6 +270,7 @@ public class PlayerInputScript : MonoBehaviour
 
     public void EndDodging()
     {
+        bCanAttack = true;
         bIsDodging = false;
         _pDamageController.EnableDamage();
         _functions.EnableBlock();

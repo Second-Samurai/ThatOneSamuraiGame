@@ -70,18 +70,19 @@ public class PlayerFunctions : MonoBehaviour
             _bDontCheckParry = false;
             parryEffects.PlayGleam();
             _IKPuppet.EnableIK();
+          
         }
     }
 
     public void EndBlock()
     {
-       // if (bIsBlocking)
-       // {
-            bIsBlocking = false;
-            bIsParrying = false;
-            parryTimer = 0f;
-            _IKPuppet.DisableIK();
-            SetBlockCooldown();
+        // if (bIsBlocking)
+        // { 
+        bIsBlocking = false;
+        bIsParrying = false;
+        parryTimer = 0f;
+        _IKPuppet.DisableIK();
+        SetBlockCooldown();
        // }
     }
 
@@ -171,6 +172,7 @@ public class PlayerFunctions : MonoBehaviour
     public void TriggerParry(GameObject attacker, float damage)
     {
         parryEffects.PlayParry();
+        _animator.SetTrigger("Parrying");
         hitstopController.SlowTime(.5f, 1);
         if(attacker != null)
         {

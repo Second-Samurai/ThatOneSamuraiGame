@@ -12,12 +12,18 @@ public class CloseEnemyGuideControl
     private Transform _lastEnemy = null;
     private AttackSlide _slideController;
 
-    private PlayerSettings _settings;
+    private PlayerSettings settings;
+
+    private List<GameObject> _enemyCollection;
+    //private List<Collider> _collectedColliders;
+    private GameObject _closestEnemy;
 
     public void Init(PCombatController playerCombat, Transform playerTransform, Rigidbody rigidbody)
     {
         this._attachedPlayer = playerTransform;
-        _settings = GameManager.instance.gameSettings.playerSettings;
+        settings = GameManager.instance.gameSettings.playerSettings;
+
+        _enemyCollection = new List<GameObject>();
 
         _slideController = new AttackSlide();
         _slideController.Init(playerCombat, rigidbody);
@@ -30,12 +36,13 @@ public class CloseEnemyGuideControl
     {
         if (CheckLastAttackedEnemy()) return;
 
-        GameObject result = FindClosestEnemy();
+        FindClosestEnemy();
 
-        if (result != null)
+        if (_closestEnemy != null)
         {
-            _lastEnemy = result.transform;
+            _lastEnemy = _closestEnemy.transform;
             _slideController.SlideToEnemy(_lastEnemy);
+            _closestEnemy = null;
         }
     }
 
@@ -46,7 +53,7 @@ public class CloseEnemyGuideControl
         if (_lastEnemy != null)
         {
             Vector3 direction = (_lastEnemy.position - _attachedPlayer.position).normalized;
-            if (CheckIfForward(direction) && CheckMinDistance(_attachedPlayer.position, _lastEnemy.position, _settings.minimumAttackDist))
+            if (CheckIfForward(direction) && CheckMinDistance(_attachedPlayer.position, _lastEnemy.position, settings.minimumAttackDist))
             {
                 _slideController.SlideToEnemy(_lastEnemy);
                 return true;
@@ -60,35 +67,32 @@ public class CloseEnemyGuideControl
     // 
     private GameObject FindClosestEnemy()
     {
-        List<GameObject> enemyCollection = new List<GameObject>();
-        enemyCollection = GetNearbyObjects();
+        CollectNearbyObjects();
 
         //Checks for edge cases
-        if (enemyCollection.Count == 0) return null;
-        if (enemyCollection.Count == 1)
+        if (_enemyCollection.Count == 0) return null;
+        if (_enemyCollection.Count == 1)
         {
-            Vector3 direction = (enemyCollection[0].transform.position - _attachedPlayer.position).normalized;
-            if (CheckIfForward(direction)) return enemyCollection[0];
+            Vector3 direction = (_enemyCollection[0].transform.position - _attachedPlayer.position).normalized;
+            if (CheckIfForward(direction)) return _enemyCollection[0];
 
             return null;
         }
 
         //Performs filtering through collection
-        enemyCollection = FilterForward(enemyCollection);
-        if (enemyCollection.Count == 0) return null;
+        _enemyCollection = FilterForwardEnemies();
+        GetClosestEnemy();
+        _enemyCollection.Clear();
 
-        GameObject closest = GetClosestEnemy(enemyCollection);
-        if (closest == null) return null;
-
-        return closest;
+        return _closestEnemy;
     }
 
     // Summary: Gets the nearby objects around the player
     //
-    private List<GameObject> GetNearbyObjects()
+    private void CollectNearbyObjects()
     {
-        List<Collider> hitColliders = Physics.OverlapSphere(_attachedPlayer.position, _settings.detectionRadius).Where(x => x.GetComponent<IDamageable>() != null).ToList();
-        List<GameObject> nearbyEnemies = new List<GameObject>();
+        List<Collider> hitColliders = new List<Collider>();
+        hitColliders = Physics.OverlapSphere(_attachedPlayer.position, settings.detectionRadius).Where(x => x.GetComponent<IDamageable>() != null).ToList();
         IDamageable entities;
 
         //Filters through collecting the enemy entities
@@ -97,25 +101,23 @@ public class CloseEnemyGuideControl
             entities = hitColliders[i].GetComponent<IDamageable>();
 
             if(entities.GetEntityType() == EntityType.Enemy)
-                nearbyEnemies.Add(hitColliders[i].gameObject);
+                _enemyCollection.Add(hitColliders[i].gameObject);
         }
-
-        return nearbyEnemies;
     }
 
     // Summary: Filters the enemies to those in front of the player.
     //
-    private List<GameObject> FilterForward(List<GameObject> nearbyEnemies)
+    private List<GameObject> FilterForwardEnemies()
     {
         List<GameObject> forwardEnemies = new List<GameObject>();
         Vector3 enemyDirection = Vector3.zero;
 
-        for (int i = 0; i < nearbyEnemies.Count; i++)
+        for (int i = 0; i < _enemyCollection.Count; i++)
         {
-            enemyDirection = (nearbyEnemies[i].transform.position - _attachedPlayer.position).normalized;
+            enemyDirection = (_enemyCollection[i].transform.position - _attachedPlayer.position).normalized;
 
             if (CheckIfForward(enemyDirection))
-                forwardEnemies.Add(nearbyEnemies[i]);
+                forwardEnemies.Add(_enemyCollection[i]);
         }
 
         return forwardEnemies;
@@ -123,32 +125,35 @@ public class CloseEnemyGuideControl
 
     // Summary: Gets the closest enemies out of the forward enemies
     //
-    private GameObject GetClosestEnemy(List<GameObject> forwardEnemies)
+    private GameObject GetClosestEnemy()
     {
-        GameObject nearestEnemy = forwardEnemies[0];
-        float closestDistance = Vector3.Distance(_attachedPlayer.position, forwardEnemies[0].transform.position);
+        if (_enemyCollection.Count == 0) return null;
 
-        for (int i = 0; i < forwardEnemies.Count; i++)
+        //Initialise variables
+        _closestEnemy = null;
+        _closestEnemy = _enemyCollection[0];
+        float closestDistance = Vector3.Magnitude(_attachedPlayer.position - _closestEnemy.transform.position);
+
+        for (int i = 0; i < _enemyCollection.Count; i++)
         {
-            if (CheckMinDistance(_attachedPlayer.position, forwardEnemies[i].transform.position, closestDistance))
-                nearestEnemy = forwardEnemies[i];
+            if (CheckMinDistance(_attachedPlayer.position, _enemyCollection[i].transform.position, closestDistance))
+                _closestEnemy = _enemyCollection[i];
         }
 
-        return nearestEnemy;
+        return _closestEnemy;
     }
 
     // Summary: Checks the distance between two positions and whether its below the threshold
     //
     private bool CheckMinDistance(Vector3 playerPos, Vector3 enemyPos, float threshold)
     {
-        return Vector3.Distance(playerPos, enemyPos) < threshold;
+        return Vector3.Magnitude(playerPos - enemyPos) < threshold;
     }
 
     // Summary: Checks whether enemy entity is forward
     //
     private bool CheckIfForward(Vector3 enemyDirection)
     {
-        //Debug.Log(">> Dot Product Result: " + Vector3.Dot(_attachedPlayer.forward.normalized, enemyDirection));
-        return Vector3.Dot(_attachedPlayer.forward.normalized, enemyDirection) > _settings.forwardDotLimit;
+        return Vector3.Dot(_attachedPlayer.forward.normalized, enemyDirection) > settings.forwardDotLimit;
     }
 }

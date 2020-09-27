@@ -336,5 +336,6 @@ public class PlayerInputScript : MonoBehaviour
     {
         bCanMove = true;
     }
+     
 
 }

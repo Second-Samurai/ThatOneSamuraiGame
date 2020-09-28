@@ -19,6 +19,8 @@ public class BasicArcher : MonoBehaviour, IDamageable
     public GameObject arrow;
     public Animator anim;
     public Collider col;
+
+    public EnemySpawnCheck spawnCheck;
     
 
     private void Start()
@@ -35,6 +37,9 @@ public class BasicArcher : MonoBehaviour, IDamageable
 
     private void Update()
     {
+         
+        spawnCheck.bSpawnMe = currentState != CurrentState.Dead ? true : false;
+
         if (player == null)
             FindPlayer();
         else

@@ -25,6 +25,7 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         GameManager.instance.checkpointManager.SaveActiveCheckpoint();
+        GameManager.instance.enemySpawnManager.SaveEnemyList();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

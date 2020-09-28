@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public CheckpointManager checkpointManager;
 
     public ButtonController buttonController;
+    public EnemySpawnManager enemySpawnManager;
 
     //UICanvases
     [HideInInspector] public GameObject guardMeterCanvas;

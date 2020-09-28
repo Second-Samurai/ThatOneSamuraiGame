@@ -2285,11 +2285,31 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4714032005333063425, guid: d9b8cb95e305749898cfecb46877b8bb,
+        type: 3}
+      propertyPath: m_Name
+      value: tutSwprdsmanR
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714032007345873656, guid: d9b8cb95e305749898cfecb46877b8bb,
+        type: 3}
+      propertyPath: m_Name
+      value: tutSwordsmanHeavy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714032007399558966, guid: d9b8cb95e305749898cfecb46877b8bb,
+        type: 3}
+      propertyPath: m_Name
+      value: tutSwordsmanL
+      objectReference: {fileID: 0}
     - target: {fileID: 6108884622860857924, guid: d9b8cb95e305749898cfecb46877b8bb,
         type: 3}
       propertyPath: parryEffects
       value: 
       objectReference: {fileID: 51407401}
+    - target: {fileID: 6108884622860857924, guid: d9b8cb95e305749898cfecb46877b8bb,
+        type: 3}
+      propertyPath: spawnCheck
+      value: 
+      objectReference: {fileID: 2029767452}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9b8cb95e305749898cfecb46877b8bb, type: 3}
 --- !u!1 &1242745986
@@ -3334,6 +3354,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7234922114269216871, guid: 04588d50106974c579bc668fb51bc0c4,
+        type: 3}
+      propertyPath: m_Name
+      value: TUTarcher
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04588d50106974c579bc668fb51bc0c4, type: 3}
@@ -4392,6 +4417,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa27a15b6da194499b2a3af694f5cf62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2029767451 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4714032007399558966, guid: d9b8cb95e305749898cfecb46877b8bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1237784164}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2029767452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029767451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 130b861c0fa148241aeb25c94a1a6d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myName: 
+  bSpawnMe: 1
 --- !u!1 &2041402667
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class RewindBar : MonoBehaviour
 {
-    Slider healthSlider;
+    public Slider healthSlider;
     public Image rewindBar;
     public Image rewindBarBackground;
 
@@ -16,9 +16,15 @@ public class RewindBar : MonoBehaviour
         healthSlider = GetComponent<Slider>();
     }
 
+    public void Bebug() 
+    {
+        Debug.Log("OI");
+
+    }
     public void UpdateRewindAmount(float amount) 
     {
         healthSlider.value = amount;
+        Debug.Log(amount);
     }
 
     public void UpdateBarMax(float amount)
@@ -28,6 +34,7 @@ public class RewindBar : MonoBehaviour
         healthSlider.maxValue = amount;
 
         healthSlider.value = healthSlider.maxValue * tempValue;
+
     }
     private void OnEnable()
     {

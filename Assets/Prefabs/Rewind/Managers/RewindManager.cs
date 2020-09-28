@@ -69,7 +69,7 @@ public class RewindManager : MonoBehaviour
     private void Update()
     {
         IncreaseResource();
-        rewindUI.UpdateRewindAmount(rewindResource);
+        UpdateRewindUI();
         if (rewindResource < maxRewindResource && !isTravelling) rewindUI.FadeIn();
         else if (rewindResource == maxRewindResource && !isTravelling) rewindUI.FadeOut();
         rewindUI.UpdateBarColor();
@@ -80,6 +80,7 @@ public class RewindManager : MonoBehaviour
 
     void UpdateRewindUI()
     {
+        Debug.LogWarning(rewindResource);
         rewindUI.UpdateRewindAmount(rewindResource);
 
     }
@@ -199,8 +200,8 @@ public class RewindManager : MonoBehaviour
                 entity.isTravelling = true;
             }
             StartCoroutine("RewindCoroutine");
-            if (rewindUI != null)
-                UpdateRewindUI();
+            //if (rewindUI != null)
+            //    UpdateRewindUI();
         }
 
     }

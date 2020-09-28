@@ -2,22 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraRewindEntity : RewindEntity
+public class BoardRewindEntity : RewindEntity
 {
-
-    // FUNCTIONALITY NEEDS TO BE ADDED
     [SerializeField]
-    public List<CameraTimeData> cameraDataList;
+    public List<BoardTimeData> BoardDataList;
     private LockOnTargetManager lockOnTargetManager;
 
+    public BoardBreak boardBreak;
+    private Rigidbody boardRigidBody;
     // Start is called before the first frame update
     protected new void Start()
     {
+        boardBreak = gameObject.GetComponentInParent<BoardBreak>();
         _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
-        cameraDataList = new List<CameraTimeData>();
-       lockOnTargetManager = GameManager.instance.playerController.gameObject.GetComponentInChildren<LockOnTargetManager>();
+        BoardDataList = new List<BoardTimeData>();
         _rewindInput.Reset += ResetTimeline;
         _rewindInput.OnEndRewind += ApplyData;
+        _rewindInput.OnStartRewind += DisableEvents;
+        _rewindInput.OnEndRewind += EnableEvents;
+
+        boardRigidBody = gameObject.GetComponent<Rigidbody>();
 
         base.Start();
     }
@@ -30,10 +34,22 @@ public class CameraRewindEntity : RewindEntity
 
         }
 
-        if (isTravelling) 
-        { 
-        
+        if (isTravelling)
+        {
+
         }
+
+    }
+    public  void DisableEvents()
+    {
+        boardRigidBody.isKinematic = true;
+
+    }
+
+    public  void EnableEvents()
+    {
+        boardRigidBody.isKinematic = false;
+
 
     }
 
@@ -41,22 +57,22 @@ public class CameraRewindEntity : RewindEntity
     {
         for (int i = currentIndex; i > 0; i--)
         {
-            cameraDataList.RemoveAt(i);
+            BoardDataList.RemoveAt(i);
         }
-        cameraDataList.TrimExcess();
+        BoardDataList.TrimExcess();
     }
 
     public new void RecordPast()
     {
         //maybe make 10f into a global variable
         //how much data is cached before list starts being culled (currently 10 seconds)
-        if (cameraDataList.Count > _rewindInput.rewindTime)
+        if (BoardDataList.Count > _rewindInput.rewindTime)
         {
-            cameraDataList.RemoveAt(cameraDataList.Count - 1);
+            BoardDataList.RemoveAt(BoardDataList.Count - 1);
         }
 
         //move to arguments need to be added rewind entity
-        cameraDataList.Insert(0, new CameraTimeData(lockOnTargetManager._bLockedOn, lockOnTargetManager._target, lockOnTargetManager._player));
+        BoardDataList.Insert(0, new BoardTimeData(boardBreak.isBuilt, boardRigidBody.velocity));
 
         base.RecordPast();
     }
@@ -64,9 +80,9 @@ public class CameraRewindEntity : RewindEntity
     public override void StepBack()
     {
 
-        if (cameraDataList.Count > 0)
+        if (BoardDataList.Count > 0)
         {
-            if (currentIndex < cameraDataList.Count - 1)
+            if (currentIndex < BoardDataList.Count - 1)
             {
                 SetPosition();
                 currentIndex++;
@@ -76,7 +92,7 @@ public class CameraRewindEntity : RewindEntity
 
     public override void StepForward()
     {
-        if (cameraDataList.Count > 0)
+        if (BoardDataList.Count > 0)
         {
             if (currentIndex > 0)
             {
@@ -88,19 +104,18 @@ public class CameraRewindEntity : RewindEntity
 
     public new void SetPosition()
     {
-        if (cameraDataList[currentIndex].target != null && cameraDataList[currentIndex].player != null)
-        {
-            lockOnTargetManager._target = cameraDataList[currentIndex].target;
-            lockOnTargetManager._player = cameraDataList[currentIndex].player;
-            lockOnTargetManager.SetTarget(cameraDataList[currentIndex].target, cameraDataList[currentIndex].player);
-        }
+
+        boardBreak.isBuilt = BoardDataList[currentIndex].isBuilt;
+        boardRigidBody.velocity = BoardDataList[currentIndex].velocity;
+
         // needs to set the enemy targeting
         base.SetPosition();
     }
 
     public override void ApplyData()
     {
-        lockOnTargetManager._bLockedOn = cameraDataList[currentIndex].bIsLockedOn;
+
+        boardBreak.ReBuild();
 
 
         //base.ApplyData();

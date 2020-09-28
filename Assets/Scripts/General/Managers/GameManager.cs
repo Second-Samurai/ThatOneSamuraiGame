@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public RewindManager rewindManager;
     public EnemyTracker enemyTracker;
     public PostProcessingController postProcessingController;
+    public AudioManager audioManager;
 
     //UICanvases
     [HideInInspector] public GameObject guardMeterCanvas;
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour
         SetupScene();
         SetupUI();
         SetupRewind();
+        SetupAudio();
     }
 
     // Start is called before the first frame update
@@ -144,6 +146,14 @@ public class GameManager : MonoBehaviour
         guardMeter.Init(entityTransform, entityStatHandler, mainCamera, guardMeterCanvas.GetComponent<RectTransform>());
         //Debug.Log(">> GameManager: Guard Meter Added");
         return guardMeter;
+    }
+
+    void SetupAudio() 
+    {
+        if (FindObjectOfType<AudioManager>() == null)
+        {
+            audioManager = Instantiate(gameSettings.audioManger, transform.position, Quaternion.identity).GetComponent<AudioManager>();
+        }
     }
 
     public void EnableInput()

@@ -7,7 +7,7 @@ public class AnimationTimeData
 {
 
     public float currentFrame;
-    public string currentClip;
+    public int currentClip;
     public float inputSpeed, xInput, yInput;
     public bool lockedOn;
     public bool vGuard;
@@ -20,7 +20,7 @@ public class AnimationTimeData
     public bool FinisherSetup;
     // new anim params
 
-    public AnimationTimeData(float _currentFrame, string _currentClip, float _inputSpeed, float _xInput, float _yinput,
+    public AnimationTimeData(float _currentFrame, int _currentClip, float _inputSpeed, float _xInput, float _yinput,
                                 bool _lockedOn, bool _vGuard, int _comboCount, bool _firstAttack, bool _secondAttack, bool _loopAttack, bool _isDead, bool _HeavyAttackHeld, bool _FinisherSetup)
     {
         currentFrame = _currentFrame;

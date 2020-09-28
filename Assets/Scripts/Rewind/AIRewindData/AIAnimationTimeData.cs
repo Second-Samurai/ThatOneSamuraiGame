@@ -6,7 +6,7 @@ using UnityEngine;
 public class AIAnimationTimeData
 {
     public float currentFrame;
-    public string currentClip;
+    public int currentClip;
     public bool bPlayerFound;
     public bool bIsLightAttacking;
     public bool bIsApproaching;
@@ -23,7 +23,7 @@ public class AIAnimationTimeData
     public bool IsClosingDistance;
 
 
-    public AIAnimationTimeData(float _currentFrame, string _currentClip, bool b_PlayerFound, 
+    public AIAnimationTimeData(float _currentFrame, int _currentClip, bool b_PlayerFound, 
                                     bool b_IsLightAttacking, bool b_IsApproaching, bool _IsGuardBroken, 
                                         bool _IsDead, bool _IsQuickBlocking, bool _IsBlocking, bool _IsParried, bool _IsStrafing, float _StrafeDirectionX,
                                                 bool _IsDodging, float _dodgeDirectionX, float _dodgeDirectionZ, bool _IsClosingDistance) 

@@ -205,7 +205,7 @@ public class RewindManager : MonoBehaviour
             {
                 StopAllCoroutines();
               //  Debug.LogError("BREAK");
-                entity.ApplyData();
+                //entity.ApplyData();
                 entity.isTravelling = false;
             }
             Reset();

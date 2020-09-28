@@ -3039,7 +3039,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 497962760882700304}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.019, z: 1.441}
+  m_LocalPosition: {x: 0, y: 1.019, z: 1.575}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7530740819673022908}
@@ -7509,16 +7509,18 @@ MonoBehaviour:
   bIsDodging: 0
   bCanDodge: 1
   bCanAttack: 0
-  rotationSpeed: 4
-  smoothingValue: 0.1
-  _camControl: {fileID: 7190348978030205752}
-  _functions: {fileID: 0}
-  target: {fileID: 0}
-  _inputComponent: {fileID: 8000690494251821636}
-  finishingMoveController: {fileID: 1317372922}
-  onLockOnEvent: {fileID: 11400000, guid: 5f051e9e3ef171047a76de81e93abe48, type: 2}
+  bGotParried: 0
+  bIsSheathed: 0
   bCanBlock: 1
   bOverrideMovement: 0
+  _camControl: {fileID: 7190348978030205752}
+  _functions: {fileID: 0}
+  finishingMoveController: {fileID: 1317372922}
+  onLockOnEvent: {fileID: 11400000, guid: 5f051e9e3ef171047a76de81e93abe48, type: 2}
+  _inputComponent: {fileID: 8000690494251821636}
+  rotationSpeed: 4
+  smoothingValue: 0.1
+  target: {fileID: 0}
 --- !u!95 &7190348978030205753
 Animator:
   serializedVersion: 3

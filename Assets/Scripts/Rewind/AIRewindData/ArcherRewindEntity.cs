@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArcherRewindEntity : RewindEntity
+public class ArcherRewindEntity : ArcherAnimationRewindEntity
 {
     public List<ArcherTimeData> archerDataList;
     public Rigidbody gameObjectRigidbody;
@@ -44,19 +44,19 @@ public class ArcherRewindEntity : RewindEntity
 
     }
 
-    public void DisableEvents()
+    public new void DisableEvents()
     {
         gameObjectRigidbody.isKinematic = true;
 
-        //base.DisableEvents();
+        base.DisableEvents();
 
     }
 
-    public void EnableEvents()
+    public new void EnableEvents()
     {
         gameObjectRigidbody.isKinematic = false;
 
-        //base.EnableEvents();
+        base.EnableEvents();
 
     }
 
@@ -117,7 +117,6 @@ public class ArcherRewindEntity : RewindEntity
         basicArcher.lastDirection = archerDataList[currentIndex].lastDirection;
         basicArcher.shotDirection = archerDataList[currentIndex].shotDirection;
         basicArcher.shotTimer = archerDataList[currentIndex].shotTimer;
-        basicArcher.currentState = archerDataList[currentIndex].currentState;
 
         base.SetPosition();
 
@@ -125,6 +124,7 @@ public class ArcherRewindEntity : RewindEntity
 
     public override void ApplyData()
     {
+        basicArcher.currentState = archerDataList[currentIndex].currentState;
 
     }
 }

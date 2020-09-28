@@ -11,6 +11,7 @@ public class AnimationRewindEntity : RewindEntity
     [SerializeField]
     private Animator animator;
     public AnimatorClipInfo[] m_CurrentClipInfo;
+    
 
     [SerializeField]
     
@@ -27,6 +28,7 @@ public class AnimationRewindEntity : RewindEntity
         _rewindInput.Reset += ResetTimeline;
         _rewindInput.OnEndRewind += EnableEvents;
         _rewindInput.OnStartRewind += DisableEvents;
+        _rewindInput.OnEndRewind += ApplyData;
         base.Start();
     }
 
@@ -79,7 +81,7 @@ public class AnimationRewindEntity : RewindEntity
         m_CurrentClipInfo = animator.GetCurrentAnimatorClipInfo(0);
 
         //move to animation rewind entity
-        animationDataList.Insert(0, new AnimationTimeData(animator.GetCurrentAnimatorStateInfo(0).normalizedTime, m_CurrentClipInfo[0].clip.name, 
+        animationDataList.Insert(0, new AnimationTimeData(animator.GetCurrentAnimatorStateInfo(0).normalizedTime, animator.GetCurrentAnimatorStateInfo(0).shortNameHash, 
                                                                     animator.GetFloat("InputSpeed"), animator.GetFloat("XInput"), animator.GetFloat("YInput"), animator.GetBool("LockedOn"), 
                                                                         animator.GetBool("VGuard"), animator.GetInteger("ComboCount"), animator.GetBool("FirstAttack"), animator.GetBool("SecondAttack"), 
                                                                             animator.GetBool("LoopAttack"), animator.GetBool("isDead"), animator.GetBool("HeavyAttackHeld"), animator.GetBool("FinisherSetup")));
@@ -125,18 +127,12 @@ public class AnimationRewindEntity : RewindEntity
         //animator.enabled = true;
         // animator.enabled = false;
         func.bIsDead = animationDataList[currentIndex].isDead;
+
         animator.SetFloat("InputSpeed", animationDataList[currentIndex].inputSpeed);
         animator.SetFloat("XInput", animationDataList[currentIndex].xInput);
         animator.SetFloat("YInput", animationDataList[currentIndex].yInput);
-        animator.SetBool("LockedOn", animationDataList[currentIndex].lockedOn);
-        animator.SetBool("VGuard", animationDataList[currentIndex].vGuard);
-        animator.SetInteger("ComboCount", animationDataList[currentIndex].comboCount);
-        animator.SetBool("FirstAttack", animationDataList[currentIndex].firstAttack);
-        animator.SetBool("SecondAttack", animationDataList[currentIndex].secondAttack);
-        animator.SetBool("LoopAttack", animationDataList[currentIndex].loopAttack);
         animator.SetBool("isDead", animationDataList[currentIndex].isDead);
-        animator.SetBool("HeavyAttackHeld", animationDataList[currentIndex].HeavyAttackHeld);
-        animator.SetBool("FinisherSetup", animationDataList[currentIndex].FinisherSetup);
+
 
         animator.Play(animationDataList[currentIndex].currentClip, 0, animationDataList[currentIndex].currentFrame);
     }
@@ -144,7 +140,13 @@ public class AnimationRewindEntity : RewindEntity
     public override void ApplyData()
     {
 
-
-        //base.ApplyData();
+        animator.SetBool("LockedOn", animationDataList[currentIndex].lockedOn);
+        animator.SetBool("VGuard", animationDataList[currentIndex].vGuard);
+        animator.SetInteger("ComboCount", animationDataList[currentIndex].comboCount);
+        animator.SetBool("FirstAttack", animationDataList[currentIndex].firstAttack);
+        animator.SetBool("SecondAttack", animationDataList[currentIndex].secondAttack);
+        animator.SetBool("LoopAttack", animationDataList[currentIndex].loopAttack);
+        animator.SetBool("HeavyAttackHeld", animationDataList[currentIndex].HeavyAttackHeld);
+        animator.SetBool("FinisherSetup", animationDataList[currentIndex].FinisherSetup);
     }
 }

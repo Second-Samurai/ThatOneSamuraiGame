@@ -16,6 +16,7 @@ public class ButtonController : MonoBehaviour
     public void CloseMenu()
     {
         GameManager.instance.checkpointManager.ResetCheckpoints();
+        GameManager.instance.enemySpawnManager.ResetList();
 
         vcam.m_Priority = 0;
         optionsVCam.m_Priority = 0;

@@ -44,7 +44,11 @@ public class EnemySpawnCheck : MonoBehaviour
 
     private void OnDestroy()
     {
-        
+        WriteValue(); 
+    }
+
+    public void WriteValue()
+    { 
         spawnManager.enemySpawnDictionary[myName] = bSpawnMe;
     }
 }

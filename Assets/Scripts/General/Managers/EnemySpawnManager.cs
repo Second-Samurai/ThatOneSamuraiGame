@@ -42,14 +42,21 @@ public class EnemySpawnManager : MonoBehaviour
             enemySpawnDictionary[enemy.myName] = enemy.GetValue();
         }
         GameData.EnemyList = enemySpawnDictionary;
-        foreach (KeyValuePair<string, bool> val in GameData.EnemyList)
-        {
-            Debug.LogWarning(val.Key + val.Value.ToString());
-        }
+         
     }
 
     public void LoadEnemyList()
     {
         enemySpawnDictionary = GameData.EnemyList;
+    }
+
+    public void ResetList()
+    {
+        foreach(EnemySpawnCheck enemy in enemies)
+        {
+            enemy.bSpawnMe = true;
+            enemy.WriteValue();
+            enemy.CheckIfSpawned();
+        }
     }
 }

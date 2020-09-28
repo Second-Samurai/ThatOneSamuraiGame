@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class RewindBar : MonoBehaviour
 {
     Slider healthSlider;
     public Image rewindBar;
+    public Image rewindBarBackground;
 
     private void Start()
     {
@@ -31,16 +33,28 @@ public class RewindBar : MonoBehaviour
     {
         UpdateBarColor();
     }
+    public void FadeIn() 
+    {
+        rewindBar.DOFade(1f, 1f);
+        rewindBarBackground.DOFade(1, 1f);
+    }
+
+    public void FadeOut()
+    {
+        rewindBar.DOFade(0, 1f);
+        rewindBarBackground.DOFade(0, 1f);
+
+    }
 
     public void UpdateBarColor() 
     {
-        if (GameManager.instance.rewindManager.rewindResource <= 2f)
+        if(GameManager.instance.rewindManager.rewindResource > 2f)
         {
-            rewindBar.GetComponent<Image>().color = new Color32(221, 76, 87, 100);
+            rewindBar.color = new Color32(76, 101, 221, 100);
         }
-        else 
+        else if (GameManager.instance.rewindManager.rewindResource < 2f)
         {
-            rewindBar.GetComponent<Image>().color = new Color32(76, 101, 221, 100);
+            rewindBar.color = new Color32(221, 76, 87, 100);
         }
     }
 }

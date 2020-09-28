@@ -47,9 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameSettings: {fileID: 11400000, guid: c71a704aefd554b1fa5b61875141ac6c, type: 2}
   playerSpawnPoint: {fileID: 0}
+  mainCamera: {fileID: 0}
   thirdPersonViewCamera: {fileID: 0}
   playerController: {fileID: 0}
-  mainCamera: {fileID: 0}
   rewindManager: {fileID: 0}
   enemyTracker: {fileID: 0}
   postProcessingController: {fileID: 0}
@@ -66,6 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab8acebd0bd0c546a63b5ec86af3e8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bIsSlowing: 0
 --- !u!1001 &1391761802
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -177,6 +178,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3990733858548171799, guid: 1f20cb57ae54fab4daaaefba090c6073,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3990733858548171816, guid: 1f20cb57ae54fab4daaaefba090c6073,
+        type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1024
+      objectReference: {fileID: 0}
+    - target: {fileID: 3990733858548171816, guid: 1f20cb57ae54fab4daaaefba090c6073,
+        type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 768
       objectReference: {fileID: 0}
     - target: {fileID: 3990733858548171818, guid: 1f20cb57ae54fab4daaaefba090c6073,
         type: 3}

@@ -141,6 +141,7 @@ public class AIAnimationRewindEntity : RewindEntity
         animator.SetBool("IsStrafing", animationDataList[currentIndex].IsStrafing);
         animator.SetBool("IsDodging", animationDataList[currentIndex].IsDodging);
         animator.SetBool("IsClosingDistance", animationDataList[currentIndex].IsClosingDistance);
+
     }
 
 }

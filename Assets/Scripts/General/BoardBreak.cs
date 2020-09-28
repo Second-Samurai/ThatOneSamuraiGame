@@ -7,12 +7,14 @@ public class BoardBreak : MonoBehaviour, IDamageable
     public List<Rigidbody> boards = new List<Rigidbody>();
     public BoxCollider thisCol;
     public StatHandler statHandler; //objects with idamageable require this
+    public bool isBuilt;
 
     private void Start()
     {
         Rigidbody[] children = GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody child in children) boards.Add(child);
         thisCol = GetComponent<BoxCollider>();
+        isBuilt = true;
     }
 
     public void DisableDamage()
@@ -27,11 +29,25 @@ public class BoardBreak : MonoBehaviour, IDamageable
 
     public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
+        isBuilt = false;
         thisCol.enabled = false;
         foreach (Rigidbody board in boards)
         {
             board.isKinematic = false;
             board.AddForce((board.transform.position - attacker.transform.position) * 2f, ForceMode.Impulse);
+        }
+    }
+
+    public void ReBuild() 
+    {
+        if (isBuilt == true)
+        {
+            thisCol.enabled = true;
+            foreach (Rigidbody board in boards)
+            {
+                board.isKinematic = true;
+                board.velocity = Vector3.zero;
+            }
         }
     }
 

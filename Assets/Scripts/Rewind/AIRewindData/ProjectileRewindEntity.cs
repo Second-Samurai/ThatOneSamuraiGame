@@ -79,7 +79,7 @@ public class ProjectileRewindEntity : RewindEntity
         }
 
         //move to animation rewind entity
-        ProjectileDataList.Insert(0, new ProjectileTimeData(projectile.direction, projectile.rb));
+        ProjectileDataList.Insert(0, new ProjectileTimeData(projectile.direction, projectile.rb.velocity, projectile.collider.enabled, projectile.hitEnemies));
 
         //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + "   :   " + m_CurrentClipInfo[0].clip.name);
 
@@ -116,7 +116,16 @@ public class ProjectileRewindEntity : RewindEntity
     public new void SetPosition()
     {
         projectile.direction = ProjectileDataList[currentIndex].direction;
-        projectile.rb = ProjectileDataList[currentIndex].rb;
+        projectile.arrowModel.SetActive(ProjectileDataList[currentIndex].isActive);
+
         base.SetPosition();
+    }
+
+    public override void ApplyData()
+    {
+        projectile.rb.velocity = ProjectileDataList[currentIndex].velocity;
+        projectile.collider.enabled = ProjectileDataList[currentIndex].isActive;
+        projectile.hitEnemies = ProjectileDataList[currentIndex].hitEnemys;
+
     }
 }

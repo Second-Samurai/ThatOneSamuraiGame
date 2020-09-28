@@ -19,10 +19,7 @@ public class GameManager : MonoBehaviour
     public RewindManager rewindManager;
     public EnemyTracker enemyTracker;
     public PostProcessingController postProcessingController;
-    public CheckpointManager checkpointManager;
-
-    public ButtonController buttonController;
-    public EnemySpawnManager enemySpawnManager;
+    public AudioManager audioManager;
 
     //UICanvases
     [HideInInspector] public GameObject guardMeterCanvas;
@@ -43,8 +40,10 @@ public class GameManager : MonoBehaviour
         }
 
         SetupSceneCamera();
+        SetupScene();
         SetupUI();
         SetupRewind();
+        SetupAudio();
     }
 
     // Start is called before the first frame update
@@ -52,10 +51,17 @@ public class GameManager : MonoBehaviour
     {
         SetupPlayer();
         SetupEnemies();
-        if (!buttonController)
+    }
+
+    void SetupScene()
+    {
+        List<Transform> sceneLoaders = GameObject.FindObjectsOfType<Transform>().
+            Where(o => o.GetComponent<ISceneLoader>() != null).ToList();
+
+        for (int i = 0; i < sceneLoaders.Count; i++)
         {
-            Debug.LogError("Button Controller not assigned! Looking for button via script");
-            buttonController = GameObject.FindWithTag("MainMenu").GetComponent<ButtonController>();
+            ISceneLoader loader = sceneLoaders[i].GetComponent<ISceneLoader>();
+            loader.Initialise(mainCamera.transform);
         }
     }
 
@@ -140,6 +146,14 @@ public class GameManager : MonoBehaviour
         guardMeter.Init(entityTransform, entityStatHandler, mainCamera, guardMeterCanvas.GetComponent<RectTransform>());
         //Debug.Log(">> GameManager: Guard Meter Added");
         return guardMeter;
+    }
+
+    void SetupAudio() 
+    {
+        if (FindObjectOfType<AudioManager>() == null)
+        {
+            audioManager = Instantiate(gameSettings.audioManger, transform.position, Quaternion.identity).GetComponent<AudioManager>();
+        }
     }
 
     public void EnableInput()

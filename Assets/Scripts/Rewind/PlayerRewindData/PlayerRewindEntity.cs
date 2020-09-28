@@ -25,6 +25,8 @@ public class PlayerRewindEntity : AnimationRewindEntity
 
         _rewindInput.OnEndRewind += EnableEvents;
         _rewindInput.OnStartRewind += DisableEvents;
+        _rewindInput.OnEndRewind += ApplyData;
+
         gameObjectRigidbody = gameObject.GetComponent<Rigidbody>();
         base.Start();
 

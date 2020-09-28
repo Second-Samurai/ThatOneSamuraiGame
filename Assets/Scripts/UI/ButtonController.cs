@@ -45,6 +45,18 @@ public class ButtonController : MonoBehaviour
         menu.SetActive(true);
     }
 
+    public void Continue()
+    {
+        vcam.m_Priority = 0;
+        optionsVCam.m_Priority = 0;
+        optionsMenu.SetActive(false);
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked; 
+        menu.SetActive(false);
+        GameManager.instance.checkpointManager.LoadCheckpoint();
+    }
+
     private void Start()
     {
         _input = GameManager.instance.playerController.gameObject.GetComponent<PlayerInput>();

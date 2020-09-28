@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public RewindManager rewindManager;
     public EnemyTracker enemyTracker;
     public PostProcessingController postProcessingController;
+    public CheckpointManager checkpointManager;
 
     //UICanvases
     [HideInInspector] public GameObject guardMeterCanvas;

@@ -41,11 +41,7 @@ public class EnemySpawnCheck : MonoBehaviour
     {
         return bSpawnMe;
     }
-
-    private void OnDestroy()
-    {
-        WriteValue(); 
-    }
+ 
 
     public void WriteValue()
     { 

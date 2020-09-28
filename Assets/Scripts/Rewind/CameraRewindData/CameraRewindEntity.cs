@@ -17,6 +17,8 @@ public class CameraRewindEntity : RewindEntity
         cameraDataList = new List<CameraTimeData>();
        lockOnTargetManager = GameManager.instance.playerController.gameObject.GetComponentInChildren<LockOnTargetManager>();
         _rewindInput.Reset += ResetTimeline;
+        _rewindInput.OnEndRewind += ApplyData;
+
         base.Start();
     }
 

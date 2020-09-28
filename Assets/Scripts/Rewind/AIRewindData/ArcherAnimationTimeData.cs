@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArcherAnimationTimeData : MonoBehaviour
+public class ArcherAnimationTimeData 
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float currentFrame;
+    public int currentClip;
 
-    // Update is called once per frame
-    void Update()
+    public ArcherAnimationTimeData(float _currentFrame, int _currentClip) 
     {
-        
+        currentFrame = _currentFrame;
+        currentClip = _currentClip;
     }
 }

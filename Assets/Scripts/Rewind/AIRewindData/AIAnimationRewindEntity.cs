@@ -22,7 +22,8 @@ public class AIAnimationRewindEntity : RewindEntity
         _rewindInput.Reset += ResetTimeline;
         _rewindInput.OnStartRewind += DisableEvents;
         _rewindInput.OnEndRewind += EnableEvents;
-       
+        _rewindInput.OnEndRewind += ApplyData;
+
         base.Start();
     }
 
@@ -77,7 +78,7 @@ public class AIAnimationRewindEntity : RewindEntity
         m_CurrentClipInfo = animator.GetCurrentAnimatorClipInfo(0);
 
         //move to animation rewind entity
-        animationDataList.Insert(0, new AIAnimationTimeData(animator.GetCurrentAnimatorStateInfo(0).normalizedTime, m_CurrentClipInfo[0].clip.name,
+        animationDataList.Insert(0, new AIAnimationTimeData(animator.GetCurrentAnimatorStateInfo(0).normalizedTime, animator.GetCurrentAnimatorStateInfo(0).shortNameHash,
                                                                      animator.GetBool("PlayerFound"), animator.GetBool("IsLightAttacking"), animator.GetBool("IsApproaching"), animator.GetBool("IsGuardBroken"), animator.GetBool("IsDead"),
                                                                      animator.GetBool("IsQuickBlocking"), animator.GetBool("IsBlocking"), animator.GetBool("IsParried"), animator.GetBool("IsStrafing"), 
                                                                      animator.GetFloat("StrafeDirectionX"), animator.GetBool("IsDodging"), animator.GetFloat("DodgeDirectionX"), animator.GetFloat("DodgeDirectionZ"),
@@ -120,20 +121,26 @@ public class AIAnimationRewindEntity : RewindEntity
         base.SetPosition();
        // animator.enabled = true;
         // animator.enabled = false;
+     
+        animator.SetBool("IsDead", animationDataList[currentIndex].bIsDead);
+      
+        animator.SetFloat("StrafeDirectionX", animationDataList[currentIndex].StrafeDirectionX);
+        animator.SetFloat("DodgeDirectionX", animationDataList[currentIndex].dodgeDirectionX);
+        animator.SetFloat("DodgeDirectionZ", animationDataList[currentIndex].dodgeDirectionZ);
+        animator.Play(animationDataList[currentIndex].currentClip, 0, animationDataList[currentIndex].currentFrame);
+    }
+    public override void ApplyData()
+    {
         animator.SetBool("PlayerFound", animationDataList[currentIndex].bPlayerFound);
         animator.SetBool("IsLightAttacking", animationDataList[currentIndex].bIsLightAttacking);
         animator.SetBool("IsApproaching", animationDataList[currentIndex].bIsApproaching);
         animator.SetBool("IsGuardBroken", animationDataList[currentIndex].bIsGuardBroken);
-        animator.SetBool("IsDead", animationDataList[currentIndex].bIsDead);
         animator.SetBool("IsQuickBlocking", animationDataList[currentIndex].IsQuickBlocking);
         animator.SetBool("IsBlocking", animationDataList[currentIndex].IsBlocking);
         animator.SetBool("IsParried", animationDataList[currentIndex].IsParried);
         animator.SetBool("IsStrafing", animationDataList[currentIndex].IsStrafing);
-        animator.SetFloat("StrafeDirectionX", animationDataList[currentIndex].StrafeDirectionX);
         animator.SetBool("IsDodging", animationDataList[currentIndex].IsDodging);
-        animator.SetFloat("DodgeDirectionX", animationDataList[currentIndex].dodgeDirectionX);
-        animator.SetFloat("DodgeDirectionZ", animationDataList[currentIndex].dodgeDirectionZ);
         animator.SetBool("IsClosingDistance", animationDataList[currentIndex].IsClosingDistance);
-        animator.Play(animationDataList[currentIndex].currentClip, 0, animationDataList[currentIndex].currentFrame);
     }
+
 }

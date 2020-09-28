@@ -97,7 +97,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
         EnemyTracker enemyTracker = GameManager.instance.enemyTracker;
         enemyTracker.RemoveEnemy(transform);
         
-        Invoke("HideArcher", 2.0f);
+        //Invoke("HideArcher", 2.0f);
     }
 
     public void DisableDamage()

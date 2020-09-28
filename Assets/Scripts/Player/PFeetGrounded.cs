@@ -41,7 +41,7 @@ public class PFeetGrounded : MonoBehaviour
             return;
         }
 
-        StepDown();
+        //StepDown();
     }
 
     // Summary: Raycasts to ground returning false when in air
@@ -49,7 +49,7 @@ public class PFeetGrounded : MonoBehaviour
     private bool CheckIsGrounded()
     {
         //Debug.DrawRay(footBaseTransform.position, -Vector3.up, Color.cyan);
-        if (Physics.Raycast(footBaseTransform.position, -Vector3.up, out _rayHit, 3f))
+        if (Physics.Raycast(footBaseTransform.position, -Vector3.up, out _rayHit, 2f))
         {
             _groundPosition = _rayHit.point;
             return false;

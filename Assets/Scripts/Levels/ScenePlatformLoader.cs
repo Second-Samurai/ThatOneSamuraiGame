@@ -80,6 +80,6 @@ public class ScenePlatformLoader : MonoBehaviour, ISceneLoader
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube(transform.position, new Vector3(loadRange, loadRange, loadRange));
+        Gizmos.DrawWireCube(transform.position, new Vector3(loadRange*2, loadRange*2, loadRange * 2));
     }
 }

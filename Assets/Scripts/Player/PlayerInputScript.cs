@@ -5,31 +5,49 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputScript : MonoBehaviour
 {
+    //FIELDS
+    #region Gameplay Bools
+    [HideInInspector] public bool bCanMove = true, bLockedOn = false, bMoveLocked = false, bIsDodging = false, bCanDodge = true, bCanAttack = false, bGotParried = false, bIsSheathed = false;
+    bool bAlreadyAttacked = false;
+    [HideInInspector] public bool bCanBlock = true;
+    [HideInInspector] public bool bOverrideMovement = false;
+    bool _bDodgeCache = false;
+    #endregion
 
-    Vector2 _inputVector, lastVector, _cachedVector;
-    public bool bCanMove = true, bLockedOn = false, bMoveLocked = false, bIsDodging = false, bCanDodge = true, bCanAttack = false;
-    public float rotationSpeed = 4f, smoothingValue = .1f;
-    Animator _animator;
-    public CameraControl _camControl;
-    public PlayerFunctions _functions;
+    #region Script References
+    [HideInInspector] public CameraControl _camControl;
+    [HideInInspector] public PlayerFunctions _functions;
+    [HideInInspector] public FinishingMoveController finishingMoveController;
+    [HideInInspector] public GameEvent onLockOnEvent;
+    [HideInInspector] public PlayerInput _inputComponent;
     ICombatController _playerCombat;
-    public Transform target;
+    HitstopController hitstopController;
+    Animator _animator;
     Rigidbody rb;
     PDamageController _pDamageController;
     PCombatController _pCombatController;
-    public PlayerInput _inputComponent;
     Camera _cam;
-    public FinishingMoveController finishingMoveController;
-    public GameEvent onLockOnEvent;
+    #endregion
 
+    #region Gameplay parameters
+    public float rotationSpeed = 4f, smoothingValue = .1f;
     float dodgeForce = 10f;
-
+    public Transform target;
     float _turnSmoothVelocity;
+    #endregion
 
-    bool _bDodgeCache = false;
-    public bool bCanBlock = true;
-    public bool bOverrideMovement = false;
+    #region Movement vectors
+    Vector2 _inputVector, lastVector, _cachedVector;
+    #endregion
      
+    #region Heavy Charging
+    float heavyTimer, heavyTimerMax = 2f;
+    bool bHeavyCharging = false, bPlayGleam = true;
+    #endregion
+
+
+    //INIT
+    #region Initialization 
     private void Start()
     {
         _inputComponent = GetComponent<PlayerInput>();
@@ -42,8 +60,13 @@ public class PlayerInputScript : MonoBehaviour
         _pCombatController = GetComponent<PCombatController>();
         _cam = Camera.main;
         finishingMoveController = GetComponentInChildren<FinishingMoveController>();
+        hitstopController = GameManager.instance.GetComponent<HitstopController>();
+        heavyTimer = heavyTimerMax;
     }
+    #endregion
 
+    //INPUT
+    #region Input Functions
     void OnMovement(InputValue dir) 
     {
         Vector2 cachedDir;
@@ -89,23 +112,11 @@ public class PlayerInputScript : MonoBehaviour
         if (bLockedOn) _camControl.LockOn();
     }
 
-    
-
-    //void OnReleaseLockOn()
-    //{
-    //    if (bLockedOn)
-    //    {
-    //        bLockedOn = false;
-    //        _camControl.UnlockCam();
-    //        _animator.SetBool("LockedOn", bLockedOn);
-    //        _camControl.bLockedOn = bLockedOn;
-    //    }
-    //}
-
+   
     //NOTE: The combat component requires to be instantiated early. Suggest input script to be instantated late.
     private void OnAttack(InputValue value)
     {
-        if (bCanAttack)
+        if (bCanAttack && !bAlreadyAttacked)
         {
             //Debug.LogError(">> Light attack Triggered");
             if (_playerCombat == null)
@@ -118,25 +129,32 @@ public class PlayerInputScript : MonoBehaviour
             if (!value.isPressed)
             {
                 _playerCombat.RunLightAttack();
+                bAlreadyAttacked = false;
             }
 
-            if (_animator.GetBool("HeavyAttackHeld"))
-            {
-                _animator.SetBool("HeavyAttackHeld", false);
-                //_camControl.StopCoroutine(_camControl.ResetCamRoll());
-                //_camControl.StopCoroutine("RollCam");
-                _camControl.StopAllCoroutines();
-                _camControl.StartCoroutine(_camControl.ResetCamRoll());
-            }
+           
+            if (hitstopController.bIsSlowing) hitstopController.CancelEffects();
+        }
+        else if (bAlreadyAttacked)
+        {
+            bAlreadyAttacked = false;
+        }
+
+        if (_animator.GetBool("HeavyAttackHeld"))
+        {
+            ExecuteHeavyAttack();
+            bAlreadyAttacked = false;
         }
     }
-
+      
     void OnStartHeavy()
     {
         if (bCanAttack)
         {
             if (!_animator.GetBool("HeavyAttackHeld"))
             {
+                bHeavyCharging = true;
+                bIsSheathed = true;
                 _animator.SetBool("HeavyAttackHeld", true);
                 //_camControl.StopCoroutine(_camControl.RollCam());
                 //_camControl.StopCoroutine(_camControl.ResetCamRoll());
@@ -148,10 +166,14 @@ public class PlayerInputScript : MonoBehaviour
 
     void OnStartBlock()
     {
-        if(bCanBlock)
+        if (bCanBlock)
+        {
             _functions.StartBlock();
-    }
+            if (bGotParried) EndSlowEffects();
 
+        }
+    }
+      
     void OnEndBlock()
     {
         _functions.EndBlock();
@@ -162,6 +184,8 @@ public class PlayerInputScript : MonoBehaviour
         if (_inputVector != Vector2.zero && !bIsDodging && bCanDodge)
         {
             _animator.SetTrigger("Dodge");
+            _animator.ResetTrigger("AttackLight");
+            if (bGotParried) EndSlowEffects();
             if (bLockedOn)
             {
                 StopCoroutine("DodgeImpulse");
@@ -181,21 +205,45 @@ public class PlayerInputScript : MonoBehaviour
     {
         _functions.Pause();
     }
+
+    #endregion
+
+    //OUTPUT
+    #region Execution
+    private void ExecuteHeavyAttack()
+    {
+        bHeavyCharging = false;
+        bIsSheathed = false;
+        bPlayGleam = true;
+        _animator.SetBool("HeavyAttackHeld", false);
+        //_camControl.StopCoroutine(_camControl.ResetCamRoll());
+        //_camControl.StopCoroutine("RollCam");
+        _camControl.StopAllCoroutines();
+        _camControl.StartCoroutine(_camControl.ResetCamRoll());
+    }
+
+    void HeavyTimer()
+    {
+        heavyTimer -= Time.deltaTime;
+        if(heavyTimer < .5f && bPlayGleam)
+        {
+            bPlayGleam = false;
+            _functions.parryEffects.PlayGleam();
+        }
+        if(heavyTimer <= 0)
+        {
+            bAlreadyAttacked = true;
+            ExecuteHeavyAttack();
+            heavyTimer = heavyTimerMax;
+        }
+    }
    
 
     private void FixedUpdate()
     {
-        MovePlayer();
-        //if (_bDodgeCache && bCanDodge)
-        //{
-        //    _animator.SetTrigger("Dodge");
-        //    StopCoroutine("DodgeImpulse");
-        //    StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
-        //    if (_functions.bCanBlock == false)
-        //        _functions.EnableBlock();
-        //    _bDodgeCache = false;
-        //}
-
+        MovePlayer(); 
+        if (bHeavyCharging) HeavyTimer();
+        else if (heavyTimer != heavyTimerMax) heavyTimer = heavyTimerMax;
     }
 
     private void MovePlayer()
@@ -203,7 +251,7 @@ public class PlayerInputScript : MonoBehaviour
         if (bCanMove)
         {
             Vector3 _direction = new Vector3(_inputVector.x, 0, _inputVector.y).normalized;
-            if (_direction != Vector3.zero && !bLockedOn && !bOverrideMovement)
+            if (_direction != Vector3.zero && !bLockedOn && !bOverrideMovement && !bIsSheathed)
             {
                 float _targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + _cam.transform.eulerAngles.y;
                 float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, .1f);
@@ -241,6 +289,10 @@ public class PlayerInputScript : MonoBehaviour
 
     public void StartDodging()
     {
+        bIsSheathed = false;
+        bPlayGleam = true;
+        bHeavyCharging = false;
+        bCanAttack = false;
         bIsDodging = true; 
         _pDamageController.DisableDamage();
         _functions.DisableBlock();
@@ -249,11 +301,15 @@ public class PlayerInputScript : MonoBehaviour
 
     public void EndDodging()
     {
+        bCanAttack = true;
         bIsDodging = false;
         _pDamageController.EnableDamage();
         _functions.EnableBlock();
     }
+    #endregion
 
+    //Public Functions for bools and other Parameters
+    #region Parameter Controls
     public void OverrideMovement()
     {
         bOverrideMovement = true;
@@ -288,23 +344,11 @@ public class PlayerInputScript : MonoBehaviour
             EndDodging();
         }
     }
-
-
+     
     public void Test()
     {
         _pDamageController.OnEntityDamage(1, this.gameObject, false);
-    }
-
-    private void Update()
-    {
-        //if (Keyboard.current.pKey.wasPressedThisFrame)
-        //    Test();
-        //if (Keyboard.current.oKey.wasPressedThisFrame)
-        //{
-        //    finishingMoveController.PlayFinishingMove(target.gameObject);
-        //}
-    }
-
+    } 
     public void ResetDodge()
     {
         bCanDodge = true;
@@ -336,6 +380,22 @@ public class PlayerInputScript : MonoBehaviour
     {
         bCanMove = true;
     }
-     
 
+    public void GotParried()
+    {
+        bGotParried = true; 
+    }
+
+    public void EndGotParried()
+    {
+        bGotParried = false;
+    }
+
+    private void EndSlowEffects()
+    {
+        EndGotParried();
+        hitstopController.CancelEffects();
+    }
+
+    #endregion
 }

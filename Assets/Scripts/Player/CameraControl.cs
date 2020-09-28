@@ -158,7 +158,7 @@ public class CameraControl : MonoBehaviour
             {
                 _lockedCamScript.cam.m_Lens.FieldOfView += Time.deltaTime * 100f;
             }
-            else _lockedCamScript.cam.m_Lens.FieldOfView = 40f;
+            else _lockedCamScript.cam.m_Lens.FieldOfView = 60f;
             yield return null;
         }
         _lockedCamScript.cam.m_Lens.Dutch = 0f;

@@ -25,6 +25,9 @@ public class PlayerFunctions : MonoBehaviour
     Animator _animator;
     PDamageController _pDamageController;
     Rigidbody rb;
+
+    HitstopController hitstopController;
+
     public bool bIsDead = false;
 
     public RectTransform screenCenter;
@@ -51,6 +54,8 @@ public class PlayerFunctions : MonoBehaviour
         _inputComponent = GetComponent<PlayerInput>();
 
         playerInputScript = GetComponent<PlayerInputScript>();
+
+        hitstopController = GameManager.instance.GetComponent<HitstopController>();
     }
     public void SetBlockCooldown()
     {
@@ -65,18 +70,19 @@ public class PlayerFunctions : MonoBehaviour
             _bDontCheckParry = false;
             parryEffects.PlayGleam();
             _IKPuppet.EnableIK();
+          
         }
     }
 
     public void EndBlock()
     {
-       // if (bIsBlocking)
-       // {
-            bIsBlocking = false;
-            bIsParrying = false;
-            parryTimer = 0f;
-            _IKPuppet.DisableIK();
-            SetBlockCooldown();
+        // if (bIsBlocking)
+        // { 
+        bIsBlocking = false;
+        bIsParrying = false;
+        parryTimer = 0f;
+        _IKPuppet.DisableIK();
+        SetBlockCooldown();
        // }
     }
 
@@ -166,6 +172,8 @@ public class PlayerFunctions : MonoBehaviour
     public void TriggerParry(GameObject attacker, float damage)
     {
         parryEffects.PlayParry();
+        _animator.SetTrigger("Parrying");
+        hitstopController.SlowTime(.5f, 1);
         if(attacker != null)
         {
             attacker.GetComponent<EDamageController>().OnParried(damage); //Damage attacker's guard meter

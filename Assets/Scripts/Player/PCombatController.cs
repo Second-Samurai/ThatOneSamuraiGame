@@ -106,6 +106,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         _isAttacking = true;
         _functions.DisableBlock();
         attackCol.enabled = true;
+        _animator.ResetTrigger("AttackLight");
         _guideController.MoveToNearestEnemy();
     }
 

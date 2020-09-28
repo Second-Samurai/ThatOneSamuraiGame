@@ -5,6 +5,7 @@ public class EDamageController : MonoBehaviour, IDamageable
 {
     private StatHandler _enemyStats;
     private AISystem _aiSystem;
+    HitstopController hitstopController;
 
     [HideInInspector] public Guarding enemyGuard;
 
@@ -15,6 +16,7 @@ public class EDamageController : MonoBehaviour, IDamageable
 
         enemyGuard = this.gameObject.AddComponent<Guarding>();
         enemyGuard.Init(_enemyStats);
+        hitstopController = GameManager.instance.gameObject.GetComponent<HitstopController>();
     }
 
     public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
@@ -114,5 +116,10 @@ public class EDamageController : MonoBehaviour, IDamageable
     public EntityType GetEntityType()
     {
         return EntityType.Enemy;
+    }
+
+    public void TriggerSlowdown(float f)
+    {
+        hitstopController.SlowTime(.5f, f);
     }
 }

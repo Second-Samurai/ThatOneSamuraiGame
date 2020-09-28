@@ -25,7 +25,7 @@ public class ArcherTempTracker : MonoBehaviour
         }
         else if (other.CompareTag("Player"))
         {
-            Debug.LogError("REMOVED");
+
             _enemyTracker.RemoveEnemy(GetComponentInParent<Rigidbody>().gameObject.transform);
         }
     }

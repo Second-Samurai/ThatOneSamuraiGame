@@ -23,9 +23,8 @@ namespace Enemies
     // any enemy behaviours should be handled through the state machine
     public class AISystem : EnemyStateMachine
     {
-        
-        #region Fields and Properties
-        
+
+        #region Fields and Properties 
         //ENEMY TYPE, SET IN PREFAB INSPECTOR
         public EnemyType enemyType;
         //WEAPON COLLIDER, SET IN PREFAB INSPECTOR
@@ -35,6 +34,7 @@ namespace Enemies
         public EnemySettings enemySettings; // Taken from EnemySettings Scriptable object in start
         public StatHandler statHandler;
         public EnemyTracker enemyTracker;
+        public EnemySpawnCheck spawnCheck;
         
         //ANIMATOR
         public Animator animator;
@@ -90,10 +90,17 @@ namespace Enemies
 
             // Start the enemy in an idle state
             OnIdle();
+
+
+        }
+
+        private void Update()
+        {
+            spawnCheck.bSpawnMe = !bIsDead;
         }
 
         #endregion
-        
+
         #region Enemy Utility Funcitons
 
         // Assign stats based on the enemy type

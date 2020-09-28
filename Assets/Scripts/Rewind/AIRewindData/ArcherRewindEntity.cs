@@ -44,19 +44,19 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
 
     }
 
-    public void DisableEvents()
+    public new void DisableEvents()
     {
         gameObjectRigidbody.isKinematic = true;
 
-        //base.DisableEvents();
+        base.DisableEvents();
 
     }
 
-    public void EnableEvents()
+    public new void EnableEvents()
     {
         gameObjectRigidbody.isKinematic = false;
 
-        //base.EnableEvents();
+        base.EnableEvents();
 
     }
 

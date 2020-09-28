@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
-using UnityEngine.InputSystem; 
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class ButtonController : MonoBehaviour
 {
@@ -10,9 +11,13 @@ public class ButtonController : MonoBehaviour
     public GameObject menu, optionsMenu;
     PlayerInput _input;
     public GameObject cutscene;
+    public Button continueButton;
     
     public void CloseMenu()
     {
+        GameManager.instance.checkpointManager.ResetCheckpoints();
+        GameManager.instance.enemySpawnManager.ResetList();
+
         vcam.m_Priority = 0;
         optionsVCam.m_Priority = 0;
         optionsMenu.SetActive(false);
@@ -45,9 +50,26 @@ public class ButtonController : MonoBehaviour
         menu.SetActive(true);
     }
 
+    public void Continue()
+    {
+        vcam.m_Priority = 0;
+        optionsVCam.m_Priority = 0;
+        optionsMenu.SetActive(false);
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked; 
+        menu.SetActive(false);
+        GameManager.instance.checkpointManager.LoadCheckpoint();
+    }
+
     private void Start()
     {
         _input = GameManager.instance.playerController.gameObject.GetComponent<PlayerInput>();
         _input.SwitchCurrentActionMap("Menu");
+    }
+
+    public void EnableContinue()
+    {
+        continueButton.interactable = true;
     }
 }

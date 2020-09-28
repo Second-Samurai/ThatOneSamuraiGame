@@ -50,7 +50,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         _playerInput = GetComponent<PlayerInputScript>();
         _damageController = GetComponent<PDamageController>();
         _functions = GetComponent<PlayerFunctions>();
-        attackCol = GetComponentInChildren<BoxCollider>();
+        //attackCol = GetComponentInChildren<BoxCollider>();
 
         _attackRegister = new EntityAttackRegister();
         _attackRegister.Init(this.gameObject, EntityType.Player, _playerSword);

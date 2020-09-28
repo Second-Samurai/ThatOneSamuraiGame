@@ -2139,7 +2139,8 @@ GameObject:
   - component: {fileID: 7234922115759954016}
   - component: {fileID: 1077441570}
   - component: {fileID: 8586185209607081824}
-  m_Layer: 0
+  - component: {fileID: 621180875115429397}
+  m_Layer: 10
   m_Name: Archer
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -2180,145 +2181,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
-  m_WarningMessage: '
-
-    Transform ''mixamorig:LeftToeBase'' has been deleted
-
-    Transform
-    ''mixamorig:LeftFoot'' has been deleted
-
-    Transform ''mixamorig:LeftLeg''
-    has been deleted
-
-    Transform ''mixamorig:LeftUpLeg'' has been deleted
-
-    Transform
-    ''mixamorig:RightToeBase'' has been deleted
-
-    Transform ''mixamorig:RightFoot''
-    has been deleted
-
-    Transform ''mixamorig:RightLeg'' has been deleted
-
-    Transform
-    ''mixamorig:RightUpLeg'' has been deleted
-
-    Transform ''mixamorig:LeftHandIndex3''
-    has been deleted
-
-    Transform ''mixamorig:LeftHandIndex2'' has been deleted
-
-    Transform
-    ''mixamorig:LeftHandIndex1'' has been deleted
-
-    Transform ''mixamorig:LeftHandMiddle3''
-    has been deleted
-
-    Transform ''mixamorig:LeftHandMiddle2'' has been deleted
-
-    Transform
-    ''mixamorig:LeftHandMiddle1'' has been deleted
-
-    Transform ''mixamorig:LeftHandPinky3''
-    has been deleted
-
-    Transform ''mixamorig:LeftHandPinky2'' has been deleted
-
-    Transform
-    ''mixamorig:LeftHandPinky1'' has been deleted
-
-    Transform ''mixamorig:LeftHandRing3''
-    has been deleted
-
-    Transform ''mixamorig:LeftHandRing2'' has been deleted
-
-    Transform
-    ''mixamorig:LeftHandRing1'' has been deleted
-
-    Transform ''mixamorig:LeftHandThumb3''
-    has been deleted
-
-    Transform ''mixamorig:LeftHandThumb2'' has been deleted
-
-    Transform
-    ''mixamorig:LeftHandThumb1'' has been deleted
-
-    Transform ''mixamorig:LeftHand''
-    has been deleted
-
-    Transform ''mixamorig:LeftForeArm'' has been deleted
-
-    Transform
-    ''mixamorig:LeftArm'' has been deleted
-
-    Transform ''mixamorig:LeftShoulder''
-    has been deleted
-
-    Transform ''mixamorig:Head'' has been deleted
-
-    Transform
-    ''mixamorig:Neck'' has been deleted
-
-    Transform ''mixamorig:RightHandIndex3''
-    has been deleted
-
-    Transform ''mixamorig:RightHandIndex2'' has been deleted
-
-    Transform
-    ''mixamorig:RightHandIndex1'' has been deleted
-
-    Transform ''mixamorig:RightHandMiddle3''
-    has been deleted
-
-    Transform ''mixamorig:RightHandMiddle2'' has been deleted
-
-    Transform
-    ''mixamorig:RightHandMiddle1'' has been deleted
-
-    Transform ''mixamorig:RightHandPinky3''
-    has been deleted
-
-    Transform ''mixamorig:RightHandPinky2'' has been deleted
-
-    Transform
-    ''mixamorig:RightHandPinky1'' has been deleted
-
-    Transform ''mixamorig:RightHandRing3''
-    has been deleted
-
-    Transform ''mixamorig:RightHandRing2'' has been deleted
-
-    Transform
-    ''mixamorig:RightHandRing1'' has been deleted
-
-    Transform ''mixamorig:RightHandThumb3''
-    has been deleted
-
-    Transform ''mixamorig:RightHandThumb2'' has been deleted
-
-    Transform
-    ''mixamorig:RightHandThumb1'' has been deleted
-
-    Transform ''mixamorig:RightHand''
-    has been deleted
-
-    Transform ''mixamorig:RightForeArm'' has been deleted
-
-    Transform
-    ''mixamorig:RightArm'' has been deleted
-
-    Transform ''mixamorig:RightShoulder''
-    has been deleted
-
-    Transform ''mixamorig:Spine2'' has been deleted
-
-    Transform
-    ''mixamorig:Spine1'' has been deleted
-
-    Transform ''mixamorig:Spine'' has
-    been deleted
-
-    Transform ''mixamorig:Hips'' has been deleted'
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -2335,9 +2198,9 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &7234922115759954019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2364,6 +2227,7 @@ MonoBehaviour:
   arrow: {fileID: 5474719794975255004, guid: ee54be1405ff54d408c69796987d9e7b, type: 3}
   anim: {fileID: 7234922115759954021}
   col: {fileID: 1077441570}
+  spawnCheck: {fileID: 621180875115429397}
 --- !u!120 &7234922115759954016
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -2492,7 +2356,22 @@ MonoBehaviour:
   transformDataList: []
   thisTransform: {fileID: 0}
   _rewindInput: {fileID: 0}
+  animator: {fileID: 0}
   gameObjectRigidbody: {fileID: 0}
+--- !u!114 &621180875115429397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7234922115759954020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 130b861c0fa148241aeb25c94a1a6d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myName: 
+  bSpawnMe: 1
 --- !u!1 &7268227667384927533
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ public static class GameData
 {
     public static int currentCheckpoint = 0;
     public static Dictionary<string, bool> EnemyList;
+    public static bool bLoaded = false;
 
     public static SaveData ReturnSaveData()
     {
@@ -18,6 +19,7 @@ public static class GameData
     {
         currentCheckpoint = data.currentCheckpoint;
         EnemyList = data.EnemyList;
+        bLoaded = true;
     }
 
     [System.Serializable]

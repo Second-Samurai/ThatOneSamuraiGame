@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     public PostProcessingController postProcessingController;
     public CheckpointManager checkpointManager;
 
+    public ButtonController buttonController;
+
     //UICanvases
     [HideInInspector] public GameObject guardMeterCanvas;
 
@@ -49,6 +51,11 @@ public class GameManager : MonoBehaviour
     {
         SetupPlayer();
         SetupEnemies();
+        if (!buttonController)
+        {
+            Debug.LogError("Button Controller not assigned! Looking for button via script");
+            buttonController = GameObject.FindWithTag("MainMenu").GetComponent<ButtonController>();
+        }
     }
 
     void SetupSceneCamera()

@@ -9,11 +9,26 @@ public class CheckpointManager : MonoBehaviour
     public List<Checkpoint> checkpoints;
     public int activeCheckpoint;
 
-    
+    private void Start()
+    {
+        SaveSystem.LoadGame();
+        GetSaveDataCheckpoint();
+        if(CheckIfCheckpointAvailable()) GameManager.instance.buttonController.EnableContinue();
+    }
+
+    public bool CheckIfCheckpointAvailable()
+    {
+        foreach (Checkpoint checkpoint in checkpoints)
+        {
+            if (checkpoint.bIsActive) return true;
+        }
+        return false;
+    }
 
     public void SaveActiveCheckpoint()
     {
         GameData.currentCheckpoint = activeCheckpoint;
+        SaveSystem.SaveGame();
     }
 
     public void GetSaveDataCheckpoint()
@@ -23,16 +38,17 @@ public class CheckpointManager : MonoBehaviour
         {
             checkpoint.bIsActive = false;
         }
-        checkpoints[activeCheckpoint].bIsActive = true;
+        if (GameData.bLoaded)
+        {
+            Debug.Log(GameData.currentCheckpoint);
+            checkpoints[activeCheckpoint].bIsActive = true;
+        }
     }
 
      
     private void Update()
     {
-        if (Keyboard.current.pKey.wasPressedThisFrame)
-        {
-            LoadCheckpoint();
-        }
+        
     }
 
     public void LoadCheckpoint()
@@ -45,6 +61,15 @@ public class CheckpointManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.Confined;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+    }
+
+    public void ResetCheckpoints()
+    {
+        foreach (Checkpoint checkpoint in checkpoints)
+        {
+            checkpoint.bIsActive = false;
+        }
+        activeCheckpoint = 0;
     }
    
 }

@@ -9,7 +9,7 @@ public class Checkpoint : MonoBehaviour
     public Transform spawnPos;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         checkpointManager = GameManager.instance.checkpointManager;
         checkpointManager.checkpoints.Add(this); 
@@ -19,6 +19,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && !bIsActive)
         {
+            Debug.Log("Checkpoint Set");
             SetActiveCheckpoint();
         }
     }
@@ -37,6 +38,12 @@ public class Checkpoint : MonoBehaviour
     {
         GameManager.instance.playerController.gameObject.transform.position = spawnPos.position;
         GameManager.instance.EnableInput();
+        GameManager.instance.thirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
+        GameManager.instance.rewindManager.isTravelling = false;
+        PlayerFunctions player = GameManager.instance.playerController.gameObject.GetComponent<PlayerFunctions>();
+        
+        player.rSword.SetActive(true);
+        player.gameObject.GetComponent<PlayerInputScript>().bCanAttack = true; 
     }
 
 }

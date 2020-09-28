@@ -1016,6 +1016,18 @@ Transform:
   m_Father: {fileID: 678234414}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &362935903 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5056277535050575285, guid: f7a58792d2a7a416d9af8bef9151cb8f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1682896189}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &411638203
 GameObject:
   m_ObjectHideFlags: 0
@@ -3086,6 +3098,16 @@ PrefabInstance:
       propertyPath: m_Events.m_Events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2028366227}
+    - target: {fileID: 4712481422256540372, guid: f7a58792d2a7a416d9af8bef9151cb8f,
+        type: 3}
+      propertyPath: m_TagString
+      value: MainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712481422256540374, guid: f7a58792d2a7a416d9af8bef9151cb8f,
+        type: 3}
+      propertyPath: continueButton
+      value: 
+      objectReference: {fileID: 362935903}
     - target: {fileID: 4712481422437379944, guid: f7a58792d2a7a416d9af8bef9151cb8f,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -3791,6 +3813,18 @@ Transform:
   m_Father: {fileID: 411638204}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1949541784 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4712481422256540374, guid: f7a58792d2a7a416d9af8bef9151cb8f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1682896189}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589b7b7a71e245543b1a09f8b48a477e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1976510697
 GameObject:
   m_ObjectHideFlags: 0
@@ -4334,6 +4368,11 @@ PrefabInstance:
       propertyPath: playerController
       value: 
       objectReference: {fileID: 1342963053}
+    - target: {fileID: 5014418588748919041, guid: 7f10a4a5279d140b3adf1aceaef298c3,
+        type: 3}
+      propertyPath: buttonController
+      value: 
+      objectReference: {fileID: 1949541784}
     - target: {fileID: 5014418588748919054, guid: 7f10a4a5279d140b3adf1aceaef298c3,
         type: 3}
       propertyPath: m_Name

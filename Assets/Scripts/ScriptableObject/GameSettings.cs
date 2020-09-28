@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using JetBrains.Annotations;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -41,4 +42,8 @@ public class GameSettings : ScriptableObject
 
     [Header("RewindManager")]
     public GameObject rewindManager;
+
+    [Header("AudioManger")]
+    public GameObject audioManger;
+
 }

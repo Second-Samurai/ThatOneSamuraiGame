@@ -21,6 +21,10 @@ public class GameManager : MonoBehaviour
     public PostProcessingController postProcessingController;
     public AudioManager audioManager;
 
+    public CheckpointManager checkpointManager;
+    public EnemySpawnManager enemySpawnManager;
+    public ButtonController buttonController;
+
     //UICanvases
     [HideInInspector] public GameObject guardMeterCanvas;
 
@@ -51,6 +55,11 @@ public class GameManager : MonoBehaviour
     {
         SetupPlayer();
         SetupEnemies();
+        if (!buttonController)
+        {
+            Debug.LogError("Main Menu not assigned! Finding in code");
+            buttonController = GameObject.FindWithTag("MainMenu").GetComponent<ButtonController>();
+        }
     }
 
     void SetupScene()

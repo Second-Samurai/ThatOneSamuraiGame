@@ -7,8 +7,6 @@ namespace Enemies.Enemy_States
 {
     public class CircleEnemyState : EnemyState
     {
-        private Animator _animator;
-        
         private Vector3 _target;
         private float _longRange;
         private float _midRange;
@@ -38,7 +36,7 @@ namespace Enemies.Enemy_States
 
             // Reset trigger after frame has passed
             yield return null;
-            _animator.ResetTrigger("TriggerMovement");
+            Animator.ResetTrigger("TriggerMovement");
         }
         
         public override void Tick()
@@ -65,8 +63,8 @@ namespace Enemies.Enemy_States
         public override void EndState()
         {
             // Reset animation variables
-            _animator.SetFloat("MovementX", 0.0f);
-            _animator.ResetTrigger("TriggerMovement");
+            Animator.SetFloat("MovementX", 0.0f);
+            Animator.ResetTrigger("TriggerMovement");
             
             // If threatened, do a threatened response (i.e. if the player is close)
             // Else approach the player again (i.e. if the player is far)
@@ -79,19 +77,17 @@ namespace Enemies.Enemy_States
         // Set the strafe direction
         private void PickStrafeDirection()
         {
-            _animator = AISystem.animator;
-            
             // Random.Range is non-inclusive for it's max value for ints
             if (Random.Range(0, 2) == 0)
             {
-                _animator.SetFloat("MovementX", -1.0f);
+                Animator.SetFloat("MovementX", -1.0f);
             }
             else
             {
-                _animator.SetFloat("MovementX", 1.0f);
+                Animator.SetFloat("MovementX", 1.0f);
             }
             
-            _animator.SetTrigger("TriggerMovement");
+            Animator.SetTrigger("TriggerMovement");
         }
         
         // Pick a random action to perform when the player approaches the enemy
@@ -117,7 +113,7 @@ namespace Enemies.Enemy_States
                 case int i when (i >= 0 && i < 3): // RETRACT BACK
                     // Dodge direction is set in the state before OnDodge is called
                     // This is so we can choose a dodge direction based on the previous state
-                    _animator.SetFloat("MovementZ", -1);
+                    Animator.SetFloat("MovementZ", -1);
                     AISystem.OnDodge();
                     break;
                 default:

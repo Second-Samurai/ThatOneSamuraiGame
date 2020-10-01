@@ -5,8 +5,6 @@ namespace Enemies.Enemy_States
 {
     public class DodgeEnemyState : EnemyState
     {
-        private Animator _animator;
-        
         //Class constructor
         public DodgeEnemyState(AISystem aiSystem) : base(aiSystem)
         {
@@ -20,19 +18,18 @@ namespace Enemies.Enemy_States
             // Set the dodge trigger
             // NOTE: Dodge direction is based on MovementX and MovementZ
             // These variables are set before TriggerDodge is called
-            _animator = AISystem.animator;
-            _animator.SetTrigger("TriggerDodge");
+            Animator.SetTrigger("TriggerDodge");
             
             // Perform a dodge using the enemy dodge force and movement variables
             AISystem.DodgeImpulse(new Vector3(
-                    _animator.GetFloat("MovementX"), 
+                    Animator.GetFloat("MovementX"), 
                     0, 
-                    _animator.GetFloat("MovementZ")), 
+                    Animator.GetFloat("MovementZ")), 
                 AISystem.enemySettings.GetEnemyStatType(AISystem.enemyType).dodgeForce);
 
             // Reset trigger after frame has passed
             yield return null;
-            _animator.ResetTrigger("TriggerDodge");
+            Animator.ResetTrigger("TriggerDodge");
             
             // NOTE: End state is called through an animation event in the dodge animation
         }

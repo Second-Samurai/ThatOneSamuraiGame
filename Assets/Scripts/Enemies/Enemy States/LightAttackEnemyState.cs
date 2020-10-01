@@ -5,8 +5,6 @@ namespace Enemies.Enemy_States
 {
     public class LightAttackEnemyState : EnemyState
     {
-        private Animator _animator;
-        
         private Vector3 _target;
 
         //Class constructor
@@ -22,15 +20,14 @@ namespace Enemies.Enemy_States
             AISystem.navMeshAgent.isStopped = true;
 
             // Set the attack trigger
-            _animator = AISystem.animator;
-            _animator.SetTrigger("TriggerLightAttack");
+            Animator.SetTrigger("TriggerLightAttack");
             
             // Rotate towards player
             bIsRotating = true;
 
             // Reset trigger after frame has passed
             yield return null;
-            _animator.ResetTrigger("TriggerLightAttack");
+            Animator.ResetTrigger("TriggerLightAttack");
 
             // NOTE: End state is called through an animation event in the light attack animation
             // NOTE: An animation event triggers the enemy to scoot forwards if the player is too far away

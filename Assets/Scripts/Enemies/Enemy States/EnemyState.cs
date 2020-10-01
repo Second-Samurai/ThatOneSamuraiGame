@@ -11,6 +11,7 @@ namespace Enemies.Enemy_States
     {
         // Breaking standard naming conventions for the sake of state naming
         protected AISystem AISystem;
+        protected Animator Animator;
 
         private float _rotationSpeed = 4.0f;
         
@@ -21,6 +22,7 @@ namespace Enemies.Enemy_States
         protected EnemyState(AISystem aiSystem)
         {
             AISystem = aiSystem;
+            Animator = aiSystem.animator;
         }
         
         // State start, update and end methods

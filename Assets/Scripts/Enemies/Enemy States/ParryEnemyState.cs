@@ -5,8 +5,6 @@ namespace Enemies.Enemy_States
 {
     public class ParryEnemyState : EnemyState
     {
-        private Animator _animator;
-        
         private Vector3 _target;
 
         //Class constructor
@@ -25,12 +23,11 @@ namespace Enemies.Enemy_States
             AISystem.parryEffects.PlayParry();
             
             // Set the parry trigger
-            _animator = AISystem.animator;
-            _animator.SetTrigger("TriggerParry");
+            Animator.SetTrigger("TriggerParry");
             
             // Reset trigger after frame has passed
             yield return null;
-            _animator.ResetTrigger("TriggerParry");
+            Animator.ResetTrigger("TriggerParry");
             
             // NOTE: End state is called through an animation event in the parry attack animation
         }
@@ -50,7 +47,7 @@ namespace Enemies.Enemy_States
 
             // Dodge direction is set in the state before OnDodge is called
             // This is so we can choose a dodge direction based on the previous state
-            _animator.SetFloat("MovementZ", -1);
+            Animator.SetFloat("MovementZ", -1);
             AISystem.OnDodge();
         }
     }

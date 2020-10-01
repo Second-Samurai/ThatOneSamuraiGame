@@ -14,21 +14,25 @@ namespace Enemies.Enemy_States
         {
             //NOTE: Damage handling can be found in EDamageController
             
-            ResetAnimationVariables();
-
-            AISystem.animator.SetTrigger("Parried");
+            // Stop the navMeshAgent from tracking
+            AISystem.navMeshAgent.isStopped = true;
             
-            yield break;
+            // Set the parry stun trigger
+            Animator.SetTrigger("TriggerParryStun");
+            
+            // Reset the trigger after a frame has passed
+            yield return null;
+            Animator.ResetTrigger("TriggerParryStun");
         }
         
         // End state is called through an animation event at the end of the animation
         public override void EndState()
         {
-            AISystem.animator.ResetTrigger("Parried");
-            
             if(AISystem.enemyType == EnemyType.TUTORIALENEMY)
             {
-                AISystem.dodgeDirectionZ = -1;
+                // Dodge direction is set in the state before OnDodge is called
+                // This is so we can choose a dodge direction based on the previous state
+                Animator.SetFloat("MovementZ", -1);
                 AISystem.OnDodge();
             }
             else 

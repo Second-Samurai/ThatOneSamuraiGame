@@ -5,8 +5,6 @@ namespace Enemies.Enemy_States
 {
     public class BlockEnemyState : EnemyState
     {
-        private Animator _animator;
-        
         private Vector3 _target;
 
         private float _remainingBlockTime;
@@ -30,12 +28,11 @@ namespace Enemies.Enemy_States
             AISystem.navMeshAgent.isStopped = true;
             
             // Set the block trigger
-            _animator = AISystem.animator;
-            _animator.SetTrigger("TriggerBlock");
+            Animator.SetTrigger("TriggerBlock");
             
             // Reset trigger after frame has passed
             yield return null;
-            _animator.ResetTrigger("TriggerBlock");
+            Animator.ResetTrigger("TriggerBlock");
             
             // NOTE: BlockEnemyState can be interrupted to enter ParryEnemyState
             // if the player attacks mid block. This will make it so the timer never
@@ -101,7 +98,7 @@ namespace Enemies.Enemy_States
                 {
                     // Dodge direction is set in the state before OnDodge is called
                     // This is so we can choose a dodge direction based on the previous state
-                    _animator.SetFloat("MovementZ", -1);
+                    Animator.SetFloat("MovementZ", -1);
                     AISystem.OnDodge();
                 }
             }

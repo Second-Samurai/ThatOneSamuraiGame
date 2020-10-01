@@ -24,9 +24,13 @@ namespace Enemies.Enemy_States
             _longRange = AISystem.enemySettings.longRange;
             _shortRange = AISystem.enemySettings.shortRange;
             
-            AISystem.animator.SetBool("IsClosingDistance", true);
-
-            yield break;
+            // Trigger the movement blend tree with a forward approach
+            Animator.SetFloat("MovementZ", 1.0f);
+            Animator.SetTrigger("TriggerMovement");
+            
+            // Reset trigger after frame has passed
+            yield return null;
+            Animator.ResetTrigger("TriggerMovement");
         }
 
         public override void Tick()
@@ -52,7 +56,9 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
-            AISystem.animator.SetBool("IsClosingDistance", false);
+            // Reset animation variables
+            Animator.SetFloat("MovementZ", 0.0f);
+            Animator.ResetTrigger("TriggerMovement");
             
             // Change to circling state when close enough to the player
             if (InRange(AISystem.transform.position, _target, _shortRange))

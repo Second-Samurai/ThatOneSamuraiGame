@@ -6,8 +6,6 @@ namespace Enemies.Enemy_States
 {
     public class ApproachPlayerEnemyState : EnemyState
     {
-        private Animator _animator;
-        
         private Vector3 _target;
         private float _chaseToCircleRange;
 
@@ -27,13 +25,12 @@ namespace Enemies.Enemy_States
             _chaseToCircleRange = AISystem.enemySettings.midRange;
             
             // Trigger the movement blend tree with a forward approach
-            _animator = AISystem.animator;
-            _animator.SetFloat("MovementZ", 1.0f);
-            _animator.SetTrigger("TriggerMovement");
+            Animator.SetFloat("MovementZ", 1.0f);
+            Animator.SetTrigger("TriggerMovement");
             
             // Reset trigger after frame has passed
             yield return null;
-            _animator.ResetTrigger("TriggerMovement");
+            Animator.ResetTrigger("TriggerMovement");
         }
 
         public override void Tick()
@@ -55,8 +52,8 @@ namespace Enemies.Enemy_States
         public override void EndState()
         {
             // Reset animation variables
-            _animator.SetFloat("MovementZ", 0.0f);
-            _animator.ResetTrigger("TriggerMovement");
+            Animator.SetFloat("MovementZ", 0.0f);
+            Animator.ResetTrigger("TriggerMovement");
             
             AISystem.OnCirclePlayer();
         }

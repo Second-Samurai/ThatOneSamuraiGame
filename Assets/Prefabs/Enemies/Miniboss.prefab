@@ -145,6 +145,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 744104102767969486}
+  - component: {fileID: 2486825665713557266}
   m_Layer: 0
   m_Name: Miniboss
   m_TagString: Untagged
@@ -167,6 +168,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2486825665713557266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5942836315110407610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 130b861c0fa148241aeb25c94a1a6d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myName: 
+  bSpawnMe: 1
 --- !u!1 &6441233700926652653
 GameObject:
   m_ObjectHideFlags: 0
@@ -2428,6 +2443,7 @@ MonoBehaviour:
   meleeCollider: {fileID: 6441233702834476638}
   enemySettings: {fileID: 11400000, guid: 8a3d28b117cd0421d98e5b33c8168471, type: 2}
   enemyTracker: {fileID: 0}
+  spawnCheck: {fileID: 2486825665713557266}
   animator: {fileID: 0}
   bPlayerFound: 0
   navMeshAgent: {fileID: 0}
@@ -2521,18 +2537,6 @@ CapsuleCollider:
   m_Height: 0.75
   m_Direction: 1
   m_Center: {x: 0, y: 0.38, z: 0}
---- !u!114 &6441233702834476639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8616420952404262668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f22fe0ac21db524eaf79bfa725bbeee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1651618972956571636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2548,6 +2552,18 @@ MonoBehaviour:
   parry: {fileID: 5517578962211992963}
   block: {fileID: 2302917541438999163}
   gleam: {fileID: 6157246123144827732}
+--- !u!114 &6441233702834476639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8616420952404262668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f22fe0ac21db524eaf79bfa725bbeee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &509513448416231941
 PrefabInstance:
   m_ObjectHideFlags: 0

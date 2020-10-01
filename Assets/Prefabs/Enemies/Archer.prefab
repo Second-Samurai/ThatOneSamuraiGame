@@ -2139,6 +2139,7 @@ GameObject:
   - component: {fileID: 7234922115759954016}
   - component: {fileID: 1077441570}
   - component: {fileID: 8586185209607081824}
+  - component: {fileID: 621180875115429397}
   m_Layer: 10
   m_Name: Archer
   m_TagString: Enemy
@@ -2226,6 +2227,7 @@ MonoBehaviour:
   arrow: {fileID: 5474719794975255004, guid: ee54be1405ff54d408c69796987d9e7b, type: 3}
   anim: {fileID: 7234922115759954021}
   col: {fileID: 1077441570}
+  spawnCheck: {fileID: 621180875115429397}
 --- !u!120 &7234922115759954016
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -2354,7 +2356,22 @@ MonoBehaviour:
   transformDataList: []
   thisTransform: {fileID: 0}
   _rewindInput: {fileID: 0}
+  animator: {fileID: 0}
   gameObjectRigidbody: {fileID: 0}
+--- !u!114 &621180875115429397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7234922115759954020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 130b861c0fa148241aeb25c94a1a6d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myName: 
+  bSpawnMe: 1
 --- !u!1 &7268227667384927533
 GameObject:
   m_ObjectHideFlags: 0

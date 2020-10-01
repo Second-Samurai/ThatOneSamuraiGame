@@ -59,11 +59,7 @@ namespace Enemies.Enemy_States
 
         protected bool InRange(Vector3 position, Vector3 targetPosition, float stopApproachingRange)
         {
-            Vector3 dir = position - targetPosition;
-            float length = dir.magnitude;
-            dir /= length;
-            
-            return dir.magnitude < stopApproachingRange;
+            return Vector3.Distance(position, targetPosition) < stopApproachingRange;
         }
 
         protected void ChooseActionUsingDistance(Vector3 target)

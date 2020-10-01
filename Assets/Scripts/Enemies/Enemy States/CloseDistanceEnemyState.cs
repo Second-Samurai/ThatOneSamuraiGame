@@ -24,7 +24,10 @@ namespace Enemies.Enemy_States
             _longRange = AISystem.enemySettings.longRange;
             _shortRange = AISystem.enemySettings.shortRange;
             
-            // Trigger the movement blend tree with a forward approach
+            // Trigger the movement blend tree with a forward approach.
+            // Since CloseDistance is called by the enemy tracker we have to reset
+            // the MovementX value which is set in the previous circling state
+            Animator.SetFloat("MovementX", 0.0f);
             Animator.SetFloat("MovementZ", 1.0f);
             Animator.SetTrigger("TriggerMovement");
             

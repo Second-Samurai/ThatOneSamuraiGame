@@ -42,21 +42,25 @@ public class ScenePlatformLoader : MonoBehaviour, ISceneLoader
                 }
             }
         }
-
-        LoadScene();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        DistanceCheck();
+        if (checkMethod == CheckMethod.Distance)
+        {
+            DistanceCheck();
+        }
+        else
+        {
+            TriggerCheck();
+        }
     }
 
     // Summary: Performs distance check and either loads or unloads scene
     //
     private void DistanceCheck()
     {
-        if (checkMethod != CheckMethod.Distance) return;
         if (Vector3.Magnitude(cameraTransform.position - transform.position) < loadRange)
         {
             LoadScene();
@@ -89,6 +93,18 @@ public class ScenePlatformLoader : MonoBehaviour, ISceneLoader
         }
     }
 
+    private void TriggerCheck()
+    {
+        if (_shouldLoad)
+        {
+            LoadScene();
+        }
+        else
+        {
+            UnloadScene();
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (checkMethod != CheckMethod.Trigger) return;
@@ -109,6 +125,7 @@ public class ScenePlatformLoader : MonoBehaviour, ISceneLoader
 
     private void OnDrawGizmos()
     {
+        if (checkMethod != CheckMethod.Distance) return;
         Gizmos.DrawWireCube(transform.position, new Vector3(loadRange*2, loadRange*2, loadRange * 2));
     }
 }

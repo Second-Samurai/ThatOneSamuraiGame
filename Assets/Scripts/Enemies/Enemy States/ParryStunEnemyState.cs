@@ -14,7 +14,7 @@ namespace Enemies.Enemy_States
         {
             //NOTE: Damage handling can be found in EDamageController
             
-            ResetAnimationBools();
+            ResetAnimationVariables();
 
             AISystem.animator.SetTrigger("Parried");
             

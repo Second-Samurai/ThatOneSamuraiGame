@@ -14,7 +14,7 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            ResetAnimationBools();
+            ResetAnimationVariables();
             
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;

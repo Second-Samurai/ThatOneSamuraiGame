@@ -40,6 +40,7 @@
             <e p="NavMeshSurface.cs" t="Include" />
           </e>
         </e>
+        <e p="PlayerCamTargetController.cs" t="Include" />
         <e p="PlayerControls" t="Include">
           <e p="ControlMap.cs" t="Include" />
         </e>
@@ -59,6 +60,10 @@
           <e p="RuntimeSet.cs" t="Include" />
         </e>
         <e p="Scripts" t="Include">
+          <e p="Audio" t="Include">
+            <e p="AudioManager.cs" t="Include" />
+            <e p="Sound.cs" t="Include" />
+          </e>
           <e p="Camera" t="Include">
             <e p="FinisherCam.cs" t="Include" />
             <e p="FinishingMoveController.cs" t="Include" />
@@ -104,13 +109,25 @@
           <e p="General" t="Include">
             <e p="BoardBreak.cs" t="Include" />
             <e p="EntityStatData.cs" t="Include" />
-            <e p="GameManager.cs" t="Include" />
             <e p="Guarding.cs" t="Include" />
+            <e p="Managers" t="Include">
+              <e p="Checkpoint.cs" t="Include" />
+              <e p="CheckpointManager.cs" t="Include" />
+              <e p="CutsceneManager.cs" t="Include" />
+              <e p="EnemySpawnCheck.cs" t="Include" />
+              <e p="EnemySpawnManager.cs" t="Include" />
+              <e p="GameData.cs" t="Include" />
+              <e p="GameManager.cs" t="Include" />
+              <e p="SaveSystem.cs" t="Include" />
+            </e>
             <e p="ObjectPooler.cs" t="Include" />
             <e p="RespawnPlayerPit.cs" t="Include" />
             <e p="StatHandler.cs" t="Include" />
           </e>
           <e p="HitstopController.cs" t="Include" />
+          <e p="Levels" t="Include">
+            <e p="ScenePlatformLoader.cs" t="Include" />
+          </e>
           <e p="Player" t="Include">
             <e p="AttackChainTracker.cs" t="Include" />
             <e p="CameraControl.cs" t="Include" />
@@ -133,6 +150,7 @@
               <e p="SwordImpactEffect.cs" t="Include" />
             </e>
             <e p="StatesAndMachine" t="Include">
+              <e p="PCutsceneState.cs" t="Include" />
               <e p="PDeathState.cs" t="Include" />
               <e p="PlayerStateMachine.cs" t="Include" />
               <e p="PNormalState.cs" t="Include" />
@@ -155,6 +173,10 @@
             <e p="CameraRewindData" t="Include">
               <e p="CameraRewindEntity.cs" t="Include" />
               <e p="CameraTimeData.cs" t="Include" />
+            </e>
+            <e p="EnvironmentalRewindData" t="Include">
+              <e p="BoardRewindEntity.cs" t="Include" />
+              <e p="BoardTimeData.cs" t="Include" />
             </e>
             <e p="PlayerRewindData" t="Include">
               <e p="AnimationRewindEntity.cs" t="Include" />
@@ -246,6 +268,7 @@
             <e p="EmojiOne Attribution.txt" t="Include" />
           </e>
         </e>
+        <e p="ThirdPersonCamController.cs" t="Include" />
         <e p="TutorialInfo" t="Include">
           <e p="Scripts" t="Include">
             <e p="Editor" t="Include">

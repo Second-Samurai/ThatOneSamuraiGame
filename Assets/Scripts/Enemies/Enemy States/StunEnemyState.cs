@@ -14,7 +14,7 @@ namespace Enemies.Enemy_States
         {
             //NOTE: A majority of the guard broken behaviour is handled in Guarding and EDamageController
             
-            ResetAnimationBools();
+            ResetAnimationVariables();
             
             // Start a new impatience countdown
             AISystem.enemyTracker.StartImpatienceCountdown();

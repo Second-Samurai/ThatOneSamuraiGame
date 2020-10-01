@@ -6,9 +6,11 @@ namespace Enemies.Enemy_States
 {
     public class ApproachPlayerEnemyState : EnemyState
     {
+        private Animator _animator;
+        
         private Vector3 _target;
         private float _chaseToCircleRange;
-        
+
         //Class constructor
         public ApproachPlayerEnemyState(AISystem aiSystem) : base(aiSystem)
         {
@@ -16,19 +18,22 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            AISystem.bPlayerFound = true;
+            
             // Start the navMeshAgent tracking
             AISystem.navMeshAgent.isStopped = false;
             
             // Cache the range value so we're not always getting it in the tick function
             _chaseToCircleRange = AISystem.enemySettings.midRange;
             
-            AISystem.animator.SetBool("IsApproaching", true);
+            // Trigger the movement blend tree with a forward approach
+            _animator = AISystem.animator;
+            _animator.SetFloat("MovementZ", 1.0f);
+            _animator.SetTrigger("TriggerMovement");
             
-            // Set player to be found in AISystem
-            AISystem.bPlayerFound = true;
-            AISystem.animator.SetBool("PlayerFound", true);
-
-            yield break;
+            // Reset trigger after frame has passed
+            yield return null;
+            _animator.ResetTrigger("TriggerMovement");
         }
 
         public override void Tick()
@@ -49,7 +54,9 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
-            AISystem.animator.SetBool("IsApproaching", false);
+            // Reset animation variables
+            _animator.SetFloat("MovementZ", 0.0f);
+            _animator.ResetTrigger("TriggerMovement");
             
             AISystem.OnCirclePlayer();
         }

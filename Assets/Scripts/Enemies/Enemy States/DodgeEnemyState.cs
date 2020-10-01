@@ -5,6 +5,8 @@ namespace Enemies.Enemy_States
 {
     public class DodgeEnemyState : EnemyState
     {
+        private Animator _animator;
+        
         //Class constructor
         public DodgeEnemyState(AISystem aiSystem) : base(aiSystem)
         {
@@ -15,27 +17,28 @@ namespace Enemies.Enemy_States
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
             
-            // Set dodge direction then play animation
-            AISystem.animator.SetFloat("DodgeDirectionX", AISystem.dodgeDirectionX);
-            AISystem.animator.SetFloat("DodgeDirectionZ", AISystem.dodgeDirectionZ);
-            AISystem.animator.SetBool("IsDodging", true);
+            // Set the dodge trigger
+            // NOTE: Dodge direction is based on MovementX and MovementZ
+            // These variables are set before TriggerDodge is called
+            _animator = AISystem.animator;
+            _animator.SetTrigger("TriggerDodge");
             
-            AISystem.DodgeImpulse(new Vector3(AISystem.dodgeDirectionX, 0, AISystem.dodgeDirectionZ),
+            // Perform a dodge using the enemy dodge force and movement variables
+            AISystem.DodgeImpulse(new Vector3(
+                    _animator.GetFloat("MovementX"), 
+                    0, 
+                    _animator.GetFloat("MovementZ")), 
                 AISystem.enemySettings.GetEnemyStatType(AISystem.enemyType).dodgeForce);
 
-            yield break;
+            // Reset trigger after frame has passed
+            yield return null;
+            _animator.ResetTrigger("TriggerDodge");
             
-            // NOTE: End state is called through an animation event in the light attack animation
+            // NOTE: End state is called through an animation event in the dodge animation
         }
 
         public override void EndState()
         {
-            AISystem.animator.SetBool("IsDodging", false);
-            
-            // Reset the dodge direction
-            AISystem.dodgeDirectionX = 0;
-            AISystem.dodgeDirectionZ = 0;
-            
             // Get the true target point (float offset is added to get a more accurate player-enemy target point)
             Vector3 target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             

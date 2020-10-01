@@ -5,6 +5,8 @@ namespace Enemies.Enemy_States
 {
     public class LightAttackEnemyState : EnemyState
     {
+        private Animator _animator;
+        
         private Vector3 _target;
 
         //Class constructor
@@ -14,25 +16,29 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            ResetAnimationBools();
+            //ResetAnimationBools();
             
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
 
-            AISystem.animator.SetBool("IsLightAttacking", true);
+            // Set the attack trigger
+            _animator = AISystem.animator;
+            _animator.SetTrigger("TriggerLightAttack");
             
             // Rotate towards player
             bIsRotating = true;
 
-            yield break;
+            // Reset trigger after frame has passed
+            yield return null;
+            _animator.ResetTrigger("TriggerLightAttack");
 
             // NOTE: End state is called through an animation event in the light attack animation
-            // NOTE: An animation event all triggers the enemy to jump forwards if the player is too far away
+            // NOTE: An animation event triggers the enemy to scoot forwards if the player is too far away
         }
         
         public override void Tick()
         {
-            // bISRotating is set to false through an animation event
+            // bIsRotating is set to false through an animation event
             // This is so the enemy stops rotating while they strike
             if (bIsRotating)
             {
@@ -46,16 +52,12 @@ namespace Enemies.Enemy_States
         {
             // Ensure rotate to player is set back in end state
             bIsRotating = true;
-            
-            AISystem.animator.SetBool("IsLightAttacking", false);
-            
+
             // Check current distance to determine next action
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             
             // In enemy state, choose a following action based on player distance
             ChooseActionUsingDistance(_target);
         }
-        
-        
     }
 }

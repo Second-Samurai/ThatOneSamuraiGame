@@ -14,8 +14,7 @@ namespace Enemies.Enemy_States
 
         private float _rotationSpeed = 4.0f;
         
-        // Currently only used for light attack rotation
-        // TODO: Use in other states
+        // TODO: Currently only used for light attack rotation, use in other states
         public bool bIsRotating = true;
 
         // Class constructor that takes in the AISystem
@@ -50,11 +49,19 @@ namespace Enemies.Enemy_States
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, _rotationSpeed);
                 transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
             }
+            else
+            {
+                Debug.LogWarning("Warning: Enemy cannot find player to rotate to");
+            }
         }
 
         protected bool InRange(Vector3 position, Vector3 targetPosition, float stopApproachingRange)
         {
-            return Vector3.Distance(position, targetPosition) < stopApproachingRange;
+            Vector3 dir = position - targetPosition;
+            float length = dir.magnitude;
+            dir /= length;
+            
+            return dir.magnitude < stopApproachingRange;
         }
 
         protected void ChooseActionUsingDistance(Vector3 target)
@@ -66,13 +73,14 @@ namespace Enemies.Enemy_States
 
                 if (decision == 0) // Dodge backwards
                 {
-                    AISystem.dodgeDirectionZ = -1;
+                    // Dodge direction is set in the state before OnDodge is called
+                    // This is so we can choose a dodge direction based on the previous state
+                    AISystem.animator.SetFloat("MovementZ", -1);
                     AISystem.OnDodge();
                 }
                 else // Attack player
                 {
-                    AISystem.OnLightAttack(); 
-                    //AISystem.OnDodge();
+                    AISystem.OnLightAttack();
                 }
             }
             else if(InRange(AISystem.transform.position, target, AISystem.enemySettings.midRange))
@@ -85,30 +93,25 @@ namespace Enemies.Enemy_States
             }
         }
 
-        protected void ResetAnimationBools()
+        protected void ResetAnimationVariables()
         {
             Animator anim = AISystem.animator;
             
             // Set all suitable animation bools to false
-            anim.SetBool("IsLightAttacking", false);
-            anim.SetBool("IsApproaching", false);
-            anim.SetBool("IsBlocking", false);
-            anim.SetBool("IsQuickBlocking", false);
-            anim.SetBool("IsParried", false);
-            anim.SetBool("IsStrafing", false);
-            anim.SetFloat("StrafeDirectionX", 0);
-            anim.SetBool("IsDodging", false);
-            anim.ResetTrigger("Parried");
+            // anim.SetBool("IsLightAttacking", false);
+            // anim.SetBool("IsApproaching", false);
+            // anim.SetBool("IsBlocking", false);
+            // anim.SetBool("IsQuickBlocking", false);
+            // anim.SetBool("IsParried", false);
+            // anim.SetBool("IsStrafing", false);
+            // anim.SetFloat("StrafeDirectionX", 0);
+            // anim.SetBool("IsDodging", false);
+            // anim.ResetTrigger("Parried");
 
             // NOTE: Anims like PlayerFound, IsDead and IsGuardBroken should be treated separately to this function
         }
-
-        protected bool IsDeadOrGuardBroken()
-        {
-            return AISystem.bIsDead || AISystem.eDamageController.enemyGuard.isStunned;
-        }
-
-        public virtual void StopRotating()
+        
+        public void StopRotating()
         {
             bIsRotating = false;
         }

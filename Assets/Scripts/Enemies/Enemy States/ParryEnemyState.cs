@@ -5,6 +5,8 @@ namespace Enemies.Enemy_States
 {
     public class ParryEnemyState : EnemyState
     {
+        private Animator _animator;
+        
         private Vector3 _target;
 
         //Class constructor
@@ -16,15 +18,21 @@ namespace Enemies.Enemy_States
         {
             // Disable canParry
             AISystem.eDamageController.enemyGuard.canParry = false;
-            AISystem.parryEffects.PlayParry();
-            // Disable the block animation, start the parry animation
-            AISystem.animator.SetBool("IsBlocking", false);
-            AISystem.animator.SetBool("IsParried", true);
             
-            // Make the attack unblockable
+            // Make the next attack unblockable
             AISystem.bIsUnblockable = true;
-
-            yield break;
+            
+            AISystem.parryEffects.PlayParry();
+            
+            // Set the parry trigger
+            _animator = AISystem.animator;
+            _animator.SetTrigger("TriggerParry");
+            
+            // Reset trigger after frame has passed
+            yield return null;
+            _animator.ResetTrigger("TriggerParry");
+            
+            // NOTE: End state is called through an animation event in the parry attack animation
         }
         
         public override void Tick()
@@ -37,12 +45,12 @@ namespace Enemies.Enemy_States
         // End state is called by animation event
         public override void EndState()
         {
-            AISystem.animator.SetBool("IsParried", false);
-            
             // Restore future attacks to be blockable
             AISystem.bIsUnblockable = false;
 
-            AISystem.dodgeDirectionZ = -1.0f;
+            // Dodge direction is set in the state before OnDodge is called
+            // This is so we can choose a dodge direction based on the previous state
+            _animator.SetFloat("MovementZ", -1);
             AISystem.OnDodge();
         }
     }

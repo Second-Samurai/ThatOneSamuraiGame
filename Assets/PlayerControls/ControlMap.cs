@@ -145,6 +145,14 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""SwordDraw"",
+                    ""type"": ""Button"",
+                    ""id"": ""1440196e-ef2a-4f79-abc3-8b6201a2d8d9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -554,6 +562,28 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dab966bb-0747-447e-9b62-9d02fad899f7"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SwordDraw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cc7b51be-40c9-46c7-aeeb-a941dc56cf44"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""SwordDraw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -753,6 +783,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         m_Gameplay_ToggleLockRight = m_Gameplay.FindAction("ToggleLockRight", throwIfNotFound: true);
         m_Gameplay_StartHeavy = m_Gameplay.FindAction("StartHeavy", throwIfNotFound: true);
         m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
+        m_Gameplay_SwordDraw = m_Gameplay.FindAction("SwordDraw", throwIfNotFound: true);
         // Rewind
         m_Rewind = asset.FindActionMap("Rewind", throwIfNotFound: true);
         m_Rewind_Scrub = m_Rewind.FindAction("Scrub", throwIfNotFound: true);
@@ -826,6 +857,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_ToggleLockRight;
     private readonly InputAction m_Gameplay_StartHeavy;
     private readonly InputAction m_Gameplay_Pause;
+    private readonly InputAction m_Gameplay_SwordDraw;
     public struct GameplayActions
     {
         private @ControlMap m_Wrapper;
@@ -846,6 +878,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         public InputAction @ToggleLockRight => m_Wrapper.m_Gameplay_ToggleLockRight;
         public InputAction @StartHeavy => m_Wrapper.m_Gameplay_StartHeavy;
         public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
+        public InputAction @SwordDraw => m_Wrapper.m_Gameplay_SwordDraw;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -903,6 +936,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @Pause.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
+                @SwordDraw.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwordDraw;
+                @SwordDraw.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwordDraw;
+                @SwordDraw.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwordDraw;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -955,6 +991,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @SwordDraw.started += instance.OnSwordDraw;
+                @SwordDraw.performed += instance.OnSwordDraw;
+                @SwordDraw.canceled += instance.OnSwordDraw;
             }
         }
     }
@@ -1077,6 +1116,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         void OnToggleLockRight(InputAction.CallbackContext context);
         void OnStartHeavy(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnSwordDraw(InputAction.CallbackContext context);
     }
     public interface IRewindActions
     {

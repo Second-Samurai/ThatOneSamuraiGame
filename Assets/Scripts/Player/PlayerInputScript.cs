@@ -112,6 +112,20 @@ public class PlayerInputScript : MonoBehaviour
         if (bLockedOn) _camControl.LockOn();
     }
 
+    // Summary: Input control for sword drawing
+    //
+    private void OnSwordDraw(InputValue value)
+    {
+        if (_playerCombat == null)
+        {
+            Debug.Log(">> Combat Component is missing");
+            _playerCombat = this.GetComponent<ICombatController>();
+            return;
+        }
+
+        _playerCombat.DrawSword();
+    }
+
    
     //NOTE: The combat component requires to be instantiated early. Suggest input script to be instantated late.
     private void OnAttack(InputValue value)

@@ -9,13 +9,14 @@ public interface ICombatController
     void RunLightAttack();  // May be redundant
     void BlockCombatInputs();
     void UnblockCombatInputs();
-    void SheathSword();  // May be redundant
-    void UnsheathSword();  // May be redundant
+    void DrawSword();
     bool CheckIsAttacking();
 }
 
 public class PCombatController : MonoBehaviour, ICombatController
 {
+    public GameObject swordObject; //TODO: MUST REMOVE THIS LATER THIS WEEK AND TRANSITION TO SWORDHOLDER + SWORDOBJECT
+
     //Public variables
     public AttackChainTracker comboTracker;
     public Collider attackCol;
@@ -26,6 +27,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     private PlayerInputScript _playerInput;
     private PlayerFunctions _functions;
     private PDamageController _damageController;
+    private PSwordManager _swordManager;
     private WSwordEffect _playerSword;
     private EntityAttackRegister _attackRegister;
     private CloseEnemyGuideControl _guideController;
@@ -35,6 +37,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     private float _chargeTime;
     private int _comboHits;
     private bool _isInputBlocked = false;
+    private bool _isSwordDrawn = false;
 
     /// <summary>
     /// Initialises Combat Controller variables and related class components
@@ -47,6 +50,10 @@ public class PCombatController : MonoBehaviour, ICombatController
 
         _playerSword = this.GetComponentInChildren<WSwordEffect>();
         _playerSword.Init(this.gameObject.transform);
+
+        _swordManager = this.GetComponent<PSwordManager>();
+        _swordManager.Init(swordObject);
+
         _playerInput = GetComponent<PlayerInputScript>();
         _damageController = GetComponent<PDamageController>();
         _functions = GetComponent<PlayerFunctions>();
@@ -140,16 +147,12 @@ public class PCombatController : MonoBehaviour, ICombatController
     }
 
     //Summary: Methods related to enabling and disabled sword usage
-    //
-
-    public void SheathSword()
+    // TODO: Refactor to sword manager
+    public void DrawSword()
     {
-        throw new System.NotImplementedException();
-    }
-
-    public void UnsheathSword()
-    {
-        throw new System.NotImplementedException();
+        if (!_swordManager._hasAWeapon) return;
+        _isSwordDrawn = !_isSwordDrawn;
+        _animator.SetBool("IsDrawn", _isSwordDrawn);
     }
 
     public bool CheckIsAttacking()

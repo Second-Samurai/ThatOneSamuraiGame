@@ -53,6 +53,9 @@ namespace Enemies.Enemy_States
             // Check current distance to determine next action
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             
+            // Animation events that trigger end state require this line and a transition
+            Animator.SetTrigger("TriggerEndState");
+            
             // In enemy state, choose a following action based on player distance
             ChooseActionUsingDistance(_target);
         }

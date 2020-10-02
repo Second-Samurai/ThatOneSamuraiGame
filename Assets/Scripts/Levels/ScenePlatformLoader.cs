@@ -10,11 +10,19 @@ public interface ISceneLoader
 
 public class ScenePlatformLoader : MonoBehaviour, ISceneLoader
 {
+    public enum CheckMethod
+    {
+        Distance,
+        Trigger
+    }
+
+    public CheckMethod checkMethod;
     public Transform cameraTransform;
     public float loadRange;
 
     //Scene state
     private bool _isLoaded;
+    private bool _shouldLoad;
 
     /// <summary>
     /// Sets reference camera transform and checks whether exists in build settings.
@@ -39,7 +47,14 @@ public class ScenePlatformLoader : MonoBehaviour, ISceneLoader
     // Update is called once per frame
     void FixedUpdate()
     {
-        DistanceCheck();
+        if (checkMethod == CheckMethod.Distance)
+        {
+            DistanceCheck();
+        }
+        else
+        {
+            TriggerCheck();
+        }
     }
 
     // Summary: Performs distance check and either loads or unloads scene
@@ -78,8 +93,39 @@ public class ScenePlatformLoader : MonoBehaviour, ISceneLoader
         }
     }
 
+    private void TriggerCheck()
+    {
+        if (_shouldLoad)
+        {
+            LoadScene();
+        }
+        else
+        {
+            UnloadScene();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (checkMethod != CheckMethod.Trigger) return;
+        if (other.GetComponent<PlayerController>() != null)
+        {
+            _shouldLoad = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (checkMethod != CheckMethod.Trigger) return;
+        if (other.GetComponent<PlayerController>() != null)
+        {
+            _shouldLoad = false;
+        }
+    }
+
     private void OnDrawGizmos()
     {
+        if (checkMethod != CheckMethod.Distance) return;
         Gizmos.DrawWireCube(transform.position, new Vector3(loadRange*2, loadRange*2, loadRange * 2));
     }
 }

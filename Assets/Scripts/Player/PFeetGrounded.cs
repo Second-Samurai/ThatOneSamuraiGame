@@ -41,7 +41,7 @@ public class PFeetGrounded : MonoBehaviour
             return;
         }
 
-        //StepDown();
+        StepDown();
     }
 
     // Summary: Raycasts to ground returning false when in air
@@ -64,8 +64,7 @@ public class PFeetGrounded : MonoBehaviour
     private void StepDown()
     {
         rootVelocity = playerRb.velocity + Vector3.down * stepDown;
-        //playerRb.velocity = rootVelocity;
-       // transform.position = rootVelocity;
+        playerRb.velocity = rootVelocity;
     }
 
     // Summary: During motion apply gravity to player until they reach the ground
@@ -74,6 +73,5 @@ public class PFeetGrounded : MonoBehaviour
     {
         rootVelocity = playerRb.velocity +  Vector3.down * gravity * Time.fixedDeltaTime;
         playerRb.velocity = rootVelocity;
-        //transform.position = rootVelocity;
     }
 }

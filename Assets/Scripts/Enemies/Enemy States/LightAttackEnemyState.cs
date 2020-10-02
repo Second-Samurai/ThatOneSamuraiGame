@@ -25,9 +25,7 @@ namespace Enemies.Enemy_States
             // Rotate towards player
             bIsRotating = true;
 
-            // Reset trigger after frame has passed
-            yield return null;
-            Animator.ResetTrigger("TriggerLightAttack");
+            yield break;
 
             // NOTE: End state is called through an animation event in the light attack animation
             // NOTE: An animation event triggers the enemy to scoot forwards if the player is too far away
@@ -52,10 +50,7 @@ namespace Enemies.Enemy_States
 
             // Check current distance to determine next action
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            
-            // Animation events that trigger end state require this line and a transition
-            Animator.SetTrigger("TriggerEndState");
-            
+
             // In enemy state, choose a following action based on player distance
             ChooseActionUsingDistance(_target);
         }

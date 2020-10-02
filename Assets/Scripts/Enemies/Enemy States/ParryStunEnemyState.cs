@@ -20,9 +20,7 @@ namespace Enemies.Enemy_States
             // Set the parry stun trigger
             Animator.SetTrigger("TriggerParryStun");
             
-            // Reset the trigger after a frame has passed
-            yield return null;
-            Animator.ResetTrigger("TriggerParryStun");
+            yield break;
         }
         
         // End state is called through an animation event at the end of the animation

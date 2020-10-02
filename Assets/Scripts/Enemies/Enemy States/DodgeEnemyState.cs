@@ -27,9 +27,7 @@ namespace Enemies.Enemy_States
                     Animator.GetFloat("MovementZ")), 
                 AISystem.enemySettings.GetEnemyStatType(AISystem.enemyType).dodgeForce);
 
-            // Reset trigger after frame has passed
-            yield return null;
-            Animator.ResetTrigger("TriggerDodge");
+            yield break;
             
             // NOTE: End state is called through an animation event in the dodge animation
         }

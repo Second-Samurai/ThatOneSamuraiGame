@@ -34,9 +34,7 @@ namespace Enemies.Enemy_States
             // Pick a strafe direction and trigger movement animator
             PickStrafeDirection();
 
-            // Reset trigger after frame has passed
-            yield return null;
-            Animator.ResetTrigger("TriggerMovement");
+            yield break;
         }
         
         public override void Tick()
@@ -64,8 +62,7 @@ namespace Enemies.Enemy_States
         {
             // Reset animation variables
             Animator.SetFloat("MovementX", 0.0f);
-            Animator.ResetTrigger("TriggerMovement");
-            
+
             // If threatened, do a threatened response (i.e. if the player is close)
             // Else approach the player again (i.e. if the player is far)
             if(_bIsThreatened)

@@ -30,9 +30,7 @@ namespace Enemies.Enemy_States
             // Set the block trigger
             Animator.SetTrigger("TriggerBlock");
             
-            // Reset trigger after frame has passed
-            yield return null;
-            Animator.ResetTrigger("TriggerBlock");
+            yield break;
             
             // NOTE: BlockEnemyState can be interrupted to enter ParryEnemyState
             // if the player attacks mid block. This will make it so the timer never

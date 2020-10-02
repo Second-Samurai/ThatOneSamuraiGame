@@ -28,9 +28,7 @@ namespace Enemies.Enemy_States
             Animator.SetFloat("MovementZ", 1.0f);
             Animator.SetTrigger("TriggerMovement");
             
-            // Reset trigger after frame has passed
-            yield return null;
-            Animator.ResetTrigger("TriggerMovement");
+            yield break;
         }
 
         public override void Tick()
@@ -53,8 +51,7 @@ namespace Enemies.Enemy_States
         {
             // Reset animation variables
             Animator.SetFloat("MovementZ", 0.0f);
-            Animator.ResetTrigger("TriggerMovement");
-            
+
             AISystem.OnCirclePlayer();
         }
     }

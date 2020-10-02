@@ -23,9 +23,7 @@ namespace Enemies.Enemy_States
             // Trigger the guard break
             Animator.SetTrigger("TriggerGuardBreak");
 
-            // Reset the trigger after a frame has passed
-            yield return null;
-            Animator.ResetTrigger("TriggerGuardBreak");
+            yield break;
         }
     }
 }

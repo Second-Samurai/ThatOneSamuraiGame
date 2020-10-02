@@ -36,9 +36,7 @@ namespace Enemies.Enemy_States
             // Set the death trigger
             Animator.SetTrigger("TriggerDeath");
             
-            // Reset trigger after frame has passed
-            yield return null;
-            Animator.ResetTrigger("TriggerDeath");
+            yield break;
         }
     }
 }

@@ -81,6 +81,11 @@ public class PlayerInputScript : MonoBehaviour
         }
     }
 
+    void OnSprint(InputValue value)
+    {
+        _animator.SetBool("IsSprinting", value.isPressed);
+    }
+
     void OnLockOn()
     {
 

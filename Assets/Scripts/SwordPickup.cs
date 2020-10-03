@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class SwordPickup : MonoBehaviour
 {
-
+    /// <summary>
+    /// Sets gameobject to player's swordmanager
+    /// </summary>
     private void PickupSword(ISwordManager swordManager)
     {
-        PlayerFunctions player = GameManager.instance.playerController.gameObject.GetComponent<PlayerFunctions>();
-        //player.lSword.SetActive(true);
-        //player.rSword.SetActive(true);
-
         swordManager.SetWeapon(true, GameManager.instance.gameSettings.katanaPrefab);
 
-
-
+        PlayerFunctions player = GameManager.instance.playerController.gameObject.GetComponent<PlayerFunctions>();
         player.gameObject.GetComponent<PlayerInputScript>().bCanAttack = true; //TODO: CHANGE: input not incharge of attacking (combat controller maybe doing it already)
         this.gameObject.SetActive(false);
     }
@@ -24,8 +21,6 @@ public class SwordPickup : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             PickupSword(other.GetComponent<ISwordManager>());
-            //Debug.Log(other.gameObject.name); 
         }
     }
-
 }

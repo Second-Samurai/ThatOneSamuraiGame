@@ -153,6 +153,14 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""1904602d-c2c1-4685-8892-8a0074e63743"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
                 }
             ],
             ""bindings"": [
@@ -584,6 +592,28 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""action"": ""SwordDraw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""86337c31-ce3f-48d8-97d2-eba2580d693b"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""88748e90-f758-4c42-8382-689e5405c730"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -784,6 +814,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         m_Gameplay_StartHeavy = m_Gameplay.FindAction("StartHeavy", throwIfNotFound: true);
         m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
         m_Gameplay_SwordDraw = m_Gameplay.FindAction("SwordDraw", throwIfNotFound: true);
+        m_Gameplay_Sprint = m_Gameplay.FindAction("Sprint", throwIfNotFound: true);
         // Rewind
         m_Rewind = asset.FindActionMap("Rewind", throwIfNotFound: true);
         m_Rewind_Scrub = m_Rewind.FindAction("Scrub", throwIfNotFound: true);
@@ -858,6 +889,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_StartHeavy;
     private readonly InputAction m_Gameplay_Pause;
     private readonly InputAction m_Gameplay_SwordDraw;
+    private readonly InputAction m_Gameplay_Sprint;
     public struct GameplayActions
     {
         private @ControlMap m_Wrapper;
@@ -879,6 +911,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         public InputAction @StartHeavy => m_Wrapper.m_Gameplay_StartHeavy;
         public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
         public InputAction @SwordDraw => m_Wrapper.m_Gameplay_SwordDraw;
+        public InputAction @Sprint => m_Wrapper.m_Gameplay_Sprint;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -939,6 +972,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @SwordDraw.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwordDraw;
                 @SwordDraw.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwordDraw;
                 @SwordDraw.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwordDraw;
+                @Sprint.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSprint;
+                @Sprint.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSprint;
+                @Sprint.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSprint;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -994,6 +1030,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @SwordDraw.started += instance.OnSwordDraw;
                 @SwordDraw.performed += instance.OnSwordDraw;
                 @SwordDraw.canceled += instance.OnSwordDraw;
+                @Sprint.started += instance.OnSprint;
+                @Sprint.performed += instance.OnSprint;
+                @Sprint.canceled += instance.OnSprint;
             }
         }
     }
@@ -1117,6 +1156,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         void OnStartHeavy(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnSwordDraw(InputAction.CallbackContext context);
+        void OnSprint(InputAction.CallbackContext context);
     }
     public interface IRewindActions
     {

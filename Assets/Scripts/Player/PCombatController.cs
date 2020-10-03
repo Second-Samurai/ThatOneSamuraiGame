@@ -15,8 +15,6 @@ public interface ICombatController
 
 public class PCombatController : MonoBehaviour, ICombatController
 {
-    public GameObject swordObject; //TODO: MUST REMOVE THIS LATER THIS WEEK AND TRANSITION TO SWORDHOLDER + SWORDOBJECT
-
     //Public variables
     public AttackChainTracker comboTracker;
     public Collider attackCol;
@@ -27,8 +25,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     private PlayerInputScript _playerInput;
     private PlayerFunctions _functions;
     private PDamageController _damageController;
-    private PSwordManager _swordManager;
-    private WSwordEffect _playerSword;
+    private PSwordManager swordManager;
     private EntityAttackRegister _attackRegister;
     private CloseEnemyGuideControl _guideController;
     private StatHandler _playerStats;
@@ -48,23 +45,28 @@ public class PCombatController : MonoBehaviour, ICombatController
         this._animator = this.GetComponent<Animator>();
         comboTracker = GetComponent<AttackChainTracker>();
 
-        _playerSword = this.GetComponentInChildren<WSwordEffect>();
-        _playerSword.Init(this.gameObject.transform);
-
-        _swordManager = this.GetComponent<PSwordManager>();
-        _swordManager.Init(swordObject);
+        swordManager = this.GetComponent<PSwordManager>();
+        swordManager.Init();
 
         _playerInput = GetComponent<PlayerInputScript>();
         _damageController = GetComponent<PDamageController>();
         _functions = GetComponent<PlayerFunctions>();
-        //attackCol = GetComponentInChildren<BoxCollider>();
 
         _attackRegister = new EntityAttackRegister();
-        _attackRegister.Init(this.gameObject, EntityType.Player, _playerSword);
+        _attackRegister.Init(this.gameObject, EntityType.Player);
 
         _guideController = new CloseEnemyGuideControl();
         _guideController.Init(this, this.gameObject.transform, this.GetComponent<Rigidbody>());
-        //Debug.Log(_guideController);
+    }
+
+    /// <summary>
+    /// Draws the player sword
+    /// </summary>
+    public void DrawSword()
+    {
+        if (!swordManager.hasAWeapon) return;
+        _isSwordDrawn = !_isSwordDrawn;
+        _animator.SetBool("IsDrawn", _isSwordDrawn);
     }
 
     /// <summary>
@@ -117,13 +119,6 @@ public class PCombatController : MonoBehaviour, ICombatController
         _guideController.MoveToNearestEnemy();
     }
 
-    //Summary: Calls the sword's Slash creation func triggered by animation event.
-    //
-    public void BeginSwordEffect(float slashAngle)
-    {
-        _playerSword.CreateSlashEffect(slashAngle);
-    }
-
     //Summary: Disables the detection of the sword.
     //
     public void EndAttacking()
@@ -146,15 +141,6 @@ public class PCombatController : MonoBehaviour, ICombatController
         isUnblockable = false;
     }
 
-    //Summary: Methods related to enabling and disabled sword usage
-    // TODO: Refactor to sword manager
-    public void DrawSword()
-    {
-        if (!_swordManager._hasAWeapon) return;
-        _isSwordDrawn = !_isSwordDrawn;
-        _animator.SetBool("IsDrawn", _isSwordDrawn);
-    }
-
     public bool CheckIsAttacking()
     {
         return _isAttacking;
@@ -169,20 +155,18 @@ public class PCombatController : MonoBehaviour, ICombatController
     {
         if (!_isAttacking) return;
         if (other.CompareTag("Level")) return;
+        if (!swordManager.hasAWeapon) return;
 
-        //Collects IDamageable component of the entity
+        //Gets IDamageable component of the entity
         IDamageable attackEntity = other.GetComponent<IDamageable>();
         if (attackEntity == null)
         {
-            //Check for their attacks (thus parry)
-
-
-            _playerSword.CreateImpactEffect(other.transform, HitType.GeneralTarget);
+            swordManager.swordEffect.CreateImpactEffect(other.transform, HitType.GeneralTarget);
             return;
         }
 
         //Registers attack to the attackRegister
-        _attackRegister.RegisterAttackTarget(attackEntity, other, CalculateDamage(), true, isUnblockable);
+        _attackRegister.RegisterAttackTarget(attackEntity, swordManager.swordEffect, other, CalculateDamage(), true, isUnblockable);
     }
 
     public void IsParried()

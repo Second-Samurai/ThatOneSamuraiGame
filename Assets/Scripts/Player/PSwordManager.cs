@@ -9,20 +9,31 @@ public interface ISwordManager
 
 public class PSwordManager : MonoBehaviour, ISwordManager
 {
-    [HideInInspector] public bool _hasAWeapon = false; //Must check this with an actual gameobject
+    [HideInInspector] public bool hasAWeapon = false; //Must check this with an actual gameobject
+    [HideInInspector] public WSwordEffect swordEffect;
 
-    private WSwordEffect _swordEffect;
-    private GameObject _swordObject;
+    private PSwordHolder pSwordHolder;
+    private GameObject swordObject;
 
-    public void Init(GameObject swordEffect)
+    public void Init()
     {
-        //this._swordEffect = swordEffect;
-        this._swordObject = swordEffect.transform.gameObject;
+        this.pSwordHolder = this.GetComponentInChildren<PSwordHolder>();
+        pSwordHolder.Init(this.transform);
+
     }
 
     public void SetWeapon(bool hasWeapon, GameObject swordPrefab)
     {
-        this._hasAWeapon = hasWeapon;
+        this.hasAWeapon = hasWeapon;
+
+        if (swordObject != null)
+        {
+            Destroy(swordObject);
+        }
+
+        swordObject = Instantiate(swordPrefab, pSwordHolder.transform);
+        swordEffect = swordObject.GetComponent<WSwordEffect>();
+        swordEffect.Init(this.transform);
     }
 
     /// <summary>
@@ -30,7 +41,7 @@ public class PSwordManager : MonoBehaviour, ISwordManager
     /// </summary>
     public void RevealSword()
     {
-        _swordObject.SetActive(true);
+        swordObject.SetActive(true);
     }
 
     /// <summary>
@@ -38,6 +49,14 @@ public class PSwordManager : MonoBehaviour, ISwordManager
     /// </summary>
     public void HideSword()
     {
-        _swordObject.SetActive(false);
+        swordObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Calls the sword's Slash creation func triggered by animation event.
+    /// </summary>
+    public void BeginSwordEffect(float slashAngle)
+    {
+        swordEffect.CreateSlashEffect(slashAngle);
     }
 }

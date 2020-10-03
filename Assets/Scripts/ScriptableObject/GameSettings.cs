@@ -46,4 +46,8 @@ public class GameSettings : ScriptableObject
     [Header("AudioManger")]
     public GameObject audioManger;
 
+    [Header("Weapon Prefabs")]
+    public GameObject katanaPrefab;
+    public GameObject laserSword; // He he he
+
 }

@@ -15,6 +15,8 @@ public class OptionsMenu : MonoBehaviour
         _sensitivitySlider = GetComponentInChildren<Slider>();
         _sensitivitySlider.value = camTargetScript.rotationSpeed;
         if (!indicatorToggle) indicatorToggle = GetComponentInChildren<Toggle>();
+        if(PlayerPrefs.GetInt("ShowIndicators") == 1) ToggleIndicators(true);
+        else ToggleIndicators(false);
         indicatorToggle.isOn = GameManager.instance.bShowAttackPopups;
     }
 
@@ -26,5 +28,7 @@ public class OptionsMenu : MonoBehaviour
     public void ToggleIndicators(bool val)
     {
         GameManager.instance.bShowAttackPopups = val;
+        if(val) PlayerPrefs.SetInt("ShowIndicators", 1);
+        else PlayerPrefs.SetInt("ShowIndicators", 0);
     }
 }

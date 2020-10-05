@@ -4,14 +4,15 @@ using UnityEngine;
 
 namespace Enemies.Enemy_States
 {
-    public class CloseDistanceEnemyState : EnemyState
+    public class ChargeEnemyState : EnemyState
     {
         private Vector3 _target;
         private float _longRange;
         private float _shortRange;
-        
+        private float _shortMidRange;
+
         //Class constructor
-        public CloseDistanceEnemyState(AISystem aiSystem) : base(aiSystem)
+        public ChargeEnemyState(AISystem aiSystem) : base(aiSystem)
         {
         }
 
@@ -23,14 +24,15 @@ namespace Enemies.Enemy_States
             // Cache the range value so we're not always getting it in the tick function
             _longRange = AISystem.enemySettings.longRange;
             _shortRange = AISystem.enemySettings.shortRange;
-            
+            _shortMidRange = AISystem.enemySettings.shortMidRange;
+
             // Trigger the movement blend tree with a forward approach.
             // Since CloseDistance is called by the enemy tracker we have to reset
             // the MovementX value which is set in the previous circling state
             Animator.SetFloat("MovementX", 0.0f);
             Animator.SetFloat("MovementZ", 1.0f);
-            Animator.SetTrigger("TriggerMovement");
-            
+            Animator.SetTrigger("TriggerCharge");
+
             yield break;
         }
 
@@ -39,12 +41,12 @@ namespace Enemies.Enemy_States
             // Get the true target point (float offset is added to get a more accurate player-enemy target point)
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             PositionTowardsTarget(AISystem.transform, _target);
-            
+
             // Enemy movement itself is handled with root motion and navMeshAgent set destination
             AISystem.navMeshAgent.SetDestination(_target);
-            
+
             // Change to circling state when close enough to the player
-            if (InRange(AISystem.transform.position, _target, _shortRange))
+            if (InRange(AISystem.transform.position, _target, _shortMidRange))
             {
                 EndState();
             }
@@ -61,13 +63,9 @@ namespace Enemies.Enemy_States
             Animator.SetFloat("MovementZ", 0.0f);
 
             // Change to circling state when close enough to the player
-            if (InRange(AISystem.transform.position, _target, _shortRange))
+            if (InRange(AISystem.transform.position, _target, _shortMidRange))
             {
-                if (AISystem.enemyType == EnemyType.GLAIVEWIELDER)
-                {
-                    AISystem.OnHeavyAttack();
-                }
-                else AISystem.OnLightAttack();
+                AISystem.OnHeavyAttack();
             }
             // Change to chase state when too far from the player
             else if (!InRange(AISystem.transform.position, _target, _longRange))

@@ -2512,6 +2512,7 @@ GameObject:
   - component: {fileID: 1221610881986198052}
   - component: {fileID: 2730278245920899808}
   - component: {fileID: 6364260002513258384}
+  - component: {fileID: 444504436287006908}
   m_Layer: 10
   m_Name: Swordsman (1)
   m_TagString: Enemy
@@ -2614,6 +2615,7 @@ MonoBehaviour:
   floatOffset: {x: 0, y: 2, z: 0}
   parryEffects: {fileID: 478277598858436408}
   attackIndicator: {fileID: 9215105034476277381}
+  rb: {fileID: 0}
 --- !u!114 &6273603430164364320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2626,7 +2628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ada7e2de23250543821ffcc013558cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyGuard: {fileID: 0}
+  enemyGuard: {fileID: 444504436287006908}
 --- !u!195 &1221610881986198052
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2683,6 +2685,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swordCollider: {fileID: 5364194984173943525}
+--- !u!114 &444504436287006908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7348651134938150740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81703e33ba2dc465aa5e45f4628aedcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canParry: 0
+  canGuard: 1
+  isStunned: 0
+  OnGuardEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _aiSystem: {fileID: 2213075943072578558}
 --- !u!1001 &299819023282749258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2969,15 +2990,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5364194984173943545}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &7242074290637394870 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3382333992990730575, guid: 287a90e02ab25d148b1e5144bdc15eb2,
-    type: 3}
-  m_PrefabInstance: {fileID: 5364194984173943545}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7242074290637394871 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3382333992990730574, guid: 287a90e02ab25d148b1e5144bdc15eb2,
+    type: 3}
+  m_PrefabInstance: {fileID: 5364194984173943545}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7242074290637394870 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3382333992990730575, guid: 287a90e02ab25d148b1e5144bdc15eb2,
     type: 3}
   m_PrefabInstance: {fileID: 5364194984173943545}
   m_PrefabAsset: {fileID: 0}

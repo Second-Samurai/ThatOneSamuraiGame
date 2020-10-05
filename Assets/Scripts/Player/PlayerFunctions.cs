@@ -148,7 +148,7 @@ public class PlayerFunctions : MonoBehaviour
 
     public void ApplyHit(GameObject attacker, bool unblockable, float damage)
     {
-        if (bIsParrying)
+        if (bIsParrying && !unblockable)
         {
             TriggerParry(attacker, damage);
         }

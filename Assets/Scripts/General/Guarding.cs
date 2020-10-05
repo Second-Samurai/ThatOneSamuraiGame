@@ -14,7 +14,7 @@ public class Guarding : MonoBehaviour
     
     [HideInInspector] public StatHandler statHandler;
     [HideInInspector] public UnityEvent OnGuardEvent = new UnityEvent();
-    private AISystem _aiSystem;
+    public AISystem _aiSystem;
 
     public void Init(StatHandler statHandler)
     {

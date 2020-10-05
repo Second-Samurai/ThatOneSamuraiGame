@@ -74,6 +74,7 @@ public class EnemyTracker : MonoBehaviour
     public void StartImpatienceCountdown()
     {
         _bReduceImpatience = true;
+                
         _impatienceMeter = Random.Range(_enemySettings.minImpatienceTime, _enemySettings.maxImpatienceTime);
     }
     
@@ -103,7 +104,8 @@ public class EnemyTracker : MonoBehaviour
                 // Only close distance if the enemy isn't stunned and is strafing
                 if (!aiSystem.eDamageController.enemyGuard.isStunned)
                 {
-                    aiSystem.OnCloseDistance();
+                    if (aiSystem.enemyType == EnemyType.GLAIVEWIELDER) aiSystem.OnChargePlayer();
+                    else aiSystem.OnCloseDistance();
                     break;
                 }
             }
@@ -114,7 +116,8 @@ public class EnemyTracker : MonoBehaviour
             
             if (!aiSystem.eDamageController.enemyGuard.isStunned)
             {
-                aiSystem.OnCloseDistance();
+                if (aiSystem.enemyType == EnemyType.GLAIVEWIELDER) aiSystem.OnChargePlayer();
+                else aiSystem.OnCloseDistance();
             }
         }
     }

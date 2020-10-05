@@ -7,14 +7,14 @@ public class EDamageController : MonoBehaviour, IDamageable
     private AISystem _aiSystem;
     HitstopController hitstopController;
 
-    [HideInInspector] public Guarding enemyGuard;
+    public Guarding enemyGuard;
 
     private bool _isDamageDisabled = false;
 
     public void Init(StatHandler enemyStats) {
         _enemyStats = enemyStats;
 
-        enemyGuard = this.gameObject.AddComponent<Guarding>();
+        enemyGuard = GetComponent<Guarding>();
         enemyGuard.Init(_enemyStats);
         hitstopController = GameManager.instance.gameObject.GetComponent<HitstopController>();
     }

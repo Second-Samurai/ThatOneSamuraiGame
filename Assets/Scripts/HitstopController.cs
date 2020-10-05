@@ -14,7 +14,7 @@ public class HitstopController : MonoBehaviour
         Time.timeScale = 0f;
         while (time > 0)
         {
-            time -= Time.unscaledDeltaTime;
+            if(Time.timeScale != 0) time -= Time.unscaledDeltaTime;
             yield return null;
         }
         Time.timeScale = 1f;
@@ -28,7 +28,7 @@ public class HitstopController : MonoBehaviour
         Time.timeScale = amount;
         while (duration > 0)
         {
-            duration -= Time.unscaledDeltaTime;
+            if (Time.timeScale != 0) duration -= Time.unscaledDeltaTime;
             yield return null;
         }
         Time.timeScale = 1f;

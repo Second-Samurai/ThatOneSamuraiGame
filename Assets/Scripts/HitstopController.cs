@@ -10,28 +10,28 @@ public class HitstopController : MonoBehaviour
     IEnumerator HitstopCR(float time)
     {
         bIsSlowing = true;
-        float oldTimescale = Time.timeScale;
+        //float oldTimescale = Time.timeScale;
         Time.timeScale = 0f;
         while (time > 0)
         {
             time -= Time.unscaledDeltaTime;
             yield return null;
         }
-        Time.timeScale = oldTimescale;
+        Time.timeScale = 1f;
         bIsSlowing = false;
     }
 
     IEnumerator SlowTimeCR(float amount, float duration)
     {
         bIsSlowing = true;
-        float oldTimescale = Time.timeScale;
+        //float oldTimescale = Time.timeScale;
         Time.timeScale = amount;
         while (duration > 0)
         {
             duration -= Time.unscaledDeltaTime;
             yield return null;
         }
-        Time.timeScale = oldTimescale;
+        Time.timeScale = 1f;
         bIsSlowing = false;
     }
 

@@ -55,6 +55,7 @@ namespace Enemies
 
         //PARTICLES
         public ParryEffects parryEffects;
+        public AttackIndicator attackIndicator;
         
         #endregion
         
@@ -88,6 +89,7 @@ namespace Enemies
             // Start the enemy in an idle state
             OnIdle();
 
+            if (!attackIndicator) attackIndicator = GetComponentInChildren<AttackIndicator>();
 
         }
 

@@ -5,8 +5,6 @@ namespace Enemies.Enemy_States
 {
     public class DeathEnemyState : EnemyState
     {
-        private float _despawnTimer = 4.0f;
-        
         //Class constructor
         public DeathEnemyState(AISystem aiSystem) : base(aiSystem)
         {
@@ -18,7 +16,6 @@ namespace Enemies.Enemy_States
             
             // Set enemy status to dead
             AISystem.bIsDead = true;
-            AISystem.animator.SetBool("IsDead", true);
             
             // Remove enemy from temp enemy count and enemy tracker
             TempWinTracker.instance.enemyCount--;
@@ -31,14 +28,15 @@ namespace Enemies.Enemy_States
             AISystem.navMeshAgent.isStopped = true;
             
             //Disable weapon for melee wielders
-            if (AISystem.enemyType == EnemyType.SWORDSMAN || AISystem.enemyType == EnemyType.GLAIVEWIELDER)
+            if (AISystem.enemyType != EnemyType.ARCHER)
             {
                 AISystem.meleeCollider.enabled = false;
             }
             
-            // Wait for de spawn seconds then de spawn the enemy
-            yield return new WaitForSeconds(_despawnTimer);
-            //AISystem.gameObject.SetActive(false);
+            // Set the death trigger
+            Animator.SetTrigger("TriggerDeath");
+            
+            yield break;
         }
     }
 }

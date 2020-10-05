@@ -48,9 +48,6 @@ namespace Enemies
         public bool bIsDead = false;
         public bool bIsUnblockable = false;
         //NOTE: isStunned is handled in Guarding script, inside the eDamageController script
-        
-        //DODGE VARIABLES
-        public float dodgeDirectionX, dodgeDirectionZ = 0;
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
         //because the player's origin point is on the floor

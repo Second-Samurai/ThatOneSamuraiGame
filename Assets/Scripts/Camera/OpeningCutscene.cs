@@ -49,7 +49,7 @@ public class OpeningCutscene : MonoBehaviour
 
     public void ChangeCamPriority()
     {
-        Debug.Log("2");
+        //Debug.Log("2");
         GameManager.instance.thirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
     }
 

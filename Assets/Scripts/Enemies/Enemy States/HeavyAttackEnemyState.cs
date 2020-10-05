@@ -19,6 +19,7 @@ namespace Enemies.Enemy_States
             AISystem.attackIndicator.ShowIndicator();
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
+            AISystem.bIsUnblockable = true;
 
             // Set the attack trigger
             Animator.SetTrigger("TriggerHeavyAttack");
@@ -47,6 +48,7 @@ namespace Enemies.Enemy_States
         public override void EndState()
         {
             AISystem.attackIndicator.HideIndicator();
+            AISystem.bIsUnblockable = false;
             // Ensure rotate to player is set back in end state
             bIsRotating = true;
 

@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7774216999445375480}
   - component: {fileID: 6842230267841663292}
   - component: {fileID: 2541716242938516556}
+  - component: {fileID: 6241565374944985340}
   m_Layer: 10
   m_Name: GlaiveWielder
   m_TagString: Enemy
@@ -132,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ada7e2de23250543821ffcc013558cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyGuard: {fileID: 0}
+  enemyGuard: {fileID: 6241565374944985340}
 --- !u!195 &7774216999445375480
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -189,6 +190,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swordCollider: {fileID: 3559791347825764665}
+--- !u!114 &6241565374944985340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2228225123342951560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81703e33ba2dc465aa5e45f4628aedcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canParry: 0
+  canGuard: 1
+  isStunned: 0
+  OnGuardEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _aiSystem: {fileID: 7323404314762471458}
 --- !u!136 &3559791347825764665
 CapsuleCollider:
   m_ObjectHideFlags: 0

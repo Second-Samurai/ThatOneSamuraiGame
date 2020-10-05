@@ -19,7 +19,7 @@ namespace Enemies.Enemy_States
         {
             // Start the navMeshAgent tracking
             AISystem.navMeshAgent.isStopped = false;
-
+            AISystem.attackIndicator.ShowIndicator();
             // Cache the range value so we're not always getting it in the tick function
             _longRange = AISystem.enemySettings.longRange;
             _shortRange = AISystem.enemySettings.shortRange;

@@ -67,20 +67,24 @@ namespace Enemies.Enemy_States
             if (InRange(AISystem.transform.position, target, AISystem.enemySettings.shortMidRange))
             {
                 // If close enough, make a decision
-                int decision = Random.Range(0, 2);
-
-                if (decision == 0) // Dodge backwards
+                if(AISystem.enemyType == EnemyType.GLAIVEWIELDER) AISystem.OnHeavyAttack();
+                else 
                 {
-                    // Dodge direction is set in the state before OnDodge is called
-                    // This is so we can choose a dodge direction based on the previous state
-                    AISystem.animator.SetFloat("MovementZ", -1);
-                    AISystem.OnDodge();
+                    int decision = Random.Range(0, 2);
+                    if (decision == 0) // Dodge backwards
+                    {
+                        // Dodge direction is set in the state before OnDodge is called
+                        // This is so we can choose a dodge direction based on the previous state
+                        AISystem.animator.SetFloat("MovementZ", -1);
+                        AISystem.OnDodge();
+                    }
+                    else // Attack player
+                    {
+                        if (AISystem.enemyType != EnemyType.GLAIVEWIELDER) AISystem.OnLightAttack();
+                        else AISystem.OnHeavyAttack();
+                    }
                 }
-                else // Attack player
-                {
-                    if (AISystem.enemyType != EnemyType.GLAIVEWIELDER) AISystem.OnLightAttack();
-                    else AISystem.OnHeavyAttack();
-                }
+               
             }
             else if(InRange(AISystem.transform.position, target, AISystem.enemySettings.midRange))
             {
@@ -91,7 +95,7 @@ namespace Enemies.Enemy_States
                 if(AISystem.enemyType != EnemyType.GLAIVEWIELDER) AISystem.OnApproachPlayer(); // Approach player if they are too far away
                 else
                 {
-                    int decision = Random.Range(0, 1);
+                    int decision = Random.Range(1, 3);
 
                     if (decision == 0) // Jump Attack
                     {

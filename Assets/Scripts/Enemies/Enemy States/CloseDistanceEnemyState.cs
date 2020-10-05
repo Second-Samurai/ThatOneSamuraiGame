@@ -19,7 +19,7 @@ namespace Enemies.Enemy_States
         {
             // Start the navMeshAgent tracking
             AISystem.navMeshAgent.isStopped = false;
-            
+            AISystem.attackIndicator.ShowIndicator();
             // Cache the range value so we're not always getting it in the tick function
             _longRange = AISystem.enemySettings.longRange;
             _shortRange = AISystem.enemySettings.shortRange;
@@ -63,7 +63,11 @@ namespace Enemies.Enemy_States
             // Change to circling state when close enough to the player
             if (InRange(AISystem.transform.position, _target, _shortRange))
             {
-                AISystem.OnLightAttack();
+                if (AISystem.enemyType == EnemyType.GLAIVEWIELDER)
+                {
+                    AISystem.OnHeavyAttack();
+                }
+                else AISystem.OnLightAttack();
             }
             // Change to chase state when too far from the player
             else if (!InRange(AISystem.transform.position, _target, _longRange))

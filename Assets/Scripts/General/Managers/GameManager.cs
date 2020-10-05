@@ -145,8 +145,11 @@ public class GameManager : MonoBehaviour
     }
 
     void SetupRewind() 
-    { 
-        rewindManager = Instantiate(gameSettings.rewindManager, transform.position, Quaternion.identity).GetComponent<RewindManager>();
+    {
+        if (rewindManager == null)
+        {
+            rewindManager = Instantiate(gameSettings.rewindManager, transform.position, Quaternion.identity).GetComponent<RewindManager>();
+        }
     }
 
     //POSSIBLY PARTITION INTO A UI MANAGER

@@ -56,6 +56,9 @@ namespace Enemies
         //PARTICLES
         public ParryEffects parryEffects;
         public AttackIndicator attackIndicator;
+
+        //PHYSICS
+        public Rigidbody rb;
         
         #endregion
         
@@ -90,6 +93,8 @@ namespace Enemies
             OnIdle();
 
             if (!attackIndicator) attackIndicator = GetComponentInChildren<AttackIndicator>();
+
+            rb = GetComponent<Rigidbody>();
 
         }
 
@@ -147,6 +152,11 @@ namespace Enemies
             }
         }
 
+        public void ApplyImpulseForce(float f)
+        {
+            rb.AddForce(transform.forward * f, ForceMode.Impulse);
+        }
+
         // Called from dodgestate
         public void DodgeImpulse(Vector3 lastDir, float force)
         {
@@ -192,7 +202,12 @@ namespace Enemies
 
         public void OnHeavyAttack()
         {
-        
+            SetState(new HeavyAttackEnemyState(this));
+        }
+
+        public void OnJumpAttack()
+        {
+            SetState(new JumpAttackEnemyState(this));
         }
 
         public void OnSpecialAttack()
@@ -232,6 +247,11 @@ namespace Enemies
         public void OnPatrol()
         {
         
+        }
+
+        public void OnChargePlayer()
+        {
+            SetState(new ChargeEnemyState(this));
         }
 
         public void OnApproachPlayer()

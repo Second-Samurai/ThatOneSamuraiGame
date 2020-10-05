@@ -18,6 +18,7 @@ public class GameSettings : ScriptableObject
 
     [Header("Game Prefabs")]
     public GameObject playerPrefab;
+    public GameObject mainPlayerPrefab; //NEW ONE
     public GameObject enemyManagerPrefab;
     public GameObject targetHolderPrefab;
 

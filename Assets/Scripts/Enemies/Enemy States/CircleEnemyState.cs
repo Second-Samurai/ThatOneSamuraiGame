@@ -101,24 +101,30 @@ namespace Enemies.Enemy_States
             {
                 actionNumber = 3;
             }
-            
-            switch(actionNumber)
+            if (AISystem.enemyType != EnemyType.GLAIVEWIELDER)
             {
-                case int i when (i >= 5): // LIGHT ATTACK
-                    AISystem.OnLightAttack();
-                    break;
-                case int i when (i >= 3 && i < 5): // START BLOCKING
-                    AISystem.OnBlock();
-                    break;
-                case int i when (i >= 0 && i < 3): // RETRACT BACK
-                    // Dodge direction is set in the state before OnDodge is called
-                    // This is so we can choose a dodge direction based on the previous state
-                    Animator.SetFloat("MovementZ", -1);
-                    AISystem.OnDodge();
-                    break;
-                default:
-                    Debug.LogError("Enemy action response is out of bounds");
-                    break;
+                switch (actionNumber)
+                {
+                    case int i when (i >= 5): // LIGHT ATTACK
+                        AISystem.OnLightAttack();
+                        break;
+                    case int i when (i >= 3 && i < 5): // START BLOCKING
+                        AISystem.OnBlock();
+                        break;
+                    case int i when (i >= 0 && i < 3): // RETRACT BACK
+                                                       // Dodge direction is set in the state before OnDodge is called
+                                                       // This is so we can choose a dodge direction based on the previous state
+                        Animator.SetFloat("MovementZ", -1);
+                        AISystem.OnDodge();
+                        break;
+                    default:
+                        Debug.LogError("Enemy action response is out of bounds");
+                        break;
+                }
+            }
+            else
+            {
+                AISystem.OnHeavyAttack();
             }
         }
         

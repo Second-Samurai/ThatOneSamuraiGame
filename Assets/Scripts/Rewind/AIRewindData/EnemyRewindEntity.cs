@@ -1,6 +1,7 @@
 ﻿using Enemies;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyRewindEntity : AIAnimationRewindEntity
@@ -12,12 +13,14 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
     public Collider swordCollider;
 
     public Rigidbody gameObjectRigidbody;
+    private EnemyTracker _enemyTracker;
 
 
     // Start is called before the first frame update
     protected new void Start()
     {
         _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
+        _enemyTracker = GameManager.instance.enemyTracker;
         enemyDataList = new List<EnemyRewindData>();
         base.Start();
 
@@ -82,7 +85,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         //move to arguments need to be added rewind entity
         enemyDataList.Insert(0, new EnemyRewindData(aISystem.EnemyState, swordCollider.enabled,
                                                     aISystem.eDamageController.enemyGuard.canGuard, aISystem.eDamageController.enemyGuard.canParry, aISystem.eDamageController.enemyGuard.isStunned,
-                                                    aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard, aISystem.bIsDead, aISystem.bIsUnblockable));
+                                                    aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard, aISystem.bIsDead, aISystem.bIsUnblockable, _enemyTracker.currentEnemies));
 
         base.RecordPast();
     }
@@ -131,7 +134,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         aISystem.bIsDead = enemyDataList[currentIndex].bIsDead;
         aISystem.bIsUnblockable = enemyDataList[currentIndex].bIsUnblockable;
         //Debug.LogError(enemyDataList[currentIndex].bIsDead);
-
+        
         // needs to set the enemy targeting
         base.SetPosition();
     }
@@ -144,5 +147,6 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         {
             aISystem.eDamageController.EnableDamage();
         }
+        _enemyTracker.currentEnemies = enemyDataList[currentIndex].trackedCurrentEnemies.ToList<Transform>();
     }
 }

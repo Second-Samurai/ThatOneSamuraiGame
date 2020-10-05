@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -306,13 +306,23 @@ PrefabInstance:
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.size
-      value: 18
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: general.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: movement.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[0].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 419b420a48ae118429ec98f767b80168, type: 3}
+      objectReference: {fileID: 8300000, guid: bcbafc2c3b479754987bbf50a6b52678, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[0].name
@@ -332,7 +342,7 @@ PrefabInstance:
         type: 3}
       propertyPath: sounds.Array.data[1].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 31fbfba639d81e941bf94ceed653e8d2, type: 3}
+      objectReference: {fileID: 8300000, guid: e58ded0a97b915642b9da6cc3e89b333, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[1].name
@@ -352,7 +362,7 @@ PrefabInstance:
         type: 3}
       propertyPath: sounds.Array.data[2].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 66186ab22bbc8014799a49d916b2688a, type: 3}
+      objectReference: {fileID: 8300000, guid: 28156462ad54438409e2e36b210afaf9, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[2].name
@@ -372,7 +382,7 @@ PrefabInstance:
         type: 3}
       propertyPath: sounds.Array.data[3].clip
       value: 
-      objectReference: {fileID: 8300000, guid: b80203e2cf00dac49bf4f24eb89e675e, type: 3}
+      objectReference: {fileID: 8300000, guid: 32b3794f0080d2445bb3122fe48350f9, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[3].name
@@ -392,7 +402,7 @@ PrefabInstance:
         type: 3}
       propertyPath: sounds.Array.data[4].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 4e31052ec13d159449e7a9dcb2c1132d, type: 3}
+      objectReference: {fileID: 8300000, guid: d8f3676bd7291634bacecf2a772fb703, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[4].name
@@ -412,7 +422,7 @@ PrefabInstance:
         type: 3}
       propertyPath: sounds.Array.data[5].clip
       value: 
-      objectReference: {fileID: 8300000, guid: e34d3184fd74e0044b3a32785c7576b5, type: 3}
+      objectReference: {fileID: 8300000, guid: 0efff10397f5bb24e9a6a0805ee5ce1a, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[5].name
@@ -432,11 +442,11 @@ PrefabInstance:
         type: 3}
       propertyPath: sounds.Array.data[6].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 68e9567b0753b1d429e182a405176fb7, type: 3}
+      objectReference: {fileID: 8300000, guid: f9d33bd77446bbc46ac0c1f93ea8bb74, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[6].name
-      value: PebbleRoll1
+      value: JoggingWood
       objectReference: {fileID: 0}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
@@ -452,11 +462,11 @@ PrefabInstance:
         type: 3}
       propertyPath: sounds.Array.data[7].clip
       value: 
-      objectReference: {fileID: 8300000, guid: b97124efcd6570d49bed34ce042ae254, type: 3}
+      objectReference: {fileID: 8300000, guid: 10dd543425f259b42b7029c5e14a41e2, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[7].name
-      value: PebbleRoll2
+      value: PebbleRoll1
       objectReference: {fileID: 0}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
@@ -471,13 +481,13 @@ PrefabInstance:
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[8].name
-      value: PebbleRoll3
+      value: PebbleRoll2
       objectReference: {fileID: 0}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[8].clip
       value: 
-      objectReference: {fileID: 8300000, guid: ecf280645869404448b4ec54a4715576, type: 3}
+      objectReference: {fileID: 8300000, guid: c3f56bd8aeca5994283fdf3ae7a6b8bc, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[8].volume
@@ -492,11 +502,11 @@ PrefabInstance:
         type: 3}
       propertyPath: sounds.Array.data[9].clip
       value: 
-      objectReference: {fileID: 8300000, guid: f7d969ccc6703a84bbb631362377158d, type: 3}
+      objectReference: {fileID: 8300000, guid: dd0849631714b3949887cbb493741709, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[9].name
-      value: PebbleRoll4
+      value: PebbleRoll3
       objectReference: {fileID: 0}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
@@ -512,11 +522,11 @@ PrefabInstance:
         type: 3}
       propertyPath: sounds.Array.data[10].clip
       value: 
-      objectReference: {fileID: 8300000, guid: b1efc7f6ca94fd64390e23a6c019764a, type: 3}
+      objectReference: {fileID: 8300000, guid: 4f8ed00b141194640a359747e8dceaaf, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[10].name
-      value: PebbleRoll5
+      value: PebbleRoll4
       objectReference: {fileID: 0}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
@@ -532,11 +542,11 @@ PrefabInstance:
         type: 3}
       propertyPath: sounds.Array.data[11].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 6fba88f1fd6a0f24ca321d8982010c03, type: 3}
+      objectReference: {fileID: 8300000, guid: 5042b093a23147e4f9e2b0d46675f8ea, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[11].name
-      value: WalkingGrass
+      value: PebbleRoll5
       objectReference: {fileID: 0}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
@@ -552,11 +562,11 @@ PrefabInstance:
         type: 3}
       propertyPath: sounds.Array.data[12].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 5591ea11ecf7f214c849dcfe1a33ca36, type: 3}
+      objectReference: {fileID: 8300000, guid: 5c0fc5399405f0a419587e85f87ddb53, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[12].name
-      value: WalkingPebble
+      value: WalkingGrass
       objectReference: {fileID: 0}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
@@ -572,11 +582,11 @@ PrefabInstance:
         type: 3}
       propertyPath: sounds.Array.data[13].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 29bc9f96902d34348b207a1ee044547e, type: 3}
+      objectReference: {fileID: 8300000, guid: a4885a18b9147e24bb9d61d88604238a, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[13].name
-      value: WalkingStone
+      value: WalkingPebble
       objectReference: {fileID: 0}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
@@ -592,11 +602,11 @@ PrefabInstance:
         type: 3}
       propertyPath: sounds.Array.data[14].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 3c2dde507a67a0e4f8bf952f967938f5, type: 3}
+      objectReference: {fileID: 8300000, guid: 3593a4d0438592543b656bc79c1de1d6, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[14].name
-      value: WalkingWood
+      value: WalkingStone
       objectReference: {fileID: 0}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
@@ -612,11 +622,11 @@ PrefabInstance:
         type: 3}
       propertyPath: sounds.Array.data[15].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 369b58ba095eb4f44805a12ae458d980, type: 3}
+      objectReference: {fileID: 8300000, guid: d180317bd76996b4e9e2820dfcf240b4, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[15].name
-      value: WoodRoll1
+      value: WalkingWood
       objectReference: {fileID: 0}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
@@ -631,13 +641,13 @@ PrefabInstance:
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[16].name
-      value: WoodRoll2
+      value: WoodRoll1
       objectReference: {fileID: 0}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[16].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 57573c3bbba1a3843b61e22b1730f097, type: 3}
+      objectReference: {fileID: 8300000, guid: 941550c8cb0301d4aa230d482713ea99, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[16].volume
@@ -651,13 +661,13 @@ PrefabInstance:
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[17].name
-      value: WoodRoll3
+      value: WoodRoll2
       objectReference: {fileID: 0}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[17].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 7984a1496f24b524cb0a5f8ce39123ba, type: 3}
+      objectReference: {fileID: 8300000, guid: 9f1a184cb49e0664bafb0b4c9c7376c4, type: 3}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[17].volume
@@ -666,6 +676,71 @@ PrefabInstance:
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[17].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: sounds.Array.data[11].loop
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: sounds.Array.data[18].name
+      value: WoodRoll3
+      objectReference: {fileID: 0}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: sounds.Array.data[18].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2136ee8720636ae40a59da789243e883, type: 3}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: sounds.Array.data[18].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: sounds.Array.data[18].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: general.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 10d7e0a71add8b946b7cc9070995f02a, type: 3}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: general.Array.data[0].name
+      value: Atmosphere
+      objectReference: {fileID: 0}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: general.Array.data[0].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: general.Array.data[0].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: movement.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: bcbafc2c3b479754987bbf50a6b52678, type: 3}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: movement.Array.data[0].name
+      value: GrassRoll1
+      objectReference: {fileID: 0}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: movement.Array.data[0].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: movement.Array.data[0].pitch
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2534954813178303794, guid: dd80b6594c995464db25b8378e7457ba,

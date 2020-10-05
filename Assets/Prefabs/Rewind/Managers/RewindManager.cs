@@ -80,7 +80,7 @@ public class RewindManager : MonoBehaviour
 
     void UpdateRewindUI()
     {
-        Debug.LogWarning(rewindResource);
+        //Debug.LogWarning(rewindResource);
         rewindUI.UpdateRewindAmount(rewindResource);
 
     }

@@ -24,7 +24,6 @@ public class RewindBar : MonoBehaviour
     public void UpdateRewindAmount(float amount) 
     {
         healthSlider.value = amount;
-        Debug.Log(amount);
     }
 
     public void UpdateBarMax(float amount)

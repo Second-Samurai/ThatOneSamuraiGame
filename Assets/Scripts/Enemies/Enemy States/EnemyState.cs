@@ -107,6 +107,10 @@ namespace Enemies.Enemy_States
             anim.ResetTrigger("TriggerQuickBlock");
             anim.ResetTrigger("TriggerBlock");
             
+            // Set all movement variables to 0
+            anim.SetFloat("MovementX", 0);
+            anim.SetFloat("MovementZ", 0);
+            
             // anim.SetBool("IsLightAttacking", false);
             // anim.SetBool("IsApproaching", false);
             // anim.SetBool("IsBlocking", false);

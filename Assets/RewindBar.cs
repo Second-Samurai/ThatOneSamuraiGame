@@ -6,33 +6,37 @@ using DG.Tweening;
 
 public class RewindBar : MonoBehaviour
 {
-    public Slider healthSlider;
     public Image rewindBar;
     public Image rewindBarBackground;
+
+    public float maxValue = 1.0f;
 
     private void Start()
     {
         GameManager.instance.rewindManager.rewindUI = this;
-        healthSlider = GetComponent<Slider>();
     }
-
-    public void Bebug() 
-    {
-        Debug.Log("OI");
-
-    }
+    
     public void UpdateRewindAmount(float amount) 
     {
-        healthSlider.value = amount;
+        if (rewindBar.fillAmount < maxValue)
+        {
+            rewindBar.fillAmount += amount / 10.0f;
+        }
+        else if (rewindBar.fillAmount > maxValue)
+        {
+            rewindBar.fillAmount = maxValue;
+        }
+
     }
 
     public void UpdateBarMax(float amount)
     {
-        float tempValue = healthSlider.value / healthSlider.maxValue;
-
-        healthSlider.maxValue = amount;
-
-        healthSlider.value = healthSlider.maxValue * tempValue;
+        // float tempValue = healthSlider.fillAmount / healthSlider.maxValue;
+        //
+        maxValue = amount / 10.0f;
+        // healthSlider.maxValue = amount;
+        //
+        // healthSlider.value = healthSlider.maxValue * tempValue;
 
     }
     private void OnEnable()

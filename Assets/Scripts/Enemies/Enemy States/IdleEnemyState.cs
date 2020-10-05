@@ -12,9 +12,6 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            // When time rewinds to idle state, player is no longer found
-            AISystem.animator.SetBool("PlayerFound", false);
-
             yield break;
         }
     }

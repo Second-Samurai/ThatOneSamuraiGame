@@ -12,10 +12,12 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            // Stop guard broken animation stop
-            AISystem.animator.SetBool("IsGuardBroken", false);
-
+            // Set the parry stun trigger
+            Animator.SetTrigger("TriggerRecovery");
+            
             yield break;
+            
+            // NOTE: EndState is called through an animation event in the recovery animation
         }
         
         // End state is called at the end of the recovery animation through animation events

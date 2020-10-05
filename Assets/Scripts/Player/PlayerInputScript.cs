@@ -91,10 +91,12 @@ public class PlayerInputScript : MonoBehaviour
 
         if (!bLockedOn)
         {
-            bLockedOn = true;
-            _camControl.LockOn();
-            _animator.SetBool("LockedOn", bLockedOn);
-            _camControl.bLockedOn = bLockedOn;
+            if (_camControl.LockOn())
+            {
+                bLockedOn = true;
+                _animator.SetBool("LockedOn", bLockedOn);
+                _camControl.bLockedOn = bLockedOn;
+            }
         }
         else
         {

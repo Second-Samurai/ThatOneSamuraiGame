@@ -37,8 +37,7 @@ public class EnemyTracker : MonoBehaviour
         }
         else
         {
-            _impatienceMeter = 0;
-            _bReduceImpatience = false;
+            StopImpatienceCountdown();
             PickApproachingTarget();
         }
     }
@@ -78,6 +77,13 @@ public class EnemyTracker : MonoBehaviour
         _impatienceMeter = Random.Range(_enemySettings.minImpatienceTime, _enemySettings.maxImpatienceTime);
     }
     
+    // Called to stop counting down the impatience meter. Called in EnemyTracker and certain states
+    public void StopImpatienceCountdown()
+    {
+        _impatienceMeter = 0;
+        _bReduceImpatience = false;
+    }
+    
     private void PickApproachingTarget()
     {
         // Don't pick a target if no enemies are in the tracker
@@ -95,7 +101,7 @@ public class EnemyTracker : MonoBehaviour
                 AISystem aiSystem = enemy.GetComponent<AISystem>();
                 
                 // Only close distance if the enemy isn't stunned and is strafing
-                if (!aiSystem.eDamageController.enemyGuard.isStunned && aiSystem.animator.GetBool("IsStrafing"))
+                if (!aiSystem.eDamageController.enemyGuard.isStunned)
                 {
                     aiSystem.OnCloseDistance();
                     break;
@@ -104,7 +110,12 @@ public class EnemyTracker : MonoBehaviour
         }
         else // 70% chance
         {
-            targetEnemy.GetComponent<AISystem>().OnCloseDistance();
+            AISystem aiSystem = targetEnemy.GetComponent<AISystem>();
+            
+            if (!aiSystem.eDamageController.enemyGuard.isStunned)
+            {
+                aiSystem.OnCloseDistance();
+            }
         }
     }
 }

@@ -28,13 +28,7 @@ public class CameraRewindEntity : RewindEntity
         {
             RecordPast();
 
-        }
-
-        if (isTravelling) 
-        { 
-        
-        }
-
+        }  
     }
 
     public new void ResetTimeline()

@@ -192,7 +192,7 @@ namespace Enemies
 
         public void OnHeavyAttack()
         {
-        
+            SetState(new HeavyAttackEnemyState(this));
         }
 
         public void OnSpecialAttack()

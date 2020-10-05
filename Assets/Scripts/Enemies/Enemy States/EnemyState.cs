@@ -78,7 +78,8 @@ namespace Enemies.Enemy_States
                 }
                 else // Attack player
                 {
-                    AISystem.OnLightAttack();
+                    if (AISystem.enemyType != EnemyType.GLAIVEWIELDER) AISystem.OnLightAttack();
+                    else AISystem.OnHeavyAttack();
                 }
             }
             else if(InRange(AISystem.transform.position, target, AISystem.enemySettings.midRange))

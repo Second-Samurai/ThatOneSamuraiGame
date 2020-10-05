@@ -414,6 +414,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca3b45b5c6697c4b9d0c1eda34abfdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &460513583 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5014418588748919041, guid: 7f10a4a5279d140b3adf1aceaef298c3,
+    type: 3}
+  m_PrefabInstance: {fileID: 2028366226}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa27a15b6da194499b2a3af694f5cf62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &498778916
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -655,6 +667,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1242029723, guid: f7a58792d2a7a416d9af8bef9151cb8f, type: 3}
+      propertyPath: m_Events.m_Events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 460513583}
+    - target: {fileID: 1242029723, guid: f7a58792d2a7a416d9af8bef9151cb8f, type: 3}
+      propertyPath: m_Events.m_Events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EnableInput
+      objectReference: {fileID: 0}
     - target: {fileID: 4712481422437379944, guid: f7a58792d2a7a416d9af8bef9151cb8f,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -1274,6 +1294,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6531383911829718761, guid: dffd8b7a96a9d0d4ab010cff1fd4ac94,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6531383911829718763, guid: dffd8b7a96a9d0d4ab010cff1fd4ac94,
         type: 3}

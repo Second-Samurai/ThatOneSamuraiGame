@@ -110,7 +110,12 @@ public class EnemyTracker : MonoBehaviour
         }
         else // 70% chance
         {
-            targetEnemy.GetComponent<AISystem>().OnCloseDistance();
+            AISystem aiSystem = targetEnemy.GetComponent<AISystem>();
+            
+            if (!aiSystem.eDamageController.enemyGuard.isStunned)
+            {
+                aiSystem.OnCloseDistance();
+            }
         }
     }
 }

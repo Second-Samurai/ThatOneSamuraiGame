@@ -69,7 +69,6 @@ public class Guarding : MonoBehaviour
     private void CalculateGuard(float damage)
     {
         statHandler.CurrentGuard -= damage;
-        _aiSystem.parryEffects.PlayBlock();
         if (statHandler.CurrentGuard <= 0)
         {
             BreakGuard();

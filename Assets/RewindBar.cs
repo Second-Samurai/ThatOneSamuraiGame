@@ -14,6 +14,7 @@ public class RewindBar : MonoBehaviour
     private void Start()
     {
         GameManager.instance.rewindManager.rewindUI = this;
+        rewindBar.fillAmount = 0;
     }
     
     public void UpdateRewindAmount(float amount) 

@@ -8,16 +8,19 @@ using UnityEngine;
 /// </summary>
 public class PSwordHolder : MonoBehaviour
 {
+    public WSwordEffect swordEffect;
+
     private Transform playerTransform;
+    private ParryEffect parryEffect;
 
     public void Init(Transform playerTransform)
     {
-
+        parryEffect = this.GetComponent<ParryEffect>();
     }
 
-    public WSwordEffect SetWeaponToHand(GameObject swordPrefab)
+    public WSwordEffect SetWeaponToHand(GameObject createdSword)
     {
-
+        swordEffect = createdSword.GetComponent<WSwordEffect>();
         return null;
     }
 

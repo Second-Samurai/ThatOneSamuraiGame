@@ -249,6 +249,11 @@ namespace Enemies
         
         }
 
+        public void OnChargePlayer()
+        {
+            SetState(new ChargeEnemyState(this));
+        }
+
         public void OnApproachPlayer()
         {
             SetState(new ApproachPlayerEnemyState(this));

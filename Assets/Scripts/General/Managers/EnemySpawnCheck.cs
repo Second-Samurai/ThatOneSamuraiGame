@@ -26,9 +26,9 @@ public class EnemySpawnCheck : MonoBehaviour
     public void CheckIfSpawned()
     {
         bool bToBeSpawned = true;
-        spawnManager.enemySpawnDictionary.TryGetValue(myName, out bToBeSpawned);
-        Debug.LogError(myName + " " + bToBeSpawned);
-        gameObject.SetActive(bToBeSpawned);
+        if (spawnManager.enemySpawnDictionary.TryGetValue(myName, out bToBeSpawned))
+            gameObject.SetActive(bToBeSpawned);
+        else gameObject.SetActive(true);
     }
 
     //private void OnDisable()
@@ -41,11 +41,7 @@ public class EnemySpawnCheck : MonoBehaviour
     {
         return bSpawnMe;
     }
-
-    private void OnDestroy()
-    {
-        WriteValue(); 
-    }
+ 
 
     public void WriteValue()
     { 

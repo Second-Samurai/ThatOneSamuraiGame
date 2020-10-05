@@ -42,8 +42,9 @@ public class EDamageController : MonoBehaviour, IDamageable
                 {
                     // If enemy still has left over guard meter AFTER CheckIfEntityGuarding, go to the quick block state
                     // The following 3 lines do not occur if the enemy is guard broken through the previous CheckIfEntityGuarding
-                    if (enemyGuard.canGuard && !_aiSystem.animator.GetBool("IsQuickBlocking"))
+                    if (enemyGuard.canGuard)
                     {
+                        _aiSystem.parryEffects.PlayBlock();
                         _aiSystem.OnQuickBlock();
                     }
                     return;
@@ -87,7 +88,6 @@ public class EDamageController : MonoBehaviour, IDamageable
             // DO NOT TRIGGER PARRY STUN IF THE ENEMY IS ALREADY STUNNED
             if (!enemyGuard.isStunned)
             {
-                
                 _aiSystem.OnParryStun();
             }
         }

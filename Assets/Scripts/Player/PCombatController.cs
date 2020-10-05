@@ -165,6 +165,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     private void OnTriggerEnter(Collider other)
     {
         if (!_isAttacking) return;
+        if (other.CompareTag("Level")) return;
 
         //Collects IDamageable component of the entity
         IDamageable attackEntity = other.GetComponent<IDamageable>();

@@ -14,12 +14,14 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            ResetAnimationBools();
-            
+            //ResetAnimationBools();
+
+            AISystem.attackIndicator.ShowIndicator();
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
 
-            AISystem.animator.SetBool("IsLightAttacking", true);
+            // Set the attack trigger
+            Animator.SetTrigger("TriggerLightAttack");
             
             // Rotate towards player
             bIsRotating = true;
@@ -27,12 +29,12 @@ namespace Enemies.Enemy_States
             yield break;
 
             // NOTE: End state is called through an animation event in the light attack animation
-            // NOTE: An animation event all triggers the enemy to jump forwards if the player is too far away
+            // NOTE: An animation event triggers the enemy to scoot forwards if the player is too far away
         }
         
         public override void Tick()
         {
-            // bISRotating is set to false through an animation event
+            // bIsRotating is set to false through an animation event
             // This is so the enemy stops rotating while they strike
             if (bIsRotating)
             {
@@ -44,18 +46,15 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
+            AISystem.attackIndicator.HideIndicator();
             // Ensure rotate to player is set back in end state
             bIsRotating = true;
-            
-            AISystem.animator.SetBool("IsLightAttacking", false);
-            
+
             // Check current distance to determine next action
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            
+
             // In enemy state, choose a following action based on player distance
             ChooseActionUsingDistance(_target);
         }
-        
-        
     }
 }

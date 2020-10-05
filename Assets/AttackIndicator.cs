@@ -18,8 +18,11 @@ public class AttackIndicator : MonoBehaviour
 
     public void ShowIndicator()
     {
-        bisShowing = true;
-        indicator.fillAmount = 0;
+        if (GameManager.instance.bShowAttackPopups)
+        {
+            bisShowing = true;
+            indicator.fillAmount = 0;
+        }
     }
 
     public void HideIndicator()

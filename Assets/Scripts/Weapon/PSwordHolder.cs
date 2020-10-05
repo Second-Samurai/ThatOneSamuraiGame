@@ -11,11 +11,9 @@ public class PSwordHolder : MonoBehaviour
     public WSwordEffect swordEffect;
 
     private Transform playerTransform;
-    private ParryEffect parryEffect;
 
     public void Init(Transform playerTransform)
     {
-        parryEffect = this.GetComponent<ParryEffect>();
     }
 
     public WSwordEffect SetWeaponToHand(GameObject createdSword)

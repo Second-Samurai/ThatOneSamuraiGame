@@ -211,7 +211,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3780878101314457532
 Transform:
   m_ObjectHideFlags: 0
@@ -255,8 +255,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2463bf37b95ff4e0b984836d48372680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bladeRenderer: {fileID: 0}
+  bladeRenderer: {fileID: 2164707451946428789}
   bladeGlowMat: {fileID: 0}
+  _unblockableParticles: {fileID: 1115491585754179586}
 --- !u!1 &7110275033871937832
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,6 +678,12 @@ PrefabInstance:
 --- !u!4 &1115491585754179645 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3546933920284287804, guid: 404b781796bca4630b0866357f20e96b,
+    type: 3}
+  m_PrefabInstance: {fileID: 4486209976121199361}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1115491585754179586 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3546933920284287747, guid: 404b781796bca4630b0866357f20e96b,
     type: 3}
   m_PrefabInstance: {fileID: 4486209976121199361}
   m_PrefabAsset: {fileID: 0}

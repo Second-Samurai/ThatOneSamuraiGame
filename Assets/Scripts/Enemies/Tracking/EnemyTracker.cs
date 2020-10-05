@@ -37,8 +37,7 @@ public class EnemyTracker : MonoBehaviour
         }
         else
         {
-            _impatienceMeter = 0;
-            _bReduceImpatience = false;
+            StopImpatienceCountdown();
             PickApproachingTarget();
         }
     }
@@ -76,6 +75,13 @@ public class EnemyTracker : MonoBehaviour
     {
         _bReduceImpatience = true;
         _impatienceMeter = Random.Range(_enemySettings.minImpatienceTime, _enemySettings.maxImpatienceTime);
+    }
+    
+    // Called to stop counting down the impatience meter. Called in EnemyTracker and certain states
+    public void StopImpatienceCountdown()
+    {
+        _impatienceMeter = 0;
+        _bReduceImpatience = false;
     }
     
     private void PickApproachingTarget()

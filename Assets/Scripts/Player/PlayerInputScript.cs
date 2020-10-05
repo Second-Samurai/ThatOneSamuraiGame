@@ -81,6 +81,11 @@ public class PlayerInputScript : MonoBehaviour
         }
     }
 
+    void OnSprint(InputValue value)
+    {
+        _animator.SetBool("IsSprinting", value.isPressed);
+    }
+
     void OnLockOn()
     {
 
@@ -112,6 +117,20 @@ public class PlayerInputScript : MonoBehaviour
     void OnToggleLockRight()
     {
         if (bLockedOn) _camControl.LockOn();
+    }
+
+    // Summary: Input control for sword drawing
+    //
+    private void OnSwordDraw(InputValue value)
+    {
+        if (_playerCombat == null)
+        {
+            Debug.Log(">> Combat Component is missing");
+            _playerCombat = this.GetComponent<ICombatController>();
+            return;
+        }
+
+        _playerCombat.DrawSword();
     }
 
    

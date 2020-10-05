@@ -114,6 +114,21 @@ namespace Enemies.Enemy_States
             Animator anim = AISystem.animator;
             
             // Set all suitable animation bools to false
+            anim.ResetTrigger("TriggerMovement");
+            anim.ResetTrigger("TriggerGuardBreak");
+            anim.ResetTrigger("TriggerDeath");
+            anim.ResetTrigger("TriggerRecovery");
+            anim.ResetTrigger("TriggerLightAttack");
+            anim.ResetTrigger("TriggerCounterAttack");
+            anim.ResetTrigger("TriggerDodge");
+            anim.ResetTrigger("TriggerParryStun");
+            anim.ResetTrigger("TriggerQuickBlock");
+            anim.ResetTrigger("TriggerBlock");
+            
+            // Set all movement variables to 0
+            anim.SetFloat("MovementX", 0);
+            anim.SetFloat("MovementZ", 0);
+            
             // anim.SetBool("IsLightAttacking", false);
             // anim.SetBool("IsApproaching", false);
             // anim.SetBool("IsBlocking", false);
@@ -123,8 +138,6 @@ namespace Enemies.Enemy_States
             // anim.SetFloat("StrafeDirectionX", 0);
             // anim.SetBool("IsDodging", false);
             // anim.ResetTrigger("Parried");
-
-            // NOTE: Anims like PlayerFound, IsDead and IsGuardBroken should be treated separately to this function
         }
         
         public void StopRotating()

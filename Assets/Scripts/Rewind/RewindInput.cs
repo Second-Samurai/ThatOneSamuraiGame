@@ -15,6 +15,8 @@ public class RewindInput : MonoBehaviour
     // private bool heldBack, heldForward = false;
     public bool isTravelling = false;
     public GameObject rewindTut;
+    public GameObject rewindBar;
+
     PlayerInput _inputComponent;
 
     PlayerFunctions playerFunction;
@@ -41,6 +43,7 @@ public class RewindInput : MonoBehaviour
             rewindManager.isTravelling = true;
             rewindManager.StartRewind();
             rewindTut.SetActive(true);
+            rewindManager.rewindUI.FadeIn();
             GameManager.instance.postProcessingController.EnableRewindColourFilter();
             // Debug.Log("rewinding");
         }

@@ -18,9 +18,9 @@ public class PNormalState : PlayerState
     {
         playerEntity = this.GetComponent<IEntity>();
 
-        PCombatController combatController = this.GetComponent<PCombatController>();
+        /*PCombatController combatController = this.GetComponent<PCombatController>();
         combatController.Init(playerEntity.GetPlayerStats());
-        combatController.UnblockCombatInputs();
+        combatController.UnblockCombatInputs();*/
 
         PDamageController damageController = this.GetComponent<PDamageController>();
         damageController.Init(playerEntity.GetPlayerStats());

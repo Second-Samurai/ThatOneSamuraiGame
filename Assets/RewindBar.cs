@@ -2,45 +2,70 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class RewindBar : MonoBehaviour
 {
-    Slider healthSlider;
     public Image rewindBar;
+    public Image rewindBarBackground;
+
+    public float maxValue = 1.0f;
 
     private void Start()
     {
         GameManager.instance.rewindManager.rewindUI = this;
-        healthSlider = GetComponent<Slider>();
+        rewindBar.fillAmount = 0;
     }
-
+    
     public void UpdateRewindAmount(float amount) 
     {
-        healthSlider.value = amount;
+        if (rewindBar.fillAmount < maxValue)
+        {
+            rewindBar.fillAmount += amount / 10.0f;
+        }
+        else if (rewindBar.fillAmount > maxValue)
+        {
+            rewindBar.fillAmount = maxValue;
+        }
+
     }
 
     public void UpdateBarMax(float amount)
     {
-        float tempValue = healthSlider.value / healthSlider.maxValue;
+        // float tempValue = healthSlider.fillAmount / healthSlider.maxValue;
+        //
+        maxValue = amount / 10.0f;
+        // healthSlider.maxValue = amount;
+        //
+        // healthSlider.value = healthSlider.maxValue * tempValue;
 
-        healthSlider.maxValue = amount;
-
-        healthSlider.value = healthSlider.maxValue * tempValue;
     }
     private void OnEnable()
     {
         UpdateBarColor();
     }
+    public void FadeIn() 
+    {
+        rewindBar.DOFade(1f, 1f);
+        rewindBarBackground.DOFade(1, 1f);
+    }
+
+    public void FadeOut()
+    {
+        rewindBar.DOFade(0, 1f);
+        rewindBarBackground.DOFade(0, 1f);
+
+    }
 
     public void UpdateBarColor() 
     {
-        if (GameManager.instance.rewindManager.rewindResource <= 2f)
+        if(GameManager.instance.rewindManager.rewindResource > 2f)
         {
-            rewindBar.GetComponent<Image>().color = new Color32(221, 76, 87, 100);
+            rewindBar.color = new Color32(76, 101, 221, 100);
         }
-        else 
+        else if (GameManager.instance.rewindManager.rewindResource < 2f)
         {
-            rewindBar.GetComponent<Image>().color = new Color32(76, 101, 221, 100);
+            rewindBar.color = new Color32(221, 76, 87, 100);
         }
     }
 }

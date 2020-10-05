@@ -47,6 +47,10 @@ public class PlayerController : MonoBehaviour, IEntity
         //freeLockCamera.Follow = this.transform;
         //freeLockCamera.LookAt = this.transform;
 
+        PCombatController combatController = this.GetComponent<PCombatController>();
+        combatController.Init(playerStats);
+        combatController.UnblockCombatInputs();
+
         //Sets up the player's camera controller
         cameraController = this.GetComponent<CameraControl>();
         cameraController.Init(this.transform);

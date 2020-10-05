@@ -14,6 +14,7 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            AISystem.attackIndicator.ShowIndicator();
             // Disable canParry
             AISystem.eDamageController.enemyGuard.canParry = false;
             
@@ -40,6 +41,7 @@ namespace Enemies.Enemy_States
         // End state is called by animation event
         public override void EndState()
         {
+            AISystem.attackIndicator.HideIndicator();
             // Restore future attacks to be blockable
             AISystem.bIsUnblockable = false;
 

@@ -70,7 +70,6 @@ public class PlayerFunctions : MonoBehaviour
             _bDontCheckParry = false;
             parryEffects.PlayGleam();
             _IKPuppet.EnableIK();
-          
         }
     }
 

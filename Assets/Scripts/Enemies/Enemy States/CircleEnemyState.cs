@@ -60,6 +60,9 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
+            // Stop the impatience cooldown when state end is called
+            AISystem.enemyTracker.StopImpatienceCountdown();
+            
             // Reset animation variables
             Animator.SetFloat("MovementX", 0.0f);
 

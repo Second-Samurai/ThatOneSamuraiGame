@@ -14,22 +14,20 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            ResetAnimationBools();
-            
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
 
-            AISystem.animator.SetBool("IsQuickBlocking", true);
-            
+            // Set the parry stun trigger
+            Animator.SetTrigger("TriggerQuickBlock");
+
             yield break;
-            
+
             // NOTE: End state is called through an animation event in the quick block animation
         }
 
         public override void EndState()
         {
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            AISystem.animator.SetBool("IsQuickBlocking", false);
 
             // Move to block state OR choose an action using distance
             int decision = Random.Range(0, 2);

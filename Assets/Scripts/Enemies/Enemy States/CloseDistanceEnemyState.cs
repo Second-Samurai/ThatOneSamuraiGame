@@ -63,7 +63,8 @@ namespace Enemies.Enemy_States
             // Change to circling state when close enough to the player
             if (InRange(AISystem.transform.position, _target, _shortRange))
             {
-                AISystem.OnLightAttack();
+                if (AISystem.enemyType == EnemyType.GLAIVEWIELDER) AISystem.OnHeavyAttack();
+                else AISystem.OnLightAttack();
             }
             // Change to chase state when too far from the player
             else if (!InRange(AISystem.transform.position, _target, _longRange))

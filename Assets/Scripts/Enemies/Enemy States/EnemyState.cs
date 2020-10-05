@@ -88,7 +88,20 @@ namespace Enemies.Enemy_States
             }
             else
             {
-                AISystem.OnApproachPlayer(); // Approach player if they are too far away
+                if(AISystem.enemyType != EnemyType.GLAIVEWIELDER) AISystem.OnApproachPlayer(); // Approach player if they are too far away
+                else
+                {
+                    int decision = Random.Range(0, 1);
+
+                    if (decision == 0) // Jump Attack
+                    {
+                        AISystem.OnJumpAttack();
+                    }
+                    else // Approach Player
+                    {
+                        AISystem.OnApproachPlayer();
+                    }
+                }
             }
         }
 

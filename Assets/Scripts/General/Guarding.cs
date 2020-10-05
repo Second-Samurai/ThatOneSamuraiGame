@@ -76,8 +76,10 @@ public class Guarding : MonoBehaviour
             OnGuardEvent.Invoke();
             return;
         }
-        if(_aiSystem.animator.GetBool("IsQuickBlocking"))
-            _aiSystem.EndState();
+        
+        // if(_aiSystem.animator.GetBool("IsQuickBlocking"))
+        //     _aiSystem.EndState();
+        
         StartCoroutine(AwaitNextDamage(_guardCooldownTime));
         OnGuardEvent.Invoke();
     }

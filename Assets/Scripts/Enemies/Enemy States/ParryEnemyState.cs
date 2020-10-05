@@ -23,7 +23,7 @@ namespace Enemies.Enemy_States
             AISystem.parryEffects.PlayParry();
             
             // Set the parry trigger
-            Animator.SetTrigger("TriggerParry");
+            Animator.SetTrigger("TriggerCounterAttack");
             
             yield break;
             

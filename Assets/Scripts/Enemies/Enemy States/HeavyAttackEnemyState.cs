@@ -20,10 +20,17 @@ namespace Enemies.Enemy_States
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
             AISystem.bIsUnblockable = true;
-
-            // Set the attack trigger
-            Animator.SetTrigger("TriggerHeavyAttack");
-
+            int decision = Random.Range(0, 2);
+            if (decision == 0) // Normal Attack
+            {
+                // Set the attack trigger
+                Animator.SetTrigger("TriggerHeavyAttack"); 
+            }
+            else // Combo
+            {
+                Animator.SetTrigger("TriggerHeavyCombo");
+            }
+           
             // Rotate towards player
             bIsRotating = true;
 

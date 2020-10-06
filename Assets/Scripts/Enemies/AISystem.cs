@@ -199,6 +199,11 @@ namespace Enemies
             bIsUnblockable = false;
         }
 
+        public void ShowIndicator()
+        {
+            attackIndicator.ShowIndicator();
+        }
+
         #endregion
         
         // ENEMY STATE SWITCHING INFO

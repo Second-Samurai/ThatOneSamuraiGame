@@ -9,7 +9,7 @@ namespace Enemies.Enemy_States
     {
         private Vector3 _target;
         private float _longRange;
-        private float _midRange;
+        private float _shortRange;
         
         private bool _bIsThreatened = false;
 
@@ -29,7 +29,7 @@ namespace Enemies.Enemy_States
             
             // Cache the range value so we're not always getting it in the tick function
             _longRange = AISystem.enemySettings.longRange;
-            _midRange = AISystem.enemySettings.shortMidRange;
+            _shortRange = AISystem.enemySettings.shortRange;
 
             // Pick a strafe direction and trigger movement animator
             PickStrafeDirection();
@@ -46,7 +46,7 @@ namespace Enemies.Enemy_States
             PositionTowardsTarget(AISystem.transform, _target);
             
             // If player approaches circling enemy, trigger threatened bool and end state
-            if(InRange(AISystem.transform.position, _target, _midRange))
+            if(InRange(AISystem.transform.position, _target, _shortRange))
             {
                 _bIsThreatened = true;
                 EndState();

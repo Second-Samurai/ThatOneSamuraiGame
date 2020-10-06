@@ -15,7 +15,6 @@ public class EnemySettings : ScriptableObject
     [Header("Range Checks")]
     public float longRange;
     public float midRange;
-    public float shortMidRange;
     public float shortRange;
     
     [Header("Impatience Time intervals")]

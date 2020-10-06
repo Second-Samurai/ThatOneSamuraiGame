@@ -67,7 +67,10 @@ namespace Enemies.Enemy_States
                 {
                     AISystem.OnGlaiveAttack();
                 }
-                else AISystem.OnSwordAttack();
+                else
+                {
+                    AISystem.OnSwordAttack();
+                }
             }
             // Change to chase state when too far from the player
             else if (!InRange(AISystem.transform.position, _target, _longRange))

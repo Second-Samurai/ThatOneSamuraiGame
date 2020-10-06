@@ -65,7 +65,7 @@ namespace Enemies.Enemy_States
         protected void ChooseActionUsingDistance(Vector3 target)
         {
             // If close enough, attack again
-            if (InRange(AISystem.transform.position, target, AISystem.enemySettings.shortMidRange))
+            if (InRange(AISystem.transform.position, target, AISystem.enemySettings.shortRange))
             {
                 if (AISystem.enemyType != EnemyType.GLAIVEWIELDER)
                 {

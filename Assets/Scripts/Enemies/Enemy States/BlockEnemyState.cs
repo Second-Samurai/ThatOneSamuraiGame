@@ -78,7 +78,7 @@ namespace Enemies.Enemy_States
             // Check current distance to determine next action
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
 
-            if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.shortMidRange))
+            if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.shortRange))
             {
                 // Tutorial enemies will always circle after block state
                 if(AISystem.enemyType == EnemyType.TUTORIALENEMY)

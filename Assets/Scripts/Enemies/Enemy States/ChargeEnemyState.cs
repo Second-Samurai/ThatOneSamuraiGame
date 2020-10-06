@@ -9,7 +9,6 @@ namespace Enemies.Enemy_States
         private Vector3 _target;
         private float _longRange;
         private float _shortRange;
-        private float _shortMidRange;
 
         //Class constructor
         public ChargeEnemyState(AISystem aiSystem) : base(aiSystem)
@@ -24,7 +23,6 @@ namespace Enemies.Enemy_States
             // Cache the range value so we're not always getting it in the tick function
             _longRange = AISystem.enemySettings.longRange;
             _shortRange = AISystem.enemySettings.shortRange;
-            _shortMidRange = AISystem.enemySettings.shortMidRange;
 
             // Trigger the movement blend tree with a forward approach.
             // Since CloseDistance is called by the enemy tracker we have to reset
@@ -46,7 +44,7 @@ namespace Enemies.Enemy_States
             AISystem.navMeshAgent.SetDestination(_target);
 
             // Change to circling state when close enough to the player
-            if (InRange(AISystem.transform.position, _target, _shortMidRange))
+            if (InRange(AISystem.transform.position, _target, _shortRange))
             {
                 EndState();
             }
@@ -63,7 +61,7 @@ namespace Enemies.Enemy_States
             Animator.SetFloat("MovementZ", 0.0f);
 
             // Change to circling state when close enough to the player
-            if (InRange(AISystem.transform.position, _target, _shortMidRange))
+            if (InRange(AISystem.transform.position, _target, _shortRange))
             {
                 AISystem.OnGlaiveAttack();
             }

@@ -14,8 +14,8 @@ public interface IDamageable {
 
 public class PDamageController : MonoBehaviour, IDamageable
 {
-    [Header("God Mode")]
-    public bool _canDamage = false; //Change to private later on
+    [SerializeField] private bool GodMode = false;
+    [SerializeField] private bool _canDamage = false; //Change to private later on
 
     private StatHandler playerStats;
     private PlayerFunctions _functions;
@@ -42,6 +42,7 @@ public class PDamageController : MonoBehaviour, IDamageable
 
     public void EnableDamage()
     {
+        if (GodMode) return;
         _canDamage = true;
     }
 

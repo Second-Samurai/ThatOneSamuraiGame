@@ -28,14 +28,15 @@ public class AudioManager : MonoBehaviour
         //DontDestroyOnLoad(gameObject);
         foreach (Sound s in sounds) 
         {
-            s.source = gameObject.AddComponent<AudioSource>();
-            s.source.clip = s.clip;
-            s.source.playOnAwake = false;
-
-            s.source.volume = s.volume;
-            s.source.pitch = s.pitch;
-            s.source.loop = s.loop;
             s.name = s.clip.name;
+            if (s.createSource == true)
+            {
+                CreateSource(s);
+            }
+            if (s.createSource == false) 
+            {
+                DestroyImmediate(s.source);
+            }
         }
 
     }
@@ -98,6 +99,22 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
-         s.source.Play();
+        if (s.source == null) 
+        {
+            CreateSource(s);
+            s.source.Play();
+        }
+        s.source.Play();
+    }
+
+    private void CreateSource(Sound s) 
+    {
+        s.source = gameObject.AddComponent<AudioSource>();
+        s.source.clip = s.clip;
+        s.source.playOnAwake = false;
+
+        s.source.volume = s.volume;
+        s.source.pitch = s.pitch;
+        s.source.loop = s.loop;
     }
 }

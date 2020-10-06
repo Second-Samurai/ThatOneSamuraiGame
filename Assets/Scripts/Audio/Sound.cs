@@ -10,6 +10,7 @@ public class Sound
 {
 
     public string name;
+    public bool createSource;
 
     public AudioClip clip;
 

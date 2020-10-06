@@ -19,13 +19,18 @@ namespace Enemies.Enemy_States
         {
             // Start the navMeshAgent tracking
             AISystem.navMeshAgent.isStopped = false;
-            
+            AISystem.attackIndicator.ShowIndicator();
             // Cache the range value so we're not always getting it in the tick function
             _longRange = AISystem.enemySettings.longRange;
             _shortRange = AISystem.enemySettings.shortRange;
             
-            AISystem.animator.SetBool("IsClosingDistance", true);
-
+            // Trigger the movement blend tree with a forward approach.
+            // Since CloseDistance is called by the enemy tracker we have to reset
+            // the MovementX value which is set in the previous circling state
+            Animator.SetFloat("MovementX", 0.0f);
+            Animator.SetFloat("MovementZ", 1.0f);
+            Animator.SetTrigger("TriggerMovement");
+            
             yield break;
         }
 
@@ -52,12 +57,17 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
-            AISystem.animator.SetBool("IsClosingDistance", false);
-            
+            // Reset animation variables
+            Animator.SetFloat("MovementZ", 0.0f);
+
             // Change to circling state when close enough to the player
             if (InRange(AISystem.transform.position, _target, _shortRange))
             {
-                AISystem.OnLightAttack();
+                if (AISystem.enemyType == EnemyType.GLAIVEWIELDER)
+                {
+                    AISystem.OnHeavyAttack();
+                }
+                else AISystem.OnLightAttack();
             }
             // Change to chase state when too far from the player
             else if (!InRange(AISystem.transform.position, _target, _longRange))

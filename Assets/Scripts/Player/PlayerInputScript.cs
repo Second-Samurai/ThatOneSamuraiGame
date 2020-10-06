@@ -38,8 +38,10 @@ public class PlayerInputScript : MonoBehaviour
 
     #region Movement vectors
     Vector2 _inputVector, lastVector, _cachedVector;
+    private Vector2 cachedDir;
+    private bool isSprintHeld;
     #endregion
-     
+
     #region Heavy Charging
     float heavyTimer, heavyTimerMax = 2f;
     bool bHeavyCharging = false, bPlayGleam = true;
@@ -69,8 +71,14 @@ public class PlayerInputScript : MonoBehaviour
     #region Input Functions
     void OnMovement(InputValue dir) 
     {
-        Vector2 cachedDir;
         cachedDir = dir.Get<Vector2>();
+
+        if(cachedDir == Vector2.zero)
+        {
+            _animator.SetBool("IsSprinting", false);
+        }
+
+
         if (!bMoveLocked) //normal movement
             _inputVector = cachedDir;
         else //input during dodge
@@ -81,15 +89,24 @@ public class PlayerInputScript : MonoBehaviour
         }
     }
 
+    void OnSprint(InputValue value)
+    {
+        isSprintHeld = value.isPressed;
+
+        Debug.Log(value);
+    }
+
     void OnLockOn()
     {
 
         if (!bLockedOn)
         {
-            bLockedOn = true;
-            _camControl.LockOn();
-            _animator.SetBool("LockedOn", bLockedOn);
-            _camControl.bLockedOn = bLockedOn;
+            if (_camControl.LockOn())
+            {
+                bLockedOn = true;
+                _animator.SetBool("LockedOn", bLockedOn);
+                _camControl.bLockedOn = bLockedOn;
+            }
         }
         else
         {
@@ -110,6 +127,20 @@ public class PlayerInputScript : MonoBehaviour
     void OnToggleLockRight()
     {
         if (bLockedOn) _camControl.LockOn();
+    }
+
+    // Summary: Input control for sword drawing
+    //
+    private void OnSwordDraw(InputValue value)
+    {
+        if (_playerCombat == null)
+        {
+            Debug.Log(">> Combat Component is missing");
+            _playerCombat = this.GetComponent<ICombatController>();
+            return;
+        }
+
+        _playerCombat.DrawSword();
     }
 
    
@@ -276,6 +307,19 @@ public class PlayerInputScript : MonoBehaviour
 
             
             _animator.SetFloat("InputSpeed", _inputVector.magnitude, smoothingValue, Time.deltaTime);
+
+            //Checks for sprinting
+            if (cachedDir == Vector2.zero)
+            {
+                _animator.SetBool("IsSprinting", false);
+            }
+            else
+            {
+                if (_animator.GetBool("IsSprinting") != isSprintHeld)
+                {
+                    _animator.SetBool("IsSprinting", isSprintHeld);
+                }
+            }
 
             if (bOverrideMovement)
             {

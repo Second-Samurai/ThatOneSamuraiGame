@@ -72,13 +72,15 @@ public class CameraControl : MonoBehaviour
         _lockedCamScript.SetTarget(target, player);
     }
 
-    public void LockOn()
+    public bool LockOn()
     {
         if (GetTarget())
         {
             _lockedCamScript.cam.Priority = 11;
             cinematicBars.ShowBars(200f, .3f);
+            return true;
         }
+        else return false;
 
     }
 
@@ -132,9 +134,9 @@ public class CameraControl : MonoBehaviour
         else
         {
             
-            _playerInput.target = lockOnNullDummy;
-            SetTarget(lockOnNullDummy);
-            bLockedOn = true;
+            //_playerInput.target = lockOnNullDummy;
+           // SetTarget(lockOnNullDummy);
+            bLockedOn = false;
             return bLockedOn;
         }
     }

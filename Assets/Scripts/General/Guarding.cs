@@ -14,7 +14,7 @@ public class Guarding : MonoBehaviour
     
     [HideInInspector] public StatHandler statHandler;
     [HideInInspector] public UnityEvent OnGuardEvent = new UnityEvent();
-    private AISystem _aiSystem;
+    public AISystem _aiSystem;
 
     public void Init(StatHandler statHandler)
     {
@@ -47,12 +47,12 @@ public class Guarding : MonoBehaviour
         // This is only used for the swordsman parrying. For when they're parring AND they get parried by the player.
         // This exists because canGuard is set to false while the enemy is parring so they can be killed while
         // doing the parry animation.
-        if (_aiSystem.animator.GetBool("IsParried"))
-        {
-            StopAllCoroutines();
-            CalculateGuard(damage);
-            return true;
-        }
+        // if (_aiSystem.animator.GetBool("IsParried"))
+        // {
+        //     StopAllCoroutines();
+        //     CalculateGuard(damage);
+        //     return true;
+        // }
         
         if (canGuard && !isStunned)
         {
@@ -69,15 +69,16 @@ public class Guarding : MonoBehaviour
     private void CalculateGuard(float damage)
     {
         statHandler.CurrentGuard -= damage;
-        _aiSystem.parryEffects.PlayBlock();
         if (statHandler.CurrentGuard <= 0)
         {
             BreakGuard();
             OnGuardEvent.Invoke();
             return;
         }
-        if(_aiSystem.animator.GetBool("IsQuickBlocking"))
-            _aiSystem.EndState();
+        
+        // if(_aiSystem.animator.GetBool("IsQuickBlocking"))
+        //     _aiSystem.EndState();
+        
         StartCoroutine(AwaitNextDamage(_guardCooldownTime));
         OnGuardEvent.Invoke();
     }

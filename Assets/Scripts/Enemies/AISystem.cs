@@ -48,9 +48,6 @@ namespace Enemies
         public bool bIsDead = false;
         public bool bIsUnblockable = false;
         //NOTE: isStunned is handled in Guarding script, inside the eDamageController script
-        
-        //DODGE VARIABLES
-        public float dodgeDirectionX, dodgeDirectionZ = 0;
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
         //because the player's origin point is on the floor
@@ -58,6 +55,11 @@ namespace Enemies
 
         //PARTICLES
         public ParryEffects parryEffects;
+        public WSwordEffect swordEffects;
+        public AttackIndicator attackIndicator;
+
+        //PHYSICS
+        public Rigidbody rb;
         
         #endregion
         
@@ -91,6 +93,9 @@ namespace Enemies
             // Start the enemy in an idle state
             OnIdle();
 
+            if (!attackIndicator) attackIndicator = GetComponentInChildren<AttackIndicator>();
+
+            rb = GetComponent<Rigidbody>();
 
         }
 
@@ -148,6 +153,11 @@ namespace Enemies
             }
         }
 
+        public void ApplyImpulseForce(float f)
+        {
+            rb.AddForce(transform.forward * f, ForceMode.Impulse);
+        }
+
         // Called from dodgestate
         public void DodgeImpulse(Vector3 lastDir, float force)
         {
@@ -178,6 +188,22 @@ namespace Enemies
             }
         }
 
+        public void BeginUnblockable()
+        {
+            swordEffects.BeginUnblockableEffect();
+            bIsUnblockable = true;
+        }
+        public void EndUnblockable()
+        {
+            swordEffects.EndUnblockableEffect();
+            bIsUnblockable = false;
+        }
+
+        public void ShowIndicator()
+        {
+            attackIndicator.ShowIndicator();
+        }
+
         #endregion
         
         // ENEMY STATE SWITCHING INFO
@@ -193,7 +219,12 @@ namespace Enemies
 
         public void OnHeavyAttack()
         {
-        
+            SetState(new HeavyAttackEnemyState(this));
+        }
+
+        public void OnJumpAttack()
+        {
+            SetState(new JumpAttackEnemyState(this));
         }
 
         public void OnSpecialAttack()
@@ -233,6 +264,11 @@ namespace Enemies
         public void OnPatrol()
         {
         
+        }
+
+        public void OnChargePlayer()
+        {
+            SetState(new ChargeEnemyState(this));
         }
 
         public void OnApproachPlayer()

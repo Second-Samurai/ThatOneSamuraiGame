@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5014418588748919040}
   - component: {fileID: 5014418588748919041}
   - component: {fileID: 951383260}
-  - component: {fileID: 621167395}
-  - component: {fileID: 295521748}
+  - component: {fileID: 2384791255153466089}
+  - component: {fileID: 7710084464813942032}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -56,8 +56,8 @@ MonoBehaviour:
   enemyTracker: {fileID: 0}
   postProcessingController: {fileID: 0}
   audioManager: {fileID: 0}
-  checkpointManager: {fileID: 621167395}
-  enemySpawnManager: {fileID: 295521748}
+  checkpointManager: {fileID: 7710084464813942032}
+  enemySpawnManager: {fileID: 2384791255153466089}
   buttonController: {fileID: 0}
   guardMeterCanvas: {fileID: 0}
 --- !u!114 &951383260
@@ -73,7 +73,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bIsSlowing: 0
---- !u!114 &621167395
+--- !u!114 &2384791255153466089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5014418588748919054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dfc060706af9eb4a8d8aeeca88fe924, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemies: []
+--- !u!114 &7710084464813942032
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,19 +100,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkpoints: []
   activeCheckpoint: 0
---- !u!114 &295521748
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5014418588748919054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dfc060706af9eb4a8d8aeeca88fe924, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemies: []
 --- !u!1001 &1391761802
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -18,6 +18,7 @@ public class GameSettings : ScriptableObject
 
     [Header("Game Prefabs")]
     public GameObject playerPrefab;
+    public GameObject mainPlayerPrefab; //NEW ONE
     public GameObject enemyManagerPrefab;
     public GameObject targetHolderPrefab;
 
@@ -45,5 +46,9 @@ public class GameSettings : ScriptableObject
 
     [Header("AudioManger")]
     public GameObject audioManger;
+
+    [Header("Weapon Prefabs")]
+    public GameObject katanaPrefab;
+    public GameObject laserSword; // He he he
 
 }

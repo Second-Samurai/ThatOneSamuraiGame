@@ -21,15 +21,14 @@ namespace Enemies.Enemy_States
             
             // Set the player to no longer being found
             AISystem.bPlayerFound = false;
-            AISystem.animator.SetBool("PlayerFound", false);
+            // AISystem.animator.SetBool("PlayerFound", false);
             
-            ResetAnimationBools();
+            ResetAnimationVariables();
             
-            anim.SetBool("IsGuardBroken", false);
+            // anim.SetBool("IsGuardBroken", false);
             
             // Set enemy to no longer being dead
             AISystem.bIsDead = false;
-            anim.SetBool("IsDead", false);
 
             yield break;
         }

@@ -70,7 +70,6 @@ public class PlayerFunctions : MonoBehaviour
             _bDontCheckParry = false;
             parryEffects.PlayGleam();
             _IKPuppet.EnableIK();
-          
         }
     }
 
@@ -149,7 +148,7 @@ public class PlayerFunctions : MonoBehaviour
 
     public void ApplyHit(GameObject attacker, bool unblockable, float damage)
     {
-        if (bIsParrying)
+        if (bIsParrying && !unblockable)
         {
             TriggerParry(attacker, damage);
         }

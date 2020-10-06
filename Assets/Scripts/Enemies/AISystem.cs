@@ -123,6 +123,12 @@ namespace Enemies
                 case EnemyType.ARCHER:
                     break;
                 case EnemyType.GLAIVEWIELDER:
+                    //statHandler.Init(enemySettings.glaiveWielderStats.enemyData);
+                    //animator.SetFloat("ApproachSpeedMultiplier", enemySettings.glaiveWielderStats.enemyData.moveSpeed);
+                    //animator.SetFloat("CircleSpeedMultiplier", enemySettings.glaiveWielderStats.circleSpeed);
+                    statHandler.Init(enemySettings.swordsmanStats.enemyData);
+                    animator.SetFloat("ApproachSpeedMultiplier", enemySettings.swordsmanStats.enemyData.moveSpeed);
+                    animator.SetFloat("CircleSpeedMultiplier", enemySettings.swordsmanStats.circleSpeed);
                     break;
                 case EnemyType.TUTORIALENEMY:
                     break;

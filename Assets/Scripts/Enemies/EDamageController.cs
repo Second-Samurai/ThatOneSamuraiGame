@@ -13,7 +13,7 @@ public class EDamageController : MonoBehaviour, IDamageable
 
     public void Init(StatHandler enemyStats) {
         _enemyStats = enemyStats;
-
+        if (!enemyGuard) Debug.LogError("NO GUARD");
         enemyGuard = GetComponent<Guarding>();
         enemyGuard.Init(_enemyStats);
         hitstopController = GameManager.instance.gameObject.GetComponent<HitstopController>();

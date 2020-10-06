@@ -903,11 +903,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1768938734753722975, guid: 3f7b0705999c4aa4699b9dea4ab75f6c,
+        type: 3}
+      propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 993029122}
     - target: {fileID: 6720650519821614831, guid: 3f7b0705999c4aa4699b9dea4ab75f6c,
         type: 3}
       propertyPath: camTargetController
       value: 
       objectReference: {fileID: 1338139242}
+    - target: {fileID: 6720650519821614831, guid: 3f7b0705999c4aa4699b9dea4ab75f6c,
+        type: 3}
+      propertyPath: sprintCam
+      value: 
+      objectReference: {fileID: 1720820312}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f7b0705999c4aa4699b9dea4ab75f6c, type: 3}
 --- !u!1 &299148674 stripped
@@ -3775,6 +3785,18 @@ Transform:
   m_Father: {fileID: 798151812}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1720820312 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2874773022175677382, guid: 3b0cefd2387801a40ac7e7e866caaecd,
+    type: 3}
+  m_PrefabInstance: {fileID: 2874773023745501598}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1725045785
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5282,6 +5304,80 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.00031638145, y: -0.1279498, z: 0.037034392}
     m_Extent: {x: 0.9572255, y: 0.9446938, z: 0.31116295}
   m_DirtyAABB: 0
+--- !u!1001 &2874773023745501598
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2874773022175677382, guid: 3b0cefd2387801a40ac7e7e866caaecd,
+        type: 3}
+      propertyPath: m_Follow
+      value: 
+      objectReference: {fileID: 993029122}
+    - target: {fileID: 2874773022175677383, guid: 3b0cefd2387801a40ac7e7e866caaecd,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.0356321
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874773022175677383, guid: 3b0cefd2387801a40ac7e7e866caaecd,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 7.802976
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874773022175677383, guid: 3b0cefd2387801a40ac7e7e866caaecd,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -35.28038
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874773022175677383, guid: 3b0cefd2387801a40ac7e7e866caaecd,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874773022175677383, guid: 3b0cefd2387801a40ac7e7e866caaecd,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874773022175677383, guid: 3b0cefd2387801a40ac7e7e866caaecd,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874773022175677383, guid: 3b0cefd2387801a40ac7e7e866caaecd,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874773022175677383, guid: 3b0cefd2387801a40ac7e7e866caaecd,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874773022175677383, guid: 3b0cefd2387801a40ac7e7e866caaecd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874773022175677383, guid: 3b0cefd2387801a40ac7e7e866caaecd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874773022175677383, guid: 3b0cefd2387801a40ac7e7e866caaecd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2874773022175677385, guid: 3b0cefd2387801a40ac7e7e866caaecd,
+        type: 3}
+      propertyPath: m_Name
+      value: SprintCam
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3b0cefd2387801a40ac7e7e866caaecd, type: 3}
 --- !u!1001 &8004142583203380745
 PrefabInstance:
   m_ObjectHideFlags: 0

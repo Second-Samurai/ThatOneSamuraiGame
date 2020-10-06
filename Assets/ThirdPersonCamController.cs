@@ -7,6 +7,7 @@ public class ThirdPersonCamController : MonoBehaviour
 {
     public PlayerCamTargetController camTargetController;
     CinemachineVirtualCamera cam;
+    public CinemachineVirtualCamera sprintCam;
     
     private void Start()
     {
@@ -30,5 +31,14 @@ public class ThirdPersonCamController : MonoBehaviour
     public void SetSensitivity(float sensitivity)
     {
         camTargetController.SetSensitivity(sensitivity);
+    }
+    public void SprintOn()
+    {
+        sprintCam.m_Priority = 15;
+    }
+
+    public void SprintOff()
+    {
+        sprintCam.m_Priority = 5;
     }
 }

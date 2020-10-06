@@ -35,6 +35,21 @@ namespace Enemy_Scripts
 
         #region Animation Called Events
 
+        // BUG-FIX: BREAKING THE STATE MACHINE RULES
+        // The end state animation event in swordsman light attack was sometimes performing EndState for other events
+        // This is a precautionary method to stop that from happening
+        public void EndStateAttack()
+        {
+            if (EnemyState.GetType() == typeof(SwordAttackEnemyState))
+            {
+                EndState();
+            }
+            else
+            {
+                Debug.LogWarning("Warning: Tried to EndState the wrong state, EndState cancelled");
+            }
+        }
+
         public void EndState()
         {
             EnemyState.EndState();

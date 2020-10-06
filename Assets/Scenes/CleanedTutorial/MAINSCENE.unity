@@ -938,6 +938,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca3b45b5c6697c4b9d0c1eda34abfdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &299148676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 299148674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ChannelMask: 1
+  m_Gain: 1
+  m_Use2DDistance: 0
 --- !u!1 &303017807
 GameObject:
   m_ObjectHideFlags: 0
@@ -2079,6 +2094,7 @@ MonoBehaviour:
   canParry: 0
   canGuard: 1
   isStunned: 0
+  camImpulse: {fileID: 0}
   OnGuardEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -2451,6 +2467,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: tutSwordsmanL
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714032007399558966, guid: d9b8cb95e305749898cfecb46877b8bb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6108884622860857924, guid: d9b8cb95e305749898cfecb46877b8bb,
         type: 3}

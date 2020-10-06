@@ -212,7 +212,7 @@ public class PlayerInputScript : MonoBehaviour
 
     void OnDodge()
     {
-        
+        Debug.Log(1);
         if (_inputVector != Vector2.zero && !bIsDodging && bCanDodge)
         {
             Debug.Log(2);
@@ -419,7 +419,7 @@ public class PlayerInputScript : MonoBehaviour
 
     public void BlockDodge()
     {
-        if(!bGotParried) bCanDodge = false;
+       // if(!bGotParried) bCanDodge = false;
      
     }
 

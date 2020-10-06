@@ -62,7 +62,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     /// <summary>
     /// Draws the player sword
     /// </summary>
-    public void DrawSword()
+    public void DrawSword() //TODO: SHOULD BE AUTOMATIC
     {
         if (!swordManager.hasAWeapon) return;
         _isSwordDrawn = !_isSwordDrawn;

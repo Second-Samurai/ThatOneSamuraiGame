@@ -36,7 +36,7 @@ public class WSwordEffect : MonoBehaviour
 
     public void BeginUnblockableEffect()
     {
-        Debug.LogWarning("GLOW");
+
         bladeRenderer.material = bladeGlowMat;
         _unblockableParticles.Play();
     }

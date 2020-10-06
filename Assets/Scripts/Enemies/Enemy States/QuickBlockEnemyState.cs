@@ -38,6 +38,7 @@ namespace Enemies.Enemy_States
 
             // Move to block state OR choose an action using distance
             int decision = Random.Range(0, 2);
+            //decision = 0;
             if (decision == 0)
             {
                 AISystem.OnBlock();

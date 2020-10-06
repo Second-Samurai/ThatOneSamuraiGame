@@ -92,6 +92,7 @@ namespace Enemies.Enemy_States
                 
                 // Make an 80/20 decision to attack or dodge
                 int decision = Random.Range(0, 5);
+                //decision = 0;
                 if (decision == 0) // Dodge backwards
                 {
                     // Dodge direction is set in the state before OnDodge is called

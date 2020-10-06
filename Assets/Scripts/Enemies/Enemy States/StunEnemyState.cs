@@ -20,6 +20,9 @@ namespace Enemies.Enemy_States
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
             
+            // Stop unblockable if enemy was previously doing an unblockable attack
+            AISystem.EndUnblockable();
+            
             // Trigger the guard break
             Animator.SetTrigger("TriggerGuardBreak");
 

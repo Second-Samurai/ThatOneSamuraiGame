@@ -9,11 +9,12 @@ namespace Enemy_Scripts
     // 2. To be responsible for setting to a new state
     // 3. To give AI system monobehaviour and it's functions
     // If we're looking to expand on state management, this is the place to do it
-    
+
     public class EnemyStateMachine : MonoBehaviour
     {
         // Breaking standard naming conventions for the sake of state naming
         public EnemyState EnemyState; // Holds the current enemy state
+        [SerializeField] private bool PrintStates = false;
 
         public void SetState(EnemyState newEnemyState)
         {
@@ -21,7 +22,7 @@ namespace Enemy_Scripts
             EnemyState = newEnemyState;
             StartCoroutine(EnemyState.BeginState());
             
-            //Debug.Log("Switching States: " + newEnemyState);
+            if(PrintStates) Debug.Log("Switching States: " + newEnemyState);
         }
 
         protected void FixedUpdate()

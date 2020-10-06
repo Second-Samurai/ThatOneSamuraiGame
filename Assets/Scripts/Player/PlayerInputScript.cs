@@ -92,8 +92,11 @@ public class PlayerInputScript : MonoBehaviour
     void OnSprint(InputValue value)
     {
         isSprintHeld = value.isPressed;
-
-        Debug.Log(value);
+        if (!bLockedOn)
+        {
+            if (isSprintHeld) _camControl.camScript.SprintOn();
+            else _camControl.camScript.SprintOff();
+        }
     }
 
     void OnLockOn()
@@ -212,8 +215,10 @@ public class PlayerInputScript : MonoBehaviour
 
     void OnDodge()
     {
+        Debug.Log(1);
         if (_inputVector != Vector2.zero && !bIsDodging && bCanDodge)
         {
+            Debug.Log(2);
             _animator.SetTrigger("Dodge");
             _animator.ResetTrigger("AttackLight");
             if (bGotParried) EndSlowEffects();
@@ -225,11 +230,26 @@ public class PlayerInputScript : MonoBehaviour
            
             bOverrideMovement = false;
         }
+        else if (_inputVector != Vector2.zero && !bIsDodging && !bCanDodge && bGotParried)
+        {
+             
+            _animator.SetTrigger("Dodge");
+            _animator.ResetTrigger("AttackLight");
+            if (bGotParried) EndSlowEffects();
+            if (bLockedOn)
+            {
+                StopCoroutine("DodgeImpulse");
+                StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
+            }
+
+            bOverrideMovement = false;
+        }
         else if (_inputVector != Vector2.zero && !bIsDodging && !bCanDodge)
         {
             _bDodgeCache = true;
 
         }
+        
     }
 
     void OnPause()
@@ -396,12 +416,13 @@ public class PlayerInputScript : MonoBehaviour
     public void ResetDodge()
     {
         bCanDodge = true;
+        bIsDodging = false;
       
     }
 
     public void BlockDodge()
     {
-        bCanDodge = false;
+       // if(!bGotParried) bCanDodge = false;
      
     }
 

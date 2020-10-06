@@ -17,7 +17,9 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            // Play blade effects
             AISystem.parryEffects.PlayGleam();
+            AISystem.swordEffects.BeginBlockEffect();
             
             StartBlockTimer();
             
@@ -58,6 +60,8 @@ namespace Enemies.Enemy_States
         
         public override void EndState()
         {
+            AISystem.swordEffects.EndBlockEffect();
+            
             AISystem.eDamageController.enemyGuard.canParry = false;
 
             ChooseAfterBlockOption();
@@ -78,7 +82,7 @@ namespace Enemies.Enemy_States
             // Check current distance to determine next action
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
 
-            if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.shortMidRange))
+            if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.shortRange))
             {
                 // Tutorial enemies will always circle after block state
                 if(AISystem.enemyType == EnemyType.TUTORIALENEMY)
@@ -86,18 +90,19 @@ namespace Enemies.Enemy_States
                     AISystem.OnCirclePlayer();
                 }
                 
-                // Make a 50/50 decision to attack or dodge
-                int decision = Random.Range(0, 2);
-                if (decision == 0) // Go for an attack
-                {
-                    AISystem.OnLightAttack();
-                }
-                else // Dodge backwards
+                // Make an 80/20 decision to attack or dodge
+                int decision = Random.Range(0, 5);
+                //decision = 0;
+                if (decision == 0) // Dodge backwards
                 {
                     // Dodge direction is set in the state before OnDodge is called
                     // This is so we can choose a dodge direction based on the previous state
                     Animator.SetFloat("MovementZ", -1);
                     AISystem.OnDodge();
+                }
+                else // Go for an attack
+                {
+                    AISystem.OnSwordAttack();
                 }
             }
             else

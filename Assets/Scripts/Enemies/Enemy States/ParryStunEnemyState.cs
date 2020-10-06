@@ -26,7 +26,9 @@ namespace Enemies.Enemy_States
         // End state is called through an animation event at the end of the animation
         public override void EndState()
         {
-            if(AISystem.enemyType == EnemyType.TUTORIALENEMY)
+            int decision = Random.Range(0, 2);
+            // 50/50 change to dodge or chose action
+            if(decision == 0)
             {
                 // Dodge direction is set in the state before OnDodge is called
                 // This is so we can choose a dodge direction based on the previous state

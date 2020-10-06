@@ -65,9 +65,12 @@ namespace Enemies.Enemy_States
             {
                 if (AISystem.enemyType == EnemyType.GLAIVEWIELDER)
                 {
-                    AISystem.OnHeavyAttack();
+                    AISystem.OnGlaiveAttack();
                 }
-                else AISystem.OnLightAttack();
+                else
+                {
+                    AISystem.OnSwordAttack();
+                }
             }
             // Change to chase state when too far from the player
             else if (!InRange(AISystem.transform.position, _target, _longRange))

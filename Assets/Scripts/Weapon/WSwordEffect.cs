@@ -6,8 +6,8 @@ using UnityEngine;
 public class WSwordEffect : MonoBehaviour
 {
     public MeshRenderer bladeRenderer;
-    public Material bladeGlowMat, bladeOriginalMat;
-    public ParticleSystem _unblockableParticles;
+    public Material bladeGlowMat, bladeGlowWhiteMat, bladeOriginalMat;
+    public ParticleSystem unblockableParticles, blockParticles;
 
     private GameSettings _gameSettings;
     private Transform _swordmanTransform;
@@ -36,15 +36,27 @@ public class WSwordEffect : MonoBehaviour
 
     public void BeginUnblockableEffect()
     {
-        Debug.LogWarning("GLOW");
+
         bladeRenderer.material = bladeGlowMat;
-        _unblockableParticles.Play();
+        unblockableParticles.Play();
     }
 
     public void EndUnblockableEffect()
     {
         bladeRenderer.material = bladeOriginalMat;
-        _unblockableParticles.Stop();
+        unblockableParticles.Stop();
+    }
+    
+    public void BeginBlockEffect()
+    {
+        bladeRenderer.material = bladeGlowWhiteMat;
+        blockParticles.Play();
+    }
+
+    public void EndBlockEffect()
+    {
+        bladeRenderer.material = bladeOriginalMat;
+        blockParticles.Stop();
     }
 
     /// <summary>

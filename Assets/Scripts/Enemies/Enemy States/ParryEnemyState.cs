@@ -20,7 +20,8 @@ namespace Enemies.Enemy_States
             
             // Make the next attack unblockable
             AISystem.bIsUnblockable = true;
-            
+            AISystem.swordEffects.BeginUnblockableEffect();
+
             AISystem.parryEffects.PlayParry();
             
             // Set the parry trigger
@@ -44,7 +45,7 @@ namespace Enemies.Enemy_States
             AISystem.attackIndicator.HideIndicator();
             // Restore future attacks to be blockable
             AISystem.bIsUnblockable = false;
-
+            AISystem.swordEffects.EndUnblockableEffect();
             // Dodge direction is set in the state before OnDodge is called
             // This is so we can choose a dodge direction based on the previous state
             Animator.SetFloat("MovementZ", -1);

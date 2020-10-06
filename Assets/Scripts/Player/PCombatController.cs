@@ -135,11 +135,13 @@ public class PCombatController : MonoBehaviour, ICombatController
     public void Unblockable()
     {
         isUnblockable = true;
+        swordManager.swordEffect.BeginUnblockableEffect();
     }
 
     public void EndUnblockable()
     {
         isUnblockable = false;
+        swordManager.swordEffect.EndUnblockableEffect();
     }
 
     public bool CheckIsAttacking()
@@ -179,4 +181,5 @@ public class PCombatController : MonoBehaviour, ICombatController
         _playerInput.RemoveOverride();
         _animator.SetTrigger("IsParried");
     }
+ 
 }

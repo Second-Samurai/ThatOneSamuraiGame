@@ -15,7 +15,7 @@ namespace Enemies.Enemy_States
         public override IEnumerator BeginState()
         {
             //ResetAnimationBools();
-
+            AISystem.swordEffects.BeginUnblockableEffect();
             AISystem.attackIndicator.ShowIndicator();
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
@@ -47,6 +47,7 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
+            AISystem.swordEffects.EndUnblockableEffect();
             AISystem.attackIndicator.HideIndicator();
             AISystem.bIsUnblockable = false;
             // Ensure rotate to player is set back in end state

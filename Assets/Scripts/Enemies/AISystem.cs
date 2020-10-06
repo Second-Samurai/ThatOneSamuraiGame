@@ -55,6 +55,7 @@ namespace Enemies
 
         //PARTICLES
         public ParryEffects parryEffects;
+        public WSwordEffect swordEffects;
         public AttackIndicator attackIndicator;
 
         //PHYSICS
@@ -185,6 +186,17 @@ namespace Enemies
                 dodgeTimer -= Time.deltaTime;
                 yield return null;
             }
+        }
+
+        public void BeginUnblockable()
+        {
+            swordEffects.BeginUnblockableEffect();
+            bIsUnblockable = true;
+        }
+        public void EndUnblockable()
+        {
+            swordEffects.EndUnblockableEffect();
+            bIsUnblockable = false;
         }
 
         #endregion

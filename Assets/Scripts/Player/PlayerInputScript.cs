@@ -212,9 +212,7 @@ public class PlayerInputScript : MonoBehaviour
 
     void OnDodge()
     {
-        Debug.Log(1);
-        Debug.Log(bGotParried);
-        Debug.Log("D:" + bIsDodging + "C:" + bCanDodge + "V:"+_inputVector);
+        
         if (_inputVector != Vector2.zero && !bIsDodging && bCanDodge)
         {
             Debug.Log(2);
@@ -231,7 +229,7 @@ public class PlayerInputScript : MonoBehaviour
         }
         else if (_inputVector != Vector2.zero && !bIsDodging && !bCanDodge && bGotParried)
         {
-            Debug.Log(2);
+             
             _animator.SetTrigger("Dodge");
             _animator.ResetTrigger("AttackLight");
             if (bGotParried) EndSlowEffects();

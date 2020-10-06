@@ -101,30 +101,21 @@ namespace Enemies.Enemy_States
             {
                 actionNumber = 3;
             }
+            
             if (AISystem.enemyType != EnemyType.GLAIVEWIELDER)
             {
-                switch (actionNumber)
+                if (actionNumber >= 4)
                 {
-                    case int i when (i >= 5): // LIGHT ATTACK
-                        AISystem.OnLightAttack();
-                        break;
-                    case int i when (i >= 3 && i < 5): // START BLOCKING
-                        AISystem.OnBlock();
-                        break;
-                    case int i when (i >= 0 && i < 3): // RETRACT BACK
-                                                       // Dodge direction is set in the state before OnDodge is called
-                                                       // This is so we can choose a dodge direction based on the previous state
-                        Animator.SetFloat("MovementZ", -1);
-                        AISystem.OnDodge();
-                        break;
-                    default:
-                        Debug.LogError("Enemy action response is out of bounds");
-                        break;
+                    AISystem.OnSwordAttack();
+                }
+                else
+                {
+                    AISystem.OnBlock();
                 }
             }
             else
             {
-                AISystem.OnHeavyAttack();
+                AISystem.OnGlaiveAttack();
             }
         }
         

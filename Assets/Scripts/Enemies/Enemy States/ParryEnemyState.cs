@@ -43,13 +43,12 @@ namespace Enemies.Enemy_States
         public override void EndState()
         {
             AISystem.attackIndicator.HideIndicator();
+            
             // Restore future attacks to be blockable
             AISystem.bIsUnblockable = false;
             AISystem.swordEffects.EndUnblockableEffect();
-            // Dodge direction is set in the state before OnDodge is called
-            // This is so we can choose a dodge direction based on the previous state
-            Animator.SetFloat("MovementZ", -1);
-            AISystem.OnDodge();
+            
+            ChooseActionUsingDistance(AISystem.enemySettings.GetTarget().position + AISystem.floatOffset);
         }
     }
 }

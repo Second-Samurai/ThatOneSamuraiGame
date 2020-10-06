@@ -212,14 +212,14 @@ namespace Enemies
         
         #region Enemy Combat Manuervers
         
-        public void OnLightAttack()
+        public void OnSwordAttack()
         {
-            SetState(new LightAttackEnemyState(this));
+            SetState(new SwordAttackEnemyState(this));
         }
 
-        public void OnHeavyAttack()
+        public void OnGlaiveAttack()
         {
-            SetState(new HeavyAttackEnemyState(this));
+            SetState(new GlaiveAttackEnemyState(this));
         }
 
         public void OnJumpAttack()

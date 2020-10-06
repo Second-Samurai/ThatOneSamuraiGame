@@ -41,6 +41,8 @@ public class PlayerFunctions : MonoBehaviour
     public PlayerInputScript playerInputScript;
 
     public GameObject lSword, rSword;
+
+    public bool bSlide = false;
     private void Start()
     {
         _IKPuppet = GetComponent<IKPuppet>();
@@ -98,6 +100,17 @@ public class PlayerFunctions : MonoBehaviour
 
 
 
+    }
+     
+
+    public void ForwardImpulse(float force)
+    {
+        ImpulseMove(rb.transform.forward, force);
+    }
+
+    public void ImpulseMove(Vector3 dir, float force)
+    {
+        StartCoroutine(DodgeImpulse(dir, force));
     }
 
     private void CheckParry()

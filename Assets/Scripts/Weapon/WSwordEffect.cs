@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class WSwordEffect : MonoBehaviour
 {
+    public MeshRenderer bladeRenderer;
+    public Material bladeGlowMat;
+    public ParticleSystem _unblockableParticles;
+
     private GameSettings _gameSettings;
     private Transform _swordmanTransform;
 
@@ -26,6 +30,18 @@ public class WSwordEffect : MonoBehaviour
 
         _parryEffect = new ParryEffect();
         _parryEffect.Init();
+
+        bladeGlowMat = bladeRenderer.material;
+    }
+
+    public void BeginUnblockableEffect()
+    {
+
+    }
+
+    public void EndUnblockableEffect()
+    {
+
     }
 
     /// <summary>

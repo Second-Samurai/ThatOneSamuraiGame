@@ -27,6 +27,9 @@ namespace Enemies.Enemy_States
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
             
+            // Stop unblockable if enemy was previously doing an unblockable attack
+            AISystem.EndUnblockable();
+            
             //Disable weapon for melee wielders
             if (AISystem.enemyType != EnemyType.ARCHER)
             {

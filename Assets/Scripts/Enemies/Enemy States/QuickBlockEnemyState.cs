@@ -16,6 +16,9 @@ namespace Enemies.Enemy_States
         {
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
+            
+            // Stop unblockable if enemy was previously doing an unblockable attack
+            AISystem.EndUnblockable();
 
             // Set the parry stun trigger
             Animator.SetTrigger("TriggerQuickBlock");

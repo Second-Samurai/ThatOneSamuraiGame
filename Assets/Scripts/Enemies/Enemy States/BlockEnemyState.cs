@@ -17,7 +17,9 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            // Play blade effects
             AISystem.parryEffects.PlayGleam();
+            AISystem.swordEffects.BeginBlockEffect();
             
             StartBlockTimer();
             
@@ -58,6 +60,8 @@ namespace Enemies.Enemy_States
         
         public override void EndState()
         {
+            AISystem.swordEffects.EndBlockEffect();
+            
             AISystem.eDamageController.enemyGuard.canParry = false;
 
             ChooseAfterBlockOption();

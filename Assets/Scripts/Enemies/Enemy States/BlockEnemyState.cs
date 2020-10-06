@@ -17,7 +17,9 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            // Play blade effects
             AISystem.parryEffects.PlayGleam();
+            AISystem.swordEffects.BeginBlockEffect();
             
             StartBlockTimer();
             
@@ -58,6 +60,8 @@ namespace Enemies.Enemy_States
         
         public override void EndState()
         {
+            AISystem.swordEffects.EndBlockEffect();
+            
             AISystem.eDamageController.enemyGuard.canParry = false;
 
             ChooseAfterBlockOption();
@@ -88,6 +92,7 @@ namespace Enemies.Enemy_States
                 
                 // Make an 80/20 decision to attack or dodge
                 int decision = Random.Range(0, 5);
+                //decision = 0;
                 if (decision == 0) // Dodge backwards
                 {
                     // Dodge direction is set in the state before OnDodge is called

@@ -92,8 +92,8 @@ public class PlayerInputScript : MonoBehaviour
     void OnSprint(InputValue value)
     {
         isSprintHeld = value.isPressed;
-
-        Debug.Log(value);
+        if (isSprintHeld) _camControl.camScript.SprintOn();
+        else _camControl.camScript.SprintOff(); 
     }
 
     void OnLockOn()

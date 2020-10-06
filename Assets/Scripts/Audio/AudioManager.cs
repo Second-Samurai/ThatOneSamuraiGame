@@ -8,8 +8,7 @@ using UnityEngine.InputSystem;
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
-    [SerializeField]
-    private List<Sound> passOver = new List<Sound>();
+    
 
     public static AudioManager instance;
     // Start is called before the first frame update
@@ -38,16 +37,16 @@ public class AudioManager : MonoBehaviour
         }
 
     }
+    // update for debugging
+    //public void Update()
+    //{
+    //    if (Keyboard.current.bKey.wasPressedThisFrame) 
+    //    {
+    //        FindAll("wood Roll");
+    //        FindAll("PebbleRoll");
 
-    public void Update()
-    {
-        if (Keyboard.current.bKey.wasPressedThisFrame) 
-        {
-            FindAll("Walking");
-            FindAll("Roll");
-
-        }
-    }
+    //    }
+    //}
 
 
     public AudioClip FindSound(string name) 
@@ -63,13 +62,14 @@ public class AudioManager : MonoBehaviour
 
     public List<Sound> FindAll(string name) 
     {
-       
+        List<Sound> passOver = new List<Sound>();
 
         for (int s = 0;  s < sounds.Length; s++) 
         {
-            int i = 1;
-            i++;
-            if (sounds[s].clip.name.Contains(name))
+ 
+            sounds[s].clip.name = sounds[s].clip.name.ToLower().Trim().Replace(" ", "");
+            Debug.Log(sounds[s].clip.name);
+            if (sounds[s].clip.name.Contains(name.ToLower().Trim().Replace(" ", "")))
             {
                 passOver.Add(sounds[s]) ;
             }

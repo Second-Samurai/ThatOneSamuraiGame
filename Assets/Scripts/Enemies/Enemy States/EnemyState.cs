@@ -144,5 +144,9 @@ namespace Enemies.Enemy_States
         {
             bIsRotating = false;
         }
+        public void StartRotating()
+        {
+            bIsRotating = true;
+        }
     }
 }

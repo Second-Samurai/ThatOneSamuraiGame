@@ -19,9 +19,18 @@ namespace Enemies.Enemy_States
             AISystem.attackIndicator.ShowIndicator();
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
-
-            // Set the attack trigger
-            Animator.SetTrigger("TriggerLightAttack");
+            int decision = Random.Range(0, 2);
+            if (decision == 0) // Normal Attack
+            {
+                // Set the attack trigger
+                Animator.SetTrigger("TriggerLightAttack");
+            }
+            else // Thrust
+            {
+                Animator.SetTrigger("TriggerThrust");
+                AISystem.BeginUnblockable();
+            } 
+            
             
             // Rotate towards player
             bIsRotating = true;
@@ -49,6 +58,7 @@ namespace Enemies.Enemy_States
             AISystem.attackIndicator.HideIndicator();
             // Ensure rotate to player is set back in end state
             bIsRotating = true;
+            AISystem.EndUnblockable();
 
             // Check current distance to determine next action
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;

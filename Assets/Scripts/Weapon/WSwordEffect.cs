@@ -6,7 +6,7 @@ using UnityEngine;
 public class WSwordEffect : MonoBehaviour
 {
     public MeshRenderer bladeRenderer;
-    public Material bladeGlowMat;
+    public Material bladeGlowMat, bladeOriginalMat;
     public ParticleSystem _unblockableParticles;
 
     private GameSettings _gameSettings;
@@ -36,12 +36,15 @@ public class WSwordEffect : MonoBehaviour
 
     public void BeginUnblockableEffect()
     {
-
+        Debug.LogWarning("GLOW");
+        bladeRenderer.material = bladeGlowMat;
+        _unblockableParticles.Play();
     }
 
     public void EndUnblockableEffect()
     {
-
+        bladeRenderer.material = bladeOriginalMat;
+        _unblockableParticles.Stop();
     }
 
     /// <summary>

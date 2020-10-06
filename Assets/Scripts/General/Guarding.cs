@@ -56,9 +56,6 @@ public class Guarding : MonoBehaviour
         
         if (canGuard && !isStunned)
         {
-            // Stop all animation triggers from running
-            _aiSystem.ResetAnimationVariables();
-            
             StopAllCoroutines();
             CalculateGuard(damage);
             return true;

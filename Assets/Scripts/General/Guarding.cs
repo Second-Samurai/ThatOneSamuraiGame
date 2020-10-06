@@ -11,6 +11,8 @@ public class Guarding : MonoBehaviour
     public bool isStunned = false;
 
     private float _guardCooldownTime;
+
+    public TriggerImpulse camImpulse;
     
     [HideInInspector] public StatHandler statHandler;
     [HideInInspector] public UnityEvent OnGuardEvent = new UnityEvent();
@@ -94,7 +96,7 @@ public class Guarding : MonoBehaviour
         isStunned = true;
         canGuard = false;
         StartCoroutine(AwaitNextDamage(6));
-
+        camImpulse.FireImpulse();
         //Switch States
         _aiSystem.OnEnemyStun();
     }

@@ -128,11 +128,24 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
     public new void SetPosition()
     {
         aISystem.eDamageController.enemyGuard.canGuard = enemyDataList[currentIndex].canGuard;
-        aISystem.eDamageController.enemyGuard.canParry = enemyDataList[currentIndex].canParry;
+        
         aISystem.eDamageController.enemyGuard.isStunned = enemyDataList[currentIndex].isStunned;
         aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard = enemyDataList[currentIndex].currentGuard;
         aISystem.bIsDead = enemyDataList[currentIndex].bIsDead;
-        aISystem.bIsUnblockable = enemyDataList[currentIndex].bIsUnblockable;
+
+        if (aISystem.bIsUnblockable != enemyDataList[currentIndex].bIsUnblockable)
+        {
+            aISystem.bIsUnblockable = enemyDataList[currentIndex].bIsUnblockable;
+            if (aISystem.bIsUnblockable)  aISystem.BeginUnblockable();
+               else aISystem.EndUnblockable();
+        }
+
+        if (aISystem.eDamageController.enemyGuard.canParry != enemyDataList[currentIndex].canParry) 
+        {
+            aISystem.eDamageController.enemyGuard.canParry = enemyDataList[currentIndex].canParry;
+            if (aISystem.eDamageController.enemyGuard.canParry) aISystem.swordEffects.BeginBlockEffect();
+               else aISystem.swordEffects.EndBlockEffect();
+        }
         //Debug.LogError(enemyDataList[currentIndex].bIsDead);
         
         // needs to set the enemy targeting

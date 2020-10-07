@@ -215,10 +215,10 @@ public class PlayerInputScript : MonoBehaviour
 
     void OnDodge()
     {
-        Debug.Log(1);
+        
         if (_inputVector != Vector2.zero && !bIsDodging && bCanDodge)
         {
-            Debug.Log(2);
+ 
             _animator.SetTrigger("Dodge");
             _animator.ResetTrigger("AttackLight");
             if (bGotParried) EndSlowEffects();

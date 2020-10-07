@@ -109,6 +109,12 @@ public class PlayerFunctions : MonoBehaviour
         ImpulseMove(Vector3.forward, force);
     }
 
+    public void JumpImpulseWithTimer(float timer)
+    {
+        transform.Translate(Vector3.up * 1);
+        StartCoroutine(ImpulseWithTimer(Vector3.forward, 20, timer));
+    }
+
     public void ImpulseMove(Vector3 dir, float force)
     {
         StartCoroutine(DodgeImpulse(dir, force));
@@ -145,7 +151,22 @@ public class PlayerFunctions : MonoBehaviour
         }
     }
 
-    public IEnumerator DodgeImpulse(Vector3 lastDir, float force)
+    public IEnumerator ImpulseWithTimer(Vector3 lastDir, float force, float timer)
+    {
+        float dodgeTimer = timer;
+        while (dodgeTimer > 0f)
+        {
+            // if(bLockedOn)
+            transform.Translate(lastDir.normalized * force * Time.deltaTime);
+            //else
+            //    transform.position += lastDir.normalized * force * Time.deltaTime;
+            dodgeTimer -= Time.deltaTime;
+            yield return null;
+        }
+        EnableBlock();
+    }
+
+        public IEnumerator DodgeImpulse(Vector3 lastDir, float force)
     {
         float dodgeTimer = .15f;
         while (dodgeTimer > 0f)

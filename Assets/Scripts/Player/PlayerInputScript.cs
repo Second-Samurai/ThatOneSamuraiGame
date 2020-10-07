@@ -433,7 +433,7 @@ public class PlayerInputScript : MonoBehaviour
 
     public void BlockDodge()
     {
-       // if(!bGotParried) bCanDodge = false;
+        bCanDodge = false;
      
     }
 

@@ -25,7 +25,7 @@ public class PlayerInputScript : MonoBehaviour
     Animator _animator;
     Rigidbody rb;
     PDamageController _pDamageController;
-    PCombatController _pCombatController;
+    public PCombatController _pCombatController;
     Camera _cam;
     #endregion
 
@@ -92,8 +92,11 @@ public class PlayerInputScript : MonoBehaviour
     void OnSprint(InputValue value)
     {
         isSprintHeld = value.isPressed;
-        if (isSprintHeld) _camControl.camScript.SprintOn();
-        else _camControl.camScript.SprintOff(); 
+        if (!bLockedOn)
+        {
+            if (isSprintHeld) _camControl.camScript.SprintOn();
+            else _camControl.camScript.SprintOff();
+        }
     }
 
     void OnLockOn()
@@ -215,7 +218,8 @@ public class PlayerInputScript : MonoBehaviour
         
         if (_inputVector != Vector2.zero && !bIsDodging && bCanDodge)
         {
-            Debug.Log(2);
+ 
+            bOverrideMovement = false;
             _animator.SetTrigger("Dodge");
             _animator.ResetTrigger("AttackLight");
             if (bGotParried) EndSlowEffects();
@@ -225,11 +229,12 @@ public class PlayerInputScript : MonoBehaviour
                 StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
             }
            
-            bOverrideMovement = false;
+            ResetAttack();
         }
         else if (_inputVector != Vector2.zero && !bIsDodging && !bCanDodge && bGotParried)
         {
              
+            bOverrideMovement = false;
             _animator.SetTrigger("Dodge");
             _animator.ResetTrigger("AttackLight");
             if (bGotParried) EndSlowEffects();
@@ -239,7 +244,7 @@ public class PlayerInputScript : MonoBehaviour
                 StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
             }
 
-            bOverrideMovement = false;
+            ResetAttack();
         }
         else if (_inputVector != Vector2.zero && !bIsDodging && !bCanDodge)
         {
@@ -258,6 +263,13 @@ public class PlayerInputScript : MonoBehaviour
 
     //OUTPUT
     #region Execution
+
+    public void ResetAttack()
+    {
+        _pCombatController.EndAttacking();
+        _pCombatController.ResetAttackCombo();
+    }
+
     private void ExecuteHeavyAttack()
     {
         bHeavyCharging = false;
@@ -357,6 +369,7 @@ public class PlayerInputScript : MonoBehaviour
         bIsDodging = true; 
         _pDamageController.DisableDamage();
         _functions.DisableBlock();
+        ResetAttack();
 
     }
 
@@ -366,6 +379,7 @@ public class PlayerInputScript : MonoBehaviour
         bIsDodging = false;
         _pDamageController.EnableDamage();
         _functions.EnableBlock();
+        ResetAttack();
     }
     #endregion
 
@@ -419,7 +433,7 @@ public class PlayerInputScript : MonoBehaviour
 
     public void BlockDodge()
     {
-        if(!bGotParried) bCanDodge = false;
+       // if(!bGotParried) bCanDodge = false;
      
     }
 

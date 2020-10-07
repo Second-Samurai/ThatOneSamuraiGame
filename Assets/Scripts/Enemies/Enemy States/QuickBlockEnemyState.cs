@@ -16,6 +16,10 @@ namespace Enemies.Enemy_States
         {
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
+            
+            // Stop unblockable if enemy was previously doing an unblockable attack and play block effect
+            AISystem.EndUnblockable();
+            AISystem.swordEffects.BeginBlockEffect();
 
             // Set the parry stun trigger
             Animator.SetTrigger("TriggerQuickBlock");
@@ -24,20 +28,25 @@ namespace Enemies.Enemy_States
 
             // NOTE: End state is called through an animation event in the quick block animation
         }
+        
+        
 
         public override void EndState()
         {
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
+            
+            // Stop the block effect
+            AISystem.swordEffects.EndBlockEffect();
 
             // Move to block state OR choose an action using distance
-            int decision = Random.Range(0, 2);
+            int decision = Random.Range(0, 3);
             if (decision == 0)
             {
-                AISystem.OnBlock();
+                ChooseActionUsingDistance(_target);
             }
             else
             {
-                ChooseActionUsingDistance(_target);
+                AISystem.OnBlock();
             }
         }
     }

@@ -20,6 +20,7 @@ namespace Enemies.Enemy_States
             
             // Make the next attack unblockable
             AISystem.bIsUnblockable = true;
+            AISystem.swordEffects.EndBlockEffect();
             AISystem.swordEffects.BeginUnblockableEffect();
 
             AISystem.parryEffects.PlayParry();

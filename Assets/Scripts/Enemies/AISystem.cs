@@ -209,6 +209,25 @@ namespace Enemies
         {
             attackIndicator.ShowIndicator();
         }
+        
+        public void ResetAnimationVariables()
+        {
+            // Set all suitable animation bools to false
+            animator.ResetTrigger("TriggerMovement");
+            animator.ResetTrigger("TriggerGuardBreak");
+            animator.ResetTrigger("TriggerDeath");
+            animator.ResetTrigger("TriggerRecovery");
+            animator.ResetTrigger("TriggerLightAttack");
+            animator.ResetTrigger("TriggerCounterAttack");
+            animator.ResetTrigger("TriggerDodge");
+            animator.ResetTrigger("TriggerParryStun");
+            animator.ResetTrigger("TriggerQuickBlock");
+            animator.ResetTrigger("TriggerBlock");
+            
+            // Set all movement variables to 0
+            animator.SetFloat("MovementX", 0);
+            animator.SetFloat("MovementZ", 0);
+        }
 
         #endregion
         

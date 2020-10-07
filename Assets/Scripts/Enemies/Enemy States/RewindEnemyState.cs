@@ -23,7 +23,7 @@ namespace Enemies.Enemy_States
             AISystem.bPlayerFound = false;
             // AISystem.animator.SetBool("PlayerFound", false);
             
-            ResetAnimationVariables();
+            AISystem.ResetAnimationVariables();
             
             // anim.SetBool("IsGuardBroken", false);
             

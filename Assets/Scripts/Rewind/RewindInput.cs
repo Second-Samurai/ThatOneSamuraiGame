@@ -43,8 +43,8 @@ public class RewindInput : MonoBehaviour
             rewindManager.isTravelling = true;
             rewindManager.StartRewind();
             rewindTut.SetActive(true);
-            rewindManager.rewindUI.FadeIn();
             GameManager.instance.postProcessingController.EnableRewindColourFilter();
+            rewindManager.rewindUI.FadeIn(1f, 0f);
             // Debug.Log("rewinding");
         }
         else if (!isTravelling && rewindManager.maxRewindResource == 0) 

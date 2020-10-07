@@ -41,6 +41,8 @@ public class PlayerFunctions : MonoBehaviour
     public PlayerInputScript playerInputScript;
 
     public GameObject lSword, rSword;
+
+    public bool bSlide = false;
     private void Start()
     {
         _IKPuppet = GetComponent<IKPuppet>();
@@ -99,6 +101,18 @@ public class PlayerFunctions : MonoBehaviour
 
 
     }
+     
+
+    public void ForwardImpulse(float force)
+    {
+         
+        ImpulseMove(Vector3.forward, force);
+    }
+
+    public void ImpulseMove(Vector3 dir, float force)
+    {
+        StartCoroutine(DodgeImpulse(dir, force));
+    }
 
     private void CheckParry()
     {
@@ -137,7 +151,7 @@ public class PlayerFunctions : MonoBehaviour
         while (dodgeTimer > 0f)
         {
             // if(bLockedOn)
-            transform.Translate(lastDir.normalized * force * Time.deltaTime);
+            transform.Translate(lastDir.normalized * force * Time.deltaTime); 
             //else
             //    transform.position += lastDir.normalized * force * Time.deltaTime;
             dodgeTimer -= Time.deltaTime;

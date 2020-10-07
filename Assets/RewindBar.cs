@@ -54,18 +54,18 @@ public class RewindBar : MonoBehaviour
     {
         rewindBarBackground.DOFade(alpha, time);
         rewindBar.DOFade(alpha, time);
-
     }
+
 
     public void UpdateBarColor() 
     {
-        if(GameManager.instance.rewindManager.rewindResource > 2f)
+        if (GameManager.instance.rewindManager.rewindResource > 2f)
         {
-            rewindBar.color = new Color32(76, 101, 221, 100);
+            rewindBar.color = new Color32(76, 101, 221, 255);
         }
         else if (GameManager.instance.rewindManager.rewindResource < 2f)
         {
-            rewindBar.color = new Color32(221, 76, 87, 100);
+            rewindBar.color = new Color32(221, 76, 87, 255);
         }
     }
 }

@@ -28,6 +28,8 @@ namespace Enemies.Enemy_States
 
             // NOTE: End state is called through an animation event in the quick block animation
         }
+        
+        
 
         public override void EndState()
         {
@@ -37,15 +39,14 @@ namespace Enemies.Enemy_States
             AISystem.swordEffects.EndBlockEffect();
 
             // Move to block state OR choose an action using distance
-            int decision = Random.Range(0, 2);
-            //decision = 0;
+            int decision = Random.Range(0, 3);
             if (decision == 0)
             {
-                AISystem.OnBlock();
+                ChooseActionUsingDistance(_target);
             }
             else
             {
-                ChooseActionUsingDistance(_target);
+                AISystem.OnBlock();
             }
         }
     }

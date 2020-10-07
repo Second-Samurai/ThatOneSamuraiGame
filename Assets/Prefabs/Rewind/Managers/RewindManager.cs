@@ -97,7 +97,7 @@ public class RewindManager : MonoBehaviour
             float f = rewindResource / maxRewindResource;
             maxRewindResource -= 2;
             rewindUI.UpdateBarMax(maxRewindResource);
-            rewindUI.UpdateRewindAmount(maxRewindResource);
+            if(rewindUI.rewindBar.fillAmount > maxRewindResource / 10) rewindUI.UpdateRewindAmount(maxRewindResource);
             rewindResource = maxRewindResource * f;
         }
 
@@ -117,7 +117,6 @@ public class RewindManager : MonoBehaviour
             float f = rewindResource / maxRewindResource;
             maxRewindResource += 2;
             rewindUI.UpdateBarMax(maxRewindResource);
-            rewindUI.UpdateRewindAmount(maxRewindResource);
             rewindResource = maxRewindResource * f;
         }
     }

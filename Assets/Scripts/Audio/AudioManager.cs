@@ -28,7 +28,7 @@ public class AudioManager : MonoBehaviour
         //DontDestroyOnLoad(gameObject);
         foreach (Sound s in sounds) 
         {
-            s.name = s.clip.name;
+            s.name = s.clip.name.ToLower().Trim().Replace(" ", "");
             if (s.createSource == true)
             {
                 CreateSource(s);
@@ -40,7 +40,7 @@ public class AudioManager : MonoBehaviour
         }
 
     }
-   // update for debugging
+    // update for debugging
     //public void Update()
     //{
     //    if (Keyboard.current.bKey.wasPressedThisFrame)

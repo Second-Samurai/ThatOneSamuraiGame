@@ -70,8 +70,8 @@ public class RewindManager : MonoBehaviour
     {
         IncreaseResource();
         //UpdateRewindUI();
-        if (rewindResource < maxRewindResource && !isTravelling) rewindUI.FadeIn();
-        else if (rewindResource == maxRewindResource && !isTravelling) rewindUI.FadeOut();
+        if (rewindResource < maxRewindResource && !isTravelling) rewindUI.FadeIn(1f, 1f);
+        else if (rewindResource == maxRewindResource && !isTravelling && maxRewindResource != 2f) rewindUI.FadeOut(0f, 1f);
         rewindUI.UpdateBarColor();
 
 
@@ -96,9 +96,11 @@ public class RewindManager : MonoBehaviour
         {
             float f = rewindResource / maxRewindResource;
             maxRewindResource -= 2;
+            rewindUI.UpdateBarMax(maxRewindResource);
+            rewindUI.UpdateRewindAmount(maxRewindResource);
             rewindResource = maxRewindResource * f;
         }
-       
+
         if (maxRewindResource <= 0) 
         {
             gameOverMenu.TextFadeIn();
@@ -114,6 +116,8 @@ public class RewindManager : MonoBehaviour
         {
             float f = rewindResource / maxRewindResource;
             maxRewindResource += 2;
+            rewindUI.UpdateBarMax(maxRewindResource);
+            rewindUI.UpdateRewindAmount(maxRewindResource);
             rewindResource = maxRewindResource * f;
         }
     }
@@ -123,7 +127,8 @@ public class RewindManager : MonoBehaviour
         if (rewindResource < maxRewindResource && !isTravelling)
         {
             rewindResource += Time.deltaTime;
-            rewindUI.UpdateRewindAmount(Time.deltaTime);
+            //rewindUI.UpdateRewindAmount(Time.deltaTime);
+            UpdateRewindUI();
         }
         else if (rewindResource > maxRewindResource)
         {
@@ -140,7 +145,9 @@ public class RewindManager : MonoBehaviour
             if (StepBack != null) StepBack();
             postProcessingController.WarpLensToTargetAmount(-.6f);
             rewindResource -= Time.deltaTime;
-            rewindUI.UpdateRewindAmount(-Time.deltaTime);
+            // rewindUI.UpdateRewindAmount(-Time.deltaTime);
+            UpdateRewindUI();
+
             if (rewindResource < 0)  
                 rewindResource = 0;
             
@@ -157,7 +164,8 @@ public class RewindManager : MonoBehaviour
             if (StepForward != null) StepForward();
             postProcessingController.WarpLensToTargetAmount(-.6f);
             rewindResource += Time.deltaTime;
-            rewindUI.UpdateRewindAmount(Time.deltaTime);
+            //rewindUI.UpdateRewindAmount(Time.deltaTime);
+            UpdateRewindUI();
             if (rewindResource > maxRewindResource) 
                 rewindResource = maxRewindResource;
                 rewindUI.UpdateBarColor();

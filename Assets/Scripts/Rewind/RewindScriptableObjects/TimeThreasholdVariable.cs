@@ -9,6 +9,6 @@ public class TimeThreasholdVariable : ScriptableObject
 
 {
 
-    public float TimeThreashold = 10f;
+    public float TimeThreashold = 20f;
 
 }

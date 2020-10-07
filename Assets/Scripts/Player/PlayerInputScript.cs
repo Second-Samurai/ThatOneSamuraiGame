@@ -433,7 +433,7 @@ public class PlayerInputScript : MonoBehaviour
 
     public void BlockDodge()
     {
-        bCanDodge = false;
+        //bCanDodge = false;
      
     }
 

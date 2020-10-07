@@ -36,6 +36,9 @@ public class PCombatController : MonoBehaviour, ICombatController
     private bool _isInputBlocked = false;
     private bool _isSwordDrawn = false;
 
+    public AudioClip slash1;
+    public AudioPlayer audio;
+
     /// <summary>
     /// Initialises Combat Controller variables and related class components
     /// </summary>
@@ -57,6 +60,8 @@ public class PCombatController : MonoBehaviour, ICombatController
 
         _guideController = new CloseEnemyGuideControl();
         _guideController.Init(this, this.gameObject.transform, this.GetComponent<Rigidbody>());
+
+        
     }
 
     /// <summary>
@@ -182,4 +187,10 @@ public class PCombatController : MonoBehaviour, ICombatController
         _playerInput.ResetDodge();
     }
  
+    public void PlaySlash()
+    {
+        if(!slash1) slash1 = GameManager.instance.audioManager.FindSound("Light Attack Swing 1");
+        audio.PlayOnce(slash1);
+    }
+
 }

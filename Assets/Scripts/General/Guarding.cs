@@ -96,7 +96,7 @@ public class Guarding : MonoBehaviour
         isStunned = true;
         canGuard = false;
         StartCoroutine(AwaitNextDamage(6));
-        camImpulse.FireImpulse();
+        //camImpulse.FireImpulse();
         //Switch States
         _aiSystem.OnEnemyStun();
     }

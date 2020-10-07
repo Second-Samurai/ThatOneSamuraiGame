@@ -6307,6 +6307,7 @@ MonoBehaviour:
   finishingMoveController: {fileID: 2516732065502070077}
   onLockOnEvent: {fileID: 11400000, guid: 5f051e9e3ef171047a76de81e93abe48, type: 2}
   _inputComponent: {fileID: 5612914395763633283}
+  _pCombatController: {fileID: 0}
   rotationSpeed: 4
   smoothingValue: 0.1
   target: {fileID: 0}
@@ -6443,6 +6444,7 @@ MonoBehaviour:
   attackCol: {fileID: 6559546881423387103}
   _isAttacking: 0
   isUnblockable: 0
+  swordManager: {fileID: 0}
 --- !u!114 &4694011085568007616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9049,7 +9051,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7730743008679139529}
-  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9061,7 +9063,7 @@ Transform:
   - {fileID: 6918317799113170549}
   m_Father: {fileID: 5363693262940309371}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7730743008942310607
 GameObject:
   m_ObjectHideFlags: 0

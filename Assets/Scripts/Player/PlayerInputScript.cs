@@ -25,7 +25,7 @@ public class PlayerInputScript : MonoBehaviour
     Animator _animator;
     Rigidbody rb;
     PDamageController _pDamageController;
-    PCombatController _pCombatController;
+    public PCombatController _pCombatController;
     Camera _cam;
     #endregion
 

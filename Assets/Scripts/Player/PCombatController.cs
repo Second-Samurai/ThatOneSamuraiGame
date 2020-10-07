@@ -20,12 +20,12 @@ public class PCombatController : MonoBehaviour, ICombatController
     public Collider attackCol;
     public bool _isAttacking = false;
     public bool isUnblockable = false;
+    public PSwordManager swordManager;
 
     //Private Variables
     private PlayerInputScript _playerInput;
     private PlayerFunctions _functions;
     private PDamageController _damageController;
-    private PSwordManager swordManager;
     private EntityAttackRegister _attackRegister;
     private CloseEnemyGuideControl _guideController;
     private StatHandler _playerStats;

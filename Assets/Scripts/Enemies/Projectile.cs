@@ -55,6 +55,7 @@ public class Projectile : MonoBehaviour
     //if the object is damagable, apply damage, if the player parries the projectile it is reflected
     private void DamageCheck(Collider other)
     {
+         
         IDamageable damagable = other.gameObject.GetComponent<IDamageable>();
         if (other.gameObject.tag == "Player")
         {

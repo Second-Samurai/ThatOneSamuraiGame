@@ -43,9 +43,13 @@ public class Checkpoint : MonoBehaviour
         GameManager.instance.thirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
         GameManager.instance.rewindManager.isTravelling = false;
         PlayerFunctions player = GameManager.instance.playerController.gameObject.GetComponent<PlayerFunctions>();
-        
-        player.rSword.SetActive(true);
-        player.gameObject.GetComponent<PlayerInputScript>().bCanAttack = true; 
+
+        player.playerInputScript._pCombatController.swordManager.SetWeapon(true, GameManager.instance.gameSettings.katanaPrefab);
+
+        ICombatController playerCombatController = player.gameObject.GetComponent<ICombatController>();
+        playerCombatController.DrawSword();
+         
+        player.gameObject.GetComponent<PlayerInputScript>().bCanAttack = true; //TODO: CHANGE: input not incharge of attacking (combat controller maybe doing it already)
     }
 
 }

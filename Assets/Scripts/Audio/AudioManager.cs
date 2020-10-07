@@ -63,6 +63,7 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return null;
         }
+        Debug.LogWarning(s.clip.name);
         return s.clip;
     }
 

@@ -36,8 +36,9 @@ public class PCombatController : MonoBehaviour, ICombatController
     private bool _isInputBlocked = false;
     private bool _isSwordDrawn = false;
 
-    public AudioClip slash1;
-    public AudioPlayer audio;
+    [Header("Audio")]
+    public AudioPlayer audio, swordAudio;
+    public AudioClip slash1, hit1, heavySlash, heavyHit;
 
     /// <summary>
     /// Initialises Combat Controller variables and related class components
@@ -175,6 +176,9 @@ public class PCombatController : MonoBehaviour, ICombatController
 
         //Registers attack to the attackRegister
         _attackRegister.RegisterAttackTarget(attackEntity, swordManager.swordEffect, other, CalculateDamage(), true, isUnblockable);
+        if (!isUnblockable) PlayHit();
+        else PlayHeavyHit();
+        swordAudio.bIgnoreNext = true;
     }
 
     public void IsParried()
@@ -190,7 +194,25 @@ public class PCombatController : MonoBehaviour, ICombatController
     public void PlaySlash()
     {
         if(!slash1) slash1 = GameManager.instance.audioManager.FindSound("Light Attack Swing 1");
-        audio.PlayOnce(slash1);
+        swordAudio.PlayOnce(slash1);
+    }
+
+    public void PlayHit()
+    {
+        if (!hit1) hit1 = GameManager.instance.audioManager.FindSound("Light Attack Hit 1");
+        audio.PlayOnce(hit1);
+    }
+
+    public void PlayHeavySwing()
+    {
+        if (!heavySlash) heavySlash = GameManager.instance.audioManager.FindSound("Heavy Attack Swing 2");
+        swordAudio.PlayOnce(heavySlash);
+    }
+
+    public void PlayHeavyHit()
+    {
+        if (!heavyHit) heavyHit = GameManager.instance.audioManager.FindSound("Light Attack Hit 3");
+        audio.PlayOnce(heavyHit);
     }
 
 }

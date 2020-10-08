@@ -21,12 +21,17 @@ public class BasicArcher : MonoBehaviour, IDamageable
     public Collider col;
 
     public EnemySpawnCheck spawnCheck;
+
+    public AudioPlayer source;
+    public AudioClip draw, release;
     
 
     private void Start()
     {
         if(GameManager.instance.playerController != null)
             player = GameManager.instance.playerController.gameObject.transform;
+        if(!draw) draw = AudioManager.instance.FindSound("Bow Draw");
+        if(!release) release = AudioManager.instance.FindSound("Bow Release");
       //  lineRenderer = GetComponent<LineRenderer>();
     }
 
@@ -54,6 +59,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
                     lastDirection = transform.position - player.position;
                     currentState = CurrentState.Aiming;
                     anim.SetTrigger("StartAim");
+                    source.PlayOnce(draw);
                     RaycastHit hit;
                     shotDirection = player.transform.position - shotOrigin.position;
                     if (Physics.Raycast(shotOrigin.position, shotDirection, out hit, Mathf.Infinity))
@@ -79,6 +85,8 @@ public class BasicArcher : MonoBehaviour, IDamageable
                     _arrow.transform.position = shotOrigin.position;
                     _arrow.GetComponent<Projectile>().Launch(shotDirection, player.transform.position + Vector3.up * 2.0f);
                     anim.SetTrigger("Fire");
+                    source.StopSource();
+                    source.PlayOnce(release);
                     shotTimer = 0f;
                     lineRenderer.enabled = false;
                     aimCounter = 0f;

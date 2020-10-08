@@ -63,7 +63,7 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return null;
         }
-        Debug.LogWarning(s.clip.name);
+       // Debug.LogWarning(s.clip.name);
         return s.clip;
     }
 
@@ -84,10 +84,10 @@ public class AudioManager : MonoBehaviour
         }
         if (passOver.Count == 0) 
         {
-            Debug.LogWarning("Sound: " + name + " not found!");
+           // Debug.LogWarning("Sound: " + name + " not found!");
             return null;
         }
-            Debug.LogWarning( "length " + passOver.Count);
+          //  Debug.LogWarning( "length " + passOver.Count);
            return passOver;     
     }
 

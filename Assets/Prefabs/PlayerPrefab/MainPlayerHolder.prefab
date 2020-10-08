@@ -1940,8 +1940,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2230463953824010843}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 27.771221, y: 9.33149, z: 56.254265}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 512136498136348169}
@@ -2201,7 +2201,7 @@ MonoBehaviour:
   m_Heading:
     m_Definition: 2
     m_VelocityFilterStrength: 4
-    m_Bias: -31
+    m_Bias: -60
   m_RecenterToTargetHeading:
     m_enabled: 1
     m_WaitTime: 0
@@ -2930,7 +2930,7 @@ MonoBehaviour:
   m_Heading:
     m_Definition: 2
     m_VelocityFilterStrength: 4
-    m_Bias: -31
+    m_Bias: -60
   m_RecenterToTargetHeading:
     m_enabled: 1
     m_WaitTime: 0
@@ -6342,7 +6342,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4694011085568007617}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.48877954, y: 1.3414881, z: -6.555738}
+  m_LocalPosition: {x: -0.48877954, y: 1.3414881, z: -8.06}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 1289195847459711414}
@@ -6551,6 +6551,7 @@ MonoBehaviour:
   bIsParrying: 0
   parryTimer: 0
   parryTimerTarget: 0.4
+  rb: {fileID: 0}
   bIsDead: 0
   screenCenter: {fileID: 0}
   parryEffects: {fileID: 9105009403417093406}
@@ -6692,10 +6693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioPlayer: {fileID: 6051967905520506786}
-  walkingGrass: {fileID: 0}
-  walkingPebble: {fileID: 0}
-  walkingStone: {fileID: 0}
-  walkingWood: {fileID: 0}
+  grassRoll: []
 --- !u!1 &4726661303433978951
 GameObject:
   m_ObjectHideFlags: 0
@@ -7472,7 +7470,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5612914396044065063}
   m_LocalRotation: {x: -0.0005435859, y: 0.036944967, z: -0.0147013785, w: 0.99920905}
-  m_LocalPosition: {x: 0.127, y: 1.028, z: 0.479}
+  m_LocalPosition: {x: 0.414, y: 1.342, z: 0.236}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5363693262940309371}
@@ -7502,7 +7500,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5612914396569428376}
   m_LocalRotation: {x: -0.036947973, y: -0.00025795173, z: 0.9992928, w: 0.0069765477}
-  m_LocalPosition: {x: 0.027, y: 1.0050001, z: 0.471}
+  m_LocalPosition: {x: 0.334, y: 1.352, z: 0.429}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5363693262940309371}

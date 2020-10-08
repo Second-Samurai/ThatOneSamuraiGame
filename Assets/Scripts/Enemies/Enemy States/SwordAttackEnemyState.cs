@@ -21,7 +21,7 @@ namespace Enemies.Enemy_States
             AISystem.navMeshAgent.isStopped = true;
             int decision = Random.Range(0, 2);
             
-            if (AISystem.enemyType == EnemyType.TUTORIALENEMY) //TUTORIAL ENEMIES CANNOT USE UNBLOCKABLE
+            if (AISystem.enemyType == EnemyType.TUTORIALENEMY || AISystem.enemyType == EnemyType.GLAIVEWIELDER) //TUTORIAL ENEMIES CANNOT USE UNBLOCKABLE
                 decision = 0;
             
             if (decision == 0) // Normal Attack

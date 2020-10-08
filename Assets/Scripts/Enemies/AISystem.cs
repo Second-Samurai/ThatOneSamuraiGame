@@ -47,6 +47,7 @@ namespace Enemies
         public EDamageController eDamageController;
         public bool bIsDead = false;
         public bool bIsUnblockable = false;
+        public KnockbackAttack kbController;
         //NOTE: isStunned is handled in Guarding script, inside the eDamageController script
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
@@ -180,7 +181,16 @@ namespace Enemies
                 StartCoroutine(DodgeImpulseCoroutine(transform.parent.forward, enemySettings.GetEnemyStatType(enemyType).dodgeForce));
             }
         }
-        
+
+        public void KBColOn()
+        {
+            kbController.KBColOn();
+        }
+        public void KBColOff()
+        {
+            kbController.KBColOff();
+        }
+
         // Coroutines cannot exist in enemystate since it's not a monobehavior, so we handle it here
         private IEnumerator DodgeImpulseCoroutine(Vector3 lastDir, float force)
         {

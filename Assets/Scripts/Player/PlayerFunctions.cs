@@ -203,6 +203,14 @@ public class PlayerFunctions : MonoBehaviour
 
     }
 
+
+    public void Knockback(float amount, Vector3 direction, float duration)
+    {
+        Debug.Log("HIT" + amount*direction);
+        _animator.SetTrigger("KnockdownTrigger");
+        StartCoroutine(ImpulseWithTimer(direction, amount, duration));
+    }
+
     public void TriggerParry(GameObject attacker, float damage)
     {
         parryEffects.PlayParry();

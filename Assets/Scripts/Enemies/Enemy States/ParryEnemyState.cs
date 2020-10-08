@@ -19,9 +19,9 @@ namespace Enemies.Enemy_States
             AISystem.eDamageController.enemyGuard.canParry = false;
             
             // Make the next attack unblockable
-            AISystem.bIsUnblockable = true;
+            //AISystem.bIsUnblockable = true;
             AISystem.swordEffects.EndBlockEffect();
-            AISystem.swordEffects.BeginUnblockableEffect();
+            //AISystem.swordEffects.BeginUnblockableEffect();
 
             AISystem.parryEffects.PlayParry();
             
@@ -47,7 +47,7 @@ namespace Enemies.Enemy_States
             
             // Restore future attacks to be blockable
             AISystem.bIsUnblockable = false;
-            AISystem.swordEffects.EndUnblockableEffect();
+           // AISystem.swordEffects.EndUnblockableEffect();
             
             ChooseActionUsingDistance(AISystem.enemySettings.GetTarget().position + AISystem.floatOffset);
         }

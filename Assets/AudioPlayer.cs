@@ -30,6 +30,23 @@ public class AudioPlayer : MonoBehaviour
         else bIgnoreNext = false;
     }
 
+    public void PlayOnce(AudioClip clip, float min, float max)
+    {
+        if (!bIgnoreNext)
+        {
+            if (rSources[activeSource].isPlaying)
+            {
+                activeSource++;
+                if (activeSource > rSources.Length - 1) activeSource = 0;
+            }
+
+            rSources[activeSource].pitch = Random.Range(min, max);
+            rSources[activeSource].clip = clip;
+            rSources[activeSource].Play();
+        }
+        else bIgnoreNext = false;
+    }
+
     public void StopSource()
     {
         rSources[activeSource].Stop();

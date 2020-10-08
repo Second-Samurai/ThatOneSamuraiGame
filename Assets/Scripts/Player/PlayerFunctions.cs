@@ -24,7 +24,7 @@ public class PlayerFunctions : MonoBehaviour
 
     Animator _animator;
     PDamageController _pDamageController;
-    Rigidbody rb;
+    public Rigidbody rb;
 
     HitstopController hitstopController;
 
@@ -112,7 +112,7 @@ public class PlayerFunctions : MonoBehaviour
     public void JumpImpulseWithTimer(float timer)
     {
         transform.Translate(Vector3.up * 1);
-        StartCoroutine(ImpulseWithTimer(Vector3.forward, 20, timer));
+        StartCoroutine(ImpulseWithTimer(transform.forward, 20, timer));
     }
 
     public void ImpulseMove(Vector3 dir, float force)
@@ -157,12 +157,16 @@ public class PlayerFunctions : MonoBehaviour
         while (dodgeTimer > 0f)
         {
             // if(bLockedOn)
-            transform.Translate(lastDir.normalized * force * Time.deltaTime);
+            //transform.Translate(lastDir.normalized * force * Time.deltaTime);
+            _animator.applyRootMotion = false;
+            rb.velocity = lastDir.normalized * force ;
+           // rb.MovePosition(transform.position + lastDir.normalized * force * Time.deltaTime);
             //else
             //    transform.position += lastDir.normalized * force * Time.deltaTime;
             dodgeTimer -= Time.deltaTime;
             yield return null;
         }
+        _animator.applyRootMotion = true;
         EnableBlock();
     }
 

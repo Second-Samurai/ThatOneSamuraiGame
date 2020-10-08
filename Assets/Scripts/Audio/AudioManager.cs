@@ -68,9 +68,9 @@ public class AudioManager : MonoBehaviour
     }
 
     // finds and returns a list of every sound contaning a given string in its name
-    public List<Sound> FindAll(string name) 
+    public List<AudioClip> FindAll(string name) 
     {
-        List<Sound> passOver = new List<Sound>();
+        List<AudioClip> passOver = new List<AudioClip>();
 
         for (int s = 0;  s < sounds.Length; s++) 
         {
@@ -79,7 +79,7 @@ public class AudioManager : MonoBehaviour
             //Debug.Log(sounds[s].clip.name);
             if (sounds[s].clip.name.Contains(name.ToLower().Trim().Replace(" ", "")))
             {
-                passOver.Add(sounds[s]) ;
+                passOver.Add(sounds[s].clip) ;
             }
         }
         if (passOver.Count == 0) 

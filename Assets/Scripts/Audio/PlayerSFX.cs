@@ -9,14 +9,13 @@ public class PlayerSFX : MonoBehaviour
     private AudioClip walkingPebble;
     private AudioClip walkingStone;
     private AudioClip walkingWood;
-    private AudioClip joggingGrass;
-    private AudioClip joggingPebble;
-    private AudioClip joggingStone;
-    private AudioClip joggingWood;
+
     [SerializeField]
     private AudioClip[] grassRoll;
     private AudioClip[] PebbleRoll;
     private AudioClip[] woodRoll;
+    private AudioClip[] parry;
+
 
 
     // Start is called before the first frame update
@@ -27,13 +26,13 @@ public class PlayerSFX : MonoBehaviour
         walkingPebble = GameManager.instance.audioManager.FindSound("Walking Pebble");
         walkingStone = GameManager.instance.audioManager.FindSound("Walking Stone");
         walkingWood = GameManager.instance.audioManager.FindSound("Walking Wood");
-        joggingGrass = GameManager.instance.audioManager.FindSound("Jogging Grass");
-        joggingPebble = GameManager.instance.audioManager.FindSound("Jogging Pebble");
-        joggingStone = GameManager.instance.audioManager.FindSound("Jogging Stone");
-        joggingWood = GameManager.instance.audioManager.FindSound("Jogging Wood");
+       
         grassRoll = GameManager.instance.audioManager.FindAll("Grass Roll").ToArray();
         PebbleRoll = GameManager.instance.audioManager.FindAll("Pebble Roll").ToArray();
         woodRoll = GameManager.instance.audioManager.FindAll("Wood Roll").ToArray();
+
+        parry = GameManager.instance.audioManager.FindAll("Parry").ToArray();
+
 
 
     }
@@ -56,4 +55,11 @@ public class PlayerSFX : MonoBehaviour
         audioPlayer.PlayOnce(grassRoll[i]);
         Debug.Log(i);
     }
+    private void Parry()
+    {
+        int i = Random.Range(0, parry.Length);
+        audioPlayer.PlayOnce(parry[i]);
+        Debug.Log(i);
+    }
+
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FootSteps : MonoBehaviour
+public class PlayerSFX : MonoBehaviour
 {
     public AudioPlayer audioPlayer;
     private AudioClip walkingGrass;

@@ -207,12 +207,25 @@ public class PlayerFunctions : MonoBehaviour
 
     }
 
-
-    public void Knockback(float amount, Vector3 direction, float duration)
+    public void CancelMove()
     {
-        Debug.Log("HIT" + amount*direction);
-        _animator.SetTrigger("KnockdownTrigger");
-        StartCoroutine(ImpulseWithTimer(direction, amount, duration));
+        StopAllCoroutines();
+        rb.velocity = Vector3.zero;
+    }
+
+
+    public void Knockback(float amount, Vector3 direction, float duration, GameObject attacker)
+    {
+        if (bIsParrying)
+        {
+            TriggerParry(attacker, amount);
+        }
+        else if (!playerInputScript.bIsDodging)
+        {
+            Debug.Log("HIT" + amount * direction);
+            _animator.SetTrigger("KnockdownTrigger");
+            StartCoroutine(ImpulseWithTimer(direction, amount, duration));
+        }
     }
 
     public void TriggerParry(GameObject attacker, float damage)

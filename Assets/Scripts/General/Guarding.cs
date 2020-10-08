@@ -70,6 +70,7 @@ public class Guarding : MonoBehaviour
     //
     private void CalculateGuard(float damage)
     {
+        
         statHandler.CurrentGuard -= damage;
         if (statHandler.CurrentGuard <= 0)
         {

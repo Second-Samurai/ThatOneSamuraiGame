@@ -22,11 +22,15 @@ public class EDamageController : MonoBehaviour, IDamageable
     public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
         if (_isDamageDisabled) return;
-        
+        Vector3 dir = Vector3.back;
         if (!unblockable)
         {
             if (attacker.layer == LayerMask.NameToLayer("Player"))
             {
+                
+                //_aiSystem.ImpulseWithDirection(damage, transform.position - attacker.transform.position, .3f);
+                _aiSystem.ImpulseWithDirection(damage*2, dir, .15f);
+
                 // Summary: Perform an enemy parry if the enemy canParry
                 // Currently canParry is only set true and false in BlockEnemyState script
                 // and set to false in the ParryEnemyState script
@@ -70,6 +74,7 @@ public class EDamageController : MonoBehaviour, IDamageable
         {
             //Debug.LogWarning("WARNING: Attack not on player layer");
             _aiSystem.ApplyHit(attacker);
+            _aiSystem.ImpulseWithDirection(damage*5, dir, .3f);
         }
     }
 

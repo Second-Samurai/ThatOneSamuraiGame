@@ -178,6 +178,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         _attackRegister.RegisterAttackTarget(attackEntity, swordManager.swordEffect, other, CalculateDamage(), true, isUnblockable);
         if (!isUnblockable) PlayHit();
         else PlayHeavyHit();
+        _functions.CancelMove();
         swordAudio.bIgnoreNext = true;
     }
 

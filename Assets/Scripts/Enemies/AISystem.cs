@@ -181,6 +181,16 @@ namespace Enemies
                 StartCoroutine(DodgeImpulseCoroutine(transform.parent.forward, enemySettings.GetEnemyStatType(enemyType).dodgeForce));
             }
         }
+ 
+        public void ImpulseWithDirection(float force, Vector3 dir)
+        {
+            StartCoroutine(DodgeImpulseCoroutine(dir, force, .7f));
+        }
+        public void ImpulseWithDirection(float force, Vector3 dir, float time)
+        {
+            Debug.Log(dir);
+            StartCoroutine(DodgeImpulseCoroutine(dir, force, time));
+        }
 
         public void KBColOn()
         {
@@ -199,6 +209,18 @@ namespace Enemies
             {
                 transform.Translate(lastDir.normalized * force * Time.deltaTime);
                 
+                dodgeTimer -= Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        private IEnumerator DodgeImpulseCoroutine(Vector3 lastDir, float force, float timer)
+        {
+            float dodgeTimer = timer;
+            while (dodgeTimer > 0f)
+            {
+                transform.Translate(lastDir.normalized * force * Time.deltaTime);
+
                 dodgeTimer -= Time.deltaTime;
                 yield return null;
             }

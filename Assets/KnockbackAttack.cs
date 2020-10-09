@@ -29,7 +29,7 @@ public class KnockbackAttack : MonoBehaviour
         {
             Vector3 dir = enemy.position - other.transform.position;
             dir.y = 0;
-            other.GetComponent<PlayerFunctions>().Knockback(knockbackAmount, -dir, duration);
+            other.GetComponent<PlayerFunctions>().Knockback(knockbackAmount, -dir, duration, enemy.gameObject);
         }
     }
 }

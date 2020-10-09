@@ -16,19 +16,12 @@ public class RewindAudio : MonoBehaviour
 
     public void HeartBeat()
     {
-        for (int a = 0; a < audioPlayer.rSources.Length; a++) 
-        {
-            audioPlayer.rSources[a].loop = true;
-        }
-        audioPlayer.PlayOnce(heartBeat, 1f, 1f);
+        audioPlayer.PlayOnce(heartBeat, 1f, 1f, true);
     }
 
     public void StopHeartBeat() 
     {
-        for (int a = 0; a < audioPlayer.rSources.Length; a++)
-        {
-            audioPlayer.rSources[a].loop = false;
-        }
+        audioPlayer.rSources[audioPlayer.activeSource].loop = false;
         audioPlayer.StopSource();
     }
 }

@@ -124,12 +124,13 @@ public class ArcherAnimationRewindEntity : RewindEntity
 
     }
 
-    private void OnDestroy()
+    protected new void OnDestroy()
     {
 
         _rewindInput.Reset -= ResetTimeline;
         _rewindInput.OnEndRewind -= EnableEvents;
         _rewindInput.OnStartRewind -= DisableEvents;
         _rewindInput.OnEndRewind -= ApplyData;
+        base.OnDestroy();
     }
 }

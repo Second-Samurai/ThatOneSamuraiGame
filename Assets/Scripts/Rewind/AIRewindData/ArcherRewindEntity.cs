@@ -129,12 +129,13 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
         basicArcher.currentState = archerDataList[currentIndex].currentState;
 
     }
-    private void OnDestroy()
+    protected new void OnDestroy()
     {
 
         _rewindInput.Reset -= ResetTimeline;
         _rewindInput.OnEndRewind -= EnableEvents;
         _rewindInput.OnStartRewind -= DisableEvents;
         _rewindInput.OnEndRewind -= ApplyData;
+        base.OnDestroy();
     }
 }

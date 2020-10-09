@@ -54,7 +54,7 @@ public class RewindManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+       
         postProcessingController = GameManager.instance.postProcessingController;
         rewindTime = Mathf.Round(timeThreashold.Variable.TimeThreashold * (1f / Time.fixedDeltaTime));
         //rewindResource = maxRewindResource;
@@ -214,6 +214,7 @@ public class RewindManager : MonoBehaviour
     {
         if (isTravelling)
         {
+            
             OnStartRewind();
             foreach (RewindEntity entity in rewindObjects) 
             {

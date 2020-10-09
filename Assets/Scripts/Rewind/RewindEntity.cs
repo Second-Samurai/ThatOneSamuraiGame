@@ -117,7 +117,7 @@ public class RewindEntity : MonoBehaviour
     {
 
     }
-    private void OnDestroy()
+    protected void OnDestroy()
     {
         Debug.Log("Unsubbed");
         _rewindInput.Reset -= ResetTimeline; 

@@ -6,14 +6,14 @@ public class EnemyAudio : MonoBehaviour
 {
     public AudioPlayer audioPlayer;
     private AudioClip[] grunts;
-    private AudioClip[] dyingSounds;
+    public AudioClip[] dyingSounds;
     private float min;
     private float minLow;
 
     // Start is called before the first frame update
     void Start()
     {
-        audioPlayer = gameObject.GetComponent<AudioPlayer>();
+        //audioPlayer = gameObject.GetComponent<AudioPlayer>();
         grunts = GameManager.instance.audioManager.FindAll("grunt").ToArray();
         dyingSounds = GameManager.instance.audioManager.FindAll("dying").ToArray();
 

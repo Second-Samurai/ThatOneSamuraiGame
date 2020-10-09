@@ -28,7 +28,8 @@ namespace Enemies.Enemy_States
             // anim.SetBool("IsGuardBroken", false);
             
             // Set enemy to no longer being dead
-            AISystem.bIsDead = false;
+
+           // AISystem.bIsDead = false;
 
             yield break;
         }

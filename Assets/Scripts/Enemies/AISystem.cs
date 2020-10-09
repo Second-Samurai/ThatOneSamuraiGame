@@ -181,6 +181,11 @@ namespace Enemies
                 StartCoroutine(DodgeImpulseCoroutine(transform.parent.forward, enemySettings.GetEnemyStatType(enemyType).dodgeForce));
             }
         }
+
+        public void ForwardImpulseAnimEvent(float time)
+        {
+            StartCoroutine(DodgeImpulseCoroutine(Vector3.forward, 10f, time));
+        }
  
         public void ImpulseWithDirection(float force, Vector3 dir)
         {

@@ -165,7 +165,6 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
 
     protected new void OnDestroy()
     {
-        Debug.LogError("UNSUB");
         _rewindInput.Reset -= ResetTimeline; 
         _rewindInput.OnEndRewind -= EnableEvents;
         _rewindInput.OnStartRewind -= DisableEvents;

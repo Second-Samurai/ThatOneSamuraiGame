@@ -134,7 +134,6 @@ public class AIAnimationRewindEntity : RewindEntity
     }
     protected new void OnDestroy()
     {
-        Debug.LogError("UNSUB2");
         _rewindInput.Reset -= ResetTimeline;
         _rewindInput.OnEndRewind -= EnableEvents;
         _rewindInput.OnStartRewind -= DisableEvents;

@@ -53,13 +53,13 @@ public class PlayerSFX : MonoBehaviour
     {
         int i = Random.Range(0, grassRoll.Length);
         audioPlayer.PlayOnce(grassRoll[i]);
-        Debug.Log(i);
+        //Debug.Log(i);
     }
     private void Parry()
     {
         int i = Random.Range(0, parry.Length);
         audioPlayer.PlayOnce(parry[i]);
-        Debug.Log(i);
+        //Debug.Log(i);
     }
 
 }

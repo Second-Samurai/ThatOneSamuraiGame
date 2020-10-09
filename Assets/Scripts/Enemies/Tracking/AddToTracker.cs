@@ -24,4 +24,14 @@ public class AddToTracker : MonoBehaviour
             _aiSystem.OnApproachPlayer();
         }
     }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _enemyTracker = GameManager.instance.enemyTracker;
+            _enemyTracker.RemoveEnemy(GetComponentInParent<Rigidbody>().gameObject.transform); 
+        }
+    }
+
+
 }

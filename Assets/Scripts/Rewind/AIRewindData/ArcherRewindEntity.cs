@@ -20,6 +20,8 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
         _rewindInput.OnStartRewind += DisableEvents;
         _rewindInput.OnEndRewind += EnableEvents;
 
+        _rewindInput.OnEndRewind += ApplyData;
+
         gameObjectRigidbody = gameObject.GetComponent<Rigidbody>();
 
 
@@ -126,5 +128,13 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
     {
         basicArcher.currentState = archerDataList[currentIndex].currentState;
 
+    }
+    private void OnDestroy()
+    {
+
+        _rewindInput.Reset -= ResetTimeline;
+        _rewindInput.OnEndRewind -= EnableEvents;
+        _rewindInput.OnStartRewind -= DisableEvents;
+        _rewindInput.OnEndRewind -= ApplyData;
     }
 }

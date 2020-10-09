@@ -162,4 +162,14 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         }
         _enemyTracker.currentEnemies = enemyDataList[currentIndex].trackedCurrentEnemies.ToList<Transform>();
     }
+
+    private void OnDestroy()
+    {
+        Debug.LogError("UNSUB");
+        _rewindInput.Reset -= ResetTimeline; 
+        _rewindInput.OnEndRewind -= EnableEvents;
+        _rewindInput.OnStartRewind -= DisableEvents;
+        _rewindInput.OnEndRewind -= ApplyData;
+    }
+
 }

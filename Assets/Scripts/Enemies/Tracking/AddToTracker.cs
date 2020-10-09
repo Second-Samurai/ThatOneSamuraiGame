@@ -16,7 +16,7 @@ public class AddToTracker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && _enemyTracker == null)
+        if (other.CompareTag("Player"))
         {
             _enemyTracker = GameManager.instance.enemyTracker;
             _enemyTracker.AddEnemy(GetComponentInParent<Rigidbody>().gameObject.transform);

@@ -13,7 +13,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
     //}
     public CurrentState currentState;
     public Vector3 lastDirection, shotDirection;
-    public float attackRange = 20f, shotTimer = 0f, shotFrequency = 2f, aimDuration = .5f, aimCounter = 0f;
+    public float attackRange = 20f, shotTimer = 0f, shotFrequency = 2f, aimDuration = 1.5f, aimCounter = 0f;
     public LineRenderer lineRenderer;
 
     public GameObject arrow;

@@ -22,7 +22,7 @@ namespace Enemy_Scripts
             EnemyState = newEnemyState;
             StartCoroutine(EnemyState.BeginState());
 
-            if (PrintStates) Debug.Log("Switching States: " + newEnemyState);
+            if (PrintStates) Debug.Log(gameObject.name + " Switching States: " + newEnemyState);
         }
 
         protected void FixedUpdate()

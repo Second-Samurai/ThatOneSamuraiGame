@@ -330,14 +330,13 @@ public class PlayerInputScript : MonoBehaviour
                 Quaternion lookRot = Quaternion.LookRotation(lookDir);
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, rotationSpeed);
                 transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
-
-                if (!bMoveLocked)
-                {
-                    _animator.SetFloat("XInput", _inputVector.x, smoothingValue, Time.deltaTime);
-                    _animator.SetFloat("YInput", _inputVector.y, smoothingValue, Time.deltaTime);
-                }
             }
-
+            
+            if (!bMoveLocked)
+            {
+                _animator.SetFloat("XInput", _inputVector.x, smoothingValue, Time.deltaTime);
+                _animator.SetFloat("YInput", _inputVector.y, smoothingValue, Time.deltaTime);
+            }
             
             _animator.SetFloat("InputSpeed", _inputVector.magnitude, smoothingValue, Time.deltaTime);
 

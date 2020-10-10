@@ -110,7 +110,8 @@ namespace Enemies.Enemy_States
                 }
                 else
                 {
-                    AISystem.OnBlock();
+                    AISystem.OnSwordAttack();
+                    //AISystem.OnBlock();
                 }
             }
             else

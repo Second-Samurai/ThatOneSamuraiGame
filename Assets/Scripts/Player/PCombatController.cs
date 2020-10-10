@@ -166,6 +166,8 @@ public class PCombatController : MonoBehaviour, ICombatController
         if (other.CompareTag("Level")) return;
         if (!swordManager.hasAWeapon) return;
 
+        Debug.Log(other.name);
+
         //Gets IDamageable component of the entity
         IDamageable attackEntity = other.GetComponent<IDamageable>();
         if (attackEntity == null)

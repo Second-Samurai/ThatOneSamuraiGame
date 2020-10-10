@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
 
     void SetupUI()
     {
-        guardMeterCanvas = Instantiate(gameSettings.guardCanvasPrefab, transform.position, Quaternion.identity);
+        //guardMeterCanvas = Instantiate(gameSettings.guardCanvasPrefab, transform.position, Quaternion.identity);
     }
 
     void SetupPlayer()
@@ -153,13 +153,13 @@ public class GameManager : MonoBehaviour
     }
 
     //POSSIBLY PARTITION INTO A UI MANAGER
-    public UIGuardMeter CreateEntityGuardMeter(Transform entityTransform, StatHandler entityStatHandler)
+    /*public UIGuardMeter CreateEntityGuardMeter(Transform entityTransform, StatHandler entityStatHandler)
     {
         UIGuardMeter guardMeter = Instantiate(gameSettings.guardMeterPrefab, guardMeterCanvas.transform).GetComponent<UIGuardMeter>();
         guardMeter.Init(entityTransform, entityStatHandler, mainCamera, guardMeterCanvas.GetComponent<RectTransform>());
         //Debug.Log(">> GameManager: Guard Meter Added");
         return guardMeter;
-    }
+    }*/
 
     void SetupAudio() 
     {

@@ -61,7 +61,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
                     anim.SetTrigger("StartAim");
                     source.PlayOnce(draw);
                     RaycastHit hit;
-                    shotDirection = player.transform.position - shotOrigin.position;
+                    shotDirection = player.transform.position - shotOrigin.position + Vector3.up * transform.localScale.y;
                     if (Physics.Raycast(shotOrigin.position, shotDirection, out hit, Mathf.Infinity))
                     {
                         lineRenderer.enabled = true;
@@ -83,7 +83,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
                     GameObject _arrow = ObjectPooler.instance.ReturnObject("Arrow");
                     //GameObject _arrow = Instantiate(arrow, shotOrigin.position, Quaternion.identity);
                     _arrow.transform.position = shotOrigin.position;
-                    _arrow.GetComponent<Projectile>().Launch(shotDirection, player.transform.position + Vector3.up * 2.0f);
+                    _arrow.GetComponent<Projectile>().Launch(shotDirection, player.transform.position);
                     anim.SetTrigger("Fire");
                     source.StopSource();
                     source.PlayOnce(release);

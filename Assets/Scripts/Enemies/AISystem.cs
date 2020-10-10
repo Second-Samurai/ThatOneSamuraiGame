@@ -373,6 +373,19 @@ namespace Enemies
             SetState(new RewindEnemyState(this));
         }
 
+
         #endregion
+
+        private void OnDisable()
+        { 
+            GameManager.instance.enemyTracker.RemoveEnemy(rb.gameObject.transform);
+        }
+
+        private void OnDestroy()
+        {
+            GameManager.instance.enemyTracker.RemoveEnemy(rb.gameObject.transform);
+        }
+
+
     }
 }

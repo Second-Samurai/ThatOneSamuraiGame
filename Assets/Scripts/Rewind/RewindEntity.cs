@@ -117,5 +117,12 @@ public class RewindEntity : MonoBehaviour
     {
 
     }
+    protected void OnDestroy()
+    {
+        _rewindInput.Reset -= ResetTimeline; 
+        _rewindInput.OnEndRewind -= ApplyData;
+        _rewindInput.StepForward -= StepForward;
+        _rewindInput.StepBack -= StepBack;
 
+    }
 }

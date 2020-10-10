@@ -47,7 +47,7 @@ public class AIAnimationRewindEntity : RewindEntity
 
     public  void DisableEvents()
     {
-        Debug.Log(gameObject.name);
+       
         animator.fireEvents = false;
         animator.applyRootMotion = false;
   
@@ -132,5 +132,12 @@ public class AIAnimationRewindEntity : RewindEntity
     {
         
     }
-
+    protected new void OnDestroy()
+    {
+        _rewindInput.Reset -= ResetTimeline;
+        _rewindInput.OnEndRewind -= EnableEvents;
+        _rewindInput.OnStartRewind -= DisableEvents;
+        _rewindInput.OnEndRewind -= ApplyData;
+        base.OnDestroy();
+    }
 }

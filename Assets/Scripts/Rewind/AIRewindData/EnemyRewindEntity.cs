@@ -133,6 +133,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard = enemyDataList[currentIndex].currentGuard;
         aISystem.bIsDead = enemyDataList[currentIndex].bIsDead;
 
+
         if (aISystem.bIsUnblockable != enemyDataList[currentIndex].bIsUnblockable)
         {
             aISystem.bIsUnblockable = enemyDataList[currentIndex].bIsUnblockable;
@@ -154,6 +155,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
 
     public override void ApplyData() 
     {
+
         aISystem.SetState(enemyDataList[currentIndex].enemyState);
         swordCollider.enabled = enemyDataList[currentIndex].swordCollider;
         if (!aISystem.bIsDead)
@@ -162,4 +164,14 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         }
         _enemyTracker.currentEnemies = enemyDataList[currentIndex].trackedCurrentEnemies.ToList<Transform>();
     }
+
+    protected new void OnDestroy()
+    {
+        _rewindInput.Reset -= ResetTimeline; 
+        _rewindInput.OnEndRewind -= EnableEvents;
+        _rewindInput.OnStartRewind -= DisableEvents;
+        _rewindInput.OnEndRewind -= ApplyData;
+        base.OnDestroy();
+    }
+
 }

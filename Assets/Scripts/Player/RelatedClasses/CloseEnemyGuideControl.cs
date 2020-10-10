@@ -43,6 +43,10 @@ public class CloseEnemyGuideControl
             _slideController.SlideToEnemy(_lastEnemy);
             _closestEnemy = null;
         }
+        else
+        {
+            _slideController.SlideForward();
+        }
     }
 
     // Summary: Checks whether last registered attacked enemy is valid to attack

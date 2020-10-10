@@ -12,7 +12,7 @@ public class Checkpoint : MonoBehaviour
     void Awake()
     {
         checkpointManager = GameManager.instance.checkpointManager;
-        checkpointManager.checkpoints.Add(this); 
+        //checkpointManager.checkpoints.Add(this); 
     }
 
     private void OnTriggerEnter(Collider other)

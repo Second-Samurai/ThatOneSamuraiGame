@@ -102,7 +102,7 @@ public class EnemyTracker : MonoBehaviour
                 AISystem aiSystem = enemy.GetComponent<AISystem>();
                 
                 // Only close distance if the enemy isn't stunned and is strafing
-                if (!aiSystem.eDamageController.enemyGuard.isStunned)
+                if (!aiSystem.eDamageController.enemyGuard.isStunned && !aiSystem.bIsDead)
                 {
                     if (aiSystem.enemyType == EnemyType.GLAIVEWIELDER) aiSystem.OnChargePlayer();
                     else aiSystem.OnCloseDistance();
@@ -114,7 +114,7 @@ public class EnemyTracker : MonoBehaviour
         {
             AISystem aiSystem = targetEnemy.GetComponent<AISystem>();
             
-            if (!aiSystem.eDamageController.enemyGuard.isStunned)
+            if (!aiSystem.eDamageController.enemyGuard.isStunned && !aiSystem.bIsDead)
             {
                 if (aiSystem.enemyType == EnemyType.GLAIVEWIELDER) aiSystem.OnChargePlayer();
                 else aiSystem.OnCloseDistance();

@@ -3750,9 +3750,9 @@ Transform:
   m_Children:
   - {fileID: 71579018}
   - {fileID: 1717900264}
-  - {fileID: 1018007576}
-  - {fileID: 1449363807}
   - {fileID: 2116172275}
+  - {fileID: 1449363807}
+  - {fileID: 1018007576}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4440,7 +4440,7 @@ PrefabInstance:
     - target: {fileID: 1819805797299972213, guid: 3e3a51e3ed109924194a0bf0ed12ac8d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1819805797299972213, guid: 3e3a51e3ed109924194a0bf0ed12ac8d,
         type: 3}
@@ -4460,7 +4460,7 @@ PrefabInstance:
     - target: {fileID: 4714032006602019073, guid: 3e3a51e3ed109924194a0bf0ed12ac8d,
         type: 3}
       propertyPath: m_Name
-      value: SwordsmanHolderTutorial4
+      value: SwordsmanHolderHeavyTutorial
       objectReference: {fileID: 0}
     - target: {fileID: 4714032006602019073, guid: 3e3a51e3ed109924194a0bf0ed12ac8d,
         type: 3}
@@ -4472,6 +4472,12 @@ PrefabInstance:
 --- !u!4 &1018007576 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1819805797299972213, guid: 3e3a51e3ed109924194a0bf0ed12ac8d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1018007575}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1018007577 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3038605174081419838, guid: 3e3a51e3ed109924194a0bf0ed12ac8d,
     type: 3}
   m_PrefabInstance: {fileID: 1018007575}
   m_PrefabAsset: {fileID: 0}
@@ -6718,6 +6724,110 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1462849518}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1505806082
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1018007577}
+    m_Modifications:
+    - target: {fileID: 2022877161095845625, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_text
+      value: Red attacks cannot be blocked or parried.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071057482048436388, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071057482048436388, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071057482048436388, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071057482048436388, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071057482048436388, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071057482048436388, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071057482048436388, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071057482048436388, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071057482048436388, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071057482048436388, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2071057482048436388, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4774644613594828310, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5124661452300024796, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_Name
+      value: Heavy Tutorial Popup
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494196004382397284, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6694399767517491786, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.7264151
+      objectReference: {fileID: 0}
+    - target: {fileID: 6694399767517491786, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6694399767517491786, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8489396327466208957, guid: d7019014f003dd24c8189239e316a927,
+        type: 3}
+      propertyPath: m_Radius
+      value: 4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d7019014f003dd24c8189239e316a927, type: 3}
 --- !u!1001 &1505929080
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7620,7 +7730,7 @@ PrefabInstance:
     - target: {fileID: 4714032006602019073, guid: 3e3a51e3ed109924194a0bf0ed12ac8d,
         type: 3}
       propertyPath: m_Name
-      value: TutorialSwordsman1
+      value: SwordsmanHolderTutorial1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e3a51e3ed109924194a0bf0ed12ac8d, type: 3}
@@ -9745,7 +9855,7 @@ PrefabInstance:
     - target: {fileID: 1819805797299972213, guid: 3e3a51e3ed109924194a0bf0ed12ac8d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1819805797299972213, guid: 3e3a51e3ed109924194a0bf0ed12ac8d,
         type: 3}

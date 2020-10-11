@@ -215,7 +215,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bcb06028886234f70bf9664b5fbadd45, type: 2}
+  - {fileID: 2100000, guid: 087df573d2c4e714dae4b90663f5491b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2568,7 +2568,7 @@ Transform:
   m_GameObject: {fileID: 8568395449414048751}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 4123575734057752197}
   - {fileID: 6441233701192602196}
@@ -2590,7 +2590,7 @@ Animator:
   m_GameObject: {fileID: 8568395449414048751}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 3488f44ed6df54eeb96ff529fa123451, type: 3}
-  m_Controller: {fileID: 9100000, guid: cfddb08a7f97d644eafe66efad55a016, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6c0af35e7f8095845bff76a8282ae4b7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2641,6 +2641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac4ad1a99ac52af4a9b1b39f5eea1b54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PrintStates: 0
   enemyType: 3
   meleeCollider: {fileID: 6441233702834476638}
   enemySettings: {fileID: 11400000, guid: 8a3d28b117cd0421d98e5b33c8168471, type: 2}
@@ -2652,6 +2653,7 @@ MonoBehaviour:
   eDamageController: {fileID: 0}
   bIsDead: 0
   bIsUnblockable: 0
+  kbController: {fileID: 0}
   floatOffset: {x: 0, y: 2, z: 0}
   parryEffects: {fileID: 1651618972956571636}
   swordEffects: {fileID: 2658352436482747935}
@@ -3114,17 +3116,17 @@ PrefabInstance:
     - target: {fileID: 3382333992990730575, guid: 287a90e02ab25d148b1e5144bdc15eb2,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3382333992990730575, guid: 287a90e02ab25d148b1e5144bdc15eb2,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3382333992990730575, guid: 287a90e02ab25d148b1e5144bdc15eb2,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5014674573400108513, guid: 287a90e02ab25d148b1e5144bdc15eb2,
         type: 3}

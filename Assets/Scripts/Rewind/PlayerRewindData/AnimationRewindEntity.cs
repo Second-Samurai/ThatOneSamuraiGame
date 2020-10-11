@@ -46,7 +46,7 @@ public class AnimationRewindEntity : RewindEntity
             
           
         }
-       
+ 
     }
     public void DisableEvents()
     {
@@ -64,7 +64,10 @@ public class AnimationRewindEntity : RewindEntity
     {
         for (int i = currentIndex; i > 0; i--)
         {
-            animationDataList.RemoveAt(i);
+            if (currentIndex <= animationDataList.Count - 1)
+            {
+                animationDataList.RemoveAt(i);
+            }
         }
         animationDataList.TrimExcess();
 
@@ -126,15 +129,18 @@ public class AnimationRewindEntity : RewindEntity
         base.SetPosition();
         //animator.enabled = true;
         // animator.enabled = false;
-        func.bIsDead = animationDataList[currentIndex].isDead;
+        if (currentIndex <= animationDataList.Count - 1)
+        {
+            func.bIsDead = animationDataList[currentIndex].isDead;
 
-        animator.SetFloat("InputSpeed", animationDataList[currentIndex].inputSpeed);
-        animator.SetFloat("XInput", animationDataList[currentIndex].xInput);
-        animator.SetFloat("YInput", animationDataList[currentIndex].yInput);
-        animator.SetBool("isDead", animationDataList[currentIndex].isDead);
+            animator.SetFloat("InputSpeed", animationDataList[currentIndex].inputSpeed);
+            animator.SetFloat("XInput", animationDataList[currentIndex].xInput);
+            animator.SetFloat("YInput", animationDataList[currentIndex].yInput);
+            animator.SetBool("isDead", animationDataList[currentIndex].isDead);
 
 
-        animator.Play(animationDataList[currentIndex].currentClip, 0, animationDataList[currentIndex].currentFrame);
+            animator.Play(animationDataList[currentIndex].currentClip, 0, animationDataList[currentIndex].currentFrame);
+        }
     }
 
     public override void ApplyData()

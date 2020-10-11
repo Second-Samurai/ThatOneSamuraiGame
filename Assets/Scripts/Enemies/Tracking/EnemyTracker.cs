@@ -66,9 +66,6 @@ public class EnemyTracker : MonoBehaviour
     {
         targetEnemy = newTargetEnemy;
         _targetEnemyAISystem = targetEnemy.GetComponent<AISystem>();
-
-        // Stop here if there is no AI system (i.e. archers)
-        if (_targetEnemyAISystem == null) return;
         
         // Enable the guard meter
         _targetEnemyAISystem.eDamageController.enemyGuard.EnableGuardMeter();
@@ -140,7 +137,7 @@ public class EnemyTracker : MonoBehaviour
     {
         if (enemyDeathTransform == targetEnemy)
         {
-            Invoke("FindNewTarget", 1.0f);
+            Invoke("FindNewTarget", 0.5f);
         }
     }
 
@@ -148,11 +145,7 @@ public class EnemyTracker : MonoBehaviour
     {
         if (currentEnemies.Count > 0)
         {
-            GameManager.instance.cameraControl.LockOn();
-        }
-        else
-        {
-            GameManager.instance.cameraControl.ToggleLockOn();
+            Debug.LogError("HEY KYLE, MAKE THE CAMERA SWITCH TARGETS HERE");
         }
     }
 }

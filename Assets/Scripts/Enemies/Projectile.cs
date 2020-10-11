@@ -10,7 +10,7 @@ public class Projectile : MonoBehaviour
 
     int damageAmount = 1;
 
-    float speed = 80f;
+    float speed = 60f;
 
     GameObject player;
     public Vector3 direction;

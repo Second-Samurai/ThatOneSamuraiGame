@@ -7,7 +7,7 @@ public class PlayerInputScript : MonoBehaviour
 {
     //FIELDS
     #region Gameplay Bools
-    [HideInInspector] public bool bCanMove = true, bLockedOn = false, bMoveLocked = false, bIsDodging = false, bCanDodge = true, bCanAttack = false, bGotParried = false, bIsSheathed = false;
+    public bool bCanMove = true, bLockedOn = false, bMoveLocked = false, bIsDodging = false, bCanDodge = true, bCanAttack = false, bGotParried = false, bIsSheathed = false, bCanRotate = true;
     bool bAlreadyAttacked = false;
     [HideInInspector] public bool bCanBlock = true;
     [HideInInspector] public bool bOverrideMovement = false;
@@ -222,6 +222,8 @@ public class PlayerInputScript : MonoBehaviour
             bOverrideMovement = false;
             _animator.SetTrigger("Dodge");
             _animator.ResetTrigger("AttackLight");
+            EnableMovement();
+            EnableRotation();
             if (bGotParried) EndSlowEffects();
             if (bLockedOn)
             {
@@ -237,6 +239,8 @@ public class PlayerInputScript : MonoBehaviour
             bOverrideMovement = false;
             _animator.SetTrigger("Dodge");
             _animator.ResetTrigger("AttackLight");
+            EnableMovement();
+            EnableRotation();
             if (bGotParried) EndSlowEffects();
             if (bLockedOn)
             {
@@ -311,7 +315,7 @@ public class PlayerInputScript : MonoBehaviour
         if (bCanMove)
         {
             Vector3 _direction = new Vector3(_inputVector.x, 0, _inputVector.y).normalized;
-            if (_direction != Vector3.zero && !bLockedOn && !bOverrideMovement && !bIsSheathed)
+            if (_direction != Vector3.zero && !bLockedOn && !bOverrideMovement && !bIsSheathed && bCanRotate)
             {
                 float _targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + _cam.transform.eulerAngles.y;
                 float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, .1f);
@@ -326,14 +330,13 @@ public class PlayerInputScript : MonoBehaviour
                 Quaternion lookRot = Quaternion.LookRotation(lookDir);
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, rotationSpeed);
                 transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
-
-                if (!bMoveLocked)
-                {
-                    _animator.SetFloat("XInput", _inputVector.x, smoothingValue, Time.deltaTime);
-                    _animator.SetFloat("YInput", _inputVector.y, smoothingValue, Time.deltaTime);
-                }
             }
-
+            
+            if (!bMoveLocked)
+            {
+                _animator.SetFloat("XInput", _inputVector.x, smoothingValue, Time.deltaTime);
+                _animator.SetFloat("YInput", _inputVector.y, smoothingValue, Time.deltaTime);
+            }
             
             _animator.SetFloat("InputSpeed", _inputVector.magnitude, smoothingValue, Time.deltaTime);
 
@@ -433,7 +436,7 @@ public class PlayerInputScript : MonoBehaviour
 
     public void BlockDodge()
     {
-       // if(!bGotParried) bCanDodge = false;
+        //bCanDodge = false;
      
     }
 
@@ -471,6 +474,15 @@ public class PlayerInputScript : MonoBehaviour
     {
         EndGotParried();
         hitstopController.CancelEffects();
+    }
+
+    public void EnableRotation()
+    {
+        bCanRotate = true;
+    }
+    public void DisableRotation()
+    {
+        bCanRotate = false;
     }
 
     #endregion

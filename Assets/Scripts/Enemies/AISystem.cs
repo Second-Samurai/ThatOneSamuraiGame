@@ -47,6 +47,7 @@ namespace Enemies
         public EDamageController eDamageController;
         public bool bIsDead = false;
         public bool bIsUnblockable = false;
+        public KnockbackAttack kbController;
         //NOTE: isStunned is handled in Guarding script, inside the eDamageController script
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
@@ -108,6 +109,17 @@ namespace Enemies
 
         #region Enemy Utility Funcitons
 
+        // An override that is performed for every state change
+        public override void SetState(EnemyState newEnemyState)
+        {
+            if (enemyType != EnemyType.ARCHER)
+            {
+                meleeCollider.enabled = false;
+            }
+            
+            base.SetState(newEnemyState);
+        }
+        
         // Assign stats based on the enemy type
         private void SetupEnemyType()
         {
@@ -123,14 +135,14 @@ namespace Enemies
                 case EnemyType.ARCHER:
                     break;
                 case EnemyType.GLAIVEWIELDER:
-                    //statHandler.Init(enemySettings.glaiveWielderStats.enemyData);
-                    //animator.SetFloat("ApproachSpeedMultiplier", enemySettings.glaiveWielderStats.enemyData.moveSpeed);
-                    //animator.SetFloat("CircleSpeedMultiplier", enemySettings.glaiveWielderStats.circleSpeed);
+                    statHandler.Init(enemySettings.glaiveWielderStats.enemyData);
+                    animator.SetFloat("ApproachSpeedMultiplier", enemySettings.glaiveWielderStats.enemyData.moveSpeed);
+                    animator.SetFloat("CircleSpeedMultiplier", enemySettings.glaiveWielderStats.circleSpeed); 
+                    break;
+                case EnemyType.TUTORIALENEMY:
                     statHandler.Init(enemySettings.swordsmanStats.enemyData);
                     animator.SetFloat("ApproachSpeedMultiplier", enemySettings.swordsmanStats.enemyData.moveSpeed);
                     animator.SetFloat("CircleSpeedMultiplier", enemySettings.swordsmanStats.circleSpeed);
-                    break;
-                case EnemyType.TUTORIALENEMY:
                     break;
                 case EnemyType.BOSS:
                     statHandler.Init(enemySettings.bossStats.enemyData); 
@@ -180,7 +192,31 @@ namespace Enemies
                 StartCoroutine(DodgeImpulseCoroutine(transform.parent.forward, enemySettings.GetEnemyStatType(enemyType).dodgeForce));
             }
         }
-        
+
+        public void ForwardImpulseAnimEvent(float time)
+        {
+            StartCoroutine(DodgeImpulseCoroutine(Vector3.forward, 10f, time));
+        }
+ 
+        public void ImpulseWithDirection(float force, Vector3 dir)
+        {
+            StartCoroutine(DodgeImpulseCoroutine(dir, force, .7f));
+        }
+        public void ImpulseWithDirection(float force, Vector3 dir, float time)
+        {
+            Debug.Log(dir);
+            StartCoroutine(DodgeImpulseCoroutine(dir, force, time));
+        }
+
+        public void KBColOn()
+        {
+            kbController.KBColOn();
+        }
+        public void KBColOff()
+        {
+            kbController.KBColOff();
+        }
+
         // Coroutines cannot exist in enemystate since it's not a monobehavior, so we handle it here
         private IEnumerator DodgeImpulseCoroutine(Vector3 lastDir, float force)
         {
@@ -189,6 +225,18 @@ namespace Enemies
             {
                 transform.Translate(lastDir.normalized * force * Time.deltaTime);
                 
+                dodgeTimer -= Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        private IEnumerator DodgeImpulseCoroutine(Vector3 lastDir, float force, float timer)
+        {
+            float dodgeTimer = timer;
+            while (dodgeTimer > 0f)
+            {
+                transform.Translate(lastDir.normalized * force * Time.deltaTime);
+
                 dodgeTimer -= Time.deltaTime;
                 yield return null;
             }
@@ -229,6 +277,17 @@ namespace Enemies
             animator.SetFloat("MovementZ", 0);
         }
 
+        private bool EnemyDeathCheck()
+        {
+            if (bIsDead)
+            {
+                Debug.LogError(gameObject.name + " tried to switch states but is dead. State switch cancelled");
+                return true;
+            }
+
+            return false;
+        }
+
         #endregion
         
         // ENEMY STATE SWITCHING INFO
@@ -239,41 +298,48 @@ namespace Enemies
         
         public void OnSwordAttack()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new SwordAttackEnemyState(this));
         }
 
         public void OnGlaiveAttack()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new GlaiveAttackEnemyState(this));
         }
 
         public void OnJumpAttack()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new JumpAttackEnemyState(this));
         }
 
         public void OnSpecialAttack()
         {
-        
+            if (EnemyDeathCheck()) return;
         }
         
         public void OnQuickBlock()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new QuickBlockEnemyState(this));
         }
 
         public void OnBlock()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new BlockEnemyState(this));
         }
 
         public void OnParry()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new ParryEnemyState(this));
         }
 
         public void OnDodge()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new DodgeEnemyState(this));
         }
     
@@ -283,6 +349,7 @@ namespace Enemies
 
         public void OnIdle()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new IdleEnemyState(this));
         }
 
@@ -293,31 +360,37 @@ namespace Enemies
 
         public void OnChargePlayer()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new ChargeEnemyState(this));
         }
 
         public void OnApproachPlayer()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new ApproachPlayerEnemyState(this));
         }
 
         public void OnCloseDistance()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new CloseDistanceEnemyState(this));
         }
 
         public void OnCirclePlayer()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new CircleEnemyState(this));
         }
 
         public void OnEnemyStun()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new StunEnemyState(this));
         }
         
         public void OnParryStun()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new ParryStunEnemyState(this));
         }
 
@@ -336,6 +409,19 @@ namespace Enemies
             SetState(new RewindEnemyState(this));
         }
 
+
         #endregion
+
+        private void OnDisable()
+        { 
+            GameManager.instance.enemyTracker.RemoveEnemy(rb.gameObject.transform);
+        }
+
+        private void OnDestroy()
+        {
+            GameManager.instance.enemyTracker.RemoveEnemy(rb.gameObject.transform);
+        }
+
+
     }
 }

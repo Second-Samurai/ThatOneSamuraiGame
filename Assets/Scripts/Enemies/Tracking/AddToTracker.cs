@@ -16,12 +16,25 @@ public class AddToTracker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && _enemyTracker == null)
+        if (_aiSystem.bIsDead == false)
         {
-            _enemyTracker = GameManager.instance.enemyTracker;
-            _enemyTracker.AddEnemy(GetComponentInParent<Rigidbody>().gameObject.transform);
-                
-            _aiSystem.OnApproachPlayer();
+            if (other.CompareTag("Player"))
+            {
+                _enemyTracker = GameManager.instance.enemyTracker;
+                _enemyTracker.AddEnemy(GetComponentInParent<Rigidbody>().gameObject.transform);
+
+                _aiSystem.OnApproachPlayer();
+            }
         }
     }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            _enemyTracker = GameManager.instance.enemyTracker;
+            _enemyTracker.RemoveEnemy(GetComponentInParent<Rigidbody>().gameObject.transform); 
+        }
+    }
+
+
 }

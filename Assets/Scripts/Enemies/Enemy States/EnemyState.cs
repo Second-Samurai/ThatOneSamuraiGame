@@ -59,7 +59,7 @@ namespace Enemies.Enemy_States
 
         protected bool InRange(Vector3 position, Vector3 targetPosition, float stopApproachingRange)
         {
-            return Vector3.Distance(position, targetPosition) < stopApproachingRange;
+            return Vector3.Magnitude(targetPosition - position) < stopApproachingRange;
         }
 
         protected void ChooseActionUsingDistance(Vector3 target)
@@ -89,11 +89,11 @@ namespace Enemies.Enemy_States
                 } 
                 else
                 {
-                    int decision = Random.Range(1, 3);
+                    int decision = Random.Range(0, 3);
 
                     if (decision == 0) // Jump Attack (currently disabled)
                     {
-                        AISystem.OnJumpAttack();
+                        AISystem.OnChargePlayer();
                     }
                     else // Approach Player
                     {

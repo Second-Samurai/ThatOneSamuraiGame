@@ -36,6 +36,15 @@ public class AttackSlide
         _combatController.StartCoroutine(SlideOverTime(targetEnemy));
     }
 
+    /// <summary>
+    /// When there are no enemies the player will just slide forward.
+    /// </summary>
+    public void SlideForward()
+    {
+        _combatController.StopCoroutine(JustSlideForward());
+        _combatController.StartCoroutine(JustSlideForward());
+    }
+
     // Summary: Checks whether the player is within the minimum dist against enemy
     //
     private bool CheckWithinMinDist(Transform targetEnemy)
@@ -65,6 +74,18 @@ public class AttackSlide
         {
             if (CheckWithinMinDist(targetEnemy)) yield break;
 
+            velocity -= _settings.slideSpeed * _settings.slideDuration;
+            _playerRB.position += _playerRB.transform.forward * velocity;
+            yield return null;
+        }
+    }
+
+    private IEnumerator JustSlideForward()
+    {
+        float velocity = _settings.slideSpeed;
+
+        while (velocity > 0)
+        {
             velocity -= _settings.slideSpeed * _settings.slideDuration;
             _playerRB.position += _playerRB.transform.forward * velocity;
             yield return null;

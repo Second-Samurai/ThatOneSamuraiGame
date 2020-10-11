@@ -28,7 +28,7 @@ public class AudioManager : MonoBehaviour
         //DontDestroyOnLoad(gameObject);
         foreach (Sound s in sounds) 
         {
-            s.name = s.clip.name;
+            s.name = s.clip.name.ToLower().Trim().Replace(" ", "");
             if (s.createSource == true)
             {
                 CreateSource(s);
@@ -40,7 +40,7 @@ public class AudioManager : MonoBehaviour
         }
 
     }
-    //update for debugging
+    // update for debugging
     //public void Update()
     //{
     //    if (Keyboard.current.bKey.wasPressedThisFrame)
@@ -53,7 +53,7 @@ public class AudioManager : MonoBehaviour
     //}
 
 
-    // finds and returns a  sound contaning a given string in its name
+    //finds and returns a  sound contaning a given string in its name
 
     public AudioClip FindSound(string name) 
     {
@@ -63,13 +63,14 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return null;
         }
+       // Debug.LogWarning(s.clip.name);
         return s.clip;
     }
 
     // finds and returns a list of every sound contaning a given string in its name
-    public List<Sound> FindAll(string name) 
+    public List<AudioClip> FindAll(string name) 
     {
-        List<Sound> passOver = new List<Sound>();
+        List<AudioClip> passOver = new List<AudioClip>();
 
         for (int s = 0;  s < sounds.Length; s++) 
         {
@@ -78,15 +79,15 @@ public class AudioManager : MonoBehaviour
             //Debug.Log(sounds[s].clip.name);
             if (sounds[s].clip.name.Contains(name.ToLower().Trim().Replace(" ", "")))
             {
-                passOver.Add(sounds[s]) ;
+                passOver.Add(sounds[s].clip) ;
             }
         }
         if (passOver.Count == 0) 
         {
-            Debug.LogWarning("Sound: " + name + " not found!");
+           // Debug.LogWarning("Sound: " + name + " not found!");
             return null;
         }
-            Debug.LogWarning( "length " + passOver.Count);
+          //  Debug.LogWarning( "length " + passOver.Count);
            return passOver;     
     }
 

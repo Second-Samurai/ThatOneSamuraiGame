@@ -24,7 +24,7 @@ public class PlayerFunctions : MonoBehaviour
 
     Animator _animator;
     PDamageController _pDamageController;
-    Rigidbody rb;
+    public Rigidbody rb;
 
     HitstopController hitstopController;
 
@@ -43,6 +43,9 @@ public class PlayerFunctions : MonoBehaviour
     public GameObject lSword, rSword;
 
     public bool bSlide = false;
+
+    public bool bAllowDeathMoveReset = true;
+
     private void Start()
     {
         _IKPuppet = GetComponent<IKPuppet>();
@@ -93,11 +96,13 @@ public class PlayerFunctions : MonoBehaviour
         CheckParry();
         //remove this
 
-        if(bIsDead && playerInputScript.bCanMove) 
-            playerInputScript.DisableMovement();
-        else if(!bIsDead && !playerInputScript.bCanMove) 
-            playerInputScript.EnableMovement();
-
+        if (bAllowDeathMoveReset)
+        {
+            if (bIsDead && playerInputScript.bCanMove)
+                playerInputScript.DisableMovement();
+            else if (!bIsDead && !playerInputScript.bCanMove)
+                playerInputScript.EnableMovement();
+        }
 
 
     }
@@ -105,8 +110,14 @@ public class PlayerFunctions : MonoBehaviour
 
     public void ForwardImpulse(float force)
     {
-         
-        ImpulseMove(Vector3.forward, force);
+
+        StartCoroutine(ImpulseWithTimer(transform.forward, force, .15f));
+    }
+
+    public void JumpImpulseWithTimer(float timer)
+    {
+        transform.Translate(Vector3.up * 1);
+        StartCoroutine(ImpulseWithTimer(transform.forward, 20, timer));
     }
 
     public void ImpulseMove(Vector3 dir, float force)
@@ -145,7 +156,26 @@ public class PlayerFunctions : MonoBehaviour
         }
     }
 
-    public IEnumerator DodgeImpulse(Vector3 lastDir, float force)
+    public IEnumerator ImpulseWithTimer(Vector3 lastDir, float force, float timer)
+    {
+        float dodgeTimer = timer;
+        while (dodgeTimer > 0f)
+        {
+            // if(bLockedOn)
+            //transform.Translate(lastDir.normalized * force * Time.deltaTime);
+            _animator.applyRootMotion = false;
+            rb.velocity = lastDir.normalized * force ;
+           // rb.MovePosition(transform.position + lastDir.normalized * force * Time.deltaTime);
+            //else
+            //    transform.position += lastDir.normalized * force * Time.deltaTime;
+            dodgeTimer -= Time.deltaTime;
+            yield return null;
+        }
+        _animator.applyRootMotion = true;
+        EnableBlock();
+    }
+
+        public IEnumerator DodgeImpulse(Vector3 lastDir, float force)
     {
         float dodgeTimer = .15f;
         while (dodgeTimer > 0f)
@@ -180,6 +210,31 @@ public class PlayerFunctions : MonoBehaviour
         }
         else KillPlayer();
 
+    }
+
+    public void CancelMove()
+    {
+        StopAllCoroutines(); 
+        playerInputScript.EnableMovement();
+        playerInputScript.EnableRotation();
+        rb.velocity = Vector3.zero;
+        _animator.applyRootMotion = true;
+    }
+
+
+    public void Knockback(float amount, Vector3 direction, float duration, GameObject attacker)
+    {
+        if (bIsParrying)
+        {
+            TriggerParry(attacker, amount);
+        }
+        else if (!playerInputScript.bIsDodging)
+        {
+            Debug.Log("HIT" + amount * direction);
+            playerInputScript.DisableRotation();
+            _animator.SetTrigger("KnockdownTrigger");
+            StartCoroutine(ImpulseWithTimer(direction, amount, duration));
+        }
     }
 
     public void TriggerParry(GameObject attacker, float damage)

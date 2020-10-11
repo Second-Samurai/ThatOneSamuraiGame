@@ -16,13 +16,13 @@ namespace Enemy_Scripts
         public EnemyState EnemyState; // Holds the current enemy state
         [SerializeField] private bool PrintStates = false;
 
-        public void SetState(EnemyState newEnemyState)
+        public virtual void SetState(EnemyState newEnemyState)
         {
-            // NOTE: Potential garbage being accumulated with the new keyword???
             EnemyState = newEnemyState;
+            if (!gameObject.activeInHierarchy) return;
             StartCoroutine(EnemyState.BeginState());
-            
-            if(PrintStates) Debug.Log("Switching States: " + newEnemyState);
+
+            if (PrintStates) Debug.Log(gameObject.name + " Switching States: " + newEnemyState);
         }
 
         protected void FixedUpdate()
@@ -30,7 +30,7 @@ namespace Enemy_Scripts
             // Only run Tick() if enemy state is not null
             EnemyState?.Tick();
         }
-        
+
         //ANIMATION CALLED EVENTS
 
         #region Animation Called Events
@@ -40,7 +40,7 @@ namespace Enemy_Scripts
         // This is a precautionary method to stop that from happening
         public void EndStateAttack()
         {
-            if (EnemyState.GetType() == typeof(SwordAttackEnemyState))
+            if (EnemyState.GetType() == typeof(SwordAttackEnemyState) || EnemyState.GetType() == typeof(ParryEnemyState))
             {
                 EndState();
             }

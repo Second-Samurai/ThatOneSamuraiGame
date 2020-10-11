@@ -573,28 +573,6 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""dab966bb-0747-447e-9b62-9d02fad899f7"",
-                    ""path"": ""<Gamepad>/dpad/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""SwordDraw"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""cc7b51be-40c9-46c7-aeeb-a941dc56cf44"",
-                    ""path"": ""<Keyboard>/c"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""SwordDraw"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""86337c31-ce3f-48d8-97d2-eba2580d693b"",
                     ""path"": ""<Gamepad>/leftStickPress"",
                     ""interactions"": """",

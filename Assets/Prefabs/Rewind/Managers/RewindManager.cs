@@ -48,11 +48,13 @@ public class RewindManager : MonoBehaviour
 
     PlayerRewindEntity playerRewindEntity;
 
+    private RewindAudio _rewindAudio;
+
 
     // Start is called before the first frame update
     void Start()
     {
-
+       
         postProcessingController = GameManager.instance.postProcessingController;
         rewindTime = Mathf.Round(timeThreashold.Variable.TimeThreashold * (1f / Time.fixedDeltaTime));
         //rewindResource = maxRewindResource;
@@ -64,6 +66,8 @@ public class RewindManager : MonoBehaviour
         isTravelling = true;
 
         gameOverMenu = GameManager.instance.gameObject.GetComponentInChildren<GameOverMenu>();
+
+        _rewindAudio = gameObject.GetComponent<RewindAudio>();
     }
 
     private void Update()
@@ -71,10 +75,8 @@ public class RewindManager : MonoBehaviour
         IncreaseResource();
         //UpdateRewindUI();
         if (rewindResource < maxRewindResource && !isTravelling) rewindUI.FadeIn(1f, 1f);
-        else if (rewindResource == maxRewindResource && !isTravelling && maxRewindResource != 2f) rewindUI.FadeOut(0f, 1f);
+        else if (rewindResource == maxRewindResource && !isTravelling && maxRewindResource > 2f) rewindUI.FadeOut(0f, 1f);
         rewindUI.UpdateBarColor();
-
-
         //Debug.Log(isTravelling);
     }
 
@@ -99,6 +101,10 @@ public class RewindManager : MonoBehaviour
             rewindUI.UpdateBarMax(maxRewindResource);
             if(rewindUI.rewindBar.fillAmount > maxRewindResource / 10) rewindUI.UpdateRewindAmount(maxRewindResource);
             rewindResource = maxRewindResource * f;
+            if (maxRewindResource <= 2) 
+            {
+                _rewindAudio.HeartBeat();
+            }
         }
 
         if (maxRewindResource <= 0) 
@@ -118,6 +124,10 @@ public class RewindManager : MonoBehaviour
             maxRewindResource += 2;
             rewindUI.UpdateBarMax(maxRewindResource);
             rewindResource = maxRewindResource * f;
+            if (maxRewindResource > 2)
+            {
+                _rewindAudio.StopHeartBeat();
+            }
         }
     }
 
@@ -204,6 +214,7 @@ public class RewindManager : MonoBehaviour
     {
         if (isTravelling)
         {
+            
             OnStartRewind();
             foreach (RewindEntity entity in rewindObjects) 
             {

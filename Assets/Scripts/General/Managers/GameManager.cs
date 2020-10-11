@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public Camera mainCamera;
     public GameObject thirdPersonViewCamera;
     public PlayerController playerController;
-    public CameraControl cameraControl;
     public RewindManager rewindManager;
     public EnemyTracker enemyTracker;
     public PostProcessingController postProcessingController;
@@ -103,11 +102,9 @@ public class GameManager : MonoBehaviour
         GameObject targetHolder = Instantiate(gameSettings.targetHolderPrefab, targetHolderPos, Quaternion.identity);
 
         PlayerController playerControl = GameObject.FindObjectOfType<PlayerController>();
-        
         if(playerController != null)
         {
             playerController = playerControl;
-            cameraControl = playerControl.GetComponent<CameraControl>();
             InitialisePlayer(targetHolder);
             return;
         }

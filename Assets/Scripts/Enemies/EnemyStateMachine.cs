@@ -16,10 +16,8 @@ namespace Enemy_Scripts
         public EnemyState EnemyState; // Holds the current enemy state
         [SerializeField] private bool PrintStates = false;
 
-        public void SetState(EnemyState newEnemyState)
+        public virtual void SetState(EnemyState newEnemyState)
         {
-            // NOTE: Potential garbage being accumulated with the new keyword???
-
             EnemyState = newEnemyState;
             if (!gameObject.activeInHierarchy) return;
             StartCoroutine(EnemyState.BeginState());

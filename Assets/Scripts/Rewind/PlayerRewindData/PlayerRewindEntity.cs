@@ -81,7 +81,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
         }
 
         //move to arguments need to be added rewind entity
-        playerDataList.Insert(0, new PlayerTimeData(playerInput.camControl.bLockedOn, swordCollider.enabled));
+        playerDataList.Insert(0, new PlayerTimeData(playerInput.bLockedOn, swordCollider.enabled));
 
         base.RecordPast();
     }
@@ -133,15 +133,16 @@ public class PlayerRewindEntity : AnimationRewindEntity
         if (currentIndex <= playerDataList.Count - 1)
         {
 
-        if (playerInput.camControl.bLockedOn != animationDataList[currentIndex].lockedOn)
-        {
-            playerInput.camControl.bLockedOn = animationDataList[currentIndex].lockedOn;
-            playerInput.camControl.ToggleLockOn();
-            Debug.Log("switching");
-        }
-        else
-        {
-            Debug.Log("you good");
+            if (playerInput.bLockedOn != animationDataList[currentIndex].lockedOn)
+            {
+                playerInput.bLockedOn = animationDataList[currentIndex].lockedOn;
+                if (playerInput.bLockedOn)
+                    playerInput._camControl.LockOn();
+                else
+                {
+                    playerInput._camControl.UnlockCam();
+                }
+            }
         }
        
         // needs to set the enemy targeting

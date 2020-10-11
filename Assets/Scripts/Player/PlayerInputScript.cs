@@ -15,7 +15,7 @@ public class PlayerInputScript : MonoBehaviour
     #endregion
 
     #region Script References
-    [HideInInspector] public CameraControl camControl;
+    [HideInInspector] public CameraControl _camControl;
     [HideInInspector] public PlayerFunctions _functions;
     [HideInInspector] public FinishingMoveController finishingMoveController;
     [HideInInspector] public GameEvent onLockOnEvent;
@@ -55,7 +55,7 @@ public class PlayerInputScript : MonoBehaviour
         _inputComponent = GetComponent<PlayerInput>();
         _animator = GetComponent<Animator>();
         _functions = GetComponent<PlayerFunctions>();
-        camControl = GetComponent<CameraControl>();
+        _camControl = GetComponent<CameraControl>();
         _playerCombat = this.GetComponent<ICombatController>();
         rb = GetComponent<Rigidbody>();
         _pDamageController = GetComponent<PDamageController>();
@@ -92,28 +92,44 @@ public class PlayerInputScript : MonoBehaviour
     void OnSprint(InputValue value)
     {
         isSprintHeld = value.isPressed;
-        if (!camControl.bLockedOn)
+        if (!bLockedOn)
         {
-            if (isSprintHeld) camControl.camScript.SprintOn();
-            else camControl.camScript.SprintOff();
+            if (isSprintHeld) _camControl.camScript.SprintOn();
+            else _camControl.camScript.SprintOff();
         }
     }
 
     void OnLockOn()
     {
-        camControl.ToggleLockOn();
+
+        if (!bLockedOn)
+        {
+            if (_camControl.LockOn())
+            {
+                bLockedOn = true;
+                _animator.SetBool("LockedOn", bLockedOn);
+                _camControl.bLockedOn = bLockedOn;
+            }
+        }
+        else
+        {
+            bLockedOn = false;
+            _camControl.UnlockCam();
+            _animator.SetBool("LockedOn", bLockedOn);
+            _camControl.bLockedOn = bLockedOn;
+        }
         onLockOnEvent.Raise();
  
     }
 
     void OnToggleLockLeft()
     {
-        if (camControl.bLockedOn) camControl.LockOn();
+        if (bLockedOn) _camControl.LockOn();
     }
 
     void OnToggleLockRight()
     {
-        if (camControl.bLockedOn) camControl.LockOn();
+        if (bLockedOn) _camControl.LockOn();
     }
 
     // Summary: Input control for sword drawing
@@ -176,8 +192,8 @@ public class PlayerInputScript : MonoBehaviour
                 _animator.SetBool("HeavyAttackHeld", true);
                 //_camControl.StopCoroutine(_camControl.RollCam());
                 //_camControl.StopCoroutine(_camControl.ResetCamRoll());
-                camControl.StopAllCoroutines();
-                camControl.StartCoroutine(camControl.RollCam());
+                _camControl.StopAllCoroutines();
+                _camControl.StartCoroutine(_camControl.RollCam());
             }
         }
     }
@@ -209,7 +225,7 @@ public class PlayerInputScript : MonoBehaviour
             EnableMovement();
             EnableRotation();
             if (bGotParried) EndSlowEffects();
-            if (camControl.bLockedOn)
+            if (bLockedOn)
             {
                 StopCoroutine("DodgeImpulse");
                 StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
@@ -226,7 +242,7 @@ public class PlayerInputScript : MonoBehaviour
             EnableMovement();
             EnableRotation();
             if (bGotParried) EndSlowEffects();
-            if (camControl.bLockedOn)
+            if (bLockedOn)
             {
                 StopCoroutine("DodgeImpulse");
                 StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
@@ -266,8 +282,8 @@ public class PlayerInputScript : MonoBehaviour
         _animator.SetBool("HeavyAttackHeld", false);
         //_camControl.StopCoroutine(_camControl.ResetCamRoll());
         //_camControl.StopCoroutine("RollCam");
-        camControl.StopAllCoroutines();
-        camControl.StartCoroutine(camControl.ResetCamRoll());
+        _camControl.StopAllCoroutines();
+        _camControl.StartCoroutine(_camControl.ResetCamRoll());
     }
 
     void HeavyTimer()
@@ -299,7 +315,7 @@ public class PlayerInputScript : MonoBehaviour
         if (bCanMove)
         {
             Vector3 _direction = new Vector3(_inputVector.x, 0, _inputVector.y).normalized;
-            if (_direction != Vector3.zero && !camControl.bLockedOn && !bOverrideMovement && !bIsSheathed && bCanRotate)
+            if (_direction != Vector3.zero && !bLockedOn && !bOverrideMovement && !bIsSheathed && bCanRotate)
             {
                 float _targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + _cam.transform.eulerAngles.y;
                 float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, .1f);
@@ -308,7 +324,7 @@ public class PlayerInputScript : MonoBehaviour
 
             }
 
-            else if (camControl.bLockedOn)
+            else if (bLockedOn)
             {
                 Vector3 lookDir = target.transform.position - transform.position;
                 Quaternion lookRot = Quaternion.LookRotation(lookDir);

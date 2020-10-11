@@ -86,8 +86,9 @@ public class Projectile : MonoBehaviour
             StartCoroutine(Die(0f));
 
         }
-        else
+        else if (!other.gameObject.CompareTag("LOD") && !other.gameObject.CompareTag("Level"))
         {
+            Debug.LogError(other.gameObject.name);
             StartCoroutine(Die(0f));
         }
     }

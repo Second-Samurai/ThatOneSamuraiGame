@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     [Header("Game Settings")]
     public GameSettings gameSettings;
     public Transform playerSpawnPoint;
-    public bool bShowAttackPopups = false;
+    public bool bShowAttackPopups = true;
 
     //Hidden accessible variables
     [HideInInspector] public Camera mainCamera;

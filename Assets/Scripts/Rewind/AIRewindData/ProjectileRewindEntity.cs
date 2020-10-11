@@ -42,7 +42,6 @@ public class ProjectileRewindEntity : RewindEntity
 
         }
 
-
     }
 
     public void DisableEvents()
@@ -65,7 +64,10 @@ public class ProjectileRewindEntity : RewindEntity
     {
         for (int i = currentIndex; i >= 0; i--)
         {
-            ProjectileDataList.RemoveAt(i);
+            if (currentIndex <= ProjectileDataList.Count - 1)
+            {
+                ProjectileDataList.RemoveAt(i);
+            }
         }
         ProjectileDataList.TrimExcess();
     }
@@ -93,8 +95,12 @@ public class ProjectileRewindEntity : RewindEntity
         {
             if (currentIndex < ProjectileDataList.Count - 1)
             {
-                SetPosition();
                 currentIndex++;
+                if (currentIndex >= ProjectileDataList.Count - 1)
+                {
+                    currentIndex = ProjectileDataList.Count - 1;
+                }
+                SetPosition();
             }
             //Debug.LogWarning("animStepBack");
         }
@@ -115,9 +121,11 @@ public class ProjectileRewindEntity : RewindEntity
 
     public new void SetPosition()
     {
-        projectile.direction = ProjectileDataList[currentIndex].direction;
-        projectile.arrowModel.SetActive(ProjectileDataList[currentIndex].isActive);
-
+        if (currentIndex <= ProjectileDataList.Count - 1)
+        {
+            projectile.direction = ProjectileDataList[currentIndex].direction;
+            projectile.arrowModel.SetActive(ProjectileDataList[currentIndex].isActive);
+        }
         base.SetPosition();
     }
 

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,9 +36,7 @@ public class CameraRewindEntity : RewindEntity
     {
         for (int i = currentIndex; i > 0; i--)
         {
-            if (currentIndex <= cameraDataList.Count - 1)
-            {
-                cameraDataList.RemoveAt(i);
+            cameraDataList.RemoveAt(i);
             }
         }
         cameraDataList.TrimExcess();
@@ -67,11 +65,7 @@ public class CameraRewindEntity : RewindEntity
             if (currentIndex < cameraDataList.Count - 1)
             {
                 currentIndex++;
-                if (currentIndex >= cameraDataList.Count - 1)
-                {
-                    currentIndex = cameraDataList.Count - 1;
-                }
-                SetPosition();
+            }
             }
         }
     }

@@ -79,7 +79,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
         }
 
         //move to arguments need to be added rewind entity
-        playerDataList.Insert(0, new PlayerTimeData(playerInput.bLockedOn, swordCollider.enabled));
+        playerDataList.Insert(0, new PlayerTimeData(playerInput._camControl.bLockedOn, swordCollider.enabled));
 
         base.RecordPast();
     }
@@ -128,10 +128,10 @@ public class PlayerRewindEntity : AnimationRewindEntity
     public new void SetPosition()
     {
 
-        if (playerInput.bLockedOn != animationDataList[currentIndex].lockedOn)
+        if (playerInput._camControl.bLockedOn != animationDataList[currentIndex].lockedOn)
         {
-            playerInput.bLockedOn = animationDataList[currentIndex].lockedOn;
-            if (playerInput.bLockedOn)
+            playerInput._camControl.bLockedOn = animationDataList[currentIndex].lockedOn;
+            if (playerInput._camControl.bLockedOn)
                 playerInput._camControl.LockOn();
             else
             {

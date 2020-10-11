@@ -9,6 +9,7 @@ public class CameraControl : MonoBehaviour
     public ThirdPersonCamController camScript;
     LockOnTargetManager _lockedCamScript;
     public GameObject unlockedCam, lockedCam;
+    private Animator _animator;
     Vector2 rotationVector;
     public Transform lockOnTarget, player, lockOnNullDummy;
     public bool bLockedOn = false;
@@ -33,6 +34,7 @@ public class CameraControl : MonoBehaviour
 
         this.player = playerTarget;
         this.unlockedCam = gameManager.thirdPersonViewCamera;
+        this._animator = gameManager.playerController.GetComponent<Animator>();
         this.enemyTracker = gameManager.enemyTracker;
         this.cinematicBars = cinematicBars;
 
@@ -70,6 +72,24 @@ public class CameraControl : MonoBehaviour
     {
         enemyTracker.SetTarget(target);
         _lockedCamScript.SetTarget(target, player);
+    }
+
+    public void ToggleLockOn()
+    {
+        if (!bLockedOn)
+        {
+            if (LockOn())
+            {
+                bLockedOn = true;
+                _animator.SetBool("LockedOn", bLockedOn);
+            }
+        }
+        else
+        {
+            bLockedOn = false;
+            _animator.SetBool("LockedOn", bLockedOn);
+            UnlockCam();
+        }
     }
 
     public bool LockOn()

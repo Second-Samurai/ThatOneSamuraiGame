@@ -244,7 +244,8 @@ public class PlayerFunctions : MonoBehaviour
         hitstopController.SlowTime(.5f, 1);
         if(attacker != null)
         {
-            attacker.GetComponent<EDamageController>().OnParried(damage); //Damage attacker's guard meter
+            // TODO: Fix with damage later
+            attacker.GetComponent<EDamageController>().OnParried(5); //Damage attacker's guard meter
 
         }
         //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(.7f);

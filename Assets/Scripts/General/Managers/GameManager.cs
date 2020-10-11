@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
 
     void SetupEnemies()
     {
-        enemyTracker = Instantiate(gameSettings.enemyManagerPrefab, transform.position, Quaternion.identity).GetComponent<EnemyTracker>();
+        enemyTracker = FindObjectOfType<EnemyTracker>();
         gameSettings.enemySettings.SetTarget(FindObjectOfType<PlayerController>().transform);
         
         //Sets up the test enemies for tracking

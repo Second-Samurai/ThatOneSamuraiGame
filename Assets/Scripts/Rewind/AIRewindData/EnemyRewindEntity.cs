@@ -164,15 +164,18 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
 
     public override void ApplyData() 
     {
-
-        aISystem.SetState(enemyDataList[currentIndex].enemyState);
-        swordCollider.enabled = enemyDataList[currentIndex].swordCollider;
-        if (!aISystem.bIsDead)
+        if (currentIndex <= enemyDataList.Count - 1)
         {
-            aISystem.eDamageController.EnableDamage();
-            aISystem.eDamageController.enemyGuard.EnableGuardMeter();
+            aISystem.SetState(enemyDataList[currentIndex].enemyState);
+            swordCollider.enabled = enemyDataList[currentIndex].swordCollider;
+            if (!aISystem.bIsDead)
+            {
+                aISystem.eDamageController.EnableDamage();
+                aISystem.eDamageController.enemyGuard.EnableGuardMeter();
+            }
+
+            _enemyTracker.currentEnemies = enemyDataList[currentIndex].trackedCurrentEnemies.ToList<Transform>();
         }
-        _enemyTracker.currentEnemies = enemyDataList[currentIndex].trackedCurrentEnemies.ToList<Transform>();
     }
 
     protected new void OnDestroy()

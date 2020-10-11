@@ -68,11 +68,11 @@ public class FinishingMoveController : MonoBehaviour
         
         enemies = GameManager.instance.enemyTracker.currentEnemies;
         Debug.LogError(enemies.Count);
-        for (int i = 0; i < enemies.Count-1; i++)
-        {
-            enemiesCache[i] = enemies[i].GetComponent<AISystem>();
-            enemies[i].GetComponent<AISystem>().OnEnemyRewind();
-        }
+        //for (int i = 0; i < enemies.Count-1; i++)
+        //{
+        //    enemiesCache[i] = enemies[i].GetComponent<AISystem>();
+        //    enemies[i].GetComponent<AISystem>().OnEnemyRewind();
+        //}
     }
 
     public void KillEnemy()
@@ -83,10 +83,10 @@ public class FinishingMoveController : MonoBehaviour
         playerInputScript.bCanAttack = true;
         playerInputScript.EnableMovement();
         damageController.EnableDamage();
-        for (int i = 0; i < enemies.Count - 1; i++)
-        {
-            enemies[i].GetComponent<AISystem>().EnemyState = enemiesCache[i].EnemyState;
-        }
+        //for (int i = 0; i < enemies.Count - 1; i++)
+        //{
+        //    enemies[i].GetComponent<AISystem>().EnemyState = enemiesCache[i].EnemyState;
+        //}
     }
 
    

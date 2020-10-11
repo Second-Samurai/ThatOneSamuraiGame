@@ -5,88 +5,87 @@ using UnityEngine.InputSystem;
 
 public class RewindInput : MonoBehaviour
 {
-    public delegate void StepBackEvent();
-    public event StepBackEvent StepBack;
+    private RewindManager rewindManager;
+    //public delegate void StepBackEvent();
+    //public event StepBackEvent StepBack;
 
-    public delegate void StepForwardEvent();
-    public event StepForwardEvent StepForward;
+    //public delegate void StepForwardEvent();
+    //public event StepForwardEvent StepForward;
 
     // private bool heldBack, heldForward = false;
-    private float rewindDirection;
     public bool isTravelling = false;
-    private RewindEntity rewindEntity;
-    WaitForSecondsRealtime wait = new WaitForSecondsRealtime(.05f);
+    public GameObject rewindTut;
+    public GameObject rewindBar;
 
+    PlayerInput _inputComponent;
+
+    PlayerFunctions playerFunction;
     // Start is called before the first frame update
     void Start()
     {
-        rewindEntity = gameObject.GetComponent<RewindEntity>();
+        //rewindEntity = gameObject.GetComponent<RewindEntity>();
+        _inputComponent = GetComponent<PlayerInput>();
+
+        rewindManager = GameManager.instance.rewindManager;
+        playerFunction = gameObject.GetComponent<PlayerFunctions>();
+
     }
 
-    IEnumerator RewindCoroutine() 
-    {
-        if (isTravelling && rewindDirection < 0)
-        {
-            Time.timeScale = 1f;
-            Time.fixedDeltaTime = Time.timeScale * .02f;
-            if (StepBack != null) StepBack();
-           // Debug.Log(Time.timeScale);
-        }
-
-        else if (isTravelling && rewindDirection > 0)
-        {
-            Time.timeScale = 1f;
-            Time.fixedDeltaTime = Time.timeScale * .02f;
-            if(StepForward != null) StepForward();
-
-        }
-
-        if (isTravelling && rewindDirection == 0)
-        {
-            Time.timeScale = 0f;
-            Time.fixedDeltaTime = Time.timeScale * .02f;
-        }
-
-        if (!isTravelling && Time.timeScale != 1f)
-        {
-            Time.timeScale = 1f;
-            Time.fixedDeltaTime = Time.timeScale * .02f;
-        }
-        yield return null;
-
-        StartCoroutine(RewindCoroutine());
-        
-    }
+  
 
     void OnInitRewind() 
     {
-        if (isTravelling)
+
+        _inputComponent.SwitchCurrentActionMap("Rewind");
+        if (!isTravelling && rewindManager.maxRewindResource != 0)
         {
-            rewindEntity.ResetTimeline();
+            isTravelling = true;
+            rewindManager.isTravelling = true;
+            rewindManager.StartRewind();
+            rewindTut.SetActive(true);
+            GameManager.instance.postProcessingController.EnableRewindColourFilter();
+            rewindManager.rewindUI.FadeIn(1f, 0f);
+            // Debug.Log("rewinding");
         }
-        isTravelling = !isTravelling;
-        rewindEntity.isTravelling = isTravelling;
-       // Debug.Log("rewinding");
-        if (isTravelling) 
+        else if (!isTravelling && rewindManager.maxRewindResource == 0) 
         {
-            StartCoroutine("RewindCoroutine");    
+            isTravelling = true;
+            rewindManager.isTravelling = true;
+            rewindManager.StartRewind();
+            rewindManager.isTravelling = false;
+            GameManager.instance.postProcessingController.EnableRewindColourFilter();
+
+        }
+
+    }
+
+    void OnEndRewind()
+    {
+
+        if (isTravelling && !playerFunction.bIsDead)
+        {
+            _inputComponent.SwitchCurrentActionMap("Gameplay");
+            GameManager.instance.postProcessingController.DisableRewindColourFilter();
+            isTravelling = false;
+            //rewindEntity.isTravelling = false;
+            rewindManager.EndRewind();
+            rewindTut.SetActive(false);
+            rewindManager.isTravelling = false;
+            rewindManager.ResetRewind();
         }
     }
 
     public void DeathRewind()
     {
-        isTravelling = true;
-        rewindEntity.isTravelling = isTravelling;
-        // Debug.Log("rewinding");
-        if (isTravelling)
-        {
-            StartCoroutine("RewindCoroutine");
-        }
+        Debug.Log("DEAD");
+        rewindManager.ReduceRewindAmount();
+        OnInitRewind();
+
     }
 
     void OnScrub(InputValue value)
     {
 
-        rewindDirection = value.Get<float>();
+        rewindManager.rewindDirection = value.Get<float>();
     }
 }

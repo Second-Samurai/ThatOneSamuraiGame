@@ -5,27 +5,39 @@ using UnityEngine;
 public class BasicArcher : MonoBehaviour, IDamageable
 {
     public Transform player, shotOrigin;
-    public enum CurrentState
-    {
-        Idle,
-        Aiming,
-        Dead
-    }
+    //public enum CurrentState
+    //{
+    //    Idle,
+    //    Aiming,
+    //    Dead
+    //}
     public CurrentState currentState;
     public Vector3 lastDirection, shotDirection;
-    public float attackRange = 20f, shotTimer = 0f, shotFrequency = 2f, aimDuration = .5f, aimCounter = 0f;
+    public float attackRange = 20f, shotTimer = 0f, shotFrequency = 2f, aimDuration = 1.5f, aimCounter = 0f;
     public LineRenderer lineRenderer;
 
     public GameObject arrow;
     public Animator anim;
     public Collider col;
-    
+
+    public EnemySpawnCheck spawnCheck;
+
+    public AudioPlayer source;
+    public AudioClip draw, release;
+
+    // Since the player and enemies have their origin point at their feet we need to add an offset value
+    private Vector3 _aimOffsetValue;
+    private Vector3 playerPos;
 
     private void Start()
     {
         if(GameManager.instance.playerController != null)
             player = GameManager.instance.playerController.gameObject.transform;
-      //  lineRenderer = GetComponent<LineRenderer>();
+        if(!draw) draw = AudioManager.instance.FindSound("Bow Draw");
+        if(!release) release = AudioManager.instance.FindSound("Bow Release");
+        //  lineRenderer = GetComponent<LineRenderer>();
+
+        _aimOffsetValue = Vector3.up * transform.localScale.y;
     }
 
     void FindPlayer()
@@ -35,6 +47,9 @@ public class BasicArcher : MonoBehaviour, IDamageable
 
     private void Update()
     {
+         
+        spawnCheck.bSpawnMe = currentState != CurrentState.Dead ? true : false;
+
         if (player == null)
             FindPlayer();
         else
@@ -49,8 +64,10 @@ public class BasicArcher : MonoBehaviour, IDamageable
                     lastDirection = transform.position - player.position;
                     currentState = CurrentState.Aiming;
                     anim.SetTrigger("StartAim");
+                    source.PlayOnce(draw);
                     RaycastHit hit;
-                    shotDirection = player.transform.position - shotOrigin.position;
+                    playerPos = player.transform.position + _aimOffsetValue;
+                    shotDirection = playerPos - shotOrigin.position;
                     if (Physics.Raycast(shotOrigin.position, shotDirection, out hit, Mathf.Infinity))
                     {
                         lineRenderer.enabled = true;
@@ -72,8 +89,10 @@ public class BasicArcher : MonoBehaviour, IDamageable
                     GameObject _arrow = ObjectPooler.instance.ReturnObject("Arrow");
                     //GameObject _arrow = Instantiate(arrow, shotOrigin.position, Quaternion.identity);
                     _arrow.transform.position = shotOrigin.position;
-                    _arrow.GetComponent<Projectile>().Launch(shotDirection);
+                    _arrow.GetComponent<Projectile>().Launch(shotDirection, playerPos);
                     anim.SetTrigger("Fire");
+                    source.StopSource();
+                    source.PlayOnce(release);
                     shotTimer = 0f;
                     lineRenderer.enabled = false;
                     aimCounter = 0f;
@@ -87,17 +106,24 @@ public class BasicArcher : MonoBehaviour, IDamageable
         }
     }
 
-    public void OnEntityDamage(float damage, GameObject attacker)
+    public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
+        // Ignore attacks if the archer is already dead
+        if (currentState == CurrentState.Dead) return;
+        
         anim.SetTrigger("Death");
-        //col.enabled = false;
+        col.enabled = false;
         currentState = CurrentState.Dead;
         //Debug.LogError("I Am dead");
-        
+
         EnemyTracker enemyTracker = GameManager.instance.enemyTracker;
+        
+        // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy)
+        enemyTracker.SwitchDeathTarget(transform);
+        
         enemyTracker.RemoveEnemy(transform);
         
-        Invoke("HideArcher", 2.0f);
+        //Invoke("HideArcher", 2.0f);
     }
 
     public void DisableDamage()
@@ -115,5 +141,21 @@ public class BasicArcher : MonoBehaviour, IDamageable
         gameObject.SetActive(false);
     }
 
-   
+    public bool CheckCanDamage()
+    {
+        return true;
+    }
+
+    public EntityType GetEntityType()
+    {
+        return EntityType.Enemy;
+    }
+
+}
+//moved down here for referencing
+public enum CurrentState
+{
+    Idle,
+    Aiming,
+    Dead
 }

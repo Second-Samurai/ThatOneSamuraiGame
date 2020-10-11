@@ -70,7 +70,7 @@
                     "interactions": "Press"
                 },
                 {
-                    "name": "ScrubForward",
+                    "name": "ScrubForwardOLD",
                     "type": "Value",
                     "id": "fb68f0ce-984f-4167-8e4d-d9c07aee1e24",
                     "expectedControlType": "Button",
@@ -78,7 +78,7 @@
                     "interactions": "Press(behavior=2)"
                 },
                 {
-                    "name": "ScrubBackward",
+                    "name": "ScrubBackwardOLD",
                     "type": "Value",
                     "id": "fd6e816c-1091-4ea7-9a26-79325a93cb37",
                     "expectedControlType": "Button",
@@ -86,7 +86,7 @@
                     "interactions": "Press(behavior=2)"
                 },
                 {
-                    "name": "Scrub",
+                    "name": "ScrubOLD",
                     "type": "Value",
                     "id": "a01967d2-ed35-4228-81c7-8f9483263fb6",
                     "expectedControlType": "Axis",
@@ -116,6 +116,38 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press"
+                },
+                {
+                    "name": "StartHeavy",
+                    "type": "Button",
+                    "id": "29d73101-4da2-4199-99f3-8f4d7d6cd25e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold(duration=0.3,pressPoint=0.5),Press"
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "58f1a698-757e-425c-aefc-947683b1f9ee",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "SwordDraw",
+                    "type": "Button",
+                    "id": "1440196e-ef2a-4f79-abc3-8b6201a2d8d9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Sprint",
+                    "type": "Button",
+                    "id": "1904602d-c2c1-4685-8892-8a0074e63743",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
                 }
             ],
             "bindings": [
@@ -223,8 +255,8 @@
                     "id": "8c13caa9-6cca-4117-a0f2-545ef375dea7",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
-                    "processors": "",
-                    "groups": "",
+                    "processors": "ScaleVector2(x=50,y=50)",
+                    "groups": "Gamepad",
                     "action": "RotateCamera",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -287,7 +319,7 @@
                 {
                     "name": "",
                     "id": "e242a578-3f0e-4434-8b9d-9cfad5be29f0",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -346,7 +378,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "ScrubForward",
+                    "action": "ScrubForwardOLD",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -357,7 +389,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "ScrubForward",
+                    "action": "ScrubForwardOLD",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -368,7 +400,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "ScrubBackward",
+                    "action": "ScrubBackwardOLD",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -379,7 +411,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "ScrubBackward",
+                    "action": "ScrubBackwardOLD",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -390,7 +422,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Scrub",
+                    "action": "ScrubOLD",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -401,7 +433,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Scrub",
+                    "action": "ScrubOLD",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -412,7 +444,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Scrub",
+                    "action": "ScrubOLD",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -479,6 +511,219 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "ToggleLockRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "17ad6dd6-9a2a-4a9e-9dfa-bf9f27fa785b",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "StartHeavy",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d0615405-a612-4b1d-96c2-7077a3bc04d2",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "StartHeavy",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cc95f931-6a77-4210-87eb-ba4358b8a391",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ba895857-51d3-41d4-b1e0-0eaf4e766be1",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "86337c31-ce3f-48d8-97d2-eba2580d693b",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "88748e90-f758-4c42-8382-689e5405c730",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Rewind",
+            "id": "de798162-45d1-45f2-ab63-79fef9aab4a3",
+            "actions": [
+                {
+                    "name": "Scrub",
+                    "type": "Value",
+                    "id": "20d4465d-c314-49ba-bbee-0182099a77d1",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "bb9ae5c8-0b93-44e0-b002-2b0380f4e35a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "EndRewind",
+                    "type": "Button",
+                    "id": "79a9d872-5340-4333-8f11-7577c02c03cf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "1D Axis",
+                    "id": "1f59be54-64fb-480c-b051-21570d1b079c",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scrub",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "aaa1bd4e-05e2-49dd-9d34-ed98cca85ba4",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Scrub",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "04c2f116-7a8f-4f84-aaba-0d2aab4a0882",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Scrub",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "7ee15c39-35af-42ed-b9b3-7331e19b09fb",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "EndRewind",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fc3e5acf-1194-46b2-a6ca-ab70ab3750b3",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "EndRewind",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d073472c-397a-4020-af2a-1f9f3156a45c",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "36d3e65c-b284-4ec8-9f12-e1470389606f",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Menu",
+            "id": "662f04ed-858b-43ee-97dc-40bc7f27d5ba",
+            "actions": [
+                {
+                    "name": "Unpause",
+                    "type": "Button",
+                    "id": "2938e789-f18e-4651-a9f9-e5d9748bc73d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d497907a-1d27-4257-a51a-395d516b4fb8",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Unpause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ae79d780-8f61-4cc0-8f8b-e4b1586252c4",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Unpause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

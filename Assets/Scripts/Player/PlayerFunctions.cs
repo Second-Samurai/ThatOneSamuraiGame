@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Enemies;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class PlayerFunctions : MonoBehaviour
 {
@@ -21,10 +24,28 @@ public class PlayerFunctions : MonoBehaviour
 
     Animator _animator;
     PDamageController _pDamageController;
-    Rigidbody rb;
+    public Rigidbody rb;
+
+    HitstopController hitstopController;
+
     public bool bIsDead = false;
 
-    public GameObject rewindTut;
+    public RectTransform screenCenter;
+
+    public ParryEffects parryEffects;
+
+    public GameObject pauseMenu;
+
+    public PlayerInput _inputComponent;
+
+    public PlayerInputScript playerInputScript;
+
+    public GameObject lSword, rSword;
+
+    public bool bSlide = false;
+
+    public bool bAllowDeathMoveReset = true;
+
     private void Start()
     {
         _IKPuppet = GetComponent<IKPuppet>();
@@ -33,7 +54,13 @@ public class PlayerFunctions : MonoBehaviour
 
         _pDamageController = GetComponent<PDamageController>();
 
-        _animator = GetComponent<Animator>(); 
+        _animator = GetComponent<Animator>();
+
+        _inputComponent = GetComponent<PlayerInput>();
+
+        playerInputScript = GetComponent<PlayerInputScript>();
+
+        hitstopController = GameManager.instance.GetComponent<HitstopController>();
     }
     public void SetBlockCooldown()
     {
@@ -46,20 +73,21 @@ public class PlayerFunctions : MonoBehaviour
         {
             bIsBlocking = true;
             _bDontCheckParry = false;
+            parryEffects.PlayGleam();
             _IKPuppet.EnableIK();
         }
     }
 
     public void EndBlock()
     {
-        if (bIsBlocking)
-        {
-            bIsBlocking = false;
-            bIsParrying = false;
-            parryTimer = 0f;
-            _IKPuppet.DisableIK();
-            SetBlockCooldown();
-        }
+        // if (bIsBlocking)
+        // { 
+        bIsBlocking = false;
+        bIsParrying = false;
+        parryTimer = 0f;
+        _IKPuppet.DisableIK();
+        SetBlockCooldown();
+       // }
     }
 
     private void Update()
@@ -67,9 +95,34 @@ public class PlayerFunctions : MonoBehaviour
         CheckBlockCooldown();
         CheckParry();
         //remove this
-        if (bIsDead) rewindTut.SetActive(true);
-        else rewindTut.SetActive(false);
-        
+
+        if (bAllowDeathMoveReset)
+        {
+            if (bIsDead && playerInputScript.bCanMove)
+                playerInputScript.DisableMovement();
+            else if (!bIsDead && !playerInputScript.bCanMove)
+                playerInputScript.EnableMovement();
+        }
+
+
+    }
+     
+
+    public void ForwardImpulse(float force)
+    {
+
+        StartCoroutine(ImpulseWithTimer(transform.forward, force, .15f));
+    }
+
+    public void JumpImpulseWithTimer(float timer)
+    {
+        transform.Translate(Vector3.up * 1);
+        StartCoroutine(ImpulseWithTimer(transform.forward, 20, timer));
+    }
+
+    public void ImpulseMove(Vector3 dir, float force)
+    {
+        StartCoroutine(DodgeImpulse(dir, force));
     }
 
     private void CheckParry()
@@ -103,13 +156,32 @@ public class PlayerFunctions : MonoBehaviour
         }
     }
 
-    public IEnumerator DodgeImpulse(Vector3 lastDir, float force)
+    public IEnumerator ImpulseWithTimer(Vector3 lastDir, float force, float timer)
+    {
+        float dodgeTimer = timer;
+        while (dodgeTimer > 0f)
+        {
+            // if(bLockedOn)
+            //transform.Translate(lastDir.normalized * force * Time.deltaTime);
+            _animator.applyRootMotion = false;
+            rb.velocity = lastDir.normalized * force ;
+           // rb.MovePosition(transform.position + lastDir.normalized * force * Time.deltaTime);
+            //else
+            //    transform.position += lastDir.normalized * force * Time.deltaTime;
+            dodgeTimer -= Time.deltaTime;
+            yield return null;
+        }
+        _animator.applyRootMotion = true;
+        EnableBlock();
+    }
+
+        public IEnumerator DodgeImpulse(Vector3 lastDir, float force)
     {
         float dodgeTimer = .15f;
         while (dodgeTimer > 0f)
         {
             // if(bLockedOn)
-            transform.Translate(lastDir.normalized * force * Time.deltaTime);
+            transform.Translate(lastDir.normalized * force * Time.deltaTime); 
             //else
             //    transform.position += lastDir.normalized * force * Time.deltaTime;
             dodgeTimer -= Time.deltaTime;
@@ -118,39 +190,76 @@ public class PlayerFunctions : MonoBehaviour
         EnableBlock();
     }
 
-    public void ApplyHit(GameObject attacker)
+    public void ApplyHit(GameObject attacker, bool unblockable, float damage)
     {
-        if (bIsParrying)
+        if (bIsParrying && !unblockable)
         {
-            TriggerParry(attacker); 
+            TriggerParry(attacker, damage);
         }
-        else if (bIsBlocking)
+        else if (!unblockable)
         {
-            TriggerBlock(attacker); 
+            if (bIsBlocking)
+            {
+                TriggerBlock(attacker);
+            }
+            else
+            {
+                
+                KillPlayer();
+            }
         }
-        else
-        {
-            Debug.LogError(1);
-            KillPlayer();
-        }
+        else KillPlayer();
 
     }
 
-    public void TriggerParry(GameObject attacker)
+    public void CancelMove()
     {
-        //rotate to face attacker
-        //Damage attacker's guard meter
-        Debug.LogWarning("Parried " + attacker.name);
+        StopAllCoroutines(); 
+        playerInputScript.EnableMovement();
+        playerInputScript.EnableRotation();
+        rb.velocity = Vector3.zero;
+        _animator.applyRootMotion = true;
+    }
+
+
+    public void Knockback(float amount, Vector3 direction, float duration, GameObject attacker)
+    {
+        if (bIsParrying)
+        {
+            TriggerParry(attacker, amount);
+        }
+        else if (!playerInputScript.bIsDodging)
+        {
+            Debug.Log("HIT" + amount * direction);
+            playerInputScript.DisableRotation();
+            _animator.SetTrigger("KnockdownTrigger");
+            StartCoroutine(ImpulseWithTimer(direction, amount, duration));
+        }
+    }
+
+    public void TriggerParry(GameObject attacker, float damage)
+    {
+        parryEffects.PlayParry();
+        _animator.SetTrigger("Parrying");
+        hitstopController.SlowTime(.5f, 1);
+        if(attacker != null)
+        {
+            // TODO: Fix with damage later
+            attacker.GetComponent<EDamageController>().OnParried(5); //Damage attacker's guard meter
+
+        }
+        //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(.7f);
+        //Debug.LogWarning("Parried " + attacker.name);
 
     }
     public void TriggerBlock(GameObject attacker)
     {
         //rotate to face attacker
-        //particles
-        //play blockbreak anim
+        parryEffects.PlayBlock();
+        //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);
         bIsBlocking = false;
         _animator.SetTrigger("GuardBreak");
-        Debug.LogWarning("Guard broken!");
+        //Debug.LogWarning("Guard broken!");
         _IKPuppet.DisableIK();
     }
 
@@ -163,7 +272,12 @@ public class PlayerFunctions : MonoBehaviour
             _animator.SetBool("isDead", true);
             //trigger rewind
             bIsDead = true;
-            Debug.LogError("Player killed!");
+            
+            _inputComponent.SwitchCurrentActionMap("Rewind");
+            //Debug.LogError("Player killed!");
+            //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);
+            //GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.3f);
+
         }
     }
 
@@ -179,5 +293,16 @@ public class PlayerFunctions : MonoBehaviour
     {
         bCanBlock = true;
         //Debug.LogWarning("on");
+    }
+ 
+    public void SnapToEnemy()
+    {
+        //Vector3 CenterPos = GetMousePosition(screenCenter.position, Camera.main);
+        //Vector3 attackDir = 
+    }
+
+    public void Pause()
+    {
+        pauseMenu.SetActive(true);
     }
 }

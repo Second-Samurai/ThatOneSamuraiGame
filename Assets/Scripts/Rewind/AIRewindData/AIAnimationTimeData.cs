@@ -6,17 +6,15 @@ using UnityEngine;
 public class AIAnimationTimeData
 {
     public float currentFrame;
-    public string currentClip;
-    public bool bPlayerFound;
-    public bool bIsLightAttacking;
-    public bool bIsApproaching;
+    public int currentClip;
+    public float movementX;
+    public float movementZ;
 
-    public AIAnimationTimeData(float _currentFrame, string _currentClip, bool b_PlayerFound, bool b_IsLightAttacking, bool b_IsApproaching) 
+    public AIAnimationTimeData(float _currentFrame, int _currentClip, float _movementX, float _movementZ) 
     {
         currentFrame = _currentFrame;
         currentClip = _currentClip;
-        bPlayerFound = b_PlayerFound;
-        bIsLightAttacking = b_IsLightAttacking;
-        bIsApproaching = b_IsApproaching;
+        movementX = _movementX;
+        movementZ = _movementZ;
     }
 }

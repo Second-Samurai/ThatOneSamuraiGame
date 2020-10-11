@@ -5,55 +5,88 @@ using UnityEngine;
 public class AIAnimationRewindEntity : RewindEntity
 {
     public List<AIAnimationTimeData> animationDataList;
-    // to be extrated
+
     [SerializeField]
     private Animator animator;
     public AnimatorClipInfo[] m_CurrentClipInfo;
 
-    // to be extracted;
-    // private PlayerInput playerInput;
+
 
     // Start is called before the first frame update
     protected new void Start()
     {
+        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
         animationDataList = new List<AIAnimationTimeData>();
         animator = gameObject.GetComponent<Animator>();
 
-        // to be extracted
-        // playerInput = gameObject.GetComponent<PlayerInput>();
+        _rewindInput.Reset += ResetTimeline;
+        _rewindInput.OnStartRewind += DisableEvents;
+        _rewindInput.OnEndRewind += EnableEvents;
+        _rewindInput.OnEndRewind += ApplyData;
+
         base.Start();
     }
 
     // Update is called once per frame
     public override void FixedUpdate()
     {
-        if (isTravelling == false)
+        if (_rewindInput.isTravelling == false)
         {
             RecordPast();
-            animator.applyRootMotion = true;
-            animator.enabled = true;
+            
+           // animator.enabled = true;
         }
         else
         {
-            animator.applyRootMotion = false;
+           
 
         }
 
 
     }
 
+    public  void DisableEvents()
+    {
+       
+        animator.fireEvents = false;
+        animator.applyRootMotion = false;
+  
+    }
+
+    public  void EnableEvents()
+    {
+        animator.fireEvents = true;
+        animator.applyRootMotion = true;
+
+    }
+
+    public new void ResetTimeline()
+    {
+        for (int i = currentIndex; i >= 0; i--)
+        {
+            if (currentIndex <= animationDataList.Count - 1)
+            {
+                animationDataList.RemoveAt(i);
+            }
+        }
+        animationDataList.TrimExcess();
+    }
+
     public new void RecordPast()
     {
         //how much data is cached before list starts being culled (currently 10 seconds)
-        if (animationDataList.Count > Mathf.Round(10f * (1f / Time.fixedDeltaTime)))
+        if (animationDataList.Count > _rewindInput.rewindTime)
         {
             animationDataList.RemoveAt(animationDataList.Count - 1);
         }
         m_CurrentClipInfo = animator.GetCurrentAnimatorClipInfo(0);
 
         //move to animation rewind entity
-        animationDataList.Insert(0, new AIAnimationTimeData(animator.GetCurrentAnimatorStateInfo(0).normalizedTime, m_CurrentClipInfo[0].clip.name,
-                                                                     animator.GetBool("PlayerFound"), animator.GetBool("IsLightAttacking"), animator.GetBool("IsApproaching")));
+         animationDataList.Insert(0, new AIAnimationTimeData(
+             animator.GetCurrentAnimatorStateInfo(0).normalizedTime,
+             animator.GetCurrentAnimatorStateInfo(0).shortNameHash,
+             animator.GetFloat("MovementX"),
+             animator.GetFloat("MovementZ")));
 
         //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + "   :   " + m_CurrentClipInfo[0].clip.name);
 
@@ -65,12 +98,16 @@ public class AIAnimationRewindEntity : RewindEntity
 
         if (animationDataList.Count > 0)
         {
-            SetPosition();
             if (currentIndex < animationDataList.Count - 1)
             {
                 currentIndex++;
+                if (currentIndex >= animationDataList.Count - 1)
+                {
+                    currentIndex = animationDataList.Count - 1;
+                }
+                SetPosition();
             }
-            Debug.LogWarning("animStepBack");
+            //Debug.LogWarning("animStepBack");
         }
     }
 
@@ -78,24 +115,39 @@ public class AIAnimationRewindEntity : RewindEntity
     {
         if (animationDataList.Count > 0)
         {
-            SetPosition();
             if (currentIndex > 0)
             {
+                SetPosition();
                 currentIndex--;
             }
-            Debug.LogWarning("animStepForward");
+           // Debug.LogWarning("animStepForward");
         }
     }
 
     public new void SetPosition()
     {
-        animator.enabled = true;
-        animator.Play(animationDataList[currentIndex].currentClip, 0, animationDataList[currentIndex].currentFrame);
-        // animator.enabled = false;
-        animator.SetBool("PlayerFound", animationDataList[currentIndex].bPlayerFound);
-        animator.SetBool("IsLightAttacking", animationDataList[currentIndex].bIsLightAttacking);
-        animator.SetBool("IsApproaching", animationDataList[currentIndex].bIsApproaching);
-
+        
         base.SetPosition();
+        // animator.enabled = true;
+        // animator.enabled = false;
+        if (currentIndex <= animationDataList.Count - 1)
+        {
+            animator.SetFloat("MovementX", animationDataList[currentIndex].movementX);
+            animator.SetFloat("MovementZ", animationDataList[currentIndex].movementZ);
+
+            animator.Play(animationDataList[currentIndex].currentClip, 0, animationDataList[currentIndex].currentFrame);
+        }
+    }
+    public override void ApplyData()
+    {
+        
+    }
+    protected new void OnDestroy()
+    {
+        _rewindInput.Reset -= ResetTimeline;
+        _rewindInput.OnEndRewind -= EnableEvents;
+        _rewindInput.OnStartRewind -= DisableEvents;
+        _rewindInput.OnEndRewind -= ApplyData;
+        base.OnDestroy();
     }
 }

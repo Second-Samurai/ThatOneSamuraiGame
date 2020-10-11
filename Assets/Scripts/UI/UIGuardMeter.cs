@@ -13,7 +13,7 @@ public class UIGuardMeter : MonoBehaviour
 
     private Transform _entityTransform;
     private StatHandler _statHandler;
-    private RectTransform _gaurdTransform;
+    private RectTransform _guardTransform;
 
     private Vector3 _entityDir;
     private Vector3 _cameraForward;
@@ -26,26 +26,30 @@ public class UIGuardMeter : MonoBehaviour
     private float _scaledYPos;
     private float _playerToEntityDist;
 
+    private EnemyTracker _enemyTracker;
+
     // Start is called before the first frame update
     public void Init(Transform entityTransform, StatHandler statHandler, Camera camera, RectTransform parentTransform)
     {
+        _enemyTracker = GameManager.instance.enemyTracker;
+        
         this._entityTransform = entityTransform;
         this._statHandler = statHandler;
 
         this.parentCanvasRect = parentTransform;
         this.mainCamera = camera;
 
-        _gaurdTransform = this.GetComponent<RectTransform>();
+        _guardTransform = this.GetComponent<RectTransform>();
         guardSlider.maxValue = _statHandler.maxGuard;
         guardSlider.minValue = 0;
         guardSlider.value = 0;
-
-        guardSlider.gameObject.SetActive(false);
     }
 
     void FixedUpdate()
     {
-        if (!CheckInCameraView())
+        DestroyWhenEntityDead();
+
+        if (!CheckInCameraView() || _entityTransform != _enemyTracker.targetEnemy)
         {
             if (guardSlider.gameObject.activeInHierarchy) {
                 guardSlider.gameObject.SetActive(false);
@@ -54,14 +58,13 @@ public class UIGuardMeter : MonoBehaviour
         }
         else
         {
-            if (!guardSlider.gameObject.activeInHierarchy){
+            if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _enemyTracker.targetEnemy){
                 guardSlider.gameObject.SetActive(true);
             }
         }
         SetMeterPosition();
     }
 
-    #region SLIDER MODIFIER
 
     //Summary: Updates guide meter when called through event.
     //
@@ -72,10 +75,6 @@ public class UIGuardMeter : MonoBehaviour
         guardSlider.value = _difference;
         _canStayOff = false;
     }
-
-    #endregion
-
-    #region UI POSITION SETTERS
 
     //Summary: Checks if the entity position is ahead of the camera and within distance
     //
@@ -95,14 +94,14 @@ public class UIGuardMeter : MonoBehaviour
                 _canStayOff = true;
             }
 
-            Debug.Log(">> GuideMeter: is disabled");
+            //Debug.Log(">> GuideMeter: is disabled");
             return false;
         }
 
         //Checks if the dot product is pointing behind camera
         if (Vector3.Dot(_cameraForward, _entityDir) < 0)
         {
-            Debug.Log(">> GuideMeter: is disabled");
+            //Debug.Log(">> GuideMeter: is disabled");
             return false;
         }
 
@@ -121,8 +120,16 @@ public class UIGuardMeter : MonoBehaviour
         _scaledYPos = parentCanvasRect.rect.height * (_screenPosition.y / Screen.height) * 1;
 
         _screenPosition = new Vector2(_scaledXPos, _scaledYPos);
-        _gaurdTransform.anchoredPosition = _screenPosition;
+        _guardTransform.anchoredPosition = _screenPosition;
     }
 
-    #endregion
+    // Summary: Destroys UI when the enemy is either missing or dead
+    //
+    private void DestroyWhenEntityDead()
+    {
+        if (_entityTransform == null)
+        {
+            Destroy(gameObject);
+        }
+    }
 }

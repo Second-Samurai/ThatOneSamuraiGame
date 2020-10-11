@@ -4,26 +4,30 @@ using Enemies;
 using UnityEngine;
 
 public interface IDamageable {
-    void OnEntityDamage(float damage, GameObject attacker);
+    EntityType GetEntityType();
+    bool CheckCanDamage();
+
+    void OnEntityDamage(float damage, GameObject attacker, bool unblockable);
     void DisableDamage();
     void EnableDamage();
 }
 
 public class PDamageController : MonoBehaviour, IDamageable
 {
-    StatHandler playerStats;
-    PlayerFunctions _functions;
+    [SerializeField] private bool GodMode = false;
+    [SerializeField] private bool _canDamage = false; //Change to private later on
 
-    private bool _isDamageDisabled = false;
+    private StatHandler playerStats;
+    private PlayerFunctions _functions;
 
     public void Init(StatHandler playerStats) {
         this.playerStats = playerStats;
     }
 
-    public void OnEntityDamage(float damage, GameObject attacker)
+    public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
-        if (_isDamageDisabled) return;
-        _functions.ApplyHit(attacker);
+        if (!_canDamage) return;
+        _functions.ApplyHit(attacker, unblockable, damage);
         Debug.Log("Player is Damaged");
     }
 
@@ -33,16 +37,27 @@ public class PDamageController : MonoBehaviour, IDamageable
     //
     public void DisableDamage()
     {
-        _isDamageDisabled = true;
+        _canDamage = false;
     }
 
     public void EnableDamage()
     {
-        _isDamageDisabled = false;
+        if (GodMode) return;
+        _canDamage = true;
     }
 
     private void Start()
     {
         _functions = GetComponent<PlayerFunctions>();
+    }
+
+    public bool CheckCanDamage()
+    {
+        return _canDamage;
+    }
+
+    public EntityType GetEntityType()
+    {
+        return EntityType.Player;
     }
 }

@@ -5,14 +5,16 @@ using UnityEngine.InputSystem;
 
 public class CameraControl : MonoBehaviour
 {
-    public FreeLookAddOn _camScript; 
+    public PlayerCamTargetController camTargetScript;
+    public ThirdPersonCamController camScript;
     LockOnTargetManager _lockedCamScript;
     public GameObject unlockedCam, lockedCam;
+    private Animator _animator;
     Vector2 rotationVector;
     public Transform lockOnTarget, player, lockOnNullDummy;
     public bool bLockedOn = false;
     public EnemyTracker enemyTracker;
-    PlayerInput _playerInput;
+    PlayerInputScript _playerInput;
 
     public CinematicBars cinematicBars;
 
@@ -20,23 +22,45 @@ public class CameraControl : MonoBehaviour
     {
         _camScript = unlockedCam.GetComponent<FreeLookAddOn>();
         _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
-        _playerInput = GetComponent<PlayerInput>();
+        _playerInput = GetComponent<PlayerInputScript>();
     }*/
 
+ 
     //NOTE: this is called in player controller
     public void Init(Transform playerTarget)
     {
+        Debug.Log("Test");
+        
         GameManager gameManager = GameManager.instance;
         CinematicBars cinematicBars = gameManager.mainCamera.GetComponentInChildren<CinematicBars>();
 
         this.player = playerTarget;
         this.unlockedCam = gameManager.thirdPersonViewCamera;
-        this.enemyTracker = gameManager.enemyTracker;
+        this._animator = gameManager.playerController.GetComponent<Animator>();
         this.cinematicBars = cinematicBars;
 
-        _camScript = unlockedCam.GetComponent<FreeLookAddOn>();
+        if (!enemyTracker)
+        {
+            this.enemyTracker = gameManager.enemyTracker;
+        }
+        
+        if (!unlockedCam)
+        {
+            Debug.LogError("Third person camera object not assigned in inspector! Please assign");
+        }
+
+        if (!camScript)
+        {
+            Debug.LogWarning("Third Person Camera not assigned in inspector! Assigning via Init call");
+            camScript = unlockedCam.GetComponent<ThirdPersonCamController>();
+            camTargetScript = camScript.camTargetController;
+        }
+
+        //_camScript = unlockedCam.GetComponent<Player>();
+       
+       
         _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
-        _playerInput = GetComponent<PlayerInput>();
+        _playerInput = GetComponent<PlayerInputScript>();
     }
 
     void OnRotateCamera(InputValue rotDir) 
@@ -46,32 +70,56 @@ public class CameraControl : MonoBehaviour
 
     private void Update()
     {
-        if(rotationVector != Vector2.zero && !bLockedOn)
-            _camScript.RotateCam(rotationVector);
+        if (rotationVector != Vector2.zero && !bLockedOn)
+            camTargetScript.RotateCam(rotationVector);
     }
 
     public void SetTarget(Transform target)
     {
+        enemyTracker.SetTarget(target);
         _lockedCamScript.SetTarget(target, player);
     }
 
-    public void LockOn()
+    public void ToggleLockOn()
+    {
+        if (!bLockedOn)
+        {
+            if (LockOn())
+            {
+                bLockedOn = true;
+            }
+        }
+        else
+        {
+            bLockedOn = false;
+            UnlockCam();
+        }
+    }
+
+    public bool LockOn()
     {
         if (GetTarget())
         {
-            _lockedCamScript.cam.Priority = 11;
+            _animator.SetBool("LockedOn", true);
+            _lockedCamScript.cam.Priority = 15;
             cinematicBars.ShowBars(200f, .3f);
+            return true;
         }
+        else return false;
 
     }
 
     public void UnlockCam()
     {
+        enemyTracker.ClearTarget();
+
         bLockedOn = false;
         _lockedCamScript.cam.Priority = 9;
         _lockedCamScript.ClearTarget();
         lockOnTarget = null;
         cinematicBars.HideBars(.3f);
+        
+        _animator.SetBool("LockedOn", false);
     }
 
     public bool GetTarget()
@@ -113,11 +161,41 @@ public class CameraControl : MonoBehaviour
         else
         {
             
-            _playerInput.target = lockOnNullDummy;
-            SetTarget(lockOnNullDummy);
-            bLockedOn = true;
+            //_playerInput.target = lockOnNullDummy;
+           // SetTarget(lockOnNullDummy);
+            bLockedOn = false;
             return bLockedOn;
         }
+    }
+
+    public IEnumerator RollCam()
+    {
+        while(_lockedCamScript.cam.m_Lens.Dutch > -10)
+        {
+            _lockedCamScript.cam.m_Lens.Dutch -= Time.deltaTime * 3f;
+            _lockedCamScript.cam.m_Lens.FieldOfView -= Time.deltaTime * 3f;
+            yield return null;
+        }
+    }
+
+    public IEnumerator ResetCamRoll()
+    {
+        while (_lockedCamScript.cam.m_Lens.Dutch < 0)
+        {
+            _lockedCamScript.cam.m_Lens.Dutch += Time.deltaTime * 30f;
+            if (_lockedCamScript.cam.m_Lens.FieldOfView < 40)
+            {
+                _lockedCamScript.cam.m_Lens.FieldOfView += Time.deltaTime * 100f;
+            }
+            else _lockedCamScript.cam.m_Lens.FieldOfView = 60f;
+            yield return null;
+        }
+        _lockedCamScript.cam.m_Lens.Dutch = 0f;
+    }
+
+    public void EndGuardBreakCam()
+    {
+        _lockedCamScript.EndGuardBreakCam();
     }
 
 }

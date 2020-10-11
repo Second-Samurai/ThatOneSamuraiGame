@@ -8,7 +8,14 @@ public interface IPlayerController {
     StatHandler GetPlayerStats();
 }
 
-public class PlayerController : MonoBehaviour, IPlayerController
+//Replace to this
+public interface IEntity
+{
+    string GetStringID();
+    StatHandler GetPlayerStats();
+}
+
+public class PlayerController : MonoBehaviour, IEntity
 {
     public string playerID = "defaultID1234";
     [HideInInspector] public StatHandler playerStats;
@@ -37,8 +44,12 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
         //This assigns the thirdperson camera targets to this player
         CinemachineFreeLook freeLockCamera = gameManager.thirdPersonViewCamera.GetComponent<CinemachineFreeLook>();
-        freeLockCamera.Follow = this.transform;
-        freeLockCamera.LookAt = this.transform;
+        //freeLockCamera.Follow = this.transform;
+        //freeLockCamera.LookAt = this.transform;
+
+        PCombatController combatController = this.GetComponent<PCombatController>();
+        combatController.Init(playerStats);
+        combatController.UnblockCombatInputs();
 
         //Sets up the player's camera controller
         cameraController = this.GetComponent<CameraControl>();

@@ -10,7 +10,8 @@ public class RewindEntity : MonoBehaviour
     public List<PositionalTimeData> transformDataList;
     public Transform thisTransform;
 
-    RewindInput _rewindInput;
+    public RewindManager _rewindInput;
+
 
     //[Header("TimeThreashold")]
 
@@ -27,27 +28,34 @@ public class RewindEntity : MonoBehaviour
         transformDataList = new List<PositionalTimeData>();
         thisTransform = gameObject.transform;
 
-        _rewindInput = gameObject.GetComponent<RewindInput>();
+        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
+        _rewindInput.rewindObjects.Add(this);
         _rewindInput.StepForward += StepForward;
         _rewindInput.StepBack += StepBack;
 
+        _rewindInput.Reset += ResetTimeline;
 
+
+       
     }
 
     // Update is called once per frame
     public virtual void FixedUpdate()
     {
-        if (isTravelling == false) 
+        if (_rewindInput.isTravelling == false) 
         {
             RecordPast();
             
         }
+
     }
+
+   
 
     public void RecordPast() 
     {
         //how much data is cached before list starts being culled (currently 10 seconds)
-        if (transformDataList.Count > Mathf.Round(10f * (1f / Time.fixedDeltaTime))) 
+        if (transformDataList.Count > _rewindInput.rewindTime) 
         {
             transformDataList.RemoveAt(transformDataList.Count - 1);
         }
@@ -59,9 +67,13 @@ public class RewindEntity : MonoBehaviour
     {
         for (int i = currentIndex; i >= 0; i--) 
         {
-            transformDataList.RemoveAt(i);
+            if (currentIndex <= transformDataList.Count - 1)
+            {
+                transformDataList.RemoveAt(i);
+            }
         }
         currentIndex = 0;
+        transformDataList.TrimExcess();
     }
 
     public virtual void StepBack() 
@@ -69,10 +81,15 @@ public class RewindEntity : MonoBehaviour
 
         if (transformDataList.Count > 0) 
         {
-            SetPosition();
             if (currentIndex < transformDataList.Count - 1) 
             {
                 currentIndex++;
+                if (currentIndex >= transformDataList.Count - 1)
+                {
+                    currentIndex = transformDataList.Count - 1;
+                }
+                SetPosition();
+                
             }
             //Debug.Log("StepBack");
         }
@@ -82,9 +99,9 @@ public class RewindEntity : MonoBehaviour
     {
         if (transformDataList.Count > 0)
         {
-            SetPosition();
             if (currentIndex > 0)
             {
+                SetPosition();
                 currentIndex--;
             }
            // Debug.Log("StepForward");
@@ -93,11 +110,24 @@ public class RewindEntity : MonoBehaviour
 
     public void SetPosition() 
     {
-        thisTransform.position = transformDataList[currentIndex].position;
-        thisTransform.rotation = transformDataList[currentIndex].rotation;
-
+        if (currentIndex <= transformDataList.Count - 1)
+        {
+            thisTransform.position = transformDataList[currentIndex].position;
+            thisTransform.rotation = transformDataList[currentIndex].rotation;
+        }
 
     }
 
+    public virtual void ApplyData()
+    {
 
+    }
+    protected void OnDestroy()
+    {
+        _rewindInput.Reset -= ResetTimeline; 
+        _rewindInput.OnEndRewind -= ApplyData;
+        _rewindInput.StepForward -= StepForward;
+        _rewindInput.StepBack -= StepBack;
+
+    }
 }

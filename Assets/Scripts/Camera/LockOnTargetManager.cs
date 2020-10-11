@@ -7,10 +7,11 @@ public class LockOnTargetManager : MonoBehaviour
 {
     public float lookSpeed = .5f;
     public CinemachineFreeLook cam;
-    bool   _bLockedOn = false;
+    public bool   _bLockedOn = false;
     public GameObject targetHolder;
-    Transform _target, _player;
+    public Transform _target, _player;
     public float swapSpeed = 10f;
+    public FinisherCam finisherCam;
 
     void Start()
     {
@@ -46,5 +47,15 @@ public class LockOnTargetManager : MonoBehaviour
         _target = null;
         _player = null;
         _bLockedOn = false;
+    }
+
+    public void GuardBreakCam(Transform target)
+    {
+        finisherCam.TransitionToCamera(target);
+    }
+
+    public void EndGuardBreakCam()
+    {
+        finisherCam.LeaveCamera();
     }
 }

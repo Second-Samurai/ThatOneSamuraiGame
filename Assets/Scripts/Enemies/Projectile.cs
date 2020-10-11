@@ -5,18 +5,19 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 { //script for basic projectile
 
+    TrailRenderer trail;
     GameManager manager;
 
     int damageAmount = 1;
 
-    float speed = 80f;
+    float speed = 60f;
 
     GameObject player;
     public Vector3 direction;
-    Rigidbody rb;
+    public Rigidbody rb;
     public bool active = true;
     public bool hitEnemies = false;
-    public MeshRenderer renderer;
+    public GameObject arrowModel;
     public Collider collider;
 
     //initialize
@@ -30,16 +31,18 @@ public class Projectile : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         collider = GetComponent<Collider>();
-        renderer = GetComponent<MeshRenderer>();
+        trail = GetComponentInChildren<TrailRenderer>();
     }
 
     //launches projectile in target direction
-    public void Launch(Vector3 target)
+    public void Launch(Vector3 target, Vector3 playerPos)
     {
         EnableMethod();
+        transform.LookAt(playerPos);
         direction = target.normalized * speed;
-        direction.y = 0f;
+        //direction.y = 0f;
         rb.velocity = direction;
+        trail.emitting = true;
         StartCoroutine(Die(3f));
     }
 
@@ -52,6 +55,7 @@ public class Projectile : MonoBehaviour
     //if the object is damagable, apply damage, if the player parries the projectile it is reflected
     private void DamageCheck(Collider other)
     {
+         
         IDamageable damagable = other.gameObject.GetComponent<IDamageable>();
         if (other.gameObject.tag == "Player")
         {
@@ -59,11 +63,12 @@ public class Projectile : MonoBehaviour
             {
                 rb.velocity = Vector3.zero;
                 rb.velocity = -direction;
-               // manager.StartCoroutine("HitPause");
+                hitEnemies = true;
+                // manager.StartCoroutine("HitPause");
             }
             else
             {
-                damagable.OnEntityDamage(damageAmount, this.gameObject);
+                damagable.OnEntityDamage(damageAmount, this.gameObject, false);
                 StartCoroutine(Die(0f));
             }
         }
@@ -77,12 +82,13 @@ public class Projectile : MonoBehaviour
         else if (damagable != null && hitEnemies)
         {
 
-            damagable.OnEntityDamage(damageAmount, this.gameObject);
+            damagable.OnEntityDamage(damageAmount, this.gameObject, false);
             StartCoroutine(Die(0f));
 
         }
-        else
+        else if (!other.gameObject.CompareTag("LOD") && !other.gameObject.CompareTag("Level"))
         {
+            Debug.LogError(other.gameObject.name);
             StartCoroutine(Die(0f));
         }
     }
@@ -95,6 +101,7 @@ public class Projectile : MonoBehaviour
             yield return new WaitForSeconds(delay);
         }
         DisableMethod();
+        trail.emitting = false;
         ObjectPooler.instance.AddObject("Arrow", gameObject);
        // Destroy(this.gameObject);
     }
@@ -102,7 +109,7 @@ public class Projectile : MonoBehaviour
     //disable
     public void DisableMethod()
     {
-        renderer.enabled = false;
+        arrowModel.SetActive(false);
         collider.enabled = false;
         rb.velocity = Vector3.zero;
         hitEnemies = false;
@@ -111,7 +118,8 @@ public class Projectile : MonoBehaviour
     //enable
     public void EnableMethod()
     {
-        renderer.enabled = true;
+        arrowModel.SetActive(true);
+        trail.Clear();
         collider.enabled = true;
     }
 

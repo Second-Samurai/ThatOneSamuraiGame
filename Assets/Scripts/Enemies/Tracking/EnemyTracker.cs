@@ -109,6 +109,8 @@ public class EnemyTracker : MonoBehaviour
             // Go through and find an enemy that isn't stunned to approach
             foreach (Transform enemy in currentEnemies)
             {
+                if (!enemy.gameObject.activeInHierarchy) return;
+
                 AISystem aiSystem = enemy.GetComponent<AISystem>();
                 
                 // Only close distance if the enemy isn't stunned and is strafing

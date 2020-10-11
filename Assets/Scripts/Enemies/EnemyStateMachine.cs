@@ -19,7 +19,9 @@ namespace Enemy_Scripts
         public void SetState(EnemyState newEnemyState)
         {
             // NOTE: Potential garbage being accumulated with the new keyword???
+
             EnemyState = newEnemyState;
+            if (!gameObject.activeInHierarchy) return;
             StartCoroutine(EnemyState.BeginState());
 
             if (PrintStates) Debug.Log(gameObject.name + " Switching States: " + newEnemyState);

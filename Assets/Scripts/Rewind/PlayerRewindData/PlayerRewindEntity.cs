@@ -42,7 +42,6 @@ public class PlayerRewindEntity : AnimationRewindEntity
         DisableCollider();
 
     }
-
     //setting rigidbodys to kinimatic
     public new void DisableEvents()
     {
@@ -62,7 +61,10 @@ public class PlayerRewindEntity : AnimationRewindEntity
 
         for (int i = currentIndex; i > 0; i--)
         {
-            playerDataList.RemoveAt(i);
+            if (currentIndex <= playerDataList.Count - 1)
+            {
+                playerDataList.RemoveAt(i);
+            }
         }
 
         playerDataList.TrimExcess();
@@ -95,9 +97,10 @@ public class PlayerRewindEntity : AnimationRewindEntity
                 currentIndex++;
                 if (currentIndex >= playerDataList.Count - 1)
                 {
-                   // Debug.Log("CashMoney");
+                   //Debug.Log("CashMoney");
                     currentIndex = playerDataList.Count - 1;
                 }
+                //Debug.Log(currentIndex);
                 SetPosition();
             }
         }
@@ -127,15 +130,18 @@ public class PlayerRewindEntity : AnimationRewindEntity
 
     public new void SetPosition()
     {
-
-        if (playerInput.bLockedOn != animationDataList[currentIndex].lockedOn)
+        if (currentIndex <= playerDataList.Count - 1)
         {
-            playerInput.bLockedOn = animationDataList[currentIndex].lockedOn;
-            if (playerInput.bLockedOn)
-                playerInput._camControl.LockOn();
-            else
+
+            if (playerInput.bLockedOn != animationDataList[currentIndex].lockedOn)
             {
-                playerInput._camControl.UnlockCam();
+                playerInput.bLockedOn = animationDataList[currentIndex].lockedOn;
+                if (playerInput.bLockedOn)
+                    playerInput._camControl.LockOn();
+                else
+                {
+                    playerInput._camControl.UnlockCam();
+                }
             }
         }
        

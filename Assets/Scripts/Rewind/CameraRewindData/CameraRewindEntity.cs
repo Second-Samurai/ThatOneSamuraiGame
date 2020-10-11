@@ -28,14 +28,18 @@ public class CameraRewindEntity : RewindEntity
         {
             RecordPast();
 
-        }  
+        }
+ 
     }
 
     public new void ResetTimeline()
     {
         for (int i = currentIndex; i > 0; i--)
         {
-            cameraDataList.RemoveAt(i);
+            if (currentIndex <= cameraDataList.Count - 1)
+            {
+                cameraDataList.RemoveAt(i);
+            }
         }
         cameraDataList.TrimExcess();
     }
@@ -62,8 +66,12 @@ public class CameraRewindEntity : RewindEntity
         {
             if (currentIndex < cameraDataList.Count - 1)
             {
-                SetPosition();
                 currentIndex++;
+                if (currentIndex >= cameraDataList.Count - 1)
+                {
+                    currentIndex = cameraDataList.Count - 1;
+                }
+                SetPosition();
             }
         }
     }
@@ -82,11 +90,14 @@ public class CameraRewindEntity : RewindEntity
 
     public new void SetPosition()
     {
-        if (cameraDataList[currentIndex].target != null && cameraDataList[currentIndex].player != null)
+        if (currentIndex <= cameraDataList.Count - 1)
         {
-            lockOnTargetManager._target = cameraDataList[currentIndex].target;
-            lockOnTargetManager._player = cameraDataList[currentIndex].player;
-            lockOnTargetManager.SetTarget(cameraDataList[currentIndex].target, cameraDataList[currentIndex].player);
+            if (cameraDataList[currentIndex].target != null && cameraDataList[currentIndex].player != null)
+            {
+                lockOnTargetManager._target = cameraDataList[currentIndex].target;
+                lockOnTargetManager._player = cameraDataList[currentIndex].player;
+                lockOnTargetManager.SetTarget(cameraDataList[currentIndex].target, cameraDataList[currentIndex].player);
+            }
         }
         // needs to set the enemy targeting
         base.SetPosition();

@@ -115,8 +115,12 @@ public class BasicArcher : MonoBehaviour, IDamageable
         col.enabled = false;
         currentState = CurrentState.Dead;
         //Debug.LogError("I Am dead");
-        
+
         EnemyTracker enemyTracker = GameManager.instance.enemyTracker;
+        
+        // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy)
+        enemyTracker.SwitchDeathTarget(transform);
+        
         enemyTracker.RemoveEnemy(transform);
         
         //Invoke("HideArcher", 2.0f);

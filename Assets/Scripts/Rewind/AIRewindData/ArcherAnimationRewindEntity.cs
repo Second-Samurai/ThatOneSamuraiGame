@@ -42,7 +42,6 @@ public class ArcherAnimationRewindEntity : RewindEntity
 
         }
 
-
     }
 
     public void DisableEvents()
@@ -63,7 +62,10 @@ public class ArcherAnimationRewindEntity : RewindEntity
     {
         for (int i = currentIndex; i >= 0; i--)
         {
-            archerAnimationDataList.RemoveAt(i);
+            if (currentIndex <= archerAnimationDataList.Count - 1)
+            {
+                archerAnimationDataList.RemoveAt(i);
+            }
         }
         archerAnimationDataList.TrimExcess();
     }
@@ -92,8 +94,12 @@ public class ArcherAnimationRewindEntity : RewindEntity
         {
             if (currentIndex < archerAnimationDataList.Count - 1)
             {
-                SetPosition();
                 currentIndex++;
+                if (currentIndex >= archerAnimationDataList.Count - 1)
+                {
+                    currentIndex = archerAnimationDataList.Count - 1;
+                }
+                SetPosition();
             }
             //Debug.LogWarning("animStepBack");
         }
@@ -114,7 +120,10 @@ public class ArcherAnimationRewindEntity : RewindEntity
 
     public new void SetPosition()
     {
-        animator.Play(archerAnimationDataList[currentIndex].currentClip, 0, archerAnimationDataList[currentIndex].currentFrame);
+        if (currentIndex <= archerAnimationDataList.Count - 1)
+        {
+            animator.Play(archerAnimationDataList[currentIndex].currentClip, 0, archerAnimationDataList[currentIndex].currentFrame);
+        }
         base.SetPosition();
 
 

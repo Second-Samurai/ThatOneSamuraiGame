@@ -68,7 +68,10 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
     {
         for (int i = currentIndex; i > 0; i--)
         {
-            enemyDataList.RemoveAt(i);
+            if (currentIndex <= enemyDataList.Count-1)
+            {
+                enemyDataList.RemoveAt(i);
+            }
         }
         enemyDataList.TrimExcess();
     }
@@ -97,8 +100,12 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         {
             if (currentIndex < enemyDataList.Count - 1)
             {
-                SetPosition();
                 currentIndex++;
+                if (currentIndex >= enemyDataList.Count - 1)
+                {
+                    currentIndex = enemyDataList.Count - 1;
+                }
+                SetPosition();
             }
         }
     }
@@ -127,28 +134,30 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
 
     public new void SetPosition()
     {
-        aISystem.eDamageController.enemyGuard.canGuard = enemyDataList[currentIndex].canGuard;
-        
-        aISystem.eDamageController.enemyGuard.isStunned = enemyDataList[currentIndex].isStunned;
-        aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard = enemyDataList[currentIndex].currentGuard;
-        aISystem.bIsDead = enemyDataList[currentIndex].bIsDead;
-
-
-        if (aISystem.bIsUnblockable != enemyDataList[currentIndex].bIsUnblockable)
+        if (currentIndex <= enemyDataList.Count - 1)
         {
-            aISystem.bIsUnblockable = enemyDataList[currentIndex].bIsUnblockable;
-            if (aISystem.bIsUnblockable)  aISystem.BeginUnblockable();
-               else aISystem.EndUnblockable();
-        }
+            aISystem.eDamageController.enemyGuard.canGuard = enemyDataList[currentIndex].canGuard;
 
-        if (aISystem.eDamageController.enemyGuard.canParry != enemyDataList[currentIndex].canParry) 
-        {
-            aISystem.eDamageController.enemyGuard.canParry = enemyDataList[currentIndex].canParry;
-            if (aISystem.eDamageController.enemyGuard.canParry) aISystem.swordEffects.BeginBlockEffect();
-               else aISystem.swordEffects.EndBlockEffect();
+            aISystem.eDamageController.enemyGuard.isStunned = enemyDataList[currentIndex].isStunned;
+            aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard = enemyDataList[currentIndex].currentGuard;
+            aISystem.bIsDead = enemyDataList[currentIndex].bIsDead;
+
+
+            if (aISystem.bIsUnblockable != enemyDataList[currentIndex].bIsUnblockable)
+            {
+                aISystem.bIsUnblockable = enemyDataList[currentIndex].bIsUnblockable;
+                if (aISystem.bIsUnblockable) aISystem.BeginUnblockable();
+                else aISystem.EndUnblockable();
+            }
+
+            if (aISystem.eDamageController.enemyGuard.canParry != enemyDataList[currentIndex].canParry)
+            {
+                aISystem.eDamageController.enemyGuard.canParry = enemyDataList[currentIndex].canParry;
+                if (aISystem.eDamageController.enemyGuard.canParry) aISystem.swordEffects.BeginBlockEffect();
+                else aISystem.swordEffects.EndBlockEffect();
+            }
+            //Debug.LogError(enemyDataList[currentIndex].bIsDead);
         }
-        //Debug.LogError(enemyDataList[currentIndex].bIsDead);
-        
         // needs to set the enemy targeting
         base.SetPosition();
     }

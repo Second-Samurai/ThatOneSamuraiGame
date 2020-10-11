@@ -110,8 +110,8 @@ public class PlayerFunctions : MonoBehaviour
 
     public void ForwardImpulse(float force)
     {
-         
-        ImpulseMove(Vector3.forward, force);
+
+        StartCoroutine(ImpulseWithTimer(transform.forward, force, .15f));
     }
 
     public void JumpImpulseWithTimer(float timer)

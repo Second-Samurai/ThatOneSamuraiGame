@@ -57,7 +57,10 @@ public class BoardRewindEntity : RewindEntity
     {
         for (int i = currentIndex; i > 0; i--)
         {
-            BoardDataList.RemoveAt(i);
+            if (currentIndex <= BoardDataList.Count - 1)
+            {
+                BoardDataList.RemoveAt(i);
+            }
         }
         BoardDataList.TrimExcess();
     }
@@ -84,8 +87,12 @@ public class BoardRewindEntity : RewindEntity
         {
             if (currentIndex < BoardDataList.Count - 1)
             {
-                SetPosition();
                 currentIndex++;
+                if (currentIndex >= BoardDataList.Count - 1)
+                {
+                    currentIndex = BoardDataList.Count - 1;
+                }
+                SetPosition();
             }
         }
     }
@@ -104,10 +111,11 @@ public class BoardRewindEntity : RewindEntity
 
     public new void SetPosition()
     {
-
-        boardBreak.isBuilt = BoardDataList[currentIndex].isBuilt;
-        boardRigidBody.velocity = BoardDataList[currentIndex].velocity;
-
+        if (currentIndex <= BoardDataList.Count - 1)
+        {
+            boardBreak.isBuilt = BoardDataList[currentIndex].isBuilt;
+            boardRigidBody.velocity = BoardDataList[currentIndex].velocity;
+        }
         // needs to set the enemy targeting
         base.SetPosition();
     }

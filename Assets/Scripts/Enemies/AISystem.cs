@@ -109,6 +109,17 @@ namespace Enemies
 
         #region Enemy Utility Funcitons
 
+        // An override that is performed for every state change
+        public override void SetState(EnemyState newEnemyState)
+        {
+            if (enemyType != EnemyType.ARCHER)
+            {
+                meleeCollider.enabled = false;
+            }
+            
+            base.SetState(newEnemyState);
+        }
+        
         // Assign stats based on the enemy type
         private void SetupEnemyType()
         {

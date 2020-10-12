@@ -47,7 +47,7 @@ public class RewindEntity : MonoBehaviour
             RecordPast();
             
         }
-        //Debug.Log(_rewindInput.rewindTime);
+
     }
 
    
@@ -67,7 +67,10 @@ public class RewindEntity : MonoBehaviour
     {
         for (int i = currentIndex; i >= 0; i--) 
         {
-            transformDataList.RemoveAt(i);
+            if (currentIndex <= transformDataList.Count - 1)
+            {
+                transformDataList.RemoveAt(i);
+            }
         }
         currentIndex = 0;
         transformDataList.TrimExcess();
@@ -107,9 +110,11 @@ public class RewindEntity : MonoBehaviour
 
     public void SetPosition() 
     {
-        thisTransform.position = transformDataList[currentIndex].position;
-        thisTransform.rotation = transformDataList[currentIndex].rotation;
-
+        if (currentIndex <= transformDataList.Count - 1)
+        {
+            thisTransform.position = transformDataList[currentIndex].position;
+            thisTransform.rotation = transformDataList[currentIndex].rotation;
+        }
 
     }
 
@@ -117,5 +122,12 @@ public class RewindEntity : MonoBehaviour
     {
 
     }
+    protected void OnDestroy()
+    {
+        _rewindInput.Reset -= ResetTimeline; 
+        _rewindInput.OnEndRewind -= ApplyData;
+        _rewindInput.StepForward -= StepForward;
+        _rewindInput.StepBack -= StepBack;
 
+    }
 }

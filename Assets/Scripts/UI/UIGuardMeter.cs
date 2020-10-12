@@ -47,6 +47,8 @@ public class UIGuardMeter : MonoBehaviour
 
     void FixedUpdate()
     {
+        DestroyWhenEntityDead();
+
         if (!CheckInCameraView() || _entityTransform != _enemyTracker.targetEnemy)
         {
             if (guardSlider.gameObject.activeInHierarchy) {
@@ -63,7 +65,6 @@ public class UIGuardMeter : MonoBehaviour
         SetMeterPosition();
     }
 
-    #region SLIDER MODIFIER
 
     //Summary: Updates guide meter when called through event.
     //
@@ -74,10 +75,6 @@ public class UIGuardMeter : MonoBehaviour
         guardSlider.value = _difference;
         _canStayOff = false;
     }
-
-    #endregion
-
-    #region UI POSITION SETTERS
 
     //Summary: Checks if the entity position is ahead of the camera and within distance
     //
@@ -126,5 +123,13 @@ public class UIGuardMeter : MonoBehaviour
         _guardTransform.anchoredPosition = _screenPosition;
     }
 
-    #endregion
+    // Summary: Destroys UI when the enemy is either missing or dead
+    //
+    private void DestroyWhenEntityDead()
+    {
+        if (_entityTransform == null)
+        {
+            Destroy(gameObject);
+        }
+    }
 }

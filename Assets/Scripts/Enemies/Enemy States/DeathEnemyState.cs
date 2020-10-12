@@ -17,12 +17,21 @@ namespace Enemies.Enemy_States
             // Set enemy status to dead
             AISystem.bIsDead = true;
             
+            // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy)
+            AISystem.enemyTracker.SwitchDeathTarget(AISystem.transform);
+            
             // Remove enemy from temp enemy count and enemy tracker
             TempWinTracker.instance.enemyCount--;
             AISystem.enemyTracker.RemoveEnemy(AISystem.transform);
             
-            // Enemy can no longer be damaged, enemies can no longer damage the player
+            // Start a new impatience countdown
+            AISystem.enemyTracker.StartImpatienceCountdown();
+
+            // Enemy can no longer be damaged, enemies can no longer damage the player.
             AISystem.eDamageController.DisableDamage();
+            
+            // Disable guard meter
+            AISystem.eDamageController.enemyGuard.DisableGuardMeter();
             
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;

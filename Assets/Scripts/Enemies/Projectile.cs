@@ -10,7 +10,7 @@ public class Projectile : MonoBehaviour
 
     int damageAmount = 1;
 
-    float speed = 80f;
+    float speed = 60f;
 
     GameObject player;
     public Vector3 direction;
@@ -86,8 +86,9 @@ public class Projectile : MonoBehaviour
             StartCoroutine(Die(0f));
 
         }
-        else
+        else if (!other.gameObject.CompareTag("LOD") && !other.gameObject.CompareTag("Level"))
         {
+            Debug.LogError(other.gameObject.name);
             StartCoroutine(Die(0f));
         }
     }

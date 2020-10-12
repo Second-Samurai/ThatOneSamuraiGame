@@ -13,7 +13,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
     //}
     public CurrentState currentState;
     public Vector3 lastDirection, shotDirection;
-    public float attackRange = 20f, shotTimer = 0f, shotFrequency = 2f, aimDuration = .5f, aimCounter = 0f;
+    public float attackRange = 20f, shotTimer = 0f, shotFrequency = 2f, aimDuration = 1.5f, aimCounter = 0f;
     public LineRenderer lineRenderer;
 
     public GameObject arrow;
@@ -24,7 +24,10 @@ public class BasicArcher : MonoBehaviour, IDamageable
 
     public AudioPlayer source;
     public AudioClip draw, release;
-    
+
+    // Since the player and enemies have their origin point at their feet we need to add an offset value
+    private Vector3 _aimOffsetValue;
+    private Vector3 playerPos;
 
     private void Start()
     {
@@ -32,7 +35,9 @@ public class BasicArcher : MonoBehaviour, IDamageable
             player = GameManager.instance.playerController.gameObject.transform;
         if(!draw) draw = AudioManager.instance.FindSound("Bow Draw");
         if(!release) release = AudioManager.instance.FindSound("Bow Release");
-      //  lineRenderer = GetComponent<LineRenderer>();
+        //  lineRenderer = GetComponent<LineRenderer>();
+
+        _aimOffsetValue = Vector3.up * transform.localScale.y;
     }
 
     void FindPlayer()
@@ -61,7 +66,8 @@ public class BasicArcher : MonoBehaviour, IDamageable
                     anim.SetTrigger("StartAim");
                     source.PlayOnce(draw);
                     RaycastHit hit;
-                    shotDirection = player.transform.position - shotOrigin.position;
+                    playerPos = player.transform.position + _aimOffsetValue;
+                    shotDirection = playerPos - shotOrigin.position;
                     if (Physics.Raycast(shotOrigin.position, shotDirection, out hit, Mathf.Infinity))
                     {
                         lineRenderer.enabled = true;
@@ -83,7 +89,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
                     GameObject _arrow = ObjectPooler.instance.ReturnObject("Arrow");
                     //GameObject _arrow = Instantiate(arrow, shotOrigin.position, Quaternion.identity);
                     _arrow.transform.position = shotOrigin.position;
-                    _arrow.GetComponent<Projectile>().Launch(shotDirection, player.transform.position + Vector3.up * 2.0f);
+                    _arrow.GetComponent<Projectile>().Launch(shotDirection, playerPos);
                     anim.SetTrigger("Fire");
                     source.StopSource();
                     source.PlayOnce(release);
@@ -102,12 +108,19 @@ public class BasicArcher : MonoBehaviour, IDamageable
 
     public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
+        // Ignore attacks if the archer is already dead
+        if (currentState == CurrentState.Dead) return;
+        
         anim.SetTrigger("Death");
-        //col.enabled = false;
+        col.enabled = false;
         currentState = CurrentState.Dead;
         //Debug.LogError("I Am dead");
-        
+
         EnemyTracker enemyTracker = GameManager.instance.enemyTracker;
+        
+        // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy)
+        enemyTracker.SwitchDeathTarget(transform);
+        
         enemyTracker.RemoveEnemy(transform);
         
         //Invoke("HideArcher", 2.0f);

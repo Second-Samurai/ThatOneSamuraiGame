@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,23 +11,28 @@ public class Guarding : MonoBehaviour
     public bool canGuard = true;
     public bool isStunned = false;
 
-    private float _guardCooldownTime;
-
     public TriggerImpulse camImpulse;
-    
     [HideInInspector] public StatHandler statHandler;
     [HideInInspector] public UnityEvent OnGuardEvent = new UnityEvent();
     public AISystem _aiSystem;
+
+    private GameObject _guardMeterCanvas;
+
+    private float _guardCooldownTime;
 
     public void Init(StatHandler statHandler)
     {
         this.statHandler = statHandler;
 
         GameManager gameManager = GameManager.instance;
-        UIGuardMeter guardMeter = gameManager.CreateEntityGuardMeter(this.transform, statHandler);
-        OnGuardEvent.AddListener(guardMeter.UpdateGuideMeter);
-        _aiSystem = GetComponent<AISystem>();
 
+        _guardMeterCanvas = Instantiate(gameManager.gameSettings.guardCanvasPrefab, transform);
+        UIGuardMeter guardMeter = Instantiate(gameManager.gameSettings.guardMeterPrefab, _guardMeterCanvas.transform).GetComponent<UIGuardMeter>();
+
+        guardMeter.Init(transform, statHandler, gameManager.mainCamera, _guardMeterCanvas.GetComponent<RectTransform>());
+        OnGuardEvent.AddListener(guardMeter.UpdateGuideMeter);
+
+        _aiSystem = GetComponent<AISystem>();
         _guardCooldownTime = _aiSystem.enemySettings.GetEnemyStatType(_aiSystem.enemyType).guardCooldown;
     }
     
@@ -40,6 +46,16 @@ public class Guarding : MonoBehaviour
     public void RaiseGuard()
     {
         canGuard = true;
+    }
+
+    public void EnableGuardMeter()
+    {
+        _guardMeterCanvas.SetActive(true);
+    }
+    
+    public void DisableGuardMeter()
+    {
+        _guardMeterCanvas.SetActive(false);
     }
 
     //Summary: Runs guard and checks if it can guard

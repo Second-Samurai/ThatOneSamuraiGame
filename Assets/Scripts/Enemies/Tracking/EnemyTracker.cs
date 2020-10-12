@@ -12,10 +12,13 @@ public class EnemyTracker : MonoBehaviour
 {
     public List<Transform> currentEnemies;
     public Transform targetEnemy;
+    private AISystem _targetEnemyAISystem;
 
     private EnemySettings _enemySettings;
     private float _impatienceMeter;
     private bool _bReduceImpatience;
+
+    private CameraControl _cameraControl;
 
     private void Start()
     {
@@ -62,12 +65,22 @@ public class EnemyTracker : MonoBehaviour
     public void SetTarget(Transform newTargetEnemy)
     {
         targetEnemy = newTargetEnemy;
+        _targetEnemyAISystem = targetEnemy.GetComponent<AISystem>();
+
+        // Stop here if there is no AI system (i.e. archers)
+        if (_targetEnemyAISystem == null) return;
+        
+        // Enable the guard meter
+        _targetEnemyAISystem.eDamageController.enemyGuard.EnableGuardMeter();
+        // Set the guard meter to visible through this event
+        _targetEnemyAISystem.eDamageController.enemyGuard.OnGuardEvent.Invoke();
     }
 
     public void ClearTarget()
     {
         _bReduceImpatience = false;
         targetEnemy = null;
+        _targetEnemyAISystem = null;
     }
 
     // Called when an enemy enters the circling state, stunned state or death state
@@ -99,10 +112,12 @@ public class EnemyTracker : MonoBehaviour
             // Go through and find an enemy that isn't stunned to approach
             foreach (Transform enemy in currentEnemies)
             {
+                if (!enemy.gameObject.activeInHierarchy) return;
+
                 AISystem aiSystem = enemy.GetComponent<AISystem>();
                 
                 // Only close distance if the enemy isn't stunned and is strafing
-                if (!aiSystem.eDamageController.enemyGuard.isStunned)
+                if (!aiSystem.eDamageController.enemyGuard.isStunned && !aiSystem.bIsDead)
                 {
                     if (aiSystem.enemyType == EnemyType.GLAIVEWIELDER) aiSystem.OnChargePlayer();
                     else aiSystem.OnCloseDistance();
@@ -112,13 +127,32 @@ public class EnemyTracker : MonoBehaviour
         }
         else // 70% chance
         {
-            AISystem aiSystem = targetEnemy.GetComponent<AISystem>();
-            
-            if (!aiSystem.eDamageController.enemyGuard.isStunned)
+            if (!_targetEnemyAISystem.eDamageController.enemyGuard.isStunned && !_targetEnemyAISystem.bIsDead)
             {
-                if (aiSystem.enemyType == EnemyType.GLAIVEWIELDER) aiSystem.OnChargePlayer();
-                else aiSystem.OnCloseDistance();
+                if (_targetEnemyAISystem.enemyType == EnemyType.GLAIVEWIELDER) _targetEnemyAISystem.OnChargePlayer();
+                else _targetEnemyAISystem.OnCloseDistance();
             }
+        }
+    }
+    
+    // Called when an enemy dies (i.e. Death enemy state)
+    public void SwitchDeathTarget(Transform enemyDeathTransform)
+    {
+        if (enemyDeathTransform == targetEnemy)
+        {
+            Invoke("FindNewTarget", 1.0f);
+        }
+    }
+
+    public void FindNewTarget()
+    {
+        if (currentEnemies.Count > 0)
+        {
+            GameManager.instance.cameraControl.LockOn();
+        }
+        else
+        {
+            GameManager.instance.cameraControl.ToggleLockOn();
         }
     }
 }

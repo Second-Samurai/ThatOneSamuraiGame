@@ -47,7 +47,7 @@ public class AIAnimationRewindEntity : RewindEntity
 
     public  void DisableEvents()
     {
-        Debug.Log(gameObject.name);
+       
         animator.fireEvents = false;
         animator.applyRootMotion = false;
   
@@ -64,7 +64,10 @@ public class AIAnimationRewindEntity : RewindEntity
     {
         for (int i = currentIndex; i >= 0; i--)
         {
-            animationDataList.RemoveAt(i);
+            if (currentIndex <= animationDataList.Count - 1)
+            {
+                animationDataList.RemoveAt(i);
+            }
         }
         animationDataList.TrimExcess();
     }
@@ -97,8 +100,12 @@ public class AIAnimationRewindEntity : RewindEntity
         {
             if (currentIndex < animationDataList.Count - 1)
             {
-              SetPosition();
                 currentIndex++;
+                if (currentIndex >= animationDataList.Count - 1)
+                {
+                    currentIndex = animationDataList.Count - 1;
+                }
+                SetPosition();
             }
             //Debug.LogWarning("animStepBack");
         }
@@ -119,18 +126,28 @@ public class AIAnimationRewindEntity : RewindEntity
 
     public new void SetPosition()
     {
+        
         base.SetPosition();
         // animator.enabled = true;
         // animator.enabled = false;
-        
-        animator.SetFloat("MovementX", animationDataList[currentIndex].movementX);
-        animator.SetFloat("MovementZ", animationDataList[currentIndex].movementZ);
-        
-        animator.Play(animationDataList[currentIndex].currentClip, 0, animationDataList[currentIndex].currentFrame);
+        if (currentIndex <= animationDataList.Count - 1)
+        {
+            animator.SetFloat("MovementX", animationDataList[currentIndex].movementX);
+            animator.SetFloat("MovementZ", animationDataList[currentIndex].movementZ);
+
+            animator.Play(animationDataList[currentIndex].currentClip, 0, animationDataList[currentIndex].currentFrame);
+        }
     }
     public override void ApplyData()
     {
         
     }
-
+    protected new void OnDestroy()
+    {
+        _rewindInput.Reset -= ResetTimeline;
+        _rewindInput.OnEndRewind -= EnableEvents;
+        _rewindInput.OnStartRewind -= DisableEvents;
+        _rewindInput.OnEndRewind -= ApplyData;
+        base.OnDestroy();
+    }
 }

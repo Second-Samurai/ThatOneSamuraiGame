@@ -20,6 +20,8 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
         _rewindInput.OnStartRewind += DisableEvents;
         _rewindInput.OnEndRewind += EnableEvents;
 
+        _rewindInput.OnEndRewind += ApplyData;
+
         gameObjectRigidbody = gameObject.GetComponent<Rigidbody>();
 
 
@@ -40,7 +42,7 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
 
 
         }
-
+  
 
     }
 
@@ -64,7 +66,10 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
     {
         for (int i = currentIndex; i >= 0; i--)
         {
-            archerDataList.RemoveAt(i);
+            if (currentIndex <= archerAnimationDataList.Count - 1)
+            {
+                archerDataList.RemoveAt(i);
+            }
         }
         archerDataList.TrimExcess();
     }
@@ -92,8 +97,12 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
         {
             if (currentIndex < archerDataList.Count - 1)
             {
-                SetPosition();
                 currentIndex++;
+                if (currentIndex >= archerDataList.Count - 1)
+                {
+                    currentIndex = archerDataList.Count - 1;
+                }
+                SetPosition();
             }
             //Debug.LogWarning("animStepBack");
         }
@@ -114,17 +123,30 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
 
     public new void SetPosition()
     {
-        basicArcher.lastDirection = archerDataList[currentIndex].lastDirection;
-        basicArcher.shotDirection = archerDataList[currentIndex].shotDirection;
-        basicArcher.shotTimer = archerDataList[currentIndex].shotTimer;
-
+        if (currentIndex <= archerAnimationDataList.Count - 1)
+        {
+            basicArcher.lastDirection = archerDataList[currentIndex].lastDirection;
+            basicArcher.shotDirection = archerDataList[currentIndex].shotDirection;
+            basicArcher.shotTimer = archerDataList[currentIndex].shotTimer;
+        }
         base.SetPosition();
 
     }
 
     public override void ApplyData()
     {
-        basicArcher.currentState = archerDataList[currentIndex].currentState;
+        if (currentIndex <= archerAnimationDataList.Count - 1)
+        {
+            basicArcher.currentState = archerDataList[currentIndex].currentState;
+        }
+    }
+    protected new void OnDestroy()
+    {
 
+        _rewindInput.Reset -= ResetTimeline;
+        _rewindInput.OnEndRewind -= EnableEvents;
+        _rewindInput.OnStartRewind -= DisableEvents;
+        _rewindInput.OnEndRewind -= ApplyData;
+        base.OnDestroy();
     }
 }

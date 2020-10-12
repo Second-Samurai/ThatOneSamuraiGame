@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,7 +28,8 @@ public class CameraRewindEntity : RewindEntity
         {
             RecordPast();
 
-        }  
+        }
+ 
     }
 
     public new void ResetTimeline()
@@ -62,7 +63,6 @@ public class CameraRewindEntity : RewindEntity
         {
             if (currentIndex < cameraDataList.Count - 1)
             {
-                SetPosition();
                 currentIndex++;
             }
         }
@@ -82,11 +82,14 @@ public class CameraRewindEntity : RewindEntity
 
     public new void SetPosition()
     {
-        if (cameraDataList[currentIndex].target != null && cameraDataList[currentIndex].player != null)
+        if (currentIndex <= cameraDataList.Count - 1)
         {
-            lockOnTargetManager._target = cameraDataList[currentIndex].target;
-            lockOnTargetManager._player = cameraDataList[currentIndex].player;
-            lockOnTargetManager.SetTarget(cameraDataList[currentIndex].target, cameraDataList[currentIndex].player);
+            if (cameraDataList[currentIndex].target != null && cameraDataList[currentIndex].player != null)
+            {
+                lockOnTargetManager._target = cameraDataList[currentIndex].target;
+                lockOnTargetManager._player = cameraDataList[currentIndex].player;
+                lockOnTargetManager.SetTarget(cameraDataList[currentIndex].target, cameraDataList[currentIndex].player);
+            }
         }
         // needs to set the enemy targeting
         base.SetPosition();
@@ -94,7 +97,9 @@ public class CameraRewindEntity : RewindEntity
 
     public override void ApplyData()
     {
-        lockOnTargetManager._bLockedOn = cameraDataList[currentIndex].bIsLockedOn;
+        // TODO: Fix this
+        lockOnTargetManager._bLockedOn = false;
+        //lockOnTargetManager._bLockedOn = cameraDataList[currentIndex].bIsLockedOn;
 
 
         //base.ApplyData();

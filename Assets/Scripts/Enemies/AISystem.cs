@@ -109,6 +109,17 @@ namespace Enemies
 
         #region Enemy Utility Funcitons
 
+        // An override that is performed for every state change
+        public override void SetState(EnemyState newEnemyState)
+        {
+            if (enemyType != EnemyType.ARCHER)
+            {
+                meleeCollider.enabled = false;
+            }
+            
+            base.SetState(newEnemyState);
+        }
+        
         // Assign stats based on the enemy type
         private void SetupEnemyType()
         {
@@ -180,6 +191,11 @@ namespace Enemies
             {
                 StartCoroutine(DodgeImpulseCoroutine(transform.parent.forward, enemySettings.GetEnemyStatType(enemyType).dodgeForce));
             }
+        }
+
+        public void ForwardImpulseAnimEvent(float time)
+        {
+            StartCoroutine(DodgeImpulseCoroutine(Vector3.forward, 10f, time));
         }
  
         public void ImpulseWithDirection(float force, Vector3 dir)
@@ -261,6 +277,17 @@ namespace Enemies
             animator.SetFloat("MovementZ", 0);
         }
 
+        private bool EnemyDeathCheck()
+        {
+            if (bIsDead)
+            {
+                Debug.LogError(gameObject.name + " tried to switch states but is dead. State switch cancelled");
+                return true;
+            }
+
+            return false;
+        }
+
         #endregion
         
         // ENEMY STATE SWITCHING INFO
@@ -271,41 +298,48 @@ namespace Enemies
         
         public void OnSwordAttack()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new SwordAttackEnemyState(this));
         }
 
         public void OnGlaiveAttack()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new GlaiveAttackEnemyState(this));
         }
 
         public void OnJumpAttack()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new JumpAttackEnemyState(this));
         }
 
         public void OnSpecialAttack()
         {
-        
+            if (EnemyDeathCheck()) return;
         }
         
         public void OnQuickBlock()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new QuickBlockEnemyState(this));
         }
 
         public void OnBlock()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new BlockEnemyState(this));
         }
 
         public void OnParry()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new ParryEnemyState(this));
         }
 
         public void OnDodge()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new DodgeEnemyState(this));
         }
     
@@ -315,6 +349,7 @@ namespace Enemies
 
         public void OnIdle()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new IdleEnemyState(this));
         }
 
@@ -325,31 +360,37 @@ namespace Enemies
 
         public void OnChargePlayer()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new ChargeEnemyState(this));
         }
 
         public void OnApproachPlayer()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new ApproachPlayerEnemyState(this));
         }
 
         public void OnCloseDistance()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new CloseDistanceEnemyState(this));
         }
 
         public void OnCirclePlayer()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new CircleEnemyState(this));
         }
 
         public void OnEnemyStun()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new StunEnemyState(this));
         }
         
         public void OnParryStun()
         {
+            if (EnemyDeathCheck()) return;
             SetState(new ParryStunEnemyState(this));
         }
 
@@ -368,6 +409,19 @@ namespace Enemies
             SetState(new RewindEnemyState(this));
         }
 
+
         #endregion
+
+        private void OnDisable()
+        { 
+            GameManager.instance.enemyTracker.RemoveEnemy(rb.gameObject.transform);
+        }
+
+        private void OnDestroy()
+        {
+            GameManager.instance.enemyTracker.RemoveEnemy(rb.gameObject.transform);
+        }
+
+
     }
 }

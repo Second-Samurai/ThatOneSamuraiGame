@@ -24,9 +24,36 @@ namespace Enemies.Enemy_States
             //AISystem.swordEffects.BeginUnblockableEffect();
 
             AISystem.parryEffects.PlayParry();
+            int decision = Random.Range(0, 4);
+
+            if (AISystem.enemyType == EnemyType.TUTORIALENEMY) //TUTORIAL ENEMIES CANNOT USE UNBLOCKABLE
+                decision = 0;
+
+            if (decision == 0 || decision == 1) // Normal Attack
+            {
+                // Set the attack trigger
+                Animator.SetTrigger("TriggerLightAttack");
+            }
+            else if (decision == 2) // Thrust
+            {
+                if (AISystem.enemyType == EnemyType.GLAIVEWIELDER)
+                {
+                    Animator.SetTrigger("HeavyAttack");
+                    AISystem.BeginUnblockable();
+                }
+                else
+                {
+                    Animator.SetTrigger("TriggerThrust");
+                    AISystem.BeginUnblockable();
+                }
+            }
             
+            else if (decision == 3)
+            {
+                Animator.SetTrigger("TriggerCounterAttack");
+
+            }
             // Set the parry trigger
-            Animator.SetTrigger("TriggerCounterAttack");
             
             yield break;
             
@@ -44,7 +71,9 @@ namespace Enemies.Enemy_States
         public override void EndState()
         {
             AISystem.attackIndicator.HideIndicator();
-            
+            // Ensure rotate to player is set back in end state
+            bIsRotating = true;
+            AISystem.EndUnblockable();
             // Restore future attacks to be blockable
             AISystem.bIsUnblockable = false;
            // AISystem.swordEffects.EndUnblockableEffect();

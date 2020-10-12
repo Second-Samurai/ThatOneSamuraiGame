@@ -7,7 +7,7 @@ public class PlayerInputScript : MonoBehaviour
 {
     //FIELDS
     #region Gameplay Bools
-    [HideInInspector] public bool bCanMove = true, bLockedOn = false, bMoveLocked = false, bIsDodging = false, bCanDodge = true, bCanAttack = false, bGotParried = false, bIsSheathed = false;
+    public bool bCanMove = true, bMoveLocked = false, bIsDodging = false, bCanDodge = true, bCanAttack = false, bGotParried = false, bIsSheathed = false, bCanRotate = true;
     bool bAlreadyAttacked = false;
     [HideInInspector] public bool bCanBlock = true;
     [HideInInspector] public bool bOverrideMovement = false;
@@ -15,7 +15,7 @@ public class PlayerInputScript : MonoBehaviour
     #endregion
 
     #region Script References
-    [HideInInspector] public CameraControl _camControl;
+    [HideInInspector] public CameraControl camControl;
     [HideInInspector] public PlayerFunctions _functions;
     [HideInInspector] public FinishingMoveController finishingMoveController;
     [HideInInspector] public GameEvent onLockOnEvent;
@@ -55,7 +55,7 @@ public class PlayerInputScript : MonoBehaviour
         _inputComponent = GetComponent<PlayerInput>();
         _animator = GetComponent<Animator>();
         _functions = GetComponent<PlayerFunctions>();
-        _camControl = GetComponent<CameraControl>();
+        camControl = GetComponent<CameraControl>();
         _playerCombat = this.GetComponent<ICombatController>();
         rb = GetComponent<Rigidbody>();
         _pDamageController = GetComponent<PDamageController>();
@@ -92,44 +92,27 @@ public class PlayerInputScript : MonoBehaviour
     void OnSprint(InputValue value)
     {
         isSprintHeld = value.isPressed;
-        if (!bLockedOn)
+        if (!camControl.bLockedOn)
         {
-            if (isSprintHeld) _camControl.camScript.SprintOn();
-            else _camControl.camScript.SprintOff();
+            if (isSprintHeld) camControl.camScript.SprintOn();
+            else camControl.camScript.SprintOff();
         }
     }
 
     void OnLockOn()
     {
-
-        if (!bLockedOn)
-        {
-            if (_camControl.LockOn())
-            {
-                bLockedOn = true;
-                _animator.SetBool("LockedOn", bLockedOn);
-                _camControl.bLockedOn = bLockedOn;
-            }
-        }
-        else
-        {
-            bLockedOn = false;
-            _camControl.UnlockCam();
-            _animator.SetBool("LockedOn", bLockedOn);
-            _camControl.bLockedOn = bLockedOn;
-        }
+        camControl.ToggleLockOn();
         onLockOnEvent.Raise();
- 
     }
 
     void OnToggleLockLeft()
     {
-        if (bLockedOn) _camControl.LockOn();
+        if (camControl.bLockedOn) camControl.LockOn();
     }
 
     void OnToggleLockRight()
     {
-        if (bLockedOn) _camControl.LockOn();
+        if (camControl.bLockedOn) camControl.LockOn();
     }
 
     // Summary: Input control for sword drawing
@@ -192,8 +175,8 @@ public class PlayerInputScript : MonoBehaviour
                 _animator.SetBool("HeavyAttackHeld", true);
                 //_camControl.StopCoroutine(_camControl.RollCam());
                 //_camControl.StopCoroutine(_camControl.ResetCamRoll());
-                _camControl.StopAllCoroutines();
-                _camControl.StartCoroutine(_camControl.RollCam());
+                camControl.StopAllCoroutines();
+                camControl.StartCoroutine(camControl.RollCam());
             }
         }
     }
@@ -222,8 +205,10 @@ public class PlayerInputScript : MonoBehaviour
             bOverrideMovement = false;
             _animator.SetTrigger("Dodge");
             _animator.ResetTrigger("AttackLight");
+            EnableMovement();
+            EnableRotation();
             if (bGotParried) EndSlowEffects();
-            if (bLockedOn)
+            if (camControl.bLockedOn)
             {
                 StopCoroutine("DodgeImpulse");
                 StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
@@ -237,8 +222,10 @@ public class PlayerInputScript : MonoBehaviour
             bOverrideMovement = false;
             _animator.SetTrigger("Dodge");
             _animator.ResetTrigger("AttackLight");
+            EnableMovement();
+            EnableRotation();
             if (bGotParried) EndSlowEffects();
-            if (bLockedOn)
+            if (camControl.bLockedOn)
             {
                 StopCoroutine("DodgeImpulse");
                 StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
@@ -278,8 +265,8 @@ public class PlayerInputScript : MonoBehaviour
         _animator.SetBool("HeavyAttackHeld", false);
         //_camControl.StopCoroutine(_camControl.ResetCamRoll());
         //_camControl.StopCoroutine("RollCam");
-        _camControl.StopAllCoroutines();
-        _camControl.StartCoroutine(_camControl.ResetCamRoll());
+        camControl.StopAllCoroutines();
+        camControl.StartCoroutine(camControl.ResetCamRoll());
     }
 
     void HeavyTimer()
@@ -311,7 +298,7 @@ public class PlayerInputScript : MonoBehaviour
         if (bCanMove)
         {
             Vector3 _direction = new Vector3(_inputVector.x, 0, _inputVector.y).normalized;
-            if (_direction != Vector3.zero && !bLockedOn && !bOverrideMovement && !bIsSheathed)
+            if (_direction != Vector3.zero && !camControl.bLockedOn && !bOverrideMovement && !bIsSheathed && bCanRotate)
             {
                 float _targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + _cam.transform.eulerAngles.y;
                 float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, .1f);
@@ -320,20 +307,19 @@ public class PlayerInputScript : MonoBehaviour
 
             }
 
-            else if (bLockedOn)
+            else if (camControl.bLockedOn)
             {
                 Vector3 lookDir = target.transform.position - transform.position;
                 Quaternion lookRot = Quaternion.LookRotation(lookDir);
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, rotationSpeed);
                 transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
-
-                if (!bMoveLocked)
-                {
-                    _animator.SetFloat("XInput", _inputVector.x, smoothingValue, Time.deltaTime);
-                    _animator.SetFloat("YInput", _inputVector.y, smoothingValue, Time.deltaTime);
-                }
             }
-
+            
+            if (!bMoveLocked)
+            {
+                _animator.SetFloat("XInput", _inputVector.x, smoothingValue, Time.deltaTime);
+                _animator.SetFloat("YInput", _inputVector.y, smoothingValue, Time.deltaTime);
+            }
             
             _animator.SetFloat("InputSpeed", _inputVector.magnitude, smoothingValue, Time.deltaTime);
 
@@ -471,6 +457,15 @@ public class PlayerInputScript : MonoBehaviour
     {
         EndGotParried();
         hitstopController.CancelEffects();
+    }
+
+    public void EnableRotation()
+    {
+        bCanRotate = true;
+    }
+    public void DisableRotation()
+    {
+        bCanRotate = false;
     }
 
     #endregion

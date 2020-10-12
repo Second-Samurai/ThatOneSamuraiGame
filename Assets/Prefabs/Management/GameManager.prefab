@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameSettings: {fileID: 11400000, guid: c71a704aefd554b1fa5b61875141ac6c, type: 2}
   playerSpawnPoint: {fileID: 0}
+  bShowAttackPopups: 0
   mainCamera: {fileID: 0}
   thirdPersonViewCamera: {fileID: 0}
   playerController: {fileID: 0}
@@ -98,7 +99,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49ca00e4fb49bc747a0ea237fedec83c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkpoints: []
+  checkpoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   activeCheckpoint: 0
 --- !u!1001 &1391761802
 PrefabInstance:

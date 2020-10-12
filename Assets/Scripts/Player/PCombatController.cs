@@ -62,7 +62,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         _guideController = new CloseEnemyGuideControl();
         _guideController.Init(this, this.gameObject.transform, this.GetComponent<Rigidbody>());
 
-        
+
     }
 
     /// <summary>
@@ -88,8 +88,8 @@ public class PCombatController : MonoBehaviour, ICombatController
         _chargeTime = 0;
         //if (!_isAttacking)
         //{
-            comboTracker.RegisterInput();
-            _animator.SetTrigger("AttackLight");
+        comboTracker.RegisterInput();
+        _animator.SetTrigger("AttackLight");
         //}
         _animator.SetInteger("ComboCount", _comboHits);
     }
@@ -163,8 +163,10 @@ public class PCombatController : MonoBehaviour, ICombatController
     private void OnTriggerEnter(Collider other)
     {
         if (!_isAttacking) return;
-        if (other.CompareTag("Level")) return;
+        if (other.CompareTag("Level") || other.gameObject.CompareTag("LOD") || other.gameObject.layer == LayerMask.NameToLayer("Detector")) return;
         if (!swordManager.hasAWeapon) return;
+
+        Debug.Log(other.name);
 
         //Gets IDamageable component of the entity
         IDamageable attackEntity = other.GetComponent<IDamageable>();

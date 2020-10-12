@@ -43,6 +43,9 @@ public class PlayerFunctions : MonoBehaviour
     public GameObject lSword, rSword;
 
     public bool bSlide = false;
+
+    public bool bAllowDeathMoveReset = true;
+
     private void Start()
     {
         _IKPuppet = GetComponent<IKPuppet>();
@@ -93,11 +96,13 @@ public class PlayerFunctions : MonoBehaviour
         CheckParry();
         //remove this
 
-        if(bIsDead && playerInputScript.bCanMove) 
-            playerInputScript.DisableMovement();
-        else if(!bIsDead && !playerInputScript.bCanMove) 
-            playerInputScript.EnableMovement();
-
+        if (bAllowDeathMoveReset)
+        {
+            if (bIsDead && playerInputScript.bCanMove)
+                playerInputScript.DisableMovement();
+            else if (!bIsDead && !playerInputScript.bCanMove)
+                playerInputScript.EnableMovement();
+        }
 
 
     }
@@ -105,8 +110,8 @@ public class PlayerFunctions : MonoBehaviour
 
     public void ForwardImpulse(float force)
     {
-         
-        ImpulseMove(Vector3.forward, force);
+
+        StartCoroutine(ImpulseWithTimer(transform.forward, force, .15f));
     }
 
     public void JumpImpulseWithTimer(float timer)
@@ -209,8 +214,11 @@ public class PlayerFunctions : MonoBehaviour
 
     public void CancelMove()
     {
-        StopAllCoroutines();
+        StopAllCoroutines(); 
+        playerInputScript.EnableMovement();
+        playerInputScript.EnableRotation();
         rb.velocity = Vector3.zero;
+        _animator.applyRootMotion = true;
     }
 
 
@@ -223,6 +231,7 @@ public class PlayerFunctions : MonoBehaviour
         else if (!playerInputScript.bIsDodging)
         {
             Debug.Log("HIT" + amount * direction);
+            playerInputScript.DisableRotation();
             _animator.SetTrigger("KnockdownTrigger");
             StartCoroutine(ImpulseWithTimer(direction, amount, duration));
         }
@@ -235,7 +244,8 @@ public class PlayerFunctions : MonoBehaviour
         hitstopController.SlowTime(.5f, 1);
         if(attacker != null)
         {
-            attacker.GetComponent<EDamageController>().OnParried(damage); //Damage attacker's guard meter
+            // TODO: Fix with damage later
+            attacker.GetComponent<EDamageController>().OnParried(5); //Damage attacker's guard meter
 
         }
         //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(.7f);

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,12 +11,13 @@ public class GameManager : MonoBehaviour
     [Header("Game Settings")]
     public GameSettings gameSettings;
     public Transform playerSpawnPoint;
-    public bool bShowAttackPopups = false;
+    public bool bShowAttackPopups = true;
 
     //Hidden accessible variables
     [HideInInspector] public Camera mainCamera;
     public GameObject thirdPersonViewCamera;
     public PlayerController playerController;
+    public CameraControl cameraControl;
     public RewindManager rewindManager;
     public EnemyTracker enemyTracker;
     public PostProcessingController postProcessingController;
@@ -93,7 +94,7 @@ public class GameManager : MonoBehaviour
 
     void SetupUI()
     {
-        guardMeterCanvas = Instantiate(gameSettings.guardCanvasPrefab, transform.position, Quaternion.identity);
+        //guardMeterCanvas = Instantiate(gameSettings.guardCanvasPrefab, transform.position, Quaternion.identity);
     }
 
     void SetupPlayer()
@@ -102,9 +103,11 @@ public class GameManager : MonoBehaviour
         GameObject targetHolder = Instantiate(gameSettings.targetHolderPrefab, targetHolderPos, Quaternion.identity);
 
         PlayerController playerControl = GameObject.FindObjectOfType<PlayerController>();
+        
         if(playerController != null)
         {
             playerController = playerControl;
+            cameraControl = playerControl.GetComponent<CameraControl>();
             InitialisePlayer(targetHolder);
             return;
         }
@@ -122,7 +125,7 @@ public class GameManager : MonoBehaviour
 
     void SetupEnemies()
     {
-        enemyTracker = Instantiate(gameSettings.enemyManagerPrefab, transform.position, Quaternion.identity).GetComponent<EnemyTracker>();
+        enemyTracker = FindObjectOfType<EnemyTracker>();
         gameSettings.enemySettings.SetTarget(FindObjectOfType<PlayerController>().transform);
         
         //Sets up the test enemies for tracking
@@ -153,13 +156,13 @@ public class GameManager : MonoBehaviour
     }
 
     //POSSIBLY PARTITION INTO A UI MANAGER
-    public UIGuardMeter CreateEntityGuardMeter(Transform entityTransform, StatHandler entityStatHandler)
+    /*public UIGuardMeter CreateEntityGuardMeter(Transform entityTransform, StatHandler entityStatHandler)
     {
         UIGuardMeter guardMeter = Instantiate(gameSettings.guardMeterPrefab, guardMeterCanvas.transform).GetComponent<UIGuardMeter>();
         guardMeter.Init(entityTransform, entityStatHandler, mainCamera, guardMeterCanvas.GetComponent<RectTransform>());
         //Debug.Log(">> GameManager: Guard Meter Added");
         return guardMeter;
-    }
+    }*/
 
     void SetupAudio() 
     {

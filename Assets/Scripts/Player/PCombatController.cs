@@ -20,7 +20,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     public Collider attackCol;
     public bool _isAttacking = false;
     public bool isUnblockable = false;
-    public PSwordManager swordManager;
+    [HideInInspector] public PSwordManager swordManager;
 
     //Private Variables
     private PlayerInputScript _playerInput;
@@ -37,7 +37,8 @@ public class PCombatController : MonoBehaviour, ICombatController
     private bool _isSwordDrawn = false;
 
     [Header("Audio")]
-    public AudioPlayer audio, swordAudio;
+    public AudioPlayer audio;
+    public AudioPlayer swordAudio;
     public AudioClip slash1, hit1, heavySlash, heavyHit;
 
     /// <summary>
@@ -61,8 +62,6 @@ public class PCombatController : MonoBehaviour, ICombatController
 
         _guideController = new CloseEnemyGuideControl();
         _guideController.Init(this, this.gameObject.transform, this.GetComponent<Rigidbody>());
-
-
     }
 
     /// <summary>

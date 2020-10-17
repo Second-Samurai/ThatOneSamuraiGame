@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 956594187861110589}
   - component: {fileID: 990693135}
   - component: {fileID: 990693134}
+  - component: {fileID: 2137218433}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -46,364 +47,364 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - name: Grass Roll 1 SFX
+  - name: grassroll1sfx
     createSource: 0
     clip: {fileID: 8300000, guid: bcbafc2c3b479754987bbf50a6b52678, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Grass Roll 2 SFX
+  - name: grassroll2sfx
     createSource: 0
     clip: {fileID: 8300000, guid: e58ded0a97b915642b9da6cc3e89b333, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Grass Roll 3 SFX
+  - name: grassroll3sfx
     createSource: 0
     clip: {fileID: 8300000, guid: 28156462ad54438409e2e36b210afaf9, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Jogging Grass SFX
+  - name: jogginggrasssfx
     createSource: 0
     clip: {fileID: 8300000, guid: 32b3794f0080d2445bb3122fe48350f9, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Jogging Pebbles SFX
+  - name: joggingpebblessfx
     createSource: 0
     clip: {fileID: 8300000, guid: d8f3676bd7291634bacecf2a772fb703, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Jogging Stone SFX
+  - name: joggingstonesfx
     createSource: 0
     clip: {fileID: 8300000, guid: 0efff10397f5bb24e9a6a0805ee5ce1a, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Jogging Wood SFX
+  - name: joggingwoodsfx
     createSource: 0
     clip: {fileID: 8300000, guid: f9d33bd77446bbc46ac0c1f93ea8bb74, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Pebble Roll 1 SFX
+  - name: pebbleroll1sfx
     createSource: 0
     clip: {fileID: 8300000, guid: 10dd543425f259b42b7029c5e14a41e2, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Pebble Roll 2 SFX
+  - name: pebbleroll2sfx
     createSource: 0
     clip: {fileID: 8300000, guid: c3f56bd8aeca5994283fdf3ae7a6b8bc, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Pebble Roll 3 SFX
+  - name: pebbleroll3sfx
     createSource: 0
     clip: {fileID: 8300000, guid: dd0849631714b3949887cbb493741709, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Pebble Roll 4 SFX
+  - name: pebbleroll4sfx
     createSource: 0
     clip: {fileID: 8300000, guid: 4f8ed00b141194640a359747e8dceaaf, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Pebble Roll 5 SFX
+  - name: pebbleroll5sfx
     createSource: 0
     clip: {fileID: 8300000, guid: 5042b093a23147e4f9e2b0d46675f8ea, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Walking Grass SFX
+  - name: walkinggrasssfx
     createSource: 0
     clip: {fileID: 8300000, guid: 5c0fc5399405f0a419587e85f87ddb53, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Walking Pebbles SFX
+  - name: walkingpebblessfx
     createSource: 0
     clip: {fileID: 8300000, guid: a4885a18b9147e24bb9d61d88604238a, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Walking Stone SFX
+  - name: walkingstonesfx
     createSource: 0
     clip: {fileID: 8300000, guid: 3593a4d0438592543b656bc79c1de1d6, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Walking Wood SFX
+  - name: walkingwoodsfx
     createSource: 0
     clip: {fileID: 8300000, guid: d180317bd76996b4e9e2820dfcf240b4, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Wood Roll 1 SFX
+  - name: woodroll1sfx
     createSource: 0
     clip: {fileID: 8300000, guid: 941550c8cb0301d4aa230d482713ea99, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Wood Roll 2 SFX
+  - name: woodroll2sfx
     createSource: 0
     clip: {fileID: 8300000, guid: 9f1a184cb49e0664bafb0b4c9c7376c4, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Wood Roll 3 SFX
+  - name: woodroll3sfx
     createSource: 0
     clip: {fileID: 8300000, guid: 2136ee8720636ae40a59da789243e883, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Dying Sound 1
+  - name: dyingsound1
     createSource: 0
     clip: {fileID: 8300000, guid: c653365c6e9795d4382e50441e27d219, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Dying Sound 2
+  - name: dyingsound2
     createSource: 0
     clip: {fileID: 8300000, guid: 7a38c1ed437aee34abbf5a484b59e836, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Dying Sound 3
+  - name: dyingsound3
     createSource: 0
     clip: {fileID: 8300000, guid: cad3e84360d5155408cd97a8b77109c6, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Grunt 1
+  - name: grunt1
     createSource: 0
     clip: {fileID: 8300000, guid: 0efba25cbef99ac4284956f5e0ada140, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Grunt 2
+  - name: grunt2
     createSource: 0
     clip: {fileID: 8300000, guid: e07f5dea52054c04fb7705647e5e0108, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Grunt 3
+  - name: grunt3
     createSource: 0
     clip: {fileID: 8300000, guid: 7316527ff6358da409cd4ede0bea7876, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Grunt 4
+  - name: grunt4
     createSource: 0
     clip: {fileID: 8300000, guid: 20e9b5c0809407948b8529f060e44e9a, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Grunt 5
+  - name: grunt5
     createSource: 0
     clip: {fileID: 8300000, guid: 25acc8cc42c861342bbb0006a99f2e35, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Grunt 6
+  - name: grunt6
     createSource: 0
     clip: {fileID: 8300000, guid: 1a26fdf017ee6ce4b8a5a2bbe1277593, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Grunt 7
+  - name: grunt7
     createSource: 0
     clip: {fileID: 8300000, guid: db321b7b5f38a514e99957ee631a5e64, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Grunt 8
+  - name: grunt8
     createSource: 0
     clip: {fileID: 8300000, guid: a740a4d0b2a6d634585c20583bcf1a6c, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Grunt 9
+  - name: grunt9
     createSource: 0
     clip: {fileID: 8300000, guid: 5dfa85b71ad309a44bf98123ec5b6553, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Grunt 10
+  - name: grunt10
     createSource: 0
     clip: {fileID: 8300000, guid: 6e5b3d636db7a5b4a9f882585bb756ab, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Grunt 11
+  - name: grunt11
     createSource: 0
     clip: {fileID: 8300000, guid: 80fd251704a8c1c42bebf09ce4ee1234, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Grunt 12
+  - name: grunt12
     createSource: 0
     clip: {fileID: 8300000, guid: b887c8deea6c84a48a8b233f5dc61525, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Grunt 13
+  - name: grunt13
     createSource: 0
     clip: {fileID: 8300000, guid: 7f091f693c4a01d4b8ea6e06ac1f87b0, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Grunt 14
+  - name: grunt14
     createSource: 0
     clip: {fileID: 8300000, guid: fe844f29c7fa80a439570e2e3cc55f22, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Grunt 15
+  - name: grunt15
     createSource: 0
     clip: {fileID: 8300000, guid: 52c33fe7973989c47b546b8d23f096bb, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Birds and Trees Atmosphere
+  - name: birdsandtreesatmosphere
     createSource: 0
     clip: {fileID: 8300000, guid: 10d7e0a71add8b946b7cc9070995f02a, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Arrow Impact SFX
+  - name: arrowimpactsfx
     createSource: 0
     clip: {fileID: 8300000, guid: 6e35b748208613d45ba3cba0cfc1b5e4, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Arrow Woosh SFX
+  - name: arrowwooshsfx
     createSource: 0
     clip: {fileID: 8300000, guid: e5fcdf69f1887684e8bba3fe931ed169, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Bow Release SFX
+  - name: bowreleasesfx
     createSource: 0
     clip: {fileID: 8300000, guid: 4d04049543277c845b7e206d83d1fa3c, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Bow Draw SFX
+  - name: bowdrawsfx
     createSource: 0
     clip: {fileID: 8300000, guid: 5f614a2a427c14d43833603edd7f265c, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Heavy Attack Hit 1 SFX
+  - name: heavyattackhit1sfx
     createSource: 0
     clip: {fileID: 8300000, guid: ff801a59db858324aa7423d5305fad7c, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Heavy Attack Hit 2 SFX
+  - name: heavyattackhit2sfx
     createSource: 0
     clip: {fileID: 8300000, guid: 23ea7eda6874cc8459b4d5e7b17c5d96, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Heavy Attack Hit 3 SFX
+  - name: heavyattackhit3sfx
     createSource: 0
     clip: {fileID: 8300000, guid: 2240883b679379b41b803e70d22d08c3, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Heavy Attack Swing 1 SFX
+  - name: heavyattackswing1sfx
     createSource: 0
     clip: {fileID: 8300000, guid: 25e9e54c2fcb332478bd1a7c2e9167af, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Heavy Attack Swing 2 SFX
+  - name: heavyattackswing2sfx
     createSource: 0
     clip: {fileID: 8300000, guid: 4187372119a534444a491ad93f31846b, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Heavy Attack Swing 3 SFX
+  - name: heavyattackswing3sfx
     createSource: 0
     clip: {fileID: 8300000, guid: 10400f255cd70c24693fec333afe5256, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Light Attack Hit 1 SFX
+  - name: lightattackhit1sfx
     createSource: 0
     clip: {fileID: 8300000, guid: 31fdccfe2bee01b4ca1d4547daa59c3f, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Light Attack Hit 2 SFX
+  - name: lightattackhit2sfx
     createSource: 0
     clip: {fileID: 8300000, guid: a880318f62bec104c88ffffa7b485766, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Light Attack Swing 1 SFX
+  - name: lightattackswing1sfx
     createSource: 0
     clip: {fileID: 8300000, guid: 23725732b710e2f4e972426ceafa6fe0, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: Light Attack Swing 2 SFX
+  - name: lightattackswing2sfx
     createSource: 0
     clip: {fileID: 8300000, guid: a29d697d927ede04484729a007ac2367, type: 3}
     volume: 1
@@ -613,6 +614,13 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
     loop: 0
+  - name: mainmenumasterfile
+    createSource: 0
+    clip: {fileID: 8300000, guid: 897e25db260ebe14b94acf516dd8d190, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
   BGMVol: {fileID: 0}
   SFXVol: {fileID: 0}
 --- !u!82 &990693135
@@ -723,4 +731,104 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0082809d23d91a44b69f84983563bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioManager: {fileID: 0}
+  birdAndTrees: {fileID: 0}
+  menuMusic: {fileID: 0}
   birdsAndTreesSource: {fileID: 990693135}
+  menuMusicSource: {fileID: 2137218433}
+--- !u!82 &2137218433
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2534954813178303794}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

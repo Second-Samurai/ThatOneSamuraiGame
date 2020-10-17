@@ -20,7 +20,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     public Collider attackCol;
     public bool _isAttacking = false;
     public bool isUnblockable = false;
-    public PSwordManager swordManager;
+    [HideInInspector] public PSwordManager swordManager;
 
     //Private Variables
     private PlayerInputScript _playerInput;
@@ -37,7 +37,8 @@ public class PCombatController : MonoBehaviour, ICombatController
     private bool _isSwordDrawn = false;
 
     [Header("Audio")]
-    public AudioPlayer audio, swordAudio;
+    public AudioPlayer audio;
+    public AudioPlayer swordAudio;
     public AudioClip slash1, hit1, heavySlash, heavyHit;
     private AudioManager audioManager;
 
@@ -62,8 +63,6 @@ public class PCombatController : MonoBehaviour, ICombatController
 
         _guideController = new CloseEnemyGuideControl();
         _guideController.Init(this, this.gameObject.transform, this.GetComponent<Rigidbody>());
-
-
     }
 
     public void Start()
@@ -170,8 +169,6 @@ public class PCombatController : MonoBehaviour, ICombatController
         if (!_isAttacking) return;
         if (other.CompareTag("Level") || other.gameObject.CompareTag("LOD") || other.gameObject.layer == LayerMask.NameToLayer("Detector")) return;
         if (!swordManager.hasAWeapon) return;
-
-        Debug.Log(other.name);
 
         //Gets IDamageable component of the entity
         IDamageable attackEntity = other.GetComponent<IDamageable>();

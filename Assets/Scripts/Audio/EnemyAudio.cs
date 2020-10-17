@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyAudio : MonoBehaviour
 {
+    private AudioManager audioManager;
     public AudioPlayer audioPlayer;
     private AudioClip[] grunts;
     public AudioClip[] dyingSounds;
@@ -14,6 +15,7 @@ public class EnemyAudio : MonoBehaviour
     void Start()
     {
         //audioPlayer = gameObject.GetComponent<AudioPlayer>();
+        audioManager = GameManager.instance.GetComponent<AudioManager>();
         grunts = GameManager.instance.audioManager.FindAll("grunt").ToArray();
         dyingSounds = GameManager.instance.audioManager.FindAll("dying").ToArray();
 
@@ -25,24 +27,24 @@ public class EnemyAudio : MonoBehaviour
     private void Grunt() 
     {
         int i = Random.Range(0, grunts.Length);
-        audioPlayer.PlayOnce(grunts[i], min, 1f);
+        audioPlayer.PlayOnce(grunts[i], audioManager.SFXVol.value, min, 1f);
     }
 
     private void GruntLow()
     {
         int i = Random.Range(0, grunts.Length);
-        audioPlayer.PlayOnce(grunts[i], minLow, .7f);
+        audioPlayer.PlayOnce(grunts[i], audioManager.SFXVol.value, minLow, .7f);
     }
 
     private void Dying()
     {
         int i = Random.Range(0, dyingSounds.Length);
-        audioPlayer.PlayOnce(dyingSounds[i], min, 1f);
+        audioPlayer.PlayOnce(dyingSounds[i], audioManager.SFXVol.value, min, 1f);
     }
 
     private void DyingLow()
     {
         int i = Random.Range(0, dyingSounds.Length);
-        audioPlayer.PlayOnce(dyingSounds[i], minLow, .7f);
+        audioPlayer.PlayOnce(dyingSounds[i], audioManager.SFXVol.value, minLow, .7f);
     }
 }

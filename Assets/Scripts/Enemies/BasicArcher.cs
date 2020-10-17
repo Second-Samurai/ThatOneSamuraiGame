@@ -25,12 +25,15 @@ public class BasicArcher : MonoBehaviour, IDamageable
     public AudioPlayer source;
     public AudioClip draw, release;
 
+    private AudioManager audioManager;
+
     // Since the player and enemies have their origin point at their feet we need to add an offset value
     private Vector3 _aimOffsetValue;
     private Vector3 playerPos;
 
     private void Start()
     {
+        audioManager = GameManager.instance.GetComponent<AudioManager>();
         if(GameManager.instance.playerController != null)
             player = GameManager.instance.playerController.gameObject.transform;
         if(!draw) draw = AudioManager.instance.FindSound("Bow Draw");
@@ -64,7 +67,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
                     lastDirection = transform.position - player.position;
                     currentState = CurrentState.Aiming;
                     anim.SetTrigger("StartAim");
-                    source.PlayOnce(draw);
+                    source.PlayOnce(draw, audioManager.SFXVol.value);
                     RaycastHit hit;
                     playerPos = player.transform.position + _aimOffsetValue;
                     shotDirection = playerPos - shotOrigin.position;
@@ -92,7 +95,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
                     _arrow.GetComponent<Projectile>().Launch(shotDirection, playerPos);
                     anim.SetTrigger("Fire");
                     source.StopSource();
-                    source.PlayOnce(release);
+                    source.PlayOnce(release, audioManager.SFXVol.value);
                     shotTimer = 0f;
                     lineRenderer.enabled = false;
                     aimCounter = 0f;

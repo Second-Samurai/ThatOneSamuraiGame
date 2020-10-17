@@ -39,6 +39,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     [Header("Audio")]
     public AudioPlayer audio, swordAudio;
     public AudioClip slash1, hit1, heavySlash, heavyHit;
+    private AudioManager audioManager;
 
     /// <summary>
     /// Initialises Combat Controller variables and related class components
@@ -65,6 +66,10 @@ public class PCombatController : MonoBehaviour, ICombatController
 
     }
 
+    public void Start()
+    {
+        audioManager = GameManager.instance.GetComponent<AudioManager>();
+    }
     /// <summary>
     /// Draws the player sword
     /// </summary>
@@ -197,25 +202,25 @@ public class PCombatController : MonoBehaviour, ICombatController
     public void PlaySlash()
     {
         if(!slash1) slash1 = GameManager.instance.audioManager.FindSound("Light Attack Swing 1");
-        swordAudio.PlayOnce(slash1);
+        swordAudio.PlayOnce(slash1, audioManager.SFXVol.value);
     }
 
     public void PlayHit()
     {
         if (!hit1) hit1 = GameManager.instance.audioManager.FindSound("Light Attack Hit 1");
-        audio.PlayOnce(hit1);
+        audio.PlayOnce(hit1, audioManager.SFXVol.value);
     }
 
     public void PlayHeavySwing()
     {
         if (!heavySlash) heavySlash = GameManager.instance.audioManager.FindSound("Heavy Attack Swing 2");
-        swordAudio.PlayOnce(heavySlash);
+        swordAudio.PlayOnce(heavySlash, audioManager.SFXVol.value);
     }
 
     public void PlayHeavyHit()
     {
         if (!heavyHit) heavyHit = GameManager.instance.audioManager.FindSound("Light Attack Hit 3");
-        audio.PlayOnce(heavyHit);
+        audio.PlayOnce(heavyHit, audioManager.SFXVol.value);
     }
 
 }

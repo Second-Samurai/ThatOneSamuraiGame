@@ -4,11 +4,14 @@ using System;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [ExecuteInEditMode]
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
+    public Slider BGMVol;
+    public Slider SFXVol;
     
 
     public static AudioManager instance;

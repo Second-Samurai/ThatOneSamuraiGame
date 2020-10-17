@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerSFX : MonoBehaviour
 {
+    private AudioManager audioManager;
     public AudioPlayer audioPlayer;
     private AudioClip walkingGrass;
     private AudioClip walkingPebble;
@@ -22,6 +23,7 @@ public class PlayerSFX : MonoBehaviour
 
     public void Start()
     {
+        audioManager = GameManager.instance.GetComponent<AudioManager>();
         walkingGrass = GameManager.instance.audioManager.FindSound("Walking Grass");
         walkingPebble = GameManager.instance.audioManager.FindSound("Walking Pebble");
         walkingStone = GameManager.instance.audioManager.FindSound("Walking Stone");
@@ -41,24 +43,24 @@ public class PlayerSFX : MonoBehaviour
 
     private void Step() 
     {
-        audioPlayer.PlayOnce(walkingGrass);
+        audioPlayer.PlayOnce(walkingGrass, audioManager.SFXVol.value);
     }
 
     private void Sprint()
     {
-        audioPlayer.PlayOnce(walkingGrass, .5f, .8f);
+        audioPlayer.PlayOnce(walkingGrass, audioManager.SFXVol.value, .5f, .8f);
     }
 
     private void Dodge()
     {
         int i = Random.Range(0, grassRoll.Length);
-        audioPlayer.PlayOnce(grassRoll[i]);
+        audioPlayer.PlayOnce(grassRoll[i], audioManager.SFXVol.value);
         //Debug.Log(i);
     }
     private void Parry()
     {
         int i = Random.Range(0, parry.Length);
-        audioPlayer.PlayOnce(parry[i]);
+        audioPlayer.PlayOnce(parry[i], audioManager.SFXVol.value);
         //Debug.Log(i);
     }
 

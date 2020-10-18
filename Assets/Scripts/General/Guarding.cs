@@ -17,6 +17,7 @@ public class Guarding : MonoBehaviour
     public AISystem _aiSystem;
 
     private GameObject _guardMeterCanvas;
+    private UIGuardMeter _guardMeter;
 
     private float _guardCooldownTime;
 
@@ -27,10 +28,10 @@ public class Guarding : MonoBehaviour
         GameManager gameManager = GameManager.instance;
 
         _guardMeterCanvas = Instantiate(gameManager.gameSettings.guardCanvasPrefab, transform);
-        UIGuardMeter guardMeter = Instantiate(gameManager.gameSettings.guardMeterPrefab, _guardMeterCanvas.transform).GetComponent<UIGuardMeter>();
+        _guardMeter = Instantiate(gameManager.gameSettings.guardMeterPrefab, _guardMeterCanvas.transform).GetComponent<UIGuardMeter>();
 
-        guardMeter.Init(transform, statHandler, gameManager.mainCamera, _guardMeterCanvas.GetComponent<RectTransform>());
-        OnGuardEvent.AddListener(guardMeter.UpdateGuideMeter);
+        _guardMeter.Init(transform, statHandler, gameManager.mainCamera, _guardMeterCanvas.GetComponent<RectTransform>());
+        OnGuardEvent.AddListener(_guardMeter.UpdateGuideMeter);
 
         _aiSystem = GetComponent<AISystem>();
         _guardCooldownTime = _aiSystem.enemySettings.GetEnemyStatType(_aiSystem.enemyType).guardCooldown;
@@ -115,6 +116,7 @@ public class Guarding : MonoBehaviour
         StartCoroutine(AwaitNextDamage(6));
         //camImpulse.FireImpulse();
         //Switch States
+        _guardMeter.ShowFKey();
         _aiSystem.OnEnemyStun();
     }
 
@@ -155,6 +157,7 @@ public class Guarding : MonoBehaviour
 
             if (isStunned)
             {
+                _guardMeter.HideFKey();
                 _aiSystem.OnEnemyRecovery();
             }
             isStunned = false;

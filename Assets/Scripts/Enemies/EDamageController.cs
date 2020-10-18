@@ -9,7 +9,7 @@ public class EDamageController : MonoBehaviour, IDamageable
 
     public Guarding enemyGuard;
 
-    private bool _isDamageDisabled = false;
+    private bool _bIsDamageDisabled = false;
 
     public void Init(StatHandler enemyStats) {
         _enemyStats = enemyStats;
@@ -21,7 +21,7 @@ public class EDamageController : MonoBehaviour, IDamageable
 
     public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
-        if (_isDamageDisabled) return;
+        if (_bIsDamageDisabled) return;
         Vector3 dir = Vector3.back;
         if (!unblockable)
         {
@@ -100,12 +100,12 @@ public class EDamageController : MonoBehaviour, IDamageable
 
     public void DisableDamage()
     {
-        _isDamageDisabled = true;
+        _bIsDamageDisabled = true;
     }
 
     public void EnableDamage()
     {
-        _isDamageDisabled = false;
+        _bIsDamageDisabled = false;
     }
 
     private void Start()
@@ -115,7 +115,7 @@ public class EDamageController : MonoBehaviour, IDamageable
 
     public bool CheckCanDamage()
     {
-        return _isDamageDisabled;
+        return _bIsDamageDisabled;
     }
 
     public EntityType GetEntityType()

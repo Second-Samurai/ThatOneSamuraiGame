@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class UIGuardMeter : MonoBehaviour
 {
     public Slider guardSlider;
+    public Canvas fKey;
 
     [HideInInspector] public Camera mainCamera;
     [HideInInspector] public RectTransform parentCanvasRect;
@@ -52,6 +53,7 @@ public class UIGuardMeter : MonoBehaviour
         if (!CheckInCameraView() || _entityTransform != _enemyTracker.targetEnemy)
         {
             if (guardSlider.gameObject.activeInHierarchy) {
+                HideFKey();
                 guardSlider.gameObject.SetActive(false);
             }
             return;
@@ -59,6 +61,10 @@ public class UIGuardMeter : MonoBehaviour
         else
         {
             if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _enemyTracker.targetEnemy){
+                if (guardSlider.value == guardSlider.maxValue)
+                {
+                    ShowFKey();
+                }
                 guardSlider.gameObject.SetActive(true);
             }
         }
@@ -121,6 +127,16 @@ public class UIGuardMeter : MonoBehaviour
 
         _screenPosition = new Vector2(_scaledXPos, _scaledYPos);
         _guardTransform.anchoredPosition = _screenPosition;
+    }
+
+    public void ShowFKey()
+    {
+        fKey.enabled = true;
+    }
+
+    public void HideFKey()
+    {
+        fKey.enabled = false;
     }
 
     // Summary: Destroys UI when the enemy is either missing or dead

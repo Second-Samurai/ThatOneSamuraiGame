@@ -12,6 +12,8 @@ public class OptionsMenu : MonoBehaviour
     public Slider SFXVol;
     public Toggle indicatorToggle;
 
+ 
+
     private void Start()
     {
         camTargetScript = GameManager.instance.playerController.gameObject.GetComponent<CameraControl>().camTargetScript;
@@ -51,4 +53,6 @@ public class OptionsMenu : MonoBehaviour
         if(val) PlayerPrefs.SetInt("ShowIndicators", 1);
         else PlayerPrefs.SetInt("ShowIndicators", 0);
     }
+
+   
 }

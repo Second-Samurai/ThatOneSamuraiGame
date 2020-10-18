@@ -11,9 +11,8 @@ public class EnemyAudio : MonoBehaviour
     private AudioClip[] armourBreakSounds;
     private AudioClip[] whoosh;
     private AudioClip grassStomp;
-    private AudioClip[] Jump;
+    private AudioClip[] jump;
     private AudioClip[] heavyStep;
-    private AudioClip[] bigSmack;
 
 
     private float min;
@@ -28,9 +27,8 @@ public class EnemyAudio : MonoBehaviour
         dyingSounds = GameManager.instance.audioManager.FindAll("dying").ToArray();
         armourBreakSounds = GameManager.instance.audioManager.FindAll("Break").ToArray();
         whoosh = GameManager.instance.audioManager.FindAll("woosh").ToArray();
-        Jump = GameManager.instance.audioManager.FindAll("Loud").ToArray();
+        jump = GameManager.instance.audioManager.FindAll("Loud").ToArray();
         heavyStep = GameManager.instance.audioManager.FindAll("Loudish").ToArray();
-        bigSmack = GameManager.instance.audioManager.FindAll("Very").ToArray();
         grassStomp = GameManager.instance.audioManager.FindSound("GrassStomp");
 
         min = Random.Range(.7f, 1);
@@ -71,6 +69,31 @@ public class EnemyAudio : MonoBehaviour
     public void Woosh()
     {
         int i = Random.Range(0, whoosh.Length);
-        audioPlayer.PlayOnce(whoosh[i], audioManager.SFXVol);
+        audioPlayer.PlayOnce(whoosh[i], audioManager.SFXVol, .5f, .8f);
+    }
+
+    public void GrassStomp()
+    {
+        audioPlayer.PlayOnce(grassStomp, audioManager.SFXVol / 2);
+    }
+
+   
+
+    public void Step()
+    {
+        int i = Random.Range(0, heavyStep.Length);
+        audioPlayer.PlayOnce(heavyStep[i], audioManager.SFXVol / 1.5f);
+    }
+
+    public void LoudStep()
+    {
+        int i = Random.Range(0, jump.Length);
+        audioPlayer.PlayOnce(jump[i], audioManager.SFXVol);
+    }
+
+    public void Jump()
+    {
+        int i = Random.Range(0, jump.Length);
+        audioPlayer.PlayOnce(jump[i], audioManager.SFXVol);
     }
 }

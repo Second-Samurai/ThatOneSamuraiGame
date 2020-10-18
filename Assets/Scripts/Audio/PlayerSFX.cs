@@ -20,6 +20,8 @@ public class PlayerSFX : MonoBehaviour
     private AudioClip[] parry;
     private AudioClip[] armourJingle;
     private AudioClip[] whoosh;
+    private AudioClip[] bigSmack;
+
 
 
 
@@ -48,6 +50,7 @@ public class PlayerSFX : MonoBehaviour
 
         whoosh = GameManager.instance.audioManager.FindAll("woosh").ToArray();
 
+        bigSmack = GameManager.instance.audioManager.FindAll("Very").ToArray();
 
 
 
@@ -97,4 +100,10 @@ public class PlayerSFX : MonoBehaviour
         //Debug.Log(i);
     }
 
+
+    public void Smack()
+    {
+        int i = Random.Range(0, bigSmack.Length);
+        audioPlayer.PlayOnce(bigSmack[i], audioManager.SFXVol);
+    }
 }

@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2534954813178303805}
   - component: {fileID: 956594187861110589}
-  - component: {fileID: 990693135}
   - component: {fileID: 990693134}
-  - component: {fileID: 2137218433}
+  - component: {fileID: 6447029470135553713}
+  - component: {fileID: 1098181832937858381}
+  - component: {fileID: 1835180918788479179}
   - component: {fileID: 222693372}
   m_Layer: 0
   m_Name: AudioManager
@@ -594,7 +595,7 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: fullstompsfx
+  - name: veryfullstompsfx
     createSource: 0
     clip: {fileID: 8300000, guid: cac929aece294cb46a9a75229b4338e9, type: 3}
     volume: 1
@@ -608,7 +609,7 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: loudstomp
+  - name: verystomp
     createSource: 0
     clip: {fileID: 8300000, guid: d1cf6acc568fef74eaddc9e1df233323, type: 3}
     volume: 1
@@ -622,30 +623,58 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: idlenoisesfx
+  - name: armourjinglerunningandjoggingsfx
     createSource: 0
-    clip: {fileID: 8300000, guid: 28faa7a7801d0a84d95d60511f59c4b9, type: 3}
+    clip: {fileID: 8300000, guid: 0f20b75e03179a841b546630ccc69d38, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: timefreezesfx
-    createSource: 0
-    clip: {fileID: 8300000, guid: aa915a1c84007e345bca8c139dbd55b3, type: 3}
-    volume: 1
-    pitch: 1
-    source: {fileID: 0}
-    loop: 0
-  - name: timerestartsfx
+  - name: armourjinglerunningandjoggingsfx
     createSource: 0
     clip: {fileID: 8300000, guid: abf07055e283053488db9f82e48563c7, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
+  - name: armourjinglerunningandjoggingsfx
+    createSource: 0
+    clip: {fileID: 8300000, guid: aa915a1c84007e345bca8c139dbd55b3, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: armourjinglerunningandjoggingsfx
+    createSource: 0
+    clip: {fileID: 8300000, guid: 28faa7a7801d0a84d95d60511f59c4b9, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
   BGMVol: 0.16103911
   SFXVol: 0.8707295
---- !u!82 &990693135
+  backgroundAudio: {fileID: 990693134}
+--- !u!114 &990693134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2534954813178303794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0082809d23d91a44b69f84983563bb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioManager: {fileID: 0}
+  birdAndTrees: {fileID: 0}
+  menuMusic: {fileID: 0}
+  optionsSelect: {fileID: 1835180918788479179}
+  startGame: {fileID: 0}
+  birdsAndTreesSource: {fileID: 6447029470135553713}
+  menuMusicSource: {fileID: 222693372}
+  optionsSelectSource: {fileID: 1835180918788479179}
+--- !u!82 &6447029470135553713
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -657,9 +686,9 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.7
+  m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -701,7 +730,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.4
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -741,24 +770,103 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &990693134
-MonoBehaviour:
+--- !u!82 &1098181832937858381
+AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2534954813178303794}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0082809d23d91a44b69f84983563bb9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioManager: {fileID: 0}
-  birdAndTrees: {fileID: 0}
-  menuMusic: {fileID: 0}
-  birdsAndTreesSource: {fileID: 990693135}
-  menuMusicSource: {fileID: 222693372}
---- !u!82 &2137218433
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!82 &1835180918788479179
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

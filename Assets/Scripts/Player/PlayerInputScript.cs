@@ -166,6 +166,18 @@ public class PlayerInputScript : MonoBehaviour
       
     void OnStartHeavy()
     {
+        heavyTimerMax = 2f;
+        StartHeavy();
+    }
+    
+    void OnStartHeavyAlternative()
+    {
+        heavyTimerMax = .5f;
+        StartHeavy();
+    }
+
+    void StartHeavy()
+    {
         if (bCanAttack)
         {
             if (!_animator.GetBool("HeavyAttackHeld"))

@@ -139,6 +139,14 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""interactions"": ""Hold(duration=0.3,pressPoint=0.5),Press""
                 },
                 {
+                    ""name"": ""StartHeavyAlternative"",
+                    ""type"": ""Button"",
+                    ""id"": ""d843801a-0efa-45c2-b0ff-e676c733d311"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""58f1a698-757e-425c-aefc-947683b1f9ee"",
@@ -636,6 +644,17 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""94010dc2-00f3-4377-be24-d637af6af45e"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""StartHeavyAlternative"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -834,6 +853,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         m_Gameplay_ToggleLockLeft = m_Gameplay.FindAction("ToggleLockLeft", throwIfNotFound: true);
         m_Gameplay_ToggleLockRight = m_Gameplay.FindAction("ToggleLockRight", throwIfNotFound: true);
         m_Gameplay_StartHeavy = m_Gameplay.FindAction("StartHeavy", throwIfNotFound: true);
+        m_Gameplay_StartHeavyAlternative = m_Gameplay.FindAction("StartHeavyAlternative", throwIfNotFound: true);
         m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
         m_Gameplay_SwordDraw = m_Gameplay.FindAction("SwordDraw", throwIfNotFound: true);
         m_Gameplay_Sprint = m_Gameplay.FindAction("Sprint", throwIfNotFound: true);
@@ -909,6 +929,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_ToggleLockLeft;
     private readonly InputAction m_Gameplay_ToggleLockRight;
     private readonly InputAction m_Gameplay_StartHeavy;
+    private readonly InputAction m_Gameplay_StartHeavyAlternative;
     private readonly InputAction m_Gameplay_Pause;
     private readonly InputAction m_Gameplay_SwordDraw;
     private readonly InputAction m_Gameplay_Sprint;
@@ -931,6 +952,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         public InputAction @ToggleLockLeft => m_Wrapper.m_Gameplay_ToggleLockLeft;
         public InputAction @ToggleLockRight => m_Wrapper.m_Gameplay_ToggleLockRight;
         public InputAction @StartHeavy => m_Wrapper.m_Gameplay_StartHeavy;
+        public InputAction @StartHeavyAlternative => m_Wrapper.m_Gameplay_StartHeavyAlternative;
         public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
         public InputAction @SwordDraw => m_Wrapper.m_Gameplay_SwordDraw;
         public InputAction @Sprint => m_Wrapper.m_Gameplay_Sprint;
@@ -988,6 +1010,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @StartHeavy.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStartHeavy;
                 @StartHeavy.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStartHeavy;
                 @StartHeavy.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStartHeavy;
+                @StartHeavyAlternative.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStartHeavyAlternative;
+                @StartHeavyAlternative.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStartHeavyAlternative;
+                @StartHeavyAlternative.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnStartHeavyAlternative;
                 @Pause.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
@@ -1046,6 +1071,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @StartHeavy.started += instance.OnStartHeavy;
                 @StartHeavy.performed += instance.OnStartHeavy;
                 @StartHeavy.canceled += instance.OnStartHeavy;
+                @StartHeavyAlternative.started += instance.OnStartHeavyAlternative;
+                @StartHeavyAlternative.performed += instance.OnStartHeavyAlternative;
+                @StartHeavyAlternative.canceled += instance.OnStartHeavyAlternative;
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
@@ -1176,6 +1204,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         void OnToggleLockLeft(InputAction.CallbackContext context);
         void OnToggleLockRight(InputAction.CallbackContext context);
         void OnStartHeavy(InputAction.CallbackContext context);
+        void OnStartHeavyAlternative(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnSwordDraw(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);

@@ -46,8 +46,12 @@ public class PlayerFunctions : MonoBehaviour
 
     public bool bAllowDeathMoveReset = true;
 
+    private PlayerSFX playerSFX;
+
     private void Start()
     {
+        playerSFX = gameObject.GetComponent<PlayerSFX>();
+
         _IKPuppet = GetComponent<IKPuppet>();
 
         rb = GetComponent<Rigidbody>();
@@ -69,8 +73,10 @@ public class PlayerFunctions : MonoBehaviour
 
     public void StartBlock()
     {
+
         if (!bIsBlocking && blockTimer == 0f && bCanBlock)
         {
+            playerSFX.Armour();
             bIsBlocking = true;
             _bDontCheckParry = false;
             parryEffects.PlayGleam();

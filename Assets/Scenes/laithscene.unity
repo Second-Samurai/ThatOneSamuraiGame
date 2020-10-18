@@ -2106,18 +2106,6 @@ Transform:
   m_Father: {fileID: 466932575}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &927852234 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4079391098983826858, guid: f7a58792d2a7a416d9af8bef9151cb8f,
-    type: 3}
-  m_PrefabInstance: {fileID: 1682896189}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &953299170
 GameObject:
   m_ObjectHideFlags: 0
@@ -4973,18 +4961,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 589b7b7a71e245543b1a09f8b48a477e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1972289059 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5982745557165609481, guid: f7a58792d2a7a416d9af8bef9151cb8f,
-    type: 3}
-  m_PrefabInstance: {fileID: 1682896189}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1973056565
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5513,18 +5489,18 @@ PrefabInstance:
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.size
-      value: 82
+      value: 83
       objectReference: {fileID: 0}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: BGMVol
-      value: 
-      objectReference: {fileID: 927852234}
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: SFXVol
-      value: 
-      objectReference: {fileID: 1972289059}
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[0].name
@@ -5788,7 +5764,7 @@ PrefabInstance:
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[81].name
-      value: loudstomp
+      value: mainmenumasterfile
       objectReference: {fileID: 0}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
@@ -5814,6 +5790,26 @@ PrefabInstance:
         type: 3}
       propertyPath: PauseSFXVol
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: sounds.Array.data[82].name
+      value: mainmenumasterfile
+      objectReference: {fileID: 0}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: sounds.Array.data[82].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0f20b75e03179a841b546630ccc69d38, type: 3}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: sounds.Array.data[82].volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: sounds.Array.data[82].pitch
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2534954813178303794, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}

@@ -54,6 +54,7 @@ namespace Enemy_Scripts
         {
             EnemyState.EndState();
         }
+ 
 
         public void StopRotating()
         {

@@ -173,21 +173,21 @@ namespace Enemies
                 {
                     if (armourManager.DestroyPiece())
                     {
-                        hitstopController.Hitstop(.15f);
+                        //hitstopController.Hitstop(.15f);
                         camImpulse.FireImpulse();
                         //EndState();
                         //OnDodge(); 
                     }
                     else
                     {
-                        hitstopController.Hitstop(.3f);
+                        hitstopController.Hitstop(.15f);
                         camImpulse.FireImpulse();
                         OnEnemyDeath();
                     }
                 }
                 else
                 {
-                    hitstopController.Hitstop(.3f);
+                    hitstopController.Hitstop(.15f);
                     camImpulse.FireImpulse();
                     OnEnemyDeath();
                 }

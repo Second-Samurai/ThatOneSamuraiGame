@@ -4,12 +4,16 @@ using System;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [ExecuteInEditMode]
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
-    
+    public Slider BGMVol;
+    public Slider SFXVol;
+  
+
 
     public static AudioManager instance;
     // Start is called before the first frame update
@@ -41,17 +45,7 @@ public class AudioManager : MonoBehaviour
 
     }
     // update for debugging
-    //public void Update()
-    //{
-    //    if (Keyboard.current.bKey.wasPressedThisFrame)
-    //    {
-    //        FindAll("wood Roll");
-    //        FindAll("parry");
-    //        Play("grunt 1");
-
-    //    }
-    //}
-
+ 
 
     //finds and returns a  sound contaning a given string in its name
 

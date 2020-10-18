@@ -14,7 +14,7 @@ public class AudioPlayer : MonoBehaviour
         rSources = GetComponents<AudioSource>();
     }
 
-    public void PlayOnce(AudioClip clip)
+    public void PlayOnce(AudioClip clip, float volume)
     {
         if (!bIgnoreNext)
         {
@@ -24,6 +24,7 @@ public class AudioPlayer : MonoBehaviour
                 if (activeSource > rSources.Length - 1) activeSource = 0;
             }
 
+            rSources[activeSource].volume = volume;
             rSources[activeSource].pitch = Random.Range(.65f, 1f);
             rSources[activeSource].clip = clip;
             rSources[activeSource].Play();
@@ -31,7 +32,7 @@ public class AudioPlayer : MonoBehaviour
         else bIgnoreNext = false;
     }
 
-    public void PlayOnce(AudioClip clip, float min, float max)
+    public void PlayOnce(AudioClip clip, float volume, float min, float max)
     {
         if (!bIgnoreNext)
         {
@@ -40,7 +41,7 @@ public class AudioPlayer : MonoBehaviour
                 activeSource++;
                 if (activeSource > rSources.Length - 1) activeSource = 0;
             }
-
+            rSources[activeSource].volume = volume;
             rSources[activeSource].pitch = Random.Range(min, max);
             rSources[activeSource].clip = clip;
             rSources[activeSource].Play();
@@ -48,7 +49,7 @@ public class AudioPlayer : MonoBehaviour
         else bIgnoreNext = false;
     }
 
-    public void PlayOnce(AudioClip clip, float min, float max, bool looping)
+    public void PlayOnce(AudioClip clip, float volume, float min, float max, bool looping)
     {
         if (!bIgnoreNext)
         {

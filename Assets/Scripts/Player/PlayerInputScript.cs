@@ -238,6 +238,22 @@ public class PlayerInputScript : MonoBehaviour
             _bDodgeCache = true;
 
         }
+        else if (_inputVector == Vector2.zero && !bIsDodging && bCanDodge)
+        {
+            bOverrideMovement = false;
+            _animator.SetTrigger("Dodge");
+            _animator.ResetTrigger("AttackLight");
+            EnableMovement();
+            EnableRotation();
+            if (bGotParried) EndSlowEffects();
+            if (camControl.bLockedOn)
+            {
+                StopCoroutine("DodgeImpulse");
+                StartCoroutine(_functions.DodgeImpulse(new Vector3(0, 0, 1), dodgeForce));
+            }
+
+            ResetAttack();
+        }
         
     }
 

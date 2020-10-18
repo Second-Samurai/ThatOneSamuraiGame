@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour
     public Sound[] sounds;
     public float BGMVol;
     public float SFXVol;
+    public BackgroundAudio backgroundAudio;
   
 
 
@@ -42,7 +43,9 @@ public class AudioManager : MonoBehaviour
                 DestroyImmediate(s.source);
             }
         }
-
+        SFXVol = PlayerPrefs.GetFloat("SFXVolume");
+        BGMVol = PlayerPrefs.GetFloat("BGMVolume");
+        backgroundAudio = gameObject.GetComponent<BackgroundAudio>();
     }
     // update for debugging
  

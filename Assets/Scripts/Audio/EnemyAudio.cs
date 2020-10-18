@@ -15,7 +15,7 @@ public class EnemyAudio : MonoBehaviour
     void Start()
     {
         //audioPlayer = gameObject.GetComponent<AudioPlayer>();
-        audioManager = GameManager.instance.GetComponent<AudioManager>();
+        audioManager = GameManager.instance.audioManager;
         grunts = GameManager.instance.audioManager.FindAll("grunt").ToArray();
         dyingSounds = GameManager.instance.audioManager.FindAll("dying").ToArray();
 

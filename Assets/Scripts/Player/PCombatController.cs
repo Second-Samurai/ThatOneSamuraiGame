@@ -67,7 +67,7 @@ public class PCombatController : MonoBehaviour, ICombatController
 
     public void Start()
     {
-        audioManager = GameManager.instance.GetComponent<AudioManager>();
+        audioManager = GameManager.instance.audioManager;
     }
     /// <summary>
     /// Draws the player sword

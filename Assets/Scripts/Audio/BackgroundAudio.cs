@@ -18,8 +18,8 @@ public class BackgroundAudio : MonoBehaviour
         audioManager = gameObject.GetComponent<AudioManager>();
         menuMusic = GameManager.instance.audioManager.FindSound("Menu");
         birdAndTrees = GameManager.instance.audioManager.FindSound("Birds");
-        menuMusicSource.clip = menuMusic;
-        birdsAndTreesSource.clip = birdAndTrees;
+        if(!menuMusicSource.clip) menuMusicSource.clip = menuMusic;
+        if(!birdsAndTreesSource.clip) birdsAndTreesSource.clip = birdAndTrees;
         birdsAndTreesSource.Play();
         menuMusicSource.Play();
 

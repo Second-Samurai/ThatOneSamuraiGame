@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerSFX : MonoBehaviour
 {
-    private AudioManager audioManager;
+    public AudioManager audioManager;
     public AudioPlayer audioPlayer;
     private AudioClip walkingGrass;
     private AudioClip walkingPebble;
@@ -23,7 +23,7 @@ public class PlayerSFX : MonoBehaviour
 
     public void Start()
     {
-        audioManager = GameManager.instance.GetComponent<AudioManager>();
+        audioManager = GameManager.instance.audioManager;
         walkingGrass = GameManager.instance.audioManager.FindSound("Walking Grass");
         walkingPebble = GameManager.instance.audioManager.FindSound("Walking Pebble");
         walkingStone = GameManager.instance.audioManager.FindSound("Walking Stone");

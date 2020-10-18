@@ -33,7 +33,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        audioManager = GameManager.instance.GetComponent<AudioManager>();
+        audioManager = GameManager.instance.audioManager;
         if(GameManager.instance.playerController != null)
             player = GameManager.instance.playerController.gameObject.transform;
         if(!draw) draw = AudioManager.instance.FindSound("Bow Draw");

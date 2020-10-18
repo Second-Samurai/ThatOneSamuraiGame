@@ -10,7 +10,7 @@ public class RewindAudio : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        audioManager = GameManager.instance.GetComponent<AudioManager>();
+        audioManager = GameManager.instance.audioManager;
         audioPlayer = gameObject.GetComponent<AudioPlayer>();
         heartBeat = GameManager.instance.audioManager.FindSound("HeartBeatSlow");
         

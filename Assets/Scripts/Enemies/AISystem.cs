@@ -70,8 +70,7 @@ namespace Enemies
 
         private void Start()
         {
-            if (!armourManager) bHasArmour = false;
-
+            
             // Grab the enemy settings from the Game Manager > Game Settings > Enemy Settings
             enemySettings = GameManager.instance.gameSettings.enemySettings;
             

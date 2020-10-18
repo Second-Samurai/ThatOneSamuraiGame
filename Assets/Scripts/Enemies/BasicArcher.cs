@@ -67,7 +67,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
                     lastDirection = transform.position - player.position;
                     currentState = CurrentState.Aiming;
                     anim.SetTrigger("StartAim");
-                    source.PlayOnce(draw, audioManager.SFXVol.value);
+                    source.PlayOnce(draw, audioManager.SFXVol);
                     RaycastHit hit;
                     playerPos = player.transform.position + _aimOffsetValue;
                     shotDirection = playerPos - shotOrigin.position;
@@ -95,7 +95,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
                     _arrow.GetComponent<Projectile>().Launch(shotDirection, playerPos);
                     anim.SetTrigger("Fire");
                     source.StopSource();
-                    source.PlayOnce(release, audioManager.SFXVol.value);
+                    source.PlayOnce(release, audioManager.SFXVol);
                     shotTimer = 0f;
                     lineRenderer.enabled = false;
                     aimCounter = 0f;

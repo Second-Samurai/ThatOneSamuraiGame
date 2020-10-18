@@ -29,30 +29,30 @@ public class EnemyAudio : MonoBehaviour
     private void Grunt() 
     {
         int i = Random.Range(0, grunts.Length);
-        audioPlayer.PlayOnce(grunts[i], audioManager.SFXVol.value, min, 1f);
+        audioPlayer.PlayOnce(grunts[i], audioManager.SFXVol, min, 1f);
     }
 
     private void GruntLow()
     {
         int i = Random.Range(0, grunts.Length);
-        audioPlayer.PlayOnce(grunts[i], audioManager.SFXVol.value, minLow, .7f);
+        audioPlayer.PlayOnce(grunts[i], audioManager.SFXVol, minLow, .7f);
     }
 
     private void Dying()
     {
         int i = Random.Range(0, dyingSounds.Length);
-        audioPlayer.PlayOnce(dyingSounds[i], audioManager.SFXVol.value, min, 1f);
+        audioPlayer.PlayOnce(dyingSounds[i], audioManager.SFXVol, min, 1f);
     }
 
     private void DyingLow()
     {
         int i = Random.Range(0, dyingSounds.Length);
-        audioPlayer.PlayOnce(dyingSounds[i], audioManager.SFXVol.value, minLow, .7f);
+        audioPlayer.PlayOnce(dyingSounds[i], audioManager.SFXVol, minLow, .7f);
     }
 
     public void ArmourBreak()
     {
         int i = Random.Range(0, dyingSounds.Length);
-        audioPlayer.PlayOnce(dyingSounds[i], audioManager.SFXVol.value, minLow, .7f);
+        audioPlayer.PlayOnce(dyingSounds[i], audioManager.SFXVol, minLow, .7f);
     }
 }

@@ -43,24 +43,24 @@ public class PlayerSFX : MonoBehaviour
 
     private void Step() 
     {
-        audioPlayer.PlayOnce(walkingGrass, audioManager.SFXVol.value);
+        audioPlayer.PlayOnce(walkingGrass, audioManager.SFXVol);
     }
 
     private void Sprint()
     {
-        audioPlayer.PlayOnce(walkingGrass, audioManager.SFXVol.value, .5f, .8f);
+        audioPlayer.PlayOnce(walkingGrass, audioManager.SFXVol, .5f, .8f);
     }
 
     private void Dodge()
     {
         int i = Random.Range(0, grassRoll.Length);
-        audioPlayer.PlayOnce(grassRoll[i], audioManager.SFXVol.value);
+        audioPlayer.PlayOnce(grassRoll[i], audioManager.SFXVol);
         //Debug.Log(i);
     }
     private void Parry()
     {
         int i = Random.Range(0, parry.Length);
-        audioPlayer.PlayOnce(parry[i], audioManager.SFXVol.value);
+        audioPlayer.PlayOnce(parry[i], audioManager.SFXVol);
         //Debug.Log(i);
     }
 

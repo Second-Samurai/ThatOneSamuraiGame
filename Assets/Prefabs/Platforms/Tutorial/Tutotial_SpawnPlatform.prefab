@@ -197,7 +197,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -809,8 +809,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2876032427413651093}
-        m_MethodName: SetSensitivity
-        m_Mode: 0
+        m_MethodName: SetSFXVolume
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -887,8 +887,8 @@ RectTransform:
   m_Father: {fileID: 8891057171139952228}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2171,8 +2171,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2876032427413651093}
-        m_MethodName: SetSensitivity
-        m_Mode: 0
+        m_MethodName: SetBGMVolume
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2214,7 +2214,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2567,8 +2567,8 @@ RectTransform:
   m_Father: {fileID: 3996823905666071229}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5271,11 +5271,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 671652786, guid: 9714bb2a435b1f045a71323b558b09fc, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 671652786, guid: 9714bb2a435b1f045a71323b558b09fc, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.18367347
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 742567507, guid: 9714bb2a435b1f045a71323b558b09fc, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -5359,15 +5359,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1274925585, guid: 9714bb2a435b1f045a71323b558b09fc, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1274925585, guid: 9714bb2a435b1f045a71323b558b09fc, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.18367347
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1274925585, guid: 9714bb2a435b1f045a71323b558b09fc, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.18367347
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1334876144, guid: 9714bb2a435b1f045a71323b558b09fc, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -5429,6 +5429,16 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2876032428480057039, guid: 9714bb2a435b1f045a71323b558b09fc,
+        type: 3}
+      propertyPath: BGMVol
+      value: 
+      objectReference: {fileID: 4079391098983826858}
+    - target: {fileID: 2876032428480057039, guid: 9714bb2a435b1f045a71323b558b09fc,
+        type: 3}
+      propertyPath: SFXVol
+      value: 
+      objectReference: {fileID: 5982745557165609481}
     - target: {fileID: 3026944304975947498, guid: 9714bb2a435b1f045a71323b558b09fc,
         type: 3}
       propertyPath: m_StaticEditorFlags

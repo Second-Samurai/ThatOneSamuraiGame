@@ -10,8 +10,8 @@ using UnityEngine.UI;
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
-    public Slider BGMVol;
-    public Slider SFXVol;
+    public float BGMVol;
+    public float SFXVol;
   
 
 

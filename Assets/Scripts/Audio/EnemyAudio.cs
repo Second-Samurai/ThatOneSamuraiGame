@@ -8,6 +8,7 @@ public class EnemyAudio : MonoBehaviour
     public AudioPlayer audioPlayer;
     private AudioClip[] grunts;
     public AudioClip[] dyingSounds;
+    private AudioClip[] armourBreakSounds;
     private float min;
     private float minLow;
 
@@ -18,6 +19,7 @@ public class EnemyAudio : MonoBehaviour
         audioManager = GameManager.instance.audioManager;
         grunts = GameManager.instance.audioManager.FindAll("grunt").ToArray();
         dyingSounds = GameManager.instance.audioManager.FindAll("dying").ToArray();
+        armourBreakSounds = GameManager.instance.audioManager.FindAll("Armour").ToArray();
 
         min = Random.Range(.7f, 1);
         minLow = Random.Range(.5f, .7f);
@@ -43,6 +45,12 @@ public class EnemyAudio : MonoBehaviour
     }
 
     private void DyingLow()
+    {
+        int i = Random.Range(0, dyingSounds.Length);
+        audioPlayer.PlayOnce(dyingSounds[i], audioManager.SFXVol.value, minLow, .7f);
+    }
+
+    public void ArmourBreak()
     {
         int i = Random.Range(0, dyingSounds.Length);
         audioPlayer.PlayOnce(dyingSounds[i], audioManager.SFXVol.value, minLow, .7f);

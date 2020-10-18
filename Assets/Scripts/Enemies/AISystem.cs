@@ -48,6 +48,8 @@ namespace Enemies
         public bool bIsDead = false;
         public bool bIsUnblockable = false;
         public KnockbackAttack kbController;
+        public ArmourManager armourManager;
+        public bool bHasArmour;
         //NOTE: isStunned is handled in Guarding script, inside the eDamageController script
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
@@ -68,6 +70,8 @@ namespace Enemies
 
         private void Start()
         {
+            if (!armourManager) bHasArmour = false;
+
             // Grab the enemy settings from the Game Manager > Game Settings > Enemy Settings
             enemySettings = GameManager.instance.gameSettings.enemySettings;
             
@@ -163,7 +167,13 @@ namespace Enemies
             }
             else if (attacker.GetComponent<PlayerController>())
             {
-                OnEnemyDeath();
+                if (armourManager.DestroyPiece())
+                {
+                    //EndState();
+                    //OnDodge(); 
+                }
+                else
+                    OnEnemyDeath();
             }
             else
             {

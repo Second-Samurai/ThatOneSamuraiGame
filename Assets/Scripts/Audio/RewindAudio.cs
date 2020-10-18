@@ -18,7 +18,7 @@ public class RewindAudio : MonoBehaviour
 
     public void HeartBeat()
     {
-        audioPlayer.PlayOnce(heartBeat, audioManager.SFXVol.value, 1f, 1f, true);
+        audioPlayer.PlayOnce(heartBeat, audioManager.SFXVol, 1f, 1f, true);
     }
 
     public void StopHeartBeat() 

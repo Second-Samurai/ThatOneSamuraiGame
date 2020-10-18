@@ -199,25 +199,25 @@ public class PCombatController : MonoBehaviour, ICombatController
     public void PlaySlash()
     {
         if(!slash1) slash1 = GameManager.instance.audioManager.FindSound("Light Attack Swing 1");
-        swordAudio.PlayOnce(slash1, audioManager.SFXVol.value);
+        swordAudio.PlayOnce(slash1, audioManager.SFXVol);
     }
 
     public void PlayHit()
     {
         if (!hit1) hit1 = GameManager.instance.audioManager.FindSound("Light Attack Hit 1");
-        audio.PlayOnce(hit1, audioManager.SFXVol.value);
+        audio.PlayOnce(hit1, audioManager.SFXVol);
     }
 
     public void PlayHeavySwing()
     {
         if (!heavySlash) heavySlash = GameManager.instance.audioManager.FindSound("Heavy Attack Swing 2");
-        swordAudio.PlayOnce(heavySlash, audioManager.SFXVol.value);
+        swordAudio.PlayOnce(heavySlash, audioManager.SFXVol);
     }
 
     public void PlayHeavyHit()
     {
         if (!heavyHit) heavyHit = GameManager.instance.audioManager.FindSound("Light Attack Hit 3");
-        audio.PlayOnce(heavyHit, audioManager.SFXVol.value);
+        audio.PlayOnce(heavyHit, audioManager.SFXVol);
     }
 
 }

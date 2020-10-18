@@ -1793,6 +1793,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camTargetScript: {fileID: 8441917232971122163}
+  audioManager: {fileID: 0}
+  BGMVol: {fileID: 8439347939855674036}
+  SFXVol: {fileID: 2092033121403107772}
   indicatorToggle: {fileID: 602483233440010703}
 --- !u!1 &2033108247347924937
 GameObject:
@@ -6988,6 +6991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fa87ee33e0fc20458df36b510685d4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioManager: {fileID: 0}
   audioPlayer: {fileID: 6051967905520506786}
   grassRoll: []
 --- !u!1 &4726661303433978951
@@ -7546,8 +7550,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 9181146907230549204}
-        m_MethodName: SetSensitivity
-        m_Mode: 0
+        m_MethodName: SetBGMVolume
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9788,8 +9792,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 9181146907230549204}
-        m_MethodName: SetSensitivity
-        m_Mode: 0
+        m_MethodName: SetSFXVolume
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

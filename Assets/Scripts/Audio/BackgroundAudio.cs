@@ -28,8 +28,8 @@ public class BackgroundAudio : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        birdsAndTreesSource.volume = audioManager.BGMVol.value;
-        menuMusicSource.volume = audioManager.BGMVol.value;
+        birdsAndTreesSource.volume = audioManager.BGMVol;
+        menuMusicSource.volume = audioManager.BGMVol;
 
     }
 }

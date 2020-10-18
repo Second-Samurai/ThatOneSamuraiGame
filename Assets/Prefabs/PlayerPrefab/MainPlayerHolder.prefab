@@ -3240,6 +3240,7 @@ GameObject:
   - component: {fileID: 2516732065600158649}
   - component: {fileID: 2516732065600158650}
   - component: {fileID: 2516732065600158535}
+  - component: {fileID: 8066072614978334795}
   m_Layer: 9
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -3340,6 +3341,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   optionsMenu: {fileID: 2022121545323223167}
+--- !u!114 &8066072614978334795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2516732065600158652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9276c39359694640af721ddc635a498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  optionsSelect: {fileID: 0}
+  startGame: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!1 &2516732065744983263
 GameObject:
   m_ObjectHideFlags: 0
@@ -3461,6 +3477,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2516732065600158535}
         m_MethodName: ExitButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8066072614978334795}
+        m_MethodName: ButtonSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4504,6 +4531,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8066072614978334795}
+        m_MethodName: ButtonSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2516732066427802491
 GameObject:
   m_ObjectHideFlags: 0
@@ -4625,6 +4663,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2516732065600158535}
         m_MethodName: ResumeButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8066072614978334795}
+        m_MethodName: ButtonSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -61309,15 +61358,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f57af29611284c1daacc3117f46df2d, type: 3}
---- !u!4 &3207681944840816758 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8310175051381180093, guid: 0f57af29611284c1daacc3117f46df2d,
-    type: 3}
-  m_PrefabInstance: {fileID: 6904112330624749259}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &3207681944840816759 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 8310175051381180092, guid: 0f57af29611284c1daacc3117f46df2d,
+    type: 3}
+  m_PrefabInstance: {fileID: 6904112330624749259}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3207681944840816758 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8310175051381180093, guid: 0f57af29611284c1daacc3117f46df2d,
     type: 3}
   m_PrefabInstance: {fileID: 6904112330624749259}
   m_PrefabAsset: {fileID: 0}

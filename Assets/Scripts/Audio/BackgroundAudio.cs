@@ -32,4 +32,14 @@ public class BackgroundAudio : MonoBehaviour
         menuMusicSource.volume = audioManager.BGMVol;
 
     }
+
+    public void PauseMusic()
+    {
+        menuMusicSource.Pause();
+    }
+
+    public void ResumeMusic() 
+    {
+        menuMusicSource.UnPause();
+    }
 }

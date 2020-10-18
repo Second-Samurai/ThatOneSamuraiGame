@@ -126,7 +126,7 @@ public class RewindManager : MonoBehaviour
             rewindResource = maxRewindResource * f;
             if (maxRewindResource > 2)
             {
-                _rewindAudio.StopHeartBeat();
+                _rewindAudio.StopSource();
             }
         }
     }
@@ -212,6 +212,9 @@ public class RewindManager : MonoBehaviour
 
     public void StartRewind()
     {
+        _rewindAudio.Freeze();
+        _rewindAudio.Idle();
+        _rewindAudio.audioManager.backgroundAudio.PauseMusic();
         if (isTravelling)
         {
             
@@ -229,6 +232,8 @@ public class RewindManager : MonoBehaviour
 
     public void EndRewind() 
     {
+        _rewindAudio.StopSource();
+
         if (isTravelling)
         {
             OnEndRewind();
@@ -240,6 +245,8 @@ public class RewindManager : MonoBehaviour
                 //entity.ApplyData();
                 entity.isTravelling = false;
             }
+            _rewindAudio.Resume();
+            _rewindAudio.audioManager.backgroundAudio.ResumeMusic();
             Reset();
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;

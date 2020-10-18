@@ -25,6 +25,8 @@ public class BasicArcher : MonoBehaviour, IDamageable
     public AudioPlayer source;
     public AudioClip draw, release;
 
+    public TriggerImpulse camImpulse;
+
     private AudioManager audioManager;
 
     // Since the player and enemies have their origin point at their feet we need to add an offset value
@@ -118,15 +120,31 @@ public class BasicArcher : MonoBehaviour, IDamageable
         col.enabled = false;
         currentState = CurrentState.Dead;
         //Debug.LogError("I Am dead");
+        camImpulse.FireImpulse();
+        GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.15f);
+        StartCoroutine(DodgeImpulseCoroutine(Vector3.back, damage * 4, .3f));
 
         EnemyTracker enemyTracker = GameManager.instance.enemyTracker;
         
         // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy)
         enemyTracker.SwitchDeathTarget(transform);
-        
         enemyTracker.RemoveEnemy(transform);
         
+
+
         //Invoke("HideArcher", 2.0f);
+    }
+
+    private IEnumerator DodgeImpulseCoroutine(Vector3 lastDir, float force, float timer)
+    {
+        float dodgeTimer = timer;
+        while (dodgeTimer > 0f)
+        {
+            transform.Translate(lastDir.normalized * force * Time.deltaTime);
+
+            dodgeTimer -= Time.deltaTime;
+            yield return null;
+        }
     }
 
     public void DisableDamage()

@@ -129,7 +129,8 @@ public class BasicArcher : MonoBehaviour, IDamageable
         // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy)
         enemyTracker.SwitchDeathTarget(transform);
         enemyTracker.RemoveEnemy(transform);
-        
+
+        lineRenderer.enabled = false;
 
 
         //Invoke("HideArcher", 2.0f);

@@ -167,10 +167,15 @@ namespace Enemies
             }
             else if (attacker.GetComponent<PlayerController>())
             {
-                if (armourManager.DestroyPiece())
+                if (bHasArmour)
                 {
-                    //EndState();
-                    //OnDodge(); 
+                    if (armourManager.DestroyPiece())
+                    {
+                        //EndState();
+                        //OnDodge(); 
+                    }
+                    else
+                        OnEnemyDeath();
                 }
                 else
                     OnEnemyDeath();

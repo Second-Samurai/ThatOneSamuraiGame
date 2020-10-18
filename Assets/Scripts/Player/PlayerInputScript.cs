@@ -166,13 +166,13 @@ public class PlayerInputScript : MonoBehaviour
       
     void OnStartHeavy()
     {
-        heavyTimerMax = 2f;
+        heavyTimer = 2f;
         StartHeavy();
     }
     
     void OnStartHeavyAlternative()
     {
-        heavyTimerMax = .5f;
+        heavyTimer = 0.75f;
         StartHeavy();
     }
 

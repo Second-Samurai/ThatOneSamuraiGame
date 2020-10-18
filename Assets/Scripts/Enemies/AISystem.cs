@@ -287,6 +287,18 @@ namespace Enemies
 
             return false;
         }
+        
+        // Called in animation events to return the enemy's guard option
+        public void StartIntangibility()
+        {
+            eDamageController.DisableDamage();
+        }
+    
+        // Called in animation events to return the enemy's guard option
+        public void StopIntangibility()
+        {
+            eDamageController.EnableDamage();
+        }
 
         #endregion
         

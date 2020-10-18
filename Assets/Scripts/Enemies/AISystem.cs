@@ -50,6 +50,7 @@ namespace Enemies
         public KnockbackAttack kbController;
         public ArmourManager armourManager;
         public bool bHasArmour;
+        public TriggerImpulse camImpulse;
         //NOTE: isStunned is handled in Guarding script, inside the eDamageController script
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
@@ -60,6 +61,7 @@ namespace Enemies
         public ParryEffects parryEffects;
         public WSwordEffect swordEffects;
         public AttackIndicator attackIndicator;
+        public HitstopController hitstopController;
 
         //PHYSICS
         public Rigidbody rb;
@@ -70,6 +72,7 @@ namespace Enemies
 
         private void Start()
         {
+            hitstopController = GameManager.instance.gameObject.GetComponent<HitstopController>();
             
             // Grab the enemy settings from the Game Manager > Game Settings > Enemy Settings
             enemySettings = GameManager.instance.gameSettings.enemySettings;
@@ -170,14 +173,24 @@ namespace Enemies
                 {
                     if (armourManager.DestroyPiece())
                     {
+                        //hitstopController.Hitstop(.15f);
+                        camImpulse.FireImpulse();
                         //EndState();
                         //OnDodge(); 
                     }
                     else
+                    {
+                        hitstopController.Hitstop(.15f);
+                        camImpulse.FireImpulse();
                         OnEnemyDeath();
+                    }
                 }
                 else
+                {
+                    hitstopController.Hitstop(.15f);
+                    camImpulse.FireImpulse();
                     OnEnemyDeath();
+                }
             }
             else
             {

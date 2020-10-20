@@ -40,7 +40,7 @@ public class Guarding : MonoBehaviour
     // Called in animation events to open the enemy's guard
     public void DropGuard()
     {
-        canGuard = false;
+       if(_aiSystem.enemyType != EnemyType.BOSS) canGuard = false;
     }
     
     // Called in animation events to return the enemy's guard option

@@ -42,7 +42,7 @@ namespace Enemies.Enemy_States
             
             // Get the true target point (float offset is added to get a more accurate player-enemy target point)
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            Debug.Log(_target);
+
 
             // Set the rotation of the enemy
             PositionTowardsTarget(AISystem.transform, _target);

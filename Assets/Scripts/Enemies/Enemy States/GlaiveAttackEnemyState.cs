@@ -14,6 +14,10 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            if(AISystem.enemyType == EnemyType.BOSS)
+            {
+                AISystem.glaiveMesh.enabled = true;
+            }
             //ResetAnimationBools();
             AISystem.swordEffects.BeginUnblockableEffect();
             AISystem.attackIndicator.ShowIndicator();
@@ -54,6 +58,10 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
+            if (AISystem.enemyType == EnemyType.BOSS)
+            {
+                AISystem.glaiveMesh.enabled = false;
+            }
             AISystem.swordEffects.EndUnblockableEffect();
             AISystem.attackIndicator.HideIndicator();
             AISystem.bIsUnblockable = false;

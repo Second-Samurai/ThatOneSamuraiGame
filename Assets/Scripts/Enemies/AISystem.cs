@@ -72,16 +72,11 @@ namespace Enemies
         public int bossAttackSelector = 10;
         public bool bCanBeStunned = true;
         public BoxCollider slamCol;
-        public enum BossStage
-        {
-            Sword,
-            Glaive,
-            Dual
-        }
-        public BossStage bossStage = BossStage.Sword;
         public bool bHasBowDrawn = false;
         public int shotCount = 3;
         public Transform firePoint;
+        public MeshRenderer glaiveMesh;
+        public MeshRenderer bowMesh;
 
 
         //ATTACK SPEED VARIABLES
@@ -152,9 +147,10 @@ namespace Enemies
 
             if (enemyType == EnemyType.BOSS)
             {
+                meleeCollider.enabled = false;
                 if(!bHasBowDrawn) 
                     animator.SetLayerWeight(1, 0);
-                eDamageController.enemyGuard.canGuard = true;
+                if(!eDamageController.enemyGuard.isStunned) eDamageController.enemyGuard.canGuard = true;
                 KBColOff();
                 
             }

@@ -11,6 +11,7 @@ public class StatHandler
         this.currentData = currentData;
         this._currentHealth = currentData.maxHealth;
         this._currentGuard = currentData.maxGuard;
+        _maxGuard = currentData.maxGuard;
     }
 
     #region HEALTH RELATED VARIABLES
@@ -41,10 +42,12 @@ public class StatHandler
 
     #region GUARD RELATED VARIABLES
 
+    private float _maxGuard;
+
     public float maxGuard
     {
-        get { return currentData.maxGuard;  }
-        set { currentData.maxGuard = value; }
+        get { return _maxGuard;  }
+        set { _maxGuard = value; }
     }
 
     private float _currentGuard = 0;

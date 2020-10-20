@@ -150,8 +150,12 @@ namespace Enemies
                 meleeCollider.enabled = false;
             }
 
-            if(!bHasBowDrawn && enemyType == EnemyType.BOSS) animator.SetLayerWeight(1, 0);
-
+            if (enemyType == EnemyType.BOSS)
+            {
+                if(!bHasBowDrawn) 
+                    animator.SetLayerWeight(1, 0);
+                eDamageController.enemyGuard.canGuard = true;
+            }
             base.SetState(newEnemyState);
         }
         
@@ -395,9 +399,12 @@ namespace Enemies
         // Called in parry enemy state
         public void IncreaseAttackSpeed(float increasedAmount)
         {
-            previousAttackSpeed = attackSpeed;
-            attackSpeed += increasedAmount;
-            animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
+            if (attackSpeed + increasedAmount < 2f)
+            {
+                previousAttackSpeed = attackSpeed;
+                attackSpeed += increasedAmount;
+                animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
+            }
         }
         
         public void ReturnPreviousAttackSpeed()
@@ -587,7 +594,8 @@ namespace Enemies
                     IncreaseAttackSpeed(.05f);
                     CheckArmourLevel();
                     EndState();
-                    OnDodge(); 
+                    OnDodge();
+                    eDamageController.enemyGuard.ResetGuard();
                 }
             }
         }
@@ -613,6 +621,7 @@ namespace Enemies
             {
                 OnBossArrowMove();
             }
+            statHandler.maxGuard += 10;
         }
 
         #endregion

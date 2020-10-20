@@ -44,6 +44,7 @@ public class StatHandler
     public float maxGuard
     {
         get { return currentData.maxGuard;  }
+        set { currentData.maxGuard = value; }
     }
 
     private float _currentGuard = 0;

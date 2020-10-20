@@ -49,7 +49,7 @@ namespace Enemies.Enemy_States
             if (decision == 0 || decision == 1) // Normal Attack
             {
                 //Increase the speed of the next attack
-                AISystem.IncreaseAttackSpeed(0.3f);
+                if(AISystem.enemyType != EnemyType.BOSS) AISystem.IncreaseAttackSpeed(0.3f);
                 
                 // Set the attack trigger
                 Animator.SetTrigger("TriggerLightAttack");

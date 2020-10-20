@@ -152,16 +152,22 @@ public class Guarding : MonoBehaviour
                 yield return null;
             }
 
-            statHandler.CurrentGuard = statHandler.maxGuard;
-            OnGuardEvent.Invoke();
-
-            if (isStunned)
-            {
-                _guardMeter.HideFinisherKey();
-                _aiSystem.OnEnemyRecovery();
-            }
-            isStunned = false;
-            canGuard = true;
+            ResetGuard();
         }
+    }
+
+    public void ResetGuard()
+    {
+        StopCoroutine(GuardCoolDown(8));
+        statHandler.CurrentGuard = statHandler.maxGuard;
+        OnGuardEvent.Invoke();
+
+        if (isStunned)
+        {
+            _guardMeter.HideFinisherKey();
+            _aiSystem.OnEnemyRecovery();
+        }
+        isStunned = false;
+        canGuard = true;
     }
 }

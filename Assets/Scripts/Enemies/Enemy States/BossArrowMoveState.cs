@@ -16,7 +16,7 @@ namespace Enemies.Enemy_States
         //Class constructor
         public BossArrowMoveState(AISystem aiSystem) : base(aiSystem)
         {
-            shotTimer = Random.Range(1, 4);
+            shotTimer = 1f;
         }
 
         public override IEnumerator BeginState()
@@ -27,6 +27,7 @@ namespace Enemies.Enemy_States
             Animator.SetLayerWeight(1, 1);
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
+            AISystem.bHasBowDrawn = true;
             Animator.SetBool("BowDrawn", true);
             Animator.SetTrigger("DrawBow");
 
@@ -73,6 +74,7 @@ namespace Enemies.Enemy_States
         public override void EndState()
         {
             Animator.SetBool("BowDrawn", false);
+            AISystem.bHasBowDrawn = false;
             Animator.SetTrigger("SheathBow");
             Animator.SetLayerWeight(1, 0);
             // Stop the impatience cooldown when state end is called
@@ -110,6 +112,7 @@ namespace Enemies.Enemy_States
         {
             Animator.SetBool("BowDrawn", false);
             Animator.SetTrigger("SheathBow");
+            AISystem.bHasBowDrawn = false;
             Animator.SetLayerWeight(1, 0);
             // Reset threatened value
             _bIsThreatened = false;

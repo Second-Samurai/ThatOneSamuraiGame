@@ -78,15 +78,52 @@ namespace Enemies.Enemy_States
             }
             else if(InRange(AISystem.transform.position, target, AISystem.enemySettings.midRange))
             {
-                AISystem.OnCirclePlayer(); // Start circling if in close enough range
+                if (AISystem.enemyType == EnemyType.BOSS)
+                {
+                    if (AISystem.armourManager.armourCount <= 6)
+                    {
+                        int decision = Random.Range(0, 3);
+
+                        if (decision == 0) // Fire
+                        {
+                            AISystem.OnBossArrowMove();
+                        }
+                        else // Approach Player
+                        {
+                            AISystem.OnCirclePlayer();
+                        }
+                    }
+                }
+                else
+                {
+                    AISystem.OnCirclePlayer(); // Start circling if in close enough range
+
+                }
             }
             else
             {
                 // Approach player if they are too far away
-                if (AISystem.enemyType != EnemyType.GLAIVEWIELDER)
+                
+                if (AISystem.enemyType == EnemyType.BOSS)
+                {
+                    if(AISystem.armourManager.armourCount <= 5)
+                    {
+                        int decision = Random.Range(0, 2);
+
+                        if (decision == 0) // Fire
+                        {
+                            AISystem.OnBossArrowMove();
+                        }
+                        else // Approach Player
+                        {
+                            AISystem.OnApproachPlayer();
+                        }
+                    }
+                }
+                else if (AISystem.enemyType != EnemyType.GLAIVEWIELDER)
                 {
                     AISystem.OnApproachPlayer();
-                } 
+                }
                 else
                 {
                     int decision = Random.Range(0, 3);

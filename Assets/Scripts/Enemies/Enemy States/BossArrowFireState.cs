@@ -25,7 +25,7 @@ namespace Enemies.Enemy_States
 
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
-
+            AISystem.bHasBowDrawn = true;
             // Cache the range value so we're not always getting it in the tick function
             _longRange = AISystem.enemySettings.longRange;
             _shortRange = AISystem.enemySettings.shortRange;
@@ -51,7 +51,7 @@ namespace Enemies.Enemy_States
             if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.veryShortRange))
             {
                 _bIsThreatened = true;
-                EndState();
+                PickThreatenedResponse();
             }
             else if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.midRange))
             {
@@ -74,6 +74,7 @@ namespace Enemies.Enemy_States
             else
             {
                 AISystem.shotCount = 3;
+                AISystem.bHasBowDrawn = false;
                 Animator.SetBool("BowDrawn", false);
                 Animator.SetTrigger("SheathBow");
                 Animator.SetLayerWeight(1, 0);
@@ -102,6 +103,7 @@ namespace Enemies.Enemy_States
         {
             Animator.SetBool("BowDrawn", false);
             Animator.SetTrigger("SheathBow");
+            AISystem.bHasBowDrawn = false;
             Animator.SetLayerWeight(1, 0);
             // Reset threatened value
             _bIsThreatened = false;

@@ -479,6 +479,7 @@ namespace Enemies
 
         public void OnJumpAttack()
         {
+            bHasBowDrawn = false;
             if (EnemyDeathCheck()) return;
             SetState(new JumpAttackEnemyState(this));
         }
@@ -490,12 +491,14 @@ namespace Enemies
         
         public void OnQuickBlock()
         {
+            bHasBowDrawn = false;
             if (EnemyDeathCheck()) return;
             SetState(new QuickBlockEnemyState(this));
         }
 
         public void OnBlock()
         {
+            bHasBowDrawn = false;
             if (EnemyDeathCheck()) return;
             SetState(new BlockEnemyState(this));
         }

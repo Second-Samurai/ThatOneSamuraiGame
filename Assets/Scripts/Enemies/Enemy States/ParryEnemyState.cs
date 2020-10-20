@@ -31,11 +31,17 @@ namespace Enemies.Enemy_States
 
             if (decision == 0 || decision == 1) // Normal Attack
             {
+                //Increase the speed of the next attack
+                AISystem.IncreaseAttackSpeed(0.3f);
+                
                 // Set the attack trigger
                 Animator.SetTrigger("TriggerLightAttack");
             }
             else if (decision == 2) // Heavy attack
             {
+                //Increase the speed of the next attack
+                AISystem.IncreaseAttackSpeed(0.4f);
+                
                 if (AISystem.enemyType == EnemyType.GLAIVEWIELDER)
                 {
                     Animator.SetTrigger("HeavyAttack");
@@ -69,6 +75,9 @@ namespace Enemies.Enemy_States
         // End state is called by animation event
         public override void EndState()
         {
+            //Return to the previous speed for future attacks
+            AISystem.ReturnPreviousAttackSpeed();
+            
             AISystem.attackIndicator.HideIndicator();
             
             // Ensure rotate to player is set back in end state

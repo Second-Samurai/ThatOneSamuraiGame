@@ -172,6 +172,7 @@ public class PlayerInputScript : MonoBehaviour
     
     void OnStartHeavyAlternative()
     {
+        bPlayGleam = false;
         heavyTimer = 0.75f;
         StartHeavy();
     }

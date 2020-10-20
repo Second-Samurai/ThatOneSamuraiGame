@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class UIGuardMeter : MonoBehaviour
 {
     public Slider guardSlider;
-    public Canvas fKey;
+    public Canvas finisherKey;
 
     [HideInInspector] public Camera mainCamera;
     [HideInInspector] public RectTransform parentCanvasRect;
@@ -52,20 +52,22 @@ public class UIGuardMeter : MonoBehaviour
 
         if (!CheckInCameraView() || _entityTransform != _enemyTracker.targetEnemy)
         {
-            if (guardSlider.gameObject.activeInHierarchy) {
-                HideFKey();
+            if (guardSlider.gameObject.activeInHierarchy)
+            {
+                HideFinisherKey();
                 guardSlider.gameObject.SetActive(false);
             }
             return;
         }
         else
         {
-            if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _enemyTracker.targetEnemy){
+            if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _enemyTracker.targetEnemy)
+            {
+                guardSlider.gameObject.SetActive(true);
                 if (guardSlider.value == guardSlider.maxValue)
                 {
-                    ShowFKey();
+                    ShowFinisherKey();
                 }
-                guardSlider.gameObject.SetActive(true);
             }
         }
         SetMeterPosition();
@@ -129,14 +131,17 @@ public class UIGuardMeter : MonoBehaviour
         _guardTransform.anchoredPosition = _screenPosition;
     }
 
-    public void ShowFKey()
+    public void ShowFinisherKey()
     {
-        fKey.enabled = true;
+        if (guardSlider.gameObject.activeInHierarchy && _entityTransform == _enemyTracker.targetEnemy)
+        {
+            finisherKey.enabled = true;
+        }
     }
 
-    public void HideFKey()
+    public void HideFinisherKey()
     {
-        fKey.enabled = false;
+        finisherKey.enabled = false;
     }
 
     // Summary: Destroys UI when the enemy is either missing or dead

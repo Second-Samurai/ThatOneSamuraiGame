@@ -61,8 +61,8 @@ public class StatHandler
             if (_currentGuard < 0){
                 _currentGuard = 0; //Ground value to zero
             }
-            else if (_currentGuard > currentData.maxGuard){
-                _currentGuard = currentData.maxGuard;
+            else if (_currentGuard > maxGuard){
+                _currentGuard = maxGuard;
             }
         }
     }

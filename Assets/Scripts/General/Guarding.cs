@@ -21,6 +21,8 @@ public class Guarding : MonoBehaviour
 
     private float _guardCooldownTime;
 
+    public bool bSuperArmour = false;
+
     public void Init(StatHandler statHandler)
     {
         this.statHandler = statHandler;

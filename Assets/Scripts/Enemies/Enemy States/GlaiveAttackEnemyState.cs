@@ -14,8 +14,9 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            if(AISystem.enemyType == EnemyType.BOSS)
+            if (AISystem.enemyType == EnemyType.BOSS)
             {
+                AISystem.eDamageController.enemyGuard.bSuperArmour = true;
                 AISystem.glaiveMesh.enabled = true;
             }
             //ResetAnimationBools();
@@ -60,6 +61,7 @@ namespace Enemies.Enemy_States
         {
             if (AISystem.enemyType == EnemyType.BOSS)
             {
+                AISystem.eDamageController.enemyGuard.bSuperArmour = false;
                 AISystem.glaiveMesh.enabled = false;
             }
             AISystem.swordEffects.EndUnblockableEffect();

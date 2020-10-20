@@ -49,7 +49,7 @@ public class EDamageController : MonoBehaviour, IDamageable
                     if (enemyGuard.canGuard)
                     {
                         _aiSystem.parryEffects.PlayBlock();
-                        _aiSystem.OnQuickBlock();
+                        if(!enemyGuard.bSuperArmour) _aiSystem.OnQuickBlock();
                     }
                     return;
                 }

@@ -212,6 +212,7 @@ namespace Enemies
                             EndState();
                             OnDodge();
                             CheckArmourLevel();
+                            eDamageController.enemyGuard.ResetGuard();
                         }
                         //EndState();
                         //OnDodge(); 
@@ -586,6 +587,7 @@ namespace Enemies
                     SetState(new DeathEnemyState(this));
                 else
                 {
+                    eDamageController.enemyGuard.ResetGuard();
                     armourManager.DestroyPiece();
                     armourManager.DestroyPiece();
                     IncreaseAttackSpeed(.05f);
@@ -593,7 +595,6 @@ namespace Enemies
                     CheckArmourLevel();
                     EndState();
                     OnDodge();
-                    eDamageController.enemyGuard.ResetGuard();
                 }
             }
         }
@@ -619,7 +620,7 @@ namespace Enemies
             {
                 OnBossArrowMove();
             }
-            statHandler.maxGuard += 10;
+            statHandler.maxGuard += 20;
         }
 
         #endregion

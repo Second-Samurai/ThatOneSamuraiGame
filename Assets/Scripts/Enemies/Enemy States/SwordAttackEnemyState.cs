@@ -28,18 +28,19 @@ namespace Enemies.Enemy_States
             {
                 if(AISystem.enemyType == EnemyType.BOSS)
                 {
-                    int selector = Random.Range(0, 4);
+                    int selector = Random.Range(0, 5);
 
                     if(selector == AISystem.bossAttackSelector)
                     {
                         selector++;
-                        if(selector >= 4)
+                        if(selector >= 5)
                         {
                             selector = 0;
                         }
                     }
 
                     AISystem.bossAttackSelector = selector;
+                    selector = 4;
                     Animator.SetInteger("AttackSelector", selector);
                 }
                 // Set the attack trigger

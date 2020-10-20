@@ -65,6 +65,10 @@ namespace Enemies
 
         //PHYSICS
         public Rigidbody rb;
+
+        //BOSS VARS
+        public int bossAttackSelector = 10;
+
         
         #endregion
         

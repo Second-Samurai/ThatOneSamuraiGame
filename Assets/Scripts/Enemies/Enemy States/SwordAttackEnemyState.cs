@@ -21,11 +21,27 @@ namespace Enemies.Enemy_States
             AISystem.navMeshAgent.isStopped = true;
             int decision = Random.Range(0, 2);
             
-            if (AISystem.enemyType == EnemyType.TUTORIALENEMY || AISystem.enemyType == EnemyType.GLAIVEWIELDER) //TUTORIAL ENEMIES CANNOT USE UNBLOCKABLE
+            if (AISystem.enemyType == EnemyType.TUTORIALENEMY || AISystem.enemyType == EnemyType.GLAIVEWIELDER || AISystem.enemyType == EnemyType.BOSS) //TUTORIAL ENEMIES CANNOT USE UNBLOCKABLE
                 decision = 0;
             
             if (decision == 0) // Normal Attack
             {
+                if(AISystem.enemyType == EnemyType.BOSS)
+                {
+                    int selector = Random.Range(0, 3);
+
+                    if(selector == AISystem.bossAttackSelector)
+                    {
+                        selector++;
+                        if(selector >= 3)
+                        {
+                            selector = 0;
+                        }
+                    }
+
+                    AISystem.bossAttackSelector = selector;
+                    Animator.SetInteger("AttackSelector", selector);
+                }
                 // Set the attack trigger
                 Animator.SetTrigger("TriggerLightAttack");
             }

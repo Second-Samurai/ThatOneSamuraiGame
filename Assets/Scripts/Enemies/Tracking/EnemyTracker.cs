@@ -119,7 +119,7 @@ public class EnemyTracker : MonoBehaviour
                 // Only close distance if the enemy isn't stunned and is strafing
                 if (!aiSystem.eDamageController.enemyGuard.isStunned && !aiSystem.bIsDead)
                 {
-                    if (aiSystem.enemyType == EnemyType.GLAIVEWIELDER) aiSystem.OnChargePlayer();
+                    if (aiSystem.enemyType == EnemyType.GLAIVEWIELDER || aiSystem.enemyType == EnemyType.BOSS) aiSystem.OnChargePlayer();
                     else aiSystem.OnCloseDistance();
                     break;
                 }
@@ -129,7 +129,7 @@ public class EnemyTracker : MonoBehaviour
         {
             if (!_targetEnemyAISystem.eDamageController.enemyGuard.isStunned && !_targetEnemyAISystem.bIsDead)
             {
-                if (_targetEnemyAISystem.enemyType == EnemyType.GLAIVEWIELDER) _targetEnemyAISystem.OnChargePlayer();
+                if (_targetEnemyAISystem.enemyType == EnemyType.GLAIVEWIELDER || _targetEnemyAISystem.enemyType == EnemyType.BOSS) _targetEnemyAISystem.OnChargePlayer();
                 else _targetEnemyAISystem.OnCloseDistance();
             }
         }

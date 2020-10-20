@@ -60,8 +60,12 @@ namespace Enemy_Scripts
         {
             EnemyState.StopRotating();
         }
+        public void StartRotating()
+        {
+            EnemyState.StartRotating();
+        }
 
         #endregion
-        
+
     }
 }

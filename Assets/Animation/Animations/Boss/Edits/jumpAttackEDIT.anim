@@ -50120,7 +50120,7 @@ AnimationClip:
     m_LoopTime: 0
     m_LoopBlend: 0
     m_LoopBlendOrientation: 1
-    m_LoopBlendPositionY: 0
+    m_LoopBlendPositionY: 1
     m_LoopBlendPositionXZ: 0
     m_KeepOriginalOrientation: 0
     m_KeepOriginalPositionY: 1
@@ -99303,14 +99303,6 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.6666667
-    functionName: StopRotating
-    data: 
-    objectReferenceParameter: {fileID: 3529578852830808978, guid: 83ce158f4b2f2b74db29d8e3079a9856,
-      type: 3}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
   - time: 0.8333333
     functionName: PreJumpImpulseAnimEvent
     data: 
@@ -99324,7 +99316,15 @@ AnimationClip:
     data: 
     objectReferenceParameter: {fileID: 3529578852830808978, guid: 83ce158f4b2f2b74db29d8e3079a9856,
       type: 3}
-    floatParameter: 0.3
+    floatParameter: 0.7
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.3333334
+    functionName: StopRotating
+    data: 
+    objectReferenceParameter: {fileID: 3529578852830808978, guid: 83ce158f4b2f2b74db29d8e3079a9856,
+      type: 3}
+    floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 1.3666667
@@ -99336,7 +99336,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 1.4333333
-    functionName: ColOn
+    functionName: SlamColOn
     data: 
     objectReferenceParameter: {fileID: 3529578852830808978, guid: 83ce158f4b2f2b74db29d8e3079a9856,
       type: 3}
@@ -99344,7 +99344,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 1.6666666
-    functionName: ColOff
+    functionName: SlamColOff
     data: 
     objectReferenceParameter: {fileID: 3529578852830808978, guid: 83ce158f4b2f2b74db29d8e3079a9856,
       type: 3}

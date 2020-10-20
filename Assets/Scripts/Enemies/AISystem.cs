@@ -69,6 +69,7 @@ namespace Enemies
         //BOSS VARS
         public int bossAttackSelector = 10;
         public bool bCanBeStunned = true;
+        public BoxCollider slamCol;
 
         
         #endregion
@@ -238,7 +239,7 @@ namespace Enemies
         public void PreJumpImpulseAnimEvent(float time)
         {
             navMeshAgent.enabled = false;
-            StartCoroutine(JumpImpulseCoroutine(new Vector3(0,1,1), 20f, time));
+            StartCoroutine(DodgeImpulseCoroutine(new Vector3(0,1,1), 20f, time));
         }
 
         public void ImpulseWithDirection(float force, Vector3 dir)
@@ -259,6 +260,17 @@ namespace Enemies
         {
             kbController.KBColOff();
         }
+
+        public void SlamColOn()
+        {
+            slamCol.enabled = true;
+        }
+
+        public void SlamColOff()
+        {
+            slamCol.enabled = false;
+        }
+
 
         // Coroutines cannot exist in enemystate since it's not a monobehavior, so we handle it here
         private IEnumerator DodgeImpulseCoroutine(Vector3 lastDir, float force)
@@ -292,9 +304,9 @@ namespace Enemies
             while (dodgeTimer > 0f)
             {
                 transform.Translate(lastDir.normalized * force * Time.deltaTime);
-                if (Vector3.Distance(transform.position, enemySettings.GetTarget().position) > enemySettings.shortRange)
+                if (Vector3.Distance(transform.position, enemySettings.GetTarget().position) <= enemySettings.veryShortRange)
                 {
-                    navMeshAgent.enabled = true;
+                    
                     break;
                 }
 

@@ -68,6 +68,7 @@ namespace Enemies
 
         //BOSS VARS
         public int bossAttackSelector = 10;
+        public bool bCanBeStunned = true;
 
         
         #endregion

@@ -28,12 +28,12 @@ namespace Enemies.Enemy_States
             {
                 if(AISystem.enemyType == EnemyType.BOSS)
                 {
-                    int selector = Random.Range(0, 3);
+                    int selector = Random.Range(0, 4);
 
                     if(selector == AISystem.bossAttackSelector)
                     {
                         selector++;
-                        if(selector >= 3)
+                        if(selector >= 4)
                         {
                             selector = 0;
                         }

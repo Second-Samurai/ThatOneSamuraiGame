@@ -116,7 +116,7 @@ public class Guarding : MonoBehaviour
         StartCoroutine(AwaitNextDamage(6));
         //camImpulse.FireImpulse();
         //Switch States
-        _guardMeter.ShowFKey();
+        _guardMeter.ShowFinisherKey();
         _aiSystem.OnEnemyStun();
     }
 
@@ -157,7 +157,7 @@ public class Guarding : MonoBehaviour
 
             if (isStunned)
             {
-                _guardMeter.HideFKey();
+                _guardMeter.HideFinisherKey();
                 _aiSystem.OnEnemyRecovery();
             }
             isStunned = false;

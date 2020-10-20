@@ -72,6 +72,10 @@ namespace Enemies
         public BoxCollider slamCol;
 
         
+        //ATTACK SPEED VARIABLES
+        public float previousAttackSpeed;
+        public float attackSpeed;
+        
         #endregion
         
         #region Unity Monobehaviour Functions
@@ -102,6 +106,10 @@ namespace Enemies
             // Set up damage controller continues
             eDamageController.Init(statHandler);
             eDamageController.EnableDamage();
+            
+            // Set up the attack speed variables
+            attackSpeed = animator.GetFloat("AttackSpeedMultiplier");
+            previousAttackSpeed = attackSpeed;
 
             // Start the enemy in an idle state
             OnIdle();
@@ -387,6 +395,20 @@ namespace Enemies
         {
             navMeshAgent.enabled = true;
         }
+        
+        // Called in parry enemy state
+        public void IncreaseAttackSpeed(float increasedAmount)
+        {
+            previousAttackSpeed = attackSpeed;
+            attackSpeed += increasedAmount;
+            animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
+        }
+        
+        public void ReturnPreviousAttackSpeed()
+        {
+            attackSpeed = previousAttackSpeed;
+            animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
+        }
 
         public void EndState()
         {
@@ -552,7 +574,6 @@ namespace Enemies
         {
             GameManager.instance.enemyTracker.RemoveEnemy(rb.gameObject.transform);
         }
-
-
+        
     }
 }

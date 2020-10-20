@@ -185,6 +185,7 @@ GameObject:
   - component: {fileID: 6773292585782424250}
   - component: {fileID: 6773292585782424244}
   - component: {fileID: 5922047826845385890}
+  - component: {fileID: 1503552621205126967}
   m_Layer: 12
   m_Name: Tutorial Popup
   m_TagString: Untagged
@@ -233,7 +234,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popup: {fileID: 6773292585637240128}
-  popupImage: {fileID: 6773292584812258198}
+  popupImageArray:
+  - {fileID: 6773292584812258198}
+  popupTextArray: []
+  maxTimeRemaining: 6
+--- !u!114 &1503552621205126967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6773292585782424249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089918be0d032d94a8488bcc0e2bf86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 70b92ee7ec6db524c8bcdc88f6283cb7, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5922047826845385890}
+        m_MethodName: HidePopup
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6773292586088200323
 GameObject:
   m_ObjectHideFlags: 0

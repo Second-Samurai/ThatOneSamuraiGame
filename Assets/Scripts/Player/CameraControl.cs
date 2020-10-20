@@ -29,7 +29,7 @@ public class CameraControl : MonoBehaviour
     //NOTE: this is called in player controller
     public void Init(Transform playerTarget)
     {
-        Debug.Log("Test");
+        //Debug.Log("Test");
         
         GameManager gameManager = GameManager.instance;
         CinematicBars cinematicBars = gameManager.mainCamera.GetComponentInChildren<CinematicBars>();

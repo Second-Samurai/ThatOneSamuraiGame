@@ -91,7 +91,7 @@ public class EDamageController : MonoBehaviour, IDamageable
         {
 
             // DO NOT TRIGGER PARRY STUN IF THE ENEMY IS ALREADY STUNNED
-            if (!enemyGuard.isStunned)
+            if (!enemyGuard.isStunned && _aiSystem.bCanBeStunned)
             {
                 _aiSystem.OnParryStun();
             }

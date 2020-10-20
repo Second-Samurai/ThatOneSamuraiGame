@@ -67,7 +67,42 @@ namespace Enemies.Enemy_States
             // If close enough, attack again
             if (InRange(AISystem.transform.position, target, AISystem.enemySettings.shortRange))
             {
-                if (AISystem.enemyType != EnemyType.GLAIVEWIELDER)
+                if (AISystem.enemyType == EnemyType.BOSS)
+                {
+                    if (AISystem.armourManager.armourCount <= 2)
+                    {
+                        int decision = Random.Range(0, 3);
+
+                        if (decision == 0) // Fire
+                        {
+                            AISystem.OnSwordAttack();
+                        }
+                        else
+                        {
+                            AISystem.OnGlaiveAttack();
+                        }
+                    }
+                    else if (AISystem.armourManager.armourCount <= 4)
+                    {
+                        int decision = Random.Range(0, 3);
+
+                        if (decision == 0 || decision == 1) // Fire
+                        {
+                            AISystem.OnSwordAttack();
+                        }
+                        else
+                        {
+                            AISystem.OnGlaiveAttack();
+                        }
+                    }
+                    else
+                    {
+                        AISystem.OnSwordAttack();
+                    }
+                    
+
+                }
+                else if (AISystem.enemyType != EnemyType.GLAIVEWIELDER)
                 {
                     AISystem.OnSwordAttack();
                 }

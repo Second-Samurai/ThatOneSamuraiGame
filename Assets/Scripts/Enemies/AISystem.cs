@@ -155,6 +155,8 @@ namespace Enemies
                 if(!bHasBowDrawn) 
                     animator.SetLayerWeight(1, 0);
                 eDamageController.enemyGuard.canGuard = true;
+                KBColOff();
+                
             }
             base.SetState(newEnemyState);
         }

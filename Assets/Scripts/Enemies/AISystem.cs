@@ -189,6 +189,7 @@ namespace Enemies
                     {
                         //hitstopController.Hitstop(.15f);
                         camImpulse.FireImpulse();
+                        if (enemyType == EnemyType.BOSS) IncreaseAttackSpeed(.1f);
                         //EndState();
                         //OnDodge(); 
                     }
@@ -548,7 +549,19 @@ namespace Enemies
 
         public void OnEnemyDeath()
         {
-            SetState(new DeathEnemyState(this));
+            if(enemyType != EnemyType.BOSS)
+                SetState(new DeathEnemyState(this));
+            else
+            {
+                if(armourManager.armourCount <= 0)
+                    SetState(new DeathEnemyState(this));
+                else
+                {
+                    armourManager.DestroyPiece();
+                    armourManager.DestroyPiece();
+                    SetState(new RecoveryEnemyState(this));
+                }
+            }
         }
 
         public void OnEnemyRewind() 

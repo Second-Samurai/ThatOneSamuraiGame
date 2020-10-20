@@ -90,7 +90,7 @@ public class Popup : MonoBehaviour
         {
             _popup.SetActive(false);
         }
-        else
+        else if (!_bStopLockOnTut)
         {
             _popup.SetActive(true);
         }

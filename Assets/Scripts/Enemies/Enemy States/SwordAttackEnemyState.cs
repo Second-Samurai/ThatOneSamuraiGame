@@ -39,8 +39,7 @@ namespace Enemies.Enemy_States
                         }
                     }
 
-                    AISystem.bossAttackSelector = selector;
-                    selector = 4;
+                    AISystem.bossAttackSelector = selector; 
                     Animator.SetInteger("AttackSelector", selector);
                 }
                 // Set the attack trigger

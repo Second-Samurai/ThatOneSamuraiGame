@@ -42,7 +42,7 @@ namespace Enemies.Enemy_States
                 _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
                 PositionTowardsTarget(AISystem.transform, _target);
             }
-            AISystem.rb.velocity = -AISystem.transform.forward * 2;
+          //  AISystem.rb.velocity = -AISystem.transform.forward * 2;
            
         }
 

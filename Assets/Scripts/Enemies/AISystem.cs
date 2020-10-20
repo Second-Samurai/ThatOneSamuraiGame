@@ -369,10 +369,22 @@ namespace Enemies
 
             return false;
         }
-
-
-
-        //ANIMATION CALLED EVENTS
+        
+        // Called in parry enemy state
+        public void IncreaseAttackSpeed(float increasedAmount)
+        {
+            previousAttackSpeed = attackSpeed;
+            attackSpeed += increasedAmount;
+            animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
+        }
+        
+        public void ReturnPreviousAttackSpeed()
+        {
+            attackSpeed = previousAttackSpeed;
+            animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
+        }
+        
+        #endregion
 
         #region Animation Called Events
 
@@ -394,20 +406,6 @@ namespace Enemies
         public void EnableNav()
         {
             navMeshAgent.enabled = true;
-        }
-        
-        // Called in parry enemy state
-        public void IncreaseAttackSpeed(float increasedAmount)
-        {
-            previousAttackSpeed = attackSpeed;
-            attackSpeed += increasedAmount;
-            animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
-        }
-        
-        public void ReturnPreviousAttackSpeed()
-        {
-            attackSpeed = previousAttackSpeed;
-            animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
         }
 
         public void EndState()
@@ -438,11 +436,7 @@ namespace Enemies
         }
 
         #endregion
-
-
-
-        #endregion
-
+        
         // ENEMY STATE SWITCHING INFO
         // Any time an enemy gets a combat maneuver called, their state will switch
         // Upon switching states, they override the EnemyState Start() method to perform their action

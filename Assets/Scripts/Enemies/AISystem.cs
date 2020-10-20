@@ -5,6 +5,7 @@ using Enemy_Scripts;
 using UnityEngine;
 using UnityEngine.AI;
 using Debug = UnityEngine.Debug;
+using UnityEngine.InputSystem;
 
 public enum EnemyType
 {
@@ -70,8 +71,17 @@ namespace Enemies
         public int bossAttackSelector = 10;
         public bool bCanBeStunned = true;
         public BoxCollider slamCol;
+        public enum BossStage
+        {
+            Sword,
+            Glaive,
+            Dual
+        }
+        public BossStage bossStage = BossStage.Sword;
+        public bool bHasBowDrawn = false;
+        public int shotCount = 3;
 
-        
+
         //ATTACK SPEED VARIABLES
         public float previousAttackSpeed;
         public float attackSpeed;
@@ -123,6 +133,7 @@ namespace Enemies
         private void Update()
         {
             spawnCheck.bSpawnMe = !bIsDead;
+            if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove(); 
         }
 
         #endregion
@@ -189,7 +200,12 @@ namespace Enemies
                     {
                         //hitstopController.Hitstop(.15f);
                         camImpulse.FireImpulse();
-                        if (enemyType == EnemyType.BOSS) IncreaseAttackSpeed(.1f);
+                        if (enemyType == EnemyType.BOSS)
+                        {
+                            IncreaseAttackSpeed(.05f);
+                            EndState();
+                            OnDodge();
+                        }
                         //EndState();
                         //OnDodge(); 
                     }
@@ -559,7 +575,10 @@ namespace Enemies
                 {
                     armourManager.DestroyPiece();
                     armourManager.DestroyPiece();
-                    SetState(new RecoveryEnemyState(this));
+                    IncreaseAttackSpeed(.05f);
+                    IncreaseAttackSpeed(.05f);
+                    EndState();
+                    OnDodge(); 
                 }
             }
         }
@@ -567,6 +586,16 @@ namespace Enemies
         public void OnEnemyRewind() 
         {
             SetState(new RewindEnemyState(this));
+        }
+
+        public void OnBossArrowMove()
+        {
+            SetState(new BossArrowMoveState(this));
+        }
+
+        public void OnBossArrowFire()
+        {
+            SetState(new BossArrowFireState(this));
         }
 
 
@@ -583,4 +612,5 @@ namespace Enemies
         }
         
     }
+
 }

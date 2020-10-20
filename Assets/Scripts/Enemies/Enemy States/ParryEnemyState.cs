@@ -28,6 +28,23 @@ namespace Enemies.Enemy_States
 
             if (AISystem.enemyType == EnemyType.TUTORIALENEMY) //TUTORIAL ENEMIES CANNOT USE UNBLOCKABLE
                 decision = 0;
+            if (AISystem.enemyType == EnemyType.BOSS)
+            {
+                int selector = Random.Range(0, 5);
+
+                if (selector == AISystem.bossAttackSelector)
+                {
+                    selector++;
+                    if (selector >= 5)
+                    {
+                        selector = 0;
+                    }
+                }
+
+                AISystem.bossAttackSelector = selector;
+                Animator.SetInteger("AttackSelector", selector);
+                decision = 0;
+            }
 
             if (decision == 0 || decision == 1) // Normal Attack
             {

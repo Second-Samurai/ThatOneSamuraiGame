@@ -216,6 +216,11 @@ MonoBehaviour:
   bossAttackSelector: 10
   bCanBeStunned: 0
   slamCol: {fileID: 8374720135785810275}
+  bossStage: 0
+  bHasBowDrawn: 0
+  shotCount: 3
+  previousAttackSpeed: 0
+  attackSpeed: 0
 --- !u!114 &2774322316920596147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -539,6 +544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   armourPieces: []
+  armourCount: 0
 --- !u!136 &4314866861779804278
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -759,7 +765,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 8.27
+  m_Radius: 20.27
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8746245150201961545
 MonoBehaviour:

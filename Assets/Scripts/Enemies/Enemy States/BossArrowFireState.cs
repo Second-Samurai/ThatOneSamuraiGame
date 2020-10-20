@@ -42,12 +42,13 @@ namespace Enemies.Enemy_States
             
             // Get the true target point (float offset is added to get a more accurate player-enemy target point)
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
+            Debug.Log(_target);
 
             // Set the rotation of the enemy
             PositionTowardsTarget(AISystem.transform, _target);
 
             // If player approaches circling enemy, trigger threatened bool and end state
-            if (InRange(AISystem.transform.position, _target, _shortRange))
+            if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.veryShortRange))
             {
                 _bIsThreatened = true;
                 EndState();
@@ -65,13 +66,14 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
-            if (AISystem.shotCount > 0)
+            if (AISystem.shotCount > 1)
             {
                 AISystem.shotCount--;
                 AISystem.OnBossArrowFire();
             }
             else
             {
+                AISystem.shotCount = 3;
                 Animator.SetBool("BowDrawn", false);
                 Animator.SetTrigger("SheathBow");
                 Animator.SetLayerWeight(1, 0);
@@ -130,10 +132,15 @@ namespace Enemies.Enemy_States
 
         public void Fire()
         {
-            Vector3 shotDirection = AISystem.transform.position - _target;
+            _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
+            Debug.Log(_target);
+            Vector3 shotDirection = _target - AISystem.firePoint.position;
+            shotDirection.y = 0;
+            shotDirection = shotDirection.normalized;
+            Debug.Log(shotDirection);
             GameObject _arrow = ObjectPooler.instance.ReturnObject("Arrow");
             //GameObject _arrow = Instantiate(arrow, shotOrigin.position, Quaternion.identity);
-            _arrow.transform.position = AISystem.transform.position + new Vector3(0,3,3);
+            _arrow.transform.position = AISystem.firePoint.position;
             _arrow.GetComponent<Projectile>().Launch(shotDirection, _target);
             
         } 

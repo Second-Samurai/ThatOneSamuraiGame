@@ -68,6 +68,7 @@ namespace Enemies
         public Rigidbody rb;
 
         //BOSS VARS
+        [Header("BOSS VARIABLES")]
         public int bossAttackSelector = 10;
         public bool bCanBeStunned = true;
         public BoxCollider slamCol;
@@ -80,6 +81,7 @@ namespace Enemies
         public BossStage bossStage = BossStage.Sword;
         public bool bHasBowDrawn = false;
         public int shotCount = 3;
+        public Transform firePoint;
 
 
         //ATTACK SPEED VARIABLES
@@ -147,7 +149,9 @@ namespace Enemies
             {
                 meleeCollider.enabled = false;
             }
-            
+
+            if(!bHasBowDrawn && enemyType == EnemyType.BOSS) animator.SetLayerWeight(1, 0);
+
             base.SetState(newEnemyState);
         }
         
@@ -205,6 +209,7 @@ namespace Enemies
                             IncreaseAttackSpeed(.05f);
                             EndState();
                             OnDodge();
+                            CheckArmourLevel();
                         }
                         //EndState();
                         //OnDodge(); 
@@ -577,6 +582,7 @@ namespace Enemies
                     armourManager.DestroyPiece();
                     IncreaseAttackSpeed(.05f);
                     IncreaseAttackSpeed(.05f);
+                    CheckArmourLevel();
                     EndState();
                     OnDodge(); 
                 }
@@ -598,6 +604,13 @@ namespace Enemies
             SetState(new BossArrowFireState(this));
         }
 
+        public void CheckArmourLevel()
+        {
+            if(armourManager.armourCount <= 6)
+            {
+                OnBossArrowMove();
+            }
+        }
 
         #endregion
 

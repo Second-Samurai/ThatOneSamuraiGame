@@ -54,7 +54,7 @@ namespace Enemies.Enemy_States
             PositionTowardsTarget(AISystem.transform, _target);
 
             // If player approaches circling enemy, trigger threatened bool and end state
-            if (InRange(AISystem.transform.position, _target, _shortRange))
+            if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.veryShortRange))
             {
                 _bIsThreatened = true;
                 EndState();

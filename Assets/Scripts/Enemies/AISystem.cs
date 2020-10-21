@@ -83,6 +83,7 @@ namespace Enemies
         public MeshRenderer bowMesh;
         public WeaponSwitcher weaponSwitcher;
         public SwordColliderOverride colliderOverride;
+        public GameObject teleportParticle;
 
 
         //ATTACK SPEED VARIABLES
@@ -142,7 +143,8 @@ namespace Enemies
         private void Update()
         {
             spawnCheck.bSpawnMe = !bIsDead;
-            if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove(); 
+            if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove();
+            if (enemyType == EnemyType.BOSS && Keyboard.current.iKey.wasPressedThisFrame) OnBossTaunt();
         }
 
         #endregion
@@ -154,6 +156,7 @@ namespace Enemies
         {
             swordEffects.EndBlockEffect();
             swordEffects.EndUnblockableEffect();
+            eDamageController.enemyGuard.bSuperArmour = false;
 
             if (bIsQuickBlocking) bIsQuickBlocking = false;
 
@@ -244,7 +247,8 @@ namespace Enemies
                     {
                         hitstopController.Hitstop(.15f);
                         camImpulse.FireImpulse();
-                        OnEnemyDeath();
+                        if (enemyType != EnemyType.BOSS) OnEnemyDeath();
+                        else OnBossDeath();
                     }
                 }
                 else
@@ -641,6 +645,25 @@ namespace Enemies
             }
         }
 
+        public void OnBossDeath()
+        {
+            if (armourManager.armourCount > 0)
+            {
+                eDamageController.enemyGuard.ResetGuard();
+                armourManager.DestroyPiece();
+                armourManager.DestroyPiece();
+                IncreaseAttackSpeed(.05f);
+                IncreaseAttackSpeed(.05f);
+                CheckArmourLevel();
+            }
+            else
+            {
+                statHandler.maxGuard = 5;
+                eDamageController.enemyGuard.ResetGuard();
+                CheckArmourLevel();
+            }
+        }
+
         public void OnEnemyRewind() 
         {
             SetState(new RewindEnemyState(this));
@@ -654,6 +677,11 @@ namespace Enemies
         public void OnBossArrowFire()
         {
             SetState(new BossArrowFireState(this));
+        }
+
+        public void OnBossTaunt()
+        {
+            SetState(new BossTauntEnemyState(this));
         }
 
         public void CheckArmourLevel()
@@ -685,6 +713,18 @@ namespace Enemies
         public void BossGlaiveColOff()
         {
             if (enemyType == EnemyType.BOSS) colliderOverride.ColOff(1);
+        }
+
+        public void TauntTeleport()
+        {
+            transform.position = (enemySettings.GetTarget().position - (enemySettings.GetTarget().forward * 5));
+            OnJumpAttack();
+        }
+
+        public void DropSmoke()
+        {
+            Instantiate(teleportParticle, transform.position + (transform.forward*2), Quaternion.identity);
+
         }
 
         #endregion

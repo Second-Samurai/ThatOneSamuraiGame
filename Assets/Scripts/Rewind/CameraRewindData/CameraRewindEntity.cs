@@ -9,15 +9,19 @@ public class CameraRewindEntity : RewindEntity
     [SerializeField]
     public List<CameraTimeData> cameraDataList;
     private LockOnTargetManager lockOnTargetManager;
-
+    private CameraControl cameraControl;
+    private int camPriority;
     // Start is called before the first frame update
     protected new void Start()
     {
         _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
         cameraDataList = new List<CameraTimeData>();
-       lockOnTargetManager = GameManager.instance.playerController.gameObject.GetComponentInChildren<LockOnTargetManager>();
+        lockOnTargetManager = GameManager.instance.playerController.gameObject.GetComponentInChildren<LockOnTargetManager>();
+        cameraControl = GameManager.instance.playerController.gameObject.GetComponent<CameraControl>();
         _rewindInput.Reset += ResetTimeline;
         _rewindInput.OnEndRewind += ApplyData;
+        _rewindInput.OnEndRewind += EnableEvents;
+        _rewindInput.OnStartRewind += DisableEvents;
 
         base.Start();
     }
@@ -51,9 +55,20 @@ public class CameraRewindEntity : RewindEntity
         }
 
         //move to arguments need to be added rewind entity
-        cameraDataList.Insert(0, new CameraTimeData(lockOnTargetManager._bLockedOn, lockOnTargetManager._target, lockOnTargetManager._player));
+        cameraDataList.Insert(0, new CameraTimeData(lockOnTargetManager._bLockedOn, lockOnTargetManager._target, lockOnTargetManager._player, lockOnTargetManager.cam.m_Priority));
 
         base.RecordPast();
+    }
+    public void DisableEvents()
+    {
+        camPriority = lockOnTargetManager.cam.m_Priority;
+        lockOnTargetManager.cam.m_Priority = 1;
+
+    }
+
+    public void EnableEvents()
+    {
+        lockOnTargetManager.cam.m_Priority = cameraDataList[currentIndex].priority;
     }
 
     public override void StepBack()
@@ -98,8 +113,12 @@ public class CameraRewindEntity : RewindEntity
     public override void ApplyData()
     {
         // TODO: Fix this
-        lockOnTargetManager._bLockedOn = false;
-        //lockOnTargetManager._bLockedOn = cameraDataList[currentIndex].bIsLockedOn;
+        //ckOnTargetManager._bLockedOn = false;
+        lockOnTargetManager._bLockedOn = cameraDataList[currentIndex].bIsLockedOn;
+        if (lockOnTargetManager._bLockedOn == false) 
+        {
+            cameraControl.UnlockCam();
+        }
 
 
         //base.ApplyData();

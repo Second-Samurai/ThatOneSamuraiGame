@@ -1,26 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
-public class BoardRewindEntity : RewindEntity
+public class ArmourRewindEntity : RewindEntity
 {
     [SerializeField]
-    public List<BoardTimeData> BoardDataList;
+    public List<ArmourTimeData> ArmourDataList;
 
-    public BoardBreak boardBreak;
-    private Rigidbody boardRigidBody;
+    private ArmourPiece armourPiece;
+    private Rigidbody ArmourRigidBody;
     // Start is called before the first frame update
     protected new void Start()
     {
-        boardBreak = gameObject.GetComponentInParent<BoardBreak>();
         _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
-        BoardDataList = new List<BoardTimeData>();
+        ArmourDataList = new List<ArmourTimeData>();
         _rewindInput.Reset += ResetTimeline;
         _rewindInput.OnEndRewind += ApplyData;
         _rewindInput.OnStartRewind += DisableEvents;
         _rewindInput.OnEndRewind += EnableEvents;
 
-        boardRigidBody = gameObject.GetComponent<Rigidbody>();
+        armourPiece = gameObject.GetComponent<ArmourPiece>();
+        ArmourRigidBody = gameObject.GetComponent<Rigidbody>();
 
         base.Start();
     }
@@ -37,17 +38,16 @@ public class BoardRewindEntity : RewindEntity
         {
 
         }
+        
+    }
+    public void DisableEvents()
+    {
+        ArmourRigidBody.isKinematic = true;
 
     }
-    public  void DisableEvents()
-    {
-        boardRigidBody.isKinematic = true;
 
-    }
-
-    public  void EnableEvents()
+    public void EnableEvents()
     {
-        boardRigidBody.isKinematic = false;
 
 
     }
@@ -56,25 +56,25 @@ public class BoardRewindEntity : RewindEntity
     {
         for (int i = currentIndex; i > 0; i--)
         {
-            if (currentIndex <= BoardDataList.Count - 1)
+            if (currentIndex <= ArmourDataList.Count - 1)
             {
-                BoardDataList.RemoveAt(i);
+                ArmourDataList.RemoveAt(i);
             }
         }
-        BoardDataList.TrimExcess();
+        ArmourDataList.TrimExcess();
     }
 
     public new void RecordPast()
     {
         //maybe make 10f into a global variable
         //how much data is cached before list starts being culled (currently 10 seconds)
-        if (BoardDataList.Count > _rewindInput.rewindTime)
+        if (ArmourDataList.Count > _rewindInput.rewindTime)
         {
-            BoardDataList.RemoveAt(BoardDataList.Count - 1);
+            ArmourDataList.RemoveAt(ArmourDataList.Count - 1);
         }
 
         //move to arguments need to be added rewind entity
-        BoardDataList.Insert(0, new BoardTimeData(boardBreak.isBuilt, boardRigidBody.velocity));
+        ArmourDataList.Insert(0, new ArmourTimeData(armourPiece.col.enabled, armourPiece.destroyed, ArmourRigidBody.velocity, transform.parent));
 
         base.RecordPast();
     }
@@ -82,14 +82,14 @@ public class BoardRewindEntity : RewindEntity
     public override void StepBack()
     {
 
-        if (BoardDataList.Count > 0)
+        if (ArmourDataList.Count > 0)
         {
-            if (currentIndex < BoardDataList.Count - 1)
+            if (currentIndex < ArmourDataList.Count - 1)
             {
                 currentIndex++;
-                if (currentIndex >= BoardDataList.Count - 1)
+                if (currentIndex >= ArmourDataList.Count - 1)
                 {
-                    currentIndex = BoardDataList.Count - 1;
+                    currentIndex = ArmourDataList.Count - 1;
                 }
                 SetPosition();
             }
@@ -98,7 +98,7 @@ public class BoardRewindEntity : RewindEntity
 
     public override void StepForward()
     {
-        if (BoardDataList.Count > 0)
+        if (ArmourDataList.Count > 0)
         {
             if (currentIndex > 0)
             {
@@ -110,10 +110,8 @@ public class BoardRewindEntity : RewindEntity
 
     public new void SetPosition()
     {
-        if (currentIndex <= BoardDataList.Count - 1)
+        if (currentIndex <= ArmourDataList.Count - 1)
         {
-            boardBreak.isBuilt = BoardDataList[currentIndex].isBuilt;
-            boardRigidBody.velocity = BoardDataList[currentIndex].velocity;
         }
         // needs to set the enemy targeting
         base.SetPosition();
@@ -121,9 +119,14 @@ public class BoardRewindEntity : RewindEntity
 
     public override void ApplyData()
     {
-
-        boardBreak.ReBuild();
-
+        if (currentIndex <= ArmourDataList.Count - 1)
+        {
+            transform.parent = ArmourDataList[currentIndex].parent;
+            armourPiece.destroyed = ArmourDataList[currentIndex].destroyed;
+            armourPiece.rb.velocity = ArmourDataList[currentIndex].velocity;
+            armourPiece.col.enabled = ArmourDataList[currentIndex].isEnabled;
+            armourPiece.rb.isKinematic = !ArmourDataList[currentIndex].isEnabled;
+        }
 
         //base.ApplyData();
     }

@@ -21,9 +21,9 @@ public class AddToTracker : MonoBehaviour
             _enemyTracker = GameManager.instance.enemyTracker;
             _enemyTracker.AddEnemy(GetComponentInParent<Rigidbody>().gameObject.transform);
 
-            Debug.LogWarning("Set from tracker");
             if (_aiSystem.bIsIdle) 
             {
+                Debug.LogWarning("Set from tracker");
                 _aiSystem.bIsIdle = false;
                 _aiSystem.OnApproachPlayer();  
             }

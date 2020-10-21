@@ -14,9 +14,6 @@ namespace Enemies.Enemy_States
         {
             //NOTE: A majority of the guard broken behaviour is handled in Guarding and EDamageController
 
-            // Start a new impatience countdown
-            AISystem.enemyTracker.StartImpatienceCountdown();
-            
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
             

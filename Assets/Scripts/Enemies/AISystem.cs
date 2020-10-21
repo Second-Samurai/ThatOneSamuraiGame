@@ -70,11 +70,13 @@ namespace Enemies
         public int bossAttackSelector = 10;
         public bool bCanBeStunned = true;
         public BoxCollider slamCol;
-
         
         //ATTACK SPEED VARIABLES
         public float previousAttackSpeed;
         public float attackSpeed;
+        
+        //CIRCLE TRACKING (used for the enemy tracker)
+        public bool bIsCircling = false;
         
         #endregion
         
@@ -383,6 +385,17 @@ namespace Enemies
         {
             attackSpeed = previousAttackSpeed;
             animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
+        }
+        
+        // Used in CircleEnemyState and enemy tracker to move the enemy onto another action
+        // DO NOT IMPLEMENT A START CIRCLING STATE. Instead you should switch to CircleEnemyState
+        public void StopCircling()
+        {
+            // Reset animation variables
+            animator.SetFloat("MovementX", 0.0f);
+            
+            // Reset circling variable
+            bIsCircling = false;
         }
         
         #endregion

@@ -20,16 +20,15 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            // For the enemy tracker, restart the impatience countdown
-            // See enemy tracker for more details
-            AISystem.enemyTracker.StartImpatienceCountdown();
-            
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
             
             // Cache the range value so we're not always getting it in the tick function
             _longRange = AISystem.enemySettings.longRange;
             _shortRange = AISystem.enemySettings.shortRange;
+            
+            // Set the enemy to be circling (useful for the enemy tracker)
+            AISystem.bIsCircling = true;
 
             // Pick a strafe direction and trigger movement animator
             PickStrafeDirection();
@@ -60,11 +59,8 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
-            // Stop the impatience cooldown when state end is called
-            AISystem.enemyTracker.StopImpatienceCountdown();
-            
-            // Reset animation variables
-            Animator.SetFloat("MovementX", 0.0f);
+            // Stop circling behaviour in AISystem (this is also called in enemy tracker)
+            AISystem.StopCircling();
 
             // If threatened, do a threatened response (i.e. if the player is close)
             // Else approach the player again (i.e. if the player is far)

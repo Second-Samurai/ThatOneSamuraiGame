@@ -19,6 +19,19 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            if (AISystem.shotCount <= 1)
+            {
+                AISystem.shotCount = 3;
+                AISystem.bHasBowDrawn = false;
+                Animator.SetBool("BowDrawn", false);
+                Animator.SetTrigger("SheathBow");
+                Animator.SetLayerWeight(1, 0);
+                AISystem.OnApproachPlayer();
+                AISystem.weaponSwitcher.EnableBow(false);
+                AISystem.weaponSwitcher.EnableSword(true);
+                yield break;
+            }
+            Animator.SetLayerWeight(1, 1);
             // For the enemy tracker, restart the impatience countdown
             // See enemy tracker for more details
             //AISystem.enemyTracker.StartImpatienceCountdown();

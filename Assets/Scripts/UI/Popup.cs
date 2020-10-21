@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class Popup : MonoBehaviour
 {
     public GameObject popup;
-    private bool hasTriggered = false;
+    public bool bHasTriggered = false;
 
     public Image[] popupImageArray;
     public TMP_Text[] popupTextArray;
@@ -19,9 +19,6 @@ public class Popup : MonoBehaviour
     public float maxTimeRemaining;
     private bool _bTimerRunning = false;
     private float _timeRemaining;
-    
-    //Only used for the lock on tutorial
-    private bool _bStopLockOnTut = false;
 
     private void Start()
     {
@@ -29,11 +26,11 @@ public class Popup : MonoBehaviour
         _popupTextTweeners = new Tweener[popupTextArray.Length];
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player") && !hasTriggered)
+        if (other.gameObject.CompareTag("Player") && !bHasTriggered)
         {
-            hasTriggered = true;
+            bHasTriggered = true;
             popup.SetActive(true);
             
             for (int index = 0; index < _popupImageTweeners.Length; index++)
@@ -81,24 +78,5 @@ public class Popup : MonoBehaviour
             popupTextArray[index].DOFade(0, 0.5f);
         }
         _bTimerRunning = false;
-    }
-
-    public void LockOnPopup(GameObject _popup)
-    {
-        // Don't show lock on if bool is true
-        if (_bStopLockOnTut || _popup.activeSelf)
-        {
-            _popup.SetActive(false);
-        }
-        else if (!_bStopLockOnTut)
-        {
-            _popup.SetActive(true);
-        }
-    }
-
-    public void StopLockOnTut()
-    {
-        
-        _bStopLockOnTut = true;
     }
 }

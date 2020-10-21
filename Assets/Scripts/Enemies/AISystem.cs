@@ -65,6 +65,12 @@ namespace Enemies
 
         //PHYSICS
         public Rigidbody rb;
+
+        //BOSS VARS
+        public int bossAttackSelector = 10;
+        public bool bCanBeStunned = true;
+        public BoxCollider slamCol;
+
         
         //ATTACK SPEED VARIABLES
         public float previousAttackSpeed;
@@ -183,6 +189,7 @@ namespace Enemies
                     {
                         //hitstopController.Hitstop(.15f);
                         camImpulse.FireImpulse();
+                        if (enemyType == EnemyType.BOSS) IncreaseAttackSpeed(.1f);
                         //EndState();
                         //OnDodge(); 
                     }
@@ -232,7 +239,18 @@ namespace Enemies
         {
             StartCoroutine(DodgeImpulseCoroutine(Vector3.forward, 10f, time));
         }
- 
+
+        public void JumpImpulseAnimEvent(float time)
+        {
+            navMeshAgent.enabled = false; 
+            StartCoroutine(JumpImpulseCoroutine(Vector3.forward, 20f, time));
+        }
+        public void PreJumpImpulseAnimEvent(float time)
+        {
+            navMeshAgent.enabled = false;
+            StartCoroutine(DodgeImpulseCoroutine(new Vector3(0,1,1), 20f, time));
+        }
+
         public void ImpulseWithDirection(float force, Vector3 dir)
         {
             StartCoroutine(DodgeImpulseCoroutine(dir, force, .7f));
@@ -251,6 +269,17 @@ namespace Enemies
         {
             kbController.KBColOff();
         }
+
+        public void SlamColOn()
+        {
+            slamCol.enabled = true;
+        }
+
+        public void SlamColOff()
+        {
+            slamCol.enabled = false;
+        }
+
 
         // Coroutines cannot exist in enemystate since it's not a monobehavior, so we handle it here
         private IEnumerator DodgeImpulseCoroutine(Vector3 lastDir, float force)
@@ -275,6 +304,25 @@ namespace Enemies
                 dodgeTimer -= Time.deltaTime;
                 yield return null;
             }
+        }
+
+        private IEnumerator JumpImpulseCoroutine(Vector3 lastDir, float force, float timer)
+        {
+            float dodgeTimer = timer;
+            animator.applyRootMotion = false;
+            while (dodgeTimer > 0f)
+            {
+                transform.Translate(lastDir.normalized * force * Time.deltaTime);
+                if (Vector3.Distance(transform.position, enemySettings.GetTarget().position) <= enemySettings.veryShortRange)
+                {
+                    
+                    break;
+                }
+
+                dodgeTimer -= Time.deltaTime;
+                yield return null;
+            }
+            animator.applyRootMotion = true;
         }
 
         public void BeginUnblockable()
@@ -323,18 +371,6 @@ namespace Enemies
             return false;
         }
         
-        // Called in animation events to return the enemy's guard option
-        public void StartIntangibility()
-        {
-            eDamageController.DisableDamage();
-        }
-    
-        // Called in animation events to return the enemy's guard option
-        public void StopIntangibility()
-        {
-            eDamageController.EnableDamage();
-        }
-        
         // Called in parry enemy state
         public void IncreaseAttackSpeed(float increasedAmount)
         {
@@ -348,15 +384,66 @@ namespace Enemies
             attackSpeed = previousAttackSpeed;
             animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
         }
+        
+        #endregion
+
+        #region Animation Called Events
+
+        // BUG-FIX: BREAKING THE STATE MACHINE RULES
+        // The end state animation event in swordsman light attack was sometimes performing EndState for other events
+        // This is a precautionary method to stop that from happening
+
+        // Called in animation events to return the enemy's guard option
+        public void StartIntangibility()
+        {
+            eDamageController.DisableDamage();
+        }
+
+        // Called in animation events to return the enemy's guard option
+        public void StopIntangibility()
+        {
+            eDamageController.EnableDamage();
+        }
+        public void EnableNav()
+        {
+            navMeshAgent.enabled = true;
+        }
+
+        public void EndState()
+        {
+            EnemyState.EndState();
+        }
+
+        public void StopRotating()
+        {
+            EnemyState.StopRotating();
+        }
+        public void StartRotating()
+        {
+            EnemyState.StartRotating();
+        }
+
+
+        public void EndStateAttack()
+        {
+            if (EnemyState.GetType() == typeof(SwordAttackEnemyState) || EnemyState.GetType() == typeof(ParryEnemyState))
+            {
+                EndState();
+            }
+            else
+            {
+                Debug.LogWarning("Warning: Tried to EndState the wrong state, EndState cancelled");
+            }
+        }
 
         #endregion
         
         // ENEMY STATE SWITCHING INFO
         // Any time an enemy gets a combat maneuver called, their state will switch
         // Upon switching states, they override the EnemyState Start() method to perform their action
-        
+
         #region Enemy Combat Manuervers
-        
+
         public void OnSwordAttack()
         {
             if (EnemyDeathCheck()) return;
@@ -462,7 +549,19 @@ namespace Enemies
 
         public void OnEnemyDeath()
         {
-            SetState(new DeathEnemyState(this));
+            if(enemyType != EnemyType.BOSS)
+                SetState(new DeathEnemyState(this));
+            else
+            {
+                if(armourManager.armourCount <= 0)
+                    SetState(new DeathEnemyState(this));
+                else
+                {
+                    armourManager.DestroyPiece();
+                    armourManager.DestroyPiece();
+                    SetState(new RecoveryEnemyState(this));
+                }
+            }
         }
 
         public void OnEnemyRewind() 

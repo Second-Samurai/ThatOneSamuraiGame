@@ -2680,7 +2680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PrintStates: 0
-  enemyType: 3
+  enemyType: 4
   meleeCollider: {fileID: 6441233702834476638}
   enemySettings: {fileID: 11400000, guid: 8a3d28b117cd0421d98e5b33c8168471, type: 2}
   enemyTracker: {fileID: 0}
@@ -2701,6 +2701,18 @@ MonoBehaviour:
   attackIndicator: {fileID: 913562226929016414}
   hitstopController: {fileID: 0}
   rb: {fileID: 0}
+  bossAttackSelector: 10
+  bCanBeStunned: 1
+  slamCol: {fileID: 0}
+  bHasBowDrawn: 0
+  shotCount: 3
+  firePoint: {fileID: 0}
+  glaiveMesh: {fileID: 0}
+  bowMesh: {fileID: 0}
+  weaponSwitcher: {fileID: 0}
+  previousAttackSpeed: 0
+  attackSpeed: 0
+  bIsCircling: 0
 --- !u!114 &4900752102902059163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2770,6 +2782,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swordCollider: {fileID: 6441233702834476638}
+  glaiveCol: {fileID: 0}
 --- !u!114 &3246753527808952213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2790,6 +2803,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _aiSystem: {fileID: 983128177740748613}
+  bSuperArmour: 0
 --- !u!82 &1094223430080771032
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3024,6 +3038,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   armourPieces: []
+  armourCount: 0
 --- !u!136 &6441233702834476638
 CapsuleCollider:
   m_ObjectHideFlags: 0

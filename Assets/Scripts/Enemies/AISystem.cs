@@ -13,6 +13,7 @@ public enum EnemyType
     ARCHER,
     GLAIVEWIELDER,
     BOSS,
+    MINIBOSS,
     TUTORIALENEMY
 }
 
@@ -43,6 +44,7 @@ namespace Enemies
         
         //NAVMESH
         public NavMeshAgent navMeshAgent;
+        public bool bIsIdle = true;
         
         //DAMAGE CONTROLS
         public EDamageController eDamageController;
@@ -52,6 +54,8 @@ namespace Enemies
         public ArmourManager armourManager;
         public bool bHasArmour;
         public TriggerImpulse camImpulse;
+        public bool bIsQuickBlocking = false;
+
         //NOTE: isStunned is handled in Guarding script, inside the eDamageController script
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
@@ -78,6 +82,8 @@ namespace Enemies
         public MeshRenderer glaiveMesh;
         public MeshRenderer bowMesh;
         public WeaponSwitcher weaponSwitcher;
+        public SwordColliderOverride colliderOverride;
+        public GameObject teleportParticle;
 
 
         //ATTACK SPEED VARIABLES
@@ -137,7 +143,8 @@ namespace Enemies
         private void Update()
         {
             spawnCheck.bSpawnMe = !bIsDead;
-            if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove(); 
+            if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove();
+            if (enemyType == EnemyType.BOSS && Keyboard.current.iKey.wasPressedThisFrame) OnBossTaunt();
         }
 
         #endregion
@@ -147,6 +154,12 @@ namespace Enemies
         // An override that is performed for every state change
         public override void SetState(EnemyState newEnemyState)
         {
+            swordEffects.EndBlockEffect();
+            swordEffects.EndUnblockableEffect();
+            eDamageController.enemyGuard.bSuperArmour = false;
+
+            if (bIsQuickBlocking) bIsQuickBlocking = false;
+
             if (enemyType != EnemyType.ARCHER)
             {
                 meleeCollider.enabled = false;
@@ -161,6 +174,7 @@ namespace Enemies
                 KBColOff();
                 
             }
+            Debug.LogWarning(newEnemyState.GetType().Name);
             base.SetState(newEnemyState);
         }
         
@@ -190,6 +204,11 @@ namespace Enemies
                     break;
                 case EnemyType.BOSS:
                     statHandler.Init(enemySettings.bossStats.enemyData); 
+                    animator.SetFloat("ApproachSpeedMultiplier", enemySettings.bossStats.enemyData.moveSpeed);
+                    animator.SetFloat("CircleSpeedMultiplier", enemySettings.bossStats.circleSpeed);
+                    break;
+                case EnemyType.MINIBOSS:
+                    statHandler.Init(enemySettings.bossStats.enemyData);
                     animator.SetFloat("ApproachSpeedMultiplier", enemySettings.bossStats.enemyData.moveSpeed);
                     animator.SetFloat("CircleSpeedMultiplier", enemySettings.bossStats.circleSpeed);
                     break;
@@ -228,7 +247,8 @@ namespace Enemies
                     {
                         hitstopController.Hitstop(.15f);
                         camImpulse.FireImpulse();
-                        OnEnemyDeath();
+                        if (enemyType != EnemyType.BOSS) OnEnemyDeath();
+                        else OnBossDeath();
                     }
                 }
                 else
@@ -280,6 +300,11 @@ namespace Enemies
         {
             navMeshAgent.enabled = false;
             StartCoroutine(DodgeImpulseCoroutine(new Vector3(0,1,1), 20f, time));
+        }
+        public void PreFlipImpulseAnimEvent(float time)
+        {
+            navMeshAgent.enabled = false;
+            StartCoroutine(JumpImpulseCoroutine(new Vector3(0, 1, -1), 20f, time));
         }
 
         public void ImpulseWithDirection(float force, Vector3 dir)
@@ -456,6 +481,7 @@ namespace Enemies
 
         public void EndState()
         {
+            Debug.LogWarning("Called by anim");
             EnemyState.EndState();
         }
 
@@ -471,13 +497,14 @@ namespace Enemies
 
         public void EndStateAttack()
         {
-            if (EnemyState.GetType() == typeof(SwordAttackEnemyState) || EnemyState.GetType() == typeof(ParryEnemyState))
+            if (EnemyState.GetType() == typeof(SwordAttackEnemyState) || EnemyState.GetType() == typeof(ParryEnemyState) || EnemyState.GetType() == typeof(JumpAttackEnemyState) || EnemyState.GetType() == typeof(GlaiveAttackEnemyState))
             {
-                EndState();
+                EnemyState.EndState();
             }
             else
             {
                 Debug.LogWarning("Warning: Tried to EndState the wrong state, EndState cancelled");
+                Debug.LogWarning(EnemyState.GetType().Name);
             }
         }
 
@@ -517,7 +544,7 @@ namespace Enemies
         {
             bHasBowDrawn = false;
             if (EnemyDeathCheck()) return;
-            SetState(new QuickBlockEnemyState(this));
+            if(!bIsQuickBlocking) SetState(new QuickBlockEnemyState(this));
         }
 
         public void OnBlock()
@@ -592,7 +619,8 @@ namespace Enemies
 
         public void OnEnemyRecovery()
         {
-            SetState(new RecoveryEnemyState(this));
+            if (enemyType != EnemyType.BOSS)
+                SetState(new RecoveryEnemyState(this)); 
         }
 
         public void OnEnemyDeath()
@@ -611,9 +639,28 @@ namespace Enemies
                     IncreaseAttackSpeed(.05f);
                     IncreaseAttackSpeed(.05f);
                     CheckArmourLevel();
-                    EndState();
-                    OnDodge();
+                   
+                    
                 }
+            }
+        }
+
+        public void OnBossDeath()
+        {
+            if (armourManager.armourCount > 0)
+            {
+                eDamageController.enemyGuard.ResetGuard();
+                armourManager.DestroyPiece();
+                armourManager.DestroyPiece();
+                IncreaseAttackSpeed(.05f);
+                IncreaseAttackSpeed(.05f);
+                CheckArmourLevel();
+            }
+            else
+            {
+                statHandler.maxGuard = 5;
+                eDamageController.enemyGuard.ResetGuard();
+                CheckArmourLevel();
             }
         }
 
@@ -632,13 +679,52 @@ namespace Enemies
             SetState(new BossArrowFireState(this));
         }
 
+        public void OnBossTaunt()
+        {
+            SetState(new BossTauntEnemyState(this));
+        }
+
         public void CheckArmourLevel()
         {
-            if(armourManager.armourCount <= 6)
+            if (armourManager.armourCount <= 3)
             {
-                OnBossArrowMove();
+                OnDodge();
+                //OnGlaiveAttack();
+                statHandler.maxGuard += 40;
             }
-            statHandler.maxGuard += 20;
+            else if (armourManager.armourCount <= 6)
+            {
+                OnDodge();
+               // OnBossArrowMove();
+                statHandler.maxGuard += 20;
+            }
+            else
+            {
+                OnDodge();
+                statHandler.maxGuard += 20;
+                //OnApproachPlayer();
+            }
+        }
+
+        public void BossGlaiveColOn()
+        {
+            if (enemyType == EnemyType.BOSS) colliderOverride.ColOn(1);
+        }
+        public void BossGlaiveColOff()
+        {
+            if (enemyType == EnemyType.BOSS) colliderOverride.ColOff(1);
+        }
+
+        public void TauntTeleport()
+        {
+            transform.position = (enemySettings.GetTarget().position - (enemySettings.GetTarget().forward * 5));
+            OnJumpAttack();
+        }
+
+        public void DropSmoke()
+        {
+            Instantiate(teleportParticle, transform.position + (transform.forward*2), Quaternion.identity);
+
         }
 
         #endregion

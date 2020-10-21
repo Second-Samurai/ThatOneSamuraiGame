@@ -3,26 +3,25 @@ using UnityEngine;
 
 namespace Enemies.Enemy_States
 {
-    public class JumpAttackEnemyState : EnemyState
+    public class BossTauntEnemyState : EnemyState
     {
-        private Vector3 _target; 
+        private Vector3 _target;
 
         //Class constructor
-        public JumpAttackEnemyState(AISystem aiSystem) : base(aiSystem)
+        public BossTauntEnemyState(AISystem aiSystem) : base(aiSystem)
         {
         }
 
         public override IEnumerator BeginState()
         {
             //ResetAnimationBools();
-            if(AISystem.enemyType == EnemyType.BOSS) AISystem.weaponSwitcher.EnableSword(true);
+            if (AISystem.enemyType == EnemyType.BOSS) AISystem.weaponSwitcher.EnableSword(true);
             AISystem.eDamageController.enemyGuard.bSuperArmour = true;
-            AISystem.attackIndicator.ShowIndicator();
-            // Stop the navMeshAgent from tracking
+            
             AISystem.navMeshAgent.isStopped = true;
             AISystem.navMeshAgent.enabled = false;
             // Set the attack trigger
-            Animator.SetTrigger("TriggerJumpAttack");
+            Animator.SetTrigger("TriggerTaunt");
 
             // Rotate towards player
             bIsRotating = true;
@@ -43,8 +42,8 @@ namespace Enemies.Enemy_States
                 _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
                 PositionTowardsTarget(AISystem.transform, _target);
             }
-          //  AISystem.rb.velocity = -AISystem.transform.forward * 2;
-           
+            //  AISystem.rb.velocity = -AISystem.transform.forward * 2;
+
         }
 
         public override void EndState()
@@ -57,9 +56,11 @@ namespace Enemies.Enemy_States
 
             // Check current distance to determine next action
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
- 
+
             // In enemy state, choose a following action based on player distance
-            ChooseActionUsingDistance(_target);
+            AISystem.TauntTeleport();
         }
+
+        
     }
 }

@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac4ad1a99ac52af4a9b1b39f5eea1b54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PrintStates: 0
+  PrintStates: 1
   enemyType: 3
   meleeCollider: {fileID: 4314866861779804278}
   enemySettings: {fileID: 11400000, guid: 8a3d28b117cd0421d98e5b33c8168471, type: 2}
@@ -202,6 +202,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   bPlayerFound: 0
   navMeshAgent: {fileID: 0}
+  bIsIdle: 1
   eDamageController: {fileID: 0}
   bIsDead: 0
   bIsUnblockable: 0
@@ -209,6 +210,7 @@ MonoBehaviour:
   armourManager: {fileID: 7348651135563686791}
   bHasArmour: 1
   camImpulse: {fileID: 617449704335862312}
+  bIsQuickBlocking: 0
   floatOffset: {x: 0, y: 2, z: 0}
   parryEffects: {fileID: 8589244748363466155}
   swordEffects: {fileID: 5073016996662958135}
@@ -223,6 +225,10 @@ MonoBehaviour:
   firePoint: {fileID: 9139343113442916151}
   glaiveMesh: {fileID: 3606121008636986492}
   bowMesh: {fileID: 0}
+  weaponSwitcher: {fileID: 0}
+  colliderOverride: {fileID: 3009084765067566339}
+  teleportParticle: {fileID: 2357446137480286433, guid: 897752a891305904395d6b502b42f0ae,
+    type: 3}
   previousAttackSpeed: 0
   attackSpeed: 0
   bIsCircling: 0
@@ -568,8 +574,8 @@ MonoBehaviour:
   swordSheath: {fileID: 3397851055329569950}
   bowHand: {fileID: 5508230267903636317}
   bowBack: {fileID: 2721656778932586883}
-  glaiveHand: {fileID: 3606121008636986492}
-  glaiveSheath: {fileID: 2563510222041867036}
+  glaiveHand: {fileID: 8057010082367890955}
+  glaiveSheath: {fileID: 5787008030494463560}
 --- !u!136 &4314866861779804278
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3591,7 +3597,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &922808130513451279
 Transform:
   m_ObjectHideFlags: 0
@@ -3624,7 +3630,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8057010082367890955}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3635,7 +3641,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3846018093981099296, guid: 49d1603a5169ca440a454d915a045c2f, type: 3}
+  - {fileID: 2100000, guid: 47941ca9edc574ebd97bf342df560c7c, type: 2}
   - {fileID: -6629797300637803691, guid: 97851caa7a2918f48b1adb7cd91b0914, type: 3}
   - {fileID: -2813467912831258332, guid: 97851caa7a2918f48b1adb7cd91b0914, type: 3}
   - {fileID: -6478536213147159724, guid: 97851caa7a2918f48b1adb7cd91b0914, type: 3}
@@ -4228,6 +4234,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Unblockable_Effect
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546933920284287747, guid: 404b781796bca4630b0866357f20e96b,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3546933920284287804, guid: 404b781796bca4630b0866357f20e96b,
         type: 3}

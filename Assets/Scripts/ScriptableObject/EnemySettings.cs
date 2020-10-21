@@ -52,6 +52,8 @@ public class EnemySettings : ScriptableObject
                 return tutorialEnemyStats;
             case EnemyType.BOSS:
                 return bossStats;
+            case EnemyType.MINIBOSS:
+                return bossStats;
             default:
                 Debug.LogError("Error: Could not find suitable enemy type");
                 break;

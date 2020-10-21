@@ -6,7 +6,7 @@ public class WeaponSwitcher : MonoBehaviour
 {
     public MeshRenderer swordHand, swordSheath;
     public GameObject bowHand, bowBack;
-    public MeshRenderer glaiveHand, glaiveSheath;
+    public GameObject glaiveHand, glaiveSheath;
 
     public void EnableSword(bool val)
     {
@@ -16,8 +16,8 @@ public class WeaponSwitcher : MonoBehaviour
 
     public void EnableGlaive(bool val)
     {
-        glaiveHand.enabled = val;
-        glaiveSheath.enabled = !val;
+        glaiveHand.SetActive(val);
+        glaiveSheath.SetActive(!val);
     }
 
     public void EnableBow(bool val)

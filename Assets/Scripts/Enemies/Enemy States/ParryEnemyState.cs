@@ -44,7 +44,7 @@ namespace Enemies.Enemy_States
 
                 AISystem.bossAttackSelector = selector;
                 Animator.SetInteger("AttackSelector", selector);
-                decision = 0;
+                if (AISystem.armourManager.armourCount > 4) decision = 0;
             }
 
             if (decision == 0 || decision == 1) // Normal Attack
@@ -57,6 +57,11 @@ namespace Enemies.Enemy_States
             }
             else if (decision == 2) // Heavy attack
             {
+                if(AISystem.enemyType == EnemyType.BOSS)
+                {
+                    AISystem.ReturnPreviousAttackSpeed();
+                    AISystem.OnGlaiveAttack();
+                }
                 //Increase the speed of the next attack
                 AISystem.IncreaseAttackSpeed(0.4f);
                 
@@ -74,7 +79,16 @@ namespace Enemies.Enemy_States
             
             else if (decision == 3) // Counter attack
             {
-                Animator.SetTrigger("TriggerCounterAttack");
+                if(AISystem.enemyType == EnemyType.BOSS)
+                {
+                    AISystem.ReturnPreviousAttackSpeed();
+                    AISystem.OnGlaiveAttack();
+                }
+                else
+                {
+
+                    Animator.SetTrigger("TriggerCounterAttack");
+                }
 
             }
 

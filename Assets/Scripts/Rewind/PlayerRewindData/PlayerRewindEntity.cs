@@ -155,7 +155,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
         else playerInput._functions._inputComponent.SwitchCurrentActionMap("Gameplay");
         swordCollider.enabled = playerDataList[currentIndex].swordCollider;
         
-        playerInput.camControl.bLockedOn = false;
-        playerInput.camControl.UnlockCam();
+     //   playerInput.camControl.bLockedOn = false;
+      //  playerInput.camControl.UnlockCam();
     }
 }

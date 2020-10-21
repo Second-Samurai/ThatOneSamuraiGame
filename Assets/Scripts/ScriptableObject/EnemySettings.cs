@@ -16,6 +16,7 @@ public class EnemySettings : ScriptableObject
     public float longRange;
     public float midRange;
     public float shortRange;
+    public float veryShortRange;
     
     [Header("Impatience Time intervals")]
     public float minImpatienceTime;
@@ -50,6 +51,8 @@ public class EnemySettings : ScriptableObject
             case EnemyType.TUTORIALENEMY:
                 return tutorialEnemyStats;
             case EnemyType.BOSS:
+                return bossStats;
+            case EnemyType.MINIBOSS:
                 return bossStats;
             default:
                 Debug.LogError("Error: Could not find suitable enemy type");

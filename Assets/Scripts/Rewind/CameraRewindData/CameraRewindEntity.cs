@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,10 +36,7 @@ public class CameraRewindEntity : RewindEntity
     {
         for (int i = currentIndex; i > 0; i--)
         {
-            if (currentIndex <= cameraDataList.Count - 1)
-            {
-                cameraDataList.RemoveAt(i);
-            }
+            cameraDataList.RemoveAt(i);
         }
         cameraDataList.TrimExcess();
     }
@@ -67,11 +64,6 @@ public class CameraRewindEntity : RewindEntity
             if (currentIndex < cameraDataList.Count - 1)
             {
                 currentIndex++;
-                if (currentIndex >= cameraDataList.Count - 1)
-                {
-                    currentIndex = cameraDataList.Count - 1;
-                }
-                SetPosition();
             }
         }
     }
@@ -105,7 +97,9 @@ public class CameraRewindEntity : RewindEntity
 
     public override void ApplyData()
     {
-        lockOnTargetManager._bLockedOn = cameraDataList[currentIndex].bIsLockedOn;
+        // TODO: Fix this
+        lockOnTargetManager._bLockedOn = false;
+        //lockOnTargetManager._bLockedOn = cameraDataList[currentIndex].bIsLockedOn;
 
 
         //base.ApplyData();

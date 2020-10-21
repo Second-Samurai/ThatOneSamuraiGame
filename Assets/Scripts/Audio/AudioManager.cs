@@ -4,12 +4,17 @@ using System;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [ExecuteInEditMode]
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds;
-    
+    public float BGMVol;
+    public float SFXVol;
+    public BackgroundAudio backgroundAudio;
+  
+
 
     public static AudioManager instance;
     // Start is called before the first frame update
@@ -38,20 +43,12 @@ public class AudioManager : MonoBehaviour
                 DestroyImmediate(s.source);
             }
         }
-
+        SFXVol = PlayerPrefs.GetFloat("SFXVolume");
+        BGMVol = PlayerPrefs.GetFloat("BGMVolume");
+        backgroundAudio = gameObject.GetComponent<BackgroundAudio>();
     }
     // update for debugging
-    //public void Update()
-    //{
-    //    if (Keyboard.current.bKey.wasPressedThisFrame)
-    //    {
-    //        FindAll("wood Roll");
-    //        FindAll("parry");
-    //        Play("grunt 1");
-
-    //    }
-    //}
-
+ 
 
     //finds and returns a  sound contaning a given string in its name
 

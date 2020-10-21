@@ -35332,7 +35332,15 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: DropGuard
+    functionName: StartIntangibility
+    data: 
+    objectReferenceParameter: {fileID: 4214246196147028701, guid: 6cd941e552c62d243a09c2f1b2206776,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0
+    functionName: StartIntangibility
     data: 
     objectReferenceParameter: {fileID: 4714032006602019073, guid: 3e3a51e3ed109924194a0bf0ed12ac8d,
       type: 3}
@@ -35340,9 +35348,17 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.56666666
-    functionName: RaiseGuard
+    functionName: StopIntangibility
     data: 
     objectReferenceParameter: {fileID: 4714032006602019073, guid: 3e3a51e3ed109924194a0bf0ed12ac8d,
+      type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.56666666
+    functionName: StopIntangibility
+    data: 
+    objectReferenceParameter: {fileID: 4214246196147028701, guid: 6cd941e552c62d243a09c2f1b2206776,
       type: 3}
     floatParameter: 0
     intParameter: 0

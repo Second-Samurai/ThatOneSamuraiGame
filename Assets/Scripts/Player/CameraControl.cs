@@ -9,6 +9,7 @@ public class CameraControl : MonoBehaviour
     public ThirdPersonCamController camScript;
     LockOnTargetManager _lockedCamScript;
     public GameObject unlockedCam, lockedCam;
+    private Animator _animator;
     Vector2 rotationVector;
     public Transform lockOnTarget, player, lockOnNullDummy;
     public bool bLockedOn = false;
@@ -16,6 +17,8 @@ public class CameraControl : MonoBehaviour
     PlayerInputScript _playerInput;
 
     public CinematicBars cinematicBars;
+    
+    public GameEvent onLockOnEvent;
 
     /*private void Start()
     {
@@ -28,14 +31,21 @@ public class CameraControl : MonoBehaviour
     //NOTE: this is called in player controller
     public void Init(Transform playerTarget)
     {
+        //Debug.Log("Test");
+        
         GameManager gameManager = GameManager.instance;
         CinematicBars cinematicBars = gameManager.mainCamera.GetComponentInChildren<CinematicBars>();
 
         this.player = playerTarget;
         this.unlockedCam = gameManager.thirdPersonViewCamera;
-        this.enemyTracker = gameManager.enemyTracker;
+        this._animator = gameManager.playerController.GetComponent<Animator>();
         this.cinematicBars = cinematicBars;
 
+        if (!enemyTracker)
+        {
+            this.enemyTracker = gameManager.enemyTracker;
+        }
+        
         if (!unlockedCam)
         {
             Debug.LogError("Third person camera object not assigned in inspector! Please assign");
@@ -72,11 +82,29 @@ public class CameraControl : MonoBehaviour
         _lockedCamScript.SetTarget(target, player);
     }
 
+    public void ToggleLockOn()
+    {
+        onLockOnEvent.Raise();
+        if (!bLockedOn)
+        {
+            if (LockOn())
+            {
+                bLockedOn = true;
+            }
+        }
+        else
+        {
+            bLockedOn = false;
+            UnlockCam();
+        }
+    }
+
     public bool LockOn()
     {
         if (GetTarget())
         {
-            _lockedCamScript.cam.Priority = 11;
+            _animator.SetBool("LockedOn", true);
+            _lockedCamScript.cam.Priority = 15;
             cinematicBars.ShowBars(200f, .3f);
             return true;
         }
@@ -87,12 +115,14 @@ public class CameraControl : MonoBehaviour
     public void UnlockCam()
     {
         enemyTracker.ClearTarget();
-        
+
         bLockedOn = false;
         _lockedCamScript.cam.Priority = 9;
         _lockedCamScript.ClearTarget();
         lockOnTarget = null;
         cinematicBars.HideBars(.3f);
+        
+        _animator.SetBool("LockedOn", false);
     }
 
     public bool GetTarget()

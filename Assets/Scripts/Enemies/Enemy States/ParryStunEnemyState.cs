@@ -14,6 +14,9 @@ namespace Enemies.Enemy_States
         {
             //NOTE: Damage handling can be found in EDamageController
             
+            // If the enemy was previously using a fast attack, reset the speed
+            AISystem.ReturnPreviousAttackSpeed();
+            
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
             

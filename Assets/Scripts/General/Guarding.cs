@@ -17,8 +17,11 @@ public class Guarding : MonoBehaviour
     public AISystem _aiSystem;
 
     private GameObject _guardMeterCanvas;
+    private UIGuardMeter _guardMeter;
 
     private float _guardCooldownTime;
+
+    public bool bSuperArmour = false;
 
     public void Init(StatHandler statHandler)
     {
@@ -27,10 +30,10 @@ public class Guarding : MonoBehaviour
         GameManager gameManager = GameManager.instance;
 
         _guardMeterCanvas = Instantiate(gameManager.gameSettings.guardCanvasPrefab, transform);
-        UIGuardMeter guardMeter = Instantiate(gameManager.gameSettings.guardMeterPrefab, _guardMeterCanvas.transform).GetComponent<UIGuardMeter>();
+        _guardMeter = Instantiate(gameManager.gameSettings.guardMeterPrefab, _guardMeterCanvas.transform).GetComponent<UIGuardMeter>();
 
-        guardMeter.Init(transform, statHandler, gameManager.mainCamera, _guardMeterCanvas.GetComponent<RectTransform>());
-        OnGuardEvent.AddListener(guardMeter.UpdateGuideMeter);
+        _guardMeter.Init(transform, statHandler, gameManager.mainCamera, _guardMeterCanvas.GetComponent<RectTransform>());
+        OnGuardEvent.AddListener(_guardMeter.UpdateGuideMeter);
 
         _aiSystem = GetComponent<AISystem>();
         _guardCooldownTime = _aiSystem.enemySettings.GetEnemyStatType(_aiSystem.enemyType).guardCooldown;
@@ -39,7 +42,7 @@ public class Guarding : MonoBehaviour
     // Called in animation events to open the enemy's guard
     public void DropGuard()
     {
-        canGuard = false;
+       if(_aiSystem.enemyType != EnemyType.BOSS) canGuard = false;
     }
     
     // Called in animation events to return the enemy's guard option
@@ -115,6 +118,7 @@ public class Guarding : MonoBehaviour
         StartCoroutine(AwaitNextDamage(6));
         //camImpulse.FireImpulse();
         //Switch States
+        _guardMeter.ShowFinisherKey();
         _aiSystem.OnEnemyStun();
     }
 
@@ -150,15 +154,22 @@ public class Guarding : MonoBehaviour
                 yield return null;
             }
 
-            statHandler.CurrentGuard = statHandler.maxGuard;
-            OnGuardEvent.Invoke();
-
-            if (isStunned)
-            {
-                _aiSystem.OnEnemyRecovery();
-            }
-            isStunned = false;
-            canGuard = true;
+            ResetGuard();
         }
+    }
+
+    public void ResetGuard()
+    {
+        StopCoroutine(GuardCoolDown(8));
+        statHandler.CurrentGuard = statHandler.maxGuard;
+        OnGuardEvent.Invoke();
+
+        if (isStunned)
+        {
+            _guardMeter.HideFinisherKey();
+            _aiSystem.OnEnemyRecovery();
+        }
+        isStunned = false;
+        canGuard = true;
     }
 }

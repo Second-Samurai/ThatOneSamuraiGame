@@ -16,14 +16,16 @@ public class AddToTracker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (_aiSystem.bIsDead == false)
+        if (other.CompareTag("Player") && !_aiSystem.bIsDead)
         {
-            if (other.CompareTag("Player"))
-            {
-                _enemyTracker = GameManager.instance.enemyTracker;
-                _enemyTracker.AddEnemy(GetComponentInParent<Rigidbody>().gameObject.transform);
+            _enemyTracker = GameManager.instance.enemyTracker;
+            _enemyTracker.AddEnemy(GetComponentInParent<Rigidbody>().gameObject.transform);
 
-                _aiSystem.OnApproachPlayer();
+            if (_aiSystem.bIsIdle) 
+            {
+                Debug.LogWarning("Set from tracker");
+                _aiSystem.bIsIdle = false;
+                _aiSystem.OnApproachPlayer();  
             }
         }
     }

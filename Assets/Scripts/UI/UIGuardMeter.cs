@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class UIGuardMeter : MonoBehaviour
 {
     public Slider guardSlider;
+    public Canvas finisherKey;
 
     [HideInInspector] public Camera mainCamera;
     [HideInInspector] public RectTransform parentCanvasRect;
@@ -51,15 +52,22 @@ public class UIGuardMeter : MonoBehaviour
 
         if (!CheckInCameraView() || _entityTransform != _enemyTracker.targetEnemy)
         {
-            if (guardSlider.gameObject.activeInHierarchy) {
+            if (guardSlider.gameObject.activeInHierarchy)
+            {
+                HideFinisherKey();
                 guardSlider.gameObject.SetActive(false);
             }
             return;
         }
         else
         {
-            if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _enemyTracker.targetEnemy){
+            if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _enemyTracker.targetEnemy)
+            {
                 guardSlider.gameObject.SetActive(true);
+                if (guardSlider.value == guardSlider.maxValue)
+                {
+                    ShowFinisherKey();
+                }
             }
         }
         SetMeterPosition();
@@ -70,6 +78,7 @@ public class UIGuardMeter : MonoBehaviour
     //
     public void UpdateGuideMeter()
     {
+        guardSlider.maxValue = _statHandler.maxGuard;
         //Finds difference between values
         _difference = _statHandler.maxGuard - _statHandler.CurrentGuard;
         guardSlider.value = _difference;
@@ -121,6 +130,19 @@ public class UIGuardMeter : MonoBehaviour
 
         _screenPosition = new Vector2(_scaledXPos, _scaledYPos);
         _guardTransform.anchoredPosition = _screenPosition;
+    }
+
+    public void ShowFinisherKey()
+    {
+        if (guardSlider.gameObject.activeInHierarchy && _entityTransform == _enemyTracker.targetEnemy)
+        {
+            finisherKey.enabled = true;
+        }
+    }
+
+    public void HideFinisherKey()
+    {
+        finisherKey.enabled = false;
     }
 
     // Summary: Destroys UI when the enemy is either missing or dead

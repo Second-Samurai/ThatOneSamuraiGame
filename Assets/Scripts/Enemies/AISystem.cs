@@ -5,6 +5,7 @@ using Enemy_Scripts;
 using UnityEngine;
 using UnityEngine.AI;
 using Debug = UnityEngine.Debug;
+using UnityEngine.InputSystem;
 
 public enum EnemyType
 {
@@ -12,6 +13,7 @@ public enum EnemyType
     ARCHER,
     GLAIVEWIELDER,
     BOSS,
+    MINIBOSS,
     TUTORIALENEMY
 }
 
@@ -42,12 +44,18 @@ namespace Enemies
         
         //NAVMESH
         public NavMeshAgent navMeshAgent;
+        public bool bIsIdle = true;
         
         //DAMAGE CONTROLS
         public EDamageController eDamageController;
         public bool bIsDead = false;
         public bool bIsUnblockable = false;
         public KnockbackAttack kbController;
+        public ArmourManager armourManager;
+        public bool bHasArmour;
+        public TriggerImpulse camImpulse;
+        public bool bIsQuickBlocking = false;
+
         //NOTE: isStunned is handled in Guarding script, inside the eDamageController script
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
@@ -58,9 +66,31 @@ namespace Enemies
         public ParryEffects parryEffects;
         public WSwordEffect swordEffects;
         public AttackIndicator attackIndicator;
+        public HitstopController hitstopController;
 
         //PHYSICS
         public Rigidbody rb;
+
+        //BOSS VARS
+        [Header("BOSS VARIABLES")]
+        public int bossAttackSelector = 10;
+        public bool bCanBeStunned = true;
+        public BoxCollider slamCol;
+        public bool bHasBowDrawn = false;
+        public int shotCount = 3;
+        public Transform firePoint;
+        public MeshRenderer glaiveMesh;
+        public MeshRenderer bowMesh;
+        public WeaponSwitcher weaponSwitcher;
+        public SwordColliderOverride colliderOverride;
+
+
+        //ATTACK SPEED VARIABLES
+        public float previousAttackSpeed;
+        public float attackSpeed;
+        
+        //CIRCLE TRACKING (used for the enemy tracker)
+        public bool bIsCircling = false;
         
         #endregion
         
@@ -68,6 +98,10 @@ namespace Enemies
 
         private void Start()
         {
+
+
+            hitstopController = GameManager.instance.gameObject.GetComponent<HitstopController>();
+            
             // Grab the enemy settings from the Game Manager > Game Settings > Enemy Settings
             enemySettings = GameManager.instance.gameSettings.enemySettings;
             
@@ -90,6 +124,10 @@ namespace Enemies
             // Set up damage controller continues
             eDamageController.Init(statHandler);
             eDamageController.EnableDamage();
+            
+            // Set up the attack speed variables
+            attackSpeed = animator.GetFloat("AttackSpeedMultiplier");
+            previousAttackSpeed = attackSpeed;
 
             // Start the enemy in an idle state
             OnIdle();
@@ -98,11 +136,13 @@ namespace Enemies
 
             rb = GetComponent<Rigidbody>();
 
+            if (enemyType == EnemyType.BOSS) weaponSwitcher = GetComponent<WeaponSwitcher>();
         }
 
         private void Update()
         {
             spawnCheck.bSpawnMe = !bIsDead;
+            if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove(); 
         }
 
         #endregion
@@ -112,11 +152,26 @@ namespace Enemies
         // An override that is performed for every state change
         public override void SetState(EnemyState newEnemyState)
         {
+            swordEffects.EndBlockEffect();
+            swordEffects.EndUnblockableEffect();
+
+            if (bIsQuickBlocking) bIsQuickBlocking = false;
+
             if (enemyType != EnemyType.ARCHER)
             {
                 meleeCollider.enabled = false;
             }
-            
+
+            if (enemyType == EnemyType.BOSS)
+            {
+                meleeCollider.enabled = false;
+                if(!bHasBowDrawn) 
+                    animator.SetLayerWeight(1, 0);
+                if(!eDamageController.enemyGuard.isStunned) eDamageController.enemyGuard.canGuard = true;
+                KBColOff();
+                
+            }
+            Debug.LogWarning(newEnemyState.GetType().Name);
             base.SetState(newEnemyState);
         }
         
@@ -149,6 +204,11 @@ namespace Enemies
                     animator.SetFloat("ApproachSpeedMultiplier", enemySettings.bossStats.enemyData.moveSpeed);
                     animator.SetFloat("CircleSpeedMultiplier", enemySettings.bossStats.circleSpeed);
                     break;
+                case EnemyType.MINIBOSS:
+                    statHandler.Init(enemySettings.bossStats.enemyData);
+                    animator.SetFloat("ApproachSpeedMultiplier", enemySettings.bossStats.enemyData.moveSpeed);
+                    animator.SetFloat("CircleSpeedMultiplier", enemySettings.bossStats.circleSpeed);
+                    break;
                 default:
                     Debug.LogError("Error: Could not find suitable enemy type");
                     break;
@@ -163,7 +223,36 @@ namespace Enemies
             }
             else if (attacker.GetComponent<PlayerController>())
             {
-                OnEnemyDeath();
+                if (bHasArmour)
+                {
+                    if (armourManager.DestroyPiece())
+                    {
+                        //hitstopController.Hitstop(.15f);
+                        camImpulse.FireImpulse();
+                        if (enemyType == EnemyType.BOSS)
+                        {
+                            IncreaseAttackSpeed(.05f);
+                            EndState();
+                            OnDodge();
+                            CheckArmourLevel();
+                            eDamageController.enemyGuard.ResetGuard();
+                        }
+                        //EndState();
+                        //OnDodge(); 
+                    }
+                    else
+                    {
+                        hitstopController.Hitstop(.15f);
+                        camImpulse.FireImpulse();
+                        OnEnemyDeath();
+                    }
+                }
+                else
+                {
+                    hitstopController.Hitstop(.15f);
+                    camImpulse.FireImpulse();
+                    OnEnemyDeath();
+                }
             }
             else
             {
@@ -197,7 +286,23 @@ namespace Enemies
         {
             StartCoroutine(DodgeImpulseCoroutine(Vector3.forward, 10f, time));
         }
- 
+
+        public void JumpImpulseAnimEvent(float time)
+        {
+            navMeshAgent.enabled = false; 
+            StartCoroutine(JumpImpulseCoroutine(Vector3.forward, 20f, time));
+        }
+        public void PreJumpImpulseAnimEvent(float time)
+        {
+            navMeshAgent.enabled = false;
+            StartCoroutine(DodgeImpulseCoroutine(new Vector3(0,1,1), 20f, time));
+        }
+        public void PreFlipImpulseAnimEvent(float time)
+        {
+            navMeshAgent.enabled = false;
+            StartCoroutine(JumpImpulseCoroutine(new Vector3(0, 1, -1), 20f, time));
+        }
+
         public void ImpulseWithDirection(float force, Vector3 dir)
         {
             StartCoroutine(DodgeImpulseCoroutine(dir, force, .7f));
@@ -216,6 +321,17 @@ namespace Enemies
         {
             kbController.KBColOff();
         }
+
+        public void SlamColOn()
+        {
+            slamCol.enabled = true;
+        }
+
+        public void SlamColOff()
+        {
+            slamCol.enabled = false;
+        }
+
 
         // Coroutines cannot exist in enemystate since it's not a monobehavior, so we handle it here
         private IEnumerator DodgeImpulseCoroutine(Vector3 lastDir, float force)
@@ -240,6 +356,25 @@ namespace Enemies
                 dodgeTimer -= Time.deltaTime;
                 yield return null;
             }
+        }
+
+        private IEnumerator JumpImpulseCoroutine(Vector3 lastDir, float force, float timer)
+        {
+            float dodgeTimer = timer;
+            animator.applyRootMotion = false;
+            while (dodgeTimer > 0f)
+            {
+                transform.Translate(lastDir.normalized * force * Time.deltaTime);
+                if (Vector3.Distance(transform.position, enemySettings.GetTarget().position) <= enemySettings.veryShortRange)
+                {
+                    
+                    break;
+                }
+
+                dodgeTimer -= Time.deltaTime;
+                yield return null;
+            }
+            animator.applyRootMotion = true;
         }
 
         public void BeginUnblockable()
@@ -287,15 +422,96 @@ namespace Enemies
 
             return false;
         }
+        
+        // Called in parry enemy state
+        public void IncreaseAttackSpeed(float increasedAmount)
+        {
+            if (attackSpeed + increasedAmount < 2f)
+            {
+                previousAttackSpeed = attackSpeed;
+                attackSpeed += increasedAmount;
+                animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
+            }
+        }
+        
+        public void ReturnPreviousAttackSpeed()
+        {
+            attackSpeed = previousAttackSpeed;
+            animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
+        }
+        
+        // Used in CircleEnemyState and enemy tracker to move the enemy onto another action
+        // DO NOT IMPLEMENT A START CIRCLING STATE. Instead you should switch to CircleEnemyState
+        public void StopCircling()
+        {
+            // Reset animation variables
+            animator.SetFloat("MovementX", 0.0f);
+            
+            // Reset circling variable
+            bIsCircling = false;
+        }
+        
+        #endregion
+
+        #region Animation Called Events
+
+        // BUG-FIX: BREAKING THE STATE MACHINE RULES
+        // The end state animation event in swordsman light attack was sometimes performing EndState for other events
+        // This is a precautionary method to stop that from happening
+
+        // Called in animation events to return the enemy's guard option
+        public void StartIntangibility()
+        {
+            eDamageController.DisableDamage();
+        }
+
+        // Called in animation events to return the enemy's guard option
+        public void StopIntangibility()
+        {
+            eDamageController.EnableDamage();
+        }
+        public void EnableNav()
+        {
+            navMeshAgent.enabled = true;
+        }
+
+        public void EndState()
+        {
+            Debug.LogWarning("Called by anim");
+            EnemyState.EndState();
+        }
+
+        public void StopRotating()
+        {
+            EnemyState.StopRotating();
+        }
+        public void StartRotating()
+        { 
+            EnemyState.StartRotating();
+        }
+
+
+        public void EndStateAttack()
+        {
+            if (EnemyState.GetType() == typeof(SwordAttackEnemyState) || EnemyState.GetType() == typeof(ParryEnemyState) || EnemyState.GetType() == typeof(JumpAttackEnemyState) || EnemyState.GetType() == typeof(GlaiveAttackEnemyState))
+            {
+                EnemyState.EndState();
+            }
+            else
+            {
+                Debug.LogWarning("Warning: Tried to EndState the wrong state, EndState cancelled");
+                Debug.LogWarning(EnemyState.GetType().Name);
+            }
+        }
 
         #endregion
         
         // ENEMY STATE SWITCHING INFO
         // Any time an enemy gets a combat maneuver called, their state will switch
         // Upon switching states, they override the EnemyState Start() method to perform their action
-        
+
         #region Enemy Combat Manuervers
-        
+
         public void OnSwordAttack()
         {
             if (EnemyDeathCheck()) return;
@@ -310,6 +526,7 @@ namespace Enemies
 
         public void OnJumpAttack()
         {
+            bHasBowDrawn = false;
             if (EnemyDeathCheck()) return;
             SetState(new JumpAttackEnemyState(this));
         }
@@ -321,12 +538,14 @@ namespace Enemies
         
         public void OnQuickBlock()
         {
+            bHasBowDrawn = false;
             if (EnemyDeathCheck()) return;
-            SetState(new QuickBlockEnemyState(this));
+            if(!bIsQuickBlocking) SetState(new QuickBlockEnemyState(this));
         }
 
         public void OnBlock()
         {
+            bHasBowDrawn = false;
             if (EnemyDeathCheck()) return;
             SetState(new BlockEnemyState(this));
         }
@@ -396,12 +615,30 @@ namespace Enemies
 
         public void OnEnemyRecovery()
         {
-            SetState(new RecoveryEnemyState(this));
+            if (enemyType != EnemyType.BOSS)
+                SetState(new RecoveryEnemyState(this)); 
         }
 
         public void OnEnemyDeath()
         {
-            SetState(new DeathEnemyState(this));
+            if(enemyType != EnemyType.BOSS)
+                SetState(new DeathEnemyState(this));
+            else
+            {
+                if(armourManager.armourCount <= 0)
+                    SetState(new DeathEnemyState(this));
+                else
+                {
+                    eDamageController.enemyGuard.ResetGuard();
+                    armourManager.DestroyPiece();
+                    armourManager.DestroyPiece();
+                    IncreaseAttackSpeed(.05f);
+                    IncreaseAttackSpeed(.05f);
+                    CheckArmourLevel();
+                   
+                    
+                }
+            }
         }
 
         public void OnEnemyRewind() 
@@ -409,6 +646,46 @@ namespace Enemies
             SetState(new RewindEnemyState(this));
         }
 
+        public void OnBossArrowMove()
+        {
+            SetState(new BossArrowMoveState(this));
+        }
+
+        public void OnBossArrowFire()
+        {
+            SetState(new BossArrowFireState(this));
+        }
+
+        public void CheckArmourLevel()
+        {
+            if (armourManager.armourCount <= 3)
+            {
+                OnDodge();
+                //OnGlaiveAttack();
+                statHandler.maxGuard += 40;
+            }
+            else if (armourManager.armourCount <= 6)
+            {
+                OnDodge();
+               // OnBossArrowMove();
+                statHandler.maxGuard += 20;
+            }
+            else
+            {
+                OnDodge();
+                statHandler.maxGuard += 20;
+                //OnApproachPlayer();
+            }
+        }
+
+        public void BossGlaiveColOn()
+        {
+            if (enemyType == EnemyType.BOSS) colliderOverride.ColOn(1);
+        }
+        public void BossGlaiveColOff()
+        {
+            if (enemyType == EnemyType.BOSS) colliderOverride.ColOff(1);
+        }
 
         #endregion
 
@@ -421,7 +698,7 @@ namespace Enemies
         {
             GameManager.instance.enemyTracker.RemoveEnemy(rb.gameObject.transform);
         }
-
-
+        
     }
+
 }

@@ -135,8 +135,10 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
 
     public override void ApplyData()
     {
-        basicArcher.currentState = archerDataList[currentIndex].currentState;
-
+        if (currentIndex <= archerAnimationDataList.Count - 1)
+        {
+            basicArcher.currentState = archerDataList[currentIndex].currentState;
+        }
     }
     protected new void OnDestroy()
     {

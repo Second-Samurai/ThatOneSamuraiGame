@@ -25,12 +25,17 @@ public class BasicArcher : MonoBehaviour, IDamageable
     public AudioPlayer source;
     public AudioClip draw, release;
 
+    public TriggerImpulse camImpulse;
+
+    private AudioManager audioManager;
+
     // Since the player and enemies have their origin point at their feet we need to add an offset value
     private Vector3 _aimOffsetValue;
     private Vector3 playerPos;
 
     private void Start()
     {
+        audioManager = GameManager.instance.audioManager;
         if(GameManager.instance.playerController != null)
             player = GameManager.instance.playerController.gameObject.transform;
         if(!draw) draw = AudioManager.instance.FindSound("Bow Draw");
@@ -64,7 +69,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
                     lastDirection = transform.position - player.position;
                     currentState = CurrentState.Aiming;
                     anim.SetTrigger("StartAim");
-                    source.PlayOnce(draw);
+                    source.PlayOnce(draw, audioManager.SFXVol);
                     RaycastHit hit;
                     playerPos = player.transform.position + _aimOffsetValue;
                     shotDirection = playerPos - shotOrigin.position;
@@ -92,7 +97,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
                     _arrow.GetComponent<Projectile>().Launch(shotDirection, playerPos);
                     anim.SetTrigger("Fire");
                     source.StopSource();
-                    source.PlayOnce(release);
+                    source.PlayOnce(release, audioManager.SFXVol);
                     shotTimer = 0f;
                     lineRenderer.enabled = false;
                     aimCounter = 0f;
@@ -115,11 +120,32 @@ public class BasicArcher : MonoBehaviour, IDamageable
         col.enabled = false;
         currentState = CurrentState.Dead;
         //Debug.LogError("I Am dead");
-        
+        camImpulse.FireImpulse();
+        GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.15f);
+        StartCoroutine(DodgeImpulseCoroutine(Vector3.back, damage * 4, .3f));
+
         EnemyTracker enemyTracker = GameManager.instance.enemyTracker;
-        enemyTracker.RemoveEnemy(transform);
         
+        // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy)
+        enemyTracker.SwitchDeathTarget(transform);
+        enemyTracker.RemoveEnemy(transform);
+
+        lineRenderer.enabled = false;
+
+
         //Invoke("HideArcher", 2.0f);
+    }
+
+    private IEnumerator DodgeImpulseCoroutine(Vector3 lastDir, float force, float timer)
+    {
+        float dodgeTimer = timer;
+        while (dodgeTimer > 0f)
+        {
+            transform.Translate(lastDir.normalized * force * Time.deltaTime);
+
+            dodgeTimer -= Time.deltaTime;
+            yield return null;
+        }
     }
 
     public void DisableDamage()

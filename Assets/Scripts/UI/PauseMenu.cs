@@ -10,9 +10,13 @@ public class PauseMenu : MonoBehaviour
     float timeScale;
     public GameObject optionsMenu;
     PlayerInput _input;
+    
+    public GameEvent hidePopupEvent;
 
     private void OnEnable()
     {
+        hidePopupEvent.Raise();
+        
         timeScale = Time.timeScale;
         Time.timeScale = 0f;
         Cursor.visible = true;

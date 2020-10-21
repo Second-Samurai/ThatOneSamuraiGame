@@ -9,6 +9,8 @@ public class BoardBreak : MonoBehaviour, IDamageable
     public StatHandler statHandler; //objects with idamageable require this
     public bool isBuilt;
 
+    public GameEvent boardBreakEvent;
+
     private void Start()
     {
         Rigidbody[] children = GetComponentsInChildren<Rigidbody>();
@@ -36,6 +38,7 @@ public class BoardBreak : MonoBehaviour, IDamageable
             board.isKinematic = false;
             board.AddForce((board.transform.position - attacker.transform.position) * 2f, ForceMode.Impulse);
         }
+        boardBreakEvent.Raise();
     }
 
     public void ReBuild() 

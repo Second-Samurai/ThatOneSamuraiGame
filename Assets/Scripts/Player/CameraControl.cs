@@ -17,6 +17,8 @@ public class CameraControl : MonoBehaviour
     PlayerInputScript _playerInput;
 
     public CinematicBars cinematicBars;
+    
+    public GameEvent onLockOnEvent;
 
     /*private void Start()
     {
@@ -82,6 +84,7 @@ public class CameraControl : MonoBehaviour
 
     public void ToggleLockOn()
     {
+        onLockOnEvent.Raise();
         if (!bLockedOn)
         {
             if (LockOn())

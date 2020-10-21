@@ -60,22 +60,22 @@ public class Popup : MonoBehaviour
             if (_timeRemaining <= 0)
             {
                 _bTimerRunning = false;
-                HidePopup();
+                HidePopup(0.5f);
             }
         }
     }
 
-    public void HidePopup()
+    public void HidePopup(float duration)
     {
         for (int index = 0; index < _popupImageTweeners.Length; index++)
         {
             _popupImageTweeners[index].Complete();
-            popupImageArray[index].DOFade(0, 0.5f);
+            popupImageArray[index].DOFade(0, duration);
         }
         for (int index = 0; index < _popupTextTweeners.Length; index++)
         {
             _popupTextTweeners[index].Complete();
-            popupTextArray[index].DOFade(0, 0.5f);
+            popupTextArray[index].DOFade(0, duration);
         }
         _bTimerRunning = false;
     }

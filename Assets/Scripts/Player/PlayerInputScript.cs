@@ -18,7 +18,6 @@ public class PlayerInputScript : MonoBehaviour
     [HideInInspector] public CameraControl camControl;
     [HideInInspector] public PlayerFunctions _functions;
     [HideInInspector] public FinishingMoveController finishingMoveController;
-    [HideInInspector] public GameEvent onLockOnEvent;
     [HideInInspector] public PlayerInput _inputComponent;
     ICombatController _playerCombat;
     HitstopController hitstopController;
@@ -102,7 +101,6 @@ public class PlayerInputScript : MonoBehaviour
     void OnLockOn()
     {
         camControl.ToggleLockOn();
-        onLockOnEvent.Raise();
     }
 
     void OnToggleLockLeft()

@@ -14,6 +14,14 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            if (AISystem.enemyType == EnemyType.BOSS)
+            {
+                AISystem.bHasBowDrawn = false;
+                AISystem.weaponSwitcher.EnableGlaive(true);
+
+                AISystem.weaponSwitcher.EnableBow(false);
+                AISystem.eDamageController.enemyGuard.bSuperArmour = true;
+            }
             //ResetAnimationBools();
             AISystem.swordEffects.BeginUnblockableEffect();
             AISystem.attackIndicator.ShowIndicator();
@@ -54,6 +62,11 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
+            if (AISystem.enemyType == EnemyType.BOSS)
+            {
+                AISystem.eDamageController.enemyGuard.bSuperArmour = false;
+                AISystem.weaponSwitcher.EnableGlaive(false);
+            }
             AISystem.swordEffects.EndUnblockableEffect();
             AISystem.attackIndicator.HideIndicator();
             AISystem.bIsUnblockable = false;

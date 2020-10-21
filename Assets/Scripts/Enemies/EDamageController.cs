@@ -49,7 +49,7 @@ public class EDamageController : MonoBehaviour, IDamageable
                     if (enemyGuard.canGuard)
                     {
                         _aiSystem.parryEffects.PlayBlock();
-                        _aiSystem.OnQuickBlock();
+                        if(!enemyGuard.bSuperArmour) _aiSystem.OnQuickBlock();
                     }
                     return;
                 }
@@ -91,7 +91,7 @@ public class EDamageController : MonoBehaviour, IDamageable
         {
 
             // DO NOT TRIGGER PARRY STUN IF THE ENEMY IS ALREADY STUNNED
-            if (!enemyGuard.isStunned)
+            if (!enemyGuard.isStunned && _aiSystem.bCanBeStunned)
             {
                 _aiSystem.OnParryStun();
             }

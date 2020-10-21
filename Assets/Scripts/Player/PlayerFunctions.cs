@@ -12,6 +12,7 @@ public class PlayerFunctions : MonoBehaviour
     public float blockTimer = 0f;
     public float blockCooldown;
     public bool bCanBlock = true;
+    public bool bInputtingBlock = false;
 
     [Header("Parry Variables")]
     public bool bIsParrying = false;
@@ -81,6 +82,7 @@ public class PlayerFunctions : MonoBehaviour
             _bDontCheckParry = false;
             parryEffects.PlayGleam();
             _IKPuppet.EnableIK();
+            bInputtingBlock = true;
         }
     }
 
@@ -101,6 +103,7 @@ public class PlayerFunctions : MonoBehaviour
         CheckBlockCooldown();
         CheckParry();
         //remove this
+        if (_bDontCheckParry && !bInputtingBlock && bIsBlocking) EndBlock(); 
 
         if (bAllowDeathMoveReset)
         {
@@ -146,6 +149,7 @@ public class PlayerFunctions : MonoBehaviour
             {
                 bIsParrying = false;
                 _bDontCheckParry = true;
+                if (!bInputtingBlock && bIsBlocking) EndBlock();
             }
         }
     }
@@ -237,7 +241,7 @@ public class PlayerFunctions : MonoBehaviour
         else if (!playerInputScript.bIsDodging)
         {
             playerSFX.Smack();
-            Debug.Log("HIT" + amount * direction);
+            //Debug.Log("HIT" + amount * direction);
             playerInputScript.DisableRotation();
             _animator.SetTrigger("KnockdownTrigger");
             StartCoroutine(ImpulseWithTimer(direction, amount, duration));
@@ -248,7 +252,7 @@ public class PlayerFunctions : MonoBehaviour
     {
         parryEffects.PlayParry();
         _animator.SetTrigger("Parrying");
-        hitstopController.SlowTime(.5f, 1);
+        if (attacker.GetComponent<AISystem>().enemyType != EnemyType.BOSS) hitstopController.SlowTime(.5f, 1);
         if(attacker != null)
         {
             // TODO: Fix with damage later

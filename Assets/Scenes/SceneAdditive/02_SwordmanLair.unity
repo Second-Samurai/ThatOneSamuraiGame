@@ -4768,6 +4768,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2036866697063767073}
     m_Modifications:
+    - target: {fileID: 1503552621205126967, guid: 31bc11fca0739204684a1c9b3a93c410,
+        type: 3}
+      propertyPath: Response.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5922047826845385890, guid: 31bc11fca0739204684a1c9b3a93c410,
+        type: 3}
+      propertyPath: popupTextArray.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5922047826845385890, guid: 31bc11fca0739204684a1c9b3a93c410,
+        type: 3}
+      propertyPath: popupTextArray.Array.data[0]
+      value: 
+      objectReference: {fileID: 298296206}
+    - target: {fileID: 5922047826845385890, guid: 31bc11fca0739204684a1c9b3a93c410,
+        type: 3}
+      propertyPath: popupTextArray.Array.data[1]
+      value: 
+      objectReference: {fileID: 964545975}
     - target: {fileID: 6773292584812258196, guid: 31bc11fca0739204684a1c9b3a93c410,
         type: 3}
       propertyPath: m_IsActive
@@ -4892,7 +4912,7 @@ PrefabInstance:
     - target: {fileID: 6773292585782424249, guid: 31bc11fca0739204684a1c9b3a93c410,
         type: 3}
       propertyPath: m_Name
-      value: Sprint Popup (1)
+      value: Sprint Tutorial Popup
       objectReference: {fileID: 0}
     - target: {fileID: 6773292585782424249, guid: 31bc11fca0739204684a1c9b3a93c410,
         type: 3}
@@ -5105,6 +5125,63 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 298296203}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &298296206 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6773292586088200445, guid: 31bc11fca0739204684a1c9b3a93c410,
+    type: 3}
+  m_PrefabInstance: {fileID: 298296203}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &298296207 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6773292585782424249, guid: 31bc11fca0739204684a1c9b3a93c410,
+    type: 3}
+  m_PrefabInstance: {fileID: 298296203}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &298296208 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5922047826845385890, guid: 31bc11fca0739204684a1c9b3a93c410,
+    type: 3}
+  m_PrefabInstance: {fileID: 298296203}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298296207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a94a0a6d54e63a34e80acdada8a53d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &298296209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298296207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089918be0d032d94a8488bcc0e2bf86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 2cbc3bac6036ef34db792441d23d0919, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 298296208}
+        m_MethodName: HidePopup
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0.5
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &299123990
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19180,7 +19257,7 @@ GameObject:
   - component: {fileID: 809814705}
   - component: {fileID: 809814704}
   m_Layer: 12
-  m_Name: CanvasImage
+  m_Name: Unblockable Tutorial Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20050,8 +20127,11 @@ GameObject:
   - component: {fileID: 841905365}
   - component: {fileID: 841905367}
   - component: {fileID: 841905366}
+  - component: {fileID: 841905368}
+  - component: {fileID: 841905369}
+  - component: {fileID: 841905370}
   m_Layer: 12
-  m_Name: Heavy Tutorial Popup
+  m_Name: Unblockable Tutorial Popup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20097,7 +20177,81 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popup: {fileID: 809814702}
-  popupImage: {fileID: 726075603}
+  bHasTriggered: 0
+  popupImageArray:
+  - {fileID: 726075603}
+  popupTextArray:
+  - {fileID: 1847639759}
+  maxTimeRemaining: 10
+--- !u!114 &841905368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841905364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7783eac5c1fc25b4da8f968e80a73c7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvents:
+  - {fileID: 11400000, guid: 1e18f41e5503a1146aa579228acc16bf, type: 2}
+  - {fileID: 11400000, guid: 2cbc3bac6036ef34db792441d23d0919, type: 2}
+--- !u!114 &841905369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841905364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089918be0d032d94a8488bcc0e2bf86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 70b92ee7ec6db524c8bcdc88f6283cb7, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 841905367}
+        m_MethodName: HidePopup
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &841905370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841905364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089918be0d032d94a8488bcc0e2bf86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 342f5144695679d4aad361249ff3249f, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 841905367}
+        m_MethodName: HidePopup
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0.5
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &851412581
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31533,6 +31687,72 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.096431, y: 4.050828, z: 16.273048}
   m_Center: {x: 0.017209053, y: 0.016158104, z: 0.013559341}
+--- !u!1 &1481371188
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1481371191}
+  - component: {fileID: 1481371190}
+  - component: {fileID: 1481371189}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1481371189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481371188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &1481371190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481371188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &1481371191
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481371188}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1482761347
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35466,6 +35686,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SwordsmanHolderTutorial1
       objectReference: {fileID: 0}
+    - target: {fileID: 5819777791317089442, guid: 3e3a51e3ed109924194a0bf0ed12ac8d,
+        type: 3}
+      propertyPath: m_Name
+      value: Detector (With Tutorials)
+      objectReference: {fileID: 0}
     - target: {fileID: 7348651134938150742, guid: 3e3a51e3ed109924194a0bf0ed12ac8d,
         type: 3}
       propertyPath: m_Interpolate
@@ -35501,8 +35726,8 @@ MonoBehaviour:
   Response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2513048165618943997}
-        m_MethodName: ChangePopup
+      - m_Target: {fileID: 1717900267}
+        m_MethodName: ToggleLockOnPopup
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 4774644615083381133}
@@ -35512,12 +35737,89 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!4 &1717900267 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3038605174081419838, guid: 3e3a51e3ed109924194a0bf0ed12ac8d,
-    type: 3}
-  m_PrefabInstance: {fileID: 1717900263}
+      - m_Target: {fileID: 1717900267}
+        m_MethodName: HidePopup
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1717900267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717900265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ca24be5e606f384facc932d214aaf4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popup: {fileID: 863916590840621989}
+  bHasTriggered: 0
+  popupImageArray:
+  - {fileID: 6935222281916086699}
+  popupTextArray: []
+  maxTimeRemaining: 6
+--- !u!114 &1717900268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717900265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089918be0d032d94a8488bcc0e2bf86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 1e18f41e5503a1146aa579228acc16bf, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1717900267}
+        m_MethodName: StopLockOnTut
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1717900269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717900265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089918be0d032d94a8488bcc0e2bf86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 70b92ee7ec6db524c8bcdc88f6283cb7, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1717900267}
+        m_MethodName: HidePopup
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1718525415
 GameObject:
   m_ObjectHideFlags: 0
@@ -45085,7 +45387,7 @@ GameObject:
   - component: {fileID: 5216702371845671068}
   - component: {fileID: 3503473982454351066}
   m_Layer: 12
-  m_Name: Canvas
+  m_Name: Ctrl Tutorial Popup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46138,20 +46440,6 @@ Transform:
   m_Father: {fileID: 1792567589}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &2071057483780253503
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5124661450827195463}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1717900267}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2135636599744424391
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -46289,20 +46577,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6293642840908990344}
   m_CullTransparentMesh: 0
---- !u!114 &2513048165618943997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5124661450827195463}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a94a0a6d54e63a34e80acdada8a53d7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  popup: {fileID: 863916590840621989}
-  popupImage: {fileID: 6935222281916086699}
 --- !u!33 &2584370799171854589
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -47228,7 +47502,7 @@ GameObject:
   - component: {fileID: 5310006324608985380}
   - component: {fileID: 6587345427065518663}
   m_Layer: 12
-  m_Name: block
+  m_Name: Lock On Tutorial Popup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47320,24 +47594,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 155530760365670892}
   m_Mesh: {fileID: -3885271357339950269, guid: d32f5cfeec5d7479b8bcc3dd9d9620eb, type: 3}
---- !u!1 &5124661450827195463
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2071057483780253503}
-  - component: {fileID: 2513048165618943997}
-  - component: {fileID: 8489396327882068262}
-  m_Layer: 12
-  m_Name: Lock On Popup
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &5150946310336744371
 GameObject:
   m_ObjectHideFlags: 0
@@ -47881,6 +48137,16 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 1503552621699435823, guid: 04588d50106974c579bc668fb51bc0c4,
+        type: 3}
+      propertyPath: Response.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1503552621699435823, guid: 04588d50106974c579bc668fb51bc0c4,
+        type: 3}
+      propertyPath: Response.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3326075280161377222, guid: 04588d50106974c579bc668fb51bc0c4,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -47941,6 +48207,31 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 5922047827692172986, guid: 04588d50106974c579bc668fb51bc0c4,
+        type: 3}
+      propertyPath: popupImageArray.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5922047827692172986, guid: 04588d50106974c579bc668fb51bc0c4,
+        type: 3}
+      propertyPath: popupTextArray.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5922047827692172986, guid: 04588d50106974c579bc668fb51bc0c4,
+        type: 3}
+      propertyPath: popupImageArray.Array.data[1]
+      value: 
+      objectReference: {fileID: 6397008274065576259}
+    - target: {fileID: 5922047827692172986, guid: 04588d50106974c579bc668fb51bc0c4,
+        type: 3}
+      propertyPath: popupTextArray.Array.data[0]
+      value: 
+      objectReference: {fileID: 6397008274065576260}
+    - target: {fileID: 5922047827692172986, guid: 04588d50106974c579bc668fb51bc0c4,
+        type: 3}
+      propertyPath: popupTextArray.Array.data[1]
+      value: 
+      objectReference: {fileID: 6397008274065576258}
     - target: {fileID: 6112921485238668706, guid: 04588d50106974c579bc668fb51bc0c4,
         type: 3}
       propertyPath: m_Name
@@ -48076,6 +48367,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Level
       objectReference: {fileID: 0}
+    - target: {fileID: 6773292585572122785, guid: 04588d50106974c579bc668fb51bc0c4,
+        type: 3}
+      propertyPath: m_Name
+      value: Dodge Tutorial Popup
+      objectReference: {fileID: 0}
     - target: {fileID: 6773292585713184600, guid: 04588d50106974c579bc668fb51bc0c4,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -48091,7 +48387,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 1f27bdd3e6878469ab1c140f3bbd2f5c, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 832718238, guid: 04588d50106974c579bc668fb51bc0c4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 04588d50106974c579bc668fb51bc0c4, type: 3}
 --- !u!4 &6397008274065576252 stripped
 Transform:
@@ -48149,6 +48446,87 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6397008274065576251}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6397008274065576258 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1828168591, guid: 04588d50106974c579bc668fb51bc0c4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6397008274065576251}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6397008274065576259 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 35570195, guid: 04588d50106974c579bc668fb51bc0c4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6397008274065576251}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6397008274065576260 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6773292585191181029, guid: 04588d50106974c579bc668fb51bc0c4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6397008274065576251}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &6397008274065576261 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6773292585572122785, guid: 04588d50106974c579bc668fb51bc0c4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6397008274065576251}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6397008274065576262 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5922047827692172986, guid: 04588d50106974c579bc668fb51bc0c4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6397008274065576251}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6397008274065576261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a94a0a6d54e63a34e80acdada8a53d7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6397008274065576263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6397008274065576261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089918be0d032d94a8488bcc0e2bf86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 5f051e9e3ef171047a76de81e93abe48, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6397008274065576262}
+        m_MethodName: HidePopup
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6464978235984927876
 GameObject:
   m_ObjectHideFlags: 0
@@ -48798,19 +49176,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &8489396327882068262
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5124661450827195463}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 15.3
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!224 &8563013546909817961
 RectTransform:
   m_ObjectHideFlags: 0
@@ -48976,7 +49341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 0}
+  m_Color: {r: 0.9339623, g: 0.9339623, b: 0.9339623, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:

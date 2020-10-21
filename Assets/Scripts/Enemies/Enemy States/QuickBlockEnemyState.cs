@@ -14,9 +14,15 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            if(AISystem.enemyType == EnemyType.BOSS)
+            {
+                AISystem.weaponSwitcher.EnableBow(false);
+                AISystem.weaponSwitcher.EnableGlaive(false);
+                AISystem.weaponSwitcher.EnableSword(true);
+            }
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
-            
+            AISystem.bHasBowDrawn = false;
             // Stop unblockable if enemy was previously doing an unblockable attack and play block effect
             AISystem.EndUnblockable();
             AISystem.swordEffects.BeginBlockEffect();
@@ -40,6 +46,7 @@ namespace Enemies.Enemy_States
 
             // Move to block state OR choose an action using distance
             int decision = Random.Range(0, 3);
+            if (AISystem.enemyType == EnemyType.BOSS) decision = 2;
             if (decision == 0)
             {
                 ChooseActionUsingDistance(_target);

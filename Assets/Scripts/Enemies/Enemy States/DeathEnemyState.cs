@@ -23,9 +23,6 @@ namespace Enemies.Enemy_States
             // Remove enemy from temp enemy count and enemy tracker
             TempWinTracker.instance.enemyCount--;
             AISystem.enemyTracker.RemoveEnemy(AISystem.transform);
-            
-            // Start a new impatience countdown
-            AISystem.enemyTracker.StartImpatienceCountdown();
 
             // Enemy can no longer be damaged, enemies can no longer damage the player.
             AISystem.eDamageController.DisableDamage();

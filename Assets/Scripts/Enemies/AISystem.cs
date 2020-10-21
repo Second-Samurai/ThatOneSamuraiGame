@@ -13,6 +13,7 @@ public enum EnemyType
     ARCHER,
     GLAIVEWIELDER,
     BOSS,
+    MINIBOSS,
     TUTORIALENEMY
 }
 
@@ -190,6 +191,11 @@ namespace Enemies
                     break;
                 case EnemyType.BOSS:
                     statHandler.Init(enemySettings.bossStats.enemyData); 
+                    animator.SetFloat("ApproachSpeedMultiplier", enemySettings.bossStats.enemyData.moveSpeed);
+                    animator.SetFloat("CircleSpeedMultiplier", enemySettings.bossStats.circleSpeed);
+                    break;
+                case EnemyType.MINIBOSS:
+                    statHandler.Init(enemySettings.bossStats.enemyData);
                     animator.SetFloat("ApproachSpeedMultiplier", enemySettings.bossStats.enemyData.moveSpeed);
                     animator.SetFloat("CircleSpeedMultiplier", enemySettings.bossStats.circleSpeed);
                     break;
@@ -611,8 +617,8 @@ namespace Enemies
                     IncreaseAttackSpeed(.05f);
                     IncreaseAttackSpeed(.05f);
                     CheckArmourLevel();
-                    EndState();
-                    OnDodge();
+                   
+                    
                 }
             }
         }
@@ -634,11 +640,21 @@ namespace Enemies
 
         public void CheckArmourLevel()
         {
-            if(armourManager.armourCount <= 6)
+            if (armourManager.armourCount <= 3)
+            {
+                OnGlaiveAttack();
+                statHandler.maxGuard += 40;
+            }
+            else if (armourManager.armourCount <= 6)
             {
                 OnBossArrowMove();
+                statHandler.maxGuard += 20;
             }
-            statHandler.maxGuard += 20;
+            else
+            {
+                statHandler.maxGuard += 20;
+                EndState();
+            }
         }
 
         #endregion

@@ -28,6 +28,8 @@ namespace Enemies.Enemy_States
             {
                 if(AISystem.enemyType == EnemyType.BOSS)
                 {
+                    AISystem.weaponSwitcher.EnableSword(true);
+
                     int selector = Random.Range(0, 5);
 
                     if(selector == AISystem.bossAttackSelector)

@@ -77,6 +77,7 @@ namespace Enemies
         public Transform firePoint;
         public MeshRenderer glaiveMesh;
         public MeshRenderer bowMesh;
+        public WeaponSwitcher weaponSwitcher;
 
 
         //ATTACK SPEED VARIABLES
@@ -92,6 +93,8 @@ namespace Enemies
 
         private void Start()
         {
+
+
             hitstopController = GameManager.instance.gameObject.GetComponent<HitstopController>();
             
             // Grab the enemy settings from the Game Manager > Game Settings > Enemy Settings
@@ -128,6 +131,7 @@ namespace Enemies
 
             rb = GetComponent<Rigidbody>();
 
+            if (enemyType == EnemyType.BOSS) weaponSwitcher = GetComponent<WeaponSwitcher>();
         }
 
         private void Update()

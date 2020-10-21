@@ -22,7 +22,9 @@ namespace Enemies.Enemy_States
             // For the enemy tracker, restart the impatience countdown
             // See enemy tracker for more details
             //AISystem.enemyTracker.StartImpatienceCountdown();
-
+            AISystem.weaponSwitcher.EnableSword(false);
+            AISystem.weaponSwitcher.EnableGlaive(false);
+            AISystem.weaponSwitcher.EnableBow(true);
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
             AISystem.bHasBowDrawn = true;
@@ -84,6 +86,8 @@ namespace Enemies.Enemy_States
                 Animator.SetTrigger("SheathBow");
                 Animator.SetLayerWeight(1, 0);
                 AISystem.OnApproachPlayer();
+                AISystem.weaponSwitcher.EnableBow(false);
+                AISystem.weaponSwitcher.EnableSword(true);
             }
         }
 
@@ -107,6 +111,8 @@ namespace Enemies.Enemy_States
         private void PickThreatenedResponse()
         {
             Animator.SetBool("BowDrawn", false);
+            AISystem.weaponSwitcher.EnableBow(false);
+            AISystem.weaponSwitcher.EnableSword(true);
             Animator.SetTrigger("SheathBow");
             AISystem.bHasBowDrawn = false;
             Animator.SetLayerWeight(1, 0);

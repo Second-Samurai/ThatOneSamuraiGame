@@ -14,6 +14,12 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            if(AISystem.enemyType == EnemyType.BOSS)
+            {
+                AISystem.weaponSwitcher.EnableBow(false);
+                AISystem.weaponSwitcher.EnableGlaive(false);
+                AISystem.weaponSwitcher.EnableSword(true);
+            }
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
             AISystem.bHasBowDrawn = false;

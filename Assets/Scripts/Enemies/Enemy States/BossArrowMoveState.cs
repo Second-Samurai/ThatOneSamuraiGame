@@ -21,6 +21,9 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            AISystem.weaponSwitcher.EnableSword(false);
+            AISystem.weaponSwitcher.EnableGlaive(false);
+            AISystem.weaponSwitcher.EnableBow(true);
             shotTimer = 1f;
             AISystem.shotCount = 3;
             // For the enemy tracker, restart the impatience countdown
@@ -80,6 +83,8 @@ namespace Enemies.Enemy_States
         public override void EndState()
         {
             Animator.SetBool("BowDrawn", false);
+            AISystem.weaponSwitcher.EnableBow(false);
+            AISystem.weaponSwitcher.EnableSword(true);
             AISystem.bHasBowDrawn = false;
             Animator.SetTrigger("SheathBow");
             Animator.SetLayerWeight(1, 0);
@@ -117,6 +122,8 @@ namespace Enemies.Enemy_States
         private void PickThreatenedResponse()
         {
             Animator.SetBool("BowDrawn", false);
+            AISystem.weaponSwitcher.EnableBow(false);
+            AISystem.weaponSwitcher.EnableSword(true);
             Animator.SetTrigger("SheathBow");
             AISystem.bHasBowDrawn = false;
             Animator.SetLayerWeight(1, 0);

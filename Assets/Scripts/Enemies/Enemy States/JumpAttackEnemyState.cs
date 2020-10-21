@@ -15,6 +15,7 @@ namespace Enemies.Enemy_States
         public override IEnumerator BeginState()
         {
             //ResetAnimationBools();
+            if(AISystem.enemyType == EnemyType.BOSS) AISystem.weaponSwitcher.EnableSword(true);
             AISystem.eDamageController.enemyGuard.bSuperArmour = true;
             AISystem.attackIndicator.ShowIndicator();
             // Stop the navMeshAgent from tracking

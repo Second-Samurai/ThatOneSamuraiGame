@@ -5,6 +5,7 @@ using Enemy_Scripts;
 using UnityEngine;
 using UnityEngine.AI;
 using Debug = UnityEngine.Debug;
+using UnityEngine.InputSystem;
 
 public enum EnemyType
 {
@@ -67,10 +68,17 @@ namespace Enemies
         public Rigidbody rb;
 
         //BOSS VARS
+        [Header("BOSS VARIABLES")]
         public int bossAttackSelector = 10;
         public bool bCanBeStunned = true;
         public BoxCollider slamCol;
-        
+        public bool bHasBowDrawn = false;
+        public int shotCount = 3;
+        public Transform firePoint;
+        public MeshRenderer glaiveMesh;
+        public MeshRenderer bowMesh;
+
+
         //ATTACK SPEED VARIABLES
         public float previousAttackSpeed;
         public float attackSpeed;
@@ -125,6 +133,7 @@ namespace Enemies
         private void Update()
         {
             spawnCheck.bSpawnMe = !bIsDead;
+            if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove(); 
         }
 
         #endregion
@@ -138,7 +147,16 @@ namespace Enemies
             {
                 meleeCollider.enabled = false;
             }
-            
+
+            if (enemyType == EnemyType.BOSS)
+            {
+                meleeCollider.enabled = false;
+                if(!bHasBowDrawn) 
+                    animator.SetLayerWeight(1, 0);
+                if(!eDamageController.enemyGuard.isStunned) eDamageController.enemyGuard.canGuard = true;
+                KBColOff();
+                
+            }
             base.SetState(newEnemyState);
         }
         
@@ -191,7 +209,14 @@ namespace Enemies
                     {
                         //hitstopController.Hitstop(.15f);
                         camImpulse.FireImpulse();
-                        if (enemyType == EnemyType.BOSS) IncreaseAttackSpeed(.1f);
+                        if (enemyType == EnemyType.BOSS)
+                        {
+                            IncreaseAttackSpeed(.05f);
+                            EndState();
+                            OnDodge();
+                            CheckArmourLevel();
+                            eDamageController.enemyGuard.ResetGuard();
+                        }
                         //EndState();
                         //OnDodge(); 
                     }
@@ -376,9 +401,12 @@ namespace Enemies
         // Called in parry enemy state
         public void IncreaseAttackSpeed(float increasedAmount)
         {
-            previousAttackSpeed = attackSpeed;
-            attackSpeed += increasedAmount;
-            animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
+            if (attackSpeed + increasedAmount < 2f)
+            {
+                previousAttackSpeed = attackSpeed;
+                attackSpeed += increasedAmount;
+                animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
+            }
         }
         
         public void ReturnPreviousAttackSpeed()
@@ -471,6 +499,7 @@ namespace Enemies
 
         public void OnJumpAttack()
         {
+            bHasBowDrawn = false;
             if (EnemyDeathCheck()) return;
             SetState(new JumpAttackEnemyState(this));
         }
@@ -482,12 +511,14 @@ namespace Enemies
         
         public void OnQuickBlock()
         {
+            bHasBowDrawn = false;
             if (EnemyDeathCheck()) return;
             SetState(new QuickBlockEnemyState(this));
         }
 
         public void OnBlock()
         {
+            bHasBowDrawn = false;
             if (EnemyDeathCheck()) return;
             SetState(new BlockEnemyState(this));
         }
@@ -570,9 +601,14 @@ namespace Enemies
                     SetState(new DeathEnemyState(this));
                 else
                 {
+                    eDamageController.enemyGuard.ResetGuard();
                     armourManager.DestroyPiece();
                     armourManager.DestroyPiece();
-                    SetState(new RecoveryEnemyState(this));
+                    IncreaseAttackSpeed(.05f);
+                    IncreaseAttackSpeed(.05f);
+                    CheckArmourLevel();
+                    EndState();
+                    OnDodge();
                 }
             }
         }
@@ -582,6 +618,24 @@ namespace Enemies
             SetState(new RewindEnemyState(this));
         }
 
+        public void OnBossArrowMove()
+        {
+            SetState(new BossArrowMoveState(this));
+        }
+
+        public void OnBossArrowFire()
+        {
+            SetState(new BossArrowFireState(this));
+        }
+
+        public void CheckArmourLevel()
+        {
+            if(armourManager.armourCount <= 6)
+            {
+                OnBossArrowMove();
+            }
+            statHandler.maxGuard += 20;
+        }
 
         #endregion
 
@@ -596,4 +650,5 @@ namespace Enemies
         }
         
     }
+
 }

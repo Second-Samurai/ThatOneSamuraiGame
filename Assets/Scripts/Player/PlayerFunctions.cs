@@ -248,7 +248,7 @@ public class PlayerFunctions : MonoBehaviour
     {
         parryEffects.PlayParry();
         _animator.SetTrigger("Parrying");
-        hitstopController.SlowTime(.5f, 1);
+        if (attacker.GetComponent<AISystem>().enemyType != EnemyType.BOSS) hitstopController.SlowTime(.5f, 1);
         if(attacker != null)
         {
             // TODO: Fix with damage later

@@ -78,6 +78,7 @@ public class UIGuardMeter : MonoBehaviour
     //
     public void UpdateGuideMeter()
     {
+        guardSlider.maxValue = _statHandler.maxGuard;
         //Finds difference between values
         _difference = _statHandler.maxGuard - _statHandler.CurrentGuard;
         guardSlider.value = _difference;

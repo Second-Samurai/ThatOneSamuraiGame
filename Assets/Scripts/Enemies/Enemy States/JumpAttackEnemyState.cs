@@ -15,7 +15,7 @@ namespace Enemies.Enemy_States
         public override IEnumerator BeginState()
         {
             //ResetAnimationBools();
-
+            AISystem.eDamageController.enemyGuard.bSuperArmour = true;
             AISystem.attackIndicator.ShowIndicator();
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
@@ -48,6 +48,7 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
+            AISystem.eDamageController.enemyGuard.bSuperArmour = false;
             AISystem.navMeshAgent.enabled = true;
             AISystem.attackIndicator.HideIndicator();
             // Ensure rotate to player is set back in end state

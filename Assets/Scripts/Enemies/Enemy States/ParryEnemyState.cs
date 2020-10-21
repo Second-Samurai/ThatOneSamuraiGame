@@ -84,9 +84,12 @@ namespace Enemies.Enemy_States
         
         public override void Tick()
         {
-            // Get target position and face towards it
-            // _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-            // PositionTowardsTarget(AISystem.transform, _target);
+            if (bIsRotating)
+            {
+                // Get target position and face towards it
+                _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
+                PositionTowardsTarget(AISystem.transform, _target);
+            }
         }
 
         // End state is called by animation event

@@ -51,7 +51,11 @@ namespace Enemies.Enemy_States
             if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.veryShortRange))
             {
                 _bIsThreatened = true;
-                PickThreatenedResponse();
+                Animator.SetFloat("MovementZ", -1.0f);
+            }
+            else if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.shortRange))
+            {
+                Animator.SetFloat("MovementZ", -1.0f);
             }
             else if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.midRange))
             {
@@ -66,6 +70,7 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
+            Debug.LogWarning(AISystem.shotCount);
             if (AISystem.shotCount > 1)
             {
                 AISystem.shotCount--;

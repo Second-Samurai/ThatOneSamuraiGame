@@ -460,7 +460,7 @@ namespace Enemies
             EnemyState.StopRotating();
         }
         public void StartRotating()
-        {
+        { 
             EnemyState.StartRotating();
         }
 

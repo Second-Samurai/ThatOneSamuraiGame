@@ -16,7 +16,7 @@ namespace Enemies.Enemy_States
         {
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
-            
+            AISystem.bHasBowDrawn = false;
             // Stop unblockable if enemy was previously doing an unblockable attack and play block effect
             AISystem.EndUnblockable();
             AISystem.swordEffects.BeginBlockEffect();

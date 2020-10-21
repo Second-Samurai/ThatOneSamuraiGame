@@ -22,7 +22,8 @@ namespace Enemies.Enemy_States
         {
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
-            
+
+            AISystem.bHasBowDrawn = false;
             // Cache the range value so we're not always getting it in the tick function
             _longRange = AISystem.enemySettings.longRange;
             _shortRange = AISystem.enemySettings.shortRange;

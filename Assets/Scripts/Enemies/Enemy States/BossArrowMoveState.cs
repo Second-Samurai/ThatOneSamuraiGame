@@ -16,11 +16,13 @@ namespace Enemies.Enemy_States
         //Class constructor
         public BossArrowMoveState(AISystem aiSystem) : base(aiSystem)
         {
-            shotTimer = 1f;
+            
         }
 
         public override IEnumerator BeginState()
         {
+            shotTimer = 1f;
+            AISystem.shotCount = 3;
             // For the enemy tracker, restart the impatience countdown
             // See enemy tracker for more details
             //AISystem.enemyTracker.StartImpatienceCountdown();
@@ -58,7 +60,11 @@ namespace Enemies.Enemy_States
             if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.veryShortRange))
             {
                 _bIsThreatened = true;
-                EndState();
+                Animator.SetFloat("MovementZ", -1.0f);
+            }
+            else if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.shortRange))
+            {
+                Animator.SetFloat("MovementZ", -1.0f);
             }
             else if (InRange(AISystem.transform.position, _target, AISystem.enemySettings.midRange))
             {

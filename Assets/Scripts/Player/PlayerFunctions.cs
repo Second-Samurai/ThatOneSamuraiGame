@@ -237,7 +237,7 @@ public class PlayerFunctions : MonoBehaviour
         else if (!playerInputScript.bIsDodging)
         {
             playerSFX.Smack();
-            Debug.Log("HIT" + amount * direction);
+            //Debug.Log("HIT" + amount * direction);
             playerInputScript.DisableRotation();
             _animator.SetTrigger("KnockdownTrigger");
             StartCoroutine(ImpulseWithTimer(direction, amount, duration));

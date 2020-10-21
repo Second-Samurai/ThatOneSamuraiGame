@@ -425,7 +425,7 @@ public class PlayerInputScript : MonoBehaviour
             bMoveLocked = false; 
             if (_inputVector != _cachedVector && _cachedVector != Vector2.zero)
             {
-                Debug.Log("set " + _inputVector + " to " + _cachedVector);
+                //Debug.Log("set " + _inputVector + " to " + _cachedVector);
                 _inputVector = _cachedVector;
                 _cachedVector = Vector2.zero;
             }

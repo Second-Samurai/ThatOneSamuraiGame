@@ -177,10 +177,12 @@ namespace Enemies.Enemy_States
 
         public void StopRotating()
         {
+            //Debug.LogWarning("off");
             bIsRotating = false;
         }
         public void StartRotating()
         {
+            //Debug.LogWarning("on");
             bIsRotating = true;
         }
     }

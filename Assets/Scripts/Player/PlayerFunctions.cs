@@ -12,6 +12,7 @@ public class PlayerFunctions : MonoBehaviour
     public float blockTimer = 0f;
     public float blockCooldown;
     public bool bCanBlock = true;
+    public bool bInputtingBlock = false;
 
     [Header("Parry Variables")]
     public bool bIsParrying = false;
@@ -81,6 +82,7 @@ public class PlayerFunctions : MonoBehaviour
             _bDontCheckParry = false;
             parryEffects.PlayGleam();
             _IKPuppet.EnableIK();
+            bInputtingBlock = true;
         }
     }
 
@@ -101,6 +103,7 @@ public class PlayerFunctions : MonoBehaviour
         CheckBlockCooldown();
         CheckParry();
         //remove this
+        if (_bDontCheckParry && !bInputtingBlock && bIsBlocking) EndBlock(); 
 
         if (bAllowDeathMoveReset)
         {
@@ -146,6 +149,7 @@ public class PlayerFunctions : MonoBehaviour
             {
                 bIsParrying = false;
                 _bDontCheckParry = true;
+                if (!bInputtingBlock && bIsBlocking) EndBlock();
             }
         }
     }

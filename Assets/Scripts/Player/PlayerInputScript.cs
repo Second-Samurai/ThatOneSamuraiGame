@@ -204,7 +204,7 @@ public class PlayerInputScript : MonoBehaviour
       
     void OnEndBlock()
     {
-        _functions.EndBlock();
+        _functions.bInputtingBlock = false;
     }
 
     void OnDodge()

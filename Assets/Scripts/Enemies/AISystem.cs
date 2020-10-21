@@ -44,6 +44,7 @@ namespace Enemies
         
         //NAVMESH
         public NavMeshAgent navMeshAgent;
+        public bool bIsIdle = true;
         
         //DAMAGE CONTROLS
         public EDamageController eDamageController;
@@ -149,6 +150,8 @@ namespace Enemies
         // An override that is performed for every state change
         public override void SetState(EnemyState newEnemyState)
         {
+           
+
             if (enemyType != EnemyType.ARCHER)
             {
                 meleeCollider.enabled = false;
@@ -287,6 +290,11 @@ namespace Enemies
         {
             navMeshAgent.enabled = false;
             StartCoroutine(DodgeImpulseCoroutine(new Vector3(0,1,1), 20f, time));
+        }
+        public void PreFlipImpulseAnimEvent(float time)
+        {
+            navMeshAgent.enabled = false;
+            StartCoroutine(JumpImpulseCoroutine(new Vector3(0, 1, -1), 20f, time));
         }
 
         public void ImpulseWithDirection(float force, Vector3 dir)
@@ -644,18 +652,21 @@ namespace Enemies
         {
             if (armourManager.armourCount <= 3)
             {
-                OnGlaiveAttack();
+                OnDodge();
+                //OnGlaiveAttack();
                 statHandler.maxGuard += 40;
             }
             else if (armourManager.armourCount <= 6)
             {
-                OnBossArrowMove();
+                OnDodge();
+               // OnBossArrowMove();
                 statHandler.maxGuard += 20;
             }
             else
             {
+                OnDodge();
                 statHandler.maxGuard += 20;
-                OnApproachPlayer();
+                //OnApproachPlayer();
             }
         }
 

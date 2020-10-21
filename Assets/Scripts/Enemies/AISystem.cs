@@ -79,6 +79,7 @@ namespace Enemies
         public MeshRenderer glaiveMesh;
         public MeshRenderer bowMesh;
         public WeaponSwitcher weaponSwitcher;
+        public SwordColliderOverride colliderOverride;
 
 
         //ATTACK SPEED VARIABLES
@@ -653,8 +654,17 @@ namespace Enemies
             else
             {
                 statHandler.maxGuard += 20;
-                EndState();
+                OnApproachPlayer();
             }
+        }
+
+        public void BossGlaiveColOn()
+        {
+            if (enemyType == EnemyType.BOSS) colliderOverride.ColOn(1);
+        }
+        public void BossGlaiveColOff()
+        {
+            if (enemyType == EnemyType.BOSS) colliderOverride.ColOff(1);
         }
 
         #endregion

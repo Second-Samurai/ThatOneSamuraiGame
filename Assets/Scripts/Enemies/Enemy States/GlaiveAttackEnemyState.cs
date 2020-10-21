@@ -21,6 +21,7 @@ namespace Enemies.Enemy_States
 
                 AISystem.weaponSwitcher.EnableBow(false);
                 AISystem.eDamageController.enemyGuard.bSuperArmour = true;
+                 
             }
             //ResetAnimationBools();
             AISystem.swordEffects.BeginUnblockableEffect();
@@ -65,7 +66,7 @@ namespace Enemies.Enemy_States
             if (AISystem.enemyType == EnemyType.BOSS)
             {
                 AISystem.eDamageController.enemyGuard.bSuperArmour = false;
-                AISystem.weaponSwitcher.EnableGlaive(false);
+                AISystem.weaponSwitcher.EnableGlaive(false); 
             }
             AISystem.swordEffects.EndUnblockableEffect();
             AISystem.attackIndicator.HideIndicator();

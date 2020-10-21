@@ -83,6 +83,9 @@ namespace Enemies
         public float previousAttackSpeed;
         public float attackSpeed;
         
+        //CIRCLE TRACKING (used for the enemy tracker)
+        public bool bIsCircling = false;
+        
         #endregion
         
         #region Unity Monobehaviour Functions
@@ -410,6 +413,17 @@ namespace Enemies
         {
             attackSpeed = previousAttackSpeed;
             animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
+        }
+        
+        // Used in CircleEnemyState and enemy tracker to move the enemy onto another action
+        // DO NOT IMPLEMENT A START CIRCLING STATE. Instead you should switch to CircleEnemyState
+        public void StopCircling()
+        {
+            // Reset animation variables
+            animator.SetFloat("MovementX", 0.0f);
+            
+            // Reset circling variable
+            bIsCircling = false;
         }
         
         #endregion

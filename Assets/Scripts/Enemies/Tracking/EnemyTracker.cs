@@ -20,6 +20,8 @@ public class EnemyTracker : MonoBehaviour
 
     private CameraControl _cameraControl;
 
+    private Transform _lastKilledEnemy;
+
     private void Start()
     {
         _enemySettings = GameManager.instance.gameSettings.enemySettings;
@@ -27,8 +29,13 @@ public class EnemyTracker : MonoBehaviour
 
     private void Update()
     {
-        // Only run update if _bReduceImpatience is true
-        if (!_bReduceImpatience)
+        // If there are enemies in the list and an impatience timer isn't running, start a new one
+        if (!_bReduceImpatience && currentEnemies.Count > 0)
+        {
+            StartImpatienceCountdown();
+        }
+        // If there are no enemies in the list and an impatience timer isn't running, don't run the rest of update
+        else if (!_bReduceImpatience)
         {
             return;
         }
@@ -42,6 +49,10 @@ public class EnemyTracker : MonoBehaviour
         {
             StopImpatienceCountdown();
             PickApproachingTarget();
+            if (currentEnemies.Count > 0)
+            {
+                StartImpatienceCountdown();
+            }
         }
     }
 
@@ -78,7 +89,6 @@ public class EnemyTracker : MonoBehaviour
 
     public void ClearTarget()
     {
-        _bReduceImpatience = false;
         targetEnemy = null;
         _targetEnemyAISystem = null;
     }
@@ -104,57 +114,86 @@ public class EnemyTracker : MonoBehaviour
         if (currentEnemies.Count <= 0)
             return;
         
+        // int random is 0 - 9
         int targetSelector = Random.Range(0, 10);
 
-        // 30% chance if there are enemies in the list, 100% if there is no target enemy
-        if(targetSelector < 3 || targetEnemy == null)
+        // 80% chance if there is a targetAISystem
+        if(targetSelector >= 2  && _targetEnemyAISystem != null) 
         {
-            // Go through and find an enemy that isn't stunned to approach
-            foreach (Transform enemy in currentEnemies)
+            // If the target enemy isn't suitable (i.e. is not circling, stunned or dead) pick a random target instead
+            if (!CheckSuitableApproachTarget(_targetEnemyAISystem))
             {
-                if (!enemy.gameObject.activeInHierarchy) return;
+                PickRandomTarget();
+            }
+        }
+        // 20% chance if there is a suitable _targetEnemyAISystem, 100% if there is no target enemy
+        else 
+        {
+            PickRandomTarget();
+        }
+    }
 
-                AISystem aiSystem = enemy.GetComponent<AISystem>();
-                
-                // Only close distance if the enemy isn't stunned and is strafing
-                if (!aiSystem.eDamageController.enemyGuard.isStunned && !aiSystem.bIsDead)
-                {
-                    if (aiSystem.enemyType == EnemyType.GLAIVEWIELDER) aiSystem.OnChargePlayer();
-                    else if (aiSystem.enemyType == EnemyType.BOSS) aiSystem.OnJumpAttack();
-                    else aiSystem.OnCloseDistance();
-                    break;
-                }
-            }
-        }
-        else // 70% chance
+    private void PickRandomTarget()
+    {
+        // Go through and find an enemy that isn't stunned to approach
+        foreach (Transform enemy in currentEnemies)
         {
-            if (!_targetEnemyAISystem.eDamageController.enemyGuard.isStunned && !_targetEnemyAISystem.bIsDead)
+            // If the enemy is set as inactive, ignore it
+            if (!enemy.gameObject.activeInHierarchy) return;
+
+            AISystem aiSystem = enemy.GetComponent<AISystem>();
+                
+            // If the enemy is an archer, ignore it
+            if (!aiSystem) return;
+
+            if (CheckSuitableApproachTarget(aiSystem))
             {
-                if (_targetEnemyAISystem.enemyType == EnemyType.GLAIVEWIELDER ) _targetEnemyAISystem.OnChargePlayer();
-                else if (_targetEnemyAISystem.enemyType == EnemyType.BOSS) _targetEnemyAISystem.OnJumpAttack();
-                else _targetEnemyAISystem.OnCloseDistance();
+                break;
             }
         }
+    }
+
+    // Returns true if a suitable target is chosen (i.e. is circling and is not stunned or dead)
+    private bool CheckSuitableApproachTarget(AISystem aiSystem)
+    {
+        // Only close distance if the enemy isn't stunned or dead
+        if (!aiSystem.eDamageController.enemyGuard.isStunned && !aiSystem.bIsDead && aiSystem.bIsCircling)
+        {
+            // Stop circling behaviour in AISystem (this is also called at the end of CircleEnemyState)
+            aiSystem.StopCircling();
+
+            if (aiSystem.enemyType == EnemyType.GLAIVEWIELDER) aiSystem.OnChargePlayer();
+            else if (aiSystem.enemyType == EnemyType.BOSS) aiSystem.OnJumpAttack();
+            else aiSystem.OnCloseDistance();
+            return true;
+        }
+
+        return false;
     }
     
     // Called when an enemy dies (i.e. Death enemy state)
     public void SwitchDeathTarget(Transform enemyDeathTransform)
     {
-        if (enemyDeathTransform == targetEnemy)
-        {
-            Invoke("FindNewTarget", 1.0f);
-        }
+        // Save the last killed enemy and find a new target 1 second later
+        _lastKilledEnemy = enemyDeathTransform;
+        Invoke("FindNewTarget", 1.0f);
     }
 
     public void FindNewTarget()
     {
-        if (currentEnemies.Count > 0)
+        // Only find a new target if the player is still locked onto the dead enemy
+        if (_lastKilledEnemy == targetEnemy)
         {
-            GameManager.instance.cameraControl.LockOn();
-        }
-        else
-        {
-            GameManager.instance.cameraControl.ToggleLockOn();
+            // Switch targets
+            if (currentEnemies.Count > 0)
+            {
+                GameManager.instance.cameraControl.LockOn();
+            }
+            // Exit lockon
+            else
+            {
+                GameManager.instance.cameraControl.ToggleLockOn();
+            }
         }
     }
 }

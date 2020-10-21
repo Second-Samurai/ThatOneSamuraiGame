@@ -142,7 +142,8 @@ namespace Enemies
         private void Update()
         {
             spawnCheck.bSpawnMe = !bIsDead;
-            if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove(); 
+            if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove();
+            Debug.LogError(EnemyState.GetType().Name);
         }
 
         #endregion
@@ -171,6 +172,7 @@ namespace Enemies
                 KBColOff();
                 
             }
+            Debug.LogWarning(newEnemyState.GetType().Name);
             base.SetState(newEnemyState);
         }
         
@@ -476,6 +478,7 @@ namespace Enemies
 
         public void EndState()
         {
+            Debug.LogWarning("Called by anim");
             EnemyState.EndState();
         }
 
@@ -491,13 +494,14 @@ namespace Enemies
 
         public void EndStateAttack()
         {
-            if (EnemyState.GetType() == typeof(SwordAttackEnemyState) || EnemyState.GetType() == typeof(ParryEnemyState))
+            if (EnemyState.GetType() == typeof(SwordAttackEnemyState) || EnemyState.GetType() == typeof(ParryEnemyState) || EnemyState.GetType() == typeof(JumpAttackEnemyState))
             {
-                EndState();
+                EnemyState.EndState();
             }
             else
             {
                 Debug.LogWarning("Warning: Tried to EndState the wrong state, EndState cancelled");
+                Debug.LogWarning(EnemyState.GetType().Name);
             }
         }
 

@@ -64,6 +64,7 @@ namespace Enemies.Enemy_States
 
         protected void ChooseActionUsingDistance(Vector3 target)
         {
+            Debug.LogWarning("THAT");
             // If close enough, attack again
             if (InRange(AISystem.transform.position, target, AISystem.enemySettings.shortRange))
             {
@@ -153,6 +154,10 @@ namespace Enemies.Enemy_States
                         {
                             AISystem.OnApproachPlayer();
                         }
+                    }
+                    else
+                    {
+                        AISystem.OnApproachPlayer(); 
                     }
                 }
                 else if (AISystem.enemyType != EnemyType.GLAIVEWIELDER)

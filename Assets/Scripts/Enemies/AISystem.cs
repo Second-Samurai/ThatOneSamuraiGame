@@ -599,7 +599,8 @@ namespace Enemies
 
         public void OnEnemyRecovery()
         {
-            SetState(new RecoveryEnemyState(this));
+            if (enemyType != EnemyType.BOSS)
+                SetState(new RecoveryEnemyState(this)); 
         }
 
         public void OnEnemyDeath()

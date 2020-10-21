@@ -82,24 +82,24 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
-            Animator.SetBool("BowDrawn", false);
-            AISystem.weaponSwitcher.EnableBow(false);
-            AISystem.weaponSwitcher.EnableSword(true);
-            AISystem.bHasBowDrawn = false;
-            Animator.SetTrigger("SheathBow");
-            Animator.SetLayerWeight(1, 0);
-            // Stop the impatience cooldown when state end is called
-            AISystem.enemyTracker.StopImpatienceCountdown();
+            //Animator.SetBool("BowDrawn", false);
+            //AISystem.weaponSwitcher.EnableBow(false);
+            //AISystem.weaponSwitcher.EnableSword(true);
+            //AISystem.bHasBowDrawn = false;
+            //Animator.SetTrigger("SheathBow");
+            //Animator.SetLayerWeight(1, 0);
+            //// Stop the impatience cooldown when state end is called
+            //AISystem.enemyTracker.StopImpatienceCountdown();
 
-            // Reset animation variables
-            Animator.SetFloat("MovementX", 0.0f);
+            //// Reset animation variables
+            //Animator.SetFloat("MovementX", 0.0f);
 
-            // If threatened, do a threatened response (i.e. if the player is close)
-            // Else approach the player again (i.e. if the player is far)
-            if (_bIsThreatened)
-                PickThreatenedResponse();
-            else
-                AISystem.OnApproachPlayer();
+            //// If threatened, do a threatened response (i.e. if the player is close)
+            //// Else approach the player again (i.e. if the player is far)
+            //if (_bIsThreatened)
+            //    PickThreatenedResponse();
+            //else
+            //    AISystem.OnApproachPlayer();
         }
 
         // Set the strafe direction

@@ -142,8 +142,7 @@ namespace Enemies
         private void Update()
         {
             spawnCheck.bSpawnMe = !bIsDead;
-            if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove();
-            Debug.LogError(EnemyState.GetType().Name);
+            if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove(); 
         }
 
         #endregion

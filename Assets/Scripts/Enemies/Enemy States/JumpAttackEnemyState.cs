@@ -57,9 +57,7 @@ namespace Enemies.Enemy_States
 
             // Check current distance to determine next action
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
-
-            Debug.LogWarning("THIS");
-
+ 
             // In enemy state, choose a following action based on player distance
             ChooseActionUsingDistance(_target);
         }

@@ -53,7 +53,7 @@ public class SwordImpactEffect
 
         if (hit.collider == null)
         {
-            Debug.LogWarning(">> PSword: hit raycast has returned nothing");
+            //Debug.LogWarning(">> PSword: hit raycast has returned nothing");
             return this._swordControl.transform.position;
         }
 

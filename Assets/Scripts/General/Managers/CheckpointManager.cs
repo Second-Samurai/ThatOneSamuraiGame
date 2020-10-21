@@ -38,7 +38,7 @@ public class CheckpointManager : MonoBehaviour
     public void GetSaveDataCheckpoint()
     {
         activeCheckpoint = GameData.currentCheckpoint;
-        Debug.Log(activeCheckpoint);
+        //Debug.Log(activeCheckpoint);
         foreach (Checkpoint checkpoint in checkpoints)
         {
             checkpoint.bIsActive = false;

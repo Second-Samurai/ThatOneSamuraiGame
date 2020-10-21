@@ -14,6 +14,7 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            AISystem.bIsQuickBlocking = true;
             if(AISystem.enemyType == EnemyType.BOSS)
             {
                 AISystem.weaponSwitcher.EnableBow(false);
@@ -39,6 +40,7 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
+            AISystem.bIsQuickBlocking = false;
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             
             // Stop the block effect

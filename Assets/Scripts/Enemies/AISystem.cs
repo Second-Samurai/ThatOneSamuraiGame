@@ -54,6 +54,8 @@ namespace Enemies
         public ArmourManager armourManager;
         public bool bHasArmour;
         public TriggerImpulse camImpulse;
+        public bool bIsQuickBlocking = false;
+
         //NOTE: isStunned is handled in Guarding script, inside the eDamageController script
 
         //Float offset added to the target location so the enemy doesn't clip into the floor 
@@ -150,7 +152,10 @@ namespace Enemies
         // An override that is performed for every state change
         public override void SetState(EnemyState newEnemyState)
         {
-           
+            swordEffects.EndBlockEffect();
+            swordEffects.EndUnblockableEffect();
+
+            if (bIsQuickBlocking) bIsQuickBlocking = false;
 
             if (enemyType != EnemyType.ARCHER)
             {
@@ -532,7 +537,7 @@ namespace Enemies
         {
             bHasBowDrawn = false;
             if (EnemyDeathCheck()) return;
-            SetState(new QuickBlockEnemyState(this));
+            if(!bIsQuickBlocking) SetState(new QuickBlockEnemyState(this));
         }
 
         public void OnBlock()

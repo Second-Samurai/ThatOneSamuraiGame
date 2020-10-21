@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ArmourPiece : MonoBehaviour
 {
-    Rigidbody rb;
-    BoxCollider col;
+    public Rigidbody rb;
+    public BoxCollider col;
     public bool destroyed = false;
     public ParticleSystem particles;
 

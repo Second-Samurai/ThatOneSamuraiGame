@@ -145,8 +145,10 @@ public class AnimationRewindEntity : RewindEntity
 
     public override void ApplyData()
     {
+        Debug.Log("FUCK");
 
         animator.SetBool("LockedOn", animationDataList[currentIndex].lockedOn);
+        Debug.Log(animationDataList[currentIndex].lockedOn);
         animator.SetBool("VGuard", animationDataList[currentIndex].vGuard);
         animator.SetInteger("ComboCount", animationDataList[currentIndex].comboCount);
         animator.SetBool("FirstAttack", animationDataList[currentIndex].firstAttack);

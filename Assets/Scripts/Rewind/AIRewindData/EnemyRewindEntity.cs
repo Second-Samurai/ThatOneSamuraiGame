@@ -1,6 +1,7 @@
 ﻿using Enemies;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using UnityEngine;
 
@@ -88,7 +89,9 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         //move to arguments need to be added rewind entity
         enemyDataList.Insert(0, new EnemyRewindData(aISystem.EnemyState, swordCollider.enabled,
                                                     aISystem.eDamageController.enemyGuard.canGuard, aISystem.eDamageController.enemyGuard.canParry, aISystem.eDamageController.enemyGuard.isStunned,
-                                                    aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard, aISystem.bIsDead, aISystem.bIsUnblockable, _enemyTracker.currentEnemies));
+                                                    aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard, aISystem.bIsDead, aISystem.bIsUnblockable, _enemyTracker.currentEnemies, 
+                                                    aISystem.bIsIdle, aISystem.bIsCircling, aISystem.eDamageController.enemyGuard.bSuperArmour ,aISystem.previousAttackSpeed, aISystem.attackSpeed,
+                                                    aISystem.armourManager.armourCount));
 
         base.RecordPast();
     }
@@ -141,7 +144,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
             aISystem.eDamageController.enemyGuard.isStunned = enemyDataList[currentIndex].isStunned;
             aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard = enemyDataList[currentIndex].currentGuard;
             aISystem.bIsDead = enemyDataList[currentIndex].bIsDead;
-
+            aISystem.armourManager.armourCount = enemyDataList[currentIndex].armourCount;
 
             if (aISystem.bIsUnblockable != enemyDataList[currentIndex].bIsUnblockable)
             {
@@ -167,6 +170,12 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         if (currentIndex <= enemyDataList.Count - 1)
         {
             aISystem.SetState(enemyDataList[currentIndex].enemyState);
+            aISystem.bIsIdle = enemyDataList[currentIndex].b_isIdle;
+            aISystem.bIsCircling = enemyDataList[currentIndex].bisCircling;
+            aISystem.eDamageController.enemyGuard.bSuperArmour = enemyDataList[currentIndex].bSuperArmour;
+            aISystem.previousAttackSpeed = enemyDataList[currentIndex].previousAttackSpeed;
+            aISystem.attackSpeed = enemyDataList[currentIndex].attackSpeed;
+            aISystem.animator.SetFloat("AttackSpeedMultiplier",  enemyDataList[currentIndex].attackSpeed);
             swordCollider.enabled = enemyDataList[currentIndex].swordCollider;
             if (!aISystem.bIsDead)
             {

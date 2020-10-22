@@ -22,6 +22,7 @@ public class RewindInput : MonoBehaviour
     PlayerFunctions playerFunction;
 
     public GameEvent hidePopupEvent;
+    public GameEvent hideLockOnPopupEvent;
     
     // Start is called before the first frame update
     void Start()
@@ -39,6 +40,7 @@ public class RewindInput : MonoBehaviour
     void OnInitRewind()
     {
         hidePopupEvent.Raise();
+        hideLockOnPopupEvent.Raise();
         _inputComponent.SwitchCurrentActionMap("Rewind");
         if (!isTravelling && rewindManager.maxRewindResource != 0)
         {

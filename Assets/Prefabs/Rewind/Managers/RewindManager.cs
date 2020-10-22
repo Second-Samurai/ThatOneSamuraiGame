@@ -82,7 +82,7 @@ public class RewindManager : MonoBehaviour
         if (rewindResource < maxRewindResource && !isTravelling) rewindUI.FadeIn(1f, 1f);
         else if (rewindResource == maxRewindResource && !isTravelling && maxRewindResource > 2f) rewindUI.FadeOut(0f, 1f);
         rewindUI.UpdateBarColor();
-        //Debug.Log(isTravelling);
+    //Debug.Log(isTravelling);
     }
 
     void UpdateRewindUI()
@@ -106,14 +106,16 @@ public class RewindManager : MonoBehaviour
             rewindUI.UpdateBarMax(maxRewindResource);
             if(rewindUI.rewindBar.fillAmount > maxRewindResource / 10) rewindUI.UpdateRewindAmount(maxRewindResource);
             rewindResource = maxRewindResource * f;
-            if (maxRewindResource <= 2) 
-            {
-                _rewindAudio.HeartBeat();
-            }
+        }
+        if (maxRewindResource <= 3 && maxRewindResource > 0) 
+        {
+            _rewindAudio.HeartBeat();
         }
 
         if (maxRewindResource <= 0) 
         {
+            _rewindAudio.StopSource();
+            _rewindAudio.DeathSFX();
             gameOverMenu.TextFadeIn();
             gameOverMenu.Invoke("ReturnToMenu", 10f);
             gameOverMenu.Invoke("TextFadeOut", 5f);
@@ -129,7 +131,7 @@ public class RewindManager : MonoBehaviour
             maxRewindResource += 2;
             rewindUI.UpdateBarMax(maxRewindResource);
             rewindResource = maxRewindResource * f;
-            if (maxRewindResource > 2)
+            if (maxRewindResource > 3)
             {
                 _rewindAudio.StopSource();
             }
@@ -218,11 +220,11 @@ public class RewindManager : MonoBehaviour
     public IEnumerator BecomeInvincible()
     {
         damageController.DisableDamage();
-        Debug.Log("become invinvible");
+        //Debug.Log("become invinvible");
         yield return new WaitForSeconds(invincabilityTimer);
 
         damageController.EnableDamage();
-        Debug.Log("disable invinvible");
+        //Debug.Log("disable invinvible");
 
     }
 

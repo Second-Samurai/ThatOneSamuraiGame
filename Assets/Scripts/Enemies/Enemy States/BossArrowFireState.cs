@@ -178,10 +178,10 @@ namespace Enemies.Enemy_States
             AISystem.shotTimer = 1;
             hasfired = true;
             AISystem.shotCount--;
-            Debug.LogError(AISystem.shotCount);
+           // Debug.LogError(AISystem.shotCount);
             if (AISystem.shotCount <= 1) 
             {
-                Debug.LogError("exit");
+               // Debug.LogError("exit");
                 AISystem.shotCount = 4;
                 AISystem.bHasBowDrawn = false;
                 Animator.SetBool("BowDrawn", false);

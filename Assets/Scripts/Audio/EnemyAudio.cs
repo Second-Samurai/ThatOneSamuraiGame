@@ -9,6 +9,7 @@ public class EnemyAudio : MonoBehaviour
     private AudioClip grassStomp;
     private AudioClip bowDraw;
     private AudioClip bowRelease;
+    private AudioClip smoke;
 
     private AudioClip[] grunts;
     public AudioClip[] dyingSounds;
@@ -38,9 +39,10 @@ public class EnemyAudio : MonoBehaviour
         shing = GameManager.instance.audioManager.FindAll("heavy attack hit").ToArray();
         heavySwing = GameManager.instance.audioManager.FindAll("Heavy attack swing").ToArray();
 
-        grassStomp = GameManager.instance.audioManager.FindSound("GrassStomp");
+        grassStomp = GameManager.instance.audioManager.FindSound("Full");
         bowDraw = GameManager.instance.audioManager.FindSound("bowdraw");
         bowRelease = GameManager.instance.audioManager.FindSound("bowrelease");
+        smoke = GameManager.instance.audioManager.FindSound("Smoke");
 
         min = Random.Range(.7f, 1);
         minLow = Random.Range(.5f, .7f);
@@ -86,12 +88,12 @@ public class EnemyAudio : MonoBehaviour
     public void Shing()
     {
         int i = Random.Range(0, shing.Length);
-        audioPlayer.PlayOnce(shing[i], audioManager.SFXVol, .7f, .7f);
+        audioPlayer.PlayOnce(shing[i], audioManager.SFXVol / 4, .8f, .8f);
     }
 
     public void GrassStomp()
     {
-        audioPlayer.PlayOnce(grassStomp, audioManager.SFXVol / 2);
+        audioPlayer.PlayOnce(grassStomp, audioManager.SFXVol / 4);
     }
 
     public void Draw()
@@ -131,5 +133,10 @@ public class EnemyAudio : MonoBehaviour
     {
         int i = Random.Range(0, heavySwing.Length);
         audioPlayer.PlayOnce(heavySwing[i], audioManager.SFXVol, .5f, .7f);
+    }
+
+    public void Smoke()
+    {
+        audioPlayer.PlayOnce(smoke, audioManager.SFXVol, .5f, .5f);
     }
 }

@@ -84,6 +84,7 @@ namespace Enemies
         public WeaponSwitcher weaponSwitcher;
         public SwordColliderOverride colliderOverride;
         public GameObject teleportParticle;
+        public float shotTimer = 1;
 
 
         //ATTACK SPEED VARIABLES

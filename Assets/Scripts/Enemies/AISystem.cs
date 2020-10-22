@@ -174,7 +174,7 @@ namespace Enemies
                 KBColOff();
                 
             }
-            Debug.LogWarning(newEnemyState.GetType().Name);
+            //Debug.LogWarning(newEnemyState.GetType().Name);
             base.SetState(newEnemyState);
         }
         

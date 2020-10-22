@@ -101,7 +101,8 @@ namespace Enemies.Enemy_States
         private void PickStrafeDirection()
         {
             // Random.Range is non-inclusive for it's max value for ints
-            if (Random.Range(0, 2) == 0)
+            int direction = Random.Range(0, 2);
+            if (direction == 0)
             {
                 Animator.SetFloat("MovementX", -1.0f);
             }

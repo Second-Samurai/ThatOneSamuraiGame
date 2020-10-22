@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 4741646248546674340}
   - component: {fileID: 4431976765756804358}
   - component: {fileID: 71663278902181070}
+  - component: {fileID: 2768456986131103926}
   m_Layer: 10
   m_Name: GlaiveWielder
   m_TagString: Enemy
@@ -121,6 +122,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   bPlayerFound: 0
   navMeshAgent: {fileID: 0}
+  bIsIdle: 1
   eDamageController: {fileID: 0}
   bIsDead: 0
   bIsUnblockable: 0
@@ -128,12 +130,29 @@ MonoBehaviour:
   armourManager: {fileID: 71663278902181070}
   bHasArmour: 1
   camImpulse: {fileID: 52978811068804953}
+  bIsQuickBlocking: 0
   floatOffset: {x: 0, y: 2, z: 0}
   parryEffects: {fileID: 9058066258599906532}
   swordEffects: {fileID: 4052333975983555512}
   attackIndicator: {fileID: 357253870334254425}
   hitstopController: {fileID: 0}
   rb: {fileID: 2228225123342951562}
+  bossAttackSelector: 10
+  bCanBeStunned: 1
+  slamCol: {fileID: 0}
+  bHasBowDrawn: 0
+  shotCount: 3
+  firePoint: {fileID: 0}
+  glaiveMesh: {fileID: 0}
+  bowMesh: {fileID: 0}
+  weaponSwitcher: {fileID: 0}
+  colliderOverride: {fileID: 0}
+  teleportParticle: {fileID: 0}
+  shotTimer: 1
+  previousAttackSpeed: 0
+  attackSpeed: 0
+  bIsCircling: 0
+  bIsClosingDistance: 0
 --- !u!114 &3172725055191330812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swordCollider: {fileID: 3559791347825764665}
+  glaiveCol: {fileID: 0}
 --- !u!114 &6241565374944985340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,6 +243,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _aiSystem: {fileID: 7323404314762471458}
+  bSuperArmour: 0
 --- !u!114 &2581852534565438209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,6 +478,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   armourPieces: []
+  armourCount: 0
+--- !u!114 &2768456986131103926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2228225123342951560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089918be0d032d94a8488bcc0e2bf86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 410948a5fa6416b4bbc2a539a516b4be, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7323404314762471458}
+        m_MethodName: AvoidHeavyAttack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2276179862317760619
 GameObject:
   m_ObjectHideFlags: 0
@@ -3435,15 +3484,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 404b781796bca4630b0866357f20e96b, type: 3}
---- !u!4 &8356287826932169075 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3546933920284287804, guid: 404b781796bca4630b0866357f20e96b,
-    type: 3}
-  m_PrefabInstance: {fileID: 4813857734990649935}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &8356287826932169036 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 3546933920284287747, guid: 404b781796bca4630b0866357f20e96b,
+    type: 3}
+  m_PrefabInstance: {fileID: 4813857734990649935}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8356287826932169075 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3546933920284287804, guid: 404b781796bca4630b0866357f20e96b,
     type: 3}
   m_PrefabInstance: {fileID: 4813857734990649935}
   m_PrefabAsset: {fileID: 0}
@@ -3516,15 +3565,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70a789299e3e846bd8a35f4082b3d5e1, type: 3}
---- !u!198 &6743663719843092592 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 1794610257312254078, guid: 70a789299e3e846bd8a35f4082b3d5e1,
-    type: 3}
-  m_PrefabInstance: {fileID: 5004047744209342478}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5934488927461210137 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1669279470606952471, guid: 70a789299e3e846bd8a35f4082b3d5e1,
+    type: 3}
+  m_PrefabInstance: {fileID: 5004047744209342478}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6743663719843092592 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1794610257312254078, guid: 70a789299e3e846bd8a35f4082b3d5e1,
     type: 3}
   m_PrefabInstance: {fileID: 5004047744209342478}
   m_PrefabAsset: {fileID: 0}
@@ -3693,12 +3742,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b745d0d95f6c87d40aa90c1be66c80cb, type: 3}
---- !u!4 &721992519669500779 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7822598776280127037, guid: b745d0d95f6c87d40aa90c1be66c80cb,
-    type: 3}
-  m_PrefabInstance: {fileID: 7388855007215803734}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &52978811068804953 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7365157295071048207, guid: b745d0d95f6c87d40aa90c1be66c80cb,
@@ -3711,6 +3754,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e876105c7b5c040813815a8f962095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &721992519669500779 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7822598776280127037, guid: b745d0d95f6c87d40aa90c1be66c80cb,
+    type: 3}
+  m_PrefabInstance: {fileID: 7388855007215803734}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8016408321769634384
 PrefabInstance:
   m_ObjectHideFlags: 0

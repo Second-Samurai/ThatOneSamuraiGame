@@ -6,7 +6,6 @@ public class BoardRewindEntity : RewindEntity
 {
     [SerializeField]
     public List<BoardTimeData> BoardDataList;
-    private LockOnTargetManager lockOnTargetManager;
 
     public BoardBreak boardBreak;
     private Rigidbody boardRigidBody;

@@ -2069,6 +2069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   optionsMenu: {fileID: 4165856845870035565}
+  hidePopupEvent: {fileID: 11400000, guid: 70b92ee7ec6db524c8bcdc88f6283cb7, type: 2}
 --- !u!1 &1290209687
 GameObject:
   m_ObjectHideFlags: 0
@@ -5828,6 +5829,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camTargetScript: {fileID: 6326023133747577652}
+  audioManager: {fileID: 0}
+  BGMVol: {fileID: 0}
+  SFXVol: {fileID: 0}
   indicatorToggle: {fileID: 876511261630716790}
 --- !u!1 &4165856846162870892
 GameObject:
@@ -8088,20 +8092,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bCanMove: 1
-  bLockedOn: 0
   bMoveLocked: 0
   bIsDodging: 0
   bCanDodge: 1
   bCanAttack: 0
   bGotParried: 0
   bIsSheathed: 0
+  bCanRotate: 1
   bCanBlock: 1
   bOverrideMovement: 0
-  _camControl: {fileID: 7190348978030205752}
+  camControl: {fileID: 0}
   _functions: {fileID: 0}
   finishingMoveController: {fileID: 1317372922}
   onLockOnEvent: {fileID: 11400000, guid: 5f051e9e3ef171047a76de81e93abe48, type: 2}
   _inputComponent: {fileID: 8000690494251821636}
+  _pCombatController: {fileID: 0}
   rotationSpeed: 4
   smoothingValue: 0.1
   target: {fileID: 0}
@@ -8199,6 +8204,7 @@ MonoBehaviour:
   bIsParrying: 0
   parryTimer: 0
   parryTimerTarget: 0.4
+  rb: {fileID: 0}
   bIsDead: 0
   screenCenter: {fileID: 0}
   parryEffects: {fileID: 0}
@@ -8207,6 +8213,8 @@ MonoBehaviour:
   playerInputScript: {fileID: 0}
   lSword: {fileID: 9177697929894721672}
   rSword: {fileID: 0}
+  bSlide: 0
+  bAllowDeathMoveReset: 1
 --- !u!114 &3595111642221714922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8219,6 +8227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f2e946e2f08245b382d16c4d80519c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GodMode: 0
   _canDamage: 0
 --- !u!114 &1830864459120800300
 MonoBehaviour:
@@ -8236,6 +8245,13 @@ MonoBehaviour:
   attackCol: {fileID: 2163556821890459767}
   _isAttacking: 0
   isUnblockable: 0
+  swordManager: {fileID: 0}
+  audio: {fileID: 0}
+  swordAudio: {fileID: 0}
+  slash1: {fileID: 0}
+  hit1: {fileID: 0}
+  heavySlash: {fileID: 0}
+  heavyHit: {fileID: 0}
 --- !u!114 &8255792382904968214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8497,6 +8513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac3cf223acede4fdb96ec0a6630c5699, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swordEffect: {fileID: 0}
 --- !u!1 &7860764760860599313
 GameObject:
   m_ObjectHideFlags: 0
@@ -9883,15 +9900,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 287a90e02ab25d148b1e5144bdc15eb2, type: 3}
---- !u!1 &9177697929894721672 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2463784596806194281, guid: 287a90e02ab25d148b1e5144bdc15eb2,
-    type: 3}
-  m_PrefabInstance: {fileID: 6731936606896270561}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8330764813289440686 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3382333992990730575, guid: 287a90e02ab25d148b1e5144bdc15eb2,
+    type: 3}
+  m_PrefabInstance: {fileID: 6731936606896270561}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9177697929894721672 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2463784596806194281, guid: 287a90e02ab25d148b1e5144bdc15eb2,
     type: 3}
   m_PrefabInstance: {fileID: 6731936606896270561}
   m_PrefabAsset: {fileID: 0}

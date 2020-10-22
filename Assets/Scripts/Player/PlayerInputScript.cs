@@ -18,7 +18,6 @@ public class PlayerInputScript : MonoBehaviour
     [HideInInspector] public CameraControl camControl;
     [HideInInspector] public PlayerFunctions _functions;
     [HideInInspector] public FinishingMoveController finishingMoveController;
-    [HideInInspector] public GameEvent onLockOnEvent;
     [HideInInspector] public PlayerInput _inputComponent;
     ICombatController _playerCombat;
     HitstopController hitstopController;
@@ -45,6 +44,7 @@ public class PlayerInputScript : MonoBehaviour
     #region Heavy Charging
     float heavyTimer, heavyTimerMax = 2f;
     bool bHeavyCharging = false, bPlayGleam = true;
+    public GameEvent showHeavyTutorialEvent;
     #endregion
 
 
@@ -102,7 +102,6 @@ public class PlayerInputScript : MonoBehaviour
     void OnLockOn()
     {
         camControl.ToggleLockOn();
-        onLockOnEvent.Raise();
     }
 
     void OnToggleLockLeft()
@@ -172,6 +171,7 @@ public class PlayerInputScript : MonoBehaviour
     
     void OnStartHeavyAlternative()
     {
+        bPlayGleam = false;
         heavyTimer = 0.75f;
         StartHeavy();
     }
@@ -205,7 +205,7 @@ public class PlayerInputScript : MonoBehaviour
       
     void OnEndBlock()
     {
-        _functions.EndBlock();
+        _functions.bInputtingBlock = false;
     }
 
     void OnDodge()
@@ -287,6 +287,8 @@ public class PlayerInputScript : MonoBehaviour
 
     private void ExecuteHeavyAttack()
     {
+        showHeavyTutorialEvent.Raise();
+        
         bHeavyCharging = false;
         bIsSheathed = false;
         bPlayGleam = true;
@@ -426,7 +428,7 @@ public class PlayerInputScript : MonoBehaviour
             bMoveLocked = false; 
             if (_inputVector != _cachedVector && _cachedVector != Vector2.zero)
             {
-                Debug.Log("set " + _inputVector + " to " + _cachedVector);
+                //Debug.Log("set " + _inputVector + " to " + _cachedVector);
                 _inputVector = _cachedVector;
                 _cachedVector = Vector2.zero;
             }

@@ -6,12 +6,14 @@ public class ArmourManager : MonoBehaviour
 {
     public ArmourPiece[] armourPieces;
     EnemyAudio enemyAudio;
+    public int armourCount;
 
     // Start is called before the first frame update
     void Start()
     {
         enemyAudio = GetComponent<EnemyAudio>();
         if (armourPieces.Length == 0) armourPieces = GetComponentsInChildren<ArmourPiece>();
+        armourCount = armourPieces.Length - 1;
     }
 
     public bool DestroyPiece()
@@ -21,6 +23,7 @@ public class ArmourManager : MonoBehaviour
             if (!armourPieces[i].destroyed)
             {
                 armourPieces[i].DropPiece();
+                armourCount--;
                 return true;
             }
         }

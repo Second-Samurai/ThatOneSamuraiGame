@@ -21,6 +21,8 @@ public class Guarding : MonoBehaviour
 
     private float _guardCooldownTime;
 
+    public bool bSuperArmour = false;
+
     public void Init(StatHandler statHandler)
     {
         this.statHandler = statHandler;
@@ -40,7 +42,7 @@ public class Guarding : MonoBehaviour
     // Called in animation events to open the enemy's guard
     public void DropGuard()
     {
-        canGuard = false;
+       if(_aiSystem.enemyType != EnemyType.BOSS) canGuard = false;
     }
     
     // Called in animation events to return the enemy's guard option
@@ -116,7 +118,7 @@ public class Guarding : MonoBehaviour
         StartCoroutine(AwaitNextDamage(6));
         //camImpulse.FireImpulse();
         //Switch States
-        _guardMeter.ShowFKey();
+        _guardMeter.ShowFinisherKey();
         _aiSystem.OnEnemyStun();
     }
 
@@ -152,16 +154,22 @@ public class Guarding : MonoBehaviour
                 yield return null;
             }
 
-            statHandler.CurrentGuard = statHandler.maxGuard;
-            OnGuardEvent.Invoke();
-
-            if (isStunned)
-            {
-                _guardMeter.HideFKey();
-                _aiSystem.OnEnemyRecovery();
-            }
-            isStunned = false;
-            canGuard = true;
+            ResetGuard();
         }
+    }
+
+    public void ResetGuard()
+    {
+        StopCoroutine(GuardCoolDown(8));
+        statHandler.CurrentGuard = statHandler.maxGuard;
+        OnGuardEvent.Invoke();
+
+        if (isStunned)
+        {
+            _guardMeter.HideFinisherKey();
+            _aiSystem.OnEnemyRecovery();
+        }
+        isStunned = false;
+        canGuard = true;
     }
 }

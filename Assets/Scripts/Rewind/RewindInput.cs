@@ -20,6 +20,10 @@ public class RewindInput : MonoBehaviour
     PlayerInput _inputComponent;
 
     PlayerFunctions playerFunction;
+
+    public GameEvent hidePopupEvent;
+    public GameEvent hideLockOnPopupEvent;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -33,9 +37,10 @@ public class RewindInput : MonoBehaviour
 
   
 
-    void OnInitRewind() 
+    void OnInitRewind()
     {
-
+        hidePopupEvent.Raise();
+        hideLockOnPopupEvent.Raise();
         _inputComponent.SwitchCurrentActionMap("Rewind");
         if (!isTravelling && rewindManager.maxRewindResource != 0)
         {
@@ -77,7 +82,7 @@ public class RewindInput : MonoBehaviour
 
     public void DeathRewind()
     {
-        Debug.Log("DEAD");
+        //Debug.Log("DEAD");
         rewindManager.ReduceRewindAmount();
         OnInitRewind();
 

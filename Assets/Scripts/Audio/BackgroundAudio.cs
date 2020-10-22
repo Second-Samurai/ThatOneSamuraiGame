@@ -27,6 +27,8 @@ public class BackgroundAudio : MonoBehaviour
         startGame = GameManager.instance.audioManager.FindSound("selectbuttonsfx");
         optionsSelect = GameManager.instance.audioManager.FindSound("scrollingsfx");
 
+        menuMusicSource.loop = true;
+        birdsAndTreesSource.loop = true;
         if (!menuMusicSource.clip) menuMusicSource.clip = menuMusic;
         if(!birdsAndTreesSource.clip) birdsAndTreesSource.clip = birdAndTrees;
         birdsAndTreesSource.Play();

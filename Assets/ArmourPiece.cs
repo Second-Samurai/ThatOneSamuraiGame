@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class ArmourPiece : MonoBehaviour
 {
-    Rigidbody rb;
-    BoxCollider col;
+    public Rigidbody rb;
+    public BoxCollider col;
     public bool destroyed = false;
     public ParticleSystem particles;
+    public Vector3 originPos;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<BoxCollider>();
         particles = GetComponentInChildren<ParticleSystem>();
+        originPos = transform.localPosition;
     }
 
     public void DropPiece()

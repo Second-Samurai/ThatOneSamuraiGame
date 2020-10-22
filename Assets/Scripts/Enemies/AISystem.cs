@@ -737,6 +737,7 @@ namespace Enemies
         public void DropSmoke()
         {
             Instantiate(teleportParticle, transform.position + (transform.forward*2), Quaternion.identity);
+            enemyAudio.Smoke();
 
         }
 

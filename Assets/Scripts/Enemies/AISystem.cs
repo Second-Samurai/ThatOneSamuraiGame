@@ -47,6 +47,7 @@ namespace Enemies
         public bool bIsIdle = true;
         
         //DAMAGE CONTROLS
+        public CapsuleCollider col; //SET IN PREFAB INSPECTOR
         public EDamageController eDamageController;
         public bool bIsDead = false;
         public bool bIsUnblockable = false;

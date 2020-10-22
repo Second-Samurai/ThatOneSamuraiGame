@@ -12,7 +12,7 @@ public class ImageFadeIn : MonoBehaviour
     void Start()
     {
         image = GetComponent<Image>();
-        image.DOFade(1, .3f);
+        image.DOFade(1, 1f);
     }
 
 }

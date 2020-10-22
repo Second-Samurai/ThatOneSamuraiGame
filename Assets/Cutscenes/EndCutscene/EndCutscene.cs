@@ -13,15 +13,16 @@ public class EndCutscene : MonoBehaviour
     UnityEvent endCutscene;
     public SignalReceiver signalReceiver;
     bool bSkipped = false;
-    public GameObject credits;
+    public GameObject credits, boss;
+    public Transform playerPoint, bossPoint;
 
     // Start is called before the first frame update
     void Start()
     {
-        //_cutsceneDirector = GetComponent<PlayableDirector>();
+        _cutsceneDirector = GetComponent<PlayableDirector>();
         if (endCutscene == null) endCutscene = new UnityEvent();
         if (signalReceiver == null) signalReceiver = GetComponent<SignalReceiver>();
-        //AssignTargets();
+        AssignTargets();
     }
 
 
@@ -68,9 +69,21 @@ public class EndCutscene : MonoBehaviour
         GameManager.instance.rewindManager.isTravelling = false;
     }
 
+    public void PlayCutscene()
+    {
+        Invoke("PlayClip", 3);
+    }
+
     public void RollCredits()
     {
         credits.SetActive(true);
+    }
+
+    public void PlayClip()
+    {
+        GameManager.instance.playerController.gameObject.transform.position = playerPoint.position;
+        boss.transform.position = bossPoint.position;
+        _cutsceneDirector.Play();
     }
 
 }

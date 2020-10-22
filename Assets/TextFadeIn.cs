@@ -12,7 +12,7 @@ public class TextFadeIn : MonoBehaviour
     void Start()
     {
         text = GetComponent<Text>();
-        text.DOFade(1, 1);
+        text.DOFade(1, 1.5f);
     }
      
 }

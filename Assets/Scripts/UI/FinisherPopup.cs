@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class FinisherPopup : Popup
 {
+    private bool bHasTriggeredHeavy;
+    
     public GameEvent hidePopupEvent;
     public GameEvent hideLockOnPopupEvent;
     
@@ -16,11 +18,21 @@ public class FinisherPopup : Popup
         if (!bHasTriggered)
         {
             bHasTriggered = true;
-            Invoke("DelayedShowFinisherPopup", 4.2f);
+            Invoke("ShowPopup", 4.2f);
+        }
+    }
+    
+    public void ShowHeavyPopup()
+    {
+        if (!bHasTriggeredHeavy)
+        {
+            bHasTriggeredHeavy = true;
+            ShowPopup();
         }
     }
 
-    private void DelayedShowFinisherPopup()
+
+    private void ShowPopup()
     {
         hidePopupEvent.Raise();
         hideLockOnPopupEvent.Raise();

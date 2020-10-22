@@ -647,6 +647,7 @@ namespace Enemies
             {
                 if (armourManager.armourCount <= 0)
                 {
+                    animator.SetLayerWeight(1, 0);
                     SetState(new DeathEnemyState(this));
                     bossEvent.Raise();
                 }

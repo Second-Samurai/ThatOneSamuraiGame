@@ -202,6 +202,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   bPlayerFound: 0
   navMeshAgent: {fileID: 0}
+  bIsIdle: 1
   eDamageController: {fileID: 0}
   bIsDead: 0
   bIsUnblockable: 0
@@ -209,6 +210,7 @@ MonoBehaviour:
   armourManager: {fileID: 7348651135563686791}
   bHasArmour: 1
   camImpulse: {fileID: 617449704335862312}
+  bIsQuickBlocking: 0
   floatOffset: {x: 0, y: 2, z: 0}
   parryEffects: {fileID: 8589244748363466155}
   swordEffects: {fileID: 5073016996662958135}
@@ -225,6 +227,8 @@ MonoBehaviour:
   bowMesh: {fileID: 0}
   weaponSwitcher: {fileID: 0}
   colliderOverride: {fileID: 3009084765067566339}
+  teleportParticle: {fileID: 2357446137480286433, guid: 897752a891305904395d6b502b42f0ae,
+    type: 3}
   previousAttackSpeed: 0
   attackSpeed: 0
   bIsCircling: 0

@@ -19,7 +19,20 @@ namespace Enemies.Enemy_States
 
             if(AISystem.enemyType == EnemyType.BOSS)
             {
-                if(AISystem.armourManager.armourCount <= 5)
+                if (AISystem.armourManager.armourCount <= 3)
+                {
+                    int decision = Random.Range(0, 2);
+                    if (decision == 0)
+                    {
+                        AISystem.OnBossArrowMove();
+                    }
+                    else
+                    {
+                        AISystem.OnBossTaunt();
+
+                    }
+                }
+                else if(AISystem.armourManager.armourCount <= 5)
                 {
                     int decision = Random.Range(0, 2);
                     if(decision == 0)

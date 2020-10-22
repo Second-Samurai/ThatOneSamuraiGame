@@ -43,9 +43,24 @@ namespace Enemies.Enemy_States
         public override void EndState()
         {
             if (AISystem.enemyType == EnemyType.BOSS)
-            { 
-                AISystem.StopIntangibility();
-                AISystem.OnBossArrowMove();
+            {
+                if (AISystem.armourManager.armourCount <= 3)
+                {
+                    AISystem.StopIntangibility();
+
+                    int decision = Random.Range(0, 2);
+                    if(decision == 0)
+                        AISystem.OnBossTaunt();
+                    else 
+                        AISystem.OnBossArrowMove();
+
+                }
+                else
+                {
+                    AISystem.StopIntangibility();
+                    AISystem.OnBossArrowMove();
+
+                }
             }
             else
             {

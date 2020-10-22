@@ -1,8 +1,5 @@
 ﻿using System.Collections;
-using System.Diagnostics;
-using DG.Tweening;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 namespace Enemies.Enemy_States
 {
@@ -45,7 +42,6 @@ namespace Enemies.Enemy_States
         
         public override void Tick()
         {
-            Debug.Log(AISystem.rb.velocity.sqrMagnitude);
             // sqrMagnitude is used to check if the enemy is moving in the scene (10 is an arbitrary value)
             if (AISystem.rb.velocity.sqrMagnitude < 10.0f && !_bRunCooldown)
             {

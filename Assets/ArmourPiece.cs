@@ -8,12 +8,14 @@ public class ArmourPiece : MonoBehaviour
     public BoxCollider col;
     public bool destroyed = false;
     public ParticleSystem particles;
+    public Vector3 originPos;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<BoxCollider>();
         particles = GetComponentInChildren<ParticleSystem>();
+        originPos = transform.localPosition;
     }
 
     public void DropPiece()

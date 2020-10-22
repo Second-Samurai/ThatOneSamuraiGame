@@ -10,7 +10,9 @@ namespace Enemies.Enemy_States
         private float _longRange;
         private float _shortRange;
 
-        private bool _bIsThreatened = false; 
+        private bool _bIsThreatened = false;
+
+        private bool hasfired = false;
 
         //Class constructor
         public BossArrowFireState(AISystem aiSystem) : base(aiSystem)
@@ -19,18 +21,18 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            if (AISystem.shotCount <= 1)
-            {
-                AISystem.shotCount = 3;
-                AISystem.bHasBowDrawn = false;
-                Animator.SetBool("BowDrawn", false);
-                Animator.SetTrigger("SheathBow");
-                Animator.SetLayerWeight(1, 0);
-                AISystem.OnApproachPlayer();
-                AISystem.weaponSwitcher.EnableBow(false);
-                AISystem.weaponSwitcher.EnableSword(true);
-                yield break;
-            }
+            //if (AISystem.shotCount < 1)
+            //{
+            //    AISystem.shotCount = 3;
+            //    AISystem.bHasBowDrawn = false;
+            //    Animator.SetBool("BowDrawn", false);
+            //    Animator.SetTrigger("SheathBow");
+            //    Animator.SetLayerWeight(1, 0);
+            //    AISystem.OnApproachPlayer();
+            //    AISystem.weaponSwitcher.EnableBow(false);
+            //    AISystem.weaponSwitcher.EnableSword(true);
+            //    yield break;
+            //}
             Animator.SetLayerWeight(1, 1);
             // For the enemy tracker, restart the impatience countdown
             // See enemy tracker for more details
@@ -44,8 +46,6 @@ namespace Enemies.Enemy_States
             // Cache the range value so we're not always getting it in the tick function
             _longRange = AISystem.enemySettings.longRange;
             _shortRange = AISystem.enemySettings.shortRange;
-            Animator.SetTrigger("TriggerArrowShot");
-            Fire();
             // Pick a strafe direction and trigger movement animator
             PickStrafeDirection();
 
@@ -54,6 +54,12 @@ namespace Enemies.Enemy_States
 
         public override void Tick()
         {
+            if (AISystem.shotTimer <= 0 && hasfired == false)
+            {
+                Animator.SetTrigger("TriggerArrowShot");
+                Fire();
+            }
+            else AISystem.shotTimer -= Time.deltaTime; 
             
             // Get the true target point (float offset is added to get a more accurate player-enemy target point)
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
@@ -88,12 +94,12 @@ namespace Enemies.Enemy_States
             Debug.LogWarning(AISystem.shotCount);
             if (AISystem.shotCount > 1)
             {
-                AISystem.shotCount--;
+               // AISystem.shotCount--;
                 AISystem.OnBossArrowFire();
             }
             else
             {
-                AISystem.shotCount = 3;
+                AISystem.shotCount = 4;
                 AISystem.bHasBowDrawn = false;
                 Animator.SetBool("BowDrawn", false);
                 Animator.SetTrigger("SheathBow");
@@ -158,6 +164,7 @@ namespace Enemies.Enemy_States
 
         public void Fire()
         {
+            AISystem.enemyAudio.Release();
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             Debug.Log(_target);
             Vector3 shotDirection = _target - AISystem.firePoint.position;
@@ -168,6 +175,23 @@ namespace Enemies.Enemy_States
             //GameObject _arrow = Instantiate(arrow, shotOrigin.position, Quaternion.identity);
             _arrow.transform.position = AISystem.firePoint.position;
             _arrow.GetComponent<Projectile>().Launch(shotDirection, _target);
+            AISystem.shotTimer = 1;
+            hasfired = true;
+            AISystem.shotCount--;
+           // Debug.LogError(AISystem.shotCount);
+            if (AISystem.shotCount <= 1) 
+            {
+               // Debug.LogError("exit");
+                AISystem.shotCount = 4;
+                AISystem.bHasBowDrawn = false;
+                Animator.SetBool("BowDrawn", false);
+                Animator.SetTrigger("SheathBow");
+                Animator.SetLayerWeight(1, 0);
+                AISystem.OnApproachPlayer();
+                AISystem.weaponSwitcher.EnableBow(false);
+                AISystem.weaponSwitcher.EnableSword(true);
+            }
+
             
         } 
 

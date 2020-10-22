@@ -54,6 +54,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
         gameObjectRigidbody.isKinematic = false;
 
         base.EnableEvents();
+        StartCoroutine(_rewindInput.BecomeInvincible());
     }
 
     public new void ResetTimeline()

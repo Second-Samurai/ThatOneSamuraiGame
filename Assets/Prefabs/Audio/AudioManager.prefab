@@ -630,29 +630,36 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: armourjinglerunningandjoggingsfx
+  - name: timerestartsfx
     createSource: 0
     clip: {fileID: 8300000, guid: abf07055e283053488db9f82e48563c7, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: armourjinglerunningandjoggingsfx
+  - name: timefreezesfx
     createSource: 0
     clip: {fileID: 8300000, guid: aa915a1c84007e345bca8c139dbd55b3, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  - name: armourjinglerunningandjoggingsfx
+  - name: idlenoisesfx
     createSource: 0
     clip: {fileID: 8300000, guid: 28faa7a7801d0a84d95d60511f59c4b9, type: 3}
     volume: 1
     pitch: 1
     source: {fileID: 0}
     loop: 0
-  BGMVol: 0.16103911
-  SFXVol: 0.8707295
+  - name: backgroundmusicscore
+    createSource: 0
+    clip: {fileID: 8300000, guid: 1cfc92a32927b274db1952a1b7b9334d, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  BGMVol: 0.19160564
+  SFXVol: 1
   backgroundAudio: {fileID: 990693134}
 --- !u!114 &990693134
 MonoBehaviour:
@@ -666,14 +673,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0082809d23d91a44b69f84983563bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioManager: {fileID: 0}
-  birdAndTrees: {fileID: 0}
-  menuMusic: {fileID: 0}
+  audioManager: {fileID: 956594187861110589}
+  birdAndTrees: {fileID: 8300000, guid: 10d7e0a71add8b946b7cc9070995f02a, type: 3}
+  menuMusic: {fileID: 8300000, guid: 897e25db260ebe14b94acf516dd8d190, type: 3}
   optionsSelect: {fileID: 1835180918788479179}
   startGame: {fileID: 0}
+  backgroudMusic: {fileID: 0}
   birdsAndTreesSource: {fileID: 6447029470135553713}
-  menuMusicSource: {fileID: 222693372}
+  menuMusicSource: {fileID: 1098181832937858381}
   optionsSelectSource: {fileID: 1835180918788479179}
+  backgroundMusicSource: {fileID: 222693372}
 --- !u!82 &6447029470135553713
 AudioSource:
   m_ObjectHideFlags: 0

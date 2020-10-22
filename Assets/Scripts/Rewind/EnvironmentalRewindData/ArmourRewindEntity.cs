@@ -110,11 +110,16 @@ public class ArmourRewindEntity : RewindEntity
 
     public new void SetPosition()
     {
+        base.SetPosition();
         if (currentIndex <= ArmourDataList.Count - 1)
         {
+            if (!armourPiece.destroyed)
+            {
+                transform.localPosition = armourPiece.originPos;
+                transform.localRotation = armourPiece.originRot;
+            }
         }
         // needs to set the enemy targeting
-        base.SetPosition();
     }
 
     public override void ApplyData()
@@ -126,6 +131,11 @@ public class ArmourRewindEntity : RewindEntity
             armourPiece.rb.velocity = ArmourDataList[currentIndex].velocity;
             armourPiece.col.enabled = ArmourDataList[currentIndex].isEnabled;
             armourPiece.rb.isKinematic = !ArmourDataList[currentIndex].isEnabled;
+            if (!armourPiece.destroyed) 
+            {
+                transform.localPosition = armourPiece.originPos;
+                transform.localRotation = armourPiece.originRot;
+            }
         }
 
         //base.ApplyData();

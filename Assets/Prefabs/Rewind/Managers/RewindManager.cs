@@ -50,6 +50,9 @@ public class RewindManager : MonoBehaviour
 
     private RewindAudio _rewindAudio;
 
+    private PDamageController damageController;
+    public float invincabilityTimer;
+
 
     // Start is called before the first frame update
     void Start()
@@ -68,6 +71,8 @@ public class RewindManager : MonoBehaviour
         gameOverMenu = GameManager.instance.gameObject.GetComponentInChildren<GameOverMenu>();
 
         _rewindAudio = gameObject.GetComponent<RewindAudio>();
+
+        damageController = GameManager.instance.playerController.gameObject.GetComponent<PDamageController>();
     }
 
     private void Update()
@@ -210,6 +215,17 @@ public class RewindManager : MonoBehaviour
 
     }
 
+    public IEnumerator BecomeInvincible()
+    {
+        damageController.DisableDamage();
+        Debug.Log("become invinvible");
+        yield return new WaitForSeconds(invincabilityTimer);
+
+        damageController.EnableDamage();
+        Debug.Log("disable invinvible");
+
+    }
+
     public void StartRewind()
     {
         _rewindAudio.Freeze();
@@ -252,5 +268,6 @@ public class RewindManager : MonoBehaviour
             Time.fixedDeltaTime = Time.timeScale * .02f;
         }
     }
+
 
 }

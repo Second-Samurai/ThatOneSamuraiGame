@@ -22,6 +22,7 @@ public class ArmourManager : MonoBehaviour
         {
             if (!armourPieces[i].destroyed)
             {
+                enemyAudio.ArmourBreak();
                 armourPieces[i].DropPiece();
                 armourCount--;
                 return true;

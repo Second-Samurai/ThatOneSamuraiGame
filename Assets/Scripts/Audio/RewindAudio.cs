@@ -14,6 +14,11 @@ public class RewindAudio : MonoBehaviour
     private AudioClip idle;
     private AudioClip Death;
 
+    public AudioSource heartSource;
+    public AudioSource freezeSource;
+    public AudioSource idleSource;
+    public AudioSource resumeSource;
+    public AudioSource deathSource;
     public float maxRewind;
     public bool played;
 
@@ -31,41 +36,75 @@ public class RewindAudio : MonoBehaviour
         timeResume = GameManager.instance.audioManager.FindSound("Restarts");
         idle = GameManager.instance.audioManager.FindSound("idle");
         Death = GameManager.instance.audioManager.FindSound("deathsfx");
-    }     
+        
+        heartSource.loop = true;
+        heartSource.playOnAwake = false;
+        heartSource.clip = heartBeat;
+
+        freezeSource.loop = false;
+        freezeSource.playOnAwake = false;
+        freezeSource.clip = timeFreeze;
+
+        idleSource.loop = true;
+        idleSource.playOnAwake = false;
+        idleSource.clip = idle;
+
+        resumeSource.loop = false;
+        resumeSource.playOnAwake = false;
+        resumeSource.clip = timeResume;
+
+        deathSource.loop = false;
+        deathSource.playOnAwake = false;
+        deathSource.clip = Death;
+
+    }
 
     public void HeartBeat()
     {
-        audioPlayer.PlayOnce(heartBeat, audioManager.SFXVol, 1f, 1f, true);
+        heartSource.volume = audioManager.SFXVol;
+        heartSource.Play();
+       // audioPlayer.PlayOnce(heartBeat, audioManager.SFXVol, 1f, 1f, true);
     }
 
     public void Idle()
     {
-        audioPlayer.PlayOnce(idle, audioManager.SFXVol, 1f, 1f, true);
+        idleSource.volume = audioManager.SFXVol;
+        idleSource.Play();
+
     }
 
     public void Freeze()
     {
-        audioPlayer.PlayOnce(timeFreeze, audioManager.SFXVol, 1f, 1f, false);
+
+        freezeSource.volume = audioManager.SFXVol;
+        freezeSource.Play();
+
     }
 
     public void Resume()
     {
-        audioPlayer.PlayOnce(timeResume, audioManager.SFXVol, 1f, 1f, false);
+
+        resumeSource.volume = audioManager.SFXVol;
+        resumeSource.Play();
 
     }
 
     public void DeathSFX()
     {
-        //audioSource.clip = Death;
-        Debug.Log("BABABOI");
-        audioPlayer.PlayOnce(Death, 1, 1, 1, false);
+        deathSource.volume = audioManager.SFXVol;
+        deathSource.Play();
     }
 
     public void StopSource() 
     {
- 
-            audioPlayer.rSources[audioPlayer.activeSource].loop = false;
-            audioPlayer.StopSource();
+
+        resumeSource.Stop();
+        idleSource.Stop();
+        freezeSource.Stop();
+        if (_rewindManager.maxRewindResource <= 0) 
+        {
+            heartSource.Stop();
+        }
 
     }
 

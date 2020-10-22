@@ -44,8 +44,6 @@ namespace Enemies.Enemy_States
             // Cache the range value so we're not always getting it in the tick function
             _longRange = AISystem.enemySettings.longRange;
             _shortRange = AISystem.enemySettings.shortRange;
-            Animator.SetTrigger("TriggerArrowShot");
-            Fire();
             // Pick a strafe direction and trigger movement animator
             PickStrafeDirection();
 
@@ -54,6 +52,12 @@ namespace Enemies.Enemy_States
 
         public override void Tick()
         {
+            if (AISystem.shotTimer <= 0)
+            {
+                Animator.SetTrigger("TriggerArrowShot");
+                Fire();
+            }
+            else AISystem.shotTimer -= Time.deltaTime; 
             
             // Get the true target point (float offset is added to get a more accurate player-enemy target point)
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
@@ -168,6 +172,7 @@ namespace Enemies.Enemy_States
             //GameObject _arrow = Instantiate(arrow, shotOrigin.position, Quaternion.identity);
             _arrow.transform.position = AISystem.firePoint.position;
             _arrow.GetComponent<Projectile>().Launch(shotDirection, _target);
+            AISystem.shotTimer = 1;
             
         } 
 

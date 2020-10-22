@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 8316762074463557856}
   - component: {fileID: 7473338952099139665}
   m_Layer: 12
-  m_Name: Defense Popup
+  m_Name: Dodge Tutorial Popup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -194,6 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popup: {fileID: 4199944847499426455}
+  bHasTriggered: 0
   popupImageArray:
   - {fileID: 4199944848253060161}
   popupTextArray: []
@@ -238,6 +239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popup: {fileID: 4199944847499426455}
+  bHasTriggered: 0
   popupImageArray: []
   popupTextArray: []
   maxTimeRemaining: 6
@@ -586,7 +588,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 80, y: -80}
+  m_AnchoredPosition: {x: 95, y: -80}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &7473338951299307483

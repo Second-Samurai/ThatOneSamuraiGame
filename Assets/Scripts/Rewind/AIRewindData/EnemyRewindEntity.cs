@@ -182,6 +182,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
             {
                 aISystem.eDamageController.EnableDamage();
                 aISystem.eDamageController.enemyGuard.EnableGuardMeter();
+                aISystem.col.enabled = true;
             }
 
             _enemyTracker.currentEnemies = enemyDataList[currentIndex].trackedCurrentEnemies.ToList<Transform>();

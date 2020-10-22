@@ -83,7 +83,7 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
         }
 
         //move to animation rewind entity
-        archerDataList.Insert(0, new ArcherTimeData(basicArcher.lastDirection, basicArcher.shotDirection, basicArcher.currentState, basicArcher.shotTimer));
+        archerDataList.Insert(0, new ArcherTimeData(basicArcher.lastDirection, basicArcher.shotDirection, basicArcher.currentState, basicArcher.shotTimer, basicArcher.col.enabled));
 
         //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + "   :   " + m_CurrentClipInfo[0].clip.name);
 
@@ -138,6 +138,7 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
         if (currentIndex <= archerAnimationDataList.Count - 1)
         {
             basicArcher.currentState = archerDataList[currentIndex].currentState;
+            basicArcher.col.enabled = archerDataList[currentIndex].bColEnabled;
         }
     }
     protected new void OnDestroy()

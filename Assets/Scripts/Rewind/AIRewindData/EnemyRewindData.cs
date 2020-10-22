@@ -24,7 +24,6 @@ public class EnemyRewindData
     public float attackSpeed;
     public int armourCount;
     public bool bIsClosingDistance;
-    
 
     public EnemyRewindData(EnemyState _enemyState, bool _swordCollider, bool _canGuard, bool _canParry, bool _isStunned, float _currentGuard,
                                     bool _bIsDead, bool _bIsUnblockable, List<Transform> _trackedCurrentEnemies, bool _b_isIdle, bool _bisCircling, bool _bSuperArmour, 

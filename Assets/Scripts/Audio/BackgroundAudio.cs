@@ -66,7 +66,13 @@ public class BackgroundAudio : MonoBehaviour
         menuMusicSource.Pause();
     }
 
-
+    public void PlayMenuMusic()
+    {
+        backgroundMusicSource.Stop();
+        birdsAndTreesSource.Stop();
+        menuMusicSource.Stop();
+        menuMusicSource.Play();
+    }
 
     public void PauseMusic()
     {

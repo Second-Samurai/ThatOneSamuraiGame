@@ -86,6 +86,7 @@ namespace Enemies
         public GameObject teleportParticle;
         public float shotTimer = 1;
         public EnemyAudio enemyAudio;
+        public GameEvent bossEvent;
 
         //ATTACK SPEED VARIABLES
         public float previousAttackSpeed;
@@ -147,6 +148,8 @@ namespace Enemies
             spawnCheck.bSpawnMe = !bIsDead;
             if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove();
             if (enemyType == EnemyType.BOSS && Keyboard.current.iKey.wasPressedThisFrame) OnBossTaunt();
+
+            if (enemyType == EnemyType.BOSS && Keyboard.current.lKey.wasPressedThisFrame) OnEnemyDeath();
         }
 
         #endregion
@@ -642,8 +645,11 @@ namespace Enemies
                 SetState(new DeathEnemyState(this));
             else
             {
-                if(armourManager.armourCount <= 0)
+                if (armourManager.armourCount <= 0)
+                {
                     SetState(new DeathEnemyState(this));
+                    bossEvent.Raise();
+                }
                 else
                 {
                     eDamageController.enemyGuard.ResetGuard();
@@ -652,8 +658,8 @@ namespace Enemies
                     IncreaseAttackSpeed(.05f);
                     IncreaseAttackSpeed(.05f);
                     CheckArmourLevel();
-                   
-                    
+
+
                 }
             }
         }
@@ -737,6 +743,7 @@ namespace Enemies
         public void DropSmoke()
         {
             Instantiate(teleportParticle, transform.position + (transform.forward*2), Quaternion.identity);
+            enemyAudio.Smoke();
 
         }
 

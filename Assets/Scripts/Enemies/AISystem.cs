@@ -77,7 +77,7 @@ namespace Enemies
         public bool bCanBeStunned = true;
         public BoxCollider slamCol;
         public bool bHasBowDrawn = false;
-        public int shotCount = 3;
+        public int shotCount = 4;
         public Transform firePoint;
         public MeshRenderer glaiveMesh;
         public MeshRenderer bowMesh;
@@ -85,6 +85,7 @@ namespace Enemies
         public SwordColliderOverride colliderOverride;
         public GameObject teleportParticle;
         public float shotTimer = 1;
+        public EnemyAudio enemyAudio;
 
 
         //ATTACK SPEED VARIABLES

@@ -98,11 +98,11 @@ public class EnemyAudio : MonoBehaviour
 
     public void Draw()
     {
-        audioPlayer.PlayOnce(bowDraw, audioManager.SFXVol * 1.5f, 1, 1);
+        audioPlayer.PlayOnce(bowDraw, audioManager.SFXVol * 3f, 1, 1);
     }
     public void Release()
     {
-        audioPlayer.PlayOnce(bowRelease, audioManager.SFXVol * 1.5f, 1, 1);
+        audioPlayer.PlayOnce(bowRelease, audioManager.SFXVol * 3f, 1, 1);
     }
 
     public void Step()

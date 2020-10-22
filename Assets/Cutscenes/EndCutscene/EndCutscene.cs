@@ -6,6 +6,7 @@ using Cinemachine;
 using UnityEngine.Events;
 using UnityEngine.Timeline;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class EndCutscene : MonoBehaviour
 {
@@ -73,6 +74,9 @@ public class EndCutscene : MonoBehaviour
 
     public void PlayCutscene()
     {
+        BackgroundAudio audio = AudioManager.instance.gameObject.GetComponent<BackgroundAudio>();
+        audio.PauseMusic();
+        audio.Invoke("PlayMenuMusic", 3);
         Invoke("PlayClip", 3);
     }
 
@@ -83,9 +87,22 @@ public class EndCutscene : MonoBehaviour
 
     public void PlayClip()
     {
+        DisableInput();
         GameManager.instance.playerController.gameObject.transform.position = playerPoint.position;
         boss.transform.position = bossPoint.position;
         _cutsceneDirector.Play();
+    }
+
+    public void ReloadGame()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void DisableInput()
+    {
+        GameManager.instance.DisableInput();
     }
 
 }

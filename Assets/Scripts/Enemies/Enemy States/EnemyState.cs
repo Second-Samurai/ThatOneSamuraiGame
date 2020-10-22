@@ -64,7 +64,7 @@ namespace Enemies.Enemy_States
 
         protected void ChooseActionUsingDistance(Vector3 target)
         {
-              // If close enough, attack again
+
             if (InRange(AISystem.transform.position, target, AISystem.enemySettings.shortRange))
             {
                 if (AISystem.enemyType == EnemyType.BOSS)
@@ -135,6 +135,7 @@ namespace Enemies.Enemy_States
 
                 }
             }
+
             else
             {
                 // Approach player if they are too far away
@@ -165,6 +166,14 @@ namespace Enemies.Enemy_States
                 }
                 else
                 {
+
+                    if (InRange(AISystem.transform.position, target, AISystem.enemySettings.veryShortRange))
+                    {
+                        AISystem.OnSwordAttack();
+                    }
+
+
+
                     int decision = Random.Range(0, 3);
 
                     if (decision == 0) // Jump Attack (currently disabled)

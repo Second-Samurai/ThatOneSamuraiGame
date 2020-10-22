@@ -31,6 +31,8 @@ public class EndCutscene : MonoBehaviour
     {
         BindToTrack("Cinemachine Track", GameManager.instance.mainCamera.GetComponent<CinemachineBrain>());
         BindToTrack("Animation Track", GameManager.instance.playerController.gameObject.GetComponent<Animator>());
+
+        BindToTrack("Activation Track", GameManager.instance.playerController.gameObject.GetComponent<PCombatController>().swordManager.swordEffect.gameObject);
         //endCutscene.AddListener(GameManager.instance.playerController.gameObject.GetComponent<PlayerInputScript>().EnableInput);
         //signalReceiver.ChangeReactionAtIndex(1, endCutscene);
         // signalReceiver.AddEmptyReaction(endCutscene);

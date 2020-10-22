@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Diagnostics;
+using DG.Tweening;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
@@ -12,6 +13,11 @@ namespace Enemies.Enemy_States
         private float _shortRange;
         
         private bool _bIsThreatened = false;
+        
+        //Cooldown variables
+        private bool _bRunCooldown;
+        private float _remainingTime;
+        private int _stuckCounter = 0;
 
         //Class constructor
         public CircleEnemyState(AISystem aiSystem) : base(aiSystem)
@@ -39,6 +45,30 @@ namespace Enemies.Enemy_States
         
         public override void Tick()
         {
+            Debug.Log(AISystem.rb.velocity.sqrMagnitude);
+            // sqrMagnitude is used to check if the enemy is moving in the scene (10 is an arbitrary value)
+            if (AISystem.rb.velocity.sqrMagnitude < 10.0f && !_bRunCooldown)
+            {
+                // If the enemy is stuck for 15 frames, change direction
+                _stuckCounter++;
+                if (_stuckCounter > 20)
+                {
+                    StartDirChangeCooldown();
+                }
+            }
+            else if (_bRunCooldown)
+            {
+                _remainingTime -= Time.deltaTime;
+                if (_remainingTime <= 0)
+                {
+                    StopDirChangeCooldown();
+                }
+            }
+            else
+            {
+                _stuckCounter = 0;
+            }
+
             // Get the true target point (float offset is added to get a more accurate player-enemy target point)
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             
@@ -115,6 +145,22 @@ namespace Enemies.Enemy_States
             {
                 AISystem.OnGlaiveAttack();
             }
+        }
+
+        private void StartDirChangeCooldown()
+        {
+            _bRunCooldown = true;
+            _remainingTime = 1.0f;
+
+            
+            float newMovementX = Animator.GetFloat("MovementX") * -1.0f;
+            Animator.SetFloat("MovementX", newMovementX, 1.0f, 1.0f);
+        }
+        
+        private void StopDirChangeCooldown()
+        {
+            _bRunCooldown = false;
+            _remainingTime = 0;
         }
         
     }

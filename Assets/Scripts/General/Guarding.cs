@@ -18,8 +18,15 @@ public class Guarding : MonoBehaviour
 
     private GameObject _guardMeterCanvas;
     private UIGuardMeter _guardMeter;
-
+    
+    //Await next damage cooldown variables
+    private bool _bRunCooldownTimer = false;
     private float _guardCooldownTime;
+    private float _remainingCooldownTime;
+    private float _stunTime = 8.0f;
+    
+    //Recovery variables
+    private bool _bRunRecoveryTimer = false;
 
     public bool bSuperArmour = false;
 
@@ -38,7 +45,56 @@ public class Guarding : MonoBehaviour
         _aiSystem = GetComponent<AISystem>();
         _guardCooldownTime = _aiSystem.enemySettings.GetEnemyStatType(_aiSystem.enemyType).guardCooldown;
     }
+
+    private void Update()
+    {
+        RunGuardCooldown();
+        RunRecoveryCooldown();
+    }
+
+    // After taking damage, run the guard cooldown timer
+    // Once it reaches 0, RunRecoveryCooldown is called
+    // Resets if hit again through AwaitNextDamage(new cooldown time)
+    private void RunGuardCooldown()
+    {
+        if (_bRunCooldownTimer)
+        {
+            //Debug.Log("Running Guard Cooldown Timer");
+            _remainingCooldownTime -= Time.deltaTime;
+            if (_remainingCooldownTime <= 0)
+            {
+                _bRunCooldownTimer = false;
+                _bRunRecoveryTimer = true;
+            }
+        }
+    }
     
+    // After cooldown timer is up, RunRecoveryCooldown
+    // Guard will continue to increase until it's back to mac guard
+    // Stops completely if hit again through AwaitNextDamage(new cooldown time)
+    private void RunRecoveryCooldown()
+    {
+        if(_aiSystem.bIsDead && _bRunRecoveryTimer)
+        {
+            _bRunRecoveryTimer = false;
+        }
+        else if (_bRunRecoveryTimer)
+        {
+            float coolVal = (statHandler.maxGuard - statHandler.CurrentGuard / _guardCooldownTime) * Time.deltaTime;
+
+            if (statHandler.CurrentGuard < statHandler.maxGuard)
+            {
+                //Debug.Log("Running Recovery");
+                statHandler.CurrentGuard += coolVal;
+                OnGuardEvent.Invoke();
+            }
+            else
+            {
+                ResetGuard();
+            }
+        }
+    }
+
     // Called in animation events to open the enemy's guard
     public void DropGuard()
     {
@@ -101,7 +157,7 @@ public class Guarding : MonoBehaviour
         // if(_aiSystem.animator.GetBool("IsQuickBlocking"))
         //     _aiSystem.EndState();
         
-        StartCoroutine(AwaitNextDamage(_guardCooldownTime));
+        AwaitNextDamage(_guardCooldownTime);
         OnGuardEvent.Invoke();
     }
 
@@ -115,52 +171,23 @@ public class Guarding : MonoBehaviour
         //GameManager.instance.playerController.gameObject.GetComponentInChildren<LockOnTargetManager>().GuardBreakCam(this.transform);
         isStunned = true;
         canGuard = false;
-        StartCoroutine(AwaitNextDamage(6));
+        AwaitNextDamage(_stunTime);
         //camImpulse.FireImpulse();
         //Switch States
         _guardMeter.ShowFinisherKey();
         _aiSystem.OnEnemyStun();
     }
 
-    private IEnumerator AwaitNextDamage(float time)
+    private void AwaitNextDamage(float time)
     {
-        float timer = time;
-
-        while (timer > 0)
-        {
-            timer -= Time.deltaTime;
-            yield return null;
-        }
-
-        StartCoroutine(GuardCoolDown(8));
-    }
-
-    // Count down the remaining guard cooldown time through the GuardCoolDown co-routine
-    // Stops the co-routine if the enemy is dead
-    private IEnumerator GuardCoolDown(float time)
-    {
-        if (_aiSystem.bIsDead)
-        {
-            StopCoroutine(GuardCoolDown(8));
-        }
-        else
-        {
-            float coolVal = (statHandler.maxGuard - statHandler.CurrentGuard / time) * Time.deltaTime;
-
-            while (statHandler.CurrentGuard < statHandler.maxGuard)
-            {
-                statHandler.CurrentGuard += coolVal;
-                OnGuardEvent.Invoke();
-                yield return null;
-            }
-
-            ResetGuard();
-        }
+        _remainingCooldownTime = time;
+        _bRunRecoveryTimer = false;
+        _bRunCooldownTimer = true;
     }
 
     public void ResetGuard()
     {
-        StopCoroutine(GuardCoolDown(8));
+        _bRunRecoveryTimer = false;
         statHandler.CurrentGuard = statHandler.maxGuard;
         OnGuardEvent.Invoke();
 

@@ -36,8 +36,9 @@ public class LockOnPopup : Popup
     {
         _bStopLockOnTut = false;
     }
-    public void StopLockOnTut()
+    public void StopLockOnTut(GameObject lockOnGameObject)
     {
         _bStopLockOnTut = true;
+        ToggleLockOnPopup(lockOnGameObject);
     }
 }

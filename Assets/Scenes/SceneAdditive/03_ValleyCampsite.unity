@@ -62,7 +62,7 @@ LightmapSettings:
     m_AO: 1
     m_AOMaxDistance: 1
     m_CompAOExponent: 0.3
-    m_CompAOExponentDirect: 0
+    m_CompAOExponentDirect: 0.2
     m_ExtractAmbientOcclusion: 0
     m_Padding: 2
     m_LightmapParameters: {fileID: 0}
@@ -5563,7 +5563,7 @@ PrefabInstance:
     - target: {fileID: 7942805886934270590, guid: 2ff2dd464af7041e6be117a1fcf31a05,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7942805886934270590, guid: 2ff2dd464af7041e6be117a1fcf31a05,
         type: 3}
@@ -11275,7 +11275,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 884300195}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29, y: 8.2, z: 162.1}
+  m_LocalPosition: {x: 44.2, y: 8.2, z: 50.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -14928,7 +14928,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &1322669172
 Light:
   m_ObjectHideFlags: 0
@@ -14980,7 +14980,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -24218,21 +24218,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5437707048718881330, guid: bbca1397107374b329536c10b5b107e4,
-        type: 3}
-      propertyPath: m_AABB.m_Center.x
-      value: -0.000000009388572
-      objectReference: {fileID: 0}
-    - target: {fileID: 5437707048718881330, guid: bbca1397107374b329536c10b5b107e4,
-        type: 3}
-      propertyPath: m_AABB.m_Extent.x
-      value: 0.00000013850547
-      objectReference: {fileID: 0}
-    - target: {fileID: 5437707048718881330, guid: bbca1397107374b329536c10b5b107e4,
-        type: 3}
-      propertyPath: m_AABB.m_Extent.z
-      value: 0.71899545
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbca1397107374b329536c10b5b107e4, type: 3}

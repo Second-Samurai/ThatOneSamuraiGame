@@ -202,24 +202,27 @@ public class PlayerFunctions : MonoBehaviour
 
     public void ApplyHit(GameObject attacker, bool unblockable, float damage)
     {
-        if (bIsParrying && !unblockable)
-        {
-            TriggerParry(attacker, damage);
-        }
-        else if (!unblockable)
-        {
-            if (bIsBlocking)
+        Debug.LogWarning(playerInputScript.bIsDodging);
+        if (!playerInputScript.bIsDodging)
+        { 
+            if (bIsParrying && !unblockable)
             {
-                TriggerBlock(attacker);
+                TriggerParry(attacker, damage);
             }
-            else
+            else if (!unblockable)
             {
-                
-                KillPlayer();
-            }
-        }
-        else KillPlayer();
+                if (bIsBlocking)
+                {
+                    TriggerBlock(attacker);
+                }
+                else
+                {
 
+                    KillPlayer();
+                }
+            }
+            else KillPlayer();
+        }
     }
 
     public void CancelMove()

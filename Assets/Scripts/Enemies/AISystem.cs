@@ -160,8 +160,8 @@ namespace Enemies
         // An override that is performed for every state change
         public override void SetState(EnemyState newEnemyState)
         {
-            swordEffects.EndBlockEffect();
-            swordEffects.EndUnblockableEffect();
+            if(!eDamageController.enemyGuard.canParry) swordEffects.EndBlockEffect();
+            if(!bIsUnblockable) swordEffects.EndUnblockableEffect();
             eDamageController.enemyGuard.bSuperArmour = false;
 
             if (bIsQuickBlocking) bIsQuickBlocking = false;

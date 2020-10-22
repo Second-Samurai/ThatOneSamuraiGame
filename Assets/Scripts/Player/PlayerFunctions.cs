@@ -83,6 +83,7 @@ public class PlayerFunctions : MonoBehaviour
             parryEffects.PlayGleam();
             _IKPuppet.EnableIK();
             bInputtingBlock = true;
+            bIsParrying = true;
         }
     }
 

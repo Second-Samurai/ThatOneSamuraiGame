@@ -85,6 +85,7 @@ namespace Enemies
         public SwordColliderOverride colliderOverride;
         public GameObject teleportParticle;
         public float shotTimer = 1;
+        public GameEvent bossDeath;
 
 
         //ATTACK SPEED VARIABLES
@@ -630,8 +631,11 @@ namespace Enemies
                 SetState(new DeathEnemyState(this));
             else
             {
-                if(armourManager.armourCount <= 0)
+                if (armourManager.armourCount <= 0)
+                {
                     SetState(new DeathEnemyState(this));
+                    bossDeath.Raise();
+                }
                 else
                 {
                     eDamageController.enemyGuard.ResetGuard();
@@ -640,8 +644,8 @@ namespace Enemies
                     IncreaseAttackSpeed(.05f);
                     IncreaseAttackSpeed(.05f);
                     CheckArmourLevel();
-                   
-                    
+
+
                 }
             }
         }

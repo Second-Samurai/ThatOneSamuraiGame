@@ -44,6 +44,7 @@ public class PlayerInputScript : MonoBehaviour
     #region Heavy Charging
     float heavyTimer, heavyTimerMax = 2f;
     bool bHeavyCharging = false, bPlayGleam = true;
+    public GameEvent showHeavyTutorialEvent;
     #endregion
 
 
@@ -286,6 +287,8 @@ public class PlayerInputScript : MonoBehaviour
 
     private void ExecuteHeavyAttack()
     {
+        showHeavyTutorialEvent.Raise();
+        
         bHeavyCharging = false;
         bIsSheathed = false;
         bPlayGleam = true;

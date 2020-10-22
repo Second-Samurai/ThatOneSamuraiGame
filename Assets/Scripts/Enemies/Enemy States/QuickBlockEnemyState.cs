@@ -48,10 +48,14 @@ namespace Enemies.Enemy_States
 
             // Move to block state OR choose an action using distance
             int decision = Random.Range(0, 3);
-            if (AISystem.enemyType == EnemyType.BOSS) decision = 2;
+            if (AISystem.enemyType == EnemyType.BOSS) decision = Random.Range(0, 5);
             if (decision == 0)
             {
                 ChooseActionUsingDistance(_target);
+            }
+            else if (decision == 4)
+            {
+                AISystem.OnDodge();
             }
             else
             {

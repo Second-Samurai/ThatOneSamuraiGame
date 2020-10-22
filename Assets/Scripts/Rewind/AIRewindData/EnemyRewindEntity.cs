@@ -91,7 +91,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
                                                     aISystem.eDamageController.enemyGuard.canGuard, aISystem.eDamageController.enemyGuard.canParry, aISystem.eDamageController.enemyGuard.isStunned,
                                                     aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard, aISystem.bIsDead, aISystem.bIsUnblockable, _enemyTracker.currentEnemies, 
                                                     aISystem.bIsIdle, aISystem.bIsCircling, aISystem.eDamageController.enemyGuard.bSuperArmour ,aISystem.previousAttackSpeed, aISystem.attackSpeed,
-                                                    aISystem.armourManager.armourCount));
+                                                    aISystem.armourManager.armourCount, aISystem.bIsClosingDistance));
 
         base.RecordPast();
     }
@@ -172,6 +172,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
             aISystem.SetState(enemyDataList[currentIndex].enemyState);
             aISystem.bIsIdle = enemyDataList[currentIndex].b_isIdle;
             aISystem.bIsCircling = enemyDataList[currentIndex].bisCircling;
+            aISystem.bIsClosingDistance = enemyDataList[currentIndex].bIsClosingDistance;
             aISystem.eDamageController.enemyGuard.bSuperArmour = enemyDataList[currentIndex].bSuperArmour;
             aISystem.previousAttackSpeed = enemyDataList[currentIndex].previousAttackSpeed;
             aISystem.attackSpeed = enemyDataList[currentIndex].attackSpeed;

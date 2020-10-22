@@ -22,6 +22,8 @@ public class EnemyTracker : MonoBehaviour
 
     private Transform _lastKilledEnemy;
 
+    private bool _bIsHeavyCharging = false;
+
     private void Start()
     {
         _enemySettings = GameManager.instance.gameSettings.enemySettings;
@@ -110,8 +112,8 @@ public class EnemyTracker : MonoBehaviour
     
     private void PickApproachingTarget()
     {
-        // Don't pick a target if no enemies are in the tracker
-        if (currentEnemies.Count <= 0)
+        // Don't pick a target if no enemies are in the tracker or if the player is charging a heavy attack
+        if (currentEnemies.Count <= 0 || _bIsHeavyCharging)
             return;
         
         // int random is 0 - 9
@@ -195,5 +197,10 @@ public class EnemyTracker : MonoBehaviour
                 GameManager.instance.cameraControl.ToggleLockOn();
             }
         }
+    }
+
+    public void SetIsHeavyCharging(bool bIsHeavyCharging)
+    {
+        _bIsHeavyCharging = bIsHeavyCharging;
     }
 }

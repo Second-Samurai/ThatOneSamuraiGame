@@ -86,13 +86,13 @@ namespace Enemies
         public GameObject teleportParticle;
         public float shotTimer = 1;
 
-
         //ATTACK SPEED VARIABLES
         public float previousAttackSpeed;
         public float attackSpeed;
         
-        //CIRCLE TRACKING (used for the enemy tracker)
+        //CIRCLE TRACKING (used for the enemy tracker) and CloseDistanceTracking (used of heavyAttack)
         public bool bIsCircling = false;
+        public bool bIsClosingDistance = false;
         
         #endregion
         
@@ -160,6 +160,7 @@ namespace Enemies
             eDamageController.enemyGuard.bSuperArmour = false;
 
             if (bIsQuickBlocking) bIsQuickBlocking = false;
+            if (bIsClosingDistance) bIsClosingDistance = false;
 
             if (enemyType != EnemyType.ARCHER)
             {
@@ -454,6 +455,16 @@ namespace Enemies
             
             // Reset circling variable
             bIsCircling = false;
+        }
+        
+        // Used to avoid the player's heavy attack if closing the distance
+        public void AvoidHeavyAttack()
+        {
+            if (bIsClosingDistance)
+            {
+                animator.SetFloat("MovementZ", -1.0f);
+                OnDodge();
+            }
         }
         
         #endregion

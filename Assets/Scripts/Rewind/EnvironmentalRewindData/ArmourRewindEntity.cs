@@ -116,6 +116,7 @@ public class ArmourRewindEntity : RewindEntity
             if (!armourPiece.destroyed)
             {
                 transform.localPosition = armourPiece.originPos;
+                transform.localRotation = armourPiece.originRot;
             }
         }
         // needs to set the enemy targeting
@@ -133,6 +134,7 @@ public class ArmourRewindEntity : RewindEntity
             if (!armourPiece.destroyed) 
             {
                 transform.localPosition = armourPiece.originPos;
+                transform.localRotation = armourPiece.originRot;
             }
         }
 

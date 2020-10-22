@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class ArmourPiece : MonoBehaviour
@@ -9,6 +10,7 @@ public class ArmourPiece : MonoBehaviour
     public bool destroyed = false;
     public ParticleSystem particles;
     public Vector3 originPos;
+    public quaternion originRot;
 
     private void Start()
     {
@@ -16,6 +18,7 @@ public class ArmourPiece : MonoBehaviour
         col = GetComponent<BoxCollider>();
         particles = GetComponentInChildren<ParticleSystem>();
         originPos = transform.localPosition;
+        originRot = transform.localRotation;
     }
 
     public void DropPiece()

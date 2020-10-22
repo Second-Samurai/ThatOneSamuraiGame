@@ -77,7 +77,7 @@ namespace Enemies
         public bool bCanBeStunned = true;
         public BoxCollider slamCol;
         public bool bHasBowDrawn = false;
-        public int shotCount = 3;
+        public int shotCount = 4;
         public Transform firePoint;
         public MeshRenderer glaiveMesh;
         public MeshRenderer bowMesh;
@@ -85,15 +85,15 @@ namespace Enemies
         public SwordColliderOverride colliderOverride;
         public GameObject teleportParticle;
         public float shotTimer = 1;
-        public GameEvent bossDeath;
-
+        public EnemyAudio enemyAudio;
 
         //ATTACK SPEED VARIABLES
         public float previousAttackSpeed;
         public float attackSpeed;
         
-        //CIRCLE TRACKING (used for the enemy tracker)
+        //CIRCLE TRACKING (used for the enemy tracker) and CloseDistanceTracking (used of heavyAttack)
         public bool bIsCircling = false;
+        public bool bIsClosingDistance = false;
         
         #endregion
         
@@ -147,7 +147,6 @@ namespace Enemies
             spawnCheck.bSpawnMe = !bIsDead;
             if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove();
             if (enemyType == EnemyType.BOSS && Keyboard.current.iKey.wasPressedThisFrame) OnBossTaunt();
-            if (enemyType == EnemyType.BOSS && Keyboard.current.lKey.wasPressedThisFrame) OnEnemyDeath();
         }
 
         #endregion
@@ -162,6 +161,7 @@ namespace Enemies
             eDamageController.enemyGuard.bSuperArmour = false;
 
             if (bIsQuickBlocking) bIsQuickBlocking = false;
+            if (bIsClosingDistance) bIsClosingDistance = false;
 
             if (enemyType != EnemyType.ARCHER)
             {
@@ -458,6 +458,16 @@ namespace Enemies
             bIsCircling = false;
         }
         
+        // Used to avoid the player's heavy attack if closing the distance
+        public void AvoidHeavyAttack()
+        {
+            if (bIsClosingDistance)
+            {
+                animator.SetFloat("MovementZ", -1.0f);
+                OnDodge();
+            }
+        }
+        
         #endregion
 
         #region Animation Called Events
@@ -632,11 +642,8 @@ namespace Enemies
                 SetState(new DeathEnemyState(this));
             else
             {
-                if (armourManager.armourCount <= 0)
-                {
+                if(armourManager.armourCount <= 0)
                     SetState(new DeathEnemyState(this));
-                    bossDeath.Raise();
-                }
                 else
                 {
                     eDamageController.enemyGuard.ResetGuard();
@@ -645,8 +652,8 @@ namespace Enemies
                     IncreaseAttackSpeed(.05f);
                     IncreaseAttackSpeed(.05f);
                     CheckArmourLevel();
-
-
+                   
+                    
                 }
             }
         }
@@ -730,6 +737,7 @@ namespace Enemies
         public void DropSmoke()
         {
             Instantiate(teleportParticle, transform.position + (transform.forward*2), Quaternion.identity);
+            enemyAudio.Smoke();
 
         }
 

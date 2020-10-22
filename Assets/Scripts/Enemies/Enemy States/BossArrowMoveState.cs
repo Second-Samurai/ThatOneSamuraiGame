@@ -25,7 +25,7 @@ namespace Enemies.Enemy_States
             AISystem.weaponSwitcher.EnableGlaive(false);
             AISystem.weaponSwitcher.EnableBow(true);
             shotTimer = 2f;
-            AISystem.shotCount = 3;
+            AISystem.shotCount = 4;
             // For the enemy tracker, restart the impatience countdown
             // See enemy tracker for more details
             //AISystem.enemyTracker.StartImpatienceCountdown();

@@ -45,6 +45,8 @@ public class PlayerInputScript : MonoBehaviour
     float heavyTimer, heavyTimerMax = 2f;
     bool bHeavyCharging = false, bPlayGleam = true;
     public GameEvent showHeavyTutorialEvent;
+    public GameEvent startHeavyTelegraphEvent;
+    public GameEvent endHeavyTelegraphEvent;
     #endregion
 
 
@@ -172,7 +174,7 @@ public class PlayerInputScript : MonoBehaviour
     void OnStartHeavyAlternative()
     {
         bPlayGleam = false;
-        heavyTimer = 0.75f;
+        heavyTimer = 1.0f;
         StartHeavy();
     }
 
@@ -182,6 +184,8 @@ public class PlayerInputScript : MonoBehaviour
         {
             if (!_animator.GetBool("HeavyAttackHeld"))
             {
+                startHeavyTelegraphEvent.Raise();
+                
                 bHeavyCharging = true;
                 bIsSheathed = true;
                 _animator.SetBool("HeavyAttackHeld", true);
@@ -288,6 +292,7 @@ public class PlayerInputScript : MonoBehaviour
     private void ExecuteHeavyAttack()
     {
         showHeavyTutorialEvent.Raise();
+        endHeavyTelegraphEvent.Raise();
         
         bHeavyCharging = false;
         bIsSheathed = false;

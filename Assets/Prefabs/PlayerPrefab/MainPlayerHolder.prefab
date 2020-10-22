@@ -2915,6 +2915,8 @@ MonoBehaviour:
   finishingMoves:
   - {fileID: 11400000, guid: be4ae4b6aa8ea824f87be1f26c096d8c, type: 2}
   playerInputScript: {fileID: 5612914395763633282}
+  showFinisherTutorialEvent: {fileID: 11400000, guid: 76c46b1995d06674aab75c699cc43345,
+    type: 2}
 --- !u!114 &2516732064636415886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6912,6 +6914,7 @@ MonoBehaviour:
   blockTimer: 0
   blockCooldown: 0.1
   bCanBlock: 1
+  bInputtingBlock: 0
   bIsParrying: 0
   parryTimer: 0
   parryTimerTarget: 0.4

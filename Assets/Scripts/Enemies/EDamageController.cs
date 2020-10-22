@@ -61,6 +61,7 @@ public class EDamageController : MonoBehaviour, IDamageable
             else
             {
                 Debug.Log(attacker.layer.ToString());
+                _aiSystem.ApplyHit(attacker);
             }
         }
         else if (enemyGuard.isStunned && unblockable)

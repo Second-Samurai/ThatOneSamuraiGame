@@ -60,6 +60,7 @@ MonoBehaviour:
   rewindUI: {fileID: 0}
   gameOverCanvas: {fileID: 3990733858548171799, guid: 1f20cb57ae54fab4daaaefba090c6073,
     type: 3}
+  invincabilityTimer: 0
 --- !u!114 &681712949812077956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,6 +73,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed2568ac90cf9e74fa89b091b87f5fb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioManager: {fileID: 0}
+  maxRewind: 0
+  played: 1
 --- !u!114 &7916960123027540848
 MonoBehaviour:
   m_ObjectHideFlags: 0

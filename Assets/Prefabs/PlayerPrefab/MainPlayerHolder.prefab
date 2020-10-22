@@ -1739,7 +1739,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!114 &9128811979648262860
 MonoBehaviour:
@@ -3305,7 +3305,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 9
   m_TargetDisplay: 0
 --- !u!114 &2516732065600158649
 MonoBehaviour:
@@ -3360,6 +3360,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   optionsMenu: {fileID: 2022121545323223167}
   hidePopupEvent: {fileID: 11400000, guid: 70b92ee7ec6db524c8bcdc88f6283cb7, type: 2}
+  hideLockOnPopupEvent: {fileID: 11400000, guid: 1e18f41e5503a1146aa579228acc16bf,
+    type: 2}
 --- !u!114 &8066072614978334795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6822,6 +6824,8 @@ MonoBehaviour:
   rotationSpeed: 4
   smoothingValue: 0.1
   target: {fileID: 0}
+  showHeavyTutorialEvent: {fileID: 11400000, guid: 025630d0818ca5241bd1f76f49d79651,
+    type: 2}
 --- !u!95 &4694011085568007678
 Animator:
   serializedVersion: 3
@@ -7028,6 +7032,8 @@ MonoBehaviour:
   rewindTut: {fileID: 8544540189413455371}
   rewindBar: {fileID: 7525333206406581661}
   hidePopupEvent: {fileID: 11400000, guid: 70b92ee7ec6db524c8bcdc88f6283cb7, type: 2}
+  hideLockOnPopupEvent: {fileID: 11400000, guid: 1e18f41e5503a1146aa579228acc16bf,
+    type: 2}
 --- !u!114 &8657427106392610461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10199,7 +10205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2988608, g: 0.3954523, b: 0.8679245, a: 1}
+  m_Color: {r: 0.2988608, g: 0.3954523, b: 0.8679245, a: 0}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:

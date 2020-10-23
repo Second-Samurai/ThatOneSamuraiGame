@@ -104,6 +104,6 @@ public class PlayerSFX : MonoBehaviour
     public void Smack()
     {
         int i = Random.Range(0, bigSmack.Length);
-        audioPlayer.PlayOnce(bigSmack[i], audioManager.SFXVol);
+        audioPlayer.PlayOnce(bigSmack[i], audioManager.SFXVol / 4);
     }
 }

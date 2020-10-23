@@ -91,7 +91,8 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
                                                     aISystem.eDamageController.enemyGuard.canGuard, aISystem.eDamageController.enemyGuard.canParry, aISystem.eDamageController.enemyGuard.isStunned,
                                                     aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard, aISystem.bIsDead, aISystem.bIsUnblockable, _enemyTracker.currentEnemies, 
                                                     aISystem.bIsIdle, aISystem.bIsCircling, aISystem.eDamageController.enemyGuard.bSuperArmour ,aISystem.previousAttackSpeed, aISystem.attackSpeed,
-                                                    aISystem.armourManager.armourCount));
+                                                    aISystem.armourManager.armourCount, aISystem.bIsClosingDistance, aISystem.eDamageController.enemyGuard.bRunCooldownTimer, 
+                                                    aISystem.eDamageController.enemyGuard.remainingCooldownTime, aISystem.eDamageController.enemyGuard.bRunRecoveryTimer));
 
         base.RecordPast();
     }
@@ -142,6 +143,14 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
             aISystem.eDamageController.enemyGuard.canGuard = enemyDataList[currentIndex].canGuard;
 
             aISystem.eDamageController.enemyGuard.isStunned = enemyDataList[currentIndex].isStunned;
+            if (enemyDataList[currentIndex].isStunned)
+            {
+                aISystem.eDamageController.enemyGuard.uiGuardMeter.ShowFinisherKey();
+            }
+            else
+            {
+                aISystem.eDamageController.enemyGuard.uiGuardMeter.HideFinisherKey();
+            }
             aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard = enemyDataList[currentIndex].currentGuard;
             aISystem.bIsDead = enemyDataList[currentIndex].bIsDead;
             aISystem.armourManager.armourCount = enemyDataList[currentIndex].armourCount;
@@ -159,6 +168,11 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
                 if (aISystem.eDamageController.enemyGuard.canParry) aISystem.swordEffects.BeginBlockEffect();
                 else aISystem.swordEffects.EndBlockEffect();
             }
+
+            aISystem.eDamageController.enemyGuard.remainingCooldownTime = enemyDataList[currentIndex].remainingCooldownTime;
+            //Called so it updates the current guard UI
+            aISystem.eDamageController.enemyGuard.OnGuardEvent.Invoke();
+            
             //Debug.LogError(enemyDataList[currentIndex].bIsDead);
         }
         // needs to set the enemy targeting
@@ -172,6 +186,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
             aISystem.SetState(enemyDataList[currentIndex].enemyState);
             aISystem.bIsIdle = enemyDataList[currentIndex].b_isIdle;
             aISystem.bIsCircling = enemyDataList[currentIndex].bisCircling;
+            aISystem.bIsClosingDistance = enemyDataList[currentIndex].bIsClosingDistance;
             aISystem.eDamageController.enemyGuard.bSuperArmour = enemyDataList[currentIndex].bSuperArmour;
             aISystem.previousAttackSpeed = enemyDataList[currentIndex].previousAttackSpeed;
             aISystem.attackSpeed = enemyDataList[currentIndex].attackSpeed;
@@ -181,8 +196,12 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
             {
                 aISystem.eDamageController.EnableDamage();
                 aISystem.eDamageController.enemyGuard.EnableGuardMeter();
+                aISystem.col.enabled = true;
             }
 
+            aISystem.eDamageController.enemyGuard.bRunCooldownTimer = enemyDataList[currentIndex].bRunCooldownTimer;
+            aISystem.eDamageController.enemyGuard.bRunRecoveryTimer = enemyDataList[currentIndex].bRunRecoveryTimer;
+            
             _enemyTracker.currentEnemies = enemyDataList[currentIndex].trackedCurrentEnemies.ToList<Transform>();
         }
     }

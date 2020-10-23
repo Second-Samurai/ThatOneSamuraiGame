@@ -52,11 +52,7 @@ namespace Enemies.Enemy_States
             if (decision == 0)
             {
                 ChooseActionUsingDistance(_target);
-            }
-            else if (decision == 4)
-            {
-                AISystem.OnDodge();
-            }
+            } 
             else
             {
                 AISystem.OnBlock();

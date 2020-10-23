@@ -2412,6 +2412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ec84d7dff0cfb746accba51f8e0fb01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  col: {fileID: 0}
   knockbackAmount: 5
   duration: 0.2
   enemy: {fileID: 7348651134938150731}
@@ -2549,6 +2550,7 @@ GameObject:
   - component: {fileID: 3131012119684820137}
   - component: {fileID: 3598397072447071779}
   - component: {fileID: 4627701057088643549}
+  - component: {fileID: 6638365529141120489}
   m_Layer: 10
   m_Name: Swordsman (1)
   m_TagString: Enemy
@@ -2647,6 +2649,7 @@ MonoBehaviour:
   bPlayerFound: 0
   navMeshAgent: {fileID: 0}
   bIsIdle: 1
+  col: {fileID: 7348651134938150743}
   eDamageController: {fileID: 0}
   bIsDead: 0
   bIsUnblockable: 0
@@ -2671,9 +2674,14 @@ MonoBehaviour:
   bowMesh: {fileID: 0}
   weaponSwitcher: {fileID: 0}
   colliderOverride: {fileID: 0}
+  teleportParticle: {fileID: 0}
+  shotTimer: 1
+  enemyAudio: {fileID: 0}
+  bossEvent: {fileID: 0}
   previousAttackSpeed: 0
   attackSpeed: 0
   bIsCircling: 0
+  bIsClosingDistance: 0
 --- !u!114 &6273603430164364320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3000,6 +3008,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   armourPieces: []
   armourCount: 0
+--- !u!114 &6638365529141120489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7348651134938150740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089918be0d032d94a8488bcc0e2bf86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 410948a5fa6416b4bbc2a539a516b4be, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2213075943072578558}
+        m_MethodName: AvoidHeavyAttack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &299819023282749258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3407,27 +3442,9 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 47941ca9edc574ebd97bf342df560c7c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 287a90e02ab25d148b1e5144bdc15eb2, type: 3}
---- !u!198 &8180744856767829056 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 4320828841491607225, guid: 287a90e02ab25d148b1e5144bdc15eb2,
-    type: 3}
-  m_PrefabInstance: {fileID: 5364194984173943545}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7242074290637394870 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3382333992990730575, guid: 287a90e02ab25d148b1e5144bdc15eb2,
-    type: 3}
-  m_PrefabInstance: {fileID: 5364194984173943545}
-  m_PrefabAsset: {fileID: 0}
 --- !u!23 &8304797775842201413 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 4121325244077700540, guid: 287a90e02ab25d148b1e5144bdc15eb2,
-    type: 3}
-  m_PrefabInstance: {fileID: 5364194984173943545}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7137006182515389482 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2988929614132678355, guid: 287a90e02ab25d148b1e5144bdc15eb2,
     type: 3}
   m_PrefabInstance: {fileID: 5364194984173943545}
   m_PrefabAsset: {fileID: 0}
@@ -3443,9 +3460,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2463bf37b95ff4e0b984836d48372680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &7242074290637394870 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3382333992990730575, guid: 287a90e02ab25d148b1e5144bdc15eb2,
+    type: 3}
+  m_PrefabInstance: {fileID: 5364194984173943545}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7242074290637394871 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3382333992990730574, guid: 287a90e02ab25d148b1e5144bdc15eb2,
+    type: 3}
+  m_PrefabInstance: {fileID: 5364194984173943545}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8180744856767829056 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4320828841491607225, guid: 287a90e02ab25d148b1e5144bdc15eb2,
+    type: 3}
+  m_PrefabInstance: {fileID: 5364194984173943545}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7137006182515389482 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2988929614132678355, guid: 287a90e02ab25d148b1e5144bdc15eb2,
     type: 3}
   m_PrefabInstance: {fileID: 5364194984173943545}
   m_PrefabAsset: {fileID: 0}

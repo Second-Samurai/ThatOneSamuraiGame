@@ -47,7 +47,7 @@ public class BackgroundAudio : MonoBehaviour
         if(!birdsAndTreesSource.clip) birdsAndTreesSource.clip = birdAndTrees;
         if (!backgroundMusicSource.clip) backgroundMusicSource.clip = backgroudMusic;
         birdsAndTreesSource.Play();
-        //menuMusicSource.Play();
+        menuMusicSource.Play();
 
     }
 

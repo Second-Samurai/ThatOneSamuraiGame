@@ -229,7 +229,7 @@ public class PlayerInputScript : MonoBehaviour
                 StopCoroutine("DodgeImpulse");
                 StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
             }
-            Debug.Log("1");
+            //Debug.Log("On dodge triggered");
             ResetAttack();
         }
         else if (_inputVector != Vector2.zero && !bIsDodging && !bCanDodge && bGotParried)
@@ -270,7 +270,7 @@ public class PlayerInputScript : MonoBehaviour
 
             ResetAttack();
         }
-        Debug.Log("InPUT");
+        //Debug.Log("On dodge input triggered");
     }
 
     void OnPause()
@@ -383,7 +383,7 @@ public class PlayerInputScript : MonoBehaviour
 
     public void StartDodging()
     {
-        Debug.Log("Dodge");
+        //Debug.Log("Dodge");
         bIsSheathed = false;
         bPlayGleam = true;
         bHeavyCharging = false;
@@ -397,7 +397,7 @@ public class PlayerInputScript : MonoBehaviour
 
     public void EndDodging()
     {
-        Debug.Log("EndDodge");
+        //Debug.Log("EndDodge");
         bCanAttack = true;
         bIsDodging = false;
         _pDamageController.EnableDamage();

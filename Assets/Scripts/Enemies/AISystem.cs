@@ -320,7 +320,7 @@ namespace Enemies
         }
         public void ImpulseWithDirection(float force, Vector3 dir, float time)
         {
-            Debug.Log(dir);
+            if(PrintStates) Debug.Log("Enemy dodge direction: " + dir);
             StartCoroutine(DodgeImpulseCoroutine(dir, force, time));
         }
 
@@ -498,7 +498,7 @@ namespace Enemies
 
         public void EndState()
         {
-            Debug.LogWarning("Called by anim");
+            if(PrintStates) Debug.LogWarning("End state called by anim");
             EnemyState.EndState();
         }
 
@@ -520,8 +520,7 @@ namespace Enemies
             }
             else
             {
-                Debug.LogWarning("Warning: Tried to EndState the wrong state, EndState cancelled");
-                Debug.LogWarning(EnemyState.GetType().Name);
+                Debug.LogWarning("Warning: "+EnemyState.GetType().Name+" tried to EndState the wrong state, EndState cancelled");
             }
         }
 

@@ -66,7 +66,7 @@ public class EDamageController : MonoBehaviour, IDamageable
         }
         else if (enemyGuard.isStunned && unblockable)
         {
-            Debug.Log("FINISHER");
+            //Debug.Log("FINISHER");
             attacker.GetComponentInChildren<LockOnTargetManager>().EndGuardBreakCam();
             attacker.GetComponentInChildren<FinishingMoveController>().PlayFinishingMove(gameObject);
             return;

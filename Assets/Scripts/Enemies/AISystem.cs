@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Diagnostics;
 using Enemies.Enemy_States;
 using Enemy_Scripts;
@@ -697,6 +697,7 @@ namespace Enemies
                     animator.SetLayerWeight(1, 0);
                     SetState(new DeathEnemyState(this));
                     bossEvent.Raise();
+                    col.enabled = true;
                 }
                 else
                 {
@@ -727,9 +728,13 @@ namespace Enemies
             }
             else
             {
-                statHandler.maxGuard = 5;
-                eDamageController.enemyGuard.ResetGuard();
-                CheckArmourLevel();
+                animator.SetLayerWeight(1, 0);
+                SetState(new DeathEnemyState(this));
+                bossEvent.Raise();
+                col.enabled = true;
+                // statHandler.maxGuard = 5;
+                // eDamageController.enemyGuard.ResetGuard();
+                // CheckArmourLevel();
             }
         }
 

@@ -12,6 +12,7 @@ public class PlayerSFX : MonoBehaviour
     private AudioClip walkingWood;
     private AudioClip armour;
     private AudioClip takeoff;
+    public AudioClip walkingClip;
 
     [SerializeField]
     private AudioClip[] grassRoll;
@@ -52,7 +53,7 @@ public class PlayerSFX : MonoBehaviour
 
         bigSmack = GameManager.instance.audioManager.FindAll("Very").ToArray();
 
-
+        walkingClip = walkingGrass;
 
     }
 
@@ -60,7 +61,7 @@ public class PlayerSFX : MonoBehaviour
 
     private void Step() 
     {
-        audioPlayer.PlayOnce(walkingGrass, audioManager.SFXVol);
+        audioPlayer.PlayOnce(walkingClip, audioManager.SFXVol);
     }
 
     private void Sprint()

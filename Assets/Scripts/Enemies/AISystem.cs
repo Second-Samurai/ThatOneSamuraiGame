@@ -466,11 +466,24 @@ namespace Enemies
         // Used to avoid the player's heavy attack if closing the distance
         public void AvoidHeavyAttack()
         {
-            if (bIsClosingDistance)
+            if(enemyType == EnemyType.BOSS)
             {
-                animator.SetFloat("MovementZ", -1.0f);
-                OnDodge();
+                if (bHasBowDrawn)
+                {
+                    animator.SetFloat("MovementZ", -1.0f);
+                    OnDodge();
+                }
+
             }
+            else 
+            { 
+                if (bIsClosingDistance)
+                {
+                    animator.SetFloat("MovementZ", -1.0f);
+                    OnDodge();
+                }
+            }
+             
         }
         
         #endregion
@@ -741,7 +754,9 @@ namespace Enemies
 
         public void TauntTeleport()
         {
-            transform.position = (enemySettings.GetTarget().position - (enemySettings.GetTarget().forward * 5));
+            Vector3 teleportVector = Camera.main.transform.forward * 8;
+            teleportVector.y = 0;
+            transform.position = (enemySettings.GetTarget().position - (teleportVector));
             OnJumpAttack();
         }
 

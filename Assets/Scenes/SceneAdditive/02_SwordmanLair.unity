@@ -15875,6 +15875,7 @@ GameObject:
   - component: {fileID: 1009035759}
   - component: {fileID: 1009035761}
   - component: {fileID: 1009035760}
+  - component: {fileID: 1009035762}
   m_Layer: 0
   m_Name: Causeway_wall_2 (2)
   m_TagString: Untagged
@@ -15942,6 +15943,20 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1009035758}
+  m_Mesh: {fileID: 5307296703658469672, guid: 1f68a2625965041bda72bf35a21c10e6, type: 3}
+--- !u!64 &1009035762
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1009035758}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 5307296703658469672, guid: 1f68a2625965041bda72bf35a21c10e6, type: 3}
 --- !u!1 &1016684816
 GameObject:
@@ -22923,7 +22938,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1825395923
 Light:
   m_ObjectHideFlags: 0

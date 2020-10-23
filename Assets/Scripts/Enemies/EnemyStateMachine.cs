@@ -14,7 +14,7 @@ namespace Enemy_Scripts
     {
         // Breaking standard naming conventions for the sake of state naming
         public EnemyState EnemyState; // Holds the current enemy state
-        [SerializeField] private bool PrintStates = false;
+        public bool PrintStates = false;
 
         public virtual void SetState(EnemyState newEnemyState)
         {

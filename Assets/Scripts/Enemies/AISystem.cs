@@ -182,6 +182,9 @@ namespace Enemies
                 KBColOff();
                 
             }
+            
+            ResetAnimationVariables();
+            
             //Debug.LogWarning(newEnemyState.GetType().Name);
             base.SetState(newEnemyState);
         }
@@ -321,7 +324,7 @@ namespace Enemies
         }
         public void ImpulseWithDirection(float force, Vector3 dir, float time)
         {
-            Debug.Log(dir);
+            if(PrintStates) Debug.Log("Knockback direction: " + dir);
             StartCoroutine(DodgeImpulseCoroutine(dir, force, time));
         }
 
@@ -407,6 +410,10 @@ namespace Enemies
         
         public void ResetAnimationVariables()
         {
+            // Set all movement variables to 0
+            animator.SetFloat("MovementX", 0);
+            animator.SetFloat("MovementZ", 0);
+            
             // Set all suitable animation bools to false
             animator.ResetTrigger("TriggerMovement");
             animator.ResetTrigger("TriggerGuardBreak");
@@ -419,9 +426,30 @@ namespace Enemies
             animator.ResetTrigger("TriggerQuickBlock");
             animator.ResetTrigger("TriggerBlock");
             
-            // Set all movement variables to 0
-            animator.SetFloat("MovementX", 0);
-            animator.SetFloat("MovementZ", 0);
+            //Swordsman specific
+            if (enemyType == EnemyType.BOSS)
+            {
+                animator.ResetTrigger("TriggerHeavyAttack");
+                animator.ResetTrigger("TriggerJumpAttack");
+                animator.ResetTrigger("TriggerCharge");
+                animator.ResetTrigger("TriggerHeavyCombo");
+                animator.ResetTrigger("TriggerArrowShot");
+                animator.ResetTrigger("DrawBow");
+                animator.ResetTrigger("SheathBow");
+                animator.ResetTrigger("TriggerTaunt");
+            }
+            else if (enemyType == EnemyType.GLAIVEWIELDER)
+            {
+                animator.ResetTrigger("TriggerHeavyAttack");
+                animator.ResetTrigger("TriggerJumpAttack");
+                animator.ResetTrigger("TriggerCharge");
+                animator.ResetTrigger("TriggerHeavyCombo");
+            }
+            else
+            {
+                animator.ResetTrigger("TriggerThrust");
+            }
+            
         }
 
         private bool EnemyDeathCheck()
@@ -512,7 +540,7 @@ namespace Enemies
 
         public void EndState()
         {
-            Debug.LogWarning("Called by anim");
+            if(PrintStates) Debug.LogWarning("End state called by anim");
             EnemyState.EndState();
         }
 
@@ -525,7 +553,11 @@ namespace Enemies
             EnemyState.StartRotating();
         }
 
-
+        public void TurnOffBodyCol()
+        {
+            col.enabled = false;
+        }
+        
         public void EndStateAttack()
         {
             if (EnemyState.GetType() == typeof(SwordAttackEnemyState) || EnemyState.GetType() == typeof(ParryEnemyState) || EnemyState.GetType() == typeof(JumpAttackEnemyState) || EnemyState.GetType() == typeof(GlaiveAttackEnemyState))
@@ -534,8 +566,7 @@ namespace Enemies
             }
             else
             {
-                Debug.LogWarning("Warning: Tried to EndState the wrong state, EndState cancelled");
-                Debug.LogWarning(EnemyState.GetType().Name);
+                Debug.LogWarning("Warning: "+EnemyState.GetType().Name+" tried to EndState the wrong state, EndState cancelled");
             }
         }
 

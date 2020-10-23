@@ -46,6 +46,7 @@ public class RewindBar : MonoBehaviour
     }
     public void FadeIn(float alpha, float time) 
     {
+        rewindBar.enabled = true;
         rewindBarBackground.DOFade(alpha, time);
         rewindBar.DOFade(alpha, time);
     }
@@ -54,6 +55,7 @@ public class RewindBar : MonoBehaviour
     {
         rewindBarBackground.DOFade(alpha, time);
         rewindBar.DOFade(alpha, time);
+        rewindBar.enabled = false;
     }
 
 

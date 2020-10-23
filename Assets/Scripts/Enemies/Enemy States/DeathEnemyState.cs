@@ -27,7 +27,8 @@ namespace Enemies.Enemy_States
             // Enemy can no longer be damaged, enemies can no longer damage the player.
             AISystem.eDamageController.DisableDamage();
             
-            AISystem.col.enabled = false;
+            // NOTE: Enemy collider is now turned off through an animation event
+            // AISystem.col.enabled = false;
             
             // Disable guard meter
             AISystem.eDamageController.enemyGuard.DisableGuardMeter();

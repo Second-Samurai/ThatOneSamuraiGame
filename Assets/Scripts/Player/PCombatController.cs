@@ -188,7 +188,7 @@ public class PCombatController : MonoBehaviour, ICombatController
 
     public void IsParried()
     {
-        Debug.Log("Player Parried!");
+        //Debug.Log("Player Parried!");
         EndUnblockable();
         EndAttacking();
         _playerInput.RemoveOverride();

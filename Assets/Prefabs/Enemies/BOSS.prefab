@@ -214,6 +214,7 @@ MonoBehaviour:
   bHasArmour: 1
   camImpulse: {fileID: 617449704335862312}
   bIsQuickBlocking: 0
+  bFinish: 0
   floatOffset: {x: 0, y: 2, z: 0}
   parryEffects: {fileID: 8589244748363466155}
   swordEffects: {fileID: 5073016996662958135}
@@ -235,6 +236,7 @@ MonoBehaviour:
   shotTimer: 1
   enemyAudio: {fileID: 3991219229310851326}
   bossEvent: {fileID: 11400000, guid: 87ef780efc9c14d4eb9ac7b634e5ef70, type: 2}
+  bossAggro: {fileID: 11400000, guid: a038938fb84819e4980fcdde4c04cdf5, type: 2}
   previousAttackSpeed: 0
   attackSpeed: 0
   bIsCircling: 0
@@ -329,6 +331,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _aiSystem: {fileID: 8009197556232773997}
+  uiGuardMeter: {fileID: 0}
+  bRunCooldownTimer: 0
+  remainingCooldownTime: 0
+  bRunRecoveryTimer: 0
   bSuperArmour: 0
 --- !u!114 &6171115610967556328
 MonoBehaviour:

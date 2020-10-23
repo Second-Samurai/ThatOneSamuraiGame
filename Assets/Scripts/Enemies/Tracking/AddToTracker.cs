@@ -25,7 +25,11 @@ public class AddToTracker : MonoBehaviour
             {
                 Debug.LogWarning("Set from tracker");
                 _aiSystem.bIsIdle = false;
-                _aiSystem.OnApproachPlayer();  
+                _aiSystem.OnApproachPlayer();
+                if (_aiSystem.enemyType == EnemyType.BOSS) 
+                {
+                    _aiSystem.bossAggro.Raise();
+                }
             }
         }
     }

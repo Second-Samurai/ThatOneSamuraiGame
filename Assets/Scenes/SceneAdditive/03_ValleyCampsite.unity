@@ -14284,6 +14284,11 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 114
       objectReference: {fileID: 0}
+    - target: {fileID: 3131063113309877253, guid: bbca1397107374b329536c10b5b107e4,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3668910380611748972, guid: bbca1397107374b329536c10b5b107e4,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -14464,7 +14469,8 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 114
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3131063113309877253, guid: bbca1397107374b329536c10b5b107e4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bbca1397107374b329536c10b5b107e4, type: 3}
 --- !u!1 &706484058955772405 stripped
 GameObject:
@@ -14472,6 +14478,38 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 706484058955772404}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &706484058955772406 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3668910380611748972, guid: bbca1397107374b329536c10b5b107e4,
+    type: 3}
+  m_PrefabInstance: {fileID: 706484058955772404}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &706484058955772407
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706484058955772406}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.09912378, y: 0.34639928, z: 0.14168252}
+  m_Center: {x: -0.00079579063, y: -0.0036070044, z: -0.059402302}
+--- !u!114 &706484058955772408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706484058955772406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45bd436cd3de57147a89bb15486eb7ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  newClip: {fileID: 8300000, guid: d180317bd76996b4e9e2820dfcf240b4, type: 3}
 --- !u!1001 &2329051931947230618
 PrefabInstance:
   m_ObjectHideFlags: 0

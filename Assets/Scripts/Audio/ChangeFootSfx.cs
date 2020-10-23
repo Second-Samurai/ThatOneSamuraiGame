@@ -13,16 +13,12 @@ public class ChangeFootSfx : MonoBehaviour
         _playerSFX = GameManager.instance.playerController.gameObject.GetComponent<PlayerSFX>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Player")) 
+        if (other.gameObject.CompareTag("Player") && other.gameObject.layer == LayerMask.NameToLayer("Player")) 
         {
             _playerSFX.walkingClip = newClip;
         }
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  
 }

@@ -61,12 +61,12 @@ public class PlayerSFX : MonoBehaviour
 
     private void Step() 
     {
-        audioPlayer.PlayOnce(walkingClip, audioManager.SFXVol);
+        audioPlayer.PlayOnce(walkingClip, audioManager.SFXVol*2);
     }
 
     private void Sprint()
     {
-        audioPlayer.PlayOnce(walkingGrass, audioManager.SFXVol, .5f, .8f);
+        audioPlayer.PlayOnce(walkingClip, audioManager.SFXVol*3, .5f, .8f);
     }
 
     public void Armour() 

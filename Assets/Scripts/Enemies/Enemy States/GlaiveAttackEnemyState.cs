@@ -23,6 +23,8 @@ namespace Enemies.Enemy_States
                 AISystem.eDamageController.enemyGuard.bSuperArmour = true;
                  
             }
+            AISystem.eDamageController.enemyGuard.bSuperArmour = true;
+
             //ResetAnimationBools();
             AISystem.swordEffects.BeginUnblockableEffect();
             AISystem.attackIndicator.ShowIndicator();
@@ -68,6 +70,7 @@ namespace Enemies.Enemy_States
                 AISystem.eDamageController.enemyGuard.bSuperArmour = false;
                 AISystem.weaponSwitcher.EnableGlaive(false); 
             }
+            AISystem.eDamageController.enemyGuard.bSuperArmour = false;
             AISystem.swordEffects.EndUnblockableEffect();
             AISystem.attackIndicator.HideIndicator();
             AISystem.bIsUnblockable = false;

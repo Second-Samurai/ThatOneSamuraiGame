@@ -205,6 +205,7 @@ MonoBehaviour:
   bPlayerFound: 0
   navMeshAgent: {fileID: 0}
   bIsIdle: 1
+  col: {fileID: 1471455674555805124}
   eDamageController: {fileID: 0}
   bIsDead: 0
   bIsUnblockable: 0
@@ -233,9 +234,11 @@ MonoBehaviour:
     type: 3}
   shotTimer: 1
   enemyAudio: {fileID: 3991219229310851326}
+  bossEvent: {fileID: 11400000, guid: 87ef780efc9c14d4eb9ac7b634e5ef70, type: 2}
   previousAttackSpeed: 0
   attackSpeed: 0
   bIsCircling: 0
+  bIsClosingDistance: 0
 --- !u!114 &2774322316920596147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1405,6 +1408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ec84d7dff0cfb746accba51f8e0fb01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  col: {fileID: 0}
   knockbackAmount: 5
   duration: 0.2
   enemy: {fileID: 1471455674555805144}

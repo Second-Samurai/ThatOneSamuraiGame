@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class KnockbackAttack : MonoBehaviour
 {
-    Collider col;
+    public Collider col;
     public float knockbackAmount = 10f, duration = .4f;
     public Transform enemy;
 

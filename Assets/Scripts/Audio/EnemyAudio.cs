@@ -51,92 +51,130 @@ public class EnemyAudio : MonoBehaviour
 
     private void Grunt() 
     {
+        audioPlayer.rSources[audioPlayer.activeSource].spatialBlend = 0;
+
         int i = Random.Range(0, grunts.Length);
         audioPlayer.PlayOnce(grunts[i], audioManager.SFXVol, min, 1f);
     }
 
     private void GruntLow()
     {
+        audioPlayer.rSources[audioPlayer.activeSource].spatialBlend = 0;
+
         int i = Random.Range(0, grunts.Length);
         audioPlayer.PlayOnce(grunts[i], audioManager.SFXVol, minLow, .7f);
     }
 
     private void Dying()
     {
+        audioPlayer.rSources[audioPlayer.activeSource].spatialBlend = 0;
+
         int i = Random.Range(0, dyingSounds.Length);
         audioPlayer.PlayOnce(dyingSounds[i], audioManager.SFXVol, min, 1f);
     }
 
     private void DyingLow()
     {
+        audioPlayer.rSources[audioPlayer.activeSource].spatialBlend = 0;
+
         int i = Random.Range(0, dyingSounds.Length);
         audioPlayer.PlayOnce(dyingSounds[i], audioManager.SFXVol, minLow, .7f);
     }
 
     public void ArmourBreak()
     {
+        audioPlayer.rSources[audioPlayer.activeSource].spatialBlend = 0;
+
         int i = Random.Range(0, armourBreakSounds.Length);
         audioPlayer.PlayOnce(armourBreakSounds[i], audioManager.SFXVol, minLow, .7f);
     }
 
     public void Woosh()
     {
+        audioPlayer.rSources[audioPlayer.activeSource].spatialBlend = 0;
+
         int i = Random.Range(0, whoosh.Length);
         audioPlayer.PlayOnce(whoosh[i], audioManager.SFXVol, .5f, .8f);
     }
 
     public void Shing()
     {
+        audioPlayer.rSources[audioPlayer.activeSource].spatialBlend = 0;
+
         int i = Random.Range(0, shing.Length);
         audioPlayer.PlayOnce(shing[i], audioManager.SFXVol / 4, .8f, .8f);
     }
 
     public void GrassStomp()
     {
+        audioPlayer.rSources[audioPlayer.activeSource].spatialBlend = 0;
+
         audioPlayer.PlayOnce(grassStomp, audioManager.SFXVol / 4);
     }
 
     public void Draw()
     {
-        audioPlayer.PlayOnce(bowDraw, audioManager.SFXVol * 1.5f, 1, 1);
+        audioPlayer.rSources[audioPlayer.activeSource].spatialBlend = 0;
+
+        audioPlayer.PlayOnce(bowDraw, audioManager.SFXVol * 3f, 1, 1);
     }
     public void Release()
     {
-        audioPlayer.PlayOnce(bowRelease, audioManager.SFXVol * 1.5f, 1, 1);
+        audioPlayer.rSources[audioPlayer.activeSource].spatialBlend = 0;
+
+        audioPlayer.PlayOnce(bowRelease, audioManager.SFXVol * 3f, 1, 1);
     }
 
     public void Step()
     {
         int i = Random.Range(0, heavyStep.Length);
+        if (audioPlayer.rSources[audioPlayer.activeSource].clip == heavyStep[i])
+        {
+            audioPlayer.rSources[audioPlayer.activeSource].spatialBlend = 0;
+        }
         audioPlayer.PlayOnce(heavyStep[i], audioManager.SFXVol / 1.5f);
     }
 
     public void LoudStep()
     {
         int i = Random.Range(0, jump.Length);
+        if (audioPlayer.rSources[audioPlayer.activeSource].clip == jump[i]) 
+        {
+            audioPlayer.rSources[audioPlayer.activeSource].spatialBlend = 0;
+        }
         audioPlayer.PlayOnce(jump[i], audioManager.SFXVol);
     }
 
     public void Jump()
     {
         int i = Random.Range(0, jump.Length);
+        if (audioPlayer.rSources[audioPlayer.activeSource].clip == jump[i])
+        {
+            audioPlayer.rSources[audioPlayer.activeSource].spatialBlend = 1;
+        }
         audioPlayer.PlayOnce(jump[i], audioManager.SFXVol * .5f);
     }
 
     public void Land()
     {
         int i = Random.Range(0, jump.Length);
+        if (audioPlayer.rSources[audioPlayer.activeSource].clip == jump[i])
+        {
+            audioPlayer.rSources[audioPlayer.activeSource].spatialBlend = 1;
+        }
         audioPlayer.PlayOnce(jump[i], audioManager.SFXVol, .5f, .7f);
     }
 
     public void Heavy()
     {
+        audioPlayer.rSources[audioPlayer.activeSource].spatialBlend = 0;
         int i = Random.Range(0, heavySwing.Length);
         audioPlayer.PlayOnce(heavySwing[i], audioManager.SFXVol, .5f, .7f);
     }
 
     public void Smoke()
     {
+        audioPlayer.rSources[audioPlayer.activeSource].spatialBlend = 0;
         audioPlayer.PlayOnce(smoke, audioManager.SFXVol, .5f, .5f);
     }
 }

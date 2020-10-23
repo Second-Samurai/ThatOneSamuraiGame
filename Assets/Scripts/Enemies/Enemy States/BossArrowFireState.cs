@@ -171,10 +171,33 @@ namespace Enemies.Enemy_States
             shotDirection.y = 0;
             shotDirection = shotDirection.normalized;
             Debug.Log(shotDirection);
-            GameObject _arrow = ObjectPooler.instance.ReturnObject("Arrow");
-            //GameObject _arrow = Instantiate(arrow, shotOrigin.position, Quaternion.identity);
-            _arrow.transform.position = AISystem.firePoint.position;
-            _arrow.GetComponent<Projectile>().Launch(shotDirection, _target);
+            if(AISystem.armourManager.armourCount >= 4)
+            {
+                GameObject _arrow = ObjectPooler.instance.ReturnObject("Arrow");
+                //GameObject _arrow = Instantiate(arrow, shotOrigin.position, Quaternion.identity);
+                _arrow.transform.position = AISystem.firePoint.position;
+                _arrow.GetComponent<Projectile>().Launch(shotDirection, _target);
+
+            }
+            else
+            {
+                //GameObject _arrow = Instantiate(arrow, shotOrigin.position, Quaternion.identity);
+                
+                GameObject _arrow = ObjectPooler.instance.ReturnObject("Arrow");
+                _arrow.transform.position = AISystem.firePoint.position;
+                _arrow.GetComponent<Projectile>().Launch(shotDirection, _target);
+                 
+                _arrow = ObjectPooler.instance.ReturnObject("Arrow");
+                Vector3 shotDirectionMod = Quaternion.Euler(0,15,0) * shotDirection;
+                _arrow.transform.position = AISystem.firePoint.position;
+                _arrow.GetComponent<Projectile>().Launch(shotDirectionMod, _target);
+                
+                _arrow = ObjectPooler.instance.ReturnObject("Arrow");
+                shotDirectionMod = Quaternion.Euler(0, -15, 0) * shotDirection;
+                _arrow.transform.position = AISystem.firePoint.position;
+                _arrow.GetComponent<Projectile>().Launch(shotDirectionMod, _target);
+            }
+
             AISystem.shotTimer = 1;
             hasfired = true;
             AISystem.shotCount--;

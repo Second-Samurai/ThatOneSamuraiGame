@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class PlayerSFX : MonoBehaviour
@@ -13,6 +14,7 @@ public class PlayerSFX : MonoBehaviour
     private AudioClip armour;
     private AudioClip takeoff;
     public AudioClip walkingClip;
+    private AudioClip unsheath;
 
     [SerializeField]
     private AudioClip[] grassRoll;
@@ -22,6 +24,8 @@ public class PlayerSFX : MonoBehaviour
     private AudioClip[] armourJingle;
     private AudioClip[] whoosh;
     private AudioClip[] bigSmack;
+    private AudioClip[] allUnsheath;
+
 
 
 
@@ -39,19 +43,18 @@ public class PlayerSFX : MonoBehaviour
         walkingWood = GameManager.instance.audioManager.FindSound("Walking Wood");
         armour = GameManager.instance.audioManager.FindSound("armour jingle 3");
         takeoff = GameManager.instance.audioManager.FindSound("Loudish Stomp 1 SFX");
+        unsheath = GameManager.instance.audioManager.FindSound("sheath 2");
 
 
         grassRoll = GameManager.instance.audioManager.FindAll("Grass Roll").ToArray();
         PebbleRoll = GameManager.instance.audioManager.FindAll("Pebble Roll").ToArray();
         woodRoll = GameManager.instance.audioManager.FindAll("Wood Roll").ToArray();
-
         parry = GameManager.instance.audioManager.FindAll("Parry").ToArray();
-
         armourJingle = GameManager.instance.audioManager.FindAll("armour").ToArray();
-
         whoosh = GameManager.instance.audioManager.FindAll("woosh").ToArray();
-
         bigSmack = GameManager.instance.audioManager.FindAll("Very").ToArray();
+        allUnsheath = GameManager.instance.audioManager.FindAll("sheath ").ToArray();
+
 
         walkingClip = walkingGrass;
 
@@ -106,5 +109,16 @@ public class PlayerSFX : MonoBehaviour
     {
         int i = Random.Range(0, bigSmack.Length);
         audioPlayer.PlayOnce(bigSmack[i], audioManager.SFXVol / 4);
+    }
+
+    public void Unsheath() 
+    {
+        audioPlayer.PlayOnce(unsheath, audioManager.SFXVol);
+    }
+
+    public void AllUnsheath()
+    {
+        int i = Random.Range(0, allUnsheath.Length);
+        audioPlayer.PlayOnce(allUnsheath[i], audioManager.SFXVol);
     }
 }

@@ -14,6 +14,7 @@ namespace Enemies.Enemy_States
         {
             if(AISystem.enemyType == EnemyType.BOSS)
             {
+                Animator.SetLayerWeight(1, 0);
                 Animator.SetTrigger("TriggerDodge");
                 AISystem.StartIntangibility();
                 yield break;

@@ -85,7 +85,7 @@ namespace Enemies
         public MeshRenderer bowMesh;
         public WeaponSwitcher weaponSwitcher;
         public SwordColliderOverride colliderOverride;
-        public GameObject teleportParticle;
+        public GameObject teleportParticle, dustParticle;
         public float shotTimer = 1;
         public EnemyAudio enemyAudio;
         public GameEvent bossEvent;
@@ -495,11 +495,24 @@ namespace Enemies
         // Used to avoid the player's heavy attack if closing the distance
         public void AvoidHeavyAttack()
         {
-            if (bIsClosingDistance)
+            if(enemyType == EnemyType.BOSS)
             {
-                animator.SetFloat("MovementZ", -1.0f);
-                OnDodge();
+                if (bHasBowDrawn)
+                {
+                    animator.SetFloat("MovementZ", -1.0f);
+                    OnDodge();
+                }
+
             }
+            else 
+            { 
+                if (bIsClosingDistance)
+                {
+                    animator.SetFloat("MovementZ", -1.0f);
+                    OnDodge();
+                }
+            }
+             
         }
         
         #endregion
@@ -773,7 +786,9 @@ namespace Enemies
 
         public void TauntTeleport()
         {
-            transform.position = (enemySettings.GetTarget().position - (enemySettings.GetTarget().forward * 5));
+            Vector3 teleportVector = Camera.main.transform.forward * 8;
+            teleportVector.y = 0;
+            transform.position = (enemySettings.GetTarget().position - (teleportVector));
             OnJumpAttack();
         }
 
@@ -782,6 +797,10 @@ namespace Enemies
             Instantiate(teleportParticle, transform.position + (transform.forward*2), Quaternion.identity);
             enemyAudio.Smoke();
 
+        }
+        public void DropDirtExplosion()
+        {
+            //Instantiate(dustParticle, transform.position + (transform.forward * 2), Quaternion.identity);
         }
 
         #endregion

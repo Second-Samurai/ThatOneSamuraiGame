@@ -20,9 +20,20 @@ public class ScenePlatformLoader : MonoBehaviour, ISceneLoader
     public Transform cameraTransform;
     public float loadRange;
 
+    [Header("Tile Chain")]
+    [Tooltip("Only required when backtracking is disabled")]
+    public ScenePlatformLoader backSceneTile;
+    [Tooltip("Only required when backtracking is disabled")]
+    public ScenePlatformLoader forwardSceneTile;
+
+    [Header("Loading Switches")]
+    [Tooltip("Only enable when this scene tile is able to be backtracked on travel")]
+    public bool canBacktrack = true;
+
     //Scene state
     private bool _isLoaded;
     private bool _shouldLoad;
+    private bool _loadOnBacktrack = true;
 
     /// <summary>
     /// Sets reference camera transform and checks whether exists in build settings.
@@ -55,6 +66,11 @@ public class ScenePlatformLoader : MonoBehaviour, ISceneLoader
         {
             TriggerCheck();
         }
+    }
+
+    public bool CheckIsLoaded()
+    {
+        return _isLoaded;
     }
 
     // Summary: Performs distance check and either loads or unloads scene
@@ -110,7 +126,7 @@ public class ScenePlatformLoader : MonoBehaviour, ISceneLoader
         if (checkMethod != CheckMethod.Trigger) return;
         if (other.GetComponent<PlayerController>() != null)
         {
-            _shouldLoad = true;
+            if(_loadOnBacktrack) _shouldLoad = true;
         }
     }
 
@@ -120,6 +136,21 @@ public class ScenePlatformLoader : MonoBehaviour, ISceneLoader
         if (other.GetComponent<PlayerController>() != null)
         {
             _shouldLoad = false;
+            if (!canBacktrack) CheckCanBacktrack();
+        }
+    }
+
+    private void CheckCanBacktrack()
+    {
+        if (forwardSceneTile.CheckIsLoaded())
+        {
+            _loadOnBacktrack = false;
+            return;
+        }
+        else if (backSceneTile.CheckIsLoaded())
+        {
+            _loadOnBacktrack = true;
+            return;
         }
     }
 

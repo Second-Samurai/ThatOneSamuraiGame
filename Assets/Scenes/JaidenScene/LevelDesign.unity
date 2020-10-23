@@ -1788,6 +1788,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   optionsMenu: {fileID: 4165856845065195265}
   hidePopupEvent: {fileID: 0}
+  hideLockOnPopupEvent: {fileID: 0}
 --- !u!1 &382494327
 GameObject:
   m_ObjectHideFlags: 0
@@ -2038,6 +2039,7 @@ MonoBehaviour:
   finishingMoves:
   - {fileID: 11400000, guid: be4ae4b6aa8ea824f87be1f26c096d8c, type: 2}
   playerInputScript: {fileID: 8000690492909197097}
+  showFinisherTutorialEvent: {fileID: 0}
 --- !u!1 &512655003
 GameObject:
   m_ObjectHideFlags: 0
@@ -10956,6 +10958,7 @@ MonoBehaviour:
   rewindTut: {fileID: 4092580929909077008}
   rewindBar: {fileID: 0}
   hidePopupEvent: {fileID: 0}
+  hideLockOnPopupEvent: {fileID: 0}
 --- !u!1001 &1606624917
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -119735,6 +119738,9 @@ MonoBehaviour:
   rotationSpeed: 4
   smoothingValue: 0.1
   target: {fileID: 0}
+  showHeavyTutorialEvent: {fileID: 0}
+  startHeavyTelegraphEvent: {fileID: 0}
+  endHeavyTelegraphEvent: {fileID: 0}
 --- !u!54 &8000690492909197102
 Rigidbody:
   m_ObjectHideFlags: 0

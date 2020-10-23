@@ -61,6 +61,13 @@ public class FinishingMoveController : MonoBehaviour
     public void PlayFinishingMove(GameObject enemy)
     {
         showFinisherTutorialEvent.Raise();
+        
+        // Stop recovering guard process and hide finisher key
+        Guarding guardScript = enemy.GetComponent<AISystem>().eDamageController.enemyGuard;
+        guardScript.bRunCooldownTimer = false;
+        guardScript.bRunRecoveryTimer = false;
+        guardScript.uiGuardMeter.HideFinisherKey();
+
         detector.SetActive(false);
         damageController.DisableDamage();
         playerInputScript.DisableMovement();
@@ -86,6 +93,8 @@ public class FinishingMoveController : MonoBehaviour
         playerInputScript.bCanAttack = true;
         playerInputScript.EnableMovement();
         damageController.EnableDamage();
+        playerInputScript.bAlreadyAttacked = false;
+        playerInputScript.ResetAttack();
         //for (int i = 0; i < enemies.Count - 1; i++)
         //{
         //    enemies[i].GetComponent<AISystem>().EnemyState = enemiesCache[i].EnemyState;

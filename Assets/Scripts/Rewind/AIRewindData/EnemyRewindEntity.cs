@@ -202,6 +202,12 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
             aISystem.eDamageController.enemyGuard.bRunCooldownTimer = enemyDataList[currentIndex].bRunCooldownTimer;
             aISystem.eDamageController.enemyGuard.bRunRecoveryTimer = enemyDataList[currentIndex].bRunRecoveryTimer;
             
+            // For enemies that get bRunCooldownTimer disabled through a finisher
+            if (aISystem.eDamageController.enemyGuard.isStunned && !aISystem.eDamageController.enemyGuard.bRunCooldownTimer)
+            {
+                aISystem.eDamageController.enemyGuard.bRunCooldownTimer = true;
+            }
+            
             _enemyTracker.currentEnemies = enemyDataList[currentIndex].trackedCurrentEnemies.ToList<Transform>();
         }
     }

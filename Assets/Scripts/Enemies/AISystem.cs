@@ -181,6 +181,9 @@ namespace Enemies
                 KBColOff();
                 
             }
+            
+            ResetAnimationVariables();
+            
             //Debug.LogWarning(newEnemyState.GetType().Name);
             base.SetState(newEnemyState);
         }
@@ -320,7 +323,7 @@ namespace Enemies
         }
         public void ImpulseWithDirection(float force, Vector3 dir, float time)
         {
-            if(PrintStates) Debug.Log("Enemy dodge direction: " + dir);
+            if(PrintStates) Debug.Log("Knockback direction: " + dir);
             StartCoroutine(DodgeImpulseCoroutine(dir, force, time));
         }
 
@@ -406,6 +409,10 @@ namespace Enemies
         
         public void ResetAnimationVariables()
         {
+            // Set all movement variables to 0
+            animator.SetFloat("MovementX", 0);
+            animator.SetFloat("MovementZ", 0);
+            
             // Set all suitable animation bools to false
             animator.ResetTrigger("TriggerMovement");
             animator.ResetTrigger("TriggerGuardBreak");
@@ -418,9 +425,30 @@ namespace Enemies
             animator.ResetTrigger("TriggerQuickBlock");
             animator.ResetTrigger("TriggerBlock");
             
-            // Set all movement variables to 0
-            animator.SetFloat("MovementX", 0);
-            animator.SetFloat("MovementZ", 0);
+            //Swordsman specific
+            if (enemyType == EnemyType.BOSS)
+            {
+                animator.ResetTrigger("TriggerHeavyAttack");
+                animator.ResetTrigger("TriggerJumpAttack");
+                animator.ResetTrigger("TriggerCharge");
+                animator.ResetTrigger("TriggerHeavyCombo");
+                animator.ResetTrigger("TriggerArrowShot");
+                animator.ResetTrigger("DrawBow");
+                animator.ResetTrigger("SheathBow");
+                animator.ResetTrigger("TriggerTaunt");
+            }
+            else if (enemyType == EnemyType.GLAIVEWIELDER)
+            {
+                animator.ResetTrigger("TriggerHeavyAttack");
+                animator.ResetTrigger("TriggerJumpAttack");
+                animator.ResetTrigger("TriggerCharge");
+                animator.ResetTrigger("TriggerHeavyCombo");
+            }
+            else
+            {
+                animator.ResetTrigger("TriggerThrust");
+            }
+            
         }
 
         private bool EnemyDeathCheck()

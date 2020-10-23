@@ -1,4 +1,5 @@
-﻿using Enemies;
+using System;
+using Enemies;
 using UnityEngine;
 
 public class EDamageController : MonoBehaviour, IDamageable
@@ -11,6 +12,10 @@ public class EDamageController : MonoBehaviour, IDamageable
 
     private bool _bIsDamageDisabled = false;
 
+    private bool _bRunInvincibilityTimer = false;
+    private float _remainingInvincibilityTime;
+    private float _invincibilityTime = 0.4f;
+
     public void Init(StatHandler enemyStats) {
         _enemyStats = enemyStats;
         if (!enemyGuard) Debug.LogError("NO GUARD");
@@ -21,13 +26,22 @@ public class EDamageController : MonoBehaviour, IDamageable
 
     public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
-        if (_bIsDamageDisabled) return;
+        if (_bIsDamageDisabled)
+        {
+            Debug.LogWarning("Enemy got damaged but has their damage disabled");
+            return;
+        }
+
+        if (attacker.layer == LayerMask.NameToLayer("Player"))
+        {
+            EnableInvincibleFrames();
+        }
+
         Vector3 dir = Vector3.back;
         if (!unblockable)
         {
             if (attacker.layer == LayerMask.NameToLayer("Player"))
             {
-                
                 //_aiSystem.ImpulseWithDirection(damage, transform.position - attacker.transform.position, .3f);
                 _aiSystem.ImpulseWithDirection(damage*2, dir, .15f);
 
@@ -83,6 +97,34 @@ public class EDamageController : MonoBehaviour, IDamageable
      *          But can be only used when in a state that does
      *          not require it.*/
     //
+
+    private void Update()
+    {
+        if (_bRunInvincibilityTimer)
+        {
+            _remainingInvincibilityTime -= Time.deltaTime;
+            if (_remainingInvincibilityTime <= 0)
+            {
+                DisableInvincibleFrames();
+            }
+        }
+    }
+
+    private void EnableInvincibleFrames()
+    {
+        //Debug.Log("1");
+        DisableDamage();
+        _remainingInvincibilityTime = _invincibilityTime;
+        _bRunInvincibilityTimer = true;
+    }
+    
+    private void DisableInvincibleFrames()
+    {
+        //Debug.Log("2");
+        EnableDamage();
+        _remainingInvincibilityTime = 0;
+        _bRunInvincibilityTimer = false;
+    }
 
     public void OnParried(float damage)
     {

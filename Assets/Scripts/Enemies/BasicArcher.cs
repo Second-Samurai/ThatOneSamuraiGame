@@ -62,6 +62,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
             if (currentState == CurrentState.Idle)
             {
                 transform.LookAt(player);
+                //transform.rotation = Quaternion.Euler(0, transform.rotation.y, 0);
 
                 if (Vector3.Distance(transform.position, player.position) <= attackRange && shotTimer >= shotFrequency)
                 {

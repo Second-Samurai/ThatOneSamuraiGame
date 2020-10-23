@@ -47,6 +47,7 @@ namespace Enemies
         public bool bIsIdle = true;
         
         //DAMAGE CONTROLS
+        public CapsuleCollider col; //SET IN PREFAB INSPECTOR
         public EDamageController eDamageController;
         public bool bIsDead = false;
         public bool bIsUnblockable = false;
@@ -55,6 +56,7 @@ namespace Enemies
         public bool bHasArmour;
         public TriggerImpulse camImpulse;
         public bool bIsQuickBlocking = false;
+        public bool bFinish = false;
 
         //NOTE: isStunned is handled in Guarding script, inside the eDamageController script
 
@@ -159,8 +161,8 @@ namespace Enemies
         // An override that is performed for every state change
         public override void SetState(EnemyState newEnemyState)
         {
-            swordEffects.EndBlockEffect();
-            swordEffects.EndUnblockableEffect();
+            if(!eDamageController.enemyGuard.canParry) swordEffects.EndBlockEffect();
+            if(!bIsUnblockable) swordEffects.EndUnblockableEffect();
             eDamageController.enemyGuard.bSuperArmour = false;
 
             if (bIsQuickBlocking) bIsQuickBlocking = false;
@@ -664,6 +666,8 @@ namespace Enemies
                 }
             }
         }
+
+
 
         public void OnBossDeath()
         {

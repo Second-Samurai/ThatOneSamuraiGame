@@ -1806,6 +1806,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ec84d7dff0cfb746accba51f8e0fb01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  col: {fileID: 0}
   knockbackAmount: 10
   duration: 0.4
   enemy: {fileID: 8568395449414048752}
@@ -2590,6 +2591,7 @@ GameObject:
   - component: {fileID: 1004686552137420848}
   - component: {fileID: 2595290038543111058}
   - component: {fileID: 4913132802544170552}
+  - component: {fileID: 7832901785307557741}
   m_Layer: 10
   m_Name: Swordsman (1)
   m_TagString: Enemy
@@ -2688,6 +2690,8 @@ MonoBehaviour:
   animator: {fileID: 0}
   bPlayerFound: 0
   navMeshAgent: {fileID: 0}
+  bIsIdle: 1
+  col: {fileID: 8568395449414048748}
   eDamageController: {fileID: 0}
   bIsDead: 0
   bIsUnblockable: 0
@@ -2695,6 +2699,7 @@ MonoBehaviour:
   armourManager: {fileID: 4913132802544170552}
   bHasArmour: 1
   camImpulse: {fileID: 1159461659465184693}
+  bIsQuickBlocking: 0
   floatOffset: {x: 0, y: 2, z: 0}
   parryEffects: {fileID: 1651618972956571636}
   swordEffects: {fileID: 2658352436482747935}
@@ -2710,9 +2715,15 @@ MonoBehaviour:
   glaiveMesh: {fileID: 0}
   bowMesh: {fileID: 0}
   weaponSwitcher: {fileID: 0}
+  colliderOverride: {fileID: 0}
+  teleportParticle: {fileID: 0}
+  shotTimer: 1
+  enemyAudio: {fileID: 0}
+  bossEvent: {fileID: 0}
   previousAttackSpeed: 0
   attackSpeed: 0
   bIsCircling: 0
+  bIsClosingDistance: 0
 --- !u!114 &4900752102902059163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3039,6 +3050,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   armourPieces: []
   armourCount: 0
+--- !u!114 &7832901785307557741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568395449414048751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089918be0d032d94a8488bcc0e2bf86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 410948a5fa6416b4bbc2a539a516b4be, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 983128177740748613}
+        m_MethodName: AvoidHeavyAttack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!136 &6441233702834476638
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3235,15 +3273,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a3c07c1040064cd1b2836ffd9e35581, type: 3}
---- !u!198 &5517578962211992963 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5924281610678271803, guid: 1a3c07c1040064cd1b2836ffd9e35581,
-    type: 3}
-  m_PrefabInstance: {fileID: 2208213427779472056}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5517578962211992964 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5924281610678271804, guid: 1a3c07c1040064cd1b2836ffd9e35581,
+    type: 3}
+  m_PrefabInstance: {fileID: 2208213427779472056}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5517578962211992963 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5924281610678271803, guid: 1a3c07c1040064cd1b2836ffd9e35581,
     type: 3}
   m_PrefabInstance: {fileID: 2208213427779472056}
   m_PrefabAsset: {fileID: 0}

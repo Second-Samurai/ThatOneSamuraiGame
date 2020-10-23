@@ -27,9 +27,11 @@ namespace Enemies.Enemy_States
             // Enemy can no longer be damaged, enemies can no longer damage the player.
             AISystem.eDamageController.DisableDamage();
             
+            AISystem.col.enabled = false;
+            
             // Disable guard meter
             AISystem.eDamageController.enemyGuard.DisableGuardMeter();
-            
+
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
             
@@ -41,8 +43,9 @@ namespace Enemies.Enemy_States
             {
                 AISystem.meleeCollider.enabled = false;
             }
-            
+
             // Set the death trigger
+            Animator.SetBool("Finish", AISystem.bFinish);
             Animator.SetTrigger("TriggerDeath");
             
             yield break;

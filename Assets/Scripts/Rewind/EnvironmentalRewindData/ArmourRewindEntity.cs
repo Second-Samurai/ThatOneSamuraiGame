@@ -43,7 +43,6 @@ public class ArmourRewindEntity : RewindEntity
     public void DisableEvents()
     {
         ArmourRigidBody.isKinematic = true;
-
     }
 
     public void EnableEvents()
@@ -139,5 +138,15 @@ public class ArmourRewindEntity : RewindEntity
         }
 
         //base.ApplyData();
+    }
+
+    protected new void OnDestroy()
+    {
+
+        _rewindInput.Reset -= ResetTimeline;
+        _rewindInput.OnEndRewind -= EnableEvents;
+        _rewindInput.OnStartRewind -= DisableEvents;
+        _rewindInput.OnEndRewind -= ApplyData;
+        base.OnDestroy();
     }
 }

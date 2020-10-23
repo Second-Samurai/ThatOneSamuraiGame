@@ -89,6 +89,7 @@ namespace Enemies
         public float shotTimer = 1;
         public EnemyAudio enemyAudio;
         public GameEvent bossEvent;
+        public GameEvent bossAggro;
 
         //ATTACK SPEED VARIABLES
         public float previousAttackSpeed;

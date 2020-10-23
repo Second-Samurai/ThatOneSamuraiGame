@@ -90,7 +90,7 @@ public class Projectile : MonoBehaviour
         }
         else if (!other.gameObject.CompareTag("LOD") && !other.gameObject.CompareTag("Level") && !hitEnemies)
         {
-            Debug.Log("CATCH2");
+            //Debug.Log("CATCH2");
             //Debug.LogError(other.gameObject.name);
             StartCoroutine(Die(0f));
         }

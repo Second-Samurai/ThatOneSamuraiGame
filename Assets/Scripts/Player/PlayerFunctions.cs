@@ -203,7 +203,7 @@ public class PlayerFunctions : MonoBehaviour
 
     public void ApplyHit(GameObject attacker, bool unblockable, float damage)
     {
-        Debug.LogWarning(playerInputScript.bIsDodging);
+        //Debug.LogWarning(playerInputScript.bIsDodging);
         if (!playerInputScript.bIsDodging)
         { 
             if (bIsParrying && !unblockable)

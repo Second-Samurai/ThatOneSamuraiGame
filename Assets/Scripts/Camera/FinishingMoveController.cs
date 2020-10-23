@@ -93,6 +93,8 @@ public class FinishingMoveController : MonoBehaviour
         playerInputScript.bCanAttack = true;
         playerInputScript.EnableMovement();
         damageController.EnableDamage();
+        playerInputScript.bAlreadyAttacked = false;
+        playerInputScript.ResetAttack();
         //for (int i = 0; i < enemies.Count - 1; i++)
         //{
         //    enemies[i].GetComponent<AISystem>().EnemyState = enemiesCache[i].EnemyState;

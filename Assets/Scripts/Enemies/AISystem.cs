@@ -56,6 +56,7 @@ namespace Enemies
         public bool bHasArmour;
         public TriggerImpulse camImpulse;
         public bool bIsQuickBlocking = false;
+        public bool bFinish = false;
 
         //NOTE: isStunned is handled in Guarding script, inside the eDamageController script
 
@@ -696,6 +697,8 @@ namespace Enemies
                 }
             }
         }
+
+
 
         public void OnBossDeath()
         {

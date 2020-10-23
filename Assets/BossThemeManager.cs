@@ -47,4 +47,25 @@ public class BossThemeManager : MonoBehaviour
         opening.Stop();
         drumloop.Play();
     }
+    public void StopAll()
+    {
+        bassLoop.Stop();
+        opening.Stop();
+        drumloop.Stop();
+    }
+
+    public void PauseAll() 
+    {
+        bassLoop.Pause();
+        opening.Pause();
+        drumloop.Pause();
+    }
+
+    public void UnPauseAll()
+    {
+        bassLoop.UnPause();
+        opening.UnPause();
+        drumloop.UnPause();
+    }
+
 }

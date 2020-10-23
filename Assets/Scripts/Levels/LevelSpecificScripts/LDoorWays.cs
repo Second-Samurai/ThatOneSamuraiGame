@@ -21,6 +21,8 @@ public class LDoorWays : MonoBehaviour
     private bool isPerformingAction = false;
     private bool inReverse;
 
+    public BossThemeManager bossTheme;
+
     void Awake()
     {
         if (isOpeningDoor)
@@ -33,6 +35,11 @@ public class LDoorWays : MonoBehaviour
             completionAngle = closedAngle > 0 ? closedAngle : closedAngle + 360;
             inReverse = rotationSpeed > 0 ? false : true;
         }
+    }
+
+    private void Start()
+    {
+        bossTheme = GameManager.instance.bossThemeManager;
     }
 
     void FixedUpdate()
@@ -65,6 +72,8 @@ public class LDoorWays : MonoBehaviour
     //s
     private void CloseDoor()
     {
+
+        bossTheme.gameObject.SetActive(true);
         currentRotation = doorPivot.rotation.eulerAngles;
         doorPivot.Rotate(0, rotationSpeed * Time.fixedDeltaTime, 0);
 

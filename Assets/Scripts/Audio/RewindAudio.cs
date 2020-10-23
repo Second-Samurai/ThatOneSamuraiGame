@@ -19,8 +19,10 @@ public class RewindAudio : MonoBehaviour
     public AudioSource idleSource;
     public AudioSource resumeSource;
     public AudioSource deathSource;
+    public BossThemeManager bossThemeManager;
     public float maxRewind;
     public bool played;
+
 
 
     // Start is called before the first frame update
@@ -36,6 +38,8 @@ public class RewindAudio : MonoBehaviour
         timeResume = GameManager.instance.audioManager.FindSound("Restarts");
         idle = GameManager.instance.audioManager.FindSound("idle");
         Death = GameManager.instance.audioManager.FindSound("deathsfx");
+
+        bossThemeManager = GameManager.instance.bossThemeManager;
         
         heartSource.loop = true;
         heartSource.playOnAwake = false;
@@ -75,7 +79,7 @@ public class RewindAudio : MonoBehaviour
 
     public void Freeze()
     {
-
+        bossThemeManager.PauseAll();
         freezeSource.volume = audioManager.SFXVol;
         freezeSource.Play();
 
@@ -83,7 +87,7 @@ public class RewindAudio : MonoBehaviour
 
     public void Resume()
     {
-
+        bossThemeManager.UnPauseAll();
         resumeSource.volume = audioManager.SFXVol;
         resumeSource.Play();
 
@@ -91,6 +95,7 @@ public class RewindAudio : MonoBehaviour
 
     public void DeathSFX()
     {
+        bossThemeManager.StopAll();
         deathSource.volume = audioManager.SFXVol;
         deathSource.Play();
     }

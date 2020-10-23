@@ -511,7 +511,11 @@ namespace Enemies
             EnemyState.StartRotating();
         }
 
-
+        public void TurnOffBodyCol()
+        {
+            col.enabled = false;
+        }
+        
         public void EndStateAttack()
         {
             if (EnemyState.GetType() == typeof(SwordAttackEnemyState) || EnemyState.GetType() == typeof(ParryEnemyState) || EnemyState.GetType() == typeof(JumpAttackEnemyState) || EnemyState.GetType() == typeof(GlaiveAttackEnemyState))

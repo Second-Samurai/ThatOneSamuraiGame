@@ -92,7 +92,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
                                                     aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard, aISystem.bIsDead, aISystem.bIsUnblockable, _enemyTracker.currentEnemies, 
                                                     aISystem.bIsIdle, aISystem.bIsCircling, aISystem.eDamageController.enemyGuard.bSuperArmour ,aISystem.previousAttackSpeed, aISystem.attackSpeed,
                                                     aISystem.armourManager.armourCount, aISystem.bIsClosingDistance, aISystem.eDamageController.enemyGuard.bRunCooldownTimer, 
-                                                    aISystem.eDamageController.enemyGuard.remainingCooldownTime, aISystem.eDamageController.enemyGuard.bRunRecoveryTimer));
+                                                    aISystem.eDamageController.enemyGuard.remainingCooldownTime, aISystem.eDamageController.enemyGuard.bRunRecoveryTimer, aISystem.col.enabled));
 
         base.RecordPast();
     }
@@ -192,11 +192,11 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
             aISystem.attackSpeed = enemyDataList[currentIndex].attackSpeed;
             aISystem.animator.SetFloat("AttackSpeedMultiplier",  enemyDataList[currentIndex].attackSpeed);
             swordCollider.enabled = enemyDataList[currentIndex].swordCollider;
+            aISystem.col.enabled = enemyDataList[currentIndex].bColEnabled;
             if (!aISystem.bIsDead)
             {
                 aISystem.eDamageController.EnableDamage();
                 aISystem.eDamageController.enemyGuard.EnableGuardMeter();
-                aISystem.col.enabled = true;
             }
 
             aISystem.eDamageController.enemyGuard.bRunCooldownTimer = enemyDataList[currentIndex].bRunCooldownTimer;

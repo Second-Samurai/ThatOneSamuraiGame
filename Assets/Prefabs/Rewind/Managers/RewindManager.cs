@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -50,11 +51,15 @@ public class RewindManager : MonoBehaviour
 
     private RewindAudio _rewindAudio;
 
+    private PDamageController damageController;
+    public float invincabilityTimer;
+    public bool transition;
+
 
     // Start is called before the first frame update
     void Start()
     {
-       
+        transition = false;
         postProcessingController = GameManager.instance.postProcessingController;
         rewindTime = Mathf.Round(timeThreashold.Variable.TimeThreashold * (1f / Time.fixedDeltaTime));
         //rewindResource = maxRewindResource;
@@ -68,16 +73,29 @@ public class RewindManager : MonoBehaviour
         gameOverMenu = GameManager.instance.gameObject.GetComponentInChildren<GameOverMenu>();
 
         _rewindAudio = gameObject.GetComponent<RewindAudio>();
+
+        damageController = GameManager.instance.playerController.gameObject.GetComponent<PDamageController>();
+
+        
     }
 
     private void Update()
     {
         IncreaseResource();
         //UpdateRewindUI();
-        if (rewindResource < maxRewindResource && !isTravelling) rewindUI.FadeIn(1f, 1f);
-        else if (rewindResource == maxRewindResource && !isTravelling && maxRewindResource > 2f) rewindUI.FadeOut(0f, 1f);
+        if (rewindResource < maxRewindResource && !isTravelling && transition == false) 
+        {
+            rewindUI.FadeIn(1f, 1f); 
+            transition = true;
+        }
+        else if (rewindResource == maxRewindResource && !isTravelling && maxRewindResource > 2f && transition == true ) 
+        { 
+            transition = false; 
+            rewindUI.FadeOut(0f, 1f);
+        }
+
         rewindUI.UpdateBarColor();
-        //Debug.Log(isTravelling);
+    //Debug.Log(isTravelling);
     }
 
     void UpdateRewindUI()
@@ -101,14 +119,16 @@ public class RewindManager : MonoBehaviour
             rewindUI.UpdateBarMax(maxRewindResource);
             if(rewindUI.rewindBar.fillAmount > maxRewindResource / 10) rewindUI.UpdateRewindAmount(maxRewindResource);
             rewindResource = maxRewindResource * f;
-            if (maxRewindResource <= 2) 
-            {
-                _rewindAudio.HeartBeat();
-            }
+        }
+        if (maxRewindResource <= 3 && maxRewindResource > 0) 
+        {
+            _rewindAudio.HeartBeat();
         }
 
         if (maxRewindResource <= 0) 
         {
+            _rewindAudio.StopSource();
+            _rewindAudio.DeathSFX();
             gameOverMenu.TextFadeIn();
             gameOverMenu.Invoke("ReturnToMenu", 10f);
             gameOverMenu.Invoke("TextFadeOut", 5f);
@@ -124,9 +144,9 @@ public class RewindManager : MonoBehaviour
             maxRewindResource += 2;
             rewindUI.UpdateBarMax(maxRewindResource);
             rewindResource = maxRewindResource * f;
-            if (maxRewindResource > 2)
+            if (maxRewindResource > 3)
             {
-                _rewindAudio.StopHeartBeat();
+                _rewindAudio.StopSource();
             }
         }
     }
@@ -210,8 +230,22 @@ public class RewindManager : MonoBehaviour
 
     }
 
+    public IEnumerator BecomeInvincible()
+    {
+        damageController.DisableDamage();
+        //Debug.Log("become invinvible");
+        yield return new WaitForSeconds(invincabilityTimer);
+
+        damageController.EnableDamage();
+        //Debug.Log("disable invinvible");
+
+    }
+
     public void StartRewind()
     {
+        _rewindAudio.Freeze();
+        _rewindAudio.Idle();
+        _rewindAudio.audioManager.backgroundAudio.PauseMusic();
         if (isTravelling)
         {
             
@@ -229,6 +263,8 @@ public class RewindManager : MonoBehaviour
 
     public void EndRewind() 
     {
+        _rewindAudio.StopSource();
+
         if (isTravelling)
         {
             OnEndRewind();
@@ -240,10 +276,13 @@ public class RewindManager : MonoBehaviour
                 //entity.ApplyData();
                 entity.isTravelling = false;
             }
+            _rewindAudio.Resume();
+            _rewindAudio.audioManager.backgroundAudio.ResumeMusic();
             Reset();
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
         }
     }
+
 
 }

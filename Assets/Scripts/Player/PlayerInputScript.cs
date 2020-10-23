@@ -8,7 +8,7 @@ public class PlayerInputScript : MonoBehaviour
     //FIELDS
     #region Gameplay Bools
     public bool bCanMove = true, bMoveLocked = false, bIsDodging = false, bCanDodge = true, bCanAttack = false, bGotParried = false, bIsSheathed = false, bCanRotate = true;
-    bool bAlreadyAttacked = false;
+    [HideInInspector] public bool bAlreadyAttacked = false;
     [HideInInspector] public bool bCanBlock = true;
     [HideInInspector] public bool bOverrideMovement = false;
     bool _bDodgeCache = false;
@@ -18,7 +18,6 @@ public class PlayerInputScript : MonoBehaviour
     [HideInInspector] public CameraControl camControl;
     [HideInInspector] public PlayerFunctions _functions;
     [HideInInspector] public FinishingMoveController finishingMoveController;
-    [HideInInspector] public GameEvent onLockOnEvent;
     [HideInInspector] public PlayerInput _inputComponent;
     ICombatController _playerCombat;
     HitstopController hitstopController;
@@ -45,6 +44,9 @@ public class PlayerInputScript : MonoBehaviour
     #region Heavy Charging
     float heavyTimer, heavyTimerMax = 2f;
     bool bHeavyCharging = false, bPlayGleam = true;
+    public GameEvent showHeavyTutorialEvent;
+    public GameEvent startHeavyTelegraphEvent;
+    public GameEvent endHeavyTelegraphEvent;
     #endregion
 
 
@@ -102,7 +104,6 @@ public class PlayerInputScript : MonoBehaviour
     void OnLockOn()
     {
         camControl.ToggleLockOn();
-        onLockOnEvent.Raise();
     }
 
     void OnToggleLockLeft()
@@ -166,10 +167,25 @@ public class PlayerInputScript : MonoBehaviour
       
     void OnStartHeavy()
     {
+        heavyTimer = 2f;
+        StartHeavy();
+    }
+    
+    void OnStartHeavyAlternative()
+    {
+        bPlayGleam = false;
+        heavyTimer = 1.0f;
+        StartHeavy();
+    }
+
+    void StartHeavy()
+    {
         if (bCanAttack)
         {
             if (!_animator.GetBool("HeavyAttackHeld"))
             {
+                startHeavyTelegraphEvent.Raise();
+                
                 bHeavyCharging = true;
                 bIsSheathed = true;
                 _animator.SetBool("HeavyAttackHeld", true);
@@ -193,7 +209,7 @@ public class PlayerInputScript : MonoBehaviour
       
     void OnEndBlock()
     {
-        _functions.EndBlock();
+        _functions.bInputtingBlock = false;
     }
 
     void OnDodge()
@@ -213,7 +229,7 @@ public class PlayerInputScript : MonoBehaviour
                 StopCoroutine("DodgeImpulse");
                 StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
             }
-           
+            //Debug.Log("On dodge triggered");
             ResetAttack();
         }
         else if (_inputVector != Vector2.zero && !bIsDodging && !bCanDodge && bGotParried)
@@ -238,7 +254,23 @@ public class PlayerInputScript : MonoBehaviour
             _bDodgeCache = true;
 
         }
-        
+        else if (_inputVector == Vector2.zero && !bIsDodging && bCanDodge)
+        {
+            bOverrideMovement = false;
+            _animator.SetTrigger("Dodge");
+            _animator.ResetTrigger("AttackLight");
+            EnableMovement();
+            EnableRotation();
+            if (bGotParried) EndSlowEffects();
+            if (camControl.bLockedOn)
+            {
+                StopCoroutine("DodgeImpulse");
+                StartCoroutine(_functions.DodgeImpulse(new Vector3(0, 0, 1), dodgeForce));
+            }
+
+            ResetAttack();
+        }
+        //Debug.Log("On dodge input triggered");
     }
 
     void OnPause()
@@ -259,6 +291,9 @@ public class PlayerInputScript : MonoBehaviour
 
     private void ExecuteHeavyAttack()
     {
+        showHeavyTutorialEvent.Raise();
+        endHeavyTelegraphEvent.Raise();
+        
         bHeavyCharging = false;
         bIsSheathed = false;
         bPlayGleam = true;
@@ -348,6 +383,7 @@ public class PlayerInputScript : MonoBehaviour
 
     public void StartDodging()
     {
+        //Debug.Log("Dodge");
         bIsSheathed = false;
         bPlayGleam = true;
         bHeavyCharging = false;
@@ -361,6 +397,7 @@ public class PlayerInputScript : MonoBehaviour
 
     public void EndDodging()
     {
+        //Debug.Log("EndDodge");
         bCanAttack = true;
         bIsDodging = false;
         _pDamageController.EnableDamage();
@@ -398,7 +435,7 @@ public class PlayerInputScript : MonoBehaviour
             bMoveLocked = false; 
             if (_inputVector != _cachedVector && _cachedVector != Vector2.zero)
             {
-                Debug.Log("set " + _inputVector + " to " + _cachedVector);
+                //Debug.Log("set " + _inputVector + " to " + _cachedVector);
                 _inputVector = _cachedVector;
                 _cachedVector = Vector2.zero;
             }

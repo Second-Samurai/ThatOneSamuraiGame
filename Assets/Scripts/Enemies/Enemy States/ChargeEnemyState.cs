@@ -17,6 +17,9 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+            // Set the enemy to isClosingDistance (used for avoiding heavy attacks)
+            AISystem.bIsClosingDistance = true;
+            
             // Start the navMeshAgent tracking
             AISystem.navMeshAgent.isStopped = false;
             AISystem.attackIndicator.ShowIndicator();
@@ -57,6 +60,9 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
+            // Set the enemy to isClosingDistance (used for avoiding heavy attacks)
+            AISystem.bIsClosingDistance = false;
+            
             // Reset animation variables
             Animator.SetFloat("MovementZ", 0.0f);
 

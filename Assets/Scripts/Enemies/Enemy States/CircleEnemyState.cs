@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Diagnostics;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 namespace Enemies.Enemy_States
 {
@@ -12,6 +10,11 @@ namespace Enemies.Enemy_States
         private float _shortRange;
         
         private bool _bIsThreatened = false;
+        
+        //Cooldown variables
+        private bool _bRunCooldown;
+        private float _remainingTime;
+        private int _stuckCounter = 0;
 
         //Class constructor
         public CircleEnemyState(AISystem aiSystem) : base(aiSystem)
@@ -20,16 +23,16 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
-            // For the enemy tracker, restart the impatience countdown
-            // See enemy tracker for more details
-            AISystem.enemyTracker.StartImpatienceCountdown();
-            
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
-            
+
+            AISystem.bHasBowDrawn = false;
             // Cache the range value so we're not always getting it in the tick function
             _longRange = AISystem.enemySettings.longRange;
             _shortRange = AISystem.enemySettings.shortRange;
+            
+            // Set the enemy to be circling (useful for the enemy tracker)
+            AISystem.bIsCircling = true;
 
             // Pick a strafe direction and trigger movement animator
             PickStrafeDirection();
@@ -39,6 +42,29 @@ namespace Enemies.Enemy_States
         
         public override void Tick()
         {
+            // sqrMagnitude is used to check if the enemy is moving in the scene (10 is an arbitrary value)
+            if (AISystem.rb.velocity.sqrMagnitude < 10.0f && !_bRunCooldown)
+            {
+                // If the enemy is stuck for 15 frames, change direction
+                _stuckCounter++;
+                if (_stuckCounter > 20)
+                {
+                    StartDirChangeCooldown();
+                }
+            }
+            else if (_bRunCooldown)
+            {
+                _remainingTime -= Time.deltaTime;
+                if (_remainingTime <= 0)
+                {
+                    StopDirChangeCooldown();
+                }
+            }
+            else
+            {
+                _stuckCounter = 0;
+            }
+
             // Get the true target point (float offset is added to get a more accurate player-enemy target point)
             _target = AISystem.enemySettings.GetTarget().position + AISystem.floatOffset;
             
@@ -60,11 +86,8 @@ namespace Enemies.Enemy_States
 
         public override void EndState()
         {
-            // Stop the impatience cooldown when state end is called
-            AISystem.enemyTracker.StopImpatienceCountdown();
-            
-            // Reset animation variables
-            Animator.SetFloat("MovementX", 0.0f);
+            // Stop circling behaviour in AISystem (this is also called in enemy tracker)
+            AISystem.StopCircling();
 
             // If threatened, do a threatened response (i.e. if the player is close)
             // Else approach the player again (i.e. if the player is far)
@@ -78,7 +101,8 @@ namespace Enemies.Enemy_States
         private void PickStrafeDirection()
         {
             // Random.Range is non-inclusive for it's max value for ints
-            if (Random.Range(0, 2) == 0)
+            int direction = Random.Range(0, 2);
+            if (direction == 0)
             {
                 Animator.SetFloat("MovementX", -1.0f);
             }
@@ -118,6 +142,22 @@ namespace Enemies.Enemy_States
             {
                 AISystem.OnGlaiveAttack();
             }
+        }
+
+        private void StartDirChangeCooldown()
+        {
+            _bRunCooldown = true;
+            _remainingTime = 1.0f;
+
+            
+            float newMovementX = Animator.GetFloat("MovementX") * -1.0f;
+            Animator.SetFloat("MovementX", newMovementX, 1.0f, 1.0f);
+        }
+        
+        private void StopDirChangeCooldown()
+        {
+            _bRunCooldown = false;
+            _remainingTime = 0;
         }
         
     }

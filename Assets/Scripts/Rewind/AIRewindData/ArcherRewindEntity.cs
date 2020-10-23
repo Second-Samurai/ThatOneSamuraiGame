@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -66,7 +67,8 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
     {
         for (int i = currentIndex; i >= 0; i--)
         {
-            if (currentIndex <= archerAnimationDataList.Count - 1)
+            //archerAnimationDataList.Count > 0 added due to an argument out of range exception
+            if (currentIndex <= archerAnimationDataList.Count - 1 && archerAnimationDataList.Count > 0)
             {
                 archerDataList.RemoveAt(i);
             }
@@ -83,7 +85,7 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
         }
 
         //move to animation rewind entity
-        archerDataList.Insert(0, new ArcherTimeData(basicArcher.lastDirection, basicArcher.shotDirection, basicArcher.currentState, basicArcher.shotTimer));
+        archerDataList.Insert(0, new ArcherTimeData(basicArcher.lastDirection, basicArcher.shotDirection, basicArcher.currentState, basicArcher.shotTimer, basicArcher.col.enabled));
 
         //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + "   :   " + m_CurrentClipInfo[0].clip.name);
 
@@ -137,7 +139,18 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
     {
         if (currentIndex <= archerAnimationDataList.Count - 1)
         {
-            basicArcher.currentState = archerDataList[currentIndex].currentState;
+            try
+            {
+                basicArcher.currentState = archerDataList[currentIndex].currentState;
+                basicArcher.col.enabled = archerDataList[currentIndex].bColEnabled;
+            }
+            catch (ArgumentOutOfRangeException exception)
+            {
+                Debug.LogError(exception);
+                Debug.LogWarning(archerDataList.Count + " || " + currentIndex);
+            }
+
+            
         }
     }
     protected new void OnDestroy()

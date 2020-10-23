@@ -23,16 +23,16 @@ namespace Enemies.Enemy_States
             // Remove enemy from temp enemy count and enemy tracker
             TempWinTracker.instance.enemyCount--;
             AISystem.enemyTracker.RemoveEnemy(AISystem.transform);
-            
-            // Start a new impatience countdown
-            AISystem.enemyTracker.StartImpatienceCountdown();
 
             // Enemy can no longer be damaged, enemies can no longer damage the player.
             AISystem.eDamageController.DisableDamage();
             
+            // NOTE: Enemy collider is now turned off through an animation event
+            // AISystem.col.enabled = false;
+            
             // Disable guard meter
             AISystem.eDamageController.enemyGuard.DisableGuardMeter();
-            
+
             // Stop the navMeshAgent from tracking
             AISystem.navMeshAgent.isStopped = true;
             
@@ -44,8 +44,9 @@ namespace Enemies.Enemy_States
             {
                 AISystem.meleeCollider.enabled = false;
             }
-            
+
             // Set the death trigger
+            Animator.SetBool("Finish", AISystem.bFinish);
             Animator.SetTrigger("TriggerDeath");
             
             yield break;

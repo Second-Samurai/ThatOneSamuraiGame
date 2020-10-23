@@ -21,7 +21,16 @@ public class AddToTracker : MonoBehaviour
             _enemyTracker = GameManager.instance.enemyTracker;
             _enemyTracker.AddEnemy(GetComponentInParent<Rigidbody>().gameObject.transform);
 
-            _aiSystem.OnApproachPlayer();
+            if (_aiSystem.bIsIdle) 
+            {
+                //Debug.Log("Added " + _aiSystem.name + " to tracker");
+                _aiSystem.bIsIdle = false;
+                _aiSystem.OnApproachPlayer();
+                if (_aiSystem.enemyType == EnemyType.BOSS) 
+                {
+                    _aiSystem.bossAggro.Raise();
+                }
+            }
         }
     }
     private void OnTriggerExit(Collider other)

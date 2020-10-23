@@ -16,8 +16,34 @@ namespace Enemies.Enemy_States
 
         public override IEnumerator BeginState()
         {
+
+            if(AISystem.enemyType == EnemyType.BOSS)
+            {
+                if (AISystem.armourManager.armourCount <= 3)
+                {
+                    int decision = Random.Range(0, 2);
+                    if (decision == 0)
+                    {
+                        AISystem.OnBossArrowMove();
+                    }
+                    else
+                    {
+                        AISystem.OnBossTaunt();
+
+                    }
+                }
+                else if(AISystem.armourManager.armourCount <= 5)
+                {
+                    int decision = Random.Range(0, 2);
+                    if(decision == 0)
+                    {
+                        AISystem.OnBossArrowMove();
+                    }
+                }
+            }
+
             AISystem.bPlayerFound = true;
-            
+            AISystem.bHasBowDrawn = false;
             // Start the navMeshAgent tracking
             AISystem.navMeshAgent.isStopped = false;
             
@@ -52,7 +78,8 @@ namespace Enemies.Enemy_States
             // Reset animation variables
             Animator.SetFloat("MovementZ", 0.0f);
 
-            AISystem.OnCirclePlayer();
+            if (AISystem.enemyType != EnemyType.BOSS) AISystem.OnCirclePlayer();
+            else AISystem.OnJumpAttack();
         }
     }
 }

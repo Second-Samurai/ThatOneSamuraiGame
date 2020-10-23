@@ -1,4 +1,5 @@
-﻿using Enemies;
+using System;
+using Enemies;
 using UnityEngine;
 
 public class EDamageController : MonoBehaviour, IDamageable
@@ -9,7 +10,11 @@ public class EDamageController : MonoBehaviour, IDamageable
 
     public Guarding enemyGuard;
 
-    private bool _isDamageDisabled = false;
+    private bool _bIsDamageDisabled = false;
+
+    private bool _bRunInvincibilityTimer = false;
+    private float _remainingInvincibilityTime;
+    private float _invincibilityTime = 0.4f;
 
     public void Init(StatHandler enemyStats) {
         _enemyStats = enemyStats;
@@ -21,13 +26,22 @@ public class EDamageController : MonoBehaviour, IDamageable
 
     public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
-        if (_isDamageDisabled) return;
+        if (_bIsDamageDisabled)
+        {
+            Debug.LogWarning("Enemy got damaged but has their damage disabled");
+            return;
+        }
+
+        if (attacker.layer == LayerMask.NameToLayer("Player"))
+        {
+            EnableInvincibleFrames();
+        }
+
         Vector3 dir = Vector3.back;
         if (!unblockable)
         {
             if (attacker.layer == LayerMask.NameToLayer("Player"))
             {
-                
                 //_aiSystem.ImpulseWithDirection(damage, transform.position - attacker.transform.position, .3f);
                 _aiSystem.ImpulseWithDirection(damage*2, dir, .15f);
 
@@ -49,7 +63,7 @@ public class EDamageController : MonoBehaviour, IDamageable
                     if (enemyGuard.canGuard)
                     {
                         _aiSystem.parryEffects.PlayBlock();
-                        _aiSystem.OnQuickBlock();
+                        if(!enemyGuard.bSuperArmour) _aiSystem.OnQuickBlock();
                     }
                     return;
                 }
@@ -61,11 +75,12 @@ public class EDamageController : MonoBehaviour, IDamageable
             else
             {
                 Debug.Log(attacker.layer.ToString());
+                _aiSystem.ApplyHit(attacker);
             }
         }
         else if (enemyGuard.isStunned && unblockable)
         {
-            Debug.Log("FINISHER");
+            //Debug.Log("FINISHER");
             attacker.GetComponentInChildren<LockOnTargetManager>().EndGuardBreakCam();
             attacker.GetComponentInChildren<FinishingMoveController>().PlayFinishingMove(gameObject);
             return;
@@ -83,6 +98,34 @@ public class EDamageController : MonoBehaviour, IDamageable
      *          not require it.*/
     //
 
+    private void Update()
+    {
+        if (_bRunInvincibilityTimer)
+        {
+            _remainingInvincibilityTime -= Time.deltaTime;
+            if (_remainingInvincibilityTime <= 0)
+            {
+                DisableInvincibleFrames();
+            }
+        }
+    }
+
+    private void EnableInvincibleFrames()
+    {
+        //Debug.Log("1");
+        DisableDamage();
+        _remainingInvincibilityTime = _invincibilityTime;
+        _bRunInvincibilityTimer = true;
+    }
+    
+    private void DisableInvincibleFrames()
+    {
+        //Debug.Log("2");
+        EnableDamage();
+        _remainingInvincibilityTime = 0;
+        _bRunInvincibilityTimer = false;
+    }
+
     public void OnParried(float damage)
     {
         enemyGuard.RaiseGuard();
@@ -91,7 +134,7 @@ public class EDamageController : MonoBehaviour, IDamageable
         {
 
             // DO NOT TRIGGER PARRY STUN IF THE ENEMY IS ALREADY STUNNED
-            if (!enemyGuard.isStunned)
+            if (!enemyGuard.isStunned && _aiSystem.bCanBeStunned)
             {
                 _aiSystem.OnParryStun();
             }
@@ -100,12 +143,12 @@ public class EDamageController : MonoBehaviour, IDamageable
 
     public void DisableDamage()
     {
-        _isDamageDisabled = true;
+        _bIsDamageDisabled = true;
     }
 
     public void EnableDamage()
     {
-        _isDamageDisabled = false;
+        _bIsDamageDisabled = false;
     }
 
     private void Start()
@@ -115,7 +158,7 @@ public class EDamageController : MonoBehaviour, IDamageable
 
     public bool CheckCanDamage()
     {
-        return _isDamageDisabled;
+        return _bIsDamageDisabled;
     }
 
     public EntityType GetEntityType()

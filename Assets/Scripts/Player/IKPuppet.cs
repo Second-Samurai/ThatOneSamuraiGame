@@ -49,7 +49,7 @@ public class IKPuppet : MonoBehaviour
         if (IKOn)
         {
             if (IKWeight < IKTargetWeight)
-                IKWeight += Time.deltaTime*3;
+                IKWeight += Time.deltaTime*8;
             if (IKWeight > IKTargetWeight)
                 IKWeight = IKTargetWeight;
         }

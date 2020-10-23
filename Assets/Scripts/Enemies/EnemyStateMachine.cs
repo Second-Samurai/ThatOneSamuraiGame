@@ -14,7 +14,7 @@ namespace Enemy_Scripts
     {
         // Breaking standard naming conventions for the sake of state naming
         public EnemyState EnemyState; // Holds the current enemy state
-        [SerializeField] private bool PrintStates = false;
+        public bool PrintStates = false;
 
         public virtual void SetState(EnemyState newEnemyState)
         {
@@ -31,36 +31,7 @@ namespace Enemy_Scripts
             EnemyState?.Tick();
         }
 
-        //ANIMATION CALLED EVENTS
+       
 
-        #region Animation Called Events
-
-        // BUG-FIX: BREAKING THE STATE MACHINE RULES
-        // The end state animation event in swordsman light attack was sometimes performing EndState for other events
-        // This is a precautionary method to stop that from happening
-        public void EndStateAttack()
-        {
-            if (EnemyState.GetType() == typeof(SwordAttackEnemyState) || EnemyState.GetType() == typeof(ParryEnemyState))
-            {
-                EndState();
-            }
-            else
-            {
-                Debug.LogWarning("Warning: Tried to EndState the wrong state, EndState cancelled");
-            }
-        }
-
-        public void EndState()
-        {
-            EnemyState.EndState();
-        }
-
-        public void StopRotating()
-        {
-            EnemyState.StopRotating();
-        }
-
-        #endregion
-        
     }
 }

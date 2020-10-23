@@ -64,10 +64,12 @@ public class Projectile : MonoBehaviour
                 rb.velocity = Vector3.zero;
                 rb.velocity = -direction;
                 hitEnemies = true;
+                Debug.Log("REFLECT");
                 // manager.StartCoroutine("HitPause");
             }
-            else
+            else if (!hitEnemies)
             {
+                Debug.Log("CATCH");
                 damagable.OnEntityDamage(damageAmount, this.gameObject, false);
                 StartCoroutine(Die(0f));
             }
@@ -81,14 +83,15 @@ public class Projectile : MonoBehaviour
         }
         else if (damagable != null && hitEnemies)
         {
-
+            
             damagable.OnEntityDamage(damageAmount, this.gameObject, false);
             StartCoroutine(Die(0f));
 
         }
-        else if (!other.gameObject.CompareTag("LOD") && !other.gameObject.CompareTag("Level"))
+        else if (!other.gameObject.CompareTag("LOD") && !other.gameObject.CompareTag("Level") && !hitEnemies)
         {
-            Debug.LogError(other.gameObject.name);
+            //Debug.Log("CATCH2");
+            //Debug.LogError(other.gameObject.name);
             StartCoroutine(Die(0f));
         }
     }

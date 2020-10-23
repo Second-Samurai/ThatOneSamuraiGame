@@ -85,7 +85,7 @@ namespace Enemies
         public MeshRenderer bowMesh;
         public WeaponSwitcher weaponSwitcher;
         public SwordColliderOverride colliderOverride;
-        public GameObject teleportParticle;
+        public GameObject teleportParticle, dustParticle;
         public float shotTimer = 1;
         public EnemyAudio enemyAudio;
         public GameEvent bossEvent;
@@ -765,6 +765,10 @@ namespace Enemies
             Instantiate(teleportParticle, transform.position + (transform.forward*2), Quaternion.identity);
             enemyAudio.Smoke();
 
+        }
+        public void DropDirtExplosion()
+        {
+            //Instantiate(dustParticle, transform.position + (transform.forward * 2), Quaternion.identity);
         }
 
         #endregion

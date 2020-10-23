@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour
     public EnemySpawnManager enemySpawnManager;
     public ButtonController buttonController;
 
+    public BossThemeManager bossThemeManager;
+
     //UICanvases
     [HideInInspector] public GameObject guardMeterCanvas;
 

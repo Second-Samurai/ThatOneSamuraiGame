@@ -16,10 +16,12 @@ public class EndCutscene : MonoBehaviour
     bool bSkipped = false;
     public GameObject credits, boss;
     public Transform playerPoint, bossPoint;
+    private BossThemeManager bossTheme;
 
     // Start is called before the first frame update
     void Start()
     {
+        bossTheme = GameManager.instance.bossThemeManager;
         _cutsceneDirector = GetComponent<PlayableDirector>();
         if (endCutscene == null) endCutscene = new UnityEvent();
         if (signalReceiver == null) signalReceiver = GetComponent<SignalReceiver>();
@@ -76,6 +78,7 @@ public class EndCutscene : MonoBehaviour
     {
         BackgroundAudio audio = AudioManager.instance.gameObject.GetComponent<BackgroundAudio>();
         audio.PauseMusic();
+        bossTheme.StopAll();
         audio.Invoke("PlayMenuMusic", 3);
         Invoke("PlayClip", 3);
     }

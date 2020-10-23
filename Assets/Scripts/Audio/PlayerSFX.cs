@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class PlayerSFX : MonoBehaviour
@@ -12,15 +13,20 @@ public class PlayerSFX : MonoBehaviour
     private AudioClip walkingWood;
     private AudioClip armour;
     private AudioClip takeoff;
+    public AudioClip walkingClip;
+    public AudioClip[] rollArray;
+    private AudioClip unsheath;
 
     [SerializeField]
-    private AudioClip[] grassRoll;
-    private AudioClip[] PebbleRoll;
-    private AudioClip[] woodRoll;
+    public AudioClip[] grassRoll;
+    public AudioClip[] PebbleRoll;
+    public AudioClip[] woodRoll;
     private AudioClip[] parry;
     private AudioClip[] armourJingle;
     private AudioClip[] whoosh;
     private AudioClip[] bigSmack;
+    private AudioClip[] allUnsheath;
+
 
 
 
@@ -38,21 +44,20 @@ public class PlayerSFX : MonoBehaviour
         walkingWood = GameManager.instance.audioManager.FindSound("Walking Wood");
         armour = GameManager.instance.audioManager.FindSound("armour jingle 3");
         takeoff = GameManager.instance.audioManager.FindSound("Loudish Stomp 1 SFX");
+        unsheath = GameManager.instance.audioManager.FindSound("sheath 2");
 
 
         grassRoll = GameManager.instance.audioManager.FindAll("Grass Roll").ToArray();
         PebbleRoll = GameManager.instance.audioManager.FindAll("Pebble Roll").ToArray();
         woodRoll = GameManager.instance.audioManager.FindAll("Wood Roll").ToArray();
-
         parry = GameManager.instance.audioManager.FindAll("Parry").ToArray();
-
         armourJingle = GameManager.instance.audioManager.FindAll("armour").ToArray();
-
         whoosh = GameManager.instance.audioManager.FindAll("woosh").ToArray();
-
         bigSmack = GameManager.instance.audioManager.FindAll("Very").ToArray();
+        allUnsheath = GameManager.instance.audioManager.FindAll("sheath ").ToArray();
 
 
+        walkingClip = walkingGrass;
 
     }
 
@@ -60,12 +65,12 @@ public class PlayerSFX : MonoBehaviour
 
     private void Step() 
     {
-        audioPlayer.PlayOnce(walkingGrass, audioManager.SFXVol);
+        audioPlayer.PlayOnce(walkingClip, audioManager.SFXVol);
     }
 
     private void Sprint()
     {
-        audioPlayer.PlayOnce(walkingGrass, audioManager.SFXVol, .5f, .8f);
+        audioPlayer.PlayOnce(walkingClip, audioManager.SFXVol, .5f, .8f);
     }
 
     public void Armour() 
@@ -90,7 +95,7 @@ public class PlayerSFX : MonoBehaviour
         int i = Random.Range(0, grassRoll.Length);
         int j = Random.Range(0, armourJingle.Length);
         audioPlayer.PlayOnce(armourJingle[j], audioManager.SFXVol/2);
-        audioPlayer.PlayOnce(grassRoll[i], audioManager.SFXVol);
+        audioPlayer.PlayOnce(rollArray[i], audioManager.SFXVol);
         //Debug.Log(i);
     }
     private void Parry()
@@ -105,5 +110,16 @@ public class PlayerSFX : MonoBehaviour
     {
         int i = Random.Range(0, bigSmack.Length);
         audioPlayer.PlayOnce(bigSmack[i], audioManager.SFXVol / 4);
+    }
+
+    public void Unsheath() 
+    {
+        audioPlayer.PlayOnce(unsheath, audioManager.SFXVol);
+    }
+
+    public void AllUnsheath()
+    {
+        int i = Random.Range(0, allUnsheath.Length);
+        audioPlayer.PlayOnce(allUnsheath[i], audioManager.SFXVol);
     }
 }

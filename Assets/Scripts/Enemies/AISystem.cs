@@ -85,10 +85,11 @@ namespace Enemies
         public MeshRenderer bowMesh;
         public WeaponSwitcher weaponSwitcher;
         public SwordColliderOverride colliderOverride;
-        public GameObject teleportParticle;
+        public GameObject teleportParticle, dustParticle;
         public float shotTimer = 1;
         public EnemyAudio enemyAudio;
         public GameEvent bossEvent;
+        public GameEvent bossAggro;
 
         //ATTACK SPEED VARIABLES
         public float previousAttackSpeed;
@@ -148,10 +149,10 @@ namespace Enemies
         private void Update()
         {
             spawnCheck.bSpawnMe = !bIsDead;
-            if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove();
-            if (enemyType == EnemyType.BOSS && Keyboard.current.iKey.wasPressedThisFrame) OnBossTaunt();
+            //if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove();
+            //if (enemyType == EnemyType.BOSS && Keyboard.current.iKey.wasPressedThisFrame) OnBossTaunt();
 
-            if (enemyType == EnemyType.BOSS && Keyboard.current.lKey.wasPressedThisFrame) OnEnemyDeath();
+            //if (enemyType == EnemyType.BOSS && Keyboard.current.lKey.wasPressedThisFrame) OnEnemyDeath();
         }
 
         #endregion
@@ -182,6 +183,9 @@ namespace Enemies
                 KBColOff();
                 
             }
+            
+            ResetAnimationVariables();
+            
             //Debug.LogWarning(newEnemyState.GetType().Name);
             base.SetState(newEnemyState);
         }
@@ -321,7 +325,7 @@ namespace Enemies
         }
         public void ImpulseWithDirection(float force, Vector3 dir, float time)
         {
-            Debug.Log(dir);
+            if(PrintStates) Debug.Log("Knockback direction: " + dir);
             StartCoroutine(DodgeImpulseCoroutine(dir, force, time));
         }
 
@@ -407,6 +411,10 @@ namespace Enemies
         
         public void ResetAnimationVariables()
         {
+            // Set all movement variables to 0
+            animator.SetFloat("MovementX", 0);
+            animator.SetFloat("MovementZ", 0);
+            
             // Set all suitable animation bools to false
             animator.ResetTrigger("TriggerMovement");
             animator.ResetTrigger("TriggerGuardBreak");
@@ -419,9 +427,30 @@ namespace Enemies
             animator.ResetTrigger("TriggerQuickBlock");
             animator.ResetTrigger("TriggerBlock");
             
-            // Set all movement variables to 0
-            animator.SetFloat("MovementX", 0);
-            animator.SetFloat("MovementZ", 0);
+            //Swordsman specific
+            if (enemyType == EnemyType.BOSS)
+            {
+                animator.ResetTrigger("TriggerHeavyAttack");
+                animator.ResetTrigger("TriggerJumpAttack");
+                animator.ResetTrigger("TriggerCharge");
+                animator.ResetTrigger("TriggerHeavyCombo");
+                animator.ResetTrigger("TriggerArrowShot");
+                animator.ResetTrigger("DrawBow");
+                animator.ResetTrigger("SheathBow");
+                animator.ResetTrigger("TriggerTaunt");
+            }
+            else if (enemyType == EnemyType.GLAIVEWIELDER)
+            {
+                animator.ResetTrigger("TriggerHeavyAttack");
+                animator.ResetTrigger("TriggerJumpAttack");
+                animator.ResetTrigger("TriggerCharge");
+                animator.ResetTrigger("TriggerHeavyCombo");
+            }
+            else
+            {
+                animator.ResetTrigger("TriggerThrust");
+            }
+            
         }
 
         private bool EnemyDeathCheck()
@@ -466,11 +495,24 @@ namespace Enemies
         // Used to avoid the player's heavy attack if closing the distance
         public void AvoidHeavyAttack()
         {
-            if (bIsClosingDistance)
+            if(enemyType == EnemyType.BOSS)
             {
-                animator.SetFloat("MovementZ", -1.0f);
-                OnDodge();
+                if (bHasBowDrawn)
+                {
+                    animator.SetFloat("MovementZ", -1.0f);
+                    OnDodge();
+                }
+
             }
+            else 
+            { 
+                if (bIsClosingDistance)
+                {
+                    animator.SetFloat("MovementZ", -1.0f);
+                    OnDodge();
+                }
+            }
+             
         }
         
         #endregion
@@ -499,7 +541,7 @@ namespace Enemies
 
         public void EndState()
         {
-            Debug.LogWarning("Called by anim");
+            if(PrintStates) Debug.LogWarning("End state called by anim");
             EnemyState.EndState();
         }
 
@@ -512,7 +554,11 @@ namespace Enemies
             EnemyState.StartRotating();
         }
 
-
+        public void TurnOffBodyCol()
+        {
+            col.enabled = false;
+        }
+        
         public void EndStateAttack()
         {
             if (EnemyState.GetType() == typeof(SwordAttackEnemyState) || EnemyState.GetType() == typeof(ParryEnemyState) || EnemyState.GetType() == typeof(JumpAttackEnemyState) || EnemyState.GetType() == typeof(GlaiveAttackEnemyState))
@@ -521,8 +567,7 @@ namespace Enemies
             }
             else
             {
-                Debug.LogWarning("Warning: Tried to EndState the wrong state, EndState cancelled");
-                Debug.LogWarning(EnemyState.GetType().Name);
+                Debug.LogWarning("Warning: "+EnemyState.GetType().Name+" tried to EndState the wrong state, EndState cancelled");
             }
         }
 
@@ -741,7 +786,9 @@ namespace Enemies
 
         public void TauntTeleport()
         {
-            transform.position = (enemySettings.GetTarget().position - (enemySettings.GetTarget().forward * 5));
+            Vector3 teleportVector = Camera.main.transform.forward * 8;
+            teleportVector.y = 0;
+            transform.position = (enemySettings.GetTarget().position - (teleportVector));
             OnJumpAttack();
         }
 
@@ -750,6 +797,10 @@ namespace Enemies
             Instantiate(teleportParticle, transform.position + (transform.forward*2), Quaternion.identity);
             enemyAudio.Smoke();
 
+        }
+        public void DropDirtExplosion()
+        {
+            //Instantiate(dustParticle, transform.position + (transform.forward * 2), Quaternion.identity);
         }
 
         #endregion

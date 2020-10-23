@@ -19,6 +19,7 @@ public class EnemyAudio : MonoBehaviour
     private AudioClip[] heavyStep;
     private AudioClip[] shing;
     private AudioClip[] heavySwing;
+    private AudioClip[] taunt;
 
 
 
@@ -38,6 +39,7 @@ public class EnemyAudio : MonoBehaviour
         heavyStep = GameManager.instance.audioManager.FindAll("Loudish").ToArray();
         shing = GameManager.instance.audioManager.FindAll("heavy attack hit").ToArray();
         heavySwing = GameManager.instance.audioManager.FindAll("Heavy attack swing").ToArray();
+        taunt = GameManager.instance.audioManager.FindAll("taunt").ToArray();
 
         grassStomp = GameManager.instance.audioManager.FindSound("Full");
         bowDraw = GameManager.instance.audioManager.FindSound("bowdraw");
@@ -176,5 +178,11 @@ public class EnemyAudio : MonoBehaviour
     {
         audioPlayer.rSources[audioPlayer.activeSource].spatialBlend = 0;
         audioPlayer.PlayOnce(smoke, audioManager.SFXVol, .5f, .5f);
+    }
+
+    public void Taunt() 
+    {
+        int i = Random.Range(0, taunt.Length);
+        audioPlayer.PlayOnce(taunt[i], audioManager.SFXVol * 3);
     }
 }

@@ -43,8 +43,9 @@ namespace Enemies.Enemy_States
             {
                 AISystem.meleeCollider.enabled = false;
             }
-            
+
             // Set the death trigger
+            Animator.SetBool("Finish", AISystem.bFinish);
             Animator.SetTrigger("TriggerDeath");
             
             yield break;

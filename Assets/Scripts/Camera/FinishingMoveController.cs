@@ -87,6 +87,7 @@ public class FinishingMoveController : MonoBehaviour
 
     public void KillEnemy()
     {
+        targetEnemy.GetComponent<AISystem>().bFinish = true;
         targetEnemy.GetComponent<AISystem>().OnEnemyDeath();
         detector.SetActive(true);
         GameManager.instance.rewindManager.IncreaseRewindAmount();

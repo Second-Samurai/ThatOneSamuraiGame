@@ -17,16 +17,18 @@ public class Guarding : MonoBehaviour
     public AISystem _aiSystem;
 
     private GameObject _guardMeterCanvas;
-    private UIGuardMeter _guardMeter;
+    public UIGuardMeter uiGuardMeter;
     
     //Await next damage cooldown variables
-    private bool _bRunCooldownTimer = false;
+    public bool bRunCooldownTimer = false; //Tracked by Rewind
     private float _guardCooldownTime;
-    private float _remainingCooldownTime;
+    public float remainingCooldownTime; //Tracked by Rewind
     private float _stunTime = 8.0f;
     
     //Recovery variables
-    private bool _bRunRecoveryTimer = false;
+    public bool bRunRecoveryTimer = false; //Tracked by Rewind
+    
+    //NOTE: Current Guard should also be tracked by the rewind system
 
     public bool bSuperArmour = false;
 
@@ -37,10 +39,10 @@ public class Guarding : MonoBehaviour
         GameManager gameManager = GameManager.instance;
 
         _guardMeterCanvas = Instantiate(gameManager.gameSettings.guardCanvasPrefab, transform);
-        _guardMeter = Instantiate(gameManager.gameSettings.guardMeterPrefab, _guardMeterCanvas.transform).GetComponent<UIGuardMeter>();
+        uiGuardMeter = Instantiate(gameManager.gameSettings.guardMeterPrefab, _guardMeterCanvas.transform).GetComponent<UIGuardMeter>();
 
-        _guardMeter.Init(transform, statHandler, gameManager.mainCamera, _guardMeterCanvas.GetComponent<RectTransform>());
-        OnGuardEvent.AddListener(_guardMeter.UpdateGuideMeter);
+        uiGuardMeter.Init(transform, statHandler, gameManager.mainCamera, _guardMeterCanvas.GetComponent<RectTransform>());
+        OnGuardEvent.AddListener(uiGuardMeter.UpdateGuideMeter);
 
         _aiSystem = GetComponent<AISystem>();
         _guardCooldownTime = _aiSystem.enemySettings.GetEnemyStatType(_aiSystem.enemyType).guardCooldown;
@@ -57,14 +59,14 @@ public class Guarding : MonoBehaviour
     // Resets if hit again through AwaitNextDamage(new cooldown time)
     private void RunGuardCooldown()
     {
-        if (_bRunCooldownTimer)
+        if (bRunCooldownTimer)
         {
             //Debug.Log("Running Guard Cooldown Timer");
-            _remainingCooldownTime -= Time.deltaTime;
-            if (_remainingCooldownTime <= 0)
+            remainingCooldownTime -= Time.deltaTime;
+            if (remainingCooldownTime <= 0)
             {
-                _bRunCooldownTimer = false;
-                _bRunRecoveryTimer = true;
+                bRunCooldownTimer = false;
+                bRunRecoveryTimer = true;
             }
         }
     }
@@ -74,11 +76,11 @@ public class Guarding : MonoBehaviour
     // Stops completely if hit again through AwaitNextDamage(new cooldown time)
     private void RunRecoveryCooldown()
     {
-        if(_aiSystem.bIsDead && _bRunRecoveryTimer)
+        if(_aiSystem.bIsDead && bRunRecoveryTimer)
         {
-            _bRunRecoveryTimer = false;
+            bRunRecoveryTimer = false;
         }
-        else if (_bRunRecoveryTimer)
+        else if (bRunRecoveryTimer)
         {
             float coolVal = (statHandler.maxGuard - statHandler.CurrentGuard / _guardCooldownTime) * Time.deltaTime;
 
@@ -174,26 +176,26 @@ public class Guarding : MonoBehaviour
         AwaitNextDamage(_stunTime);
         //camImpulse.FireImpulse();
         //Switch States
-        _guardMeter.ShowFinisherKey();
+        uiGuardMeter.ShowFinisherKey();
         _aiSystem.OnEnemyStun();
     }
 
     private void AwaitNextDamage(float time)
     {
-        _remainingCooldownTime = time;
-        _bRunRecoveryTimer = false;
-        _bRunCooldownTimer = true;
+        remainingCooldownTime = time;
+        bRunRecoveryTimer = false;
+        bRunCooldownTimer = true;
     }
 
     public void ResetGuard()
     {
-        _bRunRecoveryTimer = false;
+        bRunRecoveryTimer = false;
         statHandler.CurrentGuard = statHandler.maxGuard;
         OnGuardEvent.Invoke();
 
         if (isStunned)
         {
-            _guardMeter.HideFinisherKey();
+            uiGuardMeter.HideFinisherKey();
             _aiSystem.OnEnemyRecovery();
         }
         isStunned = false;

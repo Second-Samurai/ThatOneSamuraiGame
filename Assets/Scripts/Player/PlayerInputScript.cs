@@ -8,7 +8,7 @@ public class PlayerInputScript : MonoBehaviour
     //FIELDS
     #region Gameplay Bools
     public bool bCanMove = true, bMoveLocked = false, bIsDodging = false, bCanDodge = true, bCanAttack = false, bGotParried = false, bIsSheathed = false, bCanRotate = true;
-    bool bAlreadyAttacked = false;
+    [HideInInspector] public bool bAlreadyAttacked = false;
     [HideInInspector] public bool bCanBlock = true;
     [HideInInspector] public bool bOverrideMovement = false;
     bool _bDodgeCache = false;

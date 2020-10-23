@@ -13,11 +13,12 @@ public class PlayerSFX : MonoBehaviour
     private AudioClip armour;
     private AudioClip takeoff;
     public AudioClip walkingClip;
+    public AudioClip[] rollArray;
 
     [SerializeField]
-    private AudioClip[] grassRoll;
-    private AudioClip[] PebbleRoll;
-    private AudioClip[] woodRoll;
+    public AudioClip[] grassRoll;
+    public AudioClip[] PebbleRoll;
+    public AudioClip[] woodRoll;
     private AudioClip[] parry;
     private AudioClip[] armourJingle;
     private AudioClip[] whoosh;
@@ -91,7 +92,7 @@ public class PlayerSFX : MonoBehaviour
         int i = Random.Range(0, grassRoll.Length);
         int j = Random.Range(0, armourJingle.Length);
         audioPlayer.PlayOnce(armourJingle[j], audioManager.SFXVol/2);
-        audioPlayer.PlayOnce(grassRoll[i], audioManager.SFXVol);
+        audioPlayer.PlayOnce(rollArray[i], audioManager.SFXVol);
         //Debug.Log(i);
     }
     private void Parry()

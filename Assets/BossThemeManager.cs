@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using DG.Tweening;
 
 public class BossThemeManager : MonoBehaviour
 {
     public AudioSource opening;
     public AudioSource bassLoop;
     public AudioSource drumloop;
+
+
+    public AudioSource brassLoop;
 
     public AudioManager audioManager;
     // Start is called before the first frame update
@@ -36,9 +40,19 @@ public class BossThemeManager : MonoBehaviour
         opening.Play();
     }
 
+    public void FadeInBrass()
+    {
+        brassLoop.DOFade(audioManager.BGMVol, 1);
+    }
+
     void StartBassLoop() 
     {
         bassLoop.Play();
+    }
+
+    void StartBrassLoop()
+    {
+        brassLoop.Play();
     }
 
     public void DrumLoop() 
@@ -46,6 +60,7 @@ public class BossThemeManager : MonoBehaviour
         bassLoop.Stop();
         opening.Stop();
         drumloop.Play();
+        StartBrassLoop();
     }
     public void StopAll()
     {

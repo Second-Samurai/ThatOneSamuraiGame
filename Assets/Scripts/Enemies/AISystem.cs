@@ -90,6 +90,8 @@ namespace Enemies
         public EnemyAudio enemyAudio;
         public GameEvent bossEvent;
         public GameEvent bossAggro;
+        public GameEvent bossHalfway;
+        public bool bisHalfway = false;
 
         //ATTACK SPEED VARIABLES
         public float previousAttackSpeed;
@@ -778,6 +780,14 @@ namespace Enemies
                 statHandler.maxGuard += 20;
                 //OnApproachPlayer();
             }
+
+            if(armourManager.armourCount < 4 && !bisHalfway)
+            {
+                bisHalfway = true;
+                bossHalfway.Raise();
+            }
+
+
         }
 
         public void BossGlaiveColOn()

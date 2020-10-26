@@ -67,6 +67,7 @@ public class TrackManager : MonoBehaviour
 
 
     public void FadeOutAll() 
+
     {
         DrumsFade(false);
         ViolinLeadFade(false);
@@ -74,6 +75,21 @@ public class TrackManager : MonoBehaviour
         FluteFade(false);
         LowStringFade(false);
         Shakafade(false);
+
+        drumsActive = false;
+        violinHarmonyActive = false;
+        violinLeadActive = false;
+        fluteActive = false;
+        lowStringActive = false;
+        shakaActive = false;
+        //drums.Stop();
+        //violinLead.Stop();
+        //violinHarmony.Stop();
+        //flute.Stop();
+        //lowString.Stop();
+        //shaka.Stop();
+
+
     }
 
     public void DrumsFade(bool Fadein) 
@@ -81,12 +97,12 @@ public class TrackManager : MonoBehaviour
             TweenCallback callback = DrumsActive;
         if (Fadein)
         {
-            drums.DOFade(_audioManager.BGMVol, 2).OnComplete(callback);
+            drums.DOFade(_audioManager.BGMVol / 2, 2).OnComplete(callback);
            
         }
         else 
         {
-            drums.DOFade(0, 2).OnComplete(callback);
+            drums.DOFade(0, 2);
         }
         
     }
@@ -101,7 +117,7 @@ public class TrackManager : MonoBehaviour
         }
         else
         {
-            drums.DOFade(_audioManager.BGMVol * 2, 2).OnComplete(callback);
+            drums.DOFade(_audioManager.BGMVol / 2, 2).OnComplete(callback);
         }
 
     }
@@ -135,7 +151,7 @@ public class TrackManager : MonoBehaviour
         }
         else
         {
-            violinHarmony.DOFade(0, 2).OnComplete(callback);
+            violinHarmony.DOFade(0, 2);
         }
 
     }
@@ -154,7 +170,7 @@ public class TrackManager : MonoBehaviour
         }
         else
         {
-            flute.DOFade(0, 2).OnComplete(callback);
+            flute.DOFade(0, 2);
         }
     }
     public void FluteActive() { fluteActive = !fluteActive; }
@@ -171,7 +187,7 @@ public class TrackManager : MonoBehaviour
         }
         else
         {
-            lowString.DOFade(0, 2).OnComplete(callback);
+            lowString.DOFade(0, 2);
         }
     }
 
@@ -188,7 +204,7 @@ public class TrackManager : MonoBehaviour
         }
         else
         {
-            shaka.DOFade(0, 2).OnComplete(callback);
+            shaka.DOFade(0, 2);
         }
 
     }

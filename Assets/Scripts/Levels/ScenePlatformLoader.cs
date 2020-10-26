@@ -126,7 +126,8 @@ public class ScenePlatformLoader : MonoBehaviour, ISceneLoader
         if (checkMethod != CheckMethod.Trigger) return;
         if (other.GetComponent<PlayerController>() != null)
         {
-            if(_loadOnBacktrack) _shouldLoad = true;
+            //if(_loadOnBacktrack)
+            _shouldLoad = true;
         }
     }
 

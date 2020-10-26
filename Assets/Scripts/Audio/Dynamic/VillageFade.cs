@@ -22,6 +22,7 @@ public class VillageFade : MonoBehaviour
         {
             _trackManager.FadeOutAll();
             _backgroundAudio.PlayScore();
+            GameManager.instance.enemyTracker.bAtVillage = true;
         }
     }
 }

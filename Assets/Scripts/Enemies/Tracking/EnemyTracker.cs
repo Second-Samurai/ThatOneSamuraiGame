@@ -23,6 +23,9 @@ public class EnemyTracker : MonoBehaviour
     private Transform _lastKilledEnemy;
 
     private bool _bIsHeavyCharging = false;
+    bool bFadedInDrums = false;
+
+    public bool bAtVillage = false;
 
     private void Start()
     {
@@ -56,6 +59,18 @@ public class EnemyTracker : MonoBehaviour
                 StartImpatienceCountdown();
             }
         }
+
+        if (!bFadedInDrums && currentEnemies.Count > 0 && !bAtVillage)
+        {
+            AudioManager.instance.trackManager.DrumsFadeBetween(true);
+            bFadedInDrums = true;
+        }
+        else if (bFadedInDrums && currentEnemies.Count == 0 && !bAtVillage)
+        {
+            AudioManager.instance.trackManager.DrumsFadeBetween(false);
+            bFadedInDrums = false;
+        }
+
     }
 
     public void AddEnemy(Transform enemy)

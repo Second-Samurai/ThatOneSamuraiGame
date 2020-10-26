@@ -641,8 +641,8 @@ MonoBehaviour:
   _trackManager: {fileID: 0}
   _backgroundAudio: {fileID: 0}
   drumsActive: 0
-  violinLeadActive: 1
-  violinHarmonyActive: 0
+  violinLeadActive: 0
+  violinHarmonyActive: 1
   fluteActive: 0
   lowStringActive: 0
   shakaActive: 0
@@ -666,13 +666,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 133122764}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 113.79, y: 0.77, z: 89.41}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 34.1, y: 0.77, z: 163.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 44
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &142879676
 GameObject:
   m_ObjectHideFlags: 0
@@ -2117,8 +2117,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 20.068542, y: 14.508572, z: 1}
-  m_Center: {x: 1.0753174, y: 4.2090626, z: 0}
+  m_Size: {x: 13.762843, y: 10.02047, z: 1}
+  m_Center: {x: 1.8608984, y: 1.9650126, z: 4.9732506e-15}
 --- !u!4 &626842011
 Transform:
   m_ObjectHideFlags: 0
@@ -2126,13 +2126,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 626842008}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -63.04, y: -26.22, z: 892.72}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -27.74, y: -25.29, z: 915.8}
   m_LocalScale: {x: 1.7083695, y: 2.2511, z: 3.494252}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 49
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &635398233
 GameObject:
   m_ObjectHideFlags: 0
@@ -4232,6 +4232,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Rain
+      objectReference: {fileID: 0}
+    - target: {fileID: 4930013409302023886, guid: 57e9d12d07875e447a585c936740fdd4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5436406233112462126, guid: 57e9d12d07875e447a585c936740fdd4,
         type: 3}
@@ -7685,8 +7690,8 @@ MonoBehaviour:
   _trackManager: {fileID: 0}
   _backgroundAudio: {fileID: 0}
   drumsActive: 0
-  violinLeadActive: 0
-  violinHarmonyActive: 1
+  violinLeadActive: 1
+  violinHarmonyActive: 0
   fluteActive: 0
   lowStringActive: 0
   shakaActive: 0

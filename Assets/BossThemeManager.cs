@@ -20,6 +20,7 @@ public class BossThemeManager : MonoBehaviour
         audioManager = GameManager.instance.audioManager.GetComponent<AudioManager>();
         BackgroundAudio audio = AudioManager.instance.gameObject.GetComponent<BackgroundAudio>();
         audio.PauseAllMusic();
+        AudioManager.instance.trackManager.FadeOutAll();
         StartOpening();
         Invoke("StartBassLoop", 4f);
     }

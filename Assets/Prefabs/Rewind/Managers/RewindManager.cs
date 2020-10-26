@@ -246,6 +246,7 @@ public class RewindManager : MonoBehaviour
         _rewindAudio.Freeze();
         _rewindAudio.Idle();
         _rewindAudio.audioManager.backgroundAudio.PauseMusic();
+        _rewindAudio.audioManager.trackManager.PauseAll();
         if (isTravelling)
         {
             
@@ -278,6 +279,7 @@ public class RewindManager : MonoBehaviour
             }
             _rewindAudio.Resume();
             _rewindAudio.audioManager.backgroundAudio.ResumeMusic();
+            _rewindAudio.audioManager.trackManager.PauseAll();
             Reset();
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;

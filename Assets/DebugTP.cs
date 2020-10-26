@@ -16,7 +16,7 @@ public class DebugTP : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Keyboard.current.pKey.wasPressedThisFrame)
+        if (Keyboard.current.pKey.wasPressedThisFrame && Keyboard.current.shiftKey.IsPressed())
         {
             player.position = transform.position;
         }

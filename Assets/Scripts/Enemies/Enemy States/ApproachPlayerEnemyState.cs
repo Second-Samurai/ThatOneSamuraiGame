@@ -78,7 +78,8 @@ namespace Enemies.Enemy_States
             // Reset animation variables
             Animator.SetFloat("MovementZ", 0.0f);
 
-            AISystem.OnCirclePlayer();
+            if (AISystem.enemyType != EnemyType.BOSS) AISystem.OnCirclePlayer();
+            else AISystem.OnJumpAttack();
         }
     }
 }

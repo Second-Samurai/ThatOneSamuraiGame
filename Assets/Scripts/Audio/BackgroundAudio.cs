@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,8 @@ public class BackgroundAudio : MonoBehaviour
     public AudioSource menuMusicSource;
     public AudioSource optionsSelectSource;
     public AudioSource backgroundMusicSource;
+
+    public bool bActive;
    
 
 
@@ -23,6 +26,7 @@ public class BackgroundAudio : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        bActive = true;
         audioManager = gameObject.GetComponent<AudioManager>();
         //birdsAndTreesSource = gameObject.GetComponent<AudioSource>();
         //menuMusicSource = gameObject.GetComponent<AudioSource>();
@@ -56,13 +60,28 @@ public class BackgroundAudio : MonoBehaviour
     {
         birdsAndTreesSource.volume = audioManager.BGMVol;
         menuMusicSource.volume = audioManager.BGMVol;
-        backgroundMusicSource.volume = audioManager.BGMVol;
+        
+        if (bActive)
+        {
+            backgroundMusicSource.volume = audioManager.BGMVol;
+        }
 
     }
 
     public void PlayScore() 
     {
         backgroundMusicSource.Play();
+    }
+
+    public void FadeScore()
+    {
+        bActive = false;
+        backgroundMusicSource.DOFade(0, 5);
+    }
+
+
+    public void PauseMenuMusic() 
+    {
         menuMusicSource.Pause();
     }
 
@@ -99,5 +118,29 @@ public class BackgroundAudio : MonoBehaviour
     public void StartGameSelect(AudioSource audioSource)
     {
         audioSource.PlayOneShot(startGame, 1);
+    }
+
+    public void AtmosFadeOut(bool Fadein)
+    { 
+            if (Fadein)
+            {
+            backgroundMusicSource.DOFade(audioManager.BGMVol, 2);
+            }
+            else
+            {
+            backgroundMusicSource.DOFade(0, 2);
+            }
+    }
+
+    public void AtmosFadeOut(bool Fadein, float time)
+    {
+        if (Fadein)
+        {
+            backgroundMusicSource.DOFade(audioManager.BGMVol, time);
+        }
+        else
+        {
+            backgroundMusicSource.DOFade(0, time);
+        }
     }
 }

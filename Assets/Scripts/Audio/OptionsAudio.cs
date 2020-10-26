@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class OptionsAudio : MonoBehaviour
 {
-    private BackgroundAudio backgroundAudio;
+    private AudioManager audioManager;
     public AudioClip optionsSelect;
     public AudioClip startGame;
 
     public AudioSource audioSource;
     void Start()
     {
-        backgroundAudio = GameManager.instance.audioManager.backgroundAudio;
+        audioManager = GameManager.instance.audioManager;
         audioSource = GameManager.instance.audioManager.backgroundAudio.optionsSelectSource;
         startGame = GameManager.instance.audioManager.FindSound("selectbuttonsfx");
         optionsSelect = GameManager.instance.audioManager.FindSound("scrollingsfx");
@@ -19,18 +19,20 @@ public class OptionsAudio : MonoBehaviour
 
     public void PlaySelect()
     {
-        audioSource.clip = backgroundAudio.startGame;
-        audioSource.PlayOneShot(backgroundAudio.startGame, 1);
+        audioSource.clip = audioManager.backgroundAudio.startGame;
+        audioSource.PlayOneShot(audioManager.backgroundAudio.startGame, 1);
     }
 
     public void ButtonSelect()
     {
-        audioSource.clip = backgroundAudio.optionsSelect;
-        audioSource.PlayOneShot(backgroundAudio.optionsSelect, 1);
+        audioSource.clip = audioManager.backgroundAudio.optionsSelect;
+        audioSource.PlayOneShot(audioManager.backgroundAudio.optionsSelect, 1);
     }
 
     public void PlayScore() 
     {
-        backgroundAudio.PlayScore();
+        audioManager.trackManager.FluteFade(true);
+        audioManager.backgroundAudio.PauseMenuMusic();
     }
+
 }

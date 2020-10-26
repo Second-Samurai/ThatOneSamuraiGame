@@ -13,7 +13,6 @@ public class AudioManager : MonoBehaviour
     public float BGMVol;
     public float SFXVol;
     public BackgroundAudio backgroundAudio;
-    [HideInInspector]
     public TrackManager trackManager;
   
 
@@ -48,11 +47,11 @@ public class AudioManager : MonoBehaviour
         SFXVol = PlayerPrefs.GetFloat("SFXVolume");
         BGMVol = PlayerPrefs.GetFloat("BGMVolume");
         backgroundAudio = gameObject.GetComponent<BackgroundAudio>();
+        trackManager = gameObject.GetComponentInChildren<TrackManager>();
     }
 
     private void Start()
     {
-        trackManager = gameObject.GetComponentInChildren<TrackManager>();
     }
     // update for debugging
 

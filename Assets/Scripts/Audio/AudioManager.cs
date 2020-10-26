@@ -13,6 +13,8 @@ public class AudioManager : MonoBehaviour
     public float BGMVol;
     public float SFXVol;
     public BackgroundAudio backgroundAudio;
+    [HideInInspector]
+    public TrackManager trackManager;
   
 
 
@@ -47,8 +49,13 @@ public class AudioManager : MonoBehaviour
         BGMVol = PlayerPrefs.GetFloat("BGMVolume");
         backgroundAudio = gameObject.GetComponent<BackgroundAudio>();
     }
+
+    private void Start()
+    {
+        trackManager = gameObject.GetComponentInChildren<TrackManager>();
+    }
     // update for debugging
- 
+
 
     //finds and returns a  sound contaning a given string in its name
 

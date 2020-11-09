@@ -32,6 +32,9 @@ public class Guarding : MonoBehaviour
 
     public bool bSuperArmour = false;
 
+    private bool canFinisher;
+    private Transform _player;
+
     public void Init(StatHandler statHandler)
     {
         this.statHandler = statHandler;
@@ -46,12 +49,25 @@ public class Guarding : MonoBehaviour
 
         _aiSystem = GetComponent<AISystem>();
         _guardCooldownTime = _aiSystem.enemySettings.GetEnemyStatType(_aiSystem.enemyType).guardCooldown;
+
+        _player = gameManager.playerController.gameObject.transform;
     }
+
 
     private void Update()
     {
         RunGuardCooldown();
         RunRecoveryCooldown();
+
+        if (canFinisher) 
+        {
+            Debug.Log("showUi");
+            Debug.Log(Vector3.Distance(_player.transform.position, gameObject.transform.position));
+
+            if (Vector3.Distance(_player.transform.position, gameObject.transform.position) < 3.2) uiGuardMeter.ShowFinisherKey();
+            else uiGuardMeter.HideFinisherKey();
+
+        }
     }
 
     // After taking damage, run the guard cooldown timer
@@ -173,10 +189,10 @@ public class Guarding : MonoBehaviour
         //GameManager.instance.playerController.gameObject.GetComponentInChildren<LockOnTargetManager>().GuardBreakCam(this.transform);
         isStunned = true;
         canGuard = false;
+        canFinisher = true;
         AwaitNextDamage(_stunTime);
         //camImpulse.FireImpulse();
         //Switch States
-        uiGuardMeter.ShowFinisherKey();
         _aiSystem.OnEnemyStun();
     }
 
@@ -195,10 +211,10 @@ public class Guarding : MonoBehaviour
 
         if (isStunned)
         {
-            uiGuardMeter.HideFinisherKey();
             _aiSystem.OnEnemyRecovery();
         }
         isStunned = false;
         canGuard = true;
+        canFinisher = false;
     }
 }

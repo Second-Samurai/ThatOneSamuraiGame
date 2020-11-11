@@ -13,7 +13,7 @@ public class CameraControl : MonoBehaviour
     Vector2 rotationVector;
     public Transform lockOnTarget, player, lockOnNullDummy;
     public bool bLockedOn = false;
-    public EnemyTracker enemyTracker;
+    public LockOnTracker lockOnTracker;
     PlayerInputScript _playerInput;
 
     public CinematicBars cinematicBars;
@@ -41,9 +41,9 @@ public class CameraControl : MonoBehaviour
         this._animator = gameManager.playerController.GetComponent<Animator>();
         this.cinematicBars = cinematicBars;
 
-        if (!enemyTracker)
+        if (!lockOnTracker)
         {
-            this.enemyTracker = gameManager.enemyTracker;
+            this.lockOnTracker = gameManager.lockOnTracker;
         }
         
         if (!unlockedCam)
@@ -78,7 +78,7 @@ public class CameraControl : MonoBehaviour
 
     public void SetTarget(Transform target)
     {
-        enemyTracker.SetTarget(target);
+        lockOnTracker.SetTarget(target);
         _lockedCamScript.SetTarget(target, player);
     }
 
@@ -114,7 +114,7 @@ public class CameraControl : MonoBehaviour
 
     public void UnlockCam()
     {
-        enemyTracker.ClearTarget();
+        lockOnTracker.ClearTarget();
 
         bLockedOn = false;
         _lockedCamScript.cam.Priority = 9;
@@ -130,13 +130,13 @@ public class CameraControl : MonoBehaviour
         float closest = Mathf.Infinity;
         Transform nextEnemy = null;
 
-        if (enemyTracker == null)
+        if (lockOnTracker == null)
         {
-            enemyTracker = GameManager.instance.enemyTracker;
+            lockOnTracker = GameManager.instance.lockOnTracker;
         }
-        if (enemyTracker.currentEnemies.Count > 0)
+        if (lockOnTracker.currentEnemies.Count > 0)
         {
-            foreach (Transform enemy in enemyTracker.currentEnemies)
+            foreach (Transform enemy in lockOnTracker.currentEnemies)
             {
                 float distance = Vector3.Distance(player.position, enemy.position);
                 if (distance < closest && enemy != lockOnTarget)

@@ -124,12 +124,13 @@ public class BasicArcher : MonoBehaviour, IDamageable
         camImpulse.FireImpulse();
         GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.15f);
         StartCoroutine(DodgeImpulseCoroutine(Vector3.back, damage * 4, .3f));
-
-        EnemyTracker enemyTracker = GameManager.instance.enemyTracker;
+        
+        LockOnTracker lockOnTracker = GameManager.instance.lockOnTracker;
         
         // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy)
-        enemyTracker.SwitchDeathTarget(transform);
-        enemyTracker.RemoveEnemy(transform);
+        lockOnTracker.SwitchDeathTarget(transform);
+        lockOnTracker.RemoveEnemy(transform);
+        GameManager.instance.enemyTracker.RemoveEnemy(transform);
 
         lineRenderer.enabled = false;
 

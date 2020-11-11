@@ -55,6 +55,7 @@ public class RewindManager : MonoBehaviour
     public float invincabilityTimer;
     public bool transition;
 
+ 
 
     // Start is called before the first frame update
     void Start()
@@ -76,7 +77,6 @@ public class RewindManager : MonoBehaviour
 
         damageController = GameManager.instance.playerController.gameObject.GetComponent<PDamageController>();
 
-        
     }
 
     private void Update()
@@ -243,15 +243,16 @@ public class RewindManager : MonoBehaviour
 
     public void StartRewind()
     {
+         
         _rewindAudio.Freeze();
         _rewindAudio.Idle();
         _rewindAudio.audioManager.backgroundAudio.PauseMusic();
         _rewindAudio.audioManager.trackManager.PauseAll();
         if (isTravelling)
         {
-            
+
             OnStartRewind();
-            foreach (RewindEntity entity in rewindObjects) 
+            foreach (RewindEntity entity in rewindObjects)
             {
                 entity.isTravelling = true;
             }
@@ -259,6 +260,7 @@ public class RewindManager : MonoBehaviour
             //if (rewindUI != null)
             //    UpdateRewindUI();
         }
+        
 
     }
 

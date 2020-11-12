@@ -20,6 +20,7 @@ public class RewindInput : MonoBehaviour
     PlayerInput _inputComponent;
 
     PlayerFunctions playerFunction;
+    PlayerInputScript playerInput;
 
     public GameEvent hidePopupEvent;
     public GameEvent hideLockOnPopupEvent;
@@ -32,6 +33,7 @@ public class RewindInput : MonoBehaviour
 
         rewindManager = GameManager.instance.rewindManager;
         playerFunction = gameObject.GetComponent<PlayerFunctions>();
+        playerInput = GetComponent<PlayerInputScript>();
 
     }
 
@@ -39,6 +41,7 @@ public class RewindInput : MonoBehaviour
 
     void OnInitRewind()
     {
+        //if (playerInput.camControl.bLockedOn) playerInput.OnLockOn();
         hidePopupEvent.Raise();
         hideLockOnPopupEvent.Raise();
         _inputComponent.SwitchCurrentActionMap("Rewind");

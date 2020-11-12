@@ -100,6 +100,9 @@ namespace Enemies
         //CIRCLE TRACKING (used for the enemy tracker) and CloseDistanceTracking (used of heavyAttack)
         public bool bIsCircling = false;
         public bool bIsClosingDistance = false;
+
+        //DEATH PARTICLES
+        [HideInInspector] public EnemyDeathParticleSpawn particleSpawn;
         
         #endregion
         
@@ -146,6 +149,8 @@ namespace Enemies
             rb = GetComponent<Rigidbody>();
 
             if (enemyType == EnemyType.BOSS) weaponSwitcher = GetComponent<WeaponSwitcher>();
+
+            particleSpawn = GetComponentInChildren<EnemyDeathParticleSpawn>();
         }
 
         private void Update()

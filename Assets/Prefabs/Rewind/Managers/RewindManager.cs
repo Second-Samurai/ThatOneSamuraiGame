@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using Cinemachine;
 
 public class RewindManager : MonoBehaviour
 {
@@ -55,6 +56,7 @@ public class RewindManager : MonoBehaviour
     public float invincabilityTimer;
     public bool transition;
 
+    public CinemachineVirtualCamera rewindCam;
 
     // Start is called before the first frame update
     void Start()
@@ -243,6 +245,7 @@ public class RewindManager : MonoBehaviour
 
     public void StartRewind()
     {
+        if (rewindCam) rewindCam.m_Priority = 20; 
         _rewindAudio.Freeze();
         _rewindAudio.Idle();
         _rewindAudio.audioManager.backgroundAudio.PauseMusic();
@@ -265,7 +268,7 @@ public class RewindManager : MonoBehaviour
     public void EndRewind() 
     {
         _rewindAudio.StopSource();
-
+        if(rewindCam) rewindCam.m_Priority = 3;
         if (isTravelling)
         {
             OnEndRewind();

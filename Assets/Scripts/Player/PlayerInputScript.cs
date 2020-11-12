@@ -101,7 +101,7 @@ public class PlayerInputScript : MonoBehaviour
         }
     }
 
-    void OnLockOn()
+    public void OnLockOn()
     {
         camControl.ToggleLockOn();
     }

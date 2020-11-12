@@ -20,14 +20,11 @@ public class RewindInput : MonoBehaviour
     PlayerInput _inputComponent;
 
     PlayerFunctions playerFunction;
+    PlayerInputScript playerInput;
 
     public GameEvent hidePopupEvent;
     public GameEvent hideLockOnPopupEvent;
-
-    FinishingMoveController finishingMoveController;
-
-    bool IsFinishing() => finishingMoveController.bIsFinishing;
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -36,40 +33,39 @@ public class RewindInput : MonoBehaviour
 
         rewindManager = GameManager.instance.rewindManager;
         playerFunction = gameObject.GetComponent<PlayerFunctions>();
-        finishingMoveController = GameManager.instance.playerController.gameObject.GetComponentInChildren<FinishingMoveController>();
+        playerInput = GetComponent<PlayerInputScript>();
 
     }
 
-
+  
 
     void OnInitRewind()
     {
-        if (!IsFinishing())
+        //if (playerInput.camControl.bLockedOn) playerInput.OnLockOn();
+        hidePopupEvent.Raise();
+        hideLockOnPopupEvent.Raise();
+        _inputComponent.SwitchCurrentActionMap("Rewind");
+        if (!isTravelling && rewindManager.maxRewindResource != 0)
         {
-            hidePopupEvent.Raise();
-            hideLockOnPopupEvent.Raise();
-            _inputComponent.SwitchCurrentActionMap("Rewind");
-            if (!isTravelling && rewindManager.maxRewindResource != 0)
-            {
-                isTravelling = true;
-                rewindManager.isTravelling = true;
-                rewindManager.StartRewind();
-                rewindTut.SetActive(true);
-                GameManager.instance.postProcessingController.EnableRewindColourFilter();
-                rewindManager.rewindUI.FadeIn(1f, 0f);
-                rewindManager.transition = true;
-                // Debug.Log("rewinding");
-            }
-            else if (!isTravelling && rewindManager.maxRewindResource == 0)
-            {
-                isTravelling = true;
-                rewindManager.isTravelling = true;
-                rewindManager.StartRewind();
-                rewindManager.isTravelling = false;
-                GameManager.instance.postProcessingController.EnableRewindColourFilter();
-
-            }
+            isTravelling = true;
+            rewindManager.isTravelling = true;
+            rewindManager.StartRewind();
+            rewindTut.SetActive(true);
+            GameManager.instance.postProcessingController.EnableRewindColourFilter();
+            rewindManager.rewindUI.FadeIn(1f, 0f);
+            rewindManager.transition = true;
+            // Debug.Log("rewinding");
         }
+        else if (!isTravelling && rewindManager.maxRewindResource == 0) 
+        {
+            isTravelling = true;
+            rewindManager.isTravelling = true;
+            rewindManager.StartRewind();
+            rewindManager.isTravelling = false;
+            GameManager.instance.postProcessingController.EnableRewindColourFilter();
+
+        }
+
     }
 
     void OnEndRewind()

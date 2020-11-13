@@ -672,6 +672,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press"
+                },
+                {
+                    "name": "RotateCamera",
+                    "type": "Value",
+                    "id": "db321dbe-4b9e-45f6-bf26-b5374ad68981",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -749,6 +757,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "18d7c0f3-7798-42f6-9aaf-5a4b7e8c8616",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "RotateCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8db161d0-ae7f-480e-9fb2-1dcce1ca0bfb",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "ScaleVector2(x=50,y=50)",
+                    "groups": "Gamepad",
+                    "action": "RotateCamera",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

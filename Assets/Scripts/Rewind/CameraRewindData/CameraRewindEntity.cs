@@ -62,7 +62,7 @@ public class CameraRewindEntity : RewindEntity
     public void DisableEvents()
     {
         camPriority = lockOnTargetManager.cam.m_Priority;
-        lockOnTargetManager.cam.m_Priority = 1;
+       // lockOnTargetManager.cam.m_Priority = 1;
 
     }
 

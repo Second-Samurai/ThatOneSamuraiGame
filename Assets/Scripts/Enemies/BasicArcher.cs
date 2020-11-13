@@ -28,6 +28,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
     public TriggerImpulse camImpulse;
 
     private AudioManager audioManager;
+    EnemyDeathParticleSpawn particleSpawn;
 
     // Since the player and enemies have their origin point at their feet we need to add an offset value
     private Vector3 _aimOffsetValue;
@@ -43,6 +44,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
         //  lineRenderer = GetComponent<LineRenderer>();
 
         _aimOffsetValue = Vector3.up * transform.localScale.y;
+        particleSpawn = GetComponentInChildren<EnemyDeathParticleSpawn>();
     }
 
     void FindPlayer()
@@ -130,6 +132,8 @@ public class BasicArcher : MonoBehaviour, IDamageable
         // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy)
         enemyTracker.SwitchDeathTarget(transform);
         enemyTracker.RemoveEnemy(transform);
+
+        if (particleSpawn) particleSpawn.SpawnParticles();
 
         lineRenderer.enabled = false;
 

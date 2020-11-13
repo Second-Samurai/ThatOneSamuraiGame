@@ -74,6 +74,10 @@ public class CameraControl : MonoBehaviour
     {
         if (rotationVector != Vector2.zero && !bLockedOn)
             camTargetScript.RotateCam(rotationVector);
+        else if (GameManager.instance.rewindManager.isTravelling)
+        {
+            camTargetScript.RotateCam(rotationVector);
+        }
     }
 
     public void SetTarget(Transform target)

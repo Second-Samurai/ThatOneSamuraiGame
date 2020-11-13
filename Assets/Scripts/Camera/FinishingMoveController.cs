@@ -24,6 +24,8 @@ public class FinishingMoveController : MonoBehaviour
     List<Transform> enemies; 
     List<AISystem> enemiesCache;
 
+    public bool bIsFinishing = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,7 +63,7 @@ public class FinishingMoveController : MonoBehaviour
     public void PlayFinishingMove(GameObject enemy)
     {
         showFinisherTutorialEvent.Raise();
-        
+        bIsFinishing = true;
         // Stop recovering guard process and hide finisher key
         Guarding guardScript = enemy.GetComponent<AISystem>().eDamageController.enemyGuard;
         guardScript.bRunCooldownTimer = false;
@@ -96,6 +98,7 @@ public class FinishingMoveController : MonoBehaviour
         damageController.EnableDamage();
         playerInputScript.bAlreadyAttacked = false;
         playerInputScript.ResetAttack();
+        bIsFinishing = false;
         //for (int i = 0; i < enemies.Count - 1; i++)
         //{
         //    enemies[i].GetComponent<AISystem>().EnemyState = enemiesCache[i].EnemyState;

@@ -12,16 +12,19 @@ public class LTeleportorConsole : MonoBehaviour
     public int expectedKillCount;
     public int expectedKeyCount;
 
+    private UITeleportation teleportationUI;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        teleportationUI = GameObject.FindObjectOfType<UITeleportation>();
     }
 
     private void ActivateTeleporters()
     {
         foreach (LTeleportationRings rings in teleportationRings)
         {
+            rings.gameObject.SetActive(true);
             rings.canBeUsed = true;
         }
     }
@@ -31,6 +34,11 @@ public class LTeleportorConsole : MonoBehaviour
         if (givenKeys >= expectedKeyCount && totalKills >= expectedKillCount)
         {
             ActivateTeleporters();
+            teleportationUI.ConsoleSuccessful();
+        }
+        else
+        {
+            teleportationUI.ConsoleUnsucessful();
         }
     }
 

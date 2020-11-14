@@ -17,6 +17,12 @@ public class LTeleportationRings : MonoBehaviour
     public Transform innerRing;
     public Transform teleportationPoint;
 
+    [Header("Opposite Location")]
+    public LTeleportationRings oppositeTeleporter;
+
+    [Header("TeleporterGlow")]
+    public MeshRenderer beamRenderer;
+
     [Header("Ring Starting Values")]
     public Vector3 startingPosition;
     public float startingXRotation;
@@ -26,14 +32,20 @@ public class LTeleportationRings : MonoBehaviour
     public float innerEndXRotation;
     public float outerEndYPosition;
     public float outerEndXRotation;
-
+    
     public RingState ringState;
     public bool canBeUsed = false;
-    public bool isActive = false;
+    [HideInInspector] public bool isActive = false;
+    [HideInInspector] public bool isTeleporting = false;
+    
     private bool hasAnimated = false;
+    private bool isPresent = false;
+
+    private GameObject playerObject;
 
     private LTeleportationRings destinationRing;
     private UITeleportation teleportationUI;
+    private Timer timer;
 
     private float outerYPosition;
     private float innerYPosition;
@@ -47,14 +59,19 @@ public class LTeleportationRings : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //leportationUI = this.GetComponent<UITeleportation>();
+        teleportationUI = GameObject.FindObjectOfType<UITeleportation>();
+        timer = new Timer();
+        timer.timeLength = 3f;
+        timer.startingValue = 0;
     }
 
     // Update is called once per frame
     private void FixedUpdate()
     {
+        if (!canBeUsed) return;
         OnActive();
         AnimateRingLevitation();
+        BeginTeleportationSequence();
     }
 
     private void OnActive()
@@ -108,12 +125,8 @@ public class LTeleportationRings : MonoBehaviour
         innerYPosition = Mathf.SmoothDamp(innerRing.transform.localPosition.y, innerEndYPosition, ref refYY, 0.7f);
         innerRing.localPosition = new Vector3(innerRing.localPosition.x, innerYPosition, innerRing.localPosition.z);
 
-        //Debug.Log(outerYPosition);
-        //Debug.Log(Mathf.Ceil(innerYPosition));
-
         if (!canOuterRotate && !canInnerRotate && outerYPosition >= (outerEndYPosition-0.5f) && innerYPosition >= (innerEndYPosition - 0.5f))
         {
-            Debug.Log("Is still running");
             ringState = RingState.Idle;
         }
     }
@@ -154,6 +167,76 @@ public class LTeleportationRings : MonoBehaviour
             ringState = RingState.Idle;
             canInnerRotate = false;
             canOuterRotate = false;
+            isActive = false;
+        }
+    }
+
+    private void BeginTeleportationSequence()
+    {
+        if (!isActive) return;
+
+        if (timer.GetRemainingTime() > 0)
+        {
+            timer.CalculateRemainingTime();
+            return;
+        }
+
+        if (!isTeleporting)
+        {
+            isTeleporting = true;
+            StartCoroutine("TeleportPlayer");
+        }
+    }
+
+    private void MovePlayerPosition()
+    {
+        playerObject.transform.position = oppositeTeleporter.teleportationPoint.position;
+        oppositeTeleporter.isTeleporting = true;
+        isPresent = false;
+    }
+
+    private IEnumerator TeleportPlayer()
+    {
+        //Cut controls
+        while(teleportationUI.RampFlashOn())
+        {
+            yield return null;
+        }
+
+        MovePlayerPosition();
+
+        while (teleportationUI.RampFlashOff())
+        {
+            yield return null;
+        }
+
+        timer.ResetTimer();
+        isTeleporting = false;
+    }
+
+    private IEnumerator BeginBeamGlow()
+    {
+        Material beamMaterial = beamRenderer.material;
+        float lengthValue = beamMaterial.GetFloat("_BeamLength");
+
+        while (lengthValue < 5)
+        {
+            lengthValue += 3 * Time.deltaTime;
+            beamMaterial.SetFloat("_BeamLength", lengthValue);
+            yield return null;
+        }
+    }
+
+    private IEnumerator EndGlow()
+    {
+        Material beamMaterial = beamRenderer.material;
+        float lengthValue = beamMaterial.GetFloat("_BeamLength");
+
+        while (lengthValue > 0)
+        {
+            lengthValue -= 3 * Time.deltaTime;
+            beamMaterial.SetFloat("_BeamLength", lengthValue);
+            yield return null;
         }
     }
 
@@ -161,14 +244,44 @@ public class LTeleportationRings : MonoBehaviour
     {
         if (!canBeUsed) return;
 
-        //isPlayerDetected = true;
+        if(other.CompareTag("Player"))
+        {
+            StopCoroutine("EndGlow");
+            StartCoroutine("BeginBeamGlow");
+            ringState = RingState.OnEnter;
+            timer.ResetTimer();
+            isActive = true;
+            canInnerRotate = true;
+            canOuterRotate = true;
+            isPresent = true;
+
+            playerObject = other.gameObject;
+
+            if(!isTeleporting)
+            {
+                teleportationUI.HelperText(); //Only runs when entering and not teleporting
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (!canBeUsed) return;
 
-        //isPlayerDetected = false;
+        if(other.CompareTag("Player")) 
+        {
+            StopCoroutine("BeginBeamGlow");
+            StartCoroutine("EndGlow");
+            timer.ResetTimer();
+            ringState = RingState.OnLeave;
+            canInnerRotate = true;
+            canOuterRotate = true;
+
+            if(isPresent)
+            {
+                isTeleporting = false;
+            }
+        }
     }
 }
 

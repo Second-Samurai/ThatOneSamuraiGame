@@ -63,13 +63,12 @@ public class Projectile : MonoBehaviour
             {
                 rb.velocity = Vector3.zero;
                 rb.velocity = -direction;
-                hitEnemies = true;
-                Debug.Log("REFLECT");
+                hitEnemies = true; 
                 // manager.StartCoroutine("HitPause");
             }
             else if (!hitEnemies)
             {
-                Debug.Log("CATCH");
+ 
                 damagable.OnEntityDamage(damageAmount, this.gameObject, false);
                 StartCoroutine(Die(0f));
             }

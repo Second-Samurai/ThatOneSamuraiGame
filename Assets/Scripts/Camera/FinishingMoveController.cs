@@ -23,6 +23,7 @@ public class FinishingMoveController : MonoBehaviour
     PDamageController damageController;
     List<Transform> enemies; 
     List<AISystem> enemiesCache;
+    Animator playerAnimator;
 
     public bool bIsFinishing = false;
 
@@ -32,6 +33,7 @@ public class FinishingMoveController : MonoBehaviour
         _cutsceneDirector = GetComponent<PlayableDirector>();
         BindToTrack("Cinemachine Track", GameManager.instance.mainCamera.GetComponent<CinemachineBrain>());
         damageController = GameManager.instance.playerController.gameObject.GetComponent<PDamageController>();
+        playerAnimator = GameManager.instance.playerController.gameObject.GetComponent<Animator>();
     }
 
    
@@ -50,6 +52,7 @@ public class FinishingMoveController : MonoBehaviour
 
     public void SetTargetEnemy(Animator enemy)
     {
+        BindToTrack("Animation Track", playerAnimator);
         BindToTrack("Animation Track (1)", enemy);
 
         targetEnemy = enemy.gameObject;

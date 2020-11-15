@@ -48,29 +48,62 @@ public class UIGuardMeter : MonoBehaviour
 
     void FixedUpdate()
     {
-        DestroyWhenEntityDead();
+        if (!GameManager.instance.rewindManager.isTravelling)
+        {
+            DestroyWhenEntityDead();
 
-        if (!CheckInCameraView() || _entityTransform != _enemyTracker.targetEnemy)
-        {
-            if (guardSlider.gameObject.activeInHierarchy)
+            if (!CheckInCameraView() || _entityTransform != _enemyTracker.targetEnemy)
             {
-                HideFinisherKey();
-                guardSlider.gameObject.SetActive(false);
-            }
-            return;
-        }
-        else
-        {
-            if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _enemyTracker.targetEnemy)
-            {
-                guardSlider.gameObject.SetActive(true);
-                if (guardSlider.value == guardSlider.maxValue)
+                if (guardSlider.gameObject.activeInHierarchy)
                 {
-                    ShowFinisherKey();
+                    HideFinisherKey();
+                    guardSlider.gameObject.SetActive(false);
+                }
+                return;
+            }
+            else
+            {
+                if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _enemyTracker.targetEnemy)
+                {
+                    guardSlider.gameObject.SetActive(true);
+                    if (guardSlider.value == guardSlider.maxValue)
+                    {
+                        ShowFinisherKey();
+                    }
                 }
             }
+            SetMeterPosition();
         }
-        SetMeterPosition();
+    }
+
+    private void Update()
+    {
+        if (GameManager.instance.rewindManager.isTravelling)
+        {
+            DestroyWhenEntityDead();
+
+            if (!CheckInCameraView() || _entityTransform != _enemyTracker.targetEnemy)
+            {
+                if (guardSlider.gameObject.activeInHierarchy)
+                {
+                    HideFinisherKey();
+                    guardSlider.gameObject.SetActive(false);
+                }
+                return;
+            }
+            else
+            {
+                if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _enemyTracker.targetEnemy)
+                {
+                    guardSlider.gameObject.SetActive(true);
+                    if (guardSlider.value == guardSlider.maxValue)
+                    {
+                        ShowFinisherKey();
+                    }
+                }
+            }
+            SetMeterPosition();
+        }
     }
 
 

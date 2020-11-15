@@ -2917,6 +2917,7 @@ MonoBehaviour:
   playerInputScript: {fileID: 5612914395763633282}
   showFinisherTutorialEvent: {fileID: 11400000, guid: 76c46b1995d06674aab75c699cc43345,
     type: 2}
+  bIsFinishing: 0
 --- !u!114 &2516732064636415886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5997,7 +5998,7 @@ MonoBehaviour:
     m_Bits: 74753
   _raycastMaxDist: 0
   CancelLockOnEvent: {fileID: 11400000, guid: 8bea5abf13bf8964e8214a05797453d6, type: 2}
-  bLineRendererDebug: 1
+  bLineRendererDebug: 0
 --- !u!120 &8309275902260395299
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -7101,6 +7102,9 @@ MonoBehaviour:
   rSword: {fileID: 0}
   bSlide: 0
   bAllowDeathMoveReset: 1
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1371729297809382189
 MonoBehaviour:
   m_ObjectHideFlags: 0

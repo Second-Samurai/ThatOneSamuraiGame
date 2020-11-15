@@ -60,10 +60,7 @@ public class Guarding : MonoBehaviour
         RunRecoveryCooldown();
 
         if (canFinisher) 
-        {
-            Debug.Log("showUi");
-            Debug.Log(Vector3.Distance(_player.transform.position, gameObject.transform.position));
-
+        { 
             if (Vector3.Distance(_player.transform.position, gameObject.transform.position) < 3.2) uiGuardMeter.ShowFinisherKey();
             else uiGuardMeter.HideFinisherKey();
 

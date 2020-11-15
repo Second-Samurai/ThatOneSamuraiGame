@@ -49,6 +49,11 @@ public class PlayerFunctions : MonoBehaviour
 
     private PlayerSFX playerSFX;
 
+    bool bIsSprintAttacking = false;
+
+    RaycastHit sprintAttackTarget;
+    [SerializeField] LayerMask enemyMask;
+
     private void Start()
     {
         playerSFX = gameObject.GetComponent<PlayerSFX>();
@@ -66,6 +71,9 @@ public class PlayerFunctions : MonoBehaviour
         playerInputScript = GetComponent<PlayerInputScript>();
 
         hitstopController = GameManager.instance.GetComponent<HitstopController>();
+
+        enemyMask = LayerMask.GetMask("Enemy");
+        //enemyMask = ~enemyMask;
     }
     public void SetBlockCooldown()
     {
@@ -126,6 +134,7 @@ public class PlayerFunctions : MonoBehaviour
 
     public void JumpImpulseWithTimer(float timer)
     {
+        bIsSprintAttacking = true;
         transform.Translate(Vector3.up * 1);
         StartCoroutine(ImpulseWithTimer(transform.forward, 20, timer));
     }
@@ -175,6 +184,7 @@ public class PlayerFunctions : MonoBehaviour
             // if(bLockedOn)
             //transform.Translate(lastDir.normalized * force * Time.deltaTime);
             _animator.applyRootMotion = false;
+            if (bIsSprintAttacking) CorrectAttackAngle(ref lastDir);
             rb.velocity = lastDir.normalized * force ;
            // rb.MovePosition(transform.position + lastDir.normalized * force * Time.deltaTime);
             //else
@@ -186,7 +196,19 @@ public class PlayerFunctions : MonoBehaviour
         EnableBlock();
     }
 
-        public IEnumerator DodgeImpulse(Vector3 lastDir, float force)
+    void CorrectAttackAngle(ref Vector3 lastDir)
+    {
+        
+        if( RadialCast(transform, 10, -45, enemyMask, ref sprintAttackTarget))
+        {
+            Debug.Log(sprintAttackTarget.collider.gameObject.name);
+            transform.LookAt(sprintAttackTarget.collider.gameObject.transform);
+            transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+            lastDir = sprintAttackTarget.collider.gameObject.transform.position - transform.position;
+        } 
+    }
+
+    public IEnumerator DodgeImpulse(Vector3 lastDir, float force)
     {
         float dodgeTimer = .15f;
         while (dodgeTimer > 0f)
@@ -199,6 +221,32 @@ public class PlayerFunctions : MonoBehaviour
             yield return null;
         }
         EnableBlock();
+    }
+
+    public bool RadialCast(Transform origin, int rayCount, int offsetValue, int layerMask, ref RaycastHit hit)
+    {
+         
+        Quaternion offsetAngle;
+        Vector3 castAngle;
+
+
+         
+        for (int i = 0; i < rayCount; i++)
+        {
+            RaycastHit _hit;
+            offsetAngle = Quaternion.AngleAxis(offsetValue, new Vector3(0, 1, 0));
+            castAngle = offsetAngle * origin.forward;
+            Debug.DrawRay(origin.position, castAngle*10, Color.red);
+
+            if (Physics.Raycast(origin.position, castAngle, out _hit, 10, layerMask))
+            {
+                hit = _hit;
+
+                return true;
+            }
+            offsetValue += 10;
+        }
+        return false;
     }
 
     public void ApplyHit(GameObject attacker, bool unblockable, float damage)

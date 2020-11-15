@@ -36,7 +36,7 @@ public class PSwordManager : MonoBehaviour, ISwordManager
         swordObject = Instantiate(swordPrefab, pSwordHolder.transform);
         swordEffect = swordObject.GetComponent<WSwordEffect>();
         pFunctions.parryEffects = swordObject.GetComponent<ParryEffects>();
-        
+        Debug.Log(swordObject.name);
         swordEffect.Init(this.transform);
     }
 

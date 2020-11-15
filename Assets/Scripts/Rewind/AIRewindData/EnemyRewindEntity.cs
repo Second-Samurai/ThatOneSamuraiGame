@@ -14,14 +14,13 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
     public Collider swordCollider;
 
     public Rigidbody gameObjectRigidbody;
-    private EnemyTracker _enemyTracker;
 
 
     // Start is called before the first frame update
     protected new void Start()
     {
         _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
-        _enemyTracker = GameManager.instance.enemyTracker;
+        
         enemyDataList = new List<EnemyRewindData>();
         base.Start();
 
@@ -89,8 +88,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         //move to arguments need to be added rewind entity
         enemyDataList.Insert(0, new EnemyRewindData(aISystem.EnemyState, swordCollider.enabled,
                                                     aISystem.eDamageController.enemyGuard.canGuard, aISystem.eDamageController.enemyGuard.canParry, aISystem.eDamageController.enemyGuard.isStunned,
-                                                    aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard, aISystem.bIsDead, aISystem.bIsUnblockable, _enemyTracker.currentEnemies, 
-                                                    aISystem.bIsIdle, aISystem.bIsCircling, aISystem.eDamageController.enemyGuard.bSuperArmour ,aISystem.previousAttackSpeed, aISystem.attackSpeed,
+                                                    aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard, aISystem.bIsDead, aISystem.bIsUnblockable, aISystem.bIsIdle, aISystem.bIsCircling, aISystem.eDamageController.enemyGuard.bSuperArmour ,aISystem.previousAttackSpeed, aISystem.attackSpeed,
                                                     aISystem.armourManager.armourCount, aISystem.bIsClosingDistance, aISystem.eDamageController.enemyGuard.bRunCooldownTimer, 
                                                     aISystem.eDamageController.enemyGuard.remainingCooldownTime, aISystem.eDamageController.enemyGuard.bRunRecoveryTimer, aISystem.col.enabled));
 
@@ -207,8 +205,6 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
             {
                 aISystem.eDamageController.enemyGuard.bRunCooldownTimer = true;
             }
-            
-            _enemyTracker.currentEnemies = enemyDataList[currentIndex].trackedCurrentEnemies.ToList<Transform>();
         }
     }
 

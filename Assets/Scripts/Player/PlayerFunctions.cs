@@ -92,6 +92,11 @@ public class PlayerFunctions : MonoBehaviour
             _IKPuppet.EnableIK();
             bInputtingBlock = true;
             bIsParrying = true;
+            parryTimer = 0f;
+        }
+        else
+        {
+            Debug.LogError("bIsblocking: " + bIsBlocking + " blockTimer: " + blockTimer + " bcanBlock: " + bCanBlock);
         }
     }
 

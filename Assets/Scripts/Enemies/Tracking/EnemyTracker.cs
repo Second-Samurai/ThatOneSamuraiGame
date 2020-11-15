@@ -11,16 +11,12 @@ using Random = UnityEngine.Random;
 public class EnemyTracker : MonoBehaviour
 {
     public List<Transform> currentEnemies;
-    public Transform targetEnemy;
-    private AISystem _targetEnemyAISystem;
+
+    private LockOnTracker _lockOnTracker;
 
     private EnemySettings _enemySettings;
     private float _impatienceMeter;
     private bool _bReduceImpatience;
-
-    private CameraControl _cameraControl;
-
-    private Transform _lastKilledEnemy;
 
     private bool _bIsHeavyCharging = false;
     bool bFadedInDrums = false;
@@ -30,6 +26,7 @@ public class EnemyTracker : MonoBehaviour
     private void Start()
     {
         _enemySettings = GameManager.instance.gameSettings.enemySettings;
+        _lockOnTracker = GameManager.instance.lockOnTracker;
     }
 
     private void Update()
@@ -90,26 +87,6 @@ public class EnemyTracker : MonoBehaviour
         }
     }
 
-    public void SetTarget(Transform newTargetEnemy)
-    {
-        targetEnemy = newTargetEnemy;
-        _targetEnemyAISystem = targetEnemy.GetComponent<AISystem>();
-
-        // Stop here if there is no AI system (i.e. archers)
-        if (_targetEnemyAISystem == null) return;
-        
-        // Enable the guard meter
-        _targetEnemyAISystem.eDamageController.enemyGuard.EnableGuardMeter();
-        // Set the guard meter to visible through this event
-        _targetEnemyAISystem.eDamageController.enemyGuard.OnGuardEvent.Invoke();
-    }
-
-    public void ClearTarget()
-    {
-        targetEnemy = null;
-        _targetEnemyAISystem = null;
-    }
-
     // Called when an enemy enters the circling state, stunned state or death state
     public void StartImpatienceCountdown()
     {
@@ -135,10 +112,10 @@ public class EnemyTracker : MonoBehaviour
         int targetSelector = Random.Range(0, 10);
 
         // 80% chance if there is a targetAISystem
-        if(targetSelector >= 2  && _targetEnemyAISystem != null) 
+        if(targetSelector >= 2  && _lockOnTracker.targetEnemyAISystem != null) 
         {
             // If the target enemy isn't suitable (i.e. is not circling, stunned or dead) pick a random target instead
-            if (!CheckSuitableApproachTarget(_targetEnemyAISystem))
+            if (!CheckSuitableApproachTarget(_lockOnTracker.targetEnemyAISystem))
             {
                 PickRandomTarget();
             }
@@ -186,32 +163,6 @@ public class EnemyTracker : MonoBehaviour
         }
 
         return false;
-    }
-    
-    // Called when an enemy dies (i.e. Death enemy state)
-    public void SwitchDeathTarget(Transform enemyDeathTransform)
-    {
-        // Save the last killed enemy and find a new target 1 second later
-        _lastKilledEnemy = enemyDeathTransform;
-        Invoke("FindNewTarget", 1.0f);
-    }
-
-    public void FindNewTarget()
-    {
-        // Only find a new target if the player is still locked onto the dead enemy
-        if (_lastKilledEnemy == targetEnemy)
-        {
-            // Switch targets
-            if (currentEnemies.Count > 0)
-            {
-                GameManager.instance.cameraControl.LockOn();
-            }
-            // Exit lockon
-            else
-            {
-                GameManager.instance.cameraControl.ToggleLockOn();
-            }
-        }
     }
 
     public void SetIsHeavyCharging(bool bIsHeavyCharging)

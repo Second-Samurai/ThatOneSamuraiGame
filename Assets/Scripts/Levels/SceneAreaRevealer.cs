@@ -30,7 +30,7 @@ public class SceneAreaRevealer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<PlayerController>() != null)
+        if (other.GetComponentInParent<PlayerController>() != null)
         {
             isViewable = true;
         }
@@ -38,7 +38,7 @@ public class SceneAreaRevealer : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<PlayerController>() != null)
+        if (other.GetComponentInParent<PlayerController>() != null)
         {
             isViewable = false;
         }

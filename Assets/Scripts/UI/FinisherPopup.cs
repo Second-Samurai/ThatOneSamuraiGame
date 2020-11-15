@@ -10,7 +10,6 @@ public class FinisherPopup : Popup
 {
     private bool bHasTriggeredHeavy;
     
-    public GameEvent hidePopupEvent;
     public GameEvent hideLockOnPopupEvent;
     
     public void ShowFinisherPopup()

@@ -27,12 +27,12 @@ public class UIGuardMeter : MonoBehaviour
     private float _scaledYPos;
     private float _playerToEntityDist;
 
-    private EnemyTracker _enemyTracker;
+    private LockOnTracker _lockOnTracker;
 
     // Start is called before the first frame update
     public void Init(Transform entityTransform, StatHandler statHandler, Camera camera, RectTransform parentTransform)
     {
-        _enemyTracker = GameManager.instance.enemyTracker;
+        _lockOnTracker = GameManager.instance.lockOnTracker;
         
         this._entityTransform = entityTransform;
         this._statHandler = statHandler;
@@ -52,7 +52,7 @@ public class UIGuardMeter : MonoBehaviour
         {
             DestroyWhenEntityDead();
 
-            if (!CheckInCameraView() || _entityTransform != _enemyTracker.targetEnemy)
+            if (!CheckInCameraView() || _entityTransform != _lockOnTracker.targetEnemy)
             {
                 if (guardSlider.gameObject.activeInHierarchy)
                 {
@@ -63,7 +63,7 @@ public class UIGuardMeter : MonoBehaviour
             }
             else
             {
-                if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _enemyTracker.targetEnemy)
+                if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _lockOnTracker.targetEnemy)
                 {
                     guardSlider.gameObject.SetActive(true);
                     if (guardSlider.value == guardSlider.maxValue)
@@ -82,7 +82,7 @@ public class UIGuardMeter : MonoBehaviour
         {
             DestroyWhenEntityDead();
 
-            if (!CheckInCameraView() || _entityTransform != _enemyTracker.targetEnemy)
+            if (!CheckInCameraView() || _entityTransform != _lockOnTracker.targetEnemy)
             {
                 if (guardSlider.gameObject.activeInHierarchy)
                 {
@@ -93,7 +93,7 @@ public class UIGuardMeter : MonoBehaviour
             }
             else
             {
-                if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _enemyTracker.targetEnemy)
+                if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _lockOnTracker.targetEnemy)
                 {
                     guardSlider.gameObject.SetActive(true);
                     if (guardSlider.value == guardSlider.maxValue)
@@ -167,7 +167,7 @@ public class UIGuardMeter : MonoBehaviour
 
     public void ShowFinisherKey()
     {
-        if (guardSlider.gameObject.activeInHierarchy && _entityTransform == _enemyTracker.targetEnemy)
+        if (guardSlider.gameObject.activeInHierarchy && _entityTransform == _lockOnTracker.targetEnemy)
         {
             finisherKey.enabled = true;
         }

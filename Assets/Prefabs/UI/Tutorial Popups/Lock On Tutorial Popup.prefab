@@ -344,7 +344,7 @@ GameObject:
   - component: {fileID: 2513048163886143590}
   - component: {fileID: 8489396327466208957}
   m_Layer: 12
-  m_Name: Lock On Popup
+  m_Name: Lock On Tutorial Popup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -379,8 +379,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popup: {fileID: 863916589090911294}
-  popupImage: {fileID: 6935222281500157488}
+  bHasTriggered: 0
+  popupImageArray: []
+  popupTextArray: []
   maxTimeRemaining: 6
+  hidePopupEvent: {fileID: 11400000, guid: 70b92ee7ec6db524c8bcdc88f6283cb7, type: 2}
 --- !u!135 &8489396327466208957
 SphereCollider:
   m_ObjectHideFlags: 0

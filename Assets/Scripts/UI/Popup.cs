@@ -19,6 +19,8 @@ public class Popup : MonoBehaviour
     public float maxTimeRemaining;
     private bool _bTimerRunning = false;
     private float _timeRemaining;
+    
+    public GameEvent hidePopupEvent;
 
     private void Start()
     {
@@ -30,6 +32,8 @@ public class Popup : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && !bHasTriggered)
         {
+            hidePopupEvent.Raise();
+            
             bHasTriggered = true;
             popup.SetActive(true);
             

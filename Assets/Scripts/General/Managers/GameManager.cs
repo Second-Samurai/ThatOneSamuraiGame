@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [Header("Camera")]
     [HideInInspector] public Camera mainCamera;
     public GameObject thirdPersonViewCamera;
+    public LockOnTracker lockOnTracker;
 
     [Header("Player")]
     public PlayerController playerController;
@@ -87,6 +88,8 @@ public class GameManager : MonoBehaviour
 
     void SetupSceneCamera()
     {
+        lockOnTracker = FindObjectOfType<LockOnTracker>();
+        
         if (!thirdPersonViewCamera)
         {
             Debug.LogError("No third person camera in scene! Adding new object but please assign in inspector instead!");

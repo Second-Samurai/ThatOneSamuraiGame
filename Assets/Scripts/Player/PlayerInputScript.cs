@@ -26,6 +26,7 @@ public class PlayerInputScript : MonoBehaviour
     PDamageController _pDamageController;
     public PCombatController _pCombatController;
     Camera _cam;
+    LockOnTracker _lockOnTracker;
     #endregion
 
     #region Gameplay parameters
@@ -65,6 +66,7 @@ public class PlayerInputScript : MonoBehaviour
         _cam = Camera.main;
         finishingMoveController = GetComponentInChildren<FinishingMoveController>();
         hitstopController = GameManager.instance.GetComponent<HitstopController>();
+        _lockOnTracker = GameManager.instance.lockOnTracker;
         heavyTimer = heavyTimerMax;
     }
     #endregion
@@ -103,7 +105,7 @@ public class PlayerInputScript : MonoBehaviour
 
     public void OnLockOn()
     {
-        camControl.ToggleLockOn();
+       camControl.ToggleLockOn();
     }
 
     void OnToggleLockLeft()

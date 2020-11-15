@@ -5,6 +5,8 @@ namespace Enemies.Enemy_States
 {
     public class DeathEnemyState : EnemyState
     {
+        private LockOnTracker _lockOnTracker;
+        
         //Class constructor
         public DeathEnemyState(AISystem aiSystem) : base(aiSystem)
         {
@@ -18,10 +20,12 @@ namespace Enemies.Enemy_States
             AISystem.bIsDead = true;
             
             // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy)
-            AISystem.enemyTracker.SwitchDeathTarget(AISystem.transform);
+            _lockOnTracker = GameManager.instance.lockOnTracker;
+            _lockOnTracker.SwitchDeathTarget(AISystem.transform);
             
-            // Remove enemy from temp enemy count and enemy tracker
+            // Remove enemy from enemy tracker and lock on tracker
             TempWinTracker.instance.enemyCount--;
+            _lockOnTracker.RemoveEnemy(AISystem.transform);
             AISystem.enemyTracker.RemoveEnemy(AISystem.transform);
 
             // Enemy can no longer be damaged, enemies can no longer damage the player.

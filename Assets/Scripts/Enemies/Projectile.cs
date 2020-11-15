@@ -87,7 +87,10 @@ public class Projectile : MonoBehaviour
             StartCoroutine(Die(0f));
 
         }
-        else if (!other.gameObject.CompareTag("LOD") && !other.gameObject.CompareTag("Level") && !hitEnemies)
+        else if (!other.gameObject.CompareTag("LOD") && 
+                 !other.gameObject.CompareTag("Level") && 
+                 !other.gameObject.CompareTag("LockOnTracker") &&
+                 !hitEnemies)
         {
             //Debug.Log("CATCH2");
             //Debug.LogError(other.gameObject.name);

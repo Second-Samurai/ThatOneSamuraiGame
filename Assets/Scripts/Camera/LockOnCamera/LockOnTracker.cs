@@ -7,14 +7,13 @@ using UnityEngine;
 public class LockOnTracker : MonoBehaviour
 {
     public List<Transform> currentEnemies;
+    public List<Transform> targetableEnemies;
     public Transform targetEnemy;
     public AISystem targetEnemyAISystem;
     
     private CameraControl _cameraControl;
 
     private Transform _lastKilledEnemy;
-    
-    public bool bEnemyRaycastHit = false;
 
     #region Enemy List Adding/Subtracting
 
@@ -31,7 +30,9 @@ public class LockOnTracker : MonoBehaviour
         if (currentEnemies.Contains(enemy))
         {
             currentEnemies.Remove(enemy);
+            targetableEnemies.Remove(enemy);
             currentEnemies.TrimExcess();
+            targetableEnemies.TrimExcess();
         }
     }
 

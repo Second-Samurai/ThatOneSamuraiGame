@@ -95,6 +95,8 @@ public class TrackerRewindEntity : RewindEntity
     {
         _enemyTracker.currentEnemies = trackerDataList[currentIndex].trackedCurrentEnemies.ToList<Transform>();
         _lockOnTracker.currentEnemies = trackerDataList[currentIndex].lockOnEnemies.ToList<Transform>();
+        
+        _lockOnTracker.targetableEnemies = _lockOnTracker.currentEnemies;
     }
 
     protected new void OnDestroy()

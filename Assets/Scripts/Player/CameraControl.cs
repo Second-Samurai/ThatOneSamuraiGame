@@ -137,9 +137,9 @@ public class CameraControl : MonoBehaviour
         {
             lockOnTracker = GameManager.instance.lockOnTracker;
         }
-        if (lockOnTracker.currentEnemies.Count > 0)
+        if (lockOnTracker.targetableEnemies.Count > 0)
         {
-            foreach (Transform enemy in lockOnTracker.currentEnemies)
+            foreach (Transform enemy in lockOnTracker.targetableEnemies)
             {
                 float distance = Vector3.Distance(player.position, enemy.position);
                 if (distance < closest && enemy != lockOnTarget)

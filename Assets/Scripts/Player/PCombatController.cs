@@ -76,7 +76,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     {
         if (!swordManager.hasAWeapon) return;
         _isSwordDrawn = !_isSwordDrawn;
-        _animator.SetBool("IsDrawn", _isSwordDrawn);
+        _animator.SetBool("IsDrawn", true);
         _animator.ResetTrigger("AttackLight");
     }
 

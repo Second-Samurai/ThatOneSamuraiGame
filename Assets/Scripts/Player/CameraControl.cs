@@ -94,7 +94,6 @@ public class CameraControl : MonoBehaviour
         }
         else
         {
-            bLockedOn = false;
             UnlockCam();
         }
     }
@@ -199,6 +198,15 @@ public class CameraControl : MonoBehaviour
     public void EndGuardBreakCam()
     {
         _lockedCamScript.EndGuardBreakCam();
+    }
+
+    //Called by the CancelLockOnEvent from the lock on tracker
+    public void CancelLockOnResponse()
+    {
+        if (bLockedOn)
+        {
+            ToggleLockOn();
+        }
     }
 
 }

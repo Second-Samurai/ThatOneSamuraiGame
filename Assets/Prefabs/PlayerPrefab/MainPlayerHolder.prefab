@@ -5996,6 +5996,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 74753
   _raycastMaxDist: 0
+  CancelLockOnEvent: {fileID: 11400000, guid: 8bea5abf13bf8964e8214a05797453d6, type: 2}
   bLineRendererDebug: 1
 --- !u!120 &8309275902260395299
 LineRenderer:
@@ -6855,6 +6856,7 @@ GameObject:
   - component: {fileID: 2516732066571650226}
   - component: {fileID: 8657427106392610461}
   - component: {fileID: 7048200111375258673}
+  - component: {fileID: 9028934549375044745}
   m_Layer: 9
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -7240,6 +7242,33 @@ MonoBehaviour:
   grassRoll: []
   PebbleRoll: []
   woodRoll: []
+--- !u!114 &9028934549375044745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4694011085568007617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 089918be0d032d94a8488bcc0e2bf86e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 8bea5abf13bf8964e8214a05797453d6, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4694011085568007679}
+        m_MethodName: CancelLockOnResponse
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4726661303433978951
 GameObject:
   m_ObjectHideFlags: 0
@@ -61555,15 +61584,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f57af29611284c1daacc3117f46df2d, type: 3}
---- !u!198 &3207681944840816759 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8310175051381180092, guid: 0f57af29611284c1daacc3117f46df2d,
-    type: 3}
-  m_PrefabInstance: {fileID: 6904112330624749259}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3207681944840816758 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8310175051381180093, guid: 0f57af29611284c1daacc3117f46df2d,
+    type: 3}
+  m_PrefabInstance: {fileID: 6904112330624749259}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &3207681944840816759 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8310175051381180092, guid: 0f57af29611284c1daacc3117f46df2d,
     type: 3}
   m_PrefabInstance: {fileID: 6904112330624749259}
   m_PrefabAsset: {fileID: 0}

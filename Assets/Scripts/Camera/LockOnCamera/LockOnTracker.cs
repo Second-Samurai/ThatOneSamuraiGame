@@ -13,6 +13,8 @@ public class LockOnTracker : MonoBehaviour
     private CameraControl _cameraControl;
 
     private Transform _lastKilledEnemy;
+    
+    public bool bEnemyRaycastHit = false;
 
     #region Enemy List Adding/Subtracting
 

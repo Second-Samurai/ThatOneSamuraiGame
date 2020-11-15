@@ -19,6 +19,8 @@ public class CameraControl : MonoBehaviour
     public CinematicBars cinematicBars;
     
     public GameEvent onLockOnEvent;
+    private const float maxLockCancelTimer = 0.7f;
+    private float lockCancelTimer;
 
     /*private void Start()
     {
@@ -63,6 +65,8 @@ public class CameraControl : MonoBehaviour
        
         _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
         _playerInput = GetComponent<PlayerInputScript>();
+
+        lockCancelTimer = maxLockCancelTimer;
     }
 
     void OnRotateCamera(InputValue rotDir) 
@@ -106,6 +110,7 @@ public class CameraControl : MonoBehaviour
     {
         if (GetTarget())
         {
+            lockCancelTimer = maxLockCancelTimer;
             _animator.SetBool("LockedOn", true);
             _lockedCamScript.cam.Priority = 15;
             cinematicBars.ShowBars(200f, .3f);
@@ -209,7 +214,12 @@ public class CameraControl : MonoBehaviour
     {
         if (bLockedOn)
         {
-            ToggleLockOn();
+            lockCancelTimer -= Time.deltaTime;
+            if (lockCancelTimer < 0)
+            {
+                lockCancelTimer = maxLockCancelTimer;
+                ToggleLockOn();
+            }
         }
     }
 

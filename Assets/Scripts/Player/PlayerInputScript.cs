@@ -103,7 +103,7 @@ public class PlayerInputScript : MonoBehaviour
         }
     }
 
-    void OnLockOn()
+    public void OnLockOn()
     {
        camControl.ToggleLockOn();
     }
@@ -175,9 +175,9 @@ public class PlayerInputScript : MonoBehaviour
     
     void OnStartHeavyAlternative()
     {
-        bPlayGleam = false;
-        heavyTimer = 1.0f;
-        StartHeavy();
+        //bPlayGleam = false;
+        //heavyTimer = 1.0f;
+        //StartHeavy();
     }
 
     void StartHeavy()

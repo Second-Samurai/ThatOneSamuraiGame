@@ -52,7 +52,9 @@ namespace Enemies.Enemy_States
             // Set the death trigger
             Animator.SetBool("Finish", AISystem.bFinish);
             Animator.SetTrigger("TriggerDeath");
-            
+
+            if (AISystem.particleSpawn) AISystem.particleSpawn.SpawnParticles();
+
             yield break;
         }
     }

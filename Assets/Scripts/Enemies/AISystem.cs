@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Diagnostics;
 using Enemies.Enemy_States;
@@ -100,6 +101,7 @@ namespace Enemies
         //CIRCLE TRACKING (used for the enemy tracker) and CloseDistanceTracking (used of heavyAttack)
         public bool bIsCircling = false;
         public bool bIsClosingDistance = false;
+        public float circleSpeed = 1.0f;
 
         //DEATH PARTICLES
         [HideInInspector] public EnemyDeathParticleSpawn particleSpawn;
@@ -487,6 +489,14 @@ namespace Enemies
             attackSpeed = previousAttackSpeed;
             animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
         }
+
+        #region Circle Enemy State Utility Functions
+
+        public void SetCircleSpeed(float newSpeed)
+        {
+            circleSpeed = newSpeed;
+            animator.SetFloat("CircleSpeedMultiplier", circleSpeed);
+        }
         
         // Used in CircleEnemyState and enemy tracker to move the enemy onto another action
         // DO NOT IMPLEMENT A START CIRCLING STATE. Instead you should switch to CircleEnemyState
@@ -522,6 +532,37 @@ namespace Enemies
              
         }
         
+        // Used in circle enemy state to decide when to change directions
+        private void OnCollisionEnter(Collision other)
+        {
+            if (bIsCircling)
+            {
+                if (OnCollisionLayers(other.gameObject.layer))
+                {
+                    Debug.LogError("Has collided with " + other.gameObject.name + " on layer " + other.gameObject.layer);
+                
+                    //This next operation is fairly risky however since we check bIsCircling
+                    //the enemy should ideally be in CircleEnemyState anyway
+                    CircleEnemyState circleEnemyState = (CircleEnemyState) EnemyState;
+                    circleEnemyState.StartDirChangeCooldown();
+                }
+            }
+        }
+        
+        private bool OnCollisionLayers(int layerInt)
+        {
+            //Default layer is mostly used. Haven't seen a case where Enemy works
+            if (layerInt == LayerMask.NameToLayer("Default") || layerInt == LayerMask.NameToLayer("Structures") ||
+                layerInt == LayerMask.NameToLayer("Enemy"))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
+
         #endregion
 
         #region Animation Called Events
@@ -828,11 +869,13 @@ namespace Enemies
         private void OnDisable()
         { 
             GameManager.instance.enemyTracker.RemoveEnemy(rb.gameObject.transform);
+            GameManager.instance.lockOnTracker.RemoveEnemy(rb.gameObject.transform);
         }
 
         private void OnDestroy()
         {
             GameManager.instance.enemyTracker.RemoveEnemy(rb.gameObject.transform);
+            GameManager.instance.lockOnTracker.RemoveEnemy(rb.gameObject.transform);
         }
         
     }

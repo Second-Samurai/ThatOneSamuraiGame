@@ -11,12 +11,14 @@ public class BackgroundAudio : MonoBehaviour
     public AudioClip optionsSelect;
     public AudioClip startGame;
     public AudioClip backgroudMusic;
-
+    public AudioClip doorClose;
+    public AudioClip doorSlam;
 
     public AudioSource birdsAndTreesSource;
     public AudioSource menuMusicSource;
     public AudioSource optionsSelectSource;
     public AudioSource backgroundMusicSource;
+    public AudioSource doorSource;
 
     public bool bActive;
    
@@ -39,6 +41,8 @@ public class BackgroundAudio : MonoBehaviour
         startGame = GameManager.instance.audioManager.FindSound("selectbuttonsfx");
         optionsSelect = GameManager.instance.audioManager.FindSound("scrollingsfx");
         backgroudMusic = GameManager.instance.audioManager.FindSound("background music");
+        doorClose = GameManager.instance.audioManager.FindSound("gate open");
+        doorSlam = GameManager.instance.audioManager.FindSound("shut");
 
         // audiosource settings
         menuMusicSource.loop = true;
@@ -52,6 +56,8 @@ public class BackgroundAudio : MonoBehaviour
         if (!backgroundMusicSource.clip) backgroundMusicSource.clip = backgroudMusic;
         birdsAndTreesSource.Play();
         menuMusicSource.Play();
+
+        doorSource.loop = false;
 
     }
 
@@ -142,5 +148,18 @@ public class BackgroundAudio : MonoBehaviour
         {
             backgroundMusicSource.DOFade(0, time);
         }
+    }
+
+    public void PlayClose() 
+    {
+        doorSource.clip = doorClose;
+        doorSource.Play();
+    
+    }
+
+    public void PlaySlam()
+    {
+        doorSource.clip = doorSlam;
+        doorSource.Play();
     }
 }

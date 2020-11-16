@@ -19,6 +19,7 @@ public class DebugTP : MonoBehaviour
         if (Keyboard.current.pKey.wasPressedThisFrame && Keyboard.current.shiftKey.IsPressed())
         {
             player.position = transform.position;
+            AudioManager.instance.backgroundAudio.FadeScore();
         }
 
         if (Keyboard.current.oKey.wasPressedThisFrame && Keyboard.current.shiftKey.IsPressed())

@@ -80,7 +80,6 @@ public class BackgroundAudio : MonoBehaviour
         menuMusicSource.volume = audioManager.BGMVol;
         doorSource.volume = audioManager.BGMVol;
         hum.volume = audioManager.SFXVol;
-        ThunderSource.volume = audioManager.BGMVol;
 
         if (bActive)
         {
@@ -211,6 +210,6 @@ public class BackgroundAudio : MonoBehaviour
     public void PlayThunder()
     {
         int j = Random.Range(0, thunder.Length);
-        ThunderSource.PlayOneShot(thunder[j]);
+        ThunderSource.PlayOneShot(thunder[j], 1f);
     }
 }

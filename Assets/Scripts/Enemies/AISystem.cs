@@ -105,6 +105,9 @@ namespace Enemies
 
         //DEATH PARTICLES
         [HideInInspector] public EnemyDeathParticleSpawn particleSpawn;
+
+        //AUDIO
+        private BackgroundAudio _backgroundAudio;
         
         #endregion
         
@@ -153,6 +156,8 @@ namespace Enemies
             if (enemyType == EnemyType.BOSS) weaponSwitcher = GetComponent<WeaponSwitcher>();
 
             particleSpawn = GetComponentInChildren<EnemyDeathParticleSpawn>();
+
+            _backgroundAudio = GameManager.instance.audioManager.backgroundAudio;
         }
 
         private void Update()
@@ -260,6 +265,7 @@ namespace Enemies
                             OnDodge();
                             CheckArmourLevel();
                             eDamageController.enemyGuard.ResetGuard();
+                            _backgroundAudio.PlayThunder();
                         }
                         //EndState();
                         //OnDodge(); 
@@ -746,6 +752,7 @@ namespace Enemies
                     SetState(new DeathEnemyState(this));
                     bossEvent.Raise();
                     col.enabled = true;
+                    _backgroundAudio.PlayThunder();
                 }
                 else
                 {

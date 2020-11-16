@@ -13,18 +13,20 @@ public class LockOnTargetManager : MonoBehaviour
     public float swapSpeed = 10f;
     public FinisherCam finisherCam;
     CinemachineBrain mainCam;
+    Animator animator;
 
     void Start()
     {
         cam = GetComponent<CinemachineFreeLook>();
         mainCam = Camera.main.GetComponent<CinemachineBrain>();
+        animator = GameManager.instance.playerController.gameObject.GetComponent<Animator>();
     }
 
     private void FixedUpdate()
     {
         if (_bLockedOn)
             MoveTarget();
-        if(!_bLockedOn && cam.Equals((object)mainCam.ActiveVirtualCamera))
+        if((!_bLockedOn || !animator.GetBool("LockedOn"))&& cam.Equals((object)mainCam.ActiveVirtualCamera))
         {
             cam.m_Priority = 3;
         }

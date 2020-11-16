@@ -94,7 +94,6 @@ public class CameraControl : MonoBehaviour
 
     public void ToggleLockOn()
     {
-        onLockOnEvent.Raise();
         if (!bLockedOn)
         {
             if (LockOn())
@@ -106,6 +105,7 @@ public class CameraControl : MonoBehaviour
         {
             UnlockCam();
         }
+        onLockOnEvent.Raise();
     }
 
     public bool LockOn()

@@ -105,6 +105,9 @@ namespace Enemies
 
         //DEATH PARTICLES
         [HideInInspector] public EnemyDeathParticleSpawn particleSpawn;
+
+        //AUDIO
+        private BackgroundAudio _backgroundAudio;
         
         #endregion
         
@@ -153,6 +156,8 @@ namespace Enemies
             if (enemyType == EnemyType.BOSS) weaponSwitcher = GetComponent<WeaponSwitcher>();
 
             particleSpawn = GetComponentInChildren<EnemyDeathParticleSpawn>();
+
+            _backgroundAudio = GameManager.instance.audioManager.backgroundAudio;
         }
 
         private void Update()
@@ -161,7 +166,7 @@ namespace Enemies
             //if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove();
             //if (enemyType == EnemyType.BOSS && Keyboard.current.iKey.wasPressedThisFrame) OnBossTaunt();
 
-            //if (enemyType == EnemyType.BOSS && Keyboard.current.lKey.wasPressedThisFrame) OnEnemyDeath();
+            if (enemyType == EnemyType.BOSS && Keyboard.current.lKey.wasPressedThisFrame) OnEnemyDeath();
         }
 
         #endregion
@@ -260,6 +265,7 @@ namespace Enemies
                             OnDodge();
                             CheckArmourLevel();
                             eDamageController.enemyGuard.ResetGuard();
+                            _backgroundAudio.PlayThunder();
                         }
                         //EndState();
                         //OnDodge(); 
@@ -746,6 +752,7 @@ namespace Enemies
                     SetState(new DeathEnemyState(this));
                     bossEvent.Raise();
                     col.enabled = true;
+                    _backgroundAudio.PlayBirds();
                 }
                 else
                 {
@@ -755,6 +762,7 @@ namespace Enemies
                     IncreaseAttackSpeed(.05f);
                     IncreaseAttackSpeed(.05f);
                     CheckArmourLevel();
+                    _backgroundAudio.PlayThunder();
 
 
                 }

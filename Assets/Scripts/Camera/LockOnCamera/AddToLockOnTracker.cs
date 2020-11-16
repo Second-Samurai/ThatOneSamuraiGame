@@ -68,7 +68,7 @@ public class AddToLockOnTracker : MonoBehaviour
 
                     if (enemyTransform == _lockOnTracker.targetEnemy)
                     {
-                        CancelLockOnEvent.Raise();
+                       // CancelLockOnEvent.Raise();
                     }
                 }
             }

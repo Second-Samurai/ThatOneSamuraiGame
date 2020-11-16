@@ -39,19 +39,7 @@ public class LockOnTracker : MonoBehaviour
         //but not the target enemy, hence the following lines
         if (enemy == targetEnemy)
         {
-            targetEnemy = null;
-            if (GameManager.instance.cameraControl.bLockedOn)
-            {
-                if (targetableEnemies.Count > 0)
-                {
-                    GameManager.instance.cameraControl.LockOn();
-                }
-                // Exit lockon
-                else
-                {
-                    GameManager.instance.cameraControl.ToggleLockOn();
-                }
-            }
+            SwitchDeathTarget(targetEnemy);
         }
     }
 

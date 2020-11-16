@@ -68,6 +68,7 @@ public class AddToLockOnTracker : MonoBehaviour
 
                     if (enemyTransform == _lockOnTracker.targetEnemy)
                     {
+                        Debug.Log("Raycast interrupted by " + hit.collider.name);
                         CancelLockOnEvent.Raise();
                     }
                 }

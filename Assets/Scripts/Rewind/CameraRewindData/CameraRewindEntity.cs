@@ -112,14 +112,14 @@ public class CameraRewindEntity : RewindEntity
 
     public override void ApplyData()
     {
-        // TODO: Fix this
-        //ckOnTargetManager._bLockedOn = false;
-        lockOnTargetManager._bLockedOn = cameraDataList[currentIndex].bIsLockedOn;
-        if (lockOnTargetManager._bLockedOn == false) 
-        {
-            cameraControl.UnlockCam();
-        }
-
+        lockOnTargetManager._bLockedOn = false;
+        cameraControl.UnlockCam();
+        
+        // lockOnTargetManager._bLockedOn = cameraDataList[currentIndex].bIsLockedOn;
+        // if (lockOnTargetManager._bLockedOn == false) 
+        // {
+        //     cameraControl.UnlockCam();
+        // }
 
         //base.ApplyData();
     }

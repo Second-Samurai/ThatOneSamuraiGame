@@ -10,8 +10,6 @@ public class LockOnTracker : MonoBehaviour
     public List<Transform> targetableEnemies;
     public Transform targetEnemy;
     public AISystem targetEnemyAISystem;
-    
-    private CameraControl _cameraControl;
 
     private Transform _lastKilledEnemy;
 
@@ -81,6 +79,7 @@ public class LockOnTracker : MonoBehaviour
         if (_lastKilledEnemy == targetEnemy)
         {
             Debug.Log(12);
+
             // Switch targets
             if (targetableEnemies.Count > 0)
             {

@@ -21,14 +21,19 @@ public class LockOnPopup : Popup
 
     public void ToggleLockOnPopup(GameObject _popup)
     {
-        // Don't show lock on if bool is true
-        if (_bStopLockOnTut || _popup.activeSelf)
+        if (_bStopLockOnTut)
         {
             _popup.SetActive(false);
+            return;
         }
-        else if (!_bStopLockOnTut)
+        
+        if (!GameManager.instance.cameraControl.bLockedOn)
         {
             _popup.SetActive(true);
+        }
+        else
+        {
+            _popup.SetActive(false);
         }
     }
 

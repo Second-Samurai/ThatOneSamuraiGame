@@ -21,7 +21,7 @@ public class CameraControl : MonoBehaviour
     public GameEvent onLockOnEvent;
     private bool _bRunLockCancelTimer = false;
     private const float maxLockCancelTimer = 0.4f;
-    private float _lockCancelTimer;
+    public float _lockCancelTimer;
 
     /*private void Start()
     {
@@ -110,6 +110,7 @@ public class CameraControl : MonoBehaviour
 
     public bool LockOn()
     {
+        _bRunLockCancelTimer = false;
         if (GetTarget())
         {
             _bRunLockCancelTimer = false;
@@ -131,7 +132,7 @@ public class CameraControl : MonoBehaviour
         _lockedCamScript.ClearTarget();
         lockOnTarget = null;
         cinematicBars.HideBars(.3f);
-        
+        Debug.Log(300000);
         _animator.SetBool("LockedOn", false);
     }
 
@@ -177,6 +178,7 @@ public class CameraControl : MonoBehaviour
             //_playerInput.target = lockOnNullDummy;
            // SetTarget(lockOnNullDummy);
             bLockedOn = false;
+            Debug.Log(500000);
             return bLockedOn;
         }
     }
@@ -227,7 +229,8 @@ public class CameraControl : MonoBehaviour
         {
             _bRunLockCancelTimer = false;
             _lockCancelTimer = maxLockCancelTimer;
-            if(bLockedOn) ToggleLockOn();
+           
+            if(bLockedOn) ToggleLockOn(); Debug.Log(100000);
         }
     }
 

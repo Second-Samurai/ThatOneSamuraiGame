@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using DG.Tweening;
+
 
 
 public class RainFall : MonoBehaviour
@@ -25,7 +27,7 @@ public class RainFall : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             backgroundAudio.PlayRain();
-            colorAdjustments.postExposure.value = -1.5f;
+            DOTween.To(() => colorAdjustments.postExposure.value, x => colorAdjustments.postExposure.value = x, -1.5f, 5f);
 
 
         }

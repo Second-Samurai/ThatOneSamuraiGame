@@ -31,8 +31,7 @@ public class Guarding : MonoBehaviour
     //NOTE: Current Guard should also be tracked by the rewind system
 
     public bool bSuperArmour = false;
-
-    private bool canFinisher;
+    
     private Transform _player;
 
     public void Init(StatHandler statHandler)
@@ -59,11 +58,23 @@ public class Guarding : MonoBehaviour
         RunGuardCooldown();
         RunRecoveryCooldown();
 
-        if (canFinisher) 
-        { 
-            if (Vector3.Distance(_player.transform.position, gameObject.transform.position) < 3.2) uiGuardMeter.ShowFinisherKey();
-            else uiGuardMeter.HideFinisherKey();
-
+        if (isStunned) 
+        {
+            if (Vector3.Magnitude(gameObject.transform.position - _player.transform.position) < 3.2)
+            {
+                if (!uiGuardMeter.finisherKey.enabled)
+                {
+                    uiGuardMeter.ShowFinisherKey();
+                }
+            }
+            else
+            {
+                uiGuardMeter.HideFinisherKey();
+            }
+        }
+        else if(uiGuardMeter.finisherKey.enabled)
+        {
+            uiGuardMeter.HideFinisherKey();
         }
     }
 
@@ -186,7 +197,6 @@ public class Guarding : MonoBehaviour
         //GameManager.instance.playerController.gameObject.GetComponentInChildren<LockOnTargetManager>().GuardBreakCam(this.transform);
         isStunned = true;
         canGuard = false;
-        canFinisher = true;
         AwaitNextDamage(_stunTime);
         //camImpulse.FireImpulse();
         //Switch States
@@ -212,6 +222,5 @@ public class Guarding : MonoBehaviour
         }
         isStunned = false;
         canGuard = true;
-        canFinisher = false;
     }
 }

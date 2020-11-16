@@ -104,27 +104,27 @@ public class EnemyTracker : MonoBehaviour
     
     private void PickApproachingTarget()
     {
-        // // Don't pick a target if no enemies are in the tracker or if the player is charging a heavy attack
-        // if (currentEnemies.Count <= 0 || _bIsHeavyCharging)
-        //     return;
-        //
-        // // int random is 0 - 9
-        // int targetSelector = Random.Range(0, 10);
-        //
-        // // 80% chance if there is a targetAISystem
-        // if(targetSelector >= 2  && _lockOnTracker.targetEnemyAISystem != null) 
-        // {
-        //     // If the target enemy isn't suitable (i.e. is not circling, stunned or dead) pick a random target instead
-        //     if (!CheckSuitableApproachTarget(_lockOnTracker.targetEnemyAISystem))
-        //     {
-        //         PickRandomTarget();
-        //     }
-        // }
-        // // 20% chance if there is a suitable _targetEnemyAISystem, 100% if there is no target enemy
-        // else 
-        // {
-        //     PickRandomTarget();
-        // }
+        // Don't pick a target if no enemies are in the tracker or if the player is charging a heavy attack
+        if (currentEnemies.Count <= 0 || _bIsHeavyCharging)
+            return;
+        
+        // int random is 0 - 9
+        int targetSelector = Random.Range(0, 10);
+        
+        // 80% chance if there is a targetAISystem
+        if(targetSelector >= 2  && _lockOnTracker.targetEnemyAISystem != null) 
+        {
+            // If the target enemy isn't suitable (i.e. is not circling, stunned or dead) pick a random target instead
+            if (!CheckSuitableApproachTarget(_lockOnTracker.targetEnemyAISystem))
+            {
+                PickRandomTarget();
+            }
+        }
+        // 20% chance if there is a suitable _targetEnemyAISystem, 100% if there is no target enemy
+        else 
+        {
+            PickRandomTarget();
+        }
     }
 
     private void PickRandomTarget()

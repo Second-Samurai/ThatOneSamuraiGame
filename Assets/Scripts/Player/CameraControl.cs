@@ -19,8 +19,9 @@ public class CameraControl : MonoBehaviour
     public CinematicBars cinematicBars;
     
     public GameEvent onLockOnEvent;
-    private const float maxLockCancelTimer = 0.7f;
-    private float lockCancelTimer;
+    private bool _bRunLockCancelTimer = false;
+    private const float maxLockCancelTimer = 0.4f;
+    private float _lockCancelTimer;
 
     /*private void Start()
     {
@@ -65,8 +66,6 @@ public class CameraControl : MonoBehaviour
        
         _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
         _playerInput = GetComponent<PlayerInputScript>();
-
-        lockCancelTimer = maxLockCancelTimer;
     }
 
     void OnRotateCamera(InputValue rotDir) 
@@ -82,6 +81,9 @@ public class CameraControl : MonoBehaviour
         {
             camTargetScript.RotateCam(rotationVector);
         }
+
+        if (_bRunLockCancelTimer) RunLockCancelTimer();
+        else _lockCancelTimer = maxLockCancelTimer;
     }
 
     public void SetTarget(Transform target)
@@ -110,7 +112,7 @@ public class CameraControl : MonoBehaviour
     {
         if (GetTarget())
         {
-            lockCancelTimer = maxLockCancelTimer;
+            _bRunLockCancelTimer = false;
             _animator.SetBool("LockedOn", true);
             _lockedCamScript.cam.Priority = 15;
             cinematicBars.ShowBars(200f, .3f);
@@ -214,12 +216,18 @@ public class CameraControl : MonoBehaviour
     {
         if (bLockedOn)
         {
-            lockCancelTimer -= Time.deltaTime;
-            if (lockCancelTimer < 0)
-            {
-                lockCancelTimer = maxLockCancelTimer;
-                ToggleLockOn();
-            }
+            _bRunLockCancelTimer = true;
+        }
+    }
+    
+    private void RunLockCancelTimer()
+    {
+        _lockCancelTimer -= Time.deltaTime;
+        if (_lockCancelTimer < 0)
+        {
+            _bRunLockCancelTimer = false;
+            _lockCancelTimer = maxLockCancelTimer;
+            if(bLockedOn) ToggleLockOn();
         }
     }
 

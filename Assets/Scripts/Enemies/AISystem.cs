@@ -548,10 +548,12 @@ namespace Enemies
                 }
             }
         }
-
+        
         private bool OnCollisionLayers(int layerInt)
         {
-            if (layerInt == LayerMask.NameToLayer("Default") || layerInt == LayerMask.NameToLayer("Structures"))
+            //Default layer is mostly used. Haven't seen a case where Enemy works
+            if (layerInt == LayerMask.NameToLayer("Default") || layerInt == LayerMask.NameToLayer("Structures") ||
+                layerInt == LayerMask.NameToLayer("Enemy"))
             {
                 return true;
             }
@@ -867,11 +869,13 @@ namespace Enemies
         private void OnDisable()
         { 
             GameManager.instance.enemyTracker.RemoveEnemy(rb.gameObject.transform);
+            GameManager.instance.lockOnTracker.RemoveEnemy(rb.gameObject.transform);
         }
 
         private void OnDestroy()
         {
             GameManager.instance.enemyTracker.RemoveEnemy(rb.gameObject.transform);
+            GameManager.instance.lockOnTracker.RemoveEnemy(rb.gameObject.transform);
         }
         
     }

@@ -14,6 +14,8 @@ public class AudioManager : MonoBehaviour
     public float SFXVol;
     public BackgroundAudio backgroundAudio;
     public TrackManager trackManager;
+    public bool LightSaber = false;
+    public bool check = false;
   
 
 

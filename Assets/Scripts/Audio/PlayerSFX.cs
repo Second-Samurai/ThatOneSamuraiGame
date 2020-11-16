@@ -26,6 +26,7 @@ public class PlayerSFX : MonoBehaviour
     private AudioClip[] whoosh;
     private AudioClip[] bigSmack;
     private AudioClip[] allUnsheath;
+    private AudioClip[] saberwhoosh;
 
 
 
@@ -56,7 +57,6 @@ public class PlayerSFX : MonoBehaviour
         bigSmack = GameManager.instance.audioManager.FindAll("Very").ToArray();
         allUnsheath = GameManager.instance.audioManager.FindAll("sheath ").ToArray();
 
-
         walkingClip = walkingGrass;
 
     }
@@ -81,8 +81,12 @@ public class PlayerSFX : MonoBehaviour
 
     private void Whoosh()
     {
-        int j = Random.Range(0, whoosh.Length);
-        audioPlayer.PlayOnce(whoosh[j], audioManager.SFXVol *2);
+        if (audioManager.LightSaber == false)
+        {
+            int j = Random.Range(0, whoosh.Length);
+            audioPlayer.PlayOnce(whoosh[j], audioManager.SFXVol * 2);
+        }
+       
     }
 
     private void Jump()

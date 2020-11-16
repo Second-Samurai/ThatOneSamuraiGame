@@ -13,12 +13,15 @@ public class BackgroundAudio : MonoBehaviour
     public AudioClip backgroudMusic;
     public AudioClip doorClose;
     public AudioClip doorSlam;
+    public AudioClip saberHum;
+
 
     public AudioSource birdsAndTreesSource;
     public AudioSource menuMusicSource;
     public AudioSource optionsSelectSource;
     public AudioSource backgroundMusicSource;
     public AudioSource doorSource;
+    public AudioSource hum;
 
     public bool bActive;
    
@@ -43,6 +46,7 @@ public class BackgroundAudio : MonoBehaviour
         backgroudMusic = GameManager.instance.audioManager.FindSound("background music");
         doorClose = GameManager.instance.audioManager.FindSound("gate open");
         doorSlam = GameManager.instance.audioManager.FindSound("shut");
+        saberHum = GameManager.instance.audioManager.FindSound("hum");
 
         // audiosource settings
         menuMusicSource.loop = true;
@@ -72,6 +76,11 @@ public class BackgroundAudio : MonoBehaviour
             backgroundMusicSource.volume = audioManager.BGMVol;
         }
 
+        if (audioManager.LightSaber == true && audioManager.check == false) 
+        {
+            PlayHum();
+            audioManager.check = true;
+        }
     }
 
     public void PlayScore() 
@@ -96,6 +105,7 @@ public class BackgroundAudio : MonoBehaviour
         backgroundMusicSource.Stop();
         birdsAndTreesSource.Stop();
         menuMusicSource.Stop();
+        hum.Stop();
         menuMusicSource.Play();
     }
 
@@ -104,16 +114,19 @@ public class BackgroundAudio : MonoBehaviour
         backgroundMusicSource.Stop();
         birdsAndTreesSource.Stop();
         menuMusicSource.Stop();
+        hum.Stop();
     }
 
     public void PauseMusic()
     {
         backgroundMusicSource.Pause();
+        hum.Pause();
     }
 
     public void ResumeMusic() 
     {
         backgroundMusicSource.UnPause();
+        hum.UnPause();
     }
 
     public void Select(AudioSource audioSource)
@@ -161,5 +174,13 @@ public class BackgroundAudio : MonoBehaviour
     {
         doorSource.clip = doorSlam;
         doorSource.Play();
+    }
+
+    public void PlayHum() 
+    {
+        hum.clip = saberHum;
+        hum.volume = .1f;
+        hum.loop = true;
+        hum.Play();
     }
 }

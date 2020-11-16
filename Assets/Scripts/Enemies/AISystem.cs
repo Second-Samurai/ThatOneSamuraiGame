@@ -166,7 +166,7 @@ namespace Enemies
             //if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove();
             //if (enemyType == EnemyType.BOSS && Keyboard.current.iKey.wasPressedThisFrame) OnBossTaunt();
 
-            if (enemyType == EnemyType.BOSS && Keyboard.current.lKey.wasPressedThisFrame) OnEnemyDeath();
+            //if (enemyType == EnemyType.BOSS && Keyboard.current.lKey.wasPressedThisFrame) OnEnemyDeath();
         }
 
         #endregion
@@ -545,7 +545,7 @@ namespace Enemies
             {
                 if (OnCollisionLayers(other.gameObject.layer))
                 {
-                    Debug.LogError("Has collided with " + other.gameObject.name + " on layer " + other.gameObject.layer);
+                    //Debug.LogError("Has collided with " + other.gameObject.name + " on layer " + other.gameObject.layer);
                 
                     //This next operation is fairly risky however since we check bIsCircling
                     //the enemy should ideally be in CircleEnemyState anyway

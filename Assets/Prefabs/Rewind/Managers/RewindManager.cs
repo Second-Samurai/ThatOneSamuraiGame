@@ -271,7 +271,7 @@ public class RewindManager : MonoBehaviour
         if(rewindCam) rewindCam.m_Priority = 3;
         if (isTravelling)
         {
-            OnEndRewind();
+            
             isTravelling = false;
             foreach (RewindEntity entity in rewindObjects)
             {
@@ -283,9 +283,12 @@ public class RewindManager : MonoBehaviour
             _rewindAudio.Resume();
             _rewindAudio.audioManager.backgroundAudio.ResumeMusic();
             _rewindAudio.audioManager.trackManager.PauseAll();
-            Reset();
+            
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
+            
+            Reset();
+            OnEndRewind();
         }
     }
 

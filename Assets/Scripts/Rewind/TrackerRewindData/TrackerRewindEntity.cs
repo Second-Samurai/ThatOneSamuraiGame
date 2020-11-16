@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Enemies;
 using UnityEngine;
 
 public class TrackerRewindEntity : RewindEntity
@@ -93,10 +94,11 @@ public class TrackerRewindEntity : RewindEntity
     
     public override void ApplyData()
     {
+        _lockOnTracker.targetableEnemies.Clear();
         _enemyTracker.currentEnemies = trackerDataList[currentIndex].trackedCurrentEnemies.ToList<Transform>();
         _lockOnTracker.currentEnemies = trackerDataList[currentIndex].lockOnEnemies.ToList<Transform>();
         
-        _lockOnTracker.targetableEnemies = _lockOnTracker.currentEnemies;
+        //_lockOnTracker.targetableEnemies = _lockOnTracker.currentEnemies;
     }
 
     protected new void OnDestroy()

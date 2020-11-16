@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -39,7 +40,24 @@ public class RewindInput : MonoBehaviour
 
     }
 
-  
+
+    private void Update()
+    {
+        if (Keyboard.current.iKey.wasPressedThisFrame)
+        {
+            Time.timeScale = 1.0f;
+            Time.fixedDeltaTime = Time.timeScale * .02f;
+
+            _inputComponent.SwitchCurrentActionMap("Gameplay");
+            GameManager.instance.postProcessingController.DisableRewindColourFilter();
+            isTravelling = false;
+            //rewindEntity.isTravelling = false;
+            rewindTut.SetActive(false);
+            rewindManager.isTravelling = false;
+            rewindManager.ResetRewind();
+            rewindManager.EndRewind();
+        }
+    }
 
     void OnInitRewind()
     {

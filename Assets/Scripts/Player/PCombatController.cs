@@ -212,7 +212,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         else if (audioManager.LightSaber == true)
         {
             int j = Random.Range(0, saberwhoosh.Length);
-            swordAudio.PlayOnce(saberwhoosh[j], audioManager.SFXVol * 2);
+            swordAudio.PlayOnce(saberwhoosh[j], audioManager.SFXVol / 2);
         }
 
     }
@@ -228,7 +228,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         else if (audioManager.LightSaber == true)
         {
             int j = Random.Range(0, lightSaberHit.Length);
-            swordAudio.PlayOnce(lightSaberHit[j], audioManager.SFXVol * 2);
+            swordAudio.PlayOnce(lightSaberHit[j], audioManager.SFXVol / 2);
         }
     }
 
@@ -242,7 +242,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         else if (audioManager.LightSaber == true)
         {
             int j = Random.Range(0, saberwhoosh.Length);
-            swordAudio.PlayOnce(saberwhoosh[j], audioManager.SFXVol * 2, .5f, .7f);
+            swordAudio.PlayOnce(saberwhoosh[j], audioManager.SFXVol / 2, .5f, .7f);
         }
     }
 

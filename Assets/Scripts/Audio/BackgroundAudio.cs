@@ -79,7 +79,7 @@ public class BackgroundAudio : MonoBehaviour
         birdsAndTreesSource.volume = audioManager.BGMVol;
         menuMusicSource.volume = audioManager.BGMVol;
         doorSource.volume = audioManager.BGMVol;
-        hum.volume = audioManager.SFXVol;
+        hum.volume = audioManager.SFXVol / 4;
 
         if (bActive)
         {
@@ -189,7 +189,7 @@ public class BackgroundAudio : MonoBehaviour
     public void PlayHum()
     {
         hum.clip = saberHum;
-        hum.volume = .1f;
+        hum.volume = .01f;
         hum.loop = true;
         hum.Play();
     }

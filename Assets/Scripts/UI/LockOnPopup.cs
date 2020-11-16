@@ -27,7 +27,7 @@ public class LockOnPopup : Popup
             return;
         }
         
-        if (!GameManager.instance.cameraControl.bLockedOn)
+        if (GameManager.instance.cameraControl.bLockedOn)
         {
             _popup.SetActive(true);
         }
@@ -41,6 +41,7 @@ public class LockOnPopup : Popup
     {
         _bStopLockOnTut = false;
     }
+    
     public void StopLockOnTut(GameObject lockOnGameObject)
     {
         _bStopLockOnTut = true;

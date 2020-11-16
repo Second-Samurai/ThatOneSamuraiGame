@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TownBGM : MonoBehaviour
+public class RainFall : MonoBehaviour
 {
 
     private BackgroundAudio backgroundAudio;
@@ -18,7 +18,7 @@ public class TownBGM : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            backgroundAudio.PlayFire();
+            backgroundAudio.PlayRain();
         }
     }
 }

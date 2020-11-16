@@ -6,6 +6,7 @@ public class EnemyDeathParticleSpawn : MonoBehaviour
 {
     ParticleSystem particles;
     [HideInInspector] public bool bIsPlaying = false;
+    public bool bCanSpawn = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,7 +15,8 @@ public class EnemyDeathParticleSpawn : MonoBehaviour
 
     public void SpawnParticles()
     {
-       if(!particles.isPlaying) particles.Play();
+       if(!particles.isPlaying && bCanSpawn) particles.Play();
+        bCanSpawn = false;
     }
 
    

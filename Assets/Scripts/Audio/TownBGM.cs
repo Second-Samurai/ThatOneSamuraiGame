@@ -19,7 +19,6 @@ public class TownBGM : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             backgroundAudio.PlayFire();
-            Debug.Log("FIRE");
         }
     }
 }

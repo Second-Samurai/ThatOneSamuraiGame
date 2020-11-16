@@ -9,7 +9,7 @@ public class PostProcessingController : MonoBehaviour
 {
     public Volume defaultVolume, rewindVolume;
     ChromaticAberration _ca;
-    ColorAdjustments _colorAdjustments;
+    public ColorAdjustments _colorAdjustments;
     LensDistortion _ld;
 
     // Start is called before the first frame update

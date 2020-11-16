@@ -27,12 +27,12 @@ public class UIGuardMeter : MonoBehaviour
     private float _scaledYPos;
     private float _playerToEntityDist;
 
-    private EnemyTracker _enemyTracker;
+    private LockOnTracker _lockOnTracker;
 
     // Start is called before the first frame update
     public void Init(Transform entityTransform, StatHandler statHandler, Camera camera, RectTransform parentTransform)
     {
-        _enemyTracker = GameManager.instance.enemyTracker;
+        _lockOnTracker = GameManager.instance.lockOnTracker;
         
         this._entityTransform = entityTransform;
         this._statHandler = statHandler;
@@ -48,29 +48,62 @@ public class UIGuardMeter : MonoBehaviour
 
     void FixedUpdate()
     {
-        DestroyWhenEntityDead();
+        if (!GameManager.instance.rewindManager.isTravelling)
+        {
+            DestroyWhenEntityDead();
 
-        if (!CheckInCameraView() || _entityTransform != _enemyTracker.targetEnemy)
-        {
-            if (guardSlider.gameObject.activeInHierarchy)
+            if (!CheckInCameraView() || _entityTransform != _lockOnTracker.targetEnemy)
             {
-                HideFinisherKey();
-                guardSlider.gameObject.SetActive(false);
-            }
-            return;
-        }
-        else
-        {
-            if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _enemyTracker.targetEnemy)
-            {
-                guardSlider.gameObject.SetActive(true);
-                if (guardSlider.value == guardSlider.maxValue)
+                if (guardSlider.gameObject.activeInHierarchy)
                 {
-                    ShowFinisherKey();
+                    HideFinisherKey();
+                    guardSlider.gameObject.SetActive(false);
+                }
+                return;
+            }
+            else
+            {
+                if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _lockOnTracker.targetEnemy)
+                {
+                    guardSlider.gameObject.SetActive(true);
+                    if (guardSlider.value == guardSlider.maxValue)
+                    {
+                        ShowFinisherKey();
+                    }
                 }
             }
+            SetMeterPosition();
         }
-        SetMeterPosition();
+    }
+
+    private void Update()
+    {
+        if (GameManager.instance.rewindManager.isTravelling)
+        {
+            DestroyWhenEntityDead();
+
+            if (!CheckInCameraView() || _entityTransform != _lockOnTracker.targetEnemy)
+            {
+                if (guardSlider.gameObject.activeInHierarchy)
+                {
+                    HideFinisherKey();
+                    guardSlider.gameObject.SetActive(false);
+                }
+                return;
+            }
+            else
+            {
+                if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _lockOnTracker.targetEnemy)
+                {
+                    guardSlider.gameObject.SetActive(true);
+                    if (guardSlider.value == guardSlider.maxValue)
+                    {
+                        ShowFinisherKey();
+                    }
+                }
+            }
+            SetMeterPosition();
+        }
     }
 
 
@@ -134,7 +167,7 @@ public class UIGuardMeter : MonoBehaviour
 
     public void ShowFinisherKey()
     {
-        if (guardSlider.gameObject.activeInHierarchy && _entityTransform == _enemyTracker.targetEnemy)
+        if (guardSlider.gameObject.activeInHierarchy && _entityTransform == _lockOnTracker.targetEnemy)
         {
             finisherKey.enabled = true;
         }

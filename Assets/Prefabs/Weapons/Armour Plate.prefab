@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2315376622992690566}
   - component: {fileID: 3070701598045003201}
   - component: {fileID: 2615304559798030742}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4827,9 +4827,9 @@ GameObject:
   - component: {fileID: 2403961324669071517}
   - component: {fileID: 7514927814355041637}
   - component: {fileID: 2509059404289446404}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Armour Plate
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4937,8 +4937,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 586e974b2b179f046893687f46f9601f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  col: {fileID: 0}
   destroyed: 0
   particles: {fileID: 0}
+  originPos: {x: 0, y: 0, z: 0}
+  originRot:
+    value:
+      x: 0
+      y: 0
+      z: 0
+      w: 0
 --- !u!114 &2509059404289446404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4956,4 +4965,3 @@ MonoBehaviour:
   transformDataList: []
   thisTransform: {fileID: 0}
   _rewindInput: {fileID: 0}
-  boardBreak: {fileID: 0}

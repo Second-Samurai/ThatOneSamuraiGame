@@ -685,6 +685,14 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""RotateCamera"",
+                    ""type"": ""Value"",
+                    ""id"": ""db321dbe-4b9e-45f6-bf26-b5374ad68981"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -762,6 +770,28 @@ public class @ControlMap : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""18d7c0f3-7798-42f6-9aaf-5a4b7e8c8616"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""RotateCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8db161d0-ae7f-480e-9fb2-1dcce1ca0bfb"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": ""ScaleVector2(x=50,y=50)"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""RotateCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -862,6 +892,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         m_Rewind_Scrub = m_Rewind.FindAction("Scrub", throwIfNotFound: true);
         m_Rewind_Pause = m_Rewind.FindAction("Pause", throwIfNotFound: true);
         m_Rewind_EndRewind = m_Rewind.FindAction("EndRewind", throwIfNotFound: true);
+        m_Rewind_RotateCamera = m_Rewind.FindAction("RotateCamera", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Unpause = m_Menu.FindAction("Unpause", throwIfNotFound: true);
@@ -1094,6 +1125,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
     private readonly InputAction m_Rewind_Scrub;
     private readonly InputAction m_Rewind_Pause;
     private readonly InputAction m_Rewind_EndRewind;
+    private readonly InputAction m_Rewind_RotateCamera;
     public struct RewindActions
     {
         private @ControlMap m_Wrapper;
@@ -1101,6 +1133,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         public InputAction @Scrub => m_Wrapper.m_Rewind_Scrub;
         public InputAction @Pause => m_Wrapper.m_Rewind_Pause;
         public InputAction @EndRewind => m_Wrapper.m_Rewind_EndRewind;
+        public InputAction @RotateCamera => m_Wrapper.m_Rewind_RotateCamera;
         public InputActionMap Get() { return m_Wrapper.m_Rewind; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1119,6 +1152,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @EndRewind.started -= m_Wrapper.m_RewindActionsCallbackInterface.OnEndRewind;
                 @EndRewind.performed -= m_Wrapper.m_RewindActionsCallbackInterface.OnEndRewind;
                 @EndRewind.canceled -= m_Wrapper.m_RewindActionsCallbackInterface.OnEndRewind;
+                @RotateCamera.started -= m_Wrapper.m_RewindActionsCallbackInterface.OnRotateCamera;
+                @RotateCamera.performed -= m_Wrapper.m_RewindActionsCallbackInterface.OnRotateCamera;
+                @RotateCamera.canceled -= m_Wrapper.m_RewindActionsCallbackInterface.OnRotateCamera;
             }
             m_Wrapper.m_RewindActionsCallbackInterface = instance;
             if (instance != null)
@@ -1132,6 +1168,9 @@ public class @ControlMap : IInputActionCollection, IDisposable
                 @EndRewind.started += instance.OnEndRewind;
                 @EndRewind.performed += instance.OnEndRewind;
                 @EndRewind.canceled += instance.OnEndRewind;
+                @RotateCamera.started += instance.OnRotateCamera;
+                @RotateCamera.performed += instance.OnRotateCamera;
+                @RotateCamera.canceled += instance.OnRotateCamera;
             }
         }
     }
@@ -1214,6 +1253,7 @@ public class @ControlMap : IInputActionCollection, IDisposable
         void OnScrub(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnEndRewind(InputAction.CallbackContext context);
+        void OnRotateCamera(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

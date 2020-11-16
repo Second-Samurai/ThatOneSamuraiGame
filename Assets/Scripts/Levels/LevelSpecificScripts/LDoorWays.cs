@@ -23,6 +23,10 @@ public class LDoorWays : MonoBehaviour
 
     public BossThemeManager bossTheme;
 
+    private BackgroundAudio _backgroundAudio;
+    private bool isplaying = true;
+    private bool played = false;
+
     void Awake()
     {
         if (isOpeningDoor)
@@ -40,6 +44,7 @@ public class LDoorWays : MonoBehaviour
     private void Start()
     {
         bossTheme = GameManager.instance.bossThemeManager;
+        _backgroundAudio = GameManager.instance.audioManager.backgroundAudio;
     }
 
     void FixedUpdate()
@@ -73,11 +78,24 @@ public class LDoorWays : MonoBehaviour
     private void CloseDoor()
     {
 
+        if (isplaying == true && played == false) 
+        {
+            _backgroundAudio.PlayClose();
+            isplaying = false;
+        }
+        if (_backgroundAudio.doorSource.isPlaying == false && isplaying == false && played == false) 
+        {
+
+            _backgroundAudio.PlaySlam();
+            played = true;
+
+        }
+
         bossTheme.gameObject.SetActive(true);
         currentRotation = doorPivot.rotation.eulerAngles;
         doorPivot.Rotate(0, rotationSpeed * Time.fixedDeltaTime, 0);
 
-        Debug.Log(Quaternion.Euler(currentRotation).eulerAngles);
+        //Debug.Log(Quaternion.Euler(currentRotation).eulerAngles);
 
         //catches reverse angles
         if (inReverse)
@@ -97,6 +115,7 @@ public class LDoorWays : MonoBehaviour
                 return;
             }
         }
+        
     }
 
     private void OnTriggerExit(Collider collision)

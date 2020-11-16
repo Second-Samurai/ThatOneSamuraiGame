@@ -26,6 +26,7 @@ public class PlayerInputScript : MonoBehaviour
     PDamageController _pDamageController;
     public PCombatController _pCombatController;
     Camera _cam;
+    LockOnTracker _lockOnTracker;
     #endregion
 
     #region Gameplay parameters
@@ -65,6 +66,7 @@ public class PlayerInputScript : MonoBehaviour
         _cam = Camera.main;
         finishingMoveController = GetComponentInChildren<FinishingMoveController>();
         hitstopController = GameManager.instance.GetComponent<HitstopController>();
+        _lockOnTracker = GameManager.instance.lockOnTracker;
         heavyTimer = heavyTimerMax;
     }
     #endregion
@@ -73,21 +75,24 @@ public class PlayerInputScript : MonoBehaviour
     #region Input Functions
     void OnMovement(InputValue dir) 
     {
-        cachedDir = dir.Get<Vector2>();
-
-        if(cachedDir == Vector2.zero)
+        if (!finishingMoveController.bIsFinishing)
         {
-            _animator.SetBool("IsSprinting", false);
-        }
+            cachedDir = dir.Get<Vector2>();
+
+            if (cachedDir == Vector2.zero)
+            {
+                _animator.SetBool("IsSprinting", false);
+            }
 
 
-        if (!bMoveLocked) //normal movement
-            _inputVector = cachedDir;
-        else //input during dodge
-        {
-            _cachedVector = cachedDir;
-            if (cachedDir == Vector2.zero) 
+            if (!bMoveLocked) //normal movement
                 _inputVector = cachedDir;
+            else //input during dodge
+            {
+                _cachedVector = cachedDir;
+                if (cachedDir == Vector2.zero)
+                    _inputVector = cachedDir;
+            }
         }
     }
 
@@ -101,9 +106,9 @@ public class PlayerInputScript : MonoBehaviour
         }
     }
 
-    void OnLockOn()
+    public void OnLockOn()
     {
-        camControl.ToggleLockOn();
+       camControl.ToggleLockOn();
     }
 
     void OnToggleLockLeft()
@@ -173,9 +178,9 @@ public class PlayerInputScript : MonoBehaviour
     
     void OnStartHeavyAlternative()
     {
-        bPlayGleam = false;
-        heavyTimer = 1.0f;
-        StartHeavy();
+        //bPlayGleam = false;
+        //heavyTimer = 1.0f;
+        //StartHeavy();
     }
 
     void StartHeavy()
@@ -330,7 +335,8 @@ public class PlayerInputScript : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (bCanMove)
+        if (bCanMove && !finishingMoveController.bIsFinishing)
+        
         {
             Vector3 _direction = new Vector3(_inputVector.x, 0, _inputVector.y).normalized;
             if (_direction != Vector3.zero && !camControl.bLockedOn && !bOverrideMovement && !bIsSheathed && bCanRotate)

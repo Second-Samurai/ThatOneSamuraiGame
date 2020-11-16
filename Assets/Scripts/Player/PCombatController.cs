@@ -41,6 +41,9 @@ public class PCombatController : MonoBehaviour, ICombatController
     public AudioPlayer swordAudio;
     public AudioClip slash1, hit1, heavySlash, heavyHit;
     private AudioManager audioManager;
+    public AudioClip[] saberwhoosh;
+    public AudioClip[] lightSaberHit;
+
 
     /// <summary>
     /// Initialises Combat Controller variables and related class components
@@ -68,6 +71,9 @@ public class PCombatController : MonoBehaviour, ICombatController
     public void Start()
     {
         audioManager = GameManager.instance.audioManager;
+        lightSaberHit = GameManager.instance.audioManager.FindAll("lightSaber-Slash").ToArray();
+        saberwhoosh = GameManager.instance.audioManager.FindAll("lightSaber-Swing ").ToArray();
+
     }
     /// <summary>
     /// Draws the player sword
@@ -76,7 +82,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     {
         if (!swordManager.hasAWeapon) return;
         _isSwordDrawn = !_isSwordDrawn;
-        _animator.SetBool("IsDrawn", _isSwordDrawn);
+        _animator.SetBool("IsDrawn", true);
         _animator.ResetTrigger("AttackLight");
     }
 
@@ -198,26 +204,60 @@ public class PCombatController : MonoBehaviour, ICombatController
  
     public void PlaySlash()
     {
-        if(!slash1) slash1 = GameManager.instance.audioManager.FindSound("Light Attack Swing 1");
-        swordAudio.PlayOnce(slash1, audioManager.SFXVol);
+        if (audioManager.LightSaber == false)
+        {
+            if (!slash1) slash1 = GameManager.instance.audioManager.FindSound("Light Attack Swing 1");
+            swordAudio.PlayOnce(slash1, audioManager.SFXVol);
+        }
+        else if (audioManager.LightSaber == true)
+        {
+            int j = Random.Range(0, saberwhoosh.Length);
+            swordAudio.PlayOnce(saberwhoosh[j], audioManager.SFXVol / 2);
+        }
+
     }
 
     public void PlayHit()
     {
-        if (!hit1) hit1 = GameManager.instance.audioManager.FindSound("Light Attack Hit 1");
-        audio.PlayOnce(hit1, audioManager.SFXVol);
+        if (audioManager.LightSaber == false)
+        {
+            if (!hit1) hit1 = GameManager.instance.audioManager.FindSound("Light Attack Hit 1");
+            audio.PlayOnce(hit1, audioManager.SFXVol);
+        }
+
+        else if (audioManager.LightSaber == true)
+        {
+            int j = Random.Range(0, lightSaberHit.Length);
+            swordAudio.PlayOnce(lightSaberHit[j], audioManager.SFXVol / 2);
+        }
     }
 
     public void PlayHeavySwing()
     {
-        if (!heavySlash) heavySlash = GameManager.instance.audioManager.FindSound("Heavy Attack Swing 2");
-        swordAudio.PlayOnce(heavySlash, audioManager.SFXVol);
+        if (audioManager.LightSaber == false)
+        {
+            if (!heavySlash) heavySlash = GameManager.instance.audioManager.FindSound("Heavy Attack Swing 2");
+            swordAudio.PlayOnce(heavySlash, audioManager.SFXVol);
+        }
+        else if (audioManager.LightSaber == true)
+        {
+            int j = Random.Range(0, saberwhoosh.Length);
+            swordAudio.PlayOnce(saberwhoosh[j], audioManager.SFXVol / 2, .5f, .7f);
+        }
     }
 
     public void PlayHeavyHit()
     {
-        if (!heavyHit) heavyHit = GameManager.instance.audioManager.FindSound("Light Attack Hit 3");
-        audio.PlayOnce(heavyHit, audioManager.SFXVol);
+        if (audioManager.LightSaber == false)
+        {
+            if (!heavyHit) heavyHit = GameManager.instance.audioManager.FindSound("Light Attack Hit 3");
+            audio.PlayOnce(heavyHit, audioManager.SFXVol);
+        }
+        else if (audioManager.LightSaber == true)
+        {
+            int j = Random.Range(0, lightSaberHit.Length);
+            swordAudio.PlayOnce(lightSaberHit[j], audioManager.SFXVol * 2, .5f, .7f);
+        }
     }
 
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Diagnostics;
 using Enemies.Enemy_States;
@@ -90,6 +91,8 @@ namespace Enemies
         public EnemyAudio enemyAudio;
         public GameEvent bossEvent;
         public GameEvent bossAggro;
+        public GameEvent bossHalfway;
+        public bool bisHalfway = false;
 
         //ATTACK SPEED VARIABLES
         public float previousAttackSpeed;
@@ -98,6 +101,13 @@ namespace Enemies
         //CIRCLE TRACKING (used for the enemy tracker) and CloseDistanceTracking (used of heavyAttack)
         public bool bIsCircling = false;
         public bool bIsClosingDistance = false;
+        public float circleSpeed = 1.0f;
+
+        //DEATH PARTICLES
+        [HideInInspector] public EnemyDeathParticleSpawn particleSpawn;
+
+        //AUDIO
+        private BackgroundAudio _backgroundAudio;
         
         #endregion
         
@@ -144,6 +154,10 @@ namespace Enemies
             rb = GetComponent<Rigidbody>();
 
             if (enemyType == EnemyType.BOSS) weaponSwitcher = GetComponent<WeaponSwitcher>();
+
+            particleSpawn = GetComponentInChildren<EnemyDeathParticleSpawn>();
+
+            _backgroundAudio = GameManager.instance.audioManager.backgroundAudio;
         }
 
         private void Update()
@@ -251,6 +265,7 @@ namespace Enemies
                             OnDodge();
                             CheckArmourLevel();
                             eDamageController.enemyGuard.ResetGuard();
+                            _backgroundAudio.PlayThunder();
                         }
                         //EndState();
                         //OnDodge(); 
@@ -480,6 +495,14 @@ namespace Enemies
             attackSpeed = previousAttackSpeed;
             animator.SetFloat("AttackSpeedMultiplier", attackSpeed);
         }
+
+        #region Circle Enemy State Utility Functions
+
+        public void SetCircleSpeed(float newSpeed)
+        {
+            circleSpeed = newSpeed;
+            animator.SetFloat("CircleSpeedMultiplier", circleSpeed);
+        }
         
         // Used in CircleEnemyState and enemy tracker to move the enemy onto another action
         // DO NOT IMPLEMENT A START CIRCLING STATE. Instead you should switch to CircleEnemyState
@@ -515,6 +538,37 @@ namespace Enemies
              
         }
         
+        // Used in circle enemy state to decide when to change directions
+        private void OnCollisionEnter(Collision other)
+        {
+            if (bIsCircling)
+            {
+                if (OnCollisionLayers(other.gameObject.layer))
+                {
+                    //Debug.LogError("Has collided with " + other.gameObject.name + " on layer " + other.gameObject.layer);
+                
+                    //This next operation is fairly risky however since we check bIsCircling
+                    //the enemy should ideally be in CircleEnemyState anyway
+                    CircleEnemyState circleEnemyState = (CircleEnemyState) EnemyState;
+                    circleEnemyState.StartDirChangeCooldown();
+                }
+            }
+        }
+        
+        private bool OnCollisionLayers(int layerInt)
+        {
+            //Default layer is mostly used. Haven't seen a case where Enemy works
+            if (layerInt == LayerMask.NameToLayer("Default") || layerInt == LayerMask.NameToLayer("Structures") ||
+                layerInt == LayerMask.NameToLayer("Enemy"))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        #endregion
+
         #endregion
 
         #region Animation Called Events
@@ -698,6 +752,7 @@ namespace Enemies
                     SetState(new DeathEnemyState(this));
                     bossEvent.Raise();
                     col.enabled = true;
+                    _backgroundAudio.PlayBirds();
                 }
                 else
                 {
@@ -707,6 +762,7 @@ namespace Enemies
                     IncreaseAttackSpeed(.05f);
                     IncreaseAttackSpeed(.05f);
                     CheckArmourLevel();
+                    _backgroundAudio.PlayThunder();
 
 
                 }
@@ -778,6 +834,14 @@ namespace Enemies
                 statHandler.maxGuard += 20;
                 //OnApproachPlayer();
             }
+
+            if(armourManager.armourCount < 4 && !bisHalfway)
+            {
+                bisHalfway = true;
+                bossHalfway.Raise();
+            }
+
+
         }
 
         public void BossGlaiveColOn()
@@ -813,11 +877,13 @@ namespace Enemies
         private void OnDisable()
         { 
             GameManager.instance.enemyTracker.RemoveEnemy(rb.gameObject.transform);
+            GameManager.instance.lockOnTracker.RemoveEnemy(rb.gameObject.transform);
         }
 
         private void OnDestroy()
         {
             GameManager.instance.enemyTracker.RemoveEnemy(rb.gameObject.transform);
+            GameManager.instance.lockOnTracker.RemoveEnemy(rb.gameObject.transform);
         }
         
     }

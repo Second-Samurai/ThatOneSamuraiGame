@@ -28,6 +28,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
     public TriggerImpulse camImpulse;
 
     private AudioManager audioManager;
+    EnemyDeathParticleSpawn particleSpawn;
 
     // Since the player and enemies have their origin point at their feet we need to add an offset value
     private Vector3 _aimOffsetValue;
@@ -43,6 +44,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
         //  lineRenderer = GetComponent<LineRenderer>();
 
         _aimOffsetValue = Vector3.up * transform.localScale.y;
+        particleSpawn = GetComponentInChildren<EnemyDeathParticleSpawn>();
     }
 
     void FindPlayer()
@@ -62,7 +64,8 @@ public class BasicArcher : MonoBehaviour, IDamageable
             if (currentState == CurrentState.Idle)
             {
                 transform.LookAt(player);
-                //transform.rotation = Quaternion.Euler(0, transform.rotation.y, 0);
+                transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+                 
 
                 if (Vector3.Distance(transform.position, player.position) <= attackRange && shotTimer >= shotFrequency)
                 {
@@ -124,12 +127,15 @@ public class BasicArcher : MonoBehaviour, IDamageable
         camImpulse.FireImpulse();
         GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.15f);
         StartCoroutine(DodgeImpulseCoroutine(Vector3.back, damage * 4, .3f));
-
-        EnemyTracker enemyTracker = GameManager.instance.enemyTracker;
+        
+        LockOnTracker lockOnTracker = GameManager.instance.lockOnTracker;
         
         // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy)
-        enemyTracker.SwitchDeathTarget(transform);
-        enemyTracker.RemoveEnemy(transform);
+        lockOnTracker.SwitchDeathTarget(transform);
+        lockOnTracker.RemoveEnemy(transform);
+        GameManager.instance.enemyTracker.RemoveEnemy(transform);
+
+        if (particleSpawn) particleSpawn.SpawnParticles();
 
         lineRenderer.enabled = false;
 

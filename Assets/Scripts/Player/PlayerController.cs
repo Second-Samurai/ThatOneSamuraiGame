@@ -15,13 +15,22 @@ public interface IEntity
     StatHandler GetPlayerStats();
 }
 
-public class PlayerController : MonoBehaviour, IEntity
+public interface ISecretValidator
+{
+    int GetKillCount();
+    int GetKeyCount();
+}
+
+public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
 {
     public string playerID = "defaultID1234";
     [HideInInspector] public StatHandler playerStats;
     [HideInInspector] public PlayerSettings playerSettings;
     [HideInInspector] public PlayerStateMachine stateMachine;
     [HideInInspector] public CameraControl cameraController;
+
+    [HideInInspector] public int totalCollectedKeys = 0;
+    [HideInInspector] public int totalKillCount = 0;
 
     //NOTE: Once object is spawned through code init through awake instead.
     void Awake() {
@@ -75,5 +84,15 @@ public class PlayerController : MonoBehaviour, IEntity
     public StatHandler GetPlayerStats()
     {
         return playerStats;
+    }
+
+    public int GetKillCount()
+    {
+        return totalKillCount;
+    }
+
+    public int GetKeyCount()
+    {
+        return totalCollectedKeys;
     }
 }

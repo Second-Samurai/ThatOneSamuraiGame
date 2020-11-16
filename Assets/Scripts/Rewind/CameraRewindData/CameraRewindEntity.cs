@@ -62,7 +62,7 @@ public class CameraRewindEntity : RewindEntity
     public void DisableEvents()
     {
         camPriority = lockOnTargetManager.cam.m_Priority;
-        lockOnTargetManager.cam.m_Priority = 1;
+       // lockOnTargetManager.cam.m_Priority = 1;
 
     }
 
@@ -112,14 +112,14 @@ public class CameraRewindEntity : RewindEntity
 
     public override void ApplyData()
     {
-        // TODO: Fix this
-        //ckOnTargetManager._bLockedOn = false;
-        lockOnTargetManager._bLockedOn = cameraDataList[currentIndex].bIsLockedOn;
-        if (lockOnTargetManager._bLockedOn == false) 
-        {
-            cameraControl.UnlockCam();
-        }
-
+        lockOnTargetManager._bLockedOn = false;
+        cameraControl.UnlockCam();
+        
+        // lockOnTargetManager._bLockedOn = cameraDataList[currentIndex].bIsLockedOn;
+        // if (lockOnTargetManager._bLockedOn == false) 
+        // {
+        //     cameraControl.UnlockCam();
+        // }
 
         //base.ApplyData();
     }

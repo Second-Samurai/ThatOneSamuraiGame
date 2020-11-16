@@ -14,7 +14,7 @@ namespace Enemies.Enemy_States
         //Cooldown variables
         private bool _bRunCooldown;
         private float _remainingTime;
-        private int _stuckCounter = 0;
+        private float _maxCooldownTime = 1.5f;
 
         //Class constructor
         public CircleEnemyState(AISystem aiSystem) : base(aiSystem)
@@ -33,6 +33,9 @@ namespace Enemies.Enemy_States
             
             // Set the enemy to be circling (useful for the enemy tracker)
             AISystem.bIsCircling = true;
+            
+            // Give a random circling speed
+            AISystem.SetCircleSpeed(Random.Range(0.8f, 1.2f));
 
             // Pick a strafe direction and trigger movement animator
             PickStrafeDirection();
@@ -42,27 +45,13 @@ namespace Enemies.Enemy_States
         
         public override void Tick()
         {
-            // sqrMagnitude is used to check if the enemy is moving in the scene (10 is an arbitrary value)
-            if (AISystem.rb.velocity.sqrMagnitude < 10.0f && !_bRunCooldown)
-            {
-                // If the enemy is stuck for 15 frames, change direction
-                _stuckCounter++;
-                if (_stuckCounter > 20)
-                {
-                    StartDirChangeCooldown();
-                }
-            }
-            else if (_bRunCooldown)
+            if (_bRunCooldown)
             {
                 _remainingTime -= Time.deltaTime;
                 if (_remainingTime <= 0)
                 {
                     StopDirChangeCooldown();
                 }
-            }
-            else
-            {
-                _stuckCounter = 0;
             }
 
             // Get the true target point (float offset is added to get a more accurate player-enemy target point)
@@ -104,7 +93,7 @@ namespace Enemies.Enemy_States
             int direction = Random.Range(0, 2);
             if (direction == 0)
             {
-                Animator.SetFloat("MovementX", -1.0f);
+                Animator.SetFloat("MovementX", 0f);
             }
             else
             {
@@ -143,19 +132,28 @@ namespace Enemies.Enemy_States
                 AISystem.OnGlaiveAttack();
             }
         }
-
-        private void StartDirChangeCooldown()
+    
+        //Called from OnCollisionEnter in AISystem
+        //but only when enemy is circling
+        public void StartDirChangeCooldown()
         {
-            _bRunCooldown = true;
-            _remainingTime = 1.0f;
-
-            
-            float newMovementX = Animator.GetFloat("MovementX") * -1.0f;
-            Animator.SetFloat("MovementX", newMovementX, 1.0f, 1.0f);
+            if (!_bRunCooldown)
+            {
+                Debug.LogWarning("Starting new cooldown, enemy to switch directions now");
+                _bRunCooldown = true;
+                _remainingTime = _maxCooldownTime;
+                
+                //Change direction logic
+                float newMovementX = 0;
+                if (Animator.GetFloat("MovementX") == 0) newMovementX = 1;
+                //Change direction in the animator
+                Animator.SetFloat("MovementX", newMovementX);
+            }
         }
         
         private void StopDirChangeCooldown()
         {
+            Debug.LogWarning("Stopping cooldown");
             _bRunCooldown = false;
             _remainingTime = 0;
         }

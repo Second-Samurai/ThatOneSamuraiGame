@@ -31,6 +31,8 @@ public class Guarding : MonoBehaviour
     //NOTE: Current Guard should also be tracked by the rewind system
 
     public bool bSuperArmour = false;
+    
+    private Transform _player;
 
     public void Init(StatHandler statHandler)
     {
@@ -46,12 +48,34 @@ public class Guarding : MonoBehaviour
 
         _aiSystem = GetComponent<AISystem>();
         _guardCooldownTime = _aiSystem.enemySettings.GetEnemyStatType(_aiSystem.enemyType).guardCooldown;
+
+        _player = gameManager.playerController.gameObject.transform;
     }
+
 
     private void Update()
     {
         RunGuardCooldown();
         RunRecoveryCooldown();
+
+        if (isStunned) 
+        {
+            if (Vector3.Magnitude(gameObject.transform.position - _player.transform.position) < 3.2)
+            {
+                if (!uiGuardMeter.finisherKey.enabled)
+                {
+                    uiGuardMeter.ShowFinisherKey();
+                }
+            }
+            else
+            {
+                uiGuardMeter.HideFinisherKey();
+            }
+        }
+        else if(uiGuardMeter.finisherKey.enabled)
+        {
+            uiGuardMeter.HideFinisherKey();
+        }
     }
 
     // After taking damage, run the guard cooldown timer
@@ -176,7 +200,6 @@ public class Guarding : MonoBehaviour
         AwaitNextDamage(_stunTime);
         //camImpulse.FireImpulse();
         //Switch States
-        uiGuardMeter.ShowFinisherKey();
         _aiSystem.OnEnemyStun();
     }
 
@@ -195,7 +218,6 @@ public class Guarding : MonoBehaviour
 
         if (isStunned)
         {
-            uiGuardMeter.HideFinisherKey();
             _aiSystem.OnEnemyRecovery();
         }
         isStunned = false;

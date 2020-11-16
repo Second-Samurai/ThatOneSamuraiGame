@@ -13,12 +13,15 @@ public class CameraControl : MonoBehaviour
     Vector2 rotationVector;
     public Transform lockOnTarget, player, lockOnNullDummy;
     public bool bLockedOn = false;
-    public EnemyTracker enemyTracker;
+    public LockOnTracker lockOnTracker;
     PlayerInputScript _playerInput;
 
     public CinematicBars cinematicBars;
     
     public GameEvent onLockOnEvent;
+    private bool _bRunLockCancelTimer = false;
+    private const float maxLockCancelTimer = 0.4f;
+    public float _lockCancelTimer;
 
     /*private void Start()
     {
@@ -41,9 +44,9 @@ public class CameraControl : MonoBehaviour
         this._animator = gameManager.playerController.GetComponent<Animator>();
         this.cinematicBars = cinematicBars;
 
-        if (!enemyTracker)
+        if (!lockOnTracker)
         {
-            this.enemyTracker = gameManager.enemyTracker;
+            this.lockOnTracker = gameManager.lockOnTracker;
         }
         
         if (!unlockedCam)
@@ -74,17 +77,23 @@ public class CameraControl : MonoBehaviour
     {
         if (rotationVector != Vector2.zero && !bLockedOn)
             camTargetScript.RotateCam(rotationVector);
+        else if (GameManager.instance.rewindManager.isTravelling)
+        {
+            camTargetScript.RotateCam(rotationVector);
+        }
+
+        if (_bRunLockCancelTimer) RunLockCancelTimer();
+        else _lockCancelTimer = maxLockCancelTimer;
     }
 
     public void SetTarget(Transform target)
     {
-        enemyTracker.SetTarget(target);
+        lockOnTracker.SetTarget(target);
         _lockedCamScript.SetTarget(target, player);
     }
 
     public void ToggleLockOn()
     {
-        onLockOnEvent.Raise();
         if (!bLockedOn)
         {
             if (LockOn())
@@ -94,15 +103,17 @@ public class CameraControl : MonoBehaviour
         }
         else
         {
-            bLockedOn = false;
             UnlockCam();
         }
+        onLockOnEvent.Raise();
     }
 
     public bool LockOn()
     {
+        _bRunLockCancelTimer = false;
         if (GetTarget())
         {
+            _bRunLockCancelTimer = false;
             _animator.SetBool("LockedOn", true);
             _lockedCamScript.cam.Priority = 15;
             cinematicBars.ShowBars(200f, .3f);
@@ -114,14 +125,14 @@ public class CameraControl : MonoBehaviour
 
     public void UnlockCam()
     {
-        enemyTracker.ClearTarget();
+        lockOnTracker.ClearTarget();
 
         bLockedOn = false;
         _lockedCamScript.cam.Priority = 9;
         _lockedCamScript.ClearTarget();
         lockOnTarget = null;
         cinematicBars.HideBars(.3f);
-        
+        Debug.Log(300000);
         _animator.SetBool("LockedOn", false);
     }
 
@@ -130,13 +141,13 @@ public class CameraControl : MonoBehaviour
         float closest = Mathf.Infinity;
         Transform nextEnemy = null;
 
-        if (enemyTracker == null)
+        if (lockOnTracker == null)
         {
-            enemyTracker = GameManager.instance.enemyTracker;
+            lockOnTracker = GameManager.instance.lockOnTracker;
         }
-        if (enemyTracker.currentEnemies.Count > 0)
+        if (lockOnTracker.targetableEnemies.Count > 0)
         {
-            foreach (Transform enemy in enemyTracker.currentEnemies)
+            foreach (Transform enemy in lockOnTracker.targetableEnemies)
             {
                 float distance = Vector3.Distance(player.position, enemy.position);
                 if (distance < closest && enemy != lockOnTarget)
@@ -167,6 +178,7 @@ public class CameraControl : MonoBehaviour
             //_playerInput.target = lockOnNullDummy;
            // SetTarget(lockOnNullDummy);
             bLockedOn = false;
+            Debug.Log(500000);
             return bLockedOn;
         }
     }
@@ -199,6 +211,27 @@ public class CameraControl : MonoBehaviour
     public void EndGuardBreakCam()
     {
         _lockedCamScript.EndGuardBreakCam();
+    }
+
+    //Called by the CancelLockOnEvent from the lock on tracker
+    public void CancelLockOnResponse()
+    {
+        if (bLockedOn)
+        {
+            _bRunLockCancelTimer = true;
+        }
+    }
+    
+    private void RunLockCancelTimer()
+    {
+        _lockCancelTimer -= Time.deltaTime;
+        if (_lockCancelTimer < 0)
+        {
+            _bRunLockCancelTimer = false;
+            _lockCancelTimer = maxLockCancelTimer;
+           
+            if(bLockedOn) ToggleLockOn(); Debug.Log(100000);
+        }
     }
 
 }

@@ -16,9 +16,9 @@ public class EnemyRewindData
     public float currentGuard;
     public bool bIsDead;
     public bool bIsUnblockable;
-    public Transform[] trackedCurrentEnemies;
     public bool b_isIdle;
     public bool bisCircling;
+    public float circleSpeed;
     public bool bSuperArmour;
     public float previousAttackSpeed;
     public float attackSpeed;
@@ -30,7 +30,7 @@ public class EnemyRewindData
     public bool bColEnabled;
 
     public EnemyRewindData(EnemyState _enemyState, bool _swordCollider, bool _canGuard, bool _canParry, bool _isStunned, float _currentGuard,
-                                    bool _bIsDead, bool _bIsUnblockable, List<Transform> _trackedCurrentEnemies, bool _b_isIdle, bool _bisCircling, bool _bSuperArmour, 
+                                    bool _bIsDead, bool _bIsUnblockable, bool _b_isIdle, bool _bisCircling, float _circleSpeed, bool _bSuperArmour, 
                                     float _previousAttackSoeed, float _attackSpeed, int _armourCount, bool _bIsClosingDistance,
                                     bool _bRunCooldownTimer, float _remainingCooldownTime, bool _bRunRecoveryTimer, bool _bColEnabled) 
     {
@@ -42,9 +42,9 @@ public class EnemyRewindData
         currentGuard = _currentGuard;
         bIsDead = _bIsDead;
         bIsUnblockable = _bIsUnblockable;
-        trackedCurrentEnemies = _trackedCurrentEnemies.ToArray<Transform>();
         b_isIdle = _b_isIdle;
         bisCircling = _bisCircling;
+        circleSpeed = _circleSpeed;
         bSuperArmour = _bSuperArmour;
         previousAttackSpeed = _previousAttackSoeed;
         attackSpeed = _attackSpeed;

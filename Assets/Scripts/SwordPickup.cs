@@ -4,13 +4,32 @@ using UnityEngine;
 
 public class SwordPickup : MonoBehaviour
 {
+    public enum WeaponType
+    {
+        Katana,
+        Lightsaber
+    }
+
+    public WeaponType weaponType;
+
     /// <summary>
     /// Sets gameobject to player's swordmanager
     /// </summary>
     private void PickupSword(ISwordManager swordManager, GameObject holder)
     {
-        swordManager.SetWeapon(true, GameManager.instance.gameSettings.katanaPrefab);
-
+        if(weaponType == WeaponType.Katana)
+        {
+            swordManager.SetWeapon(true, GameManager.instance.gameSettings.katanaPrefab);
+            GameManager.instance.audioManager.LightSaber = false;
+        }
+        else if (weaponType == WeaponType.Lightsaber)
+        {
+            swordManager.SetWeapon(true, GameManager.instance.gameSettings.laserSword);
+            this.gameObject.SetActive(false);
+            GameManager.instance.audioManager.LightSaber = true;
+            return;
+        }
+        
         ICombatController playerCombatController = holder.GetComponent<ICombatController>();
         playerCombatController.DrawSword();
 

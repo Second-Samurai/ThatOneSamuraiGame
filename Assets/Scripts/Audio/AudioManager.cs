@@ -13,6 +13,9 @@ public class AudioManager : MonoBehaviour
     public float BGMVol;
     public float SFXVol;
     public BackgroundAudio backgroundAudio;
+    public TrackManager trackManager;
+    public bool LightSaber = false;
+    public bool check = false;
   
 
 
@@ -46,9 +49,14 @@ public class AudioManager : MonoBehaviour
         SFXVol = PlayerPrefs.GetFloat("SFXVolume");
         BGMVol = PlayerPrefs.GetFloat("BGMVolume");
         backgroundAudio = gameObject.GetComponent<BackgroundAudio>();
+        trackManager = gameObject.GetComponentInChildren<TrackManager>();
+    }
+
+    private void Start()
+    {
     }
     // update for debugging
- 
+
 
     //finds and returns a  sound contaning a given string in its name
 

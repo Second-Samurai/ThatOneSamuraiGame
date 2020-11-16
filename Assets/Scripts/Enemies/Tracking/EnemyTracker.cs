@@ -110,7 +110,7 @@ public class EnemyTracker : MonoBehaviour
         
         // int random is 0 - 9
         int targetSelector = Random.Range(0, 10);
-
+        
         // 80% chance if there is a targetAISystem
         if(targetSelector >= 2  && _lockOnTracker.targetEnemyAISystem != null) 
         {
@@ -134,12 +134,12 @@ public class EnemyTracker : MonoBehaviour
         {
             // If the enemy is set as inactive, ignore it
             if (!enemy.gameObject.activeInHierarchy) return;
-
+        
             AISystem aiSystem = enemy.GetComponent<AISystem>();
                 
             // If the enemy is an archer, ignore it
             if (!aiSystem) return;
-
+        
             if (CheckSuitableApproachTarget(aiSystem))
             {
                 break;

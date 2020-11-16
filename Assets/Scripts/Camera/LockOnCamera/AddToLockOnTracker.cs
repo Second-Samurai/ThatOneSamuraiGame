@@ -6,78 +6,28 @@ using UnityEngine;
 public class AddToLockOnTracker : MonoBehaviour
 {
     private LockOnTracker _lockOnTracker;
-    private LineRenderer _lineRenderer;
-
-    public LayerMask layerMask;
-    public float _raycastMaxDist;
-
     private Transform _cameraTransform;
 
+    public LayerMask layerMask;
+    public float raycastMaxDist;
+    
     //Offset since the target point is at the enemy's feet
     private Vector3 _offset = Vector3.up * 2;
 
     public GameEvent CancelLockOnEvent;
-    
-    //Debug controls to show the line renderer
-    [SerializeField] private bool bLineRendererDebug = false;
 
     private void Start()
     {
-        _raycastMaxDist = GetComponent<SphereCollider>().radius * 2;
+        raycastMaxDist = GetComponent<SphereCollider>().radius * 2;
 
         _lockOnTracker = GameManager.instance.lockOnTracker;
         
         _cameraTransform = Camera.main.transform;
-
-        _lineRenderer = GetComponent<LineRenderer>();
-        _lineRenderer.widthMultiplier = 0.2f;
     }
 
     private void Update()
     {
-        Transform enemyTransform = _lockOnTracker.targetEnemy;
-        
-        if (enemyTransform)
-        {
-            RaycastHit hit;
-            Vector3 rayStartPos = _cameraTransform.position;
-            
-            if (Physics.Raycast(rayStartPos, (enemyTransform.position + _offset - rayStartPos).normalized, out hit, _raycastMaxDist, layerMask))
-            {
-                if (hit.collider.CompareTag("Enemy"))
-                {
-                    _lockOnTracker.bEnemyRaycastHit = true;
-                }
-                else
-                {
-                    _lockOnTracker.bEnemyRaycastHit = false;
-                    CancelLockOnEvent.Raise();
-                }
-            
-                #region More Debug for Line Rendering
-                if (bLineRendererDebug)
-                {
-                    _lineRenderer.enabled = true;
-                    if (hit.collider.CompareTag("Enemy"))
-                    {
-                        Debug.Log("Success: " + hit.collider.gameObject.name);
-                        _lineRenderer.startColor = Color.green;
-                    }
-                    else
-                    {
-                        Debug.Log(hit.collider.gameObject.name);
-                        _lineRenderer.startColor = Color.red;
-                    }
-                    _lineRenderer.SetPosition(0, rayStartPos);
-                    _lineRenderer.SetPosition(1, enemyTransform.position + _offset);
-                }
-                #endregion
-            }
-        }
-        else if (_lineRenderer.enabled && _lockOnTracker.currentEnemies.Count == 0)
-        {
-            _lineRenderer.enabled = false;
-        }
+        RaycastToCurrentEnemies();
     }
     
     private void OnTriggerEnter(Collider other)
@@ -92,6 +42,44 @@ public class AddToLockOnTracker : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             _lockOnTracker.RemoveEnemy(other.transform);
+        }
+    }
+
+    private void RaycastToCurrentEnemies()
+    {
+        foreach (var enemyTransform in _lockOnTracker.currentEnemies)
+        {
+            RaycastHit hit;
+            Vector3 rayStartPos = _cameraTransform.position;
+            
+            if (Physics.Raycast(rayStartPos, (enemyTransform.position + _offset - rayStartPos).normalized, out hit, raycastMaxDist, layerMask))
+            {
+                if (hit.collider.CompareTag("Enemy"))
+                {
+                    Debug.DrawRay(rayStartPos, enemyTransform.position + _offset - rayStartPos, Color.green);
+                    
+                    AddToTargetableEnemies(enemyTransform);
+                }
+                else
+                {
+                    Debug.DrawRay(rayStartPos, enemyTransform.position + _offset - rayStartPos, Color.red);
+
+                    _lockOnTracker.targetableEnemies.Remove(enemyTransform);
+
+                    if (enemyTransform == _lockOnTracker.targetEnemy)
+                    {
+                        CancelLockOnEvent.Raise();
+                    }
+                }
+            }
+        }
+    }
+
+    private void AddToTargetableEnemies(Transform enemy)
+    {
+        if (!_lockOnTracker.targetableEnemies.Contains(enemy))
+        {
+            _lockOnTracker.targetableEnemies.Add(enemy);
         }
     }
 }

@@ -14,6 +14,7 @@ public class BackgroundAudio : MonoBehaviour
     public AudioClip doorClose;
     public AudioClip doorSlam;
     public AudioClip saberHum;
+    public AudioClip fire;
 
 
     public AudioSource birdsAndTreesSource;
@@ -22,6 +23,7 @@ public class BackgroundAudio : MonoBehaviour
     public AudioSource backgroundMusicSource;
     public AudioSource doorSource;
     public AudioSource hum;
+
 
     public bool bActive;
    
@@ -47,7 +49,7 @@ public class BackgroundAudio : MonoBehaviour
         doorClose = GameManager.instance.audioManager.FindSound("gate open");
         doorSlam = GameManager.instance.audioManager.FindSound("shut");
         saberHum = GameManager.instance.audioManager.FindSound("hum");
-
+        fire = GameManager.instance.audioManager.FindSound("fire");
         // audiosource settings
         menuMusicSource.loop = true;
         birdsAndTreesSource.loop = true;
@@ -182,5 +184,12 @@ public class BackgroundAudio : MonoBehaviour
         hum.volume = .1f;
         hum.loop = true;
         hum.Play();
+    }
+
+    public void PlayFire() 
+    {
+        birdsAndTreesSource.clip = fire;
+        birdsAndTreesSource.Play();
+
     }
 }

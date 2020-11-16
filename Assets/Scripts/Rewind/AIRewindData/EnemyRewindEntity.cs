@@ -88,7 +88,8 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
         //move to arguments need to be added rewind entity
         enemyDataList.Insert(0, new EnemyRewindData(aISystem.EnemyState, swordCollider.enabled,
                                                     aISystem.eDamageController.enemyGuard.canGuard, aISystem.eDamageController.enemyGuard.canParry, aISystem.eDamageController.enemyGuard.isStunned,
-                                                    aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard, aISystem.bIsDead, aISystem.bIsUnblockable, aISystem.bIsIdle, aISystem.bIsCircling, aISystem.eDamageController.enemyGuard.bSuperArmour ,aISystem.previousAttackSpeed, aISystem.attackSpeed,
+                                                    aISystem.eDamageController.enemyGuard.statHandler.CurrentGuard, aISystem.bIsDead, aISystem.bIsUnblockable, aISystem.bIsIdle, aISystem.bIsCircling, aISystem.circleSpeed,
+                                                    aISystem.eDamageController.enemyGuard.bSuperArmour ,aISystem.previousAttackSpeed, aISystem.attackSpeed,
                                                     aISystem.armourManager.armourCount, aISystem.bIsClosingDistance, aISystem.eDamageController.enemyGuard.bRunCooldownTimer, 
                                                     aISystem.eDamageController.enemyGuard.remainingCooldownTime, aISystem.eDamageController.enemyGuard.bRunRecoveryTimer, aISystem.col.enabled));
 
@@ -189,6 +190,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
             aISystem.previousAttackSpeed = enemyDataList[currentIndex].previousAttackSpeed;
             aISystem.attackSpeed = enemyDataList[currentIndex].attackSpeed;
             aISystem.animator.SetFloat("AttackSpeedMultiplier",  enemyDataList[currentIndex].attackSpeed);
+            aISystem.SetCircleSpeed(enemyDataList[currentIndex].circleSpeed);
             swordCollider.enabled = enemyDataList[currentIndex].swordCollider;
             aISystem.col.enabled = enemyDataList[currentIndex].bColEnabled;
             if (!aISystem.bIsDead)

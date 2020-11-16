@@ -8,6 +8,10 @@ using UnityEngine;
 /// </summary>
 public class LPedestalLevitation : MonoBehaviour
 {
+    [Header("Sound Attached")]
+    public AudioSource earthquakeAudio;
+
+    [Space]
     public Transform[] saberCrystals;
     public Transform[] walkwayTiles;
     public Transform crystalParent;
@@ -16,11 +20,7 @@ public class LPedestalLevitation : MonoBehaviour
 
     private Vector3 crystalParentPosition;
     private bool isLevitating = false;
-
-    public void Awake()
-    {
-        
-    }
+    private bool hasTriggered = false;
 
     public void Start()
     {
@@ -93,7 +93,7 @@ public class LPedestalLevitation : MonoBehaviour
         while (crystalParent.localPosition.y < 1.3f)
         {
             parentPosition = crystalParent.localPosition;
-            parentPosition = new Vector3(parentPosition.x, parentPosition.y + 0.078f, parentPosition.z);
+            parentPosition = new Vector3(parentPosition.x, parentPosition.y + 7 * 0.01f, parentPosition.z);
             crystalParent.localPosition = parentPosition;
             yield return null;
         }
@@ -104,10 +104,13 @@ public class LPedestalLevitation : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !hasTriggered)
         {
             StartCoroutine("LevitatePathway");
             StartCoroutine("LevitateCrystals");
+
+            earthquakeAudio.Play();
+            hasTriggered = true;
         }
     }
 }

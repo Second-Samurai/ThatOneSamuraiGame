@@ -75,21 +75,24 @@ public class PlayerInputScript : MonoBehaviour
     #region Input Functions
     void OnMovement(InputValue dir) 
     {
-        cachedDir = dir.Get<Vector2>();
-
-        if(cachedDir == Vector2.zero)
+        if (!finishingMoveController.bIsFinishing)
         {
-            _animator.SetBool("IsSprinting", false);
-        }
+            cachedDir = dir.Get<Vector2>();
+
+            if (cachedDir == Vector2.zero)
+            {
+                _animator.SetBool("IsSprinting", false);
+            }
 
 
-        if (!bMoveLocked) //normal movement
-            _inputVector = cachedDir;
-        else //input during dodge
-        {
-            _cachedVector = cachedDir;
-            if (cachedDir == Vector2.zero) 
+            if (!bMoveLocked) //normal movement
                 _inputVector = cachedDir;
+            else //input during dodge
+            {
+                _cachedVector = cachedDir;
+                if (cachedDir == Vector2.zero)
+                    _inputVector = cachedDir;
+            }
         }
     }
 
@@ -332,7 +335,8 @@ public class PlayerInputScript : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (bCanMove)
+        if (bCanMove && !finishingMoveController.bIsFinishing)
+        
         {
             Vector3 _direction = new Vector3(_inputVector.x, 0, _inputVector.y).normalized;
             if (_direction != Vector3.zero && !camControl.bLockedOn && !bOverrideMovement && !bIsSheathed && bCanRotate)

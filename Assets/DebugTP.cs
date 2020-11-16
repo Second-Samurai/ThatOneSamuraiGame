@@ -26,5 +26,10 @@ public class DebugTP : MonoBehaviour
         {
             player.position = village.position;
         }
+        if (Keyboard.current.lKey.wasPressedThisFrame && Keyboard.current.shiftKey.IsPressed())
+        {
+            player.position = village.position;
+        }
+
     }
 }

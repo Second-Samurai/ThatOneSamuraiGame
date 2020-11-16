@@ -60,16 +60,16 @@ public class EnemyTracker : MonoBehaviour
             }
         }
 
-        if (!bFadedInDrums && currentEnemies.Count > 0 && !bAtVillage)
-        {
-            AudioManager.instance.trackManager.DrumsFadeBetween(true);
-            bFadedInDrums = true;
-        }
-        else if (bFadedInDrums && currentEnemies.Count == 0 && !bAtVillage)
-        {
-            AudioManager.instance.trackManager.DrumsFadeBetween(false);
-            bFadedInDrums = false;
-        }
+        //if (!bFadedInDrums && currentEnemies.Count > 0 && !bAtVillage)
+        //{
+        //    AudioManager.instance.trackManager.DrumsFadeBetween(true);
+        //    bFadedInDrums = true;
+        //}
+        //else if (bFadedInDrums && currentEnemies.Count == 0 && !bAtVillage)
+        //{
+        //    AudioManager.instance.trackManager.DrumsFadeBetween(false);
+        //    bFadedInDrums = false;
+        //}
 
     }
 

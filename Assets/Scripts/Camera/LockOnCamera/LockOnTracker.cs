@@ -73,6 +73,7 @@ public class LockOnTracker : MonoBehaviour
         // Only find a new target if the player is still locked onto the dead enemy
         if (_lastKilledEnemy == targetEnemy)
         {
+            Debug.Log(12);
             // Switch targets
             if (currentEnemies.Count > 0)
             {

@@ -166,7 +166,7 @@ namespace Enemies
             //if (enemyType == EnemyType.BOSS && Keyboard.current.oKey.wasPressedThisFrame) OnBossArrowMove();
             //if (enemyType == EnemyType.BOSS && Keyboard.current.iKey.wasPressedThisFrame) OnBossTaunt();
 
-            //if (enemyType == EnemyType.BOSS && Keyboard.current.lKey.wasPressedThisFrame) OnEnemyDeath();
+            if (enemyType == EnemyType.BOSS && Keyboard.current.lKey.wasPressedThisFrame) OnEnemyDeath();
         }
 
         #endregion
@@ -752,7 +752,7 @@ namespace Enemies
                     SetState(new DeathEnemyState(this));
                     bossEvent.Raise();
                     col.enabled = true;
-                    _backgroundAudio.PlayThunder();
+                    _backgroundAudio.PlayBirds();
                 }
                 else
                 {
@@ -762,6 +762,7 @@ namespace Enemies
                     IncreaseAttackSpeed(.05f);
                     IncreaseAttackSpeed(.05f);
                     CheckArmourLevel();
+                    _backgroundAudio.PlayThunder();
 
 
                 }

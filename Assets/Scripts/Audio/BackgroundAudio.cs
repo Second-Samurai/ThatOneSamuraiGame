@@ -212,4 +212,11 @@ public class BackgroundAudio : MonoBehaviour
         int j = Random.Range(0, thunder.Length);
         ThunderSource.PlayOneShot(thunder[j], 1f);
     }
+
+    public void PlayBirds()
+    {
+        birdsAndTreesSource.clip = birdAndTrees;
+        birdsAndTreesSource.Play();
+    }
+
 }

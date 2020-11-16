@@ -22,6 +22,9 @@ public class EnemyTracker : MonoBehaviour
     bool bFadedInDrums = false;
 
     public bool bAtVillage = false;
+    
+    //Debug controls to stop enemies from approaching
+    public bool bDebugStopApproaching;
 
     private void Start()
     {
@@ -104,27 +107,31 @@ public class EnemyTracker : MonoBehaviour
     
     private void PickApproachingTarget()
     {
-        // Don't pick a target if no enemies are in the tracker or if the player is charging a heavy attack
-        if (currentEnemies.Count <= 0 || _bIsHeavyCharging)
-            return;
-        
-        // int random is 0 - 9
-        int targetSelector = Random.Range(0, 10);
-
-        // 80% chance if there is a targetAISystem
-        if(targetSelector >= 2  && _lockOnTracker.targetEnemyAISystem != null) 
+        if (!bDebugStopApproaching)
         {
-            // If the target enemy isn't suitable (i.e. is not circling, stunned or dead) pick a random target instead
-            if (!CheckSuitableApproachTarget(_lockOnTracker.targetEnemyAISystem))
+            // Don't pick a target if no enemies are in the tracker or if the player is charging a heavy attack
+            if (currentEnemies.Count <= 0 || _bIsHeavyCharging)
+                return;
+        
+            // int random is 0 - 9
+            int targetSelector = Random.Range(0, 10);
+        
+            // 80% chance if there is a targetAISystem
+            if(targetSelector >= 2  && _lockOnTracker.targetEnemyAISystem != null) 
+            {
+                // If the target enemy isn't suitable (i.e. is not circling, stunned or dead) pick a random target instead
+                if (!CheckSuitableApproachTarget(_lockOnTracker.targetEnemyAISystem))
+                {
+                    PickRandomTarget();
+                }
+            }
+            // 20% chance if there is a suitable _targetEnemyAISystem, 100% if there is no target enemy
+            else 
             {
                 PickRandomTarget();
             }
         }
-        // 20% chance if there is a suitable _targetEnemyAISystem, 100% if there is no target enemy
-        else 
-        {
-            PickRandomTarget();
-        }
+        
     }
 
     private void PickRandomTarget()
@@ -134,12 +141,12 @@ public class EnemyTracker : MonoBehaviour
         {
             // If the enemy is set as inactive, ignore it
             if (!enemy.gameObject.activeInHierarchy) return;
-
+        
             AISystem aiSystem = enemy.GetComponent<AISystem>();
                 
             // If the enemy is an archer, ignore it
             if (!aiSystem) return;
-
+        
             if (CheckSuitableApproachTarget(aiSystem))
             {
                 break;

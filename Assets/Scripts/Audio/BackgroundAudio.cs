@@ -15,6 +15,8 @@ public class BackgroundAudio : MonoBehaviour
     public AudioClip doorSlam;
     public AudioClip saberHum;
     public AudioClip fire;
+    public AudioClip rain;
+    public AudioClip[] thunder;
 
 
     public AudioSource birdsAndTreesSource;
@@ -23,10 +25,10 @@ public class BackgroundAudio : MonoBehaviour
     public AudioSource backgroundMusicSource;
     public AudioSource doorSource;
     public AudioSource hum;
-
+    public AudioSource ThunderSource;
 
     public bool bActive;
-   
+
 
 
 
@@ -50,6 +52,10 @@ public class BackgroundAudio : MonoBehaviour
         doorSlam = GameManager.instance.audioManager.FindSound("shut");
         saberHum = GameManager.instance.audioManager.FindSound("hum");
         fire = GameManager.instance.audioManager.FindSound("fire");
+        rain = GameManager.instance.audioManager.FindSound("Rainfall W thunder");
+
+        thunder = GameManager.instance.audioManager.FindAll("thunder").ToArray();
+
         // audiosource settings
         menuMusicSource.loop = true;
         birdsAndTreesSource.loop = true;
@@ -58,7 +64,7 @@ public class BackgroundAudio : MonoBehaviour
 
         //audiosource clips
         if (!menuMusicSource.clip) menuMusicSource.clip = menuMusic;
-        if(!birdsAndTreesSource.clip) birdsAndTreesSource.clip = birdAndTrees;
+        if (!birdsAndTreesSource.clip) birdsAndTreesSource.clip = birdAndTrees;
         if (!backgroundMusicSource.clip) backgroundMusicSource.clip = backgroudMusic;
         birdsAndTreesSource.Play();
         menuMusicSource.Play();
@@ -72,20 +78,22 @@ public class BackgroundAudio : MonoBehaviour
     {
         birdsAndTreesSource.volume = audioManager.BGMVol;
         menuMusicSource.volume = audioManager.BGMVol;
-        
+        doorSource.volume = audioManager.BGMVol;
+        hum.volume = audioManager.SFXVol;
+
         if (bActive)
         {
             backgroundMusicSource.volume = audioManager.BGMVol;
         }
 
-        if (audioManager.LightSaber == true && audioManager.check == false) 
+        if (audioManager.LightSaber == true && audioManager.check == false)
         {
             PlayHum();
             audioManager.check = true;
         }
     }
 
-    public void PlayScore() 
+    public void PlayScore()
     {
         backgroundMusicSource.Play();
     }
@@ -97,7 +105,7 @@ public class BackgroundAudio : MonoBehaviour
     }
 
 
-    public void PauseMenuMusic() 
+    public void PauseMenuMusic()
     {
         menuMusicSource.Pause();
     }
@@ -125,7 +133,7 @@ public class BackgroundAudio : MonoBehaviour
         hum.Pause();
     }
 
-    public void ResumeMusic() 
+    public void ResumeMusic()
     {
         backgroundMusicSource.UnPause();
         hum.UnPause();
@@ -142,15 +150,15 @@ public class BackgroundAudio : MonoBehaviour
     }
 
     public void AtmosFadeOut(bool Fadein)
-    { 
-            if (Fadein)
-            {
+    {
+        if (Fadein)
+        {
             backgroundMusicSource.DOFade(audioManager.BGMVol, 2);
-            }
-            else
-            {
+        }
+        else
+        {
             backgroundMusicSource.DOFade(0, 2);
-            }
+        }
     }
 
     public void AtmosFadeOut(bool Fadein, float time)
@@ -165,11 +173,11 @@ public class BackgroundAudio : MonoBehaviour
         }
     }
 
-    public void PlayClose() 
+    public void PlayClose()
     {
         doorSource.clip = doorClose;
         doorSource.Play();
-    
+
     }
 
     public void PlaySlam()
@@ -178,7 +186,7 @@ public class BackgroundAudio : MonoBehaviour
         doorSource.Play();
     }
 
-    public void PlayHum() 
+    public void PlayHum()
     {
         hum.clip = saberHum;
         hum.volume = .1f;
@@ -186,10 +194,22 @@ public class BackgroundAudio : MonoBehaviour
         hum.Play();
     }
 
-    public void PlayFire() 
+    public void PlayFire()
     {
         birdsAndTreesSource.clip = fire;
         birdsAndTreesSource.Play();
 
+    }
+
+    public void PlayRain()
+    {
+        birdsAndTreesSource.clip = rain;
+        birdsAndTreesSource.Play();
+    }
+
+    public void PlayThunder()
+    {
+        int j = Random.Range(0, thunder.Length);
+        ThunderSource.PlayOneShot(thunder[j], 1f);
     }
 }

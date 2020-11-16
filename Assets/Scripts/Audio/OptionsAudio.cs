@@ -31,7 +31,7 @@ public class OptionsAudio : MonoBehaviour
 
     public void PlayScore() 
     {
-        audioManager.trackManager.FluteFade(true);
+        audioManager.backgroundAudio.PlayScore();
         audioManager.backgroundAudio.PauseMenuMusic();
     }
 

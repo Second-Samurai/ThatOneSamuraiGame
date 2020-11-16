@@ -34,6 +34,13 @@ public class LockOnTracker : MonoBehaviour
             currentEnemies.TrimExcess();
             targetableEnemies.TrimExcess();
         }
+
+        //Sometimes when an enemy dies, it gets removed from the targetable enemies list
+        //but not the target enemy, hence the following lines
+        if (enemy == targetEnemy)
+        {
+            SwitchDeathTarget(targetEnemy);
+        }
     }
 
     #endregion
@@ -75,7 +82,7 @@ public class LockOnTracker : MonoBehaviour
         {
             Debug.Log(12);
             // Switch targets
-            if (currentEnemies.Count > 0)
+            if (targetableEnemies.Count > 0)
             {
                 GameManager.instance.cameraControl.LockOn();
             }

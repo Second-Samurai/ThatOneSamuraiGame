@@ -73,7 +73,7 @@ public class ArmourRewindEntity : RewindEntity
         }
 
         //move to arguments need to be added rewind entity
-        ArmourDataList.Insert(0, new ArmourTimeData(armourPiece.col.enabled, armourPiece.destroyed, ArmourRigidBody.velocity, transform.parent));
+        ArmourDataList.Insert(0, new ArmourTimeData(armourPiece.col.enabled, armourPiece.destroyed, ArmourRigidBody.linearVelocity, transform.parent));
 
         base.RecordPast();
     }
@@ -127,7 +127,7 @@ public class ArmourRewindEntity : RewindEntity
         {
             transform.parent = ArmourDataList[currentIndex].parent;
             armourPiece.destroyed = ArmourDataList[currentIndex].destroyed;
-            armourPiece.rb.velocity = ArmourDataList[currentIndex].velocity;
+            armourPiece.rb.linearVelocity = ArmourDataList[currentIndex].velocity;
             armourPiece.col.enabled = ArmourDataList[currentIndex].isEnabled;
             armourPiece.rb.isKinematic = !ArmourDataList[currentIndex].isEnabled;
             if (!armourPiece.destroyed) 

@@ -74,7 +74,7 @@ public class BoardRewindEntity : RewindEntity
         }
 
         //move to arguments need to be added rewind entity
-        BoardDataList.Insert(0, new BoardTimeData(boardBreak.isBuilt, boardRigidBody.velocity));
+        BoardDataList.Insert(0, new BoardTimeData(boardBreak.isBuilt, boardRigidBody.linearVelocity));
 
         base.RecordPast();
     }
@@ -113,7 +113,7 @@ public class BoardRewindEntity : RewindEntity
         if (currentIndex <= BoardDataList.Count - 1)
         {
             boardBreak.isBuilt = BoardDataList[currentIndex].isBuilt;
-            boardRigidBody.velocity = BoardDataList[currentIndex].velocity;
+            boardRigidBody.linearVelocity = BoardDataList[currentIndex].velocity;
         }
         // needs to set the enemy targeting
         base.SetPosition();

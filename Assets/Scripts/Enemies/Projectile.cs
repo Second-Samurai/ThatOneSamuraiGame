@@ -41,7 +41,7 @@ public class Projectile : MonoBehaviour
         transform.LookAt(playerPos);
         direction = target.normalized * speed;
         //direction.y = 0f;
-        rb.velocity = direction;
+        rb.linearVelocity = direction;
         trail.emitting = true;
         StartCoroutine(Die(3f));
     }
@@ -61,8 +61,8 @@ public class Projectile : MonoBehaviour
         {
             if (other.gameObject.GetComponent<PlayerFunctions>().bIsParrying)
             {
-                rb.velocity = Vector3.zero;
-                rb.velocity = -direction;
+                rb.linearVelocity = Vector3.zero;
+                rb.linearVelocity = -direction;
                 hitEnemies = true; 
                 // manager.StartCoroutine("HitPause");
             }
@@ -75,8 +75,8 @@ public class Projectile : MonoBehaviour
         }
         else if (other.gameObject.tag == "Attack" && !hitEnemies)
         {
-            rb.velocity = Vector3.zero;
-            rb.velocity = -direction;
+            rb.linearVelocity = Vector3.zero;
+            rb.linearVelocity = -direction;
             hitEnemies = true;
             //manager.StartCoroutine("HitPause");
         }
@@ -116,7 +116,7 @@ public class Projectile : MonoBehaviour
     {
         arrowModel.SetActive(false);
         collider.enabled = false;
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         hitEnemies = false;
     }
 

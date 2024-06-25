@@ -190,7 +190,7 @@ public class PlayerFunctions : MonoBehaviour
             //transform.Translate(lastDir.normalized * force * Time.deltaTime);
             _animator.applyRootMotion = false;
             if (bIsSprintAttacking) CorrectAttackAngle(ref lastDir);
-            rb.velocity = lastDir.normalized * force ;
+            rb.linearVelocity = lastDir.normalized * force ;
            // rb.MovePosition(transform.position + lastDir.normalized * force * Time.deltaTime);
             //else
             //    transform.position += lastDir.normalized * force * Time.deltaTime;
@@ -284,7 +284,7 @@ public class PlayerFunctions : MonoBehaviour
         StopAllCoroutines(); 
         playerInputScript.EnableMovement();
         playerInputScript.EnableRotation();
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         _animator.applyRootMotion = true;
     }
 

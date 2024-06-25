@@ -5,7 +5,6 @@ using Cinemachine;
 
 public class CameraShakeController : MonoBehaviour
 {
-
     CinemachineBrain mainCamera;
     public CinemachineFreeLook cam;
     public CinemachineBasicMultiChannelPerlin noise;

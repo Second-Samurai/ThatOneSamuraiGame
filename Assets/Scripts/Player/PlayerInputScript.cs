@@ -183,7 +183,7 @@ public class PlayerInputScript : MonoBehaviour
         //StartHeavy();
     }
 
-    void StartHeavy()
+    void StartHeavy() // THIS IS NOT AN EVENT HANDLER
     {
         if (bCanAttack)
         {

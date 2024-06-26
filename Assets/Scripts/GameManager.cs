@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ThatOneSamuraiGame.Scripts;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    #region - - - - - - Fields - - - - - -
+
     //Singleton instance
     public static GameManager instance = null;
 
@@ -42,6 +45,18 @@ public class GameManager : MonoBehaviour
 
     //Private variables
     private PlayerInputScript _player;
+    private GameState m_GameState;
+
+    #endregion Fields
+
+    #region - - - - - - Properties - - - - - -
+
+    public GameState GameState
+        => this.m_GameState;
+
+    #endregion Properties
+
+    #region - - - - - - Lifecycle Methods - - - - - -
 
     void Awake()
     {
@@ -74,9 +89,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #endregion Lifecycle Methods
+
+    #region - - - - - - Methods - - - - - -
+
     void SetupScene()
     {
-        List<Transform> sceneLoaders = GameObject.FindObjectsOfType<Transform>().
+        List<Transform> sceneLoaders = FindObjectsOfType<Transform>().
             Where(o => o.GetComponent<ISceneLoader>() != null).ToList();
 
         for (int i = 0; i < sceneLoaders.Count; i++)
@@ -114,7 +133,7 @@ public class GameManager : MonoBehaviour
         Vector3 targetHolderPos = gameSettings.targetHolderPrefab.transform.position;
         GameObject targetHolder = Instantiate(gameSettings.targetHolderPrefab, targetHolderPos, Quaternion.identity);
 
-        PlayerController playerControl = GameObject.FindObjectOfType<PlayerController>();
+        PlayerController playerControl = FindObjectOfType<PlayerController>();
         
         if(playerController != null)
         {
@@ -148,7 +167,7 @@ public class GameManager : MonoBehaviour
     {
         TestStaticTarget[] testEnemies = FindObjectsOfType<TestStaticTarget>();
 
-       // Debug.Log(testEnemies.Length);
+        // Debug.Log(testEnemies.Length);
 
         //Check if there is none
         if (testEnemies.Length == 0) return;
@@ -185,5 +204,6 @@ public class GameManager : MonoBehaviour
         _player.DisableInput();
     }
 
-    
+    #endregion Methods
+
 }

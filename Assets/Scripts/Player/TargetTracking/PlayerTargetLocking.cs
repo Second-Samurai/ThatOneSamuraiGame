@@ -8,18 +8,15 @@ namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
     {
 
         #region - - - - - - Methods - - - - - -
-
-        public void ToggleLockLeft()
+        void IPlayerTargetTracking.ToggleLockLeft()
         {
             throw new NotImplementedException();
         }
-
-        public void ToggleLockOn()
+        void IPlayerTargetTracking.ToggleLockOn()
         {
             throw new NotImplementedException();
         }
-
-        public void ToggleLockRight()
+        void IPlayerTargetTracking.ToggleLockRight()
         {
             throw new NotImplementedException();
         }

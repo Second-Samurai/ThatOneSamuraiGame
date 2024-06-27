@@ -7,13 +7,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
     {
 
         #region - - - - - - Methods - - - - - -
-
-        public void MovePlayer(Vector2 moveDirection)
+        void IPlayerMovement.MovePlayer(Vector2 moveDirection)
         {
             throw new System.NotImplementedException();
         }
 
-        public void SprintPlayer(bool isSprinting)
+        void IPlayerMovement.SprintPlayer(bool isSprinting)
         {
             throw new System.NotImplementedException();
         }

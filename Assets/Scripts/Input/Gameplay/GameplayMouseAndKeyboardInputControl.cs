@@ -1,4 +1,5 @@
 ﻿using System;
+using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         
         #region - - - - - - Fields - - - - - -
 
+        private IPlayerAttackHandler m_PlayerAttackHandler;
         private IPlayerMovement m_PlayerMovement;
         private IPlayerTargetTracking m_PlayerTargetTracking;
 
@@ -27,10 +29,11 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         private void Start()
         {
-            this.m_PlayerMovement = GameManager.instance.GameState.ActivePlayer
-                                        .GetComponent<IPlayerMovement>();
-            this.m_PlayerTargetTracking = GameManager.instance.GameState.ActivePlayer
-                                            .GetComponent<IPlayerTargetTracking>();
+            GameState gameState = GameManager.instance.GameState;
+            
+            this.m_PlayerMovement = gameState.ActivePlayer.GetComponent<IPlayerMovement>();
+            this.m_PlayerTargetTracking = gameState.ActivePlayer.GetComponent<IPlayerTargetTracking>();
+            this.m_PlayerAttackHandler = gameState.ActivePlayer.GetComponent<IPlayerAttackHandler>();
 
             this.m_IsInputActive = true;
         }

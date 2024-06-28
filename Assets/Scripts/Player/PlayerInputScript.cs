@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// DEPRECATED: Input handler for player. Currently used as a reference for current input system.
+/// </summary>
 public class PlayerInputScript : MonoBehaviour
 {
     //FIELDS
@@ -73,6 +76,8 @@ public class PlayerInputScript : MonoBehaviour
 
     //INPUT
     #region Input Functions
+    
+    // NOTE: Method is called OnMovement but no movement logic exists
     void OnMovement(InputValue dir) 
     {
         if (!finishingMoveController.bIsFinishing)
@@ -85,17 +90,21 @@ public class PlayerInputScript : MonoBehaviour
             }
 
 
-            if (!bMoveLocked) //normal movement
+            if (!bMoveLocked) //normal movement - Method actively using this variable is not being used
                 _inputVector = cachedDir;
             else //input during dodge
             {
                 _cachedVector = cachedDir;
+                
+                // logic makes no sense, its basically performing the same code in previous statement
+                // logically this should merge and instead have the special action component couple with this method
                 if (cachedDir == Vector2.zero)
                     _inputVector = cachedDir;
             }
         }
     }
 
+    // This method appears to only be used when pressed and instead is a gateway method to other methods.
     void OnSprint(InputValue value)
     {
         isSprintHeld = value.isPressed;
@@ -333,6 +342,7 @@ public class PlayerInputScript : MonoBehaviour
         else if (heavyTimer != heavyTimerMax) heavyTimer = heavyTimerMax;
     }
 
+    // INVESTIGATION: Move logic emplaced in similarly named location
     private void MovePlayer()
     {
         if (bCanMove && !finishingMoveController.bIsFinishing)
@@ -414,7 +424,7 @@ public class PlayerInputScript : MonoBehaviour
 
     //Public Functions for bools and other Parameters
     #region Parameter Controls
-    public void OverrideMovement()
+    public void OverrideMovement() // This is not used
     {
         bOverrideMovement = true;
     }

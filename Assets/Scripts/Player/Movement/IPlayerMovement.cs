@@ -6,11 +6,25 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
     public interface IPlayerMovement
     {
 
+        #region - - - - - - Properties - - - - - -
+
+        Vector2 MoveDirection { get; }
+
+        #endregion Properties
+        
         #region - - - - - - Methods - - - - - -
 
-        void MovePlayer(Vector2 moveDirection);
+        void DisableMovement();
 
-        void SprintPlayer(bool isSprinting);
+        void DisableRotation();
+
+        void EnableMovement();
+
+        void EnableRotation();
+
+        void PreparePlayerMovement(Vector2 moveDirection);
+
+        void Sprint(bool isSprinting);
 
         #endregion Methods
 

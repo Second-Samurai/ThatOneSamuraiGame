@@ -2,8 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityTemplateProjects;
 
-public class CameraControl : MonoBehaviour
+/* -----------------------------------------------------------
+ * Noted Issues:
+ * - Should attempt to decouple this from the player. Otherwise make a specific player camera handler to send commands
+ *   to the Camera.
+ * - Boolean logic appears not to be always consistent.
+ * -----------------------------------------------------------
+ */
+
+public class CameraControl : MonoBehaviour, IControlledCameraState
 {
     public PlayerCamTargetController camTargetScript;
     public ThirdPersonCamController camScript;
@@ -234,4 +243,19 @@ public class CameraControl : MonoBehaviour
         }
     }
 
+    public Vector3 CurrentEulerAngles
+    {
+        get
+        {
+            return this.transform.eulerAngles;
+        }
+    }
+
+    public bool IsCameraViewTargetLocked
+    {
+        get
+        {
+            return this.bLockedOn;
+        }
+    }
 }

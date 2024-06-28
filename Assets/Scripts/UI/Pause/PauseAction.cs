@@ -3,18 +3,18 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.UI.Pause
 {
     
-    public class PauseAction : MonoBehaviour, IPausable
+    public class PauseAction : MonoBehaviour, IPauseActionHandler
     {
         
         #region - - - - - - Methods - - - - - -
         
-        void IPausable.OnPause()
+        void IPauseActionHandler.TogglePause()
         {
             throw new System.NotImplementedException();
         }
-        
-        #endregion Methods
 
+        #endregion Methods
+        
     }
     
 }

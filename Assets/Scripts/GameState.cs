@@ -14,6 +14,9 @@ namespace ThatOneSamuraiGame.Scripts
         [SerializeField]
         private GameObject m_ActivePlayer;
 
+        [SerializeField]
+        private GameObject m_PauseMenu;
+
         #endregion Fields
 
         #region - - - - - - Properties - - - - - -
@@ -22,6 +25,12 @@ namespace ThatOneSamuraiGame.Scripts
         {
             get { return this.m_ActivePlayer; }
             set { this.m_ActivePlayer = value; }
+        }
+
+        public GameObject PauseMenu
+        {
+            get { return this.m_PauseMenu; }
+            set { this.m_PauseMenu = value; }
         }
 
         #endregion Properties

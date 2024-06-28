@@ -22,7 +22,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private IPlayerMovement m_PlayerMovement;
         private IPlayerTargetTracking m_PlayerTargetTracking;
         private IPlayerSpecialAction m_PlayerSpecialAction;
-        private IPausable m_PauseAction;
+        private IPauseActionHandler m_PauseAction;
 
         private bool m_IsInputActive = false;
         private bool m_IsInputPaused = false;
@@ -39,7 +39,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
             this.m_PlayerTargetTracking = gameState.ActivePlayer.GetComponent<IPlayerTargetTracking>();
             this.m_PlayerAttackHandler = gameState.ActivePlayer.GetComponent<IPlayerAttackHandler>();
             this.m_PlayerSpecialAction = gameState.ActivePlayer.GetComponent<IPlayerSpecialAction>();
-            this.m_PauseAction = gameState.PauseScreen.GetComponent<IPausable>();
+            this.m_PauseAction = gameState.PauseMenu.GetComponent<IPauseActionHandler>();
 
             this.m_IsInputActive = true;
         }

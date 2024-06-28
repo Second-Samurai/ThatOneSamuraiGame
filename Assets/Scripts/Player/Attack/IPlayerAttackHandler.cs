@@ -3,7 +3,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
     
     public interface IPlayerAttackHandler
     {
-
+        
         #region - - - - - - Methods - - - - - -
 
         void Attack();
@@ -12,11 +12,11 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         void StartHeavy();
 
-        void OnStartHeavyAlternative();
+        void StartHeavyAlternative();
 
-        void OnStartBlock();
+        void StartBlock();
 
-        void OnEndBlock();
+        void EndBlock();
 
         #endregion Methods
 

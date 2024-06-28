@@ -4,8 +4,21 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.Player.Attack
 {
     
-    public class PlayerAttackHandler : MonoBehaviour, IPlayerAttackHandler
+    public class PlayerAttackHandler : MonoBehaviour, IPlayerAttackHandler, IPlayerAttackState
     {
+
+        #region - - - - - - Fields - - - - - -
+
+        private bool m_IsWeaponSheathed;
+
+        #endregion Fields
+        
+        #region - - - - - - Properties - - - - - -
+
+        bool IPlayerAttackState.IsWeaponSheathed
+            => this.m_IsWeaponSheathed;
+        
+        #endregion Properties
         
         #region - - - - - - Methods - - - - - -
 
@@ -24,17 +37,17 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             throw new NotImplementedException();
         }
 
-        void IPlayerAttackHandler.OnStartHeavyAlternative()
+        void IPlayerAttackHandler.StartHeavyAlternative()
         {
             throw new NotImplementedException();
         }
 
-        void IPlayerAttackHandler.OnStartBlock()
+        void IPlayerAttackHandler.StartBlock()
         {
             throw new NotImplementedException();
         }
 
-        void IPlayerAttackHandler.OnEndBlock()
+        void IPlayerAttackHandler.EndBlock()
         {
             throw new NotImplementedException();
         }

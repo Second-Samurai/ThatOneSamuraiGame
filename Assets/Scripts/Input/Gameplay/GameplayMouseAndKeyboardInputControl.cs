@@ -13,17 +13,18 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
     /// <summary>
     /// Handles inputs for Gameplay actions for Mouse and Keyboard.
     /// </summary>
+    /// <remarks>Provides input transformation and pass-through.</remarks>
     public class GameplayMouseAndKeyboardInputControl : MonoBehaviour
     {
         
         #region - - - - - - Fields - - - - - -
 
+        private IPauseActionHandler m_PauseAction;
         private IPlayerAttackHandler m_PlayerAttackHandler;
         private IPlayerMovement m_PlayerMovement;
         private IPlayerTargetTracking m_PlayerTargetTracking;
         private IPlayerSpecialAction m_PlayerSpecialAction;
-        private IPauseActionHandler m_PauseAction;
-
+        
         private bool m_IsInputActive = false;
         private bool m_IsInputPaused = false;
         
@@ -55,13 +56,13 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private void OnMovement(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            this.m_PlayerMovement.MovePlayer(inputValue.Get<Vector2>());
+            this.m_PlayerMovement.PreparePlayerMovement(inputValue.Get<Vector2>());
         }
 
         private void OnSprint(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            this.m_PlayerMovement.SprintPlayer(inputValue.isPressed);
+            this.m_PlayerMovement.Sprint(inputValue.isPressed);
         }
         
         // -----------------------------------------------------
@@ -93,31 +94,37 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private void OnAttack(InputValue inputValue) 
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            this.m_PlayerAttackHandler.Attack();
         }
 
         private void OnSwordDraw(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            this.m_PlayerAttackHandler.DrawSword();
         }
 
         private void OnStartHeavy(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            this.m_PlayerAttackHandler.StartHeavy();
         }
 
         private void OnStartHeavyAlternative(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            this.m_PlayerAttackHandler.StartHeavyAlternative();
         }
 
         private void OnStartBlock(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            this.m_PlayerAttackHandler.StartBlock();
         }
 
         private void OnEndBlock(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            this.m_PlayerAttackHandler.EndBlock();
         }
         
         // -----------------------------------------------------
@@ -127,6 +134,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private void OnDodge(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            this.m_PlayerSpecialAction.Dodge();
         }
         
         // -----------------------------------------------------
@@ -135,17 +143,18 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         private void OnPause(InputValue inputValue)
         {
-            throw new NotImplementedException();
+            if (!this.m_IsInputActive) return;
+            this.m_PauseAction.TogglePause();
         }
         
         #endregion Event Handlers
 
         #region - - - - - - Methods - - - - - -
 
-        public void Pause()
+        public void Pause()// Might not be needed, delete later
             => this.m_IsInputActive = true;
 
-        public void OnUnpaused()
+        public void OnUnpaused() // might not be needed, delete later
             => this.m_IsInputActive = false;
 
         #endregion Methods

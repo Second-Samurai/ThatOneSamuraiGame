@@ -1,7 +1,7 @@
 ﻿using ThatOneSamuraiGame.Scripts.Base;
+using ThatOneSamuraiGame.Scripts.Camera;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using UnityEngine;
-using UnityTemplateProjects;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Movement
 {

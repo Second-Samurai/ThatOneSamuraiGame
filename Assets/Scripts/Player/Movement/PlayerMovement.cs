@@ -1,10 +1,6 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using ThatOneSamuraiGame.Scripts.Base;
+﻿using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
-using ThatOneSamuraiGame.Scripts.UI.Pause;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.UIElements;
 using UnityTemplateProjects;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Movement
@@ -16,6 +12,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         #region - - - - - - Fields - - - - - -
 
         private Animator m_Animator;
+        private ICameraController m_CameraController;
         private IControlledCameraState m_CameraState;
         private FinishingMoveController m_FinishingMoveController; // This needs to be decoupled. Use interfaces
         private IPlayerAttackState m_PlayerAttackState;
@@ -41,6 +38,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         private void Start()
         {
+            this.m_CameraController = this.GetComponent<ICameraController>();
             this.m_CameraState = this.GetComponent<IControlledCameraState>();
             this.m_FinishingMoveController = this.GetComponentInChildren<FinishingMoveController>();
             this.m_PlayerAttackState = this.GetComponent<IPlayerAttackState>();
@@ -84,7 +82,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         void IPlayerMovement.Sprint(bool isSprinting)
         {
+            this.m_IsSprinting = isSprinting;
+
+            if (this.m_CameraState.IsCameraViewTargetLocked) 
+                return;
             
+            this.m_CameraController.ToggleSprintCameraState(this.m_IsSprinting);
         }
 
         private void MovePlayer() // TODO: This needs to be refactored, this method is doing too many things.

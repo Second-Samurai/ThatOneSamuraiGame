@@ -12,7 +12,7 @@ using UnityTemplateProjects;
  * -----------------------------------------------------------
  */
 
-public class CameraControl : MonoBehaviour, IControlledCameraState
+public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraController
 {
     public PlayerCamTargetController camTargetScript;
     public ThirdPersonCamController camScript;
@@ -260,5 +260,13 @@ public class CameraControl : MonoBehaviour, IControlledCameraState
         {
             return this.bLockedOn;
         }
+    }
+
+    void ICameraController.ToggleSprintCameraState(bool isSprinting)
+    {
+        if (isSprinting)
+            this.camScript.SprintOn();
+        else
+            this.camScript.SprintOff();
     }
 }

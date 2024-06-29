@@ -75,6 +75,8 @@ public class GameManager : MonoBehaviour
         SetupUI();
         SetupRewind();
         SetupAudio();
+
+        this.m_GameState = this.GetComponent<GameState>();
     }
 
     // Start is called before the first frame update

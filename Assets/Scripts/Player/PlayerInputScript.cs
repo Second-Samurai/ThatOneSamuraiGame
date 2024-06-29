@@ -78,42 +78,42 @@ public class PlayerInputScript : MonoBehaviour
     #region Input Functions
     
     // NOTE: Method is called OnMovement but no movement logic exists
-    void OnMovement(InputValue dir) 
-    {
-        if (!finishingMoveController.bIsFinishing)
-        {
-            cachedDir = dir.Get<Vector2>();
-
-            if (cachedDir == Vector2.zero)
-            {
-                _animator.SetBool("IsSprinting", false);
-            }
-
-
-            if (!bMoveLocked) //normal movement - Method actively using this variable is not being used
-                _inputVector = cachedDir;
-            else //input during dodge
-            {
-                _cachedVector = cachedDir;
-                
-                // logic makes no sense, its basically performing the same code in previous statement
-                // logically this should merge and instead have the special action component couple with this method
-                if (cachedDir == Vector2.zero)
-                    _inputVector = cachedDir;
-            }
-        }
-    }
+    // void OnMovement(InputValue dir) 
+    // {
+    //     if (!finishingMoveController.bIsFinishing)
+    //     {
+    //         cachedDir = dir.Get<Vector2>();
+    //
+    //         if (cachedDir == Vector2.zero)
+    //         {
+    //             _animator.SetBool("IsSprinting", false);
+    //         }
+    //
+    //
+    //         if (!bMoveLocked) //normal movement - Method actively using this variable is not being used
+    //             _inputVector = cachedDir;
+    //         else //input during dodge
+    //         {
+    //             _cachedVector = cachedDir;
+    //             
+    //             // logic makes no sense, its basically performing the same code in previous statement
+    //             // logically this should merge and instead have the special action component couple with this method
+    //             if (cachedDir == Vector2.zero)
+    //                 _inputVector = cachedDir;
+    //         }
+    //     }
+    // }
 
     // This method appears to only be used when pressed and instead is a gateway method to other methods.
-    void OnSprint(InputValue value)
-    {
-        isSprintHeld = value.isPressed;
-        if (!camControl.bLockedOn)
-        {
-            if (isSprintHeld) camControl.camScript.SprintOn();
-            else camControl.camScript.SprintOff();
-        }
-    }
+    // void OnSprint(InputValue value)
+    // {
+    //     isSprintHeld = value.isPressed;
+    //     if (!camControl.bLockedOn)
+    //     {
+    //         if (isSprintHeld) camControl.camScript.SprintOn();
+    //         else camControl.camScript.SprintOff();
+    //     }
+    // }
 
     public void OnLockOn()
     {
@@ -337,7 +337,7 @@ public class PlayerInputScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MovePlayer(); 
+        //MovePlayer(); 
         if (bHeavyCharging) HeavyTimer();
         else if (heavyTimer != heavyTimerMax) heavyTimer = heavyTimerMax;
     }

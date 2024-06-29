@@ -25,7 +25,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private IPlayerTargetTracking m_PlayerTargetTracking;
         private IPlayerSpecialAction m_PlayerSpecialAction;
         
-        private bool m_IsInputActive = false;
+        private bool m_IsInputActive = true;
         private bool m_IsInputPaused = false;
         
         #endregion Fields
@@ -62,7 +62,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private void OnSprint(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            this.m_PlayerMovement.Sprint(inputValue.isPressed);
+            this.m_PlayerMovement.PrepareSprint(inputValue.isPressed);
         }
         
         // -----------------------------------------------------
@@ -72,19 +72,19 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private void OnLockOn(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            this.m_PlayerTargetTracking.ToggleLockOn();
+            //this.m_PlayerTargetTracking.ToggleLockOn();
         }
 
         private void OnToggleLockLeft(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            this.m_PlayerTargetTracking.ToggleLockLeft();
+            //this.m_PlayerTargetTracking.ToggleLockLeft();
         }
 
         private void OnToggleLockRight(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            this.m_PlayerTargetTracking.ToggleLockRight();
+            //this.m_PlayerTargetTracking.ToggleLockRight();
         }
         
         // -----------------------------------------------------
@@ -94,37 +94,37 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private void OnAttack(InputValue inputValue) 
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            this.m_PlayerAttackHandler.Attack();
+            //this.m_PlayerAttackHandler.Attack();
         }
 
         private void OnSwordDraw(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            this.m_PlayerAttackHandler.DrawSword();
+            //this.m_PlayerAttackHandler.DrawSword();
         }
 
         private void OnStartHeavy(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            this.m_PlayerAttackHandler.StartHeavy();
+            //this.m_PlayerAttackHandler.StartHeavy();
         }
 
         private void OnStartHeavyAlternative(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            this.m_PlayerAttackHandler.StartHeavyAlternative();
+            //this.m_PlayerAttackHandler.StartHeavyAlternative();
         }
 
         private void OnStartBlock(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            this.m_PlayerAttackHandler.StartBlock();
+            //this.m_PlayerAttackHandler.StartBlock();
         }
 
         private void OnEndBlock(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            this.m_PlayerAttackHandler.EndBlock();
+            //this.m_PlayerAttackHandler.EndBlock();
         }
         
         // -----------------------------------------------------
@@ -134,7 +134,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private void OnDodge(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            this.m_PlayerSpecialAction.Dodge();
+            //this.m_PlayerSpecialAction.Dodge();
         }
         
         // -----------------------------------------------------
@@ -144,7 +144,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private void OnPause(InputValue inputValue)
         {
             if (!this.m_IsInputActive) return;
-            this.m_PauseAction.TogglePause();
+            //this.m_PauseAction.TogglePause();
         }
         
         #endregion Event Handlers

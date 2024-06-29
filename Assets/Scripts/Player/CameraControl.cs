@@ -32,13 +32,16 @@ public class CameraControl : MonoBehaviour, IControlledCameraState
     private const float maxLockCancelTimer = 0.4f;
     public float _lockCancelTimer;
 
-    /*private void Start()
-    {
-        _camScript = unlockedCam.GetComponent<FreeLookAddOn>();
-        _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
-        _playerInput = GetComponent<PlayerInputScript>();
-    }*/
+    private PlayerState m_PlayerState;
 
+    private void Start()
+    {
+        // _camScript = unlockedCam.GetComponent<FreeLookAddOn>();
+        // _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
+        // _playerInput = GetComponent<PlayerInputScript>();
+
+        this.m_PlayerState = this.GetComponent<PlayerState>();
+    }
  
     //NOTE: this is called in player controller
     public void Init(Transform playerTarget)

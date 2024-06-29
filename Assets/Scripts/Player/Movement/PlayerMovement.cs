@@ -47,10 +47,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         private void Update()
         {
-            if (this.IsPaused) return;
-            
-            this.MovePlayer();
-            this.SprintPlayer();
+            if (this.IsPaused || (!this.m_IsMovementEnabled && this.m_FinishingMoveController.bIsFinishing)) 
+                return;
+
+            this.RotatePlayerToMovementDirection();
+            this.LockPlayerRotationToAttackTarget();
+            this.PerformSprint();
         }
 
         #endregion Lifecycle Methods
@@ -90,40 +92,43 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_CameraController.ToggleSprintCameraState(this.m_IsSprinting);
         }
 
-        private void MovePlayer() // TODO: This needs to be refactored, this method is doing too many things.
+        private void RotatePlayerToMovementDirection()
         {
-            if (!this.m_IsMovementEnabled && this.m_FinishingMoveController.bIsFinishing) 
+            Vector3 _Direction = new Vector3(this.m_MoveDirection.x, 0, this.m_MoveDirection.y).normalized;
+            if (_Direction == Vector3.zero
+                || this.m_CameraState.IsCameraViewTargetLocked
+                || !this.m_IsRotationEnabled
+                || this.m_PlayerAttackState.IsWeaponSheathed) 
                 return;
             
-            Vector3 _Direction = new Vector3(this.m_MoveDirection.x, 0, this.m_MoveDirection.y).normalized;
-            if (_Direction != Vector3.zero
-                && !this.m_CameraState.IsCameraViewTargetLocked
-                && this.m_IsRotationEnabled
-                && !this.m_PlayerAttackState.IsWeaponSheathed)
-            {
-                // Rotate the player to the target direction    
-                float _TargetAngle = Mathf.Atan2(_Direction.x, _Direction.z) * Mathf.Rad2Deg +
-                                     this.m_CameraState.CurrentEulerAngles.y;
-                float _NextAngleRotation = Mathf.SmoothDampAngle(
-                                            this.m_CameraState.CurrentEulerAngles.y,
-                                            _TargetAngle,
-                                            ref this.m_CurrentAngleSmoothVelocity,
-                                            .1f);
+            // Rotate the player to the target direction    
+            float _TargetAngle = Mathf.Atan2(_Direction.x, _Direction.z) * Mathf.Rad2Deg +
+                                 this.m_CameraState.CurrentEulerAngles.y;
+            float _NextAngleRotation = Mathf.SmoothDampAngle(
+                this.m_CameraState.CurrentEulerAngles.y,
+                _TargetAngle,
+                ref this.m_CurrentAngleSmoothVelocity,
+                .1f);
 
-                this.transform.rotation = Quaternion.Euler(0f, _NextAngleRotation, 0f);
-            }
-            else if (this.m_CameraState.IsCameraViewTargetLocked)
-            {
-                // Lock player movement and rotation to the target
-                Vector3 _NewLookDirection = this.m_PlayerState.AttackTarket.transform.position - this.transform.position;
-                this.transform.rotation = Quaternion.Slerp(
-                    this.transform.rotation,
-                    Quaternion.LookRotation(_NewLookDirection),
-                    this.m_RotationSpeed);
-                this.transform.rotation = Quaternion.Euler(0, this.transform.rotation.eulerAngles.y, 0);
-            }
+            this.transform.rotation = Quaternion.Euler(0f, _NextAngleRotation, 0f);
+        }
+
+        private void LockPlayerRotationToAttackTarget()
+        {
+            if (!this.m_CameraState.IsCameraViewTargetLocked)
+                return;
             
+            Vector3 _NewLookDirection = this.m_PlayerState.AttackTarket.transform.position - this.transform.position;
+            this.transform.rotation = Quaternion.Slerp(
+                this.transform.rotation,
+                Quaternion.LookRotation(_NewLookDirection),
+                this.m_RotationSpeed);
             
+            this.transform.rotation = Quaternion.Euler(0, this.transform.rotation.eulerAngles.y, 0);
+        }
+
+        private void PerformSprint()
+        {
             // TODO: This behaviour should not be function at runtime, instead make this event based.
             if (this.m_MoveDirection == Vector2.zero || !this.m_IsSprinting)
             {
@@ -133,11 +138,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             {
                 this.m_Animator.SetBool("IsSprinting", true);
             }
-        }
-
-        private void SprintPlayer()
-        {
-            
         }
 
         #endregion Methods

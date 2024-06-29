@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ThatOneSamuraiGame.Scripts.Camera;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityTemplateProjects;
 
 /* -----------------------------------------------------------
  * Noted Issues:

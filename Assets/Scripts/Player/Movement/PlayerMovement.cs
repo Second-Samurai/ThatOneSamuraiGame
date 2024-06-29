@@ -1,4 +1,6 @@
-﻿using ThatOneSamuraiGame.Scripts.Base;
+﻿using System;
+using System.Runtime.CompilerServices;
+using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using UnityEngine;
@@ -22,8 +24,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private bool m_IsMovementEnabled = true;
         private bool m_IsRotationEnabled = true;
         private bool m_IsSprinting = false;
-        private Vector2 m_MoveDirection = Vector2.zero;
+        private Vector2 m_InputDirection = Vector2.zero;
+        private Vector3 m_MoveDirection = Vector2.zero;
         private float m_RotationSpeed = 4f;
+        private float m_MovementSmoothingDampingTime = .1f;
 
         #endregion Fields
 
@@ -38,6 +42,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         private void Start()
         {
+            this.m_Animator = this.GetComponent<Animator>();
             this.m_CameraController = this.GetComponent<ICameraController>();
             this.m_CameraState = this.GetComponent<IControlledCameraState>();
             this.m_FinishingMoveController = this.GetComponentInChildren<FinishingMoveController>();
@@ -47,11 +52,16 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         private void Update()
         {
-            if (this.IsPaused || (!this.m_IsMovementEnabled && this.m_FinishingMoveController.bIsFinishing)) 
+            if (this.IsPaused || !this.m_IsMovementEnabled || this.m_FinishingMoveController.bIsFinishing) 
                 return;
 
+            // Move the player
+            this.CalculateMovementDirection();
             this.RotatePlayerToMovementDirection();
-            this.LockPlayerRotationToAttackTarget();
+            this.PerformMovement();
+            
+            // Perform specific movement behavior
+            //this.LockPlayerRotationToAttackTarget();
             this.PerformSprint();
         }
 
@@ -73,16 +83,17 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         void IPlayerMovement.PreparePlayerMovement(Vector2 moveDirection)
         {
-            if (!this.m_FinishingMoveController.bIsFinishing)
+            Debug.Log($"Is it performing finishing move: {!this.m_FinishingMoveController.bIsFinishing}");
+            if (this.m_FinishingMoveController.bIsFinishing)
                 return;
             
             if (moveDirection == Vector2.zero)
                 this.m_Animator.SetBool("IsSprinting", false);
 
-            this.m_MoveDirection = moveDirection;
+            this.m_InputDirection = moveDirection;
         }
 
-        void IPlayerMovement.Sprint(bool isSprinting)
+        void IPlayerMovement.PrepareSprint(bool isSprinting)
         {
             this.m_IsSprinting = isSprinting;
 
@@ -92,26 +103,20 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_CameraController.ToggleSprintCameraState(this.m_IsSprinting);
         }
 
-        private void RotatePlayerToMovementDirection()
+        private Vector3 CalculateMovementDirection()
         {
-            Vector3 _Direction = new Vector3(this.m_MoveDirection.x, 0, this.m_MoveDirection.y).normalized;
-            if (_Direction == Vector3.zero
-                || this.m_CameraState.IsCameraViewTargetLocked
-                || !this.m_IsRotationEnabled
-                || this.m_PlayerAttackState.IsWeaponSheathed) 
-                return;
+            Vector3 _Direction = new Vector3(this.m_InputDirection.x, 0, this.m_InputDirection.y);
+            Vector3 _RelativeDirection = _Direction - this.transform.forward;
             
-            // Rotate the player to the target direction    
-            float _TargetAngle = Mathf.Atan2(_Direction.x, _Direction.z) * Mathf.Rad2Deg +
-                                 this.m_CameraState.CurrentEulerAngles.y;
-            float _NextAngleRotation = Mathf.SmoothDampAngle(
-                this.m_CameraState.CurrentEulerAngles.y,
-                _TargetAngle,
-                ref this.m_CurrentAngleSmoothVelocity,
-                .1f);
+            // Provide normalized direction otherwise stop moving
+            // this.m_MoveDirection = _Direction != Vector3.zero 
+            //                         ? _RelativeDirection.normalized 
+            //                         : Vector3.zero;
 
-            this.transform.rotation = Quaternion.Euler(0f, _NextAngleRotation, 0f);
-        }
+            this.m_MoveDirection = _Direction.normalized;
+            
+            return this.m_MoveDirection;
+        }        
 
         private void LockPlayerRotationToAttackTarget()
         {
@@ -127,17 +132,55 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.transform.rotation = Quaternion.Euler(0, this.transform.rotation.eulerAngles.y, 0);
         }
 
+        private void RotatePlayerToMovementDirection()
+        {
+            // Vector3 _Direction = new Vector3(this.m_MoveDirection.x, 0, this.m_MoveDirection.y).normalized;
+            if (this.m_InputDirection == Vector2.zero
+                 || this.m_CameraState.IsCameraViewTargetLocked
+                 || !this.m_IsRotationEnabled
+                 || this.m_PlayerAttackState.IsWeaponSheathed)
+                return;
+
+            float _TargetAngle = Mathf.Atan2(this.m_MoveDirection.x, this.m_MoveDirection.z) 
+                                    * Mathf.Rad2Deg + this.m_CameraState.CurrentEulerAngles.y;
+            float _NextAngleRotation = Mathf.SmoothDampAngle(
+                this.transform.eulerAngles.y,
+                _TargetAngle,
+                ref this.m_CurrentAngleSmoothVelocity,
+                this.m_MovementSmoothingDampingTime);
+            
+            this.transform.rotation = Quaternion.Euler(0f, _NextAngleRotation, 0f);
+        }
+
+        private void PerformMovement()
+        {
+            // Invokes player movement through the physically based animation movements
+            this.m_Animator.SetFloat(
+                "XInput", 
+                this.m_InputDirection.x, 
+                this.m_MovementSmoothingDampingTime, 
+                Time.deltaTime);
+            
+            this.m_Animator.SetFloat(
+                "YInput",
+                this.m_InputDirection.y,
+                this.m_MovementSmoothingDampingTime,
+                Time.deltaTime);
+            
+            this.m_Animator.SetFloat(
+                "InputSpeed",
+                this.m_InputDirection.magnitude,
+                this.m_MovementSmoothingDampingTime,
+                Time.deltaTime);
+
+        }
         private void PerformSprint()
         {
             // TODO: This behaviour should not be function at runtime, instead make this event based.
-            if (this.m_MoveDirection == Vector2.zero || !this.m_IsSprinting)
-            {
+            if (this.m_InputDirection == Vector2.zero || !this.m_IsSprinting)
                 this.m_Animator.SetBool("IsSprinting", false);
-            }
             else
-            {
                 this.m_Animator.SetBool("IsSprinting", true);
-            }
         }
 
         #endregion Methods

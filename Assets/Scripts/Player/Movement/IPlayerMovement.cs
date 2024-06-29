@@ -24,7 +24,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         void PreparePlayerMovement(Vector2 moveDirection);
 
-        void Sprint(bool isSprinting);
+        void PrepareSprint(bool isSprinting);
 
         #endregion Methods
 

@@ -10,6 +10,8 @@ namespace ThatOneSamuraiGame.Scripts.Camera
 
         Vector3 CurrentEulerAngles { get; }
         
+        Vector3 ForwardDirection { get; }
+        
         bool IsCameraViewTargetLocked { get; }
 
         #endregion Properties

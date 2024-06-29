@@ -254,6 +254,14 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
         }
     }
 
+    public Vector3 ForwardDirection
+    {
+        get
+        {
+            return this.transform.forward;
+        }
+    }
+
     public bool IsCameraViewTargetLocked
     {
         get

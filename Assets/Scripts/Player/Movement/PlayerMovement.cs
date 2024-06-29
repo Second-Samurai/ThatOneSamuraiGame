@@ -3,6 +3,8 @@ using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.UI.Pause;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.UIElements;
 using UnityTemplateProjects;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Movement
@@ -17,11 +19,14 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private IControlledCameraState m_CameraState;
         private FinishingMoveController m_FinishingMoveController; // This needs to be decoupled. Use interfaces
         private IPlayerAttackState m_PlayerAttackState;
+        private PlayerState m_PlayerState;
 
+        private float m_CurrentAngleSmoothVelocity;
         private bool m_IsMovementEnabled = true;
         private bool m_IsRotationEnabled = true;
+        private bool m_IsSprinting = false;
         private Vector2 m_MoveDirection = Vector2.zero;
-        private float m_CurrentAngleSmoothVelocity;
+        private float m_RotationSpeed = 4f;
 
         #endregion Fields
 
@@ -29,7 +34,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         Vector2 IPlayerMovement.MoveDirection
             => this.m_MoveDirection;
-
 
         #endregion Properties
         
@@ -40,6 +44,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_CameraState = this.GetComponent<IControlledCameraState>();
             this.m_FinishingMoveController = this.GetComponentInChildren<FinishingMoveController>();
             this.m_PlayerAttackState = this.GetComponent<IPlayerAttackState>();
+            this.m_PlayerState = this.GetComponent<PlayerState>();
         }
 
         private void Update()
@@ -82,19 +87,18 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             
         }
 
-        private void MovePlayer()
+        private void MovePlayer() // TODO: This needs to be refactored, this method is doing too many things.
         {
             if (!this.m_IsMovementEnabled && this.m_FinishingMoveController.bIsFinishing) 
                 return;
-
             
-            // Rotate the player to the target direction
             Vector3 _Direction = new Vector3(this.m_MoveDirection.x, 0, this.m_MoveDirection.y).normalized;
             if (_Direction != Vector3.zero
                 && !this.m_CameraState.IsCameraViewTargetLocked
                 && this.m_IsRotationEnabled
                 && !this.m_PlayerAttackState.IsWeaponSheathed)
             {
+                // Rotate the player to the target direction    
                 float _TargetAngle = Mathf.Atan2(_Direction.x, _Direction.z) * Mathf.Rad2Deg +
                                      this.m_CameraState.CurrentEulerAngles.y;
                 float _NextAngleRotation = Mathf.SmoothDampAngle(
@@ -104,6 +108,27 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                                             .1f);
 
                 this.transform.rotation = Quaternion.Euler(0f, _NextAngleRotation, 0f);
+            }
+            else if (this.m_CameraState.IsCameraViewTargetLocked)
+            {
+                // Lock player movement and rotation to the target
+                Vector3 _NewLookDirection = this.m_PlayerState.AttackTarket.transform.position - this.transform.position;
+                this.transform.rotation = Quaternion.Slerp(
+                    this.transform.rotation,
+                    Quaternion.LookRotation(_NewLookDirection),
+                    this.m_RotationSpeed);
+                this.transform.rotation = Quaternion.Euler(0, this.transform.rotation.eulerAngles.y, 0);
+            }
+            
+            
+            // TODO: This behaviour should not be function at runtime, instead make this event based.
+            if (this.m_MoveDirection == Vector2.zero || !this.m_IsSprinting)
+            {
+                this.m_Animator.SetBool("IsSprinting", false);
+            }
+            else
+            {
+                this.m_Animator.SetBool("IsSprinting", true);
             }
         }
 

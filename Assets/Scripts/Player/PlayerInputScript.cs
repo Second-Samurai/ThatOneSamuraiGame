@@ -366,7 +366,7 @@ public class PlayerInputScript : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
             }
             
-            if (!bMoveLocked)
+            if (!bMoveLocked) // Note: According to the logic this will always be true
             {
                 _animator.SetFloat("XInput", _inputVector.x, smoothingValue, Time.deltaTime);
                 _animator.SetFloat("YInput", _inputVector.y, smoothingValue, Time.deltaTime);
@@ -394,7 +394,7 @@ public class PlayerInputScript : MonoBehaviour
             }
 
         }
-        lastVector = _inputVector;
+        lastVector = _inputVector; // Note: This is not used
     }
 
     public void StartDodging()
@@ -433,7 +433,7 @@ public class PlayerInputScript : MonoBehaviour
         bOverrideMovement = false;
     }
 
-    public void LockMoveInput()
+    public void LockMoveInput() // This is not being used anywhere
     {
         if (!bMoveLocked)
         {

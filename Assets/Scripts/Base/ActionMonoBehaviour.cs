@@ -7,7 +7,7 @@ namespace ThatOneSamuraiGame.Scripts.Base
     /// <summary>
     /// Derives from Unity's MonoBehaviour. Includes actions and behaviour extending MonoBehaviour.
     /// </summary>
-    public class ActionMonoBehaviour : MonoBehaviour, IPausable
+    public class TOSGMonoBehaviourBase : MonoBehaviour, IPausable
     {
 
         #region - - - - - - Fields - - - - - -

@@ -72,19 +72,19 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private void OnLockOn(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            //this.m_PlayerTargetTracking.ToggleLockOn();
+            this.m_PlayerTargetTracking.ToggleLockOn();
         }
 
         private void OnToggleLockLeft(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            //this.m_PlayerTargetTracking.ToggleLockLeft();
+            this.m_PlayerTargetTracking.ToggleLockLeft();
         }
 
         private void OnToggleLockRight(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            //this.m_PlayerTargetTracking.ToggleLockRight();
+            this.m_PlayerTargetTracking.ToggleLockRight();
         }
         
         // -----------------------------------------------------

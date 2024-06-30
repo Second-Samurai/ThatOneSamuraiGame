@@ -1,10 +1,11 @@
 ﻿using System;
+using ThatOneSamuraiGame.Scripts.Base;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
 {
     
-    public class PlayerTargetLocking : MonoBehaviour, IPlayerTargetTracking
+    public class PlayerTargetLocking : TOSGMonoBehaviourBase, IPlayerTargetTracking
     {
 
         #region - - - - - - Methods - - - - - -

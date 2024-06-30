@@ -8,7 +8,7 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.Player.Movement
 {
     
-    public class PlayerMovement : ActionMonoBehaviour, IPlayerMovement
+    public class PlayerMovement : TOSGMonoBehaviourBase, IPlayerMovement
     {
         
         #region - - - - - - Fields - - - - - -
@@ -62,7 +62,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             
             // Perform specific movement behavior
             this.LockPlayerRotationToAttackTarget();
-            this.PerformSprint();
         }
 
         #endregion Lifecycle Methods
@@ -101,6 +100,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 return;
             
             this.m_CameraController.ToggleSprintCameraState(this.m_IsSprinting);
+            
+            // Toggle sprinting animation
+            if (this.m_InputDirection == Vector2.zero || !this.m_IsSprinting)
+                this.m_Animator.SetBool("IsSprinting", false);
+            else
+                this.m_Animator.SetBool("IsSprinting", true);
         }
 
         private Vector3 CalculateMovementDirection()
@@ -162,16 +167,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 this.m_InputDirection.magnitude,
                 this.m_MovementSmoothingDampingTime,
                 Time.deltaTime);
-
-        }
-        
-        private void PerformSprint()
-        {
-            // TODO: This behaviour should not be function at runtime, instead make this event based.
-            if (this.m_InputDirection == Vector2.zero || !this.m_IsSprinting)
-                this.m_Animator.SetBool("IsSprinting", false);
-            else
-                this.m_Animator.SetBool("IsSprinting", true);
         }
 
         #endregion Methods

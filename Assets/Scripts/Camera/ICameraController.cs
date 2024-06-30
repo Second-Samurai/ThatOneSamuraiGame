@@ -10,8 +10,18 @@
     public interface ICameraController
     {
 
+        #region - - - - - - Properties - - - - - -
+
+        bool IsLockedOn { get; }
+
+        #endregion Properties
+        
         #region - - - - - - Methods - - - - - -
 
+        bool LockOn();
+
+        void ToggleLockOn();
+        
         void ToggleSprintCameraState(bool isSprinting);
 
         #endregion Methods

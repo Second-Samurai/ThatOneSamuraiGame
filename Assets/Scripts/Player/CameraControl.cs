@@ -34,6 +34,13 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
 
     private PlayerState m_PlayerState;
 
+    #region - - - - - - Properties - - - - - -
+
+    bool ICameraController.IsLockedOn
+        => this.bLockedOn;
+    
+    #endregion Properties
+
     private void Start()
     {
         // _camScript = unlockedCam.GetComponent<FreeLookAddOn>();

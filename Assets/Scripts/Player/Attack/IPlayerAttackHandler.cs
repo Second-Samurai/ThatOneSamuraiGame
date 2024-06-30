@@ -10,6 +10,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         void DrawSword();
 
+        void ResetAttack();
+
         void StartHeavy();
 
         void StartHeavyAlternative();

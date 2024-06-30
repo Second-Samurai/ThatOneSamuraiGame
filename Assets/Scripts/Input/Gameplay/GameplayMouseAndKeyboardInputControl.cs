@@ -94,37 +94,38 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private void OnAttack(InputValue inputValue) 
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            //this.m_PlayerAttackHandler.Attack();
+            this.m_PlayerAttackHandler.Attack();
+            Debug.Log("Triggered Attack Method");
         }
 
         private void OnSwordDraw(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            //this.m_PlayerAttackHandler.DrawSword();
+            this.m_PlayerAttackHandler.DrawSword();
         }
 
         private void OnStartHeavy(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            //this.m_PlayerAttackHandler.StartHeavy();
+            this.m_PlayerAttackHandler.StartHeavy();
         }
 
         private void OnStartHeavyAlternative(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            //this.m_PlayerAttackHandler.StartHeavyAlternative();
+            this.m_PlayerAttackHandler.StartHeavyAlternative();
         }
 
         private void OnStartBlock(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            //this.m_PlayerAttackHandler.StartBlock();
+            this.m_PlayerAttackHandler.StartBlock();
         }
 
         private void OnEndBlock(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            //this.m_PlayerAttackHandler.EndBlock();
+            this.m_PlayerAttackHandler.EndBlock();
         }
         
         // -----------------------------------------------------

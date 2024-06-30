@@ -11,6 +11,8 @@ public interface ICombatController
     void UnblockCombatInputs();
     void DrawSword();
     bool CheckIsAttacking();
+    void EndAttacking();
+    void ResetAttackCombo();
 }
 
 public class PCombatController : MonoBehaviour, ICombatController

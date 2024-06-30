@@ -202,6 +202,12 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
         }
     }
 
+    void ICameraController.RollCamera()
+    {
+        this.StopAllCoroutines();
+        this.StartCoroutine(this.RollCam());
+    }
+
     public IEnumerator RollCam()
     {
         while(_lockedCamScript.cam.m_Lens.Dutch > -10)
@@ -210,6 +216,16 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
             _lockedCamScript.cam.m_Lens.FieldOfView -= Time.deltaTime * 3f;
             yield return null;
         }
+    }
+
+    // Note: This is a duplicate method of the same name. Originally the usage of the
+    //       Coroutine involes stopping all other coroutines which meant the management of
+    //       the component's state has to be done externally.
+    //       In this location
+    void ICameraController.ResetCameraRoll()
+    {
+        this.StopAllCoroutines();
+        this.StartCoroutine(this.ResetCamRoll());
     }
 
     public IEnumerator ResetCamRoll()

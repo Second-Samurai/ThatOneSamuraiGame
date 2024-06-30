@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Enemies;
+using ThatOneSamuraiGame.Scripts.Player.Movement;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
+// Tech-Debt: #35 - PlayerFunctions will be refactored to mitigate large class bloat.
 public class PlayerFunctions : MonoBehaviour
 {
     [Header("Block Variables")]
@@ -54,6 +56,8 @@ public class PlayerFunctions : MonoBehaviour
     RaycastHit sprintAttackTarget;
     [SerializeField] LayerMask enemyMask;
 
+    private IPlayerMovement m_PlayerMovement;
+
     private void Start()
     {
         playerSFX = gameObject.GetComponent<PlayerSFX>();
@@ -74,6 +78,8 @@ public class PlayerFunctions : MonoBehaviour
 
         enemyMask = LayerMask.GetMask("Enemy");
         //enemyMask = ~enemyMask;
+
+        this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
     }
     public void SetBlockCooldown()
     {
@@ -122,9 +128,9 @@ public class PlayerFunctions : MonoBehaviour
         if (bAllowDeathMoveReset)
         {
             if (bIsDead && playerInputScript.bCanMove)
-                playerInputScript.DisableMovement();
+                m_PlayerMovement.DisableMovement();
             else if (!bIsDead && !playerInputScript.bCanMove)
-                playerInputScript.EnableMovement();
+                m_PlayerMovement.EnableMovement();
         }
 
 
@@ -282,7 +288,7 @@ public class PlayerFunctions : MonoBehaviour
     public void CancelMove()
     {
         StopAllCoroutines(); 
-        playerInputScript.EnableMovement();
+        m_PlayerMovement.EnableMovement();
         playerInputScript.EnableRotation();
         rb.linearVelocity = Vector3.zero;
         _animator.applyRootMotion = true;

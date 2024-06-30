@@ -24,6 +24,10 @@
         
         void ToggleSprintCameraState(bool isSprinting);
 
+        void ResetCameraRoll();
+
+        void RollCamera();
+
         #endregion Methods
 
     }

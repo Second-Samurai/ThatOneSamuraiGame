@@ -132,99 +132,99 @@ public class PlayerInputScript : MonoBehaviour
 
     // Summary: Input control for sword drawing
     //
-    private void OnSwordDraw(InputValue value)
-    {
-        if (_playerCombat == null)
-        {
-            Debug.Log(">> Combat Component is missing");
-            _playerCombat = this.GetComponent<ICombatController>();
-            return;
-        }
-
-        _playerCombat.DrawSword();
-    }
+    // private void OnSwordDraw(InputValue value)
+    // {
+    //     if (_playerCombat == null)
+    //     {
+    //         Debug.Log(">> Combat Component is missing");
+    //         _playerCombat = this.GetComponent<ICombatController>();
+    //         return;
+    //     }
+    //
+    //     _playerCombat.DrawSword();
+    // }
 
    
     //NOTE: The combat component requires to be instantiated early. Suggest input script to be instantated late.
-    private void OnAttack(InputValue value)
-    {
-        if (bCanAttack && !bAlreadyAttacked)
-        {
-            //Debug.LogError(">> Light attack Triggered");
-            if (_playerCombat == null)
-            {
-                Debug.Log(">> Combat Component is missing");
-                _playerCombat = this.GetComponent<ICombatController>();
-                return;
-            }
-
-            if (!value.isPressed)
-            {
-                _playerCombat.RunLightAttack();
-                bAlreadyAttacked = false;
-            }
-
-           
-            if (hitstopController.bIsSlowing) hitstopController.CancelEffects();
-        }
-        else if (bAlreadyAttacked)
-        {
-            bAlreadyAttacked = false;
-        }
-
-        if (_animator.GetBool("HeavyAttackHeld"))
-        {
-            ExecuteHeavyAttack();
-            bAlreadyAttacked = false;
-        }
-    }
-      
-    void OnStartHeavy()
-    {
-        heavyTimer = 2f;
-        StartHeavy();
-    }
+    // private void OnAttack(InputValue value)
+    // {
+    //     if (bCanAttack && !bAlreadyAttacked)
+    //     {
+    //         //Debug.LogError(">> Light attack Triggered");
+    //         if (_playerCombat == null)
+    //         {
+    //             Debug.Log(">> Combat Component is missing");
+    //             _playerCombat = this.GetComponent<ICombatController>();
+    //             return;
+    //         }
+    //
+    //         if (!value.isPressed)
+    //         {
+    //             _playerCombat.RunLightAttack();
+    //             bAlreadyAttacked = false;
+    //         }
+    //
+    //        
+    //         if (hitstopController.bIsSlowing) hitstopController.CancelEffects();
+    //     }
+    //     else if (bAlreadyAttacked)
+    //     {
+    //         bAlreadyAttacked = false;
+    //     }
+    //
+    //     if (_animator.GetBool("HeavyAttackHeld"))
+    //     {
+    //         ExecuteHeavyAttack();
+    //         bAlreadyAttacked = false;
+    //     }
+    // }
+    //   
+    // void OnStartHeavy()
+    // {
+    //     heavyTimer = 2f;
+    //     StartHeavy();
+    // }
     
-    void OnStartHeavyAlternative()
-    {
-        //bPlayGleam = false;
-        //heavyTimer = 1.0f;
-        //StartHeavy();
-    }
+    // void OnStartHeavyAlternative()
+    // {
+    //     //bPlayGleam = false;
+    //     //heavyTimer = 1.0f;
+    //     //StartHeavy();
+    // }
 
-    void StartHeavy() // THIS IS NOT AN EVENT HANDLER
-    {
-        if (bCanAttack)
-        {
-            if (!_animator.GetBool("HeavyAttackHeld"))
-            {
-                startHeavyTelegraphEvent.Raise();
-                
-                bHeavyCharging = true;
-                bIsSheathed = true;
-                _animator.SetBool("HeavyAttackHeld", true);
-                //_camControl.StopCoroutine(_camControl.RollCam());
-                //_camControl.StopCoroutine(_camControl.ResetCamRoll());
-                camControl.StopAllCoroutines();
-                camControl.StartCoroutine(camControl.RollCam());
-            }
-        }
-    }
+    // void StartHeavy() // THIS IS NOT AN EVENT HANDLER
+    // {
+    //     if (bCanAttack)
+    //     {
+    //         if (!_animator.GetBool("HeavyAttackHeld"))
+    //         {
+    //             startHeavyTelegraphEvent.Raise();
+    //             
+    //             bHeavyCharging = true;
+    //             bIsSheathed = true;
+    //             _animator.SetBool("HeavyAttackHeld", true);
+    //             //_camControl.StopCoroutine(_camControl.RollCam());
+    //             //_camControl.StopCoroutine(_camControl.ResetCamRoll());
+    //             camControl.StopAllCoroutines();
+    //             camControl.StartCoroutine(camControl.RollCam());
+    //         }
+    //     }
+    // }
 
-    void OnStartBlock()
-    {
-        if (bCanBlock)
-        {
-            _functions.StartBlock();
-            if (bGotParried) EndSlowEffects();
-
-        }
-    }
+    // void OnStartBlock()
+    // {
+    //     if (bCanBlock)
+    //     {
+    //         _functions.StartBlock();
+    //         if (bGotParried) EndSlowEffects();
+    //
+    //     }
+    // }
       
-    void OnEndBlock()
-    {
-        _functions.bInputtingBlock = false;
-    }
+    // void OnEndBlock()
+    // {
+    //     _functions.bInputtingBlock = false;
+    // }
 
     void OnDodge()
     {
@@ -299,48 +299,48 @@ public class PlayerInputScript : MonoBehaviour
 
     public void ResetAttack()
     {
-        _pCombatController.EndAttacking();
-        _pCombatController.ResetAttackCombo();
+        _pCombatController.EndAttacking(); // Make these interface methods
+        _pCombatController.ResetAttackCombo(); // Make these interface methods
     }
 
-    private void ExecuteHeavyAttack()
-    {
-        showHeavyTutorialEvent.Raise();
-        endHeavyTelegraphEvent.Raise();
-        
-        bHeavyCharging = false;
-        bIsSheathed = false;
-        bPlayGleam = true;
-        _animator.SetBool("HeavyAttackHeld", false);
-        //_camControl.StopCoroutine(_camControl.ResetCamRoll());
-        //_camControl.StopCoroutine("RollCam");
-        camControl.StopAllCoroutines();
-        camControl.StartCoroutine(camControl.ResetCamRoll());
-    }
+    // private void ExecuteHeavyAttack()
+    // {
+    //     showHeavyTutorialEvent.Raise();
+    //     endHeavyTelegraphEvent.Raise();
+    //     
+    //     bHeavyCharging = false;
+    //     bIsSheathed = false;
+    //     bPlayGleam = true; // Note: This shouldn't need to be a variable but rather an invocation
+    //     _animator.SetBool("HeavyAttackHeld", false);
+    //     //_camControl.StopCoroutine(_camControl.ResetCamRoll());
+    //     //_camControl.StopCoroutine("RollCam");
+    //     camControl.StopAllCoroutines();
+    //     camControl.StartCoroutine(camControl.ResetCamRoll());
+    // }
 
-    void HeavyTimer()
-    {
-        heavyTimer -= Time.deltaTime;
-        if(heavyTimer < .5f && bPlayGleam)
-        {
-            bPlayGleam = false;
-            _functions.parryEffects.PlayGleam();
-        }
-        if(heavyTimer <= 0)
-        {
-            bAlreadyAttacked = true;
-            ExecuteHeavyAttack();
-            heavyTimer = heavyTimerMax;
-        }
-    }
-   
+    // void HeavyTimer()
+    // {
+    //     heavyTimer -= Time.deltaTime;
+    //     if(heavyTimer < .5f && bPlayGleam)
+    //     {
+    //         bPlayGleam = false;
+    //         _functions.parryEffects.PlayGleam();
+    //     }
+    //     if(heavyTimer <= 0)
+    //     {
+    //         bAlreadyAttacked = true;
+    //         ExecuteHeavyAttack();
+    //         heavyTimer = heavyTimerMax;
+    //     }
+    // }
+    //
 
-    private void FixedUpdate()
-    {
+    // private void FixedUpdate()
+    // {
         //MovePlayer(); 
-        if (bHeavyCharging) HeavyTimer();
-        else if (heavyTimer != heavyTimerMax) heavyTimer = heavyTimerMax;
-    }
+        // if (bHeavyCharging) HeavyTimer();
+        // else if (heavyTimer != heavyTimerMax) heavyTimer = heavyTimerMax;
+    // }
 
     // INVESTIGATION: Move logic emplaced in similarly named location
     // private void MovePlayer()
@@ -496,10 +496,10 @@ public class PlayerInputScript : MonoBehaviour
         bCanMove = true;
     }
 
-    public void GotParried()
-    {
-        bGotParried = true; 
-    }
+    // public void GotParried()
+    // {
+    //     bGotParried = true; 
+    // }
 
     public void EndGotParried()
     {

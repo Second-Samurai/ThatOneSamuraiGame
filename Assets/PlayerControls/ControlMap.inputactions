@@ -11,7 +11,8 @@
                     "id": "95c8a337-6c92-4696-8716-0e1f9ceb135f",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "LockOn",
@@ -19,7 +20,8 @@
                     "id": "7d3b2d0c-6ef1-4db4-85ab-f1365c38ebdd",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press"
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "RotateCamera",
@@ -27,7 +29,8 @@
                     "id": "4583ff09-6513-4aca-b152-4d0df10adb13",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "StartBlock",
@@ -35,7 +38,8 @@
                     "id": "bbaa54ba-ee2d-4bfa-9050-1e80af91e213",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press"
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "EndBlock",
@@ -43,7 +47,8 @@
                     "id": "155d1532-4f55-42b2-abd4-2a8dceb44249",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press(behavior=1)"
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Attack",
@@ -51,7 +56,8 @@
                     "id": "bb4d4c72-aca8-4669-a79e-e0b19c891ba1",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press(behavior=1)"
+                    "interactions": "Press(behavior=1)",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Dodge",
@@ -59,7 +65,8 @@
                     "id": "f1e70147-378b-429e-a976-ca9e31227a1e",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press"
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "InitRewind",
@@ -67,7 +74,8 @@
                     "id": "3be9406a-147b-42e2-9464-c8a788c65bb7",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press"
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ScrubForwardOLD",
@@ -75,7 +83,8 @@
                     "id": "fb68f0ce-984f-4167-8e4d-d9c07aee1e24",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press(behavior=2)"
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "ScrubBackwardOLD",
@@ -83,7 +92,8 @@
                     "id": "fd6e816c-1091-4ea7-9a26-79325a93cb37",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press(behavior=2)"
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "ScrubOLD",
@@ -91,7 +101,8 @@
                     "id": "a01967d2-ed35-4228-81c7-8f9483263fb6",
                     "expectedControlType": "Axis",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "ReleaseLockOn",
@@ -99,15 +110,17 @@
                     "id": "49a3647a-04d7-4753-9c18-a0dfb073b98b",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press"
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ToggleLockLeft",
                     "type": "Button",
                     "id": "bd0d209c-7483-408c-a191-99172ebbb538",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
-                    "interactions": "Press"
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ToggleLockRight",
@@ -115,7 +128,8 @@
                     "id": "5661c98b-a309-46eb-a33a-5d0c715004c2",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press"
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "StartHeavy",
@@ -123,7 +137,8 @@
                     "id": "29d73101-4da2-4199-99f3-8f4d7d6cd25e",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold(duration=0.3,pressPoint=0.5),Press"
+                    "interactions": "Hold(duration=0.3,pressPoint=0.5),Press",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "StartHeavyAlternative",
@@ -131,7 +146,8 @@
                     "id": "d843801a-0efa-45c2-b0ff-e676c733d311",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press"
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Pause",
@@ -139,7 +155,8 @@
                     "id": "58f1a698-757e-425c-aefc-947683b1f9ee",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "SwordDraw",
@@ -147,7 +164,8 @@
                     "id": "1440196e-ef2a-4f79-abc3-8b6201a2d8d9",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Sprint",
@@ -155,7 +173,8 @@
                     "id": "1904602d-c2c1-4685-8892-8a0074e63743",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press(behavior=2)"
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -570,7 +589,7 @@
                     "name": "",
                     "id": "17ad6dd6-9a2a-4a9e-9dfa-bf9f27fa785b",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "",
+                    "interactions": "Hold(duration=2,pressPoint=1)",
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "StartHeavy",
@@ -655,7 +674,8 @@
                     "id": "20d4465d-c314-49ba-bbee-0182099a77d1",
                     "expectedControlType": "Axis",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Pause",
@@ -663,7 +683,8 @@
                     "id": "bb9ae5c8-0b93-44e0-b002-2b0380f4e35a",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "EndRewind",
@@ -671,7 +692,8 @@
                     "id": "79a9d872-5340-4333-8f11-7577c02c03cf",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press"
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "RotateCamera",
@@ -679,7 +701,8 @@
                     "id": "db321dbe-4b9e-45f6-bf26-b5374ad68981",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -794,7 +817,8 @@
                     "id": "2938e789-f18e-4651-a9f9-e5d9748bc73d",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [

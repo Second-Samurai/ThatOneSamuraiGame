@@ -35,7 +35,7 @@ namespace ThatOneSamuraiGame.Scripts.Base
         /// Changes object's state to unpause.
         /// </summary>
         void IPausable.OnUnPause()
-            => this.m_IsPaused = true;
+            => this.m_IsPaused = false;
 
         #endregion IPausable Methods
         

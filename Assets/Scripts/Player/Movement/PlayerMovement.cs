@@ -16,7 +16,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private Animator m_Animator;
         private ICameraController m_CameraController;
         private IControlledCameraState m_CameraState;
-        private FinishingMoveController m_FinishingMoveController; // This needs to be decoupled. Use interfaces
+        private FinishingMoveController m_FinishingMoveController;
         private IPlayerAttackState m_PlayerAttackState;
         private PlayerState m_PlayerState;
 
@@ -33,7 +33,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         #region - - - - - - Properties - - - - - -
 
-        Vector2 IPlayerMovement.MoveDirection
+        Vector3 IPlayerMovement.MoveDirection
             => this.m_MoveDirection;
 
         #endregion Properties
@@ -82,10 +82,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         void IPlayerMovement.PreparePlayerMovement(Vector2 moveDirection)
         {
-            Debug.Log($"Is it performing finishing move: {!this.m_FinishingMoveController.bIsFinishing}");
             if (this.m_FinishingMoveController.bIsFinishing)
                 return;
             
+            // Ticket: #34 - Behaviour pertaining to animation will be moved to separate player animator component.
             if (moveDirection == Vector2.zero)
                 this.m_Animator.SetBool("IsSprinting", false);
 
@@ -102,6 +102,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_CameraController.ToggleSprintCameraState(this.m_IsSprinting);
             
             // Toggle sprinting animation
+            // Ticket: #34 - Behaviour pertaining to animation will be moved to separate player animator component.
             if (this.m_InputDirection == Vector2.zero || !this.m_IsSprinting)
                 this.m_Animator.SetBool("IsSprinting", false);
             else
@@ -147,6 +148,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.transform.rotation = Quaternion.Euler(0f, _NextAngleRotation, 0f);
         }
 
+        // Ticket: #34 - Behaviour pertaining to animation will be moved to separate player animator component.
         private void PerformMovement()
         {
             // Invokes player movement through the physically based animation movements

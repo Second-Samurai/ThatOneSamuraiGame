@@ -115,20 +115,20 @@ public class PlayerInputScript : MonoBehaviour
     //     }
     // }
 
-    public void OnLockOn()
-    {
-       camControl.ToggleLockOn();
-    }
-
-    void OnToggleLockLeft()
-    {
-        if (camControl.bLockedOn) camControl.LockOn();
-    }
-
-    void OnToggleLockRight()
-    {
-        if (camControl.bLockedOn) camControl.LockOn();
-    }
+    // public void OnLockOn()
+    // {
+    //    camControl.ToggleLockOn();
+    // }
+    //
+    // void OnToggleLockLeft()
+    // {
+    //     if (camControl.bLockedOn) camControl.LockOn();
+    // }
+    //
+    // void OnToggleLockRight()
+    // {
+    //     if (camControl.bLockedOn) camControl.LockOn();
+    // }
 
     // Summary: Input control for sword drawing
     //

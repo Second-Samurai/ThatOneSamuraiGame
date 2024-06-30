@@ -250,7 +250,7 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
     {
         get
         {
-            return this.transform.eulerAngles;
+            return Camera.main.transform.eulerAngles;
         }
     }
 
@@ -258,7 +258,7 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
     {
         get
         {
-            return this.transform.forward;
+            return Camera.main.transform.forward;
         }
     }
 

@@ -61,7 +61,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.PerformMovement();
             
             // Perform specific movement behavior
-            //this.LockPlayerRotationToAttackTarget();
+            this.LockPlayerRotationToAttackTarget();
             this.PerformSprint();
         }
 
@@ -105,16 +105,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         private Vector3 CalculateMovementDirection()
         {
-            Vector3 _Direction = new Vector3(this.m_InputDirection.x, 0, this.m_InputDirection.y);
-            Vector3 _RelativeDirection = _Direction - this.transform.forward;
-            
-            // Provide normalized direction otherwise stop moving
-            // this.m_MoveDirection = _Direction != Vector3.zero 
-            //                         ? _RelativeDirection.normalized 
-            //                         : Vector3.zero;
-
-            this.m_MoveDirection = _Direction.normalized;
-            
+            this.m_MoveDirection = new Vector3(this.m_InputDirection.x, 0, this.m_InputDirection.y).normalized;
             return this.m_MoveDirection;
         }        
 
@@ -134,21 +125,20 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         private void RotatePlayerToMovementDirection()
         {
-            // Vector3 _Direction = new Vector3(this.m_MoveDirection.x, 0, this.m_MoveDirection.y).normalized;
             if (this.m_InputDirection == Vector2.zero
                  || this.m_CameraState.IsCameraViewTargetLocked
                  || !this.m_IsRotationEnabled
                  || this.m_PlayerAttackState.IsWeaponSheathed)
                 return;
 
-            float _TargetAngle = Mathf.Atan2(this.m_MoveDirection.x, this.m_MoveDirection.z) 
-                                    * Mathf.Rad2Deg + this.m_CameraState.CurrentEulerAngles.y;
+            float _TargetAngle = Mathf.Atan2(this.m_MoveDirection.x, this.m_MoveDirection.z)
+                                 * Mathf.Rad2Deg + this.m_CameraState.CurrentEulerAngles.y;
             float _NextAngleRotation = Mathf.SmoothDampAngle(
                 this.transform.eulerAngles.y,
                 _TargetAngle,
                 ref this.m_CurrentAngleSmoothVelocity,
                 this.m_MovementSmoothingDampingTime);
-            
+
             this.transform.rotation = Quaternion.Euler(0f, _NextAngleRotation, 0f);
         }
 
@@ -174,6 +164,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 Time.deltaTime);
 
         }
+        
         private void PerformSprint()
         {
             // TODO: This behaviour should not be function at runtime, instead make this event based.

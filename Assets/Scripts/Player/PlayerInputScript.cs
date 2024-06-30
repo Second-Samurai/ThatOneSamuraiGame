@@ -343,59 +343,59 @@ public class PlayerInputScript : MonoBehaviour
     }
 
     // INVESTIGATION: Move logic emplaced in similarly named location
-    private void MovePlayer()
-    {
-        if (bCanMove && !finishingMoveController.bIsFinishing)
-        
-        {
-            Vector3 _direction = new Vector3(_inputVector.x, 0, _inputVector.y).normalized;
-            if (_direction != Vector3.zero && !camControl.bLockedOn && !bOverrideMovement && !bIsSheathed && bCanRotate)
-            {
-                float _targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + _cam.transform.eulerAngles.y;
-                float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, .1f);
-
-                transform.rotation = Quaternion.Euler(0f, _angle, 0f);
-
-            }
-
-            else if (camControl.bLockedOn)
-            {
-                Vector3 lookDir = target.transform.position - transform.position;
-                Quaternion lookRot = Quaternion.LookRotation(lookDir);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, rotationSpeed);
-                transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
-            }
-            
-            if (!bMoveLocked) // Note: According to the logic this will always be true
-            {
-                _animator.SetFloat("XInput", _inputVector.x, smoothingValue, Time.deltaTime);
-                _animator.SetFloat("YInput", _inputVector.y, smoothingValue, Time.deltaTime);
-            }
-            
-            _animator.SetFloat("InputSpeed", _inputVector.magnitude, smoothingValue, Time.deltaTime);
-
-            //Checks for sprinting
-            if (cachedDir == Vector2.zero)
-            {
-                _animator.SetBool("IsSprinting", false);
-            }
-            else
-            {
-                if (_animator.GetBool("IsSprinting") != isSprintHeld)
-                {
-                    _animator.SetBool("IsSprinting", isSprintHeld);
-                }
-            }
-
-            if (bOverrideMovement)
-            {
-                //transform.Translate(_direction * 3 * Time.deltaTime);
-                //StartCoroutine(_functions.DodgeImpulse(transform.forward, 3));
-            }
-
-        }
-        lastVector = _inputVector; // Note: This is not used
-    }
+    // private void MovePlayer()
+    // {
+    //     if (bCanMove && !finishingMoveController.bIsFinishing)
+    //     
+    //     {
+    //         Vector3 _direction = new Vector3(_inputVector.x, 0, _inputVector.y).normalized;
+    //         if (_direction != Vector3.zero && !camControl.bLockedOn && !bOverrideMovement && !bIsSheathed && bCanRotate)
+    //         {
+    //             float _targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + _cam.transform.eulerAngles.y;
+    //             float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref _turnSmoothVelocity, .1f);
+    //
+    //             transform.rotation = Quaternion.Euler(0f, _angle, 0f);
+    //
+    //         }
+    //
+    //         else if (camControl.bLockedOn)
+    //         {
+    //             Vector3 lookDir = target.transform.position - transform.position;
+    //             Quaternion lookRot = Quaternion.LookRotation(lookDir);
+    //             transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, rotationSpeed);
+    //             transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+    //         }
+    //         
+    //         if (!bMoveLocked) // Note: According to the logic this will always be true
+    //         {
+    //             _animator.SetFloat("XInput", _inputVector.x, smoothingValue, Time.deltaTime);
+    //             _animator.SetFloat("YInput", _inputVector.y, smoothingValue, Time.deltaTime);
+    //         }
+    //         
+    //         _animator.SetFloat("InputSpeed", _inputVector.magnitude, smoothingValue, Time.deltaTime);
+    //
+    //         //Checks for sprinting
+    //         if (cachedDir == Vector2.zero)
+    //         {
+    //             _animator.SetBool("IsSprinting", false);
+    //         }
+    //         else
+    //         {
+    //             if (_animator.GetBool("IsSprinting") != isSprintHeld)
+    //             {
+    //                 _animator.SetBool("IsSprinting", isSprintHeld);
+    //             }
+    //         }
+    //
+    //         if (bOverrideMovement)
+    //         {
+    //             //transform.Translate(_direction * 3 * Time.deltaTime);
+    //             //StartCoroutine(_functions.DodgeImpulse(transform.forward, 3));
+    //         }
+    //
+    //     }
+    //     lastVector = _inputVector; // Note: This is not used
+    // }
 
     public void StartDodging()
     {

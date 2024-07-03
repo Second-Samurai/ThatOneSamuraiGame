@@ -10,9 +10,13 @@ namespace ThatOneSamuraiGame.Scripts.Input
     {
         
         #region - - - - - - - Fields - - - - - - - 
+        
+        
         #endregion Fields
 
         #region - - - - - - -  Properties - - - - - - - 
+        
+        
         #endregion Properties
 
         #region - - - - - - - Lifecycle Methods - - - - - - -
@@ -25,6 +29,7 @@ namespace ThatOneSamuraiGame.Scripts.Input
         #endregion
 
         #region - - - - - - -  Event Handlers - - - - - - - 
+        
         #endregion
         
     }

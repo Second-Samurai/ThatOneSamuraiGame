@@ -45,7 +45,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public GameObject guardMeterCanvas;
 
     //Private variables
-    // private PlayerInputScript _player;
     private IInputControl m_CurrentInputControl;
     private GameState m_GameState;
 
@@ -156,7 +155,6 @@ public class GameManager : MonoBehaviour
     {
         playerController.Init(targetHolder);
         this.m_CurrentInputControl = this.playerController.GetComponent<IInputControl>();
-        // _player = playerController.GetComponentInChildren<PlayerInputScript>();
     }
 
     void SetupEnemies()

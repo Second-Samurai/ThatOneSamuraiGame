@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -199,9 +200,11 @@ public class PCombatController : MonoBehaviour, ICombatController
         //Debug.Log("Player Parried!");
         EndUnblockable();
         EndAttacking();
-        _playerInput.RemoveOverride();
+        // _playerInput.RemoveOverride(); // Note: The override is unused
         _animator.SetTrigger("IsParried");
-        _playerInput.ResetDodge();
+
+        IPlayerSpecialAction _PlayerSpecialAction = this.GetComponent<IPlayerSpecialAction>();
+        _PlayerSpecialAction.ResetDodge();
     }
  
     public void PlaySlash()

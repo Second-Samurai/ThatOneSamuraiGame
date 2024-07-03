@@ -15,11 +15,15 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
         private ICameraController m_CameraController;
         private ICombatController m_CombatController;
         private IPlayerAttackState m_PlayerAttackState;
+        private IPlayerAttackHandler m_PlayerAttackHandler;
         private IDamageable m_PlayerDamageHandler;
         private IPlayerMovement m_PlayerMovement;
         
         private Animator m_Animator;
-        private bool IsDodging = false;
+        private bool m_CanDodge = true;
+        private float m_DodgeForce = 10f;
+        private bool m_DodgeCache = false; // This field name makes no sense. Needs to be renamed
+        private bool m_IsDodging = false;
         private PlayerFunctions m_PlayerFunctions;
 
         #endregion Fields
@@ -32,6 +36,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
             this.m_CameraController = this.GetComponent<ICameraController>();
             this.m_CombatController = this.GetComponent<ICombatController>();
             this.m_PlayerAttackState = this.GetComponent<IPlayerAttackState>();
+            this.m_PlayerAttackHandler = this.GetComponent<IPlayerAttackHandler>();
             this.m_PlayerDamageHandler = this.GetComponent<IDamageable>();
             this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
             this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
@@ -43,17 +48,88 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
 
         void IPlayerSpecialAction.Dodge()
         {
-            
+            if (this.m_PlayerMovement.MoveDirection != Vector3.zero && !this.m_IsDodging && this.m_CanDodge)
+            {
+                this.m_Animator.SetTrigger("Dodge");
+                this.m_Animator.ResetTrigger("AttackLight");
+                
+                this.m_PlayerMovement.EnableMovement();
+                this.m_PlayerMovement.EnableRotation();
+                
+                if (this.m_PlayerAttackState.HasBeenParried)
+                    this.m_PlayerAttackHandler.EndParryAction();
+
+                if (this.m_CameraController.IsLockedOn)
+                {
+                    StartCoroutine("DodgeImpulse");
+                    StartCoroutine(
+                        this.m_PlayerFunctions.DodgeImpulse(
+                            new Vector3(
+                                this.m_PlayerMovement.MoveDirection.x,
+                                0,
+                                this.m_PlayerMovement.MoveDirection.y),
+                                this.m_DodgeForce
+                        )
+                    );
+                }
+                
+                this.m_PlayerAttackHandler.ResetAttack();
+            }
+            else if (this.m_PlayerMovement.MoveDirection != Vector3.zero && !this.m_IsDodging && !this.m_CanDodge)
+            {
+                this.m_DodgeCache = true;
+            }
+            else if (this.m_PlayerMovement.MoveDirection == Vector3.zero && !this.m_IsDodging && this.m_CanDodge)
+            {
+                this.m_Animator.SetTrigger("Dodge");
+                this.m_Animator.ResetTrigger("AttackLight");
+                
+                this.m_PlayerMovement.EnableMovement();
+                this.m_PlayerMovement.EnableRotation();
+                
+                if (this.m_PlayerAttackState.HasBeenParried)
+                    this.m_PlayerAttackHandler.EndParryAction();
+
+                if (this.m_PlayerMovement.MoveDirection == Vector3.zero && !this.m_IsDodging && this.m_CanDodge)
+                {
+                    StopCoroutine("DodgeImpulse");
+                    StartCoroutine(this.m_PlayerFunctions.DodgeImpulse(
+                                    new Vector3(0, 0, 1), 
+                                    this.m_DodgeForce));
+                }
+                
+                this.m_PlayerAttackHandler.ResetAttack();
+            }
         }
 
-        private void StartDodge()
+        void IPlayerSpecialAction.ResetDodge()
         {
-            
+            this.m_CanDodge = true;
+            this.m_IsDodging = false;
         }
 
-        private void EndDodge()
+        private void StartDodge() // Accessible outside
         {
+            this.m_PlayerAttackState.IsWeaponSheathed = false;
+            // this.m_PlayerAttackState.PlayGleam = true; // This should be an event
+            // this.m_PlayerAttackState.IsHeavyAttackChargin = false;
+            this.m_PlayerAttackState.CanAttack = false;
+            this.m_IsDodging = true;
             
+            this.m_PlayerDamageHandler.DisableDamage();
+            this.m_PlayerFunctions.DisableBlock();
+            this.m_PlayerAttackHandler.ResetAttack();
+        }
+
+        private void EndDodge() // Accessible outside
+        {
+            this.m_PlayerAttackState.CanAttack = true;
+            this.m_IsDodging = false;
+            
+            this.m_PlayerDamageHandler.EnableDamage();
+            this.m_PlayerFunctions.EnableBlock();
+            
+            this.m_PlayerAttackHandler.ResetAttack();
         }
 
         #endregion Methods

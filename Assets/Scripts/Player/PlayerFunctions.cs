@@ -288,8 +288,8 @@ public class PlayerFunctions : MonoBehaviour
     public void CancelMove()
     {
         StopAllCoroutines(); 
-        m_PlayerMovement.EnableMovement();
-        playerInputScript.EnableRotation();
+        this.m_PlayerMovement.EnableMovement();
+        this.m_PlayerMovement.EnableRotation();
         rb.linearVelocity = Vector3.zero;
         _animator.applyRootMotion = true;
     }
@@ -305,7 +305,7 @@ public class PlayerFunctions : MonoBehaviour
         {
             playerSFX.Smack();
             //Debug.Log("HIT" + amount * direction);
-            playerInputScript.DisableRotation();
+            this.m_PlayerMovement.DisableRotation();
             _animator.SetTrigger("KnockdownTrigger");
             StartCoroutine(ImpulseWithTimer(direction, amount, duration));
         }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ThatOneSamuraiGame.Scripts;
+using ThatOneSamuraiGame.Scripts.Input;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -44,7 +45,8 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public GameObject guardMeterCanvas;
 
     //Private variables
-    private PlayerInputScript _player;
+    // private PlayerInputScript _player;
+    private IInputControl m_CurrentInputControl;
     private GameState m_GameState;
 
     #endregion Fields
@@ -153,7 +155,8 @@ public class GameManager : MonoBehaviour
     void InitialisePlayer(GameObject targetHolder)
     {
         playerController.Init(targetHolder);
-        _player = playerController.GetComponentInChildren<PlayerInputScript>();
+        this.m_CurrentInputControl = this.playerController.GetComponent<IInputControl>();
+        // _player = playerController.GetComponentInChildren<PlayerInputScript>();
     }
 
     void SetupEnemies()
@@ -197,14 +200,10 @@ public class GameManager : MonoBehaviour
     }
 
     public void EnableInput()
-    {
-        _player.EnableInput();
-    }
+        => this.m_CurrentInputControl.EnableInput();
 
     public void DisableInput()
-    {
-        _player.DisableInput();
-    }
+        => this.m_CurrentInputControl.DisableInput();
 
     #endregion Methods
 

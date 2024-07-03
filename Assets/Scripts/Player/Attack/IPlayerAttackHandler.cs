@@ -16,6 +16,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         void StartHeavyAlternative();
 
+        void EndParryAction();
+
         void StartBlock();
 
         void EndBlock();

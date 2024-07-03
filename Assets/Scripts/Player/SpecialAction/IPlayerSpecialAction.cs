@@ -8,6 +8,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
 
         void Dodge();
 
+        void ResetDodge();
+
         #endregion Methods
 
     }

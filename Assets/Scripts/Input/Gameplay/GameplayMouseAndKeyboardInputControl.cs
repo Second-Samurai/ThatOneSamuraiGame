@@ -14,7 +14,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
     /// Handles inputs for Gameplay actions for Mouse and Keyboard.
     /// </summary>
     /// <remarks>Provides input transformation and pass-through.</remarks>
-    public class GameplayMouseAndKeyboardInputControl : MonoBehaviour
+    public class GameplayMouseAndKeyboardInputControl : MonoBehaviour, IInputControl
     {
         
         #region - - - - - - Fields - - - - - -
@@ -135,7 +135,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private void OnDodge(InputValue inputValue)
         {
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
-            //this.m_PlayerSpecialAction.Dodge();
+            this.m_PlayerSpecialAction.Dodge();
         }
         
         // -----------------------------------------------------
@@ -151,6 +151,12 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         #endregion Event Handlers
 
         #region - - - - - - Methods - - - - - -
+
+        void IInputControl.EnableInput()
+            => this.m_IsInputActive = true;
+
+        void IInputControl.DisableInput()
+            => this.m_IsInputActive = false;
 
         public void Pause()// Might not be needed, delete later
             => this.m_IsInputActive = true;

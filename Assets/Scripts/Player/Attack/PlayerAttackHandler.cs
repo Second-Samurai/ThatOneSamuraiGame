@@ -49,9 +49,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             get => this.m_HasBeenParried;
             set => this.m_HasBeenParried = value;
         }
-        
+
         bool IPlayerAttackState.IsWeaponSheathed
-            => this.m_IsWeaponSheathed;
+        {
+            get => this.m_IsWeaponSheathed;
+            set => this.m_IsWeaponSheathed = value;
+        }
         
         #endregion Properties
 
@@ -112,6 +115,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         void IPlayerAttackHandler.EndBlock()
             => this.m_PlayerFunctions.bInputtingBlock = false;
 
+        void IPlayerAttackHandler.EndParryAction()
+        {
+            this.m_HasBeenParried = false;
+            this.m_HitstopController.CancelEffects();
+        }
+        
         void IPlayerAttackHandler.StartHeavy()
         {
             this.m_HeavyAttackTimer = this.m_HeavyAttackMaxTimer;
@@ -128,7 +137,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
                 return;
 
             if (this.m_HasBeenParried)
-                this.EndParryAction();
+                ((IPlayerAttackHandler)this).EndParryAction();
             
             this.m_PlayerFunctions.StartBlock();
         }
@@ -140,12 +149,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             
             this.m_CombatController.EndAttacking();
             this.m_CombatController.ResetAttackCombo();
-        }
-        
-        private void EndParryAction()
-        {
-            this.m_HasBeenParried = false;
-            this.m_HitstopController.CancelEffects();
         }
 
         private void PerformHeavyAttack()

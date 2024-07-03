@@ -10,7 +10,7 @@
         
         bool HasBeenParried { get; set; }
         
-        bool IsWeaponSheathed { get; }
+        bool IsWeaponSheathed { get; set; }
 
         #endregion Properties
         

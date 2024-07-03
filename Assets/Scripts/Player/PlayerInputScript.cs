@@ -226,82 +226,82 @@ public class PlayerInputScript : MonoBehaviour
     //     _functions.bInputtingBlock = false;
     // }
 
-    void OnDodge()
-    {
-        
-        if (_inputVector != Vector2.zero && !bIsDodging && bCanDodge)
-        {
- 
-            bOverrideMovement = false;
-            _animator.SetTrigger("Dodge");
-            _animator.ResetTrigger("AttackLight");
-            EnableMovement();
-            EnableRotation();
-            if (bGotParried) EndSlowEffects();
-            if (camControl.bLockedOn)
-            {
-                StopCoroutine("DodgeImpulse");
-                StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
-            }
-            //Debug.Log("On dodge triggered");
-            ResetAttack();
-        }
-        else if (_inputVector != Vector2.zero && !bIsDodging && !bCanDodge && bGotParried)
-        {
-             
-            bOverrideMovement = false;
-            _animator.SetTrigger("Dodge");
-            _animator.ResetTrigger("AttackLight");
-            EnableMovement();
-            EnableRotation();
-            if (bGotParried) EndSlowEffects();
-            if (camControl.bLockedOn)
-            {
-                StopCoroutine("DodgeImpulse");
-                StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
-            }
+    // void OnDodge()
+    // {
+    //     
+    //     if (_inputVector != Vector2.zero && !bIsDodging && bCanDodge)
+    //     {
+    //
+    //         bOverrideMovement = false;
+    //         _animator.SetTrigger("Dodge");
+    //         _animator.ResetTrigger("AttackLight");
+    //         EnableMovement();
+    //         EnableRotation();
+    //         if (bGotParried) EndSlowEffects();
+    //         if (camControl.bLockedOn)
+    //         {
+    //             StopCoroutine("DodgeImpulse");
+    //             StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
+    //         }
+    //         //Debug.Log("On dodge triggered");
+    //         ResetAttack();
+    //     }
+    //     else if (_inputVector != Vector2.zero && !bIsDodging && !bCanDodge && bGotParried)
+    //     {
+    //          
+    //         bOverrideMovement = false;
+    //         _animator.SetTrigger("Dodge");
+    //         _animator.ResetTrigger("AttackLight");
+    //         EnableMovement();
+    //         EnableRotation();
+    //         if (bGotParried) EndSlowEffects();
+    //         if (camControl.bLockedOn)
+    //         {
+    //             StopCoroutine("DodgeImpulse");
+    //             StartCoroutine(_functions.DodgeImpulse(new Vector3(_inputVector.x, 0, _inputVector.y), dodgeForce));
+    //         }
+    //
+    //         ResetAttack();
+    //     }
+    //     else if (_inputVector != Vector2.zero && !bIsDodging && !bCanDodge)
+    //     {
+    //         _bDodgeCache = true;
+    //
+    //     }
+    //     else if (_inputVector == Vector2.zero && !bIsDodging && bCanDodge)
+    //     {
+    //         bOverrideMovement = false;
+    //         _animator.SetTrigger("Dodge");
+    //         _animator.ResetTrigger("AttackLight");
+    //         EnableMovement();
+    //         EnableRotation();
+    //         if (bGotParried) EndSlowEffects();
+    //         if (camControl.bLockedOn)
+    //         {
+    //             StopCoroutine("DodgeImpulse");
+    //             StartCoroutine(_functions.DodgeImpulse(new Vector3(0, 0, 1), dodgeForce));
+    //         }
+    //
+    //         ResetAttack();
+    //     }
+    //     //Debug.Log("On dodge input triggered");
+    // }
 
-            ResetAttack();
-        }
-        else if (_inputVector != Vector2.zero && !bIsDodging && !bCanDodge)
-        {
-            _bDodgeCache = true;
-
-        }
-        else if (_inputVector == Vector2.zero && !bIsDodging && bCanDodge)
-        {
-            bOverrideMovement = false;
-            _animator.SetTrigger("Dodge");
-            _animator.ResetTrigger("AttackLight");
-            EnableMovement();
-            EnableRotation();
-            if (bGotParried) EndSlowEffects();
-            if (camControl.bLockedOn)
-            {
-                StopCoroutine("DodgeImpulse");
-                StartCoroutine(_functions.DodgeImpulse(new Vector3(0, 0, 1), dodgeForce));
-            }
-
-            ResetAttack();
-        }
-        //Debug.Log("On dodge input triggered");
-    }
-
-    void OnPause()
-    {
-        _functions.Pause();
-    }
+    // void OnPause()
+    // {
+    //     _functions.Pause();
+    // }
 
     #endregion
 
     //OUTPUT
     #region Execution
 
-    public void ResetAttack()
-    {
-        _pCombatController.EndAttacking(); // Make these interface methods
-        _pCombatController.ResetAttackCombo(); // Make these interface methods
-    }
+    // public void ResetAttack()
+    // {
+    //     // _pCombatController.EndAttacking(); // Make these interface methods
+    //     // _pCombatController.ResetAttackCombo(); // Make these interface methods
+    // }
 
     // private void ExecuteHeavyAttack()
     // {
@@ -400,126 +400,126 @@ public class PlayerInputScript : MonoBehaviour
     public void StartDodging()
     {
         //Debug.Log("Dodge");
-        bIsSheathed = false;
-        bPlayGleam = true;
-        bHeavyCharging = false;
-        bCanAttack = false;
-        bIsDodging = true; 
-        _pDamageController.DisableDamage();
-        _functions.DisableBlock();
-        ResetAttack();
+        // bIsSheathed = false;
+        // bPlayGleam = true;
+        // bHeavyCharging = false;
+        // bCanAttack = false;
+        // bIsDodging = true; 
+        // _pDamageController.DisableDamage();
+        // _functions.DisableBlock();
+        // ResetAttack();
 
     }
 
     public void EndDodging()
     {
         //Debug.Log("EndDodge");
-        bCanAttack = true;
-        bIsDodging = false;
-        _pDamageController.EnableDamage();
-        _functions.EnableBlock();
-        ResetAttack();
+        // bCanAttack = true;
+        // bIsDodging = false;
+        // _pDamageController.EnableDamage();
+        // _functions.EnableBlock();
+        // ResetAttack();
     }
     #endregion
 
     //Public Functions for bools and other Parameters
     #region Parameter Controls
-    public void OverrideMovement() // This is not used
-    {
-        bOverrideMovement = true;
-    }
-    public void RemoveOverride()
-    {
-        bOverrideMovement = false;
-    }
+    // public void OverrideMovement() // This is not used
+    // {
+    //     // bOverrideMovement = true;
+    // }
+    // public void RemoveOverride()
+    // {
+    //     // bOverrideMovement = false;
+    // }
 
-    public void LockMoveInput() // This is not being used anywhere
-    {
-        if (!bMoveLocked)
-        {
-            //Debug.LogWarning("Start Dodge");
-            bMoveLocked = true;
-            StartDodging();
-        }
-    }
+    // public void LockMoveInput() // This is not being used anywhere
+    // {
+    //     if (!bMoveLocked)
+    //     {
+    //         //Debug.LogWarning("Start Dodge");
+    //         bMoveLocked = true;
+    //         StartDodging();
+    //     }
+    // }
 
-    public void UnlockMoveInput()
-    {
-        if (bMoveLocked)
-        {
-            //Debug.LogWarning("End Dodge");
-            bMoveLocked = false; 
-            if (_inputVector != _cachedVector && _cachedVector != Vector2.zero)
-            {
-                //Debug.Log("set " + _inputVector + " to " + _cachedVector);
-                _inputVector = _cachedVector;
-                _cachedVector = Vector2.zero;
-            }
-            EndDodging();
-        }
-    }
+    // public void UnlockMoveInput() //This method is not being used anywhere else
+    // {
+    //     if (bMoveLocked)
+    //     {
+    //         //Debug.LogWarning("End Dodge");
+    //         bMoveLocked = false; 
+    //         if (_inputVector != _cachedVector && _cachedVector != Vector2.zero)
+    //         {
+    //             //Debug.Log("set " + _inputVector + " to " + _cachedVector);
+    //             _inputVector = _cachedVector;
+    //             _cachedVector = Vector2.zero;
+    //         }
+    //         EndDodging();
+    //     }
+    // }
      
-    public void Test()
-    {
-        _pDamageController.OnEntityDamage(1, this.gameObject, false);
-    } 
-    public void ResetDodge()
-    {
-        bCanDodge = true;
-        bIsDodging = false;
-      
-    }
+    // public void Test()
+    // {
+    //     _pDamageController.OnEntityDamage(1, this.gameObject, false);
+    // } 
+    // public void ResetDodge()
+    // {
+    //     bCanDodge = true;
+    //     bIsDodging = false;
+    //   
+    // }
 
-    public void BlockDodge()
-    {
-        //bCanDodge = false;
-     
-    }
+    // public void BlockDodge()
+    // {
+    //     //bCanDodge = false;
+    //  
+    // }
 
-    public void EnableInput()
-    {
-        _inputComponent.enabled = true;
-    }
+    // public void EnableInput()
+    // {
+    //     _inputComponent.enabled = true;
+    // }
+    //
+    // public void DisableInput()
+    // {
+    //     _inputComponent.enabled = false;
+    // }
 
-    public void DisableInput()
-    {
-        _inputComponent.enabled = false;
-    }
-
-    public void DisableMovement()
-    {
-        bCanMove = false;
-    }
-
-    public void EnableMovement()
-    {
-        bCanMove = true;
-    }
+    // public void DisableMovement()
+    // {
+    //     bCanMove = false;
+    // }
+    //
+    // public void EnableMovement()
+    // {
+    //     bCanMove = true;
+    // }
 
     // public void GotParried()
     // {
     //     bGotParried = true; 
     // }
 
-    public void EndGotParried()
-    {
-        bGotParried = false;
-    }
+    // public void EndGotParried()
+    // {
+    //     bGotParried = false;
+    // }
+    //
+    // private void EndSlowEffects()
+    // {
+    //     EndGotParried();
+    //     hitstopController.CancelEffects();
+    // }
 
-    private void EndSlowEffects()
-    {
-        EndGotParried();
-        hitstopController.CancelEffects();
-    }
-
-    public void EnableRotation()
-    {
-        bCanRotate = true;
-    }
-    public void DisableRotation()
-    {
-        bCanRotate = false;
-    }
+    // public void EnableRotation()
+    // {
+    //     bCanRotate = true;
+    // }
+    // public void DisableRotation()
+    // {
+    //     bCanRotate = false;
+    // }
 
     #endregion
 }

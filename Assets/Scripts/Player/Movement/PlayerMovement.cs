@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Movement
@@ -18,7 +19,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private IControlledCameraState m_CameraState;
         private FinishingMoveController m_FinishingMoveController;
         private IPlayerAttackState m_PlayerAttackState;
-        private PlayerState m_PlayerState;
+        private IPlayerState m_PlayerState;
 
         private float m_CurrentAngleSmoothVelocity;
         private bool m_IsMovementEnabled = true;
@@ -47,7 +48,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_CameraState = this.GetComponent<IControlledCameraState>();
             this.m_FinishingMoveController = this.GetComponentInChildren<FinishingMoveController>();
             this.m_PlayerAttackState = this.GetComponent<IPlayerAttackState>();
-            this.m_PlayerState = this.GetComponent<PlayerState>();
+            this.m_PlayerState = this.GetComponent<IPlayerState>();
         }
 
         private void Update()

@@ -155,6 +155,11 @@ public class GameManager : MonoBehaviour
     {
         playerController.Init(targetHolder);
         this.m_CurrentInputControl = this.playerController.GetComponent<IInputControl>();
+
+        if (this.m_CurrentInputControl == null)
+        {
+            Debug.LogError("The input control is not loaded");
+        }
     }
 
     void SetupEnemies()

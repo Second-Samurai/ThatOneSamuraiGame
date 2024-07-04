@@ -55,6 +55,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         private void OnMovement(InputValue inputValue)
         {
+            Debug.Log("Encountering this point");
             if (!this.m_IsInputActive || this.m_IsInputPaused) return;
             this.m_PlayerMovement.PreparePlayerMovement(inputValue.Get<Vector2>());
         }

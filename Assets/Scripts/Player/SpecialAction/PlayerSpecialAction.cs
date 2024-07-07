@@ -15,35 +15,20 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
 
         private ICameraController m_CameraController;
         private ICombatController m_CombatController;
-        private PlayerAttackState m_PlayerAttackState;
         private IPlayerAttackHandler m_PlayerAttackHandler;
         private IDamageable m_PlayerDamageHandler;
         private IPlayerMovement m_PlayerMovement;
         
+        // Player States
+        private PlayerAttackState m_PlayerAttackState;
+        private PlayerSpecialActionState m_PlayerSpecialActionState;
+        
         private Animator m_Animator;
-        private bool m_CanDodge = true;
         private float m_DodgeForce = 10f;
         private bool m_DodgeCache = false; // This field name makes no sense. Needs to be renamed
-        private bool m_IsDodging = false;
         private PlayerFunctions m_PlayerFunctions;
 
         #endregion Fields
-
-        #region - - - - - - Properties - - - - - -
-
-        bool IPlayerSpecialAction.CanDodge
-        {
-            get => this.m_CanDodge;
-            set => this.m_CanDodge = value;
-        }
-
-        bool IPlayerSpecialAction.IsDodging
-        {
-            get => this.m_IsDodging;
-            set => this.m_IsDodging = value;
-        }
-
-        #endregion Properties
         
         #region - - - - - - Lifecycle Methods - - - - - -
 
@@ -52,11 +37,14 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
             this.m_Animator = this.GetComponent<Animator>();
             this.m_CameraController = this.GetComponent<ICameraController>();
             this.m_CombatController = this.GetComponent<ICombatController>();
-            this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
             this.m_PlayerAttackHandler = this.GetComponent<IPlayerAttackHandler>();
             this.m_PlayerDamageHandler = this.GetComponent<IDamageable>();
             this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
             this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
+
+            IPlayerState _PlayerState = this.GetComponent<IPlayerState>(); 
+            this.m_PlayerAttackState = _PlayerState.PlayerAttackState;
+            this.m_PlayerSpecialActionState = _PlayerState.PlayerSpecialActionState;
         }
 
         #endregion Lifecycle Methods
@@ -65,7 +53,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
 
         void IPlayerSpecialAction.Dodge()
         {
-            if (this.m_PlayerMovement.MoveDirection != Vector3.zero && !this.m_IsDodging && this.m_CanDodge)
+            if (this.m_PlayerMovement.MoveDirection != Vector3.zero 
+                && !this.m_PlayerSpecialActionState.IsDodging 
+                && this.m_PlayerSpecialActionState.CanDodge)
             {
                 this.m_Animator.SetTrigger("Dodge");
                 this.m_Animator.ResetTrigger("AttackLight");
@@ -92,11 +82,15 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
                 
                 this.m_PlayerAttackHandler.ResetAttack();
             }
-            else if (this.m_PlayerMovement.MoveDirection != Vector3.zero && !this.m_IsDodging && !this.m_CanDodge)
+            else if (this.m_PlayerMovement.MoveDirection != Vector3.zero 
+                     && !this.m_PlayerSpecialActionState.IsDodging 
+                     && !this.m_PlayerSpecialActionState.CanDodge)
             {
                 this.m_DodgeCache = true;
             }
-            else if (this.m_PlayerMovement.MoveDirection == Vector3.zero && !this.m_IsDodging && this.m_CanDodge)
+            else if (this.m_PlayerMovement.MoveDirection == Vector3.zero 
+                     && !this.m_PlayerSpecialActionState.IsDodging 
+                     && this.m_PlayerSpecialActionState.CanDodge)
             {
                 this.m_Animator.SetTrigger("Dodge");
                 this.m_Animator.ResetTrigger("AttackLight");
@@ -107,7 +101,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
                 if (this.m_PlayerAttackState.HasBeenParried)
                     this.m_PlayerAttackHandler.EndParryAction();
 
-                if (this.m_PlayerMovement.MoveDirection == Vector3.zero && !this.m_IsDodging && this.m_CanDodge)
+                if (this.m_PlayerMovement.MoveDirection == Vector3.zero 
+                    && !this.m_PlayerSpecialActionState.IsDodging 
+                    && this.m_PlayerSpecialActionState.CanDodge)
                 {
                     StopCoroutine("DodgeImpulse");
                     StartCoroutine(this.m_PlayerFunctions.DodgeImpulse(
@@ -121,8 +117,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
 
         void IPlayerSpecialAction.ResetDodge()
         {
-            this.m_CanDodge = true;
-            this.m_IsDodging = false;
+            this.m_PlayerSpecialActionState.CanDodge = true;
+            this.m_PlayerSpecialActionState.IsDodging = false;
         }
 
         private void StartDodge() // Accessible outside
@@ -131,7 +127,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
             // this.m_PlayerAttackState.PlayGleam = true; // This should be an event
             // this.m_PlayerAttackState.IsHeavyAttackChargin = false;
             this.m_PlayerAttackState.CanAttack = false;
-            this.m_IsDodging = true;
+            this.m_PlayerSpecialActionState.IsDodging = true;
             
             this.m_PlayerDamageHandler.DisableDamage();
             this.m_PlayerFunctions.DisableBlock();
@@ -141,7 +137,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
         private void EndDodge() // Accessible outside
         {
             this.m_PlayerAttackState.CanAttack = true;
-            this.m_IsDodging = false;
+            this.m_PlayerSpecialActionState.IsDodging = false;
             
             this.m_PlayerDamageHandler.EnableDamage();
             this.m_PlayerFunctions.EnableBlock();

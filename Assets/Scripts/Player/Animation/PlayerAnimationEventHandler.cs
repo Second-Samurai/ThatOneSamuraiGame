@@ -1,5 +1,6 @@
 ﻿using System;
 using ThatOneSamuraiGame.Scripts.Base;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 
@@ -16,6 +17,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
 
         private IPlayerMovement m_PlayerMovement;
         private IPlayerSpecialAction m_PlayerSpecialAction;
+        
+        private PlayerSpecialActionState m_PlayerSpecialActionState;
 
         #endregion Fields
         
@@ -25,6 +28,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         {
             this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
             this.m_PlayerSpecialAction = this.GetComponent<IPlayerSpecialAction>();
+            this.m_PlayerSpecialActionState = this.GetComponent<IPlayerState>().PlayerSpecialActionState;
         }
 
         #endregion Lifecycle Methods
@@ -44,13 +48,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         #region - - - - - - PlayerSpecialAction Animation Events - - - - - -
 
         public void BlockDodge() 
-            => this.m_PlayerSpecialAction.CanDodge = false;
+            => this.m_PlayerSpecialActionState.CanDodge = false;
 
         public void ResetDodge()
-        {
-            this.m_PlayerSpecialAction.CanDodge = true;
-            this.m_PlayerSpecialAction.IsDodging = true;
-        }
+            => this.m_PlayerSpecialAction.ResetDodge();
 
         public void StartDodging()
         {

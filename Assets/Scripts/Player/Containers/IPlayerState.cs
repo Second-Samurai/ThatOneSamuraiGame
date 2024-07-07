@@ -1,5 +1,6 @@
 ﻿using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
+using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Containers
@@ -17,6 +18,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Containers
         PlayerAttackState PlayerAttackState { get; }
         
         PlayerMovementState PlayerMovementState { get; }
+        
+        PlayerSpecialActionState PlayerSpecialActionState { get; }
 
         #endregion Properties
         

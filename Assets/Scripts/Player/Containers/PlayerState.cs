@@ -68,6 +68,19 @@ namespace ThatOneSamuraiGame.Scripts.Player.Containers
             }
         }
 
+        PlayerSpecialActionState IPlayerState.PlayerSpecialActionState
+        {
+            get
+            {
+                if (this.m_PlayerSpecialActionState != null)
+                    return this.m_PlayerSpecialActionState;
+                
+                Debug.LogError("PlayerSpecialActionState was not found. Initialised default state is used.");
+                this.m_PlayerSpecialActionState = new PlayerSpecialActionState();
+                return this.m_PlayerSpecialActionState;
+            }
+        }
+
         #endregion Properties
 
     }

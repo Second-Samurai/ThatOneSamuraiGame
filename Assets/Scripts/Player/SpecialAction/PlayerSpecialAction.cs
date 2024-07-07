@@ -27,6 +27,22 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
         private PlayerFunctions m_PlayerFunctions;
 
         #endregion Fields
+
+        #region - - - - - - Properties - - - - - -
+
+        bool IPlayerSpecialAction.CanDodge
+        {
+            get => this.m_CanDodge;
+            set => this.m_CanDodge = value;
+        }
+
+        bool IPlayerSpecialAction.IsDodging
+        {
+            get => this.m_IsDodging;
+            set => this.m_IsDodging = value;
+        }
+
+        #endregion Properties
         
         #region - - - - - - Lifecycle Methods - - - - - -
 

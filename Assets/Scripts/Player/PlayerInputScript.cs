@@ -397,19 +397,19 @@ public class PlayerInputScript : MonoBehaviour
     //     lastVector = _inputVector; // Note: This is not used
     // }
 
-    public void StartDodging()
-    {
+    // public void StartDodging()
+    // {
         //Debug.Log("Dodge");
-        // bIsSheathed = false;
-        // bPlayGleam = true;
-        // bHeavyCharging = false;
-        // bCanAttack = false;
-        // bIsDodging = true; 
-        // _pDamageController.DisableDamage();
+        // bIsSheathed = false; -- Weapon
+        // bPlayGleam = true; -- Weapon
+        // bHeavyCharging = false; -- Weapon
+        // bCanAttack = false; -- Weapon
+        // bIsDodging = true; -- SpecialAction
+        // _pDamageController.DisableDamage(); 
         // _functions.DisableBlock();
-        // ResetAttack();
+        // ResetAttack(); -- Weapon
 
-    }
+    // }
 
     public void EndDodging()
     {

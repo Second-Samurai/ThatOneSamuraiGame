@@ -18,7 +18,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private ICameraController m_CameraController;
         private IControlledCameraState m_CameraState;
         private FinishingMoveController m_FinishingMoveController;
-        private IPlayerAttackState m_PlayerAttackState;
+        private PlayerAttackState m_PlayerAttackState;
         private IPlayerState m_PlayerState;
 
         private float m_CurrentAngleSmoothVelocity;
@@ -47,7 +47,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_CameraController = this.GetComponent<ICameraController>();
             this.m_CameraState = this.GetComponent<IControlledCameraState>();
             this.m_FinishingMoveController = this.GetComponentInChildren<FinishingMoveController>();
-            this.m_PlayerAttackState = this.GetComponent<IPlayerAttackState>();
+            this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
             this.m_PlayerState = this.GetComponent<IPlayerState>();
         }
 

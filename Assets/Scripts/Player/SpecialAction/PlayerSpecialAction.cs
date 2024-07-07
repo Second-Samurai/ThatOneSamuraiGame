@@ -1,6 +1,7 @@
 using System;
 using ThatOneSamuraiGame.Scripts.Camera;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
 
         private ICameraController m_CameraController;
         private ICombatController m_CombatController;
-        private IPlayerAttackState m_PlayerAttackState;
+        private PlayerAttackState m_PlayerAttackState;
         private IPlayerAttackHandler m_PlayerAttackHandler;
         private IDamageable m_PlayerDamageHandler;
         private IPlayerMovement m_PlayerMovement;
@@ -51,7 +52,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
             this.m_Animator = this.GetComponent<Animator>();
             this.m_CameraController = this.GetComponent<ICameraController>();
             this.m_CombatController = this.GetComponent<ICombatController>();
-            this.m_PlayerAttackState = this.GetComponent<IPlayerAttackState>();
+            this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
             this.m_PlayerAttackHandler = this.GetComponent<IPlayerAttackHandler>();
             this.m_PlayerDamageHandler = this.GetComponent<IDamageable>();
             this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();

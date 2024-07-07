@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using ThatOneSamuraiGame.Scripts.Player.Attack;
+using ThatOneSamuraiGame.Scripts.Player.Movement;
+using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Containers
 {
@@ -11,6 +13,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Containers
         GameObject AttackTarket { get; }
         
         bool CanOverrideMovement { get; set; }
+        
+        PlayerAttackState PlayerAttackState { get; }
+        
+        PlayerMovementState PlayerMovementState { get; }
 
         #endregion Properties
         

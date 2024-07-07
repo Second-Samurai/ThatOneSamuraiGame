@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.Timeline;
 using Enemies;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 
 public class FinishingMoveController : MonoBehaviour
@@ -84,7 +85,7 @@ public class FinishingMoveController : MonoBehaviour
         _cutsceneDirector.Play();
         
         // Note: This is only a temporary solution
-        IPlayerAttackState _PlayerAttackState = this.transform.parent.GetComponent<IPlayerAttackState>();
+        PlayerAttackState _PlayerAttackState = this.transform.parent.GetComponent<IPlayerState>().PlayerAttackState;
         _PlayerAttackState.CanAttack = false;
         
         enemies = GameManager.instance.enemyTracker.currentEnemies;

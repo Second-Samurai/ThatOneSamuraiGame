@@ -1,13 +1,14 @@
 using System;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Attack
 {
     
-    public class PlayerAttackHandler : TOSGMonoBehaviourBase, IPlayerAttackHandler, IPlayerAttackState
+    public class PlayerAttackHandler : TOSGMonoBehaviourBase, IPlayerAttackHandler
     {
 
         #region - - - - - - Fields - - - - - -
@@ -17,6 +18,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         private ICombatController m_CombatController;
         private HitstopController m_HitstopController;
         private PlayerFunctions m_PlayerFunctions;
+        private PlayerAttackState m_PlayerAttackState;
 
         [SerializeField] 
         private GameEvent m_ShowHeavyTutorialEvent; // This event feels out of place for this component.
@@ -25,38 +27,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         [SerializeField] 
         private GameEvent m_EndHeavyTelegraphEvent; // This event feels out of place for this component. 
 
-        private bool m_CanAttack = true;
         private bool m_CanBlock = true;
         private float m_HeavyAttackTimer;
         private float m_HeavyAttackMaxTimer = 2f;
-        private bool m_HasBeenParried = false;
         private bool m_HasPerformedAttack = false;
         private bool m_IsHeavyAttackCharging = false;
-        private bool m_IsWeaponSheathed = false;
 
         #endregion Fields
-        
-        #region - - - - - - Properties - - - - - -
-
-        bool IPlayerAttackState.CanAttack
-        {
-            get => this.m_CanAttack;
-            set => this.m_CanAttack = value;
-        }
-
-        bool IPlayerAttackState.HasBeenParried
-        {
-            get => this.m_HasBeenParried;
-            set => this.m_HasBeenParried = value;
-        }
-
-        bool IPlayerAttackState.IsWeaponSheathed
-        {
-            get => this.m_IsWeaponSheathed;
-            set => this.m_IsWeaponSheathed = value;
-        }
-        
-        #endregion Properties
 
         #region - - - - - - Lifecycle Methods - - - - - -
 
@@ -67,6 +44,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_CombatController = this.GetComponent<ICombatController>();
             this.m_HitstopController = GameManager.instance.GetComponent<HitstopController>();
             this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
+            this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
 
             this.m_HeavyAttackTimer = this.m_HeavyAttackMaxTimer;
         }
@@ -89,7 +67,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         void IPlayerAttackHandler.Attack()
         {
             // Perform main attack            
-            if (this.m_CanAttack && !this.m_HasPerformedAttack)
+            if (this.m_PlayerAttackState.CanAttack && !this.m_HasPerformedAttack)
             {
                 this.m_CombatController.RunLightAttack();
                 this.m_HasPerformedAttack = true;
@@ -117,7 +95,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         void IPlayerAttackHandler.EndParryAction()
         {
-            this.m_HasBeenParried = false;
+            this.m_PlayerAttackState.HasBeenParried = false;
             this.m_HitstopController.CancelEffects();
         }
         
@@ -136,7 +114,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             if (!this.m_CanBlock)
                 return;
 
-            if (this.m_HasBeenParried)
+            if (this.m_PlayerAttackState.HasBeenParried)
                 ((IPlayerAttackHandler)this).EndParryAction();
             
             this.m_PlayerFunctions.StartBlock();
@@ -144,7 +122,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         
         void IPlayerAttackHandler.ResetAttack()
         {
-            this.m_CanAttack = true;
+            this.m_PlayerAttackState.CanAttack = true;
             this.m_HasPerformedAttack = false;
             
             this.m_CombatController.EndAttacking();
@@ -157,7 +135,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_EndHeavyTelegraphEvent.Raise();
 
             this.m_IsHeavyAttackCharging = false;
-            this.m_IsWeaponSheathed = false;
+            this.m_PlayerAttackState.IsWeaponSheathed = false;
 
             // Create gleam effect
             this.m_PlayerFunctions.parryEffects.PlayGleam();
@@ -168,12 +146,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         private void StartHeavyAttack()
         {
-            if (!this.m_CanAttack && this.m_Animator.GetBool("HeavyAttackHeld"))
+            if (!this.m_PlayerAttackState.CanAttack && this.m_Animator.GetBool("HeavyAttackHeld"))
                 return;
             
             this.m_ShowHeavyTelegraphEvent.Raise();
 
-            this.m_IsWeaponSheathed = true;
+            this.m_PlayerAttackState.IsWeaponSheathed = true;
             this.m_IsHeavyAttackCharging = true;
             this.m_Animator.SetBool("HeavyAttackHeld", true);
 

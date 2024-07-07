@@ -21,6 +21,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
         
         // Player States
         private PlayerAttackState m_PlayerAttackState;
+        private PlayerMovementState m_PlayerMovementState;
         private PlayerSpecialActionState m_PlayerSpecialActionState;
         
         private Animator m_Animator;
@@ -44,6 +45,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
 
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>(); 
             this.m_PlayerAttackState = _PlayerState.PlayerAttackState;
+            this.m_PlayerMovementState = _PlayerState.PlayerMovementState;
             this.m_PlayerSpecialActionState = _PlayerState.PlayerSpecialActionState;
         }
 
@@ -53,7 +55,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
 
         void IPlayerSpecialAction.Dodge()
         {
-            if (this.m_PlayerMovement.MoveDirection != Vector3.zero 
+            if (this.m_PlayerMovementState.MoveDirection != Vector3.zero 
                 && !this.m_PlayerSpecialActionState.IsDodging 
                 && this.m_PlayerSpecialActionState.CanDodge)
             {
@@ -72,9 +74,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
                     StartCoroutine(
                         this.m_PlayerFunctions.DodgeImpulse(
                             new Vector3(
-                                this.m_PlayerMovement.MoveDirection.x,
+                                this.m_PlayerMovementState.MoveDirection.x,
                                 0,
-                                this.m_PlayerMovement.MoveDirection.y),
+                                this.m_PlayerMovementState.MoveDirection.y),
                                 this.m_DodgeForce
                         )
                     );
@@ -82,13 +84,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
                 
                 this.m_PlayerAttackHandler.ResetAttack();
             }
-            else if (this.m_PlayerMovement.MoveDirection != Vector3.zero 
+            else if (this.m_PlayerMovementState.MoveDirection != Vector3.zero 
                      && !this.m_PlayerSpecialActionState.IsDodging 
                      && !this.m_PlayerSpecialActionState.CanDodge)
             {
                 this.m_DodgeCache = true;
             }
-            else if (this.m_PlayerMovement.MoveDirection == Vector3.zero 
+            else if (this.m_PlayerMovementState.MoveDirection == Vector3.zero 
                      && !this.m_PlayerSpecialActionState.IsDodging 
                      && this.m_PlayerSpecialActionState.CanDodge)
             {
@@ -101,7 +103,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
                 if (this.m_PlayerAttackState.HasBeenParried)
                     this.m_PlayerAttackHandler.EndParryAction();
 
-                if (this.m_PlayerMovement.MoveDirection == Vector3.zero 
+                if (this.m_PlayerMovementState.MoveDirection == Vector3.zero 
                     && !this.m_PlayerSpecialActionState.IsDodging 
                     && this.m_PlayerSpecialActionState.CanDodge)
                 {

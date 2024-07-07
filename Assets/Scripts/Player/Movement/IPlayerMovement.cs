@@ -5,12 +5,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
     
     public interface IPlayerMovement
     {
-
-        #region - - - - - - Properties - - - - - -
-
-        Vector3 MoveDirection { get; }
-
-        #endregion Properties
         
         #region - - - - - - Methods - - - - - -
 

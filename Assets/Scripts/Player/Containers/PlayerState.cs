@@ -18,7 +18,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Containers
 
         [SerializeField]
         private GameObject m_AttackTarget;
-        private bool m_CanOverrideMovement = false;
         
         [SerializeField]
         private PlayerAttackState m_PlayerAttackState;
@@ -26,8 +25,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Containers
         private PlayerMovementState m_PlayerMovementState;
         [SerializeField]
         private PlayerSpecialActionState m_PlayerSpecialActionState;
-        [SerializeField]
-        private PlayerTargetTrackingState m_PlayerTargetTrackingState;
 
         #endregion Fields 
         
@@ -35,12 +32,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Containers
 
         GameObject IPlayerState.AttackTarket 
             => this.m_AttackTarget;
-
-        bool IPlayerState.CanOverrideMovement
-        {
-            get => this.m_CanOverrideMovement;
-            set => this.m_CanOverrideMovement = value;
-        }
 
         PlayerAttackState IPlayerState.PlayerAttackState
         {

@@ -18,26 +18,21 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private ICameraController m_CameraController;
         private IControlledCameraState m_CameraState;
         private FinishingMoveController m_FinishingMoveController;
-        private PlayerAttackState m_PlayerAttackState;
         private IPlayerState m_PlayerState;
-
+        
+        // Player states
+        private PlayerAttackState m_PlayerAttackState;
+        private PlayerMovementState m_PlayerMovementState;
+        
         private float m_CurrentAngleSmoothVelocity;
         private bool m_IsMovementEnabled = true;
         private bool m_IsRotationEnabled = true;
         private bool m_IsSprinting = false;
         private Vector2 m_InputDirection = Vector2.zero;
-        private Vector3 m_MoveDirection = Vector2.zero;
         private float m_RotationSpeed = 4f;
         private float m_MovementSmoothingDampingTime = .1f;
 
         #endregion Fields
-
-        #region - - - - - - Properties - - - - - -
-
-        Vector3 IPlayerMovement.MoveDirection
-            => this.m_MoveDirection;
-
-        #endregion Properties
         
         #region - - - - - - Lifecycle Methods - - - - - -
 
@@ -47,8 +42,11 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_CameraController = this.GetComponent<ICameraController>();
             this.m_CameraState = this.GetComponent<IControlledCameraState>();
             this.m_FinishingMoveController = this.GetComponentInChildren<FinishingMoveController>();
-            this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
             this.m_PlayerState = this.GetComponent<IPlayerState>();
+
+            IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
+            this.m_PlayerAttackState = _PlayerState.PlayerAttackState;
+            this.m_PlayerMovementState = _PlayerState.PlayerMovementState;
         }
 
         private void Update()
@@ -112,8 +110,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         private Vector3 CalculateMovementDirection()
         {
-            this.m_MoveDirection = new Vector3(this.m_InputDirection.x, 0, this.m_InputDirection.y).normalized;
-            return this.m_MoveDirection;
+            this.m_PlayerMovementState.MoveDirection = new Vector3(this.m_InputDirection.x, 0, this.m_InputDirection.y).normalized;
+            return this.m_PlayerMovementState.MoveDirection;
         }        
 
         private void LockPlayerRotationToAttackTarget()
@@ -138,7 +136,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                  || this.m_PlayerAttackState.IsWeaponSheathed)
                 return;
 
-            float _TargetAngle = Mathf.Atan2(this.m_MoveDirection.x, this.m_MoveDirection.z)
+            float _TargetAngle = Mathf.Atan2(this.m_PlayerMovementState.MoveDirection.x, this.m_PlayerMovementState.MoveDirection.z)
                                  * Mathf.Rad2Deg + this.m_CameraState.CurrentEulerAngles.y;
             float _NextAngleRotation = Mathf.SmoothDampAngle(
                 this.transform.eulerAngles.y,

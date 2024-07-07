@@ -150,6 +150,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         // Ticket: #34 - Behaviour pertaining to animation will be moved to separate player animator component.
         private void PerformMovement()
         {
+            if (this.m_PlayerMovementState.IsMovementLocked)
+                return;
+
             // Invokes player movement through the physically based animation movements
             this.m_Animator.SetFloat(
                 "XInput", 

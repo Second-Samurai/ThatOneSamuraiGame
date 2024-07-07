@@ -31,7 +31,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         private float m_HeavyAttackTimer;
         private float m_HeavyAttackMaxTimer = 2f;
         private bool m_HasPerformedAttack = false;
-        private bool m_IsHeavyAttackCharging = false;
 
         #endregion Fields
 
@@ -54,7 +53,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             if (this.IsPaused)
                 return;
             
-            if (this.m_IsHeavyAttackCharging) 
+            if (this.m_PlayerAttackState.IsHeavyAttackCharging) 
                 this.TickHeavyTimer();
             else if (Mathf.Approximately(this.m_HeavyAttackTimer, this.m_HeavyAttackMaxTimer))
                 this.m_HeavyAttackTimer = this.m_HeavyAttackMaxTimer;
@@ -134,7 +133,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_ShowHeavyTutorialEvent.Raise();
             this.m_EndHeavyTelegraphEvent.Raise();
 
-            this.m_IsHeavyAttackCharging = false;
+            this.m_PlayerAttackState.IsHeavyAttackCharging = false;
             this.m_PlayerAttackState.IsWeaponSheathed = false;
 
             // Create gleam effect
@@ -152,7 +151,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_ShowHeavyTelegraphEvent.Raise();
 
             this.m_PlayerAttackState.IsWeaponSheathed = true;
-            this.m_IsHeavyAttackCharging = true;
+            this.m_PlayerAttackState.IsHeavyAttackCharging = true;
             this.m_Animator.SetBool("HeavyAttackHeld", true);
 
             this.m_CameraController.RollCamera();

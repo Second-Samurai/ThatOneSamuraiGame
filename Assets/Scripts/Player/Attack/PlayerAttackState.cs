@@ -15,6 +15,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         [SerializeField] 
         private bool m_HasBeenParried;
         [SerializeField]
+        private bool m_IsHeavyAttackCharging;
+        [SerializeField]
         private bool m_IsWeaponSheathed;
 
         #endregion Fields
@@ -31,6 +33,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         {
             get => this.m_HasBeenParried;
             set => this.m_HasBeenParried = value;
+        }
+
+        public bool IsHeavyAttackCharging
+        {
+            get => this.m_IsHeavyAttackCharging;
+            set => this.m_IsHeavyAttackCharging = value;
         }
 
         public bool IsWeaponSheathed

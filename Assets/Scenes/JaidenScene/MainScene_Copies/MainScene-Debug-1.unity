@@ -524,6 +524,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 041da8dedcda451abaed63530cc565fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &75811226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75811149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 547f08b9d21b4ad49949a239edd2e8df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AttackTarget: {fileID: 0}
+  m_PlayerAttackState:
+    m_CanAttack: 1
+    m_HasBeenParried: 0
+    m_IsHeavyAttackCharging: 0
+    m_IsWeaponSheathed: 0
+  m_PlayerMovementState:
+    m_CanOverrideMovement: 0
+    m_IsMovementLocked: 0
+  m_PlayerSpecialActionState:
+    m_CanDodge: 1
+    m_IsDodging: 0
 --- !u!1 &83717892
 GameObject:
   m_ObjectHideFlags: 0
@@ -10629,7 +10653,11 @@ PrefabInstance:
       addedObject: {fileID: 75811189}
     - targetCorrespondingSourceObject: {fileID: 4694011085568007617, guid: 6f17a2618c6734e258866a6cd2cf5b44,
         type: 3}
-      insertIndex: 11
+      insertIndex: 10
+      addedObject: {fileID: 75811226}
+    - targetCorrespondingSourceObject: {fileID: 4694011085568007617, guid: 6f17a2618c6734e258866a6cd2cf5b44,
+        type: 3}
+      insertIndex: 12
       addedObject: {fileID: 75811208}
   m_SourcePrefab: {fileID: 100100000, guid: 6f17a2618c6734e258866a6cd2cf5b44, type: 3}
 --- !u!1 &1874637029

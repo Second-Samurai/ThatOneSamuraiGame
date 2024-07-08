@@ -104,7 +104,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""ScrubForwardOLD"",
                     ""type"": ""Value"",
                     ""id"": ""fb68f0ce-984f-4167-8e4d-d9c07aee1e24"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)"",
                     ""initialStateCheck"": true

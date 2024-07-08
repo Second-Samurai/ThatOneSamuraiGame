@@ -30,7 +30,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         private bool m_CanBlock = true;
         private float m_HeavyAttackTimer;
         private float m_HeavyAttackMaxTimer = 2f;
-        private bool m_HasPerformedAttack = false;
+        private bool m_HasPerformedAttack;
 
         #endregion Fields
 
@@ -77,7 +77,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
                 Debug.Log("Has been executed");
             }
             else if (this.m_HasPerformedAttack)
-                this.m_HasPerformedAttack = true;
+                this.m_HasPerformedAttack = false;
             
             // Perform Heavy attack
             if (!this.m_Animator.GetBool("HeavyAttackHeld")) return;

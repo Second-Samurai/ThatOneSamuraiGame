@@ -1,4 +1,5 @@
 ﻿using System;
+using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
@@ -14,7 +15,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
     /// Handles inputs for Gameplay actions for Mouse and Keyboard.
     /// </summary>
     /// <remarks>Provides input transformation and pass-through.</remarks>
-    public class GameplayMouseAndKeyboardInputControl : MonoBehaviour, IInputControl
+    public class GameplayMouseAndKeyboardInputControl : TOSGMonoBehaviourBase, IInputControl
     {
 
         #region - - - - - - Fields - - - - - -
@@ -24,9 +25,8 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private IPlayerMovement m_PlayerMovement;
         private IPlayerTargetTracking m_PlayerTargetTracking;
         private IPlayerSpecialAction m_PlayerSpecialAction;
-
-        private bool m_IsInputActive = true;
-        private bool m_IsInputPaused = false;
+        
+        private bool m_IsInputActive;
 
         #endregion Fields
 
@@ -56,13 +56,13 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private void OnMovement(InputValue inputValue)
         {
             Debug.Log("Encountering this point");
-            if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            if (!this.m_IsInputActive || IsPaused) return;
             this.m_PlayerMovement.PreparePlayerMovement(inputValue.Get<Vector2>());
         }
 
         private void OnSprint(InputValue inputValue)
         {
-            if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            if (!this.m_IsInputActive || IsPaused) return;
             this.m_PlayerMovement.PrepareSprint(inputValue.isPressed);
         }
 
@@ -72,19 +72,19 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         private void OnLockOn(InputValue inputValue)
         {
-            if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            if (!this.m_IsInputActive || IsPaused) return;
             this.m_PlayerTargetTracking.ToggleLockOn();
         }
 
         private void OnToggleLockLeft(InputValue inputValue)
         {
-            if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            if (!this.m_IsInputActive || IsPaused) return;
             this.m_PlayerTargetTracking.ToggleLockLeft();
         }
 
         private void OnToggleLockRight(InputValue inputValue)
         {
-            if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            if (!this.m_IsInputActive || IsPaused) return;
             this.m_PlayerTargetTracking.ToggleLockRight();
         }
 
@@ -94,38 +94,37 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         private void OnAttack(InputValue inputValue)
         {
-            if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            if (!this.m_IsInputActive || IsPaused) return;
             this.m_PlayerAttackHandler.Attack();
-            Debug.Log("Triggered Attack Method");
         }
 
         private void OnSwordDraw(InputValue inputValue)
         {
-            if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            if (!this.m_IsInputActive || IsPaused) return;
             this.m_PlayerAttackHandler.DrawSword();
         }
 
         private void OnStartHeavy(InputValue inputValue)
         {
-            if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            if (!this.m_IsInputActive || IsPaused) return;
             this.m_PlayerAttackHandler.StartHeavy();
         }
 
         private void OnStartHeavyAlternative(InputValue inputValue)
         {
-            if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            if (!this.m_IsInputActive || IsPaused) return;
             this.m_PlayerAttackHandler.StartHeavyAlternative();
         }
 
         private void OnStartBlock(InputValue inputValue)
         {
-            if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            if (!this.m_IsInputActive || IsPaused) return;
             this.m_PlayerAttackHandler.StartBlock();
         }
 
         private void OnEndBlock(InputValue inputValue)
         {
-            if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            if (!this.m_IsInputActive || IsPaused) return;
             this.m_PlayerAttackHandler.EndBlock();
         }
 
@@ -135,7 +134,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         private void OnDodge(InputValue inputValue)
         {
-            if (!this.m_IsInputActive || this.m_IsInputPaused) return;
+            if (!this.m_IsInputActive || IsPaused) return;
             this.m_PlayerSpecialAction.Dodge();
         }
 
@@ -146,7 +145,9 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private void OnPause(InputValue inputValue)
         {
             if (!this.m_IsInputActive) return;
-            //this.m_PauseAction.TogglePause();
+            
+            // Ticket # - Create revamped pause system
+            throw new NotImplementedException();
         }
 
         #endregion Event Handlers
@@ -157,12 +158,6 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
             => this.m_IsInputActive = true;
 
         void IInputControl.DisableInput()
-            => this.m_IsInputActive = false;
-
-        public void Pause() // Might not be needed, delete later
-            => this.m_IsInputActive = true;
-
-        public void OnUnpaused() // might not be needed, delete later
             => this.m_IsInputActive = false;
 
         #endregion Methods

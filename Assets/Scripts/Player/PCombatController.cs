@@ -26,7 +26,6 @@ public class PCombatController : MonoBehaviour, ICombatController
     [HideInInspector] public PSwordManager swordManager;
 
     //Private Variables
-    private PlayerInputScript _playerInput;
     private PlayerFunctions _functions;
     private PDamageController _damageController;
     private EntityAttackRegister _attackRegister;
@@ -60,7 +59,6 @@ public class PCombatController : MonoBehaviour, ICombatController
         swordManager = this.GetComponent<PSwordManager>();
         swordManager.Init();
 
-        _playerInput = GetComponent<PlayerInputScript>();
         _damageController = GetComponent<PDamageController>();
         _functions = GetComponent<PlayerFunctions>();
 

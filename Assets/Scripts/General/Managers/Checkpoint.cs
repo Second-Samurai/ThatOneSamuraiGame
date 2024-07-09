@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ThatOneSamuraiGame.Scripts.Player.Attack;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
@@ -8,11 +10,15 @@ public class Checkpoint : MonoBehaviour
     public bool bIsActive = false;
     public Transform spawnPos;
 
+    private PlayerAttackState m_PlayerAttackState;
+
     // Start is called before the first frame update
     void Awake()
     {
         checkpointManager = GameManager.instance.checkpointManager;
         //checkpointManager.checkpoints.Add(this); 
+
+        this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -42,14 +48,16 @@ public class Checkpoint : MonoBehaviour
         GameManager.instance.EnableInput();
         GameManager.instance.thirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
         GameManager.instance.rewindManager.isTravelling = false;
-        PlayerFunctions player = GameManager.instance.playerController.gameObject.GetComponent<PlayerFunctions>();
+        PlayerFunctions _Player = GameManager.instance.playerController.gameObject.GetComponent<PlayerFunctions>();
 
-        player.playerInputScript._pCombatController.swordManager.SetWeapon(true, GameManager.instance.gameSettings.katanaPrefab);
+        // Note: The sword manager exists on the root parent fo the player object
+        PSwordManager _PlayerSwordManager = this.GetComponent<PSwordManager>();
+        _PlayerSwordManager.SetWeapon(true, GameManager.instance.gameSettings.katanaPrefab);
 
-        ICombatController playerCombatController = player.gameObject.GetComponent<ICombatController>();
+        ICombatController playerCombatController = _Player.gameObject.GetComponent<ICombatController>();
         playerCombatController.DrawSword();
-         
-        player.gameObject.GetComponent<PlayerInputScript>().bCanAttack = true; //TODO: CHANGE: input not incharge of attacking (combat controller maybe doing it already)
+
+        this.m_PlayerAttackState.CanAttack = true;
     }
 
 }

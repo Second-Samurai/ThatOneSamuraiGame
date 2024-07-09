@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using ThatOneSamuraiGame.Scripts.Camera;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
+using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,7 +25,6 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
     public Transform lockOnTarget, player, lockOnNullDummy;
     public bool bLockedOn = false;
     public LockOnTracker lockOnTracker;
-    PlayerInputScript _playerInput;
 
     public CinematicBars cinematicBars;
     
@@ -32,7 +33,7 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
     private const float maxLockCancelTimer = 0.4f;
     public float _lockCancelTimer;
 
-    private PlayerState m_PlayerState;
+    private PlayerTargetTrackingState m_PlayerTargetTrackingState;
 
     #region - - - - - - Properties - - - - - -
 
@@ -47,7 +48,7 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
         // _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
         // _playerInput = GetComponent<PlayerInputScript>();
 
-        this.m_PlayerState = this.GetComponent<PlayerState>();
+        this.m_PlayerTargetTrackingState = this.GetComponent<IPlayerState>().PlayerTargetTrackingState;
     }
  
     //NOTE: this is called in player controller
@@ -84,7 +85,6 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
        
        
         _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
-        _playerInput = GetComponent<PlayerInputScript>();
     }
 
     void OnRotateCamera(InputValue rotDir) 
@@ -181,7 +181,7 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
             if (nextEnemy != lockOnTarget)
             {
                 lockOnTarget = nextEnemy;
-                _playerInput.target = lockOnTarget;
+                this.m_PlayerTargetTrackingState.AttackTarget = lockOnTarget.gameObject;
             }
 
             if (lockOnTarget != null)

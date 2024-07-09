@@ -1,17 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ThatOneSamuraiGame.Scripts.Camera;
+using ThatOneSamuraiGame.Scripts.Input;
 using UnityEngine;
 
 public class PlayerRewindEntity : AnimationRewindEntity
 {
 
     public List<PlayerTimeData> playerDataList;
-
-    private PlayerInputScript playerInput;
-
     public Collider swordCollider;
-
     public Rigidbody gameObjectRigidbody;
+
+    private ICameraController m_CameraController;
+    private PlayerFunctions m_PlayerFunctions;
 
     // Start is called before the first frame update
     protected new void Start()
@@ -19,9 +20,9 @@ public class PlayerRewindEntity : AnimationRewindEntity
         _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
         playerDataList = new List<PlayerTimeData>();
 
-        playerInput = gameObject.GetComponent<PlayerInputScript>();
+        this.m_CameraController = this.GetComponent<ICameraController>();
+        this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
         _rewindInput.Reset += ResetTimeline;
-
 
         _rewindInput.OnEndRewind += EnableEvents;
         _rewindInput.OnStartRewind += DisableEvents;
@@ -82,7 +83,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
         }
 
         //move to arguments need to be added rewind entity
-        playerDataList.Insert(0, new PlayerTimeData(playerInput.camControl.bLockedOn, swordCollider.enabled));
+        playerDataList.Insert(0, new PlayerTimeData(this.m_CameraController.IsLockedOn, swordCollider.enabled));
 
         base.RecordPast();
     }
@@ -152,8 +153,13 @@ public class PlayerRewindEntity : AnimationRewindEntity
 
     public override void ApplyData()
     {
-        if (playerInput._functions.bIsDead) playerInput._functions._inputComponent.SwitchCurrentActionMap("Dead");
-        else playerInput._functions._inputComponent.SwitchCurrentActionMap("Gameplay");
+        InputManager _InputManager = GameManager.instance.InputManager;
+        
+        if (this.m_PlayerFunctions.bIsDead) 
+            _InputManager.SwitchToMenuControls();
+        else 
+            _InputManager.SwitchToGameplayControls();
+        
         swordCollider.enabled = playerDataList[currentIndex].swordCollider;
         
      //   playerInput.camControl.bLockedOn = false;

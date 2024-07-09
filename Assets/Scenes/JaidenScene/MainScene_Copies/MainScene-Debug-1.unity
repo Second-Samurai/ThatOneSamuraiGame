@@ -524,7 +524,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 547f08b9d21b4ad49949a239edd2e8df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AttackTarget: {fileID: 0}
   m_PlayerAttackState:
     m_CanAttack: 1
     m_HasBeenParried: 0
@@ -532,6 +531,7 @@ MonoBehaviour:
     m_IsWeaponSheathed: 0
   m_PlayerMovementState:
     m_CanOverrideMovement: 0
+    m_IsMovementEnabled: 0
     m_IsMovementLocked: 0
   m_PlayerSpecialActionState:
     m_CanDodge: 1
@@ -12585,6 +12585,11 @@ PrefabInstance:
       propertyPath: rewindManager
       value: 
       objectReference: {fileID: 2004116326}
+    - target: {fileID: 5014418588748919041, guid: 7f10a4a5279d140b3adf1aceaef298c3,
+        type: 3}
+      propertyPath: m_InputManager
+      value: 
+      objectReference: {fileID: 1402607700}
     - target: {fileID: 5014418588748919041, guid: 7f10a4a5279d140b3adf1aceaef298c3,
         type: 3}
       propertyPath: bossThemeManager

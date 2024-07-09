@@ -1,6 +1,7 @@
 ﻿using System;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
@@ -17,7 +18,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
 
         #region - - - - - - Lifecycle Methods - - - - - -
 
-        private void Start()
+        private void Start() 
             => this.m_CameraController = this.GetComponent<ICameraController>();
 
         #endregion Lifecycle Methods

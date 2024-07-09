@@ -13,8 +13,11 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         [SerializeField] 
         private bool m_CanOverrideMovement;
+        [SerializeField] 
+        private bool m_IsMovementEnabled;
         [SerializeField]
         private bool m_IsMovementLocked;
+        
         private Vector3 m_MoveDirection = Vector3.zero;
 
         #endregion Fields
@@ -25,6 +28,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         {
             get => this.m_CanOverrideMovement;
             set => this.m_CanOverrideMovement = value;
+        }
+
+        public bool IsMovementEnabled
+        {
+            get => this.m_IsMovementEnabled;
+            set => this.m_IsMovementEnabled = value;
         }
 
         public bool IsMovementLocked

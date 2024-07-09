@@ -4,6 +4,7 @@ using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Containers
 {
@@ -17,21 +18,17 @@ namespace ThatOneSamuraiGame.Scripts.Player.Containers
         #region - - - - - - Fields - - - - - -
 
         [SerializeField]
-        private GameObject m_AttackTarget;
-        
-        [SerializeField]
         private PlayerAttackState m_PlayerAttackState;
         [SerializeField]
         private PlayerMovementState m_PlayerMovementState;
         [SerializeField]
         private PlayerSpecialActionState m_PlayerSpecialActionState;
+        [SerializeField] 
+        private PlayerTargetTrackingState m_PlayerTargetTrackingState;
 
         #endregion Fields 
         
         #region - - - - - - Properties - - - - - -
-
-        GameObject IPlayerState.AttackTarket 
-            => this.m_AttackTarget;
 
         PlayerAttackState IPlayerState.PlayerAttackState
         {
@@ -69,6 +66,19 @@ namespace ThatOneSamuraiGame.Scripts.Player.Containers
                 Debug.LogError("PlayerSpecialActionState was not found. Initialised default state is used.");
                 this.m_PlayerSpecialActionState = new PlayerSpecialActionState();
                 return this.m_PlayerSpecialActionState;
+            }
+        }
+
+        PlayerTargetTrackingState IPlayerState.PlayerTargetTrackingState
+        {
+            get
+            {
+                if (this.m_PlayerSpecialActionState != null)
+                    return this.m_PlayerTargetTrackingState;
+                
+                Debug.LogError("PlayerSpecialActionState was not found. Initialised default state is used.");
+                this.m_PlayerTargetTrackingState = new PlayerTargetTrackingState();
+                return this.m_PlayerTargetTrackingState;
             }
         }
 

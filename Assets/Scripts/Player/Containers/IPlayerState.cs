@@ -1,6 +1,7 @@
 ﻿using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
+using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Containers
@@ -11,13 +12,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.Containers
 
         #region - - - - - - Properties - - - - - -
 
-        GameObject AttackTarket { get; }
-        
         PlayerAttackState PlayerAttackState { get; }
         
         PlayerMovementState PlayerMovementState { get; }
         
         PlayerSpecialActionState PlayerSpecialActionState { get; }
+        
+        PlayerTargetTrackingState PlayerTargetTrackingState { get; }
 
         #endregion Properties
         

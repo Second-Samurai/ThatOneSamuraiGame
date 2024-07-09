@@ -4,6 +4,7 @@ using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
+using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Movement
@@ -18,11 +19,11 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private ICameraController m_CameraController;
         private IControlledCameraState m_CameraState;
         private FinishingMoveController m_FinishingMoveController;
-        private IPlayerState m_PlayerState;
         
         // Player states
         private PlayerAttackState m_PlayerAttackState;
         private PlayerMovementState m_PlayerMovementState;
+        private PlayerTargetTrackingState m_PlayerTargetTrackingState;
         
         private float m_CurrentAngleSmoothVelocity;
         private bool m_IsMovementEnabled = true;
@@ -42,7 +43,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_CameraController = this.GetComponent<ICameraController>();
             this.m_CameraState = this.GetComponent<IControlledCameraState>();
             this.m_FinishingMoveController = this.GetComponentInChildren<FinishingMoveController>();
-            this.m_PlayerState = this.GetComponent<IPlayerState>();
+            this.m_PlayerTargetTrackingState = this.GetComponent<IPlayerState>().PlayerTargetTrackingState;
 
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
             this.m_PlayerAttackState = _PlayerState.PlayerAttackState;
@@ -119,7 +120,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             if (!this.m_CameraState.IsCameraViewTargetLocked)
                 return;
             
-            Vector3 _NewLookDirection = this.m_PlayerState.AttackTarket.transform.position - this.transform.position;
+            Vector3 _NewLookDirection = this.m_PlayerTargetTrackingState.AttackTarget.transform.position - this.transform.position;
             this.transform.rotation = Quaternion.Slerp(
                 this.transform.rotation,
                 Quaternion.LookRotation(_NewLookDirection),

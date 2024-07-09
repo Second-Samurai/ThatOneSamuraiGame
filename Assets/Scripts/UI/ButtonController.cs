@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using ThatOneSamuraiGame.Scripts.Input;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -9,7 +10,6 @@ public class ButtonController : MonoBehaviour
 {
     public CinemachineVirtualCamera vcam, optionsVCam;
     public GameObject menu, optionsMenu;
-    PlayerInput _input;
     public GameObject cutscene;
     public Button continueButton;
     
@@ -62,10 +62,10 @@ public class ButtonController : MonoBehaviour
         GameManager.instance.checkpointManager.LoadCheckpoint();
     }
 
-    private void Start()
+    private void Start()`
     {
-        _input = GameManager.instance.playerController.gameObject.GetComponent<PlayerInput>();
-        _input.SwitchCurrentActionMap("Menu");
+        InputManager _inputManager = GameManager.instance.InputManager;
+        _inputManager.SwitchToMenuControls();
     }
 
     public void EnableContinue()

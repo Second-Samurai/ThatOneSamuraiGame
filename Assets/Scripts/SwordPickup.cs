@@ -23,7 +23,9 @@ public class SwordPickup : MonoBehaviour
     #region - - - - - - Lifecycle Methods - - - - - -
 
     private void Start() 
-        => this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
+        => this.m_PlayerAttackState = GameManager.instance.playerController
+                                        .GetComponent<IPlayerState>()
+                                        .PlayerAttackState;
 
     #endregion Lifecycle Methods
 

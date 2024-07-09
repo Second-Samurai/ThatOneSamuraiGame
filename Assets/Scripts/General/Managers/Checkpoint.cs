@@ -18,7 +18,9 @@ public class Checkpoint : MonoBehaviour
         checkpointManager = GameManager.instance.checkpointManager;
         //checkpointManager.checkpoints.Add(this); 
 
-        this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
+        this.m_PlayerAttackState = GameManager.instance.playerController
+                                        .GetComponent<IPlayerState>()
+                                        .PlayerAttackState;
     }
 
     private void OnTriggerEnter(Collider other)

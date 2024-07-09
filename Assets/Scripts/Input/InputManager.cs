@@ -38,19 +38,37 @@ namespace ThatOneSamuraiGame.Scripts.Input
 
         #region - - - - - - Methods - - - - - -
 
-        private void PossesPlayerObject(GameObject playerObject)
+        public void PossesPlayerObject(GameObject playerObject)
         {
+            IGameplayInputControl _GameplayInputControl;
+            
             switch (this.m_SelectedDevice)
             {
                 case ControlDevices.KeyboardAndMouse:
-                    playerObject.AddComponent<GameplayMouseAndKeyboardInputControl>();
+                    _GameplayInputControl = playerObject.AddComponent<GameplayMouseAndKeyboardInputControl>();
                     break;
                 case ControlDevices.Gamepad:
                     throw new NotImplementedException();
                 default:
-                    playerObject.AddComponent<GameplayMouseAndKeyboardInputControl>();
+                    _GameplayInputControl = playerObject.AddComponent<GameplayMouseAndKeyboardInputControl>();
                     break;
             };
+            
+            // Subscribe all events from input control
+            // Methods should be subscribed as the first in each event list
+            this.m_PlayerInput.actions["movement"].performed += _GameplayInputControl.OnMovement;
+            this.m_PlayerInput.actions["sprint"].performed += _GameplayInputControl.OnSprint;
+        }
+
+        /// <summary>
+        /// Removes subscribed input events from the PlayerObject.
+        /// </summary>
+        public void UnpossesPlayerObject(GameObject playerObject)
+        {
+            IGameplayInputControl _GameplayInputControl = playerObject.GetComponent<IGameplayInputControl>();
+            
+            this.m_PlayerInput.actions["movement"].performed -= _GameplayInputControl.OnMovement;
+            this.m_PlayerInput.actions["sprint"].performed -= _GameplayInputControl.OnSprint;
         }
 
         private void SwitchToGameplayControls()

@@ -15,7 +15,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
     /// Handles inputs for Gameplay actions for Mouse and Keyboard.
     /// </summary>
     /// <remarks>Provides input transformation and pass-through.</remarks>
-    public class GameplayMouseAndKeyboardInputControl : TOSGMonoBehaviourBase, IInputControl
+    public class GameplayMouseAndKeyboardInputControl : TOSGMonoBehaviourBase, IGameplayInputControl
     {
 
         #region - - - - - - Fields - - - - - -
@@ -53,17 +53,17 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         // Movement related Events
         // -----------------------------------------------------
 
-        private void OnMovement(InputValue inputValue)
+        void IGameplayInputControl.OnMovement(InputAction.CallbackContext callback)
         {
             Debug.Log("Encountering this point");
             if (!this.m_IsInputActive || IsPaused) return;
-            this.m_PlayerMovement.PreparePlayerMovement(inputValue.Get<Vector2>());
+            this.m_PlayerMovement.PreparePlayerMovement(callback.ReadValue<Vector2>());
         }
 
-        private void OnSprint(InputValue inputValue)
+        void IGameplayInputControl.OnSprint(InputAction.CallbackContext callback)
         {
             if (!this.m_IsInputActive || IsPaused) return;
-            this.m_PlayerMovement.PrepareSprint(inputValue.isPressed);
+            this.m_PlayerMovement.PrepareSprint(callback.ReadValueAsButton());
         }
 
         // -----------------------------------------------------

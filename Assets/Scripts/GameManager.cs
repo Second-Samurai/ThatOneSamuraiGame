@@ -48,6 +48,9 @@ public class GameManager : MonoBehaviour
     private IInputControl m_CurrentInputControl;
     private GameState m_GameState;
 
+    [SerializeField] 
+    private InputManager m_InputManager;
+
     #endregion Fields
 
     #region - - - - - - Properties - - - - - -
@@ -90,6 +93,8 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Main Menu not assigned! Finding in code");
             buttonController = GameObject.FindWithTag("MainMenu").GetComponent<ButtonController>();
         }
+
+        this.m_InputManager = this.GetComponent<InputManager>();
     }
 
     #endregion Lifecycle Methods
@@ -154,11 +159,12 @@ public class GameManager : MonoBehaviour
     void InitialisePlayer(GameObject targetHolder)
     {
         playerController.Init(targetHolder);
-        this.m_CurrentInputControl = this.playerController.GetComponent<IInputControl>();
+        // this.m_CurrentInputControl = this.playerController.GetComponent<IInputControl>();
 
         if (this.m_CurrentInputControl == null)
         {
-            Debug.LogError("The input control is not loaded");
+            this.m_InputManager.PossesPlayerObject(this.playerController.gameObject);
+            // Debug.LogError("The input control is not loaded");
         }
     }
 

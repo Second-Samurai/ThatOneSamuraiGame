@@ -58,6 +58,9 @@ public class GameManager : MonoBehaviour
     public GameState GameState
         => this.m_GameState;
 
+    public InputManager InputManager
+        => this.m_InputManager;
+
     #endregion Properties
 
     #region - - - - - - Lifecycle Methods - - - - - -
@@ -81,6 +84,7 @@ public class GameManager : MonoBehaviour
         SetupAudio();
 
         this.m_GameState = this.GetComponent<GameState>();
+        this.m_InputManager = this.GetComponent<InputManager>();
     }
 
     // Start is called before the first frame update
@@ -94,7 +98,6 @@ public class GameManager : MonoBehaviour
             buttonController = GameObject.FindWithTag("MainMenu").GetComponent<ButtonController>();
         }
 
-        this.m_InputManager = this.GetComponent<InputManager>();
     }
 
     #endregion Lifecycle Methods

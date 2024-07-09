@@ -56,8 +56,11 @@ namespace ThatOneSamuraiGame.Scripts.Input
             
             // Subscribe all events from input control
             // Methods should be subscribed as the first in each event list
+            // TODO: Refactor into a seperate mapping scheme
             this.m_PlayerInput.actions["movement"].performed += _GameplayInputControl.OnMovement;
+            this.m_PlayerInput.actions["movement"].canceled += _GameplayInputControl.OnMovement;
             this.m_PlayerInput.actions["sprint"].performed += _GameplayInputControl.OnSprint;
+            this.m_PlayerInput.actions["sprint"].canceled += _GameplayInputControl.OnSprint;
         }
 
         /// <summary>
@@ -71,14 +74,14 @@ namespace ThatOneSamuraiGame.Scripts.Input
             this.m_PlayerInput.actions["sprint"].performed -= _GameplayInputControl.OnSprint;
         }
 
-        private void SwitchToGameplayControls()
+        public void SwitchToGameplayControls()
         {
             this.m_PlayerInput.SwitchCurrentActionMap("Gameplay");
             this.m_GameplayInputControl.EnableInput();
             this.m_MenuInputControl.DisableInput();
         }
 
-        private void SwitchToMenuControls()
+        public void SwitchToMenuControls()
         {
             this.m_PlayerInput.SwitchCurrentActionMap("Menu");
             this.m_GameplayInputControl.DisableInput();

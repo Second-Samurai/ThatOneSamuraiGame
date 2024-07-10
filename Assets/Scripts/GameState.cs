@@ -13,7 +13,9 @@ namespace ThatOneSamuraiGame.Scripts
 
         [SerializeField]
         private GameObject m_ActivePlayer;
-
+        [SerializeField]
+        private GameObject m_SessionUser;
+        
         [SerializeField]
         private GameObject m_PauseMenu;
 
@@ -25,6 +27,18 @@ namespace ThatOneSamuraiGame.Scripts
         {
             get { return this.m_ActivePlayer; }
             set { this.m_ActivePlayer = value; }
+        }
+
+        public GameObject SessionUser
+        {
+            get
+            {
+                if (this.m_SessionUser == null)
+                    Debug.LogError("The game session user is missing. Please ensure the object exists");
+
+                return m_SessionUser;
+            }
+            set => this.m_SessionUser = value;
         }
 
         public GameObject PauseMenu

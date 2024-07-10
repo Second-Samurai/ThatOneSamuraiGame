@@ -45,11 +45,10 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public GameObject guardMeterCanvas;
 
     //Private variables
-    private IInputControl m_CurrentInputControl;
     private GameState m_GameState;
 
     [SerializeField] 
-    private InputManager m_InputManager;
+    private IInputManager m_InputManager;
 
     #endregion Fields
 
@@ -58,7 +57,7 @@ public class GameManager : MonoBehaviour
     public GameState GameState
         => this.m_GameState;
 
-    public InputManager InputManager
+    public IInputManager InputManager
         => this.m_InputManager;
 
     #endregion Properties
@@ -84,7 +83,7 @@ public class GameManager : MonoBehaviour
         SetupAudio();
 
         this.m_GameState = this.GetComponent<GameState>();
-        this.m_InputManager = this.GetComponent<InputManager>();
+        this.m_InputManager = this.GetComponent<IInputManager>();
     }
 
     // Start is called before the first frame update
@@ -164,11 +163,8 @@ public class GameManager : MonoBehaviour
         playerController.Init(targetHolder);
         // this.m_CurrentInputControl = this.playerController.GetComponent<IInputControl>();
 
-        if (this.m_CurrentInputControl == null)
-        {
+        if (this.m_InputManager.DoesGameplayInputControlExist())
             this.m_InputManager.PossesPlayerObject(this.playerController.gameObject);
-            // Debug.LogError("The input control is not loaded");
-        }
     }
 
     void SetupEnemies()
@@ -210,12 +206,6 @@ public class GameManager : MonoBehaviour
             audioManager = Instantiate(gameSettings.audioManger, transform.position, Quaternion.identity).GetComponent<AudioManager>();
         }
     }
-
-    public void EnableInput()
-        => this.m_CurrentInputControl.EnableInput();
-
-    public void DisableInput()
-        => this.m_CurrentInputControl.DisableInput();
 
     #endregion Methods
 

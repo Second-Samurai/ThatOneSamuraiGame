@@ -704,7 +704,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""bb9ae5c8-0b93-44e0-b002-2b0380f4e35a"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -713,7 +713,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""EndRewind"",
                     ""type"": ""Button"",
                     ""id"": ""79a9d872-5340-4333-8f11-7577c02c03cf"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
@@ -838,7 +838,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""Unpause"",
                     ""type"": ""Button"",
                     ""id"": ""2938e789-f18e-4651-a9f9-e5d9748bc73d"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false

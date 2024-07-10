@@ -62,7 +62,7 @@ public class ButtonController : MonoBehaviour
         GameManager.instance.checkpointManager.LoadCheckpoint();
     }
 
-    private void Start()`
+    private void Start()
     {
         InputManager _inputManager = GameManager.instance.InputManager;
         _inputManager.SwitchToMenuControls();

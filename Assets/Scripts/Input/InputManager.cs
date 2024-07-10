@@ -21,6 +21,7 @@ namespace ThatOneSamuraiGame.Scripts.Input
         private PlayerInput m_PlayerInput;
 
         private ControlDevices m_SelectedDevice;
+        private InputActionMapType m_ActiveInputActionMap;
         
         #endregion Fields
 
@@ -38,6 +39,16 @@ namespace ThatOneSamuraiGame.Scripts.Input
 
         #region - - - - - - Methods - - - - - -
 
+        /// <summary>
+        /// Activates the menu controls for the game.
+        /// </summary>
+        /// <remarks>This input control is the first to activate in the game.</remarks>
+        public void ActivateMenuInputControl()
+        {
+            
+            this.m_ActiveInputActionMap = InputActionMapType.Menu;
+        }
+
         public void PossesPlayerObject(GameObject playerObject)
         {
             IGameplayInputControl _GameplayInputControl;
@@ -54,13 +65,7 @@ namespace ThatOneSamuraiGame.Scripts.Input
                     break;
             };
             
-            // Subscribe all events from input control
-            // Methods should be subscribed as the first in each event list
-            // TODO: Refactor into a seperate mapping scheme
-            this.m_PlayerInput.actions["movement"].performed += _GameplayInputControl.OnMovement;
-            this.m_PlayerInput.actions["movement"].canceled += _GameplayInputControl.OnMovement;
-            this.m_PlayerInput.actions["sprint"].performed += _GameplayInputControl.OnSprint;
-            this.m_PlayerInput.actions["sprint"].canceled += _GameplayInputControl.OnSprint;
+            _GameplayInputControl.ConfigureInputEvents(this.m_PlayerInput);
         }
 
         /// <summary>
@@ -78,23 +83,30 @@ namespace ThatOneSamuraiGame.Scripts.Input
         {
             this.m_PlayerInput.SwitchCurrentActionMap("Gameplay");
             this.m_GameplayInputControl.EnableInput();
-            this.m_MenuInputControl.DisableInput();
+            // this.m_MenuInputControl.DisableInput();
         }
 
         public void SwitchToMenuControls()
         {
             this.m_PlayerInput.SwitchCurrentActionMap("Menu");
             this.m_GameplayInputControl.DisableInput();
-            this.m_MenuInputControl.EnableInput();
+            // this.m_MenuInputControl.EnableInput();
         }
 
         #endregion Methods
 
     }
     
-    public enum ControlDevices {
+    public enum ControlDevices 
+    {
         KeyboardAndMouse,
         Gamepad
+    }
+
+    public enum InputActionMapType
+    {
+        Gamplay,
+        Menu
     }
     
 }

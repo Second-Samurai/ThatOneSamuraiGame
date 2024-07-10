@@ -612,7 +612,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""17ad6dd6-9a2a-4a9e-9dfa-bf9f27fa785b"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": ""Hold(duration=2,pressPoint=1)"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""StartHeavy"",

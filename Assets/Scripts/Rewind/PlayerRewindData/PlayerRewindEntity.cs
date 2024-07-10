@@ -153,7 +153,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
 
     public override void ApplyData()
     {
-        InputManager _InputManager = GameManager.instance.InputManager;
+        IInputManager _InputManager = GameManager.instance.InputManager;
         
         if (this.m_PlayerFunctions.bIsDead) 
             _InputManager.SwitchToMenuControls();

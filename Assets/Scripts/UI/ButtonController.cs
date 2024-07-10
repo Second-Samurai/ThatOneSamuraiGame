@@ -64,8 +64,9 @@ public class ButtonController : MonoBehaviour
 
     private void Start()
     {
-        InputManager _inputManager = GameManager.instance.InputManager;
-        _inputManager.SwitchToMenuControls();
+        // This class is not responsible input switching
+        // InputManager _inputManager = GameManager.instance.InputManager;
+        // _inputManager.SwitchToMenuControls(); 
     }
 
     public void EnableContinue()

@@ -47,7 +47,7 @@ public class Checkpoint : MonoBehaviour
     public void LoadCheckpoint()
     {
         GameManager.instance.playerController.gameObject.transform.position = spawnPos.position;
-        GameManager.instance.EnableInput();
+        GameManager.instance.InputManager.EnableActiveInputControl();
         GameManager.instance.thirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
         GameManager.instance.rewindManager.isTravelling = false;
         PlayerFunctions _Player = GameManager.instance.playerController.gameObject.GetComponent<PlayerFunctions>();

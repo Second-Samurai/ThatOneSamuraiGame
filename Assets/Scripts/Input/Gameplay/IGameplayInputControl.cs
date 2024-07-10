@@ -17,6 +17,12 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         void OnSprint(InputAction.CallbackContext context);
         
         // -----------------------------------------------------
+        // View Orientation related methods
+        // -----------------------------------------------------
+
+        void OnRotateCamera(InputAction.CallbackContext context);
+        
+        // -----------------------------------------------------
         // Target locking related Events
         // -----------------------------------------------------
 

@@ -28,6 +28,8 @@
 
         void RollCamera();
 
+        void RotateCamera();
+
         #endregion Methods
 
     }

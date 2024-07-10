@@ -4,6 +4,7 @@ using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
+using ThatOneSamuraiGame.Scripts.Player.ViewOrientation;
 using ThatOneSamuraiGame.Scripts.UI.Pause;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -25,6 +26,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private IPlayerMovement m_PlayerMovement;
         private IPlayerTargetTracking m_PlayerTargetTracking;
         private IPlayerSpecialAction m_PlayerSpecialAction;
+        private IPlayerViewOrientationHandler m_PlayerViewOrientationHandler;
         
         private bool m_IsInputActive;
 
@@ -40,6 +42,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
             this.m_PlayerTargetTracking = gameState.ActivePlayer.GetComponent<IPlayerTargetTracking>();
             this.m_PlayerAttackHandler = gameState.ActivePlayer.GetComponent<IPlayerAttackHandler>();
             this.m_PlayerSpecialAction = gameState.ActivePlayer.GetComponent<IPlayerSpecialAction>();
+            this.m_PlayerViewOrientationHandler = gameState.ActivePlayer.GetComponent<IPlayerViewOrientationHandler>();
             this.m_PauseAction = gameState.PauseMenu.GetComponent<IPauseActionHandler>();
 
             this.m_IsInputActive = true;
@@ -64,6 +67,16 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         {
             if (!this.m_IsInputActive || IsPaused) return;
             this.m_PlayerMovement.PrepareSprint(context.ReadValueAsButton());
+        }
+        
+        // -----------------------------------------------------
+        // View Orientation related Events
+        // -----------------------------------------------------
+
+        void IGameplayInputControl.OnRotateCamera(InputAction.CallbackContext context)
+        {
+            if (!this.m_IsInputActive || IsPaused) return;
+            this.m_PlayerViewOrientationHandler.RotateViewOrientation(context.ReadValue<Vector2>());
         }
 
         // -----------------------------------------------------

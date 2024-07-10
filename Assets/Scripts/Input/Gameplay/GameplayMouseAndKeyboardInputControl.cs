@@ -38,12 +38,12 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         {
             GameState gameState = GameManager.instance.GameState;
 
+            this.m_PauseAction = gameState.PauseMenu.GetComponent<IPauseActionHandler>();
             this.m_PlayerMovement = gameState.ActivePlayer.GetComponent<IPlayerMovement>();
             this.m_PlayerTargetTracking = gameState.ActivePlayer.GetComponent<IPlayerTargetTracking>();
             this.m_PlayerAttackHandler = gameState.ActivePlayer.GetComponent<IPlayerAttackHandler>();
             this.m_PlayerSpecialAction = gameState.ActivePlayer.GetComponent<IPlayerSpecialAction>();
             this.m_PlayerViewOrientationHandler = gameState.ActivePlayer.GetComponent<IPlayerViewOrientationHandler>();
-            this.m_PauseAction = gameState.PauseMenu.GetComponent<IPauseActionHandler>();
 
             this.m_IsInputActive = true;
         }

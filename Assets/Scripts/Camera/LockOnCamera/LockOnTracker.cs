@@ -45,6 +45,9 @@ public class LockOnTracker : MonoBehaviour
 
     #region Lock On Camera Targeting
 
+    // Tech Debt: # This method invocation is too expensive and needs to be optimised
+    //     - It is invoking GetComponent at runtime due to its usage by the CameraController.
+    //     - The null comparison can be improved to be explicitly checked against the object.
     public void SetTarget(Transform newTargetEnemy)
     {
         targetEnemy = newTargetEnemy;

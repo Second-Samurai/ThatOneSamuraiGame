@@ -3,6 +3,7 @@ using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera;
 using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
+using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,20 +16,16 @@ namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation
         #region - - - - - - Fields - - - - - -
 
         private ICameraController m_CameraController;
-        private IPlayerAttackHandler m_PlayerAttackHandler;
-        private Vector2 m_ViewRotation = Vector2.zero;
-
+        
         private bool m_IsInputActive;
+        private Vector2 m_ViewRotation = Vector2.zero;
 
         #endregion Fields
 
         #region - - - - - - Lifecycle Methods - - - - - -
 
-        private void Start()
-        {
-            this.m_CameraController = this.GetComponent<ICameraController>();
-            this.m_PlayerAttackHandler = this.GetComponent<IPlayerAttackHandler>();
-        }
+        private void Start() 
+            => this.m_CameraController = this.GetComponent<ICameraController>();
 
         private void Update()
         {
@@ -49,15 +46,11 @@ namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation
 
         private void RotateCameraToViewRotation()
         {
-            // if (this.m_ViewRotation != Vector2.zero && !bLockedOn)
-            //     camTargetScript.RotateCam(rotationVector);
-            // else if (GameManager.instance.rewindManager.isTravelling)
-            // {
-            //     camTargetScript.RotateCam(rotationVector);
-            // }
-            //
-            // if (_bRunLockCancelTimer) RunLockCancelTimer();
-            // else _lockCancelTimer = maxLockCancelTimer;
+            // Note: This calculation can be collapsed to a single if statement.
+            if (this.m_ViewRotation != Vector2.zero && !this.m_CameraController.IsLockedOn)
+                this.m_CameraController.RotateCamera(this.m_ViewRotation);
+            else if (GameManager.instance.rewindManager.isTravelling)
+                this.m_CameraController.RotateCamera(this.m_ViewRotation);
         }
 
         #endregion Methods

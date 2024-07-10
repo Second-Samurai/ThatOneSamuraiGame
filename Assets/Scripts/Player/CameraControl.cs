@@ -21,7 +21,6 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
     LockOnTargetManager _lockedCamScript;
     public GameObject unlockedCam, lockedCam;
     private Animator _animator;
-    // Vector2 rotationVector;
     public Transform lockOnTarget, player, lockOnNullDummy;
     public bool bLockedOn = false;
     public LockOnTracker lockOnTracker;
@@ -87,27 +86,10 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
         _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
     }
 
-    // void OnRotateCamera(InputValue rotDir) 
-    // {
-    //     rotationVector = rotDir.Get<Vector2>();
-    // }
-
-    private void Update()
-    {
-        if (rotationVector != Vector2.zero && !bLockedOn)
-            camTargetScript.RotateCam(rotationVector);
-        else if (GameManager.instance.rewindManager.isTravelling)
-        {
-            camTargetScript.RotateCam(rotationVector);
-        }
-
-        if (_bRunLockCancelTimer) RunLockCancelTimer();
-        else _lockCancelTimer = maxLockCancelTimer;
-    }
-
     public void RotateCamera(Vector2 rotationInput)
     {
         camTargetScript.RotateCam(rotationInput);
+        
         if (_bRunLockCancelTimer) RunLockCancelTimer();
         else _lockCancelTimer = maxLockCancelTimer;
     }

@@ -7,7 +7,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
     public interface IRewindInputControl: IInputControl
     {
 
-        #region - - - - - - Methods - - - - - -
+        #region - - - - - - Event Handlers - - - - - -
 
         void OnScrub(InputAction.CallbackContext context);
 
@@ -17,7 +17,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
 
         void OnRotateCamera(InputAction.CallbackContext context);
 
-        #endregion Methods
+        #endregion Event Handlerss
 
     }
     

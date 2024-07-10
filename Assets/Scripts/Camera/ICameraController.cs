@@ -1,4 +1,6 @@
-﻿namespace ThatOneSamuraiGame.Scripts.Camera
+﻿using UnityEngine;
+
+namespace ThatOneSamuraiGame.Scripts.Camera
 {
     
     // Note: This is not the correct behavior, this abstracts direct access of the player from the camera. 
@@ -28,7 +30,7 @@
 
         void RollCamera();
 
-        void RotateCamera();
+        void RotateCamera(Vector2 rotationVector);
 
         #endregion Methods
 

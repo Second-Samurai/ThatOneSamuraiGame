@@ -41,6 +41,7 @@ namespace ThatOneSamuraiGame.Scripts.Input
         #endregion Lifecycle Methods
 
         #region - - - - - - Methods - - - - - -
+        
         void IInputManager.ActivateMenuInputControl()
         {
             this.m_PlayerInput.SwitchCurrentActionMap("Menu");

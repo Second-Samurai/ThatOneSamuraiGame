@@ -69,6 +69,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         // -----------------------------------------------------
         // Target locking related Events
         // -----------------------------------------------------
+        
         void IGameplayInputControl.OnLockOn(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || IsPaused) return;
@@ -153,7 +154,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         #region - - - - - - Methods - - - - - -
         
-        void IGameplayInputControl.ConfigureInputEvents(PlayerInput playerInput)
+        void IInputControl.ConfigureInputEvents(PlayerInput playerInput)
         {
             // Subscribe all events from input control
             // Methods should be subscribed as the first in each event list

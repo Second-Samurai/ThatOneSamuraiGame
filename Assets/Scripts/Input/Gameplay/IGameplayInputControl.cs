@@ -56,12 +56,6 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         #endregion Event Handlers
         
-        #region - - - - - - Methods - - - - - -
-        
-        void ConfigureInputEvents(PlayerInput playerInput);
-
-        #endregion Methods
-
     }
     
 }

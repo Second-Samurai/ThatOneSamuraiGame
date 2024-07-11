@@ -17,7 +17,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation
 
         private ICameraController m_CameraController;
         
-        private bool m_IsInputActive;
         private Vector2 m_ViewRotation = Vector2.zero;
 
         #endregion Fields
@@ -29,7 +28,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation
 
         private void Update()
         {
-            if (!this.m_IsInputActive || IsPaused) return;
+            if (IsPaused) return;
             this.RotateCameraToViewRotation();
         }
 

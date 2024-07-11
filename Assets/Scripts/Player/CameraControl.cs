@@ -186,7 +186,6 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
             //_playerInput.target = lockOnNullDummy;
            // SetTarget(lockOnNullDummy);
             bLockedOn = false;
-            Debug.Log(500000);
             return bLockedOn;
         }
     }

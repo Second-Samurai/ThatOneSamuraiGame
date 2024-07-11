@@ -8,6 +8,7 @@ using ThatOneSamuraiGame.Scripts.Player.ViewOrientation;
 using ThatOneSamuraiGame.Scripts.UI.Pause;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 {
@@ -70,16 +71,6 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         }
         
         // -----------------------------------------------------
-        // View Orientation related Events
-        // -----------------------------------------------------
-
-        void IGameplayInputControl.OnRotateCamera(InputAction.CallbackContext context)
-        {
-            if (!this.m_IsInputActive || IsPaused) return;
-            this.m_PlayerViewOrientationHandler.RotateViewOrientation(context.ReadValue<Vector2>());
-        }
-
-        // -----------------------------------------------------
         // Target locking related Events
         // -----------------------------------------------------
         
@@ -120,7 +111,9 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         void IGameplayInputControl.OnStartHeavy(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || IsPaused) return;
-            this.m_PlayerAttackHandler.StartHeavy();
+            
+            if (context.interaction is HoldInteraction) 
+                this.m_PlayerAttackHandler.StartHeavy();
         }
 
         void IGameplayInputControl.OnStartHeavyAlternative(InputAction.CallbackContext context)
@@ -162,6 +155,16 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
             // Ticket # - Create revamped pause system
             throw new NotImplementedException();
         }
+        
+        // -----------------------------------------------------
+        // View Orientation related Events
+        // -----------------------------------------------------
+
+        void IGameplayInputControl.OnRotateCamera(InputAction.CallbackContext context)
+        {
+            if (!this.m_IsInputActive || IsPaused) return;
+            this.m_PlayerViewOrientationHandler.RotateViewOrientation(context.ReadValue<Vector2>());
+        }
 
         #endregion Event Handlers
 
@@ -180,33 +183,26 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
             
             // Target Locking
             playerInput.actions["lockon"].performed += ((IGameplayInputControl)this).OnLockOn;
-            playerInput.actions["lockon"].canceled += ((IGameplayInputControl)this).OnLockOn;
             playerInput.actions["togglelockleft"].performed += ((IGameplayInputControl)this).OnToggleLockLeft;
-            playerInput.actions["togglelockleft"].canceled += ((IGameplayInputControl)this).OnToggleLockLeft;
             playerInput.actions["togglelockright"].performed += ((IGameplayInputControl)this).OnToggleLockRight;
-            playerInput.actions["togglelockright"].canceled += ((IGameplayInputControl)this).OnToggleLockRight;
             
             // Attack
             playerInput.actions["attack"].performed += ((IGameplayInputControl)this).OnAttack;
-            playerInput.actions["attack"].canceled += ((IGameplayInputControl)this).OnAttack;
             playerInput.actions["sworddraw"].performed += ((IGameplayInputControl)this).OnSwordDraw;
-            playerInput.actions["sworddraw"].canceled += ((IGameplayInputControl)this).OnSwordDraw;
             playerInput.actions["startheavy"].performed += ((IGameplayInputControl)this).OnStartHeavy;
-            playerInput.actions["startheavy"].canceled += ((IGameplayInputControl)this).OnStartHeavy;
             playerInput.actions["startheavyalternative"].performed += ((IGameplayInputControl)this).OnStartHeavyAlternative;
-            playerInput.actions["startheavyalternative"].canceled += ((IGameplayInputControl)this).OnStartHeavyAlternative;
             playerInput.actions["startblock"].performed += ((IGameplayInputControl)this).OnStartBlock;
-            playerInput.actions["startblock"].canceled += ((IGameplayInputControl)this).OnStartBlock;
             playerInput.actions["endblock"].performed += ((IGameplayInputControl)this).OnEndBlock;
-            playerInput.actions["endblock"].canceled += ((IGameplayInputControl)this).OnEndBlock;
             
             // Special Action
             playerInput.actions["dodge"].performed += ((IGameplayInputControl)this).OnDodge;
-            playerInput.actions["dodge"].canceled += ((IGameplayInputControl)this).OnDodge;
             
             // Menu Action
             playerInput.actions["pause"].performed += ((IGameplayInputControl)this).OnToggleLockLeft;
-            playerInput.actions["pause"].canceled += ((IGameplayInputControl)this).OnToggleLockLeft;
+            
+            // View Orientation
+            playerInput.actions["rotatecamera"].performed += ((IGameplayInputControl)this).OnRotateCamera;
+            playerInput.actions["rotatecamera"].canceled += ((IGameplayInputControl)this).OnRotateCamera;
         }
 
         void IInputControl.EnableInput()

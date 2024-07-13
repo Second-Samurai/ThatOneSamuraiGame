@@ -1,8 +1,5 @@
-﻿using System;
-using ThatOneSamuraiGame.Scripts.Base;
+﻿using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera;
-using ThatOneSamuraiGame.Scripts.Player.Containers;
-using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
 {

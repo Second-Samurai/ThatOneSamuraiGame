@@ -1,11 +1,7 @@
 ﻿using System;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera;
-using ThatOneSamuraiGame.Scripts.Input;
-using ThatOneSamuraiGame.Scripts.Player.Attack;
-using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation
 {

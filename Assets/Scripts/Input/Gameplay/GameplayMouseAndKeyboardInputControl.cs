@@ -152,7 +152,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         {
             if (!this.m_IsInputActive) return;
             
-            // Ticket # - Create revamped pause system
+            // Ticket #46 - Clarify handling on UI events against game logic.
             throw new NotImplementedException();
         }
         

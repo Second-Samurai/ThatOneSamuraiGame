@@ -4,7 +4,7 @@ using ThatOneSamuraiGame.Scripts;
 using ThatOneSamuraiGame.Scripts.Input;
 using UnityEngine;
 
-// Ticket: Move managers and services into their own namespaces.
+// Ticket: #45 - Move managers and services into their own namespaces.
 public class GameManager : MonoBehaviour
 {
     
@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
 
         // Perform setup pipeline
-        // Ticket: # Move this into its own pipeline handler to separate initialisation logic from the game manager.
+        // Ticket: #43 - Move this into its own pipeline handler to separate initialisation logic from the game manager.
         SetupSceneCamera();
         SetupScene();
         // SetupUI();

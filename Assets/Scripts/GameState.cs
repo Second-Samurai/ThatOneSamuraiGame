@@ -11,11 +11,13 @@ namespace ThatOneSamuraiGame.Scripts
 
         #region - - - - - - Fields - - - - - -
 
+        // User/Player Objects
         [SerializeField]
         private GameObject m_ActivePlayer;
         [SerializeField]
         private GameObject m_SessionUser;
         
+        // User Interfaces
         [SerializeField]
         private GameObject m_PauseMenu;
 

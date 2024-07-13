@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Movement

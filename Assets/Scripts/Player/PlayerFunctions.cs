@@ -74,6 +74,7 @@ public class PlayerFunctions : MonoBehaviour
 
         _animator = GetComponent<Animator>();
 
+        // Ticket: #44 - Will need to review usages of the input component for this class
         _inputComponent = GetComponent<PlayerInput>();
 
         hitstopController = GameManager.instance.GetComponent<HitstopController>();

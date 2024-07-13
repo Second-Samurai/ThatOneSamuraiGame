@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using ThatOneSamuraiGame.Scripts.Base;
+﻿using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;

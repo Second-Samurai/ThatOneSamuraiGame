@@ -1,6 +1,4 @@
-﻿using ThatOneSamuraiGame.Scripts.Input;
-using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation
 {

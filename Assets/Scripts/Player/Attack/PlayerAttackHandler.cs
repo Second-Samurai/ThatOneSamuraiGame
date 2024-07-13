@@ -3,7 +3,6 @@ using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Attack
 {

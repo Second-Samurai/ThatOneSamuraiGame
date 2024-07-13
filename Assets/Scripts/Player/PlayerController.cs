@@ -47,10 +47,8 @@ public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
         GameManager.instance.playerController = this;
     }
 
-    private void Start()
-    {
-        this.m_PlayerState = this.GetComponent<PlayerState>();
-    }
+    private void Start() 
+        => this.m_PlayerState = this.GetComponent<PlayerState>();
 
     #endregion Lifecycle Methods
 

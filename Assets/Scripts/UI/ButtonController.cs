@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Cinemachine;
-using ThatOneSamuraiGame.Scripts.Input;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class ButtonController : MonoBehaviour
@@ -60,13 +56,6 @@ public class ButtonController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked; 
         menu.SetActive(false);
         GameManager.instance.checkpointManager.LoadCheckpoint();
-    }
-
-    private void Start()
-    {
-        // This class is not responsible input switching
-        // InputManager _inputManager = GameManager.instance.InputManager;
-        // _inputManager.SwitchToMenuControls(); 
     }
 
     public void EnableContinue()

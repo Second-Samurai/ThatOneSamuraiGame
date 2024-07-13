@@ -1,11 +1,8 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using ThatOneSamuraiGame.Scripts.Base;
+﻿using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
-using UnityEngine.Rendering.Universal;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Animation
 {
@@ -57,11 +54,11 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         public void EnableRotation()
             => this.m_PlayerMovement.EnableRotation();
 
-        // Tech Debt: # Rename these methods to represent their action.
+        // Tech Debt: #48 - Rename these methods to represent their action.
         public void EndGotParried()
             => this.m_PlayerAttackState.HasBeenParried = false;
 
-        // Tech Debt: # Rename these methods to represent their action.
+        // Tech Debt: #48 - Rename these methods to represent their action.
         public void StartGotParried()
             => this.m_PlayerAttackState.HasBeenParried = true;
 
@@ -69,11 +66,11 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         
         #region - - - - - - PlayerMovement Animation Events  - - - - - -
         
-        // Tech Debt: # Rename these methods to represent their action.
+        // Tech Debt: #48 - Rename these methods to represent their action.
         public void OverrideMovement() 
             => this.m_PlayerMovement.DisableMovement();
 
-        // Tech Debt: # Rename these methods to represent their action.
+        // Tech Debt: #48 - Rename these methods to represent their action.
         public void RemoveOverride() 
             => this.m_PlayerMovement.EnableMovement();
 

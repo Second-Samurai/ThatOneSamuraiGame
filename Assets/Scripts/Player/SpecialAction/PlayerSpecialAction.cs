@@ -1,4 +1,3 @@
-using System;
 using ThatOneSamuraiGame.Scripts.Camera;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
@@ -121,30 +120,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
         {
             this.m_PlayerSpecialActionState.CanDodge = true;
             this.m_PlayerSpecialActionState.IsDodging = false;
-        }
-
-        private void StartDodge() // Accessible outside
-        {
-            this.m_PlayerAttackState.IsWeaponSheathed = false;
-            // this.m_PlayerAttackState.PlayGleam = true; // This should be an event
-            // this.m_PlayerAttackState.IsHeavyAttackChargin = false;
-            this.m_PlayerAttackState.CanAttack = false;
-            this.m_PlayerSpecialActionState.IsDodging = true;
-            
-            this.m_PlayerDamageHandler.DisableDamage();
-            this.m_PlayerFunctions.DisableBlock();
-            this.m_PlayerAttackHandler.ResetAttack();
-        }
-
-        private void EndDodge() // Accessible outside
-        {
-            this.m_PlayerAttackState.CanAttack = true;
-            this.m_PlayerSpecialActionState.IsDodging = false;
-            
-            this.m_PlayerDamageHandler.EnableDamage();
-            this.m_PlayerFunctions.EnableBlock();
-            
-            this.m_PlayerAttackHandler.ResetAttack();
         }
 
         #endregion Methods

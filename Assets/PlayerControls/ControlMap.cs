@@ -95,7 +95,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""InitRewind"",
                     ""type"": ""Button"",
                     ""id"": ""3be9406a-147b-42e2-9464-c8a788c65bb7"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false

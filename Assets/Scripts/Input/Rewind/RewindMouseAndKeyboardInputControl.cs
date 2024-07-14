@@ -27,7 +27,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
         {
             this.m_PlayerViewOrientationHandler = this.GetComponent<IPlayerViewOrientationHandler>();
             this.m_RewindInput = this.GetComponent<RewindInput>();
-            this.m_RewindManager = this.GetComponent<RewindManager>();
+            this.m_RewindManager = GameManager.instance.rewindManager;
         }
 
         #endregion Lifecycle Methods
@@ -41,12 +41,14 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
         void IRewindInputControl.OnEndRewind(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
+            Debug.Log("End Rewind triggered");
             this.m_RewindInput.OnEndRewind(); // Temporarily act as a pass-through.
         }
 
         void IRewindInputControl.OnScrub(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || IsPaused) return;
+            Debug.Log("Scrub triggered");
             this.m_RewindManager.rewindDirection = context.ReadValue<float>();
         }
 
@@ -57,6 +59,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
         void IRewindInputControl.OnPause(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
+            Debug.Log("On Pause triggered");
             
             // Ticket #46 - Clarify handling on UI events against game logic.
             throw new NotImplementedException();
@@ -98,7 +101,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
             => this.m_IsInputActive = false;
 
         void IInputControl.EnableInput() 
-            => this.m_IsInputActive = false;
+            => this.m_IsInputActive = true;
 
         #endregion Methods
         

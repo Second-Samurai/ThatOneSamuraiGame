@@ -132,7 +132,7 @@ namespace ThatOneSamuraiGame.Scripts.Input
             _GameplayInputControl.ConfigureInputEvents(this.m_PlayerInput);
             this.m_GameplayInputControl = _GameplayInputControl;
 
-            _GameplayInputControl.ConfigureInputEvents(this.m_PlayerInput);
+            _RewindInputControl.ConfigureInputEvents(this.m_PlayerInput);
             this.m_RewindInputControl = _RewindInputControl;
             this.m_RewindInputControl.DisableInput();
             

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using ThatOneSamuraiGame.Scripts.Camera;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
@@ -146,33 +147,39 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
 
     public bool GetTarget()
     {
+        // Initialise variables
         float closest = Mathf.Infinity;
         Transform nextEnemy = null;
 
-        if (lockOnTracker == null)
-        {
+        // Set the lock on tracker
+        if (lockOnTracker == null) 
             lockOnTracker = GameManager.instance.lockOnTracker;
-        }
+        
         if (lockOnTracker.targetableEnemies.Count > 0)
         {
             foreach (Transform enemy in lockOnTracker.targetableEnemies)
             {
+                // Finds the closest enemy
                 float distance = Vector3.Distance(player.position, enemy.position);
                 if (distance < closest && enemy != lockOnTarget)
                 {
                     closest = distance;
                     nextEnemy = enemy;
                 }
+                
+                // If the closest enemy is not null then set the value
                 if (nextEnemy == null && lockOnTarget != null)
                     nextEnemy = lockOnTarget;
             }
 
+            // If the target enemy is not the same as the referred enemy then change target.
             if (nextEnemy != lockOnTarget)
             {
                 lockOnTarget = nextEnemy;
                 this.m_PlayerTargetTrackingState.AttackTarget = lockOnTarget.gameObject;
             }
 
+            // If not null then set the target
             if (lockOnTarget != null)
             {
                 SetTarget(lockOnTarget);

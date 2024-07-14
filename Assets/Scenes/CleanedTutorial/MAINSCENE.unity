@@ -1737,6 +1737,12 @@ MonoBehaviour:
     m_FrequencyGain: 0
     m_Duration: 0
     m_NoiseOffsets: {x: 0, y: 0, z: 0}
+--- !u!1 &301956697 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4694011085568007617, guid: 6f17a2618c6734e258866a6cd2cf5b44,
+    type: 3}
+  m_PrefabInstance: {fileID: 1338139240}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &303017807
 GameObject:
   m_ObjectHideFlags: 0
@@ -4871,6 +4877,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1421076629}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1141336951 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2516732065600158652, guid: 6f17a2618c6734e258866a6cd2cf5b44,
+    type: 3}
+  m_PrefabInstance: {fileID: 1338139240}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1145411559 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5363693262940309371, guid: 6f17a2618c6734e258866a6cd2cf5b44,
@@ -6317,6 +6329,16 @@ PrefabInstance:
       propertyPath: m_Colors.m_NormalColor.r
       value: 0.8396226
       objectReference: {fileID: 0}
+    - target: {fileID: 3898466404475664177, guid: 6f17a2618c6734e258866a6cd2cf5b44,
+        type: 3}
+      propertyPath: m_PlayerSpecialActionState.m_IsDodging
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3898466404475664177, guid: 6f17a2618c6734e258866a6cd2cf5b44,
+        type: 3}
+      propertyPath: m_PlayerMovementState.m_IsMovementEnabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3921695106515487293, guid: 6f17a2618c6734e258866a6cd2cf5b44,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -6791,7 +6813,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1338139240}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 301956697}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dcfcf7bfe05af4a918d0d353770c4db7, type: 3}
@@ -6807,6 +6829,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2585027126136847b0ce00fa1e8ff22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1338139264 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4694011085568007679, guid: 6f17a2618c6734e258866a6cd2cf5b44,
+    type: 3}
+  m_PrefabInstance: {fileID: 1338139240}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301956697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e234c93e2dfdad43a1c61bb7ebf7214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1342963052
@@ -10649,6 +10683,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2030791887252320177, guid: 7f10a4a5279d140b3adf1aceaef298c3,
+        type: 3}
+      propertyPath: m_PauseMenu
+      value: 
+      objectReference: {fileID: 1141336951}
+    - target: {fileID: 2030791887252320177, guid: 7f10a4a5279d140b3adf1aceaef298c3,
+        type: 3}
+      propertyPath: m_ActivePlayer
+      value: 
+      objectReference: {fileID: 301956697}
     - target: {fileID: 5014418588748919040, guid: 7f10a4a5279d140b3adf1aceaef298c3,
         type: 3}
       propertyPath: m_RootOrder
@@ -10709,6 +10753,11 @@ PrefabInstance:
       propertyPath: audioManager
       value: 
       objectReference: {fileID: 1982880063}
+    - target: {fileID: 5014418588748919041, guid: 7f10a4a5279d140b3adf1aceaef298c3,
+        type: 3}
+      propertyPath: cameraControl
+      value: 
+      objectReference: {fileID: 1338139264}
     - target: {fileID: 5014418588748919041, guid: 7f10a4a5279d140b3adf1aceaef298c3,
         type: 3}
       propertyPath: rewindManager

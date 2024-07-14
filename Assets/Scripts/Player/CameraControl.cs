@@ -1,20 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ThatOneSamuraiGame.Scripts.Camera;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
+using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CameraControl : MonoBehaviour
+/* -----------------------------------------------------------
+ * Noted Issues:
+ * - Should attempt to decouple this from the player. Otherwise make a specific player camera handler to send commands
+ *   to the Camera.
+ * - Boolean logic appears not to be always consistent.
+ * -----------------------------------------------------------
+ */
+
+public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraController
 {
     public PlayerCamTargetController camTargetScript;
     public ThirdPersonCamController camScript;
     LockOnTargetManager _lockedCamScript;
     public GameObject unlockedCam, lockedCam;
     private Animator _animator;
-    Vector2 rotationVector;
     public Transform lockOnTarget, player, lockOnNullDummy;
     public bool bLockedOn = false;
     public LockOnTracker lockOnTracker;
-    PlayerInputScript _playerInput;
 
     public CinematicBars cinematicBars;
     
@@ -23,13 +32,23 @@ public class CameraControl : MonoBehaviour
     private const float maxLockCancelTimer = 0.4f;
     public float _lockCancelTimer;
 
-    /*private void Start()
-    {
-        _camScript = unlockedCam.GetComponent<FreeLookAddOn>();
-        _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
-        _playerInput = GetComponent<PlayerInputScript>();
-    }*/
+    private PlayerTargetTrackingState m_PlayerTargetTrackingState;
 
+    #region - - - - - - Properties - - - - - -
+
+    bool ICameraController.IsLockedOn
+        => this.bLockedOn;
+    
+    #endregion Properties
+
+    private void Start()
+    {
+        // _camScript = unlockedCam.GetComponent<FreeLookAddOn>();
+        // _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
+        // _playerInput = GetComponent<PlayerInputScript>();
+
+        this.m_PlayerTargetTrackingState = this.GetComponent<IPlayerState>().PlayerTargetTrackingState;
+    }
  
     //NOTE: this is called in player controller
     public void Init(Transform playerTarget)
@@ -65,23 +84,12 @@ public class CameraControl : MonoBehaviour
        
        
         _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
-        _playerInput = GetComponent<PlayerInputScript>();
     }
 
-    void OnRotateCamera(InputValue rotDir) 
+    public void RotateCamera(Vector2 rotationInput)
     {
-        rotationVector = rotDir.Get<Vector2>();
-    }
-
-    private void Update()
-    {
-        if (rotationVector != Vector2.zero && !bLockedOn)
-            camTargetScript.RotateCam(rotationVector);
-        else if (GameManager.instance.rewindManager.isTravelling)
-        {
-            camTargetScript.RotateCam(rotationVector);
-        }
-
+        camTargetScript.RotateCam(rotationInput);
+        
         if (_bRunLockCancelTimer) RunLockCancelTimer();
         else _lockCancelTimer = maxLockCancelTimer;
     }
@@ -162,7 +170,7 @@ public class CameraControl : MonoBehaviour
             if (nextEnemy != lockOnTarget)
             {
                 lockOnTarget = nextEnemy;
-                _playerInput.target = lockOnTarget;
+                this.m_PlayerTargetTrackingState.AttackTarget = lockOnTarget.gameObject;
             }
 
             if (lockOnTarget != null)
@@ -178,9 +186,14 @@ public class CameraControl : MonoBehaviour
             //_playerInput.target = lockOnNullDummy;
            // SetTarget(lockOnNullDummy);
             bLockedOn = false;
-            Debug.Log(500000);
             return bLockedOn;
         }
+    }
+
+    void ICameraController.RollCamera()
+    {
+        this.StopAllCoroutines();
+        this.StartCoroutine(this.RollCam());
     }
 
     public IEnumerator RollCam()
@@ -191,6 +204,16 @@ public class CameraControl : MonoBehaviour
             _lockedCamScript.cam.m_Lens.FieldOfView -= Time.deltaTime * 3f;
             yield return null;
         }
+    }
+
+    // Note: This is a duplicate method of the same name. Originally the usage of the
+    //       Coroutine involes stopping all other coroutines which meant the management of
+    //       the component's state has to be done externally.
+    //       In this location
+    void ICameraController.ResetCameraRoll()
+    {
+        this.StopAllCoroutines();
+        this.StartCoroutine(this.ResetCamRoll());
     }
 
     public IEnumerator ResetCamRoll()
@@ -234,4 +257,35 @@ public class CameraControl : MonoBehaviour
         }
     }
 
+    public Vector3 CurrentEulerAngles
+    {
+        get
+        {
+            return Camera.main.transform.eulerAngles;
+        }
+    }
+
+    public Vector3 ForwardDirection
+    {
+        get
+        {
+            return Camera.main.transform.forward;
+        }
+    }
+
+    public bool IsCameraViewTargetLocked
+    {
+        get
+        {
+            return this.bLockedOn;
+        }
+    }
+
+    void ICameraController.ToggleSprintCameraState(bool isSprinting)
+    {
+        if (isSprinting)
+            this.camScript.SprintOn();
+        else
+            this.camScript.SprintOff();
+    }
 }

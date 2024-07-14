@@ -21,7 +21,6 @@ public class RewindInput : MonoBehaviour
     PlayerInput _inputComponent;
 
     PlayerFunctions playerFunction;
-    PlayerInputScript playerInput;
     FinishingMoveController finishingMoveController;
 
     public GameEvent hidePopupEvent;
@@ -35,9 +34,7 @@ public class RewindInput : MonoBehaviour
 
         rewindManager = GameManager.instance.rewindManager;
         playerFunction = gameObject.GetComponent<PlayerFunctions>();
-        playerInput = GetComponent<PlayerInputScript>();
         finishingMoveController = GetComponentInChildren<FinishingMoveController>();
-
     }
 
 

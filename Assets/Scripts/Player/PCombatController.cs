@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +12,8 @@ public interface ICombatController
     void UnblockCombatInputs();
     void DrawSword();
     bool CheckIsAttacking();
+    void EndAttacking();
+    void ResetAttackCombo();
 }
 
 public class PCombatController : MonoBehaviour, ICombatController
@@ -23,7 +26,6 @@ public class PCombatController : MonoBehaviour, ICombatController
     [HideInInspector] public PSwordManager swordManager;
 
     //Private Variables
-    private PlayerInputScript _playerInput;
     private PlayerFunctions _functions;
     private PDamageController _damageController;
     private EntityAttackRegister _attackRegister;
@@ -57,7 +59,6 @@ public class PCombatController : MonoBehaviour, ICombatController
         swordManager = this.GetComponent<PSwordManager>();
         swordManager.Init();
 
-        _playerInput = GetComponent<PlayerInputScript>();
         _damageController = GetComponent<PDamageController>();
         _functions = GetComponent<PlayerFunctions>();
 
@@ -197,9 +198,11 @@ public class PCombatController : MonoBehaviour, ICombatController
         //Debug.Log("Player Parried!");
         EndUnblockable();
         EndAttacking();
-        _playerInput.RemoveOverride();
+        //_playerInput.RemoveOverride(); // Note: The override is unused
         _animator.SetTrigger("IsParried");
-        _playerInput.ResetDodge();
+
+        IPlayerSpecialAction _PlayerSpecialAction = this.GetComponent<IPlayerSpecialAction>();
+        _PlayerSpecialAction.ResetDodge();
     }
  
     public void PlaySlash()

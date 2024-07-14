@@ -1,10 +1,15 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ThatOneSamuraiGame.Scripts;
+using ThatOneSamuraiGame.Scripts.Input;
 using UnityEngine;
 
+// Ticket: #45 - Move managers and services into their own namespaces.
 public class GameManager : MonoBehaviour
 {
+    
+    #region - - - - - - Fields - - - - - -
+
     //Singleton instance
     public static GameManager instance = null;
 
@@ -34,32 +39,47 @@ public class GameManager : MonoBehaviour
     public CheckpointManager checkpointManager;
     public EnemySpawnManager enemySpawnManager;
     public ButtonController buttonController;
-
     public BossThemeManager bossThemeManager;
 
     //UICanvases
     [HideInInspector] public GameObject guardMeterCanvas;
 
     //Private variables
-    private PlayerInputScript _player;
+    private GameState m_GameState;
+    private IInputManager m_InputManager;
+
+    #endregion Fields
+
+    #region - - - - - - Properties - - - - - -
+
+    public GameState GameState
+        => this.m_GameState;
+
+    public IInputManager InputManager
+        => this.m_InputManager;
+
+    #endregion Properties
+
+    #region - - - - - - Lifecycle Methods - - - - - -
 
     void Awake()
     {
         if (instance == null)
-        {
             instance = this;
-            //DontDestroyOnLoad(gameObject);
-        }
         else
-        {
             Destroy(gameObject);
-        }
 
+        // Perform setup pipeline
+        // Ticket: #43 - Move this into its own pipeline handler to separate initialisation logic from the game manager.
         SetupSceneCamera();
         SetupScene();
-        SetupUI();
+        // SetupUI();
         SetupRewind();
         SetupAudio();
+
+        // Locate services
+        this.m_GameState = this.GetComponent<GameState>();
+        this.m_InputManager = this.GetComponent<IInputManager>();
     }
 
     // Start is called before the first frame update
@@ -72,11 +92,16 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Main Menu not assigned! Finding in code");
             buttonController = GameObject.FindWithTag("MainMenu").GetComponent<ButtonController>();
         }
+
     }
+
+    #endregion Lifecycle Methods
+
+    #region - - - - - - Methods - - - - - -
 
     void SetupScene()
     {
-        List<Transform> sceneLoaders = GameObject.FindObjectsOfType<Transform>().
+        List<Transform> sceneLoaders = FindObjectsOfType<Transform>().
             Where(o => o.GetComponent<ISceneLoader>() != null).ToList();
 
         for (int i = 0; i < sceneLoaders.Count; i++)
@@ -95,7 +120,7 @@ public class GameManager : MonoBehaviour
             Debug.LogError("No third person camera in scene! Adding new object but please assign in inspector instead!");
             Vector3 thirdPersonViewPos = gameSettings.thirdPersonViewCam.transform.position;
             thirdPersonViewCamera = Instantiate(gameSettings.thirdPersonViewCam, thirdPersonViewPos, Quaternion.identity);
-
+            
         }
         Vector3 mainCameraPos = gameSettings.mainCamera.transform.position;
         mainCamera = Instantiate(gameSettings.mainCamera, mainCameraPos, Quaternion.identity).GetComponent<Camera>();
@@ -104,17 +129,17 @@ public class GameManager : MonoBehaviour
         postProcessingController = Instantiate(gameSettings.dayPostProcessing, transform.position, Quaternion.identity).GetComponent<PostProcessingController>();
     }
 
-    void SetupUI()
-    {
-        //guardMeterCanvas = Instantiate(gameSettings.guardCanvasPrefab, transform.position, Quaternion.identity);
-    }
+    // void SetupUI()
+    // {
+    //     //guardMeterCanvas = Instantiate(gameSettings.guardCanvasPrefab, transform.position, Quaternion.identity);
+    // }
 
     void SetupPlayer()
     {
         Vector3 targetHolderPos = gameSettings.targetHolderPrefab.transform.position;
         GameObject targetHolder = Instantiate(gameSettings.targetHolderPrefab, targetHolderPos, Quaternion.identity);
 
-        PlayerController playerControl = GameObject.FindObjectOfType<PlayerController>();
+        PlayerController playerControl = FindObjectOfType<PlayerController>();
         
         if(playerController != null)
         {
@@ -132,7 +157,9 @@ public class GameManager : MonoBehaviour
     void InitialisePlayer(GameObject targetHolder)
     {
         playerController.Init(targetHolder);
-        _player = playerController.GetComponentInChildren<PlayerInputScript>();
+
+        if (this.m_InputManager.DoesGameplayInputControlExist())
+            this.m_InputManager.PossesPlayerObject(this.playerController.gameObject);
     }
 
     void SetupEnemies()
@@ -147,16 +174,12 @@ public class GameManager : MonoBehaviour
     void SetupTestScene()
     {
         TestStaticTarget[] testEnemies = FindObjectsOfType<TestStaticTarget>();
-
-       // Debug.Log(testEnemies.Length);
-
+        
         //Check if there is none
         if (testEnemies.Length == 0) return;
 
-        foreach (TestStaticTarget enemy in testEnemies)
-        {
+        foreach (TestStaticTarget enemy in testEnemies) 
             enemyTracker.AddEnemy(enemy.GetComponentInParent<Transform>());
-        }
     }
 
     void SetupRewind() 
@@ -169,21 +192,10 @@ public class GameManager : MonoBehaviour
 
     void SetupAudio() 
     {
-        if (FindObjectOfType<AudioManager>() == null)
-        {
+        if (FindObjectOfType<AudioManager>() == null) 
             audioManager = Instantiate(gameSettings.audioManger, transform.position, Quaternion.identity).GetComponent<AudioManager>();
-        }
     }
 
-    public void EnableInput()
-    {
-        _player.EnableInput();
-    }
+    #endregion Methods
 
-    public void DisableInput()
-    {
-        _player.DisableInput();
-    }
-
-    
 }

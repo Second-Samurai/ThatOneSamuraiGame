@@ -24,7 +24,20 @@ namespace ThatOneSamuraiGame.Scripts.Player.Containers
         [SerializeField] 
         private PlayerTargetTrackingState m_PlayerTargetTrackingState;
 
-        #endregion Fields 
+        #endregion Fields
+
+        #region - - - - - - Lifecycle Methods - - - - - -
+
+        private void Awake()
+        {
+            // Initialise state if not already initialised
+            this.m_PlayerAttackState ??= new PlayerAttackState();
+            this.m_PlayerMovementState ??= new PlayerMovementState();
+            this.m_PlayerSpecialActionState ??= new PlayerSpecialActionState();
+            this.m_PlayerTargetTrackingState ??= new PlayerTargetTrackingState();
+        }
+
+        #endregion Lifecycle Methods
         
         #region - - - - - - Properties - - - - - -
 
@@ -71,10 +84,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Containers
         {
             get
             {
-                if (this.m_PlayerSpecialActionState != null)
+                if (this.m_PlayerTargetTrackingState != null)
                     return this.m_PlayerTargetTrackingState;
                 
-                Debug.LogError("PlayerSpecialActionState was not found. Initialised default state is used.");
+                Debug.LogError("PlayerTargetTrackingState was not found. Initialised default state is used.");
                 this.m_PlayerTargetTrackingState = new PlayerTargetTrackingState();
                 return this.m_PlayerTargetTrackingState;
             }

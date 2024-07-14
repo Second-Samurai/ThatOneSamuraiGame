@@ -23,13 +23,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
         #region - - - - - - Methods - - - - - -
 
         void IPlayerTargetTracking.ToggleLockLeft()
-            => this.m_CameraController.ToggleLockOn();
-
-        void IPlayerTargetTracking.ToggleLockOn()
         {
             if (this.m_CameraController.IsLockedOn)
                 this.m_CameraController.LockOn();
         }
+
+        void IPlayerTargetTracking.ToggleLockOn()
+            => this.m_CameraController.ToggleLockOn();
         
         void IPlayerTargetTracking.ToggleLockRight()
         {

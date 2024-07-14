@@ -53,6 +53,8 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         // -----------------------------------------------------
 
         void OnDodge(InputAction.CallbackContext context);
+
+        void OnInitRewind(InputAction.CallbackContext context);        
         
         // -----------------------------------------------------
         // Menu related Events

@@ -27,6 +27,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
         private float m_DodgeForce = 10f;
         private bool m_DodgeCache = false; // This field name makes no sense. Needs to be renamed
         private PlayerFunctions m_PlayerFunctions;
+        private RewindInput m_RewindInput; // This is temporary until a separate player handler is created.
 
         #endregion Fields
         
@@ -41,6 +42,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
             this.m_PlayerDamageHandler = this.GetComponent<IDamageable>();
             this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
             this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
+            this.m_RewindInput = this.GetComponent<RewindInput>();
 
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>(); 
             this.m_PlayerAttackState = _PlayerState.PlayerAttackState;
@@ -51,6 +53,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
         #endregion Lifecycle Methods
         
         #region - - - - - - Methods - - - - - -
+        
+        // -----------------------------------------------------
+        // Dodge related Events
+        // -----------------------------------------------------
 
         void IPlayerSpecialAction.Dodge()
         {
@@ -121,9 +127,16 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
             this.m_PlayerSpecialActionState.CanDodge = true;
             this.m_PlayerSpecialActionState.IsDodging = false;
         }
+        
+        // -----------------------------------------------------
+        // Rewind related Events
+        // -----------------------------------------------------
+
+        void IPlayerSpecialAction.ActivateRewind()
+            => this.m_RewindInput.OnInitRewind(); // This is temporary until a separate player handler is created.
 
         #endregion Methods
-        
+
     }
     
 }

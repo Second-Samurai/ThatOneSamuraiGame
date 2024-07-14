@@ -98,19 +98,19 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         void IGameplayInputControl.OnAttack(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || IsPaused) return;
+            if (!this.m_IsInputActive || this.IsPaused) return;
             this.m_PlayerAttackHandler.Attack();
         }
 
         void IGameplayInputControl.OnSwordDraw(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || IsPaused) return;
+            if (!this.m_IsInputActive || this.IsPaused) return;
             this.m_PlayerAttackHandler.DrawSword();
         }
 
         void IGameplayInputControl.OnStartHeavy(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || IsPaused) return;
+            if (!this.m_IsInputActive || this.IsPaused) return;
             
             if (context.interaction is HoldInteraction) 
                 this.m_PlayerAttackHandler.StartHeavy();
@@ -118,19 +118,19 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         void IGameplayInputControl.OnStartHeavyAlternative(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || IsPaused) return;
+            if (!this.m_IsInputActive || this.IsPaused) return;
             this.m_PlayerAttackHandler.StartHeavyAlternative();
         }
 
         void IGameplayInputControl.OnStartBlock(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || IsPaused) return;
+            if (!this.m_IsInputActive || this.IsPaused) return;
             this.m_PlayerAttackHandler.StartBlock();
         }
 
         void IGameplayInputControl.OnEndBlock(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || IsPaused) return;
+            if (!this.m_IsInputActive || this.IsPaused) return;
             this.m_PlayerAttackHandler.EndBlock();
         }
 
@@ -140,8 +140,14 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         void IGameplayInputControl.OnDodge(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || IsPaused) return;
+            if (!this.m_IsInputActive || this.IsPaused) return;
             this.m_PlayerSpecialAction.Dodge();
+        }
+
+        void IGameplayInputControl.OnInitRewind(InputAction.CallbackContext context)
+        {
+            if (!this.m_IsInputActive || this.IsPaused) return;
+            this.m_PlayerSpecialAction.ActivateRewind();
         }
 
         // -----------------------------------------------------
@@ -162,7 +168,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         void IGameplayInputControl.OnRotateCamera(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || IsPaused) return;
+            if (!this.m_IsInputActive || this.IsPaused) return;
             this.m_PlayerViewOrientationHandler.RotateViewOrientation(context.ReadValue<Vector2>());
         }
 
@@ -196,9 +202,10 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
             
             // Special Action
             playerInput.actions["dodge"].performed += ((IGameplayInputControl)this).OnDodge;
+            playerInput.actions["initrewind"].performed += ((IGameplayInputControl)this).OnInitRewind;
             
             // Menu Action
-            playerInput.actions["pause"].performed += ((IGameplayInputControl)this).OnToggleLockLeft;
+            playerInput.actions["pause"].performed += ((IGameplayInputControl)this).OnPause;
             
             // View Orientation
             playerInput.actions["rotatecamera"].performed += ((IGameplayInputControl)this).OnRotateCamera;

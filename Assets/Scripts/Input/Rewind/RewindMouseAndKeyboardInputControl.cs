@@ -41,14 +41,12 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
         void IRewindInputControl.OnEndRewind(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            Debug.Log("End Rewind triggered");
             this.m_RewindInput.OnEndRewind(); // Temporarily act as a pass-through.
         }
 
         void IRewindInputControl.OnScrub(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || IsPaused) return;
-            Debug.Log("Scrub triggered");
             this.m_RewindManager.rewindDirection = context.ReadValue<float>();
         }
 
@@ -59,7 +57,6 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
         void IRewindInputControl.OnPause(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            Debug.Log("On Pause triggered");
             
             // Ticket #46 - Clarify handling on UI events against game logic.
             throw new NotImplementedException();

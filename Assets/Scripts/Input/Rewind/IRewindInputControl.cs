@@ -9,11 +9,23 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
 
         #region - - - - - - Event Handlers - - - - - -
 
+        // -----------------------------------------------------
+        // Rewind related Events
+        // -----------------------------------------------------
+        
+        void OnEndRewind(InputAction.CallbackContext context);
+
         void OnScrub(InputAction.CallbackContext context);
 
+        // -----------------------------------------------------
+        // Menu related Events
+        // -----------------------------------------------------
+        
         void OnPause(InputAction.CallbackContext context);
-
-        void OnEndRewinf(InputAction.CallbackContext context);
+        
+        // -----------------------------------------------------
+        // View Orientation related Events
+        // -----------------------------------------------------
 
         void OnRotateCamera(InputAction.CallbackContext context);
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using ThatOneSamuraiGame.Scripts.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,8 +19,6 @@ public class RewindInput : MonoBehaviour
     public GameObject rewindTut;
     public GameObject rewindBar;
 
-    PlayerInput _inputComponent;
-
     PlayerFunctions playerFunction;
     FinishingMoveController finishingMoveController;
 
@@ -30,8 +29,6 @@ public class RewindInput : MonoBehaviour
     void Start()
     {
         //rewindEntity = gameObject.GetComponent<RewindEntity>();
-        _inputComponent = GetComponent<PlayerInput>();
-
         rewindManager = GameManager.instance.rewindManager;
         playerFunction = gameObject.GetComponent<PlayerFunctions>();
         finishingMoveController = GetComponentInChildren<FinishingMoveController>();
@@ -40,12 +37,15 @@ public class RewindInput : MonoBehaviour
 
     private void Update()
     {
+        // Note: This should be made event based instead of being tied to Unity's runtime events.
         if (Keyboard.current.iKey.wasPressedThisFrame)
         {
             Time.timeScale = 1.0f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
 
-            _inputComponent.SwitchCurrentActionMap("Gameplay");
+            IInputManager _InputManager = GameManager.instance.InputManager;
+            _InputManager.SwitchToMenuControls();
+
             GameManager.instance.postProcessingController.DisableRewindColourFilter();
             isTravelling = false;
             //rewindEntity.isTravelling = false;
@@ -56,14 +56,17 @@ public class RewindInput : MonoBehaviour
         }
     }
 
-    void OnInitRewind()
+    public void OnInitRewind()
     {
         if (!finishingMoveController.bIsFinishing)
         {
             //if (playerInput.camControl.bLockedOn) playerInput.OnLockOn();
             hidePopupEvent.Raise();
             hideLockOnPopupEvent.Raise();
-            _inputComponent.SwitchCurrentActionMap("Rewind");
+
+            IInputManager _InputManager = GameManager.instance.InputManager;
+            _InputManager.SwitchToRewindControls();
+            
             if (!isTravelling && rewindManager.maxRewindResource != 0)
             {
                 isTravelling = true;
@@ -88,12 +91,14 @@ public class RewindInput : MonoBehaviour
 
     }
 
-    void OnEndRewind()
+    public void OnEndRewind()
     {
 
         if (isTravelling && !playerFunction.bIsDead)
         {
-            _inputComponent.SwitchCurrentActionMap("Gameplay");
+            IInputManager _InputManager = GameManager.instance.InputManager;
+            _InputManager.SwitchToGameplayControls();
+            
             GameManager.instance.postProcessingController.DisableRewindColourFilter();
             isTravelling = false;
             //rewindEntity.isTravelling = false;
@@ -106,15 +111,8 @@ public class RewindInput : MonoBehaviour
 
     public void DeathRewind()
     {
-        //Debug.Log("DEAD");
         rewindManager.ReduceRewindAmount();
         OnInitRewind();
-
     }
-
-    void OnScrub(InputValue value)
-    {
-
-        rewindManager.rewindDirection = value.Get<float>();
-    }
+    
 }

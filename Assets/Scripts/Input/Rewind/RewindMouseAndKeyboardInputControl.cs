@@ -11,9 +11,21 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
 
         #region - - - - - - Fields - - - - - -
 
+        private RewindManager m_RewindManager;
+        
         private bool m_IsInputActive;
 
         #endregion Fields
+
+        #region - - - - - - Lifecycle Methods - - - - - -
+
+        private void Start()
+        {
+            this.m_RewindManager = this.GetComponent<RewindManager>();
+            
+        }
+
+        #endregion Lifecycle Methods
         
         #region - - - - - - Event Handlers - - - - - -
 

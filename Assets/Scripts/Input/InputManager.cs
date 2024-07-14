@@ -186,7 +186,7 @@ namespace ThatOneSamuraiGame.Scripts.Input
             this.m_PlayerInput.SwitchCurrentActionMap("Rewind");
             this.m_GameplayInputControl.DisableInput();
             // this.m_MenuInputControl.DisableInput();
-            // this.m_RewindInputControl.EnableInput();
+            this.m_RewindInputControl.EnableInput();
             
             this.m_ActiveInputActionMap = InputActionMapType.Rewind;
         }

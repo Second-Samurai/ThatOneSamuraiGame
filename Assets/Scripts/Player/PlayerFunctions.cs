@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Enemies;
+using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
@@ -41,8 +42,6 @@ public class PlayerFunctions : MonoBehaviour
 
     public GameObject pauseMenu;
 
-    public PlayerInput _inputComponent;
-
     public GameObject lSword, rSword;
 
     public bool bSlide = false;
@@ -73,9 +72,6 @@ public class PlayerFunctions : MonoBehaviour
         _pDamageController = GetComponent<PDamageController>();
 
         _animator = GetComponent<Animator>();
-
-        // Ticket: #44 - Will need to review usages of the input component for this class
-        _inputComponent = GetComponent<PlayerInput>();
 
         hitstopController = GameManager.instance.GetComponent<HitstopController>();
 
@@ -345,13 +341,17 @@ public class PlayerFunctions : MonoBehaviour
     {
         if (!bIsDead)
         {
-            //play anim
+            // play anim
             _animator.SetTrigger("Death");
             _animator.SetBool("isDead", true);
-            //trigger rewind
+            
+            // trigger rewind
             bIsDead = true;
             
-            _inputComponent.SwitchCurrentActionMap("Rewind");
+            // Activate input switch to rewind
+            IInputManager _InputManager = GameManager.instance.InputManager;
+            _InputManager.SwitchToRewindControls();
+            
             //Debug.LogError("Player killed!");
             //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);
             //GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.3f);

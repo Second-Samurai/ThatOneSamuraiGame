@@ -84,7 +84,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
             // Rewind
             playerInput.actions["endrewind"].performed += ((IRewindInputControl)this).OnEndRewind;
             playerInput.actions["scrub"].performed += ((IRewindInputControl)this).OnScrub;
-            playerInput.actions["scrub"].performed += ((IRewindInputControl)this).OnScrub;
+            playerInput.actions["scrub"].canceled += ((IRewindInputControl)this).OnScrub;
             
             // Menu Action
             playerInput.actions["pause"].performed += ((IRewindInputControl)this).OnPause;

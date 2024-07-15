@@ -3,6 +3,7 @@ using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
+using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Animation
 {
@@ -74,8 +75,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         public void RemoveOverride() 
             => this.m_PlayerMovement.EnableMovement();
 
-        public void LockMovementInput()
-        {
+        public void LockMoveInput() // This is not being used anywhere
+        { 
             if (this.m_PlayerMovementState.IsMovementLocked)
                 return;
 
@@ -95,7 +96,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         #endregion PlayerMovement Animation Events
 
         #region - - - - - - PlayerSpecialAction Animation Events - - - - - -
-
+        
         public void BlockDodge() 
             => this.m_PlayerSpecialActionState.CanDodge = false;
 

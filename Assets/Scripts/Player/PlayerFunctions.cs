@@ -379,8 +379,8 @@ public class PlayerFunctions : MonoBehaviour
         //Vector3 attackDir = 
     }
 
-    public void Pause()
-    {
-        pauseMenu.SetActive(true);
-    }
+    // public void Pause()
+    // {
+    //     pauseMenu.SetActive(true);
+    // }
 }

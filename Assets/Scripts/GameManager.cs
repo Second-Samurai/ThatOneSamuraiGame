@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ThatOneSamuraiGame.Scripts;
 using ThatOneSamuraiGame.Scripts.Input;
+using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
 using UnityEngine;
 
 // Ticket: #45 - Move managers and services into their own namespaces.
@@ -43,8 +44,12 @@ public class GameManager : MonoBehaviour
 
     //UICanvases
     [HideInInspector] public GameObject guardMeterCanvas;
+    
+    // UserInterface
+    [SerializeField]
+    private UserInterfaceManager m_UserInterfaceManager;
 
-    //Private variables
+    // Private variables
     private GameState m_GameState;
     private IInputManager m_InputManager;
 
@@ -57,6 +62,9 @@ public class GameManager : MonoBehaviour
 
     public IInputManager InputManager
         => this.m_InputManager;
+
+    public IUserInterfaceManager UserInterfaceManager
+        => this.m_UserInterfaceManager;
 
     #endregion Properties
 

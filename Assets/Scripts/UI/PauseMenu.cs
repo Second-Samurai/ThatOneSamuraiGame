@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMenu;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
-public class PauseMenu : MonoBehaviour
+public class PauseMenu : MonoBehaviour, IPauseMenuController
 {
 
     float timeScale;
@@ -14,6 +15,7 @@ public class PauseMenu : MonoBehaviour
     public GameEvent hidePopupEvent;
     public GameEvent hideLockOnPopupEvent;
 
+    // This is an event method invoked by Unity.
     private void OnEnable()
     {
         hidePopupEvent.Raise();

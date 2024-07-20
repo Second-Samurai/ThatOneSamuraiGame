@@ -15,7 +15,7 @@ namespace ThatOneSamuraiGame.Scripts
         [SerializeField]
         private GameObject m_ActivePlayer;
         [SerializeField]
-        private GameObject m_SessionUser;
+        private GameObject m_SessionUser; // Expected to stay persistent
         
         // User Interfaces
         [SerializeField]

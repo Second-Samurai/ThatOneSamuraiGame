@@ -1,6 +1,7 @@
 ﻿using System;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Player.ViewOrientation;
+using ThatOneSamuraiGame.Scripts.UI.Pause;
 using UnityEditor.Rendering.Universal;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,7 +14,13 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
 
         #region - - - - - - Fields - - - - - -
 
+        // Player behavior handlers
         private IPlayerViewOrientationHandler m_PlayerViewOrientationHandler;
+        
+        // Menu related behaviors
+        private IPauseActionHandler m_PauseActionHandler;
+        
+        // Rewind related behaviors
         private RewindInput m_RewindInput; // Ticket: # - Refactor methods for the player implementation.
         private RewindManager m_RewindManager;
         
@@ -25,7 +32,11 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
 
         private void Start()
         {
+            GameState _GameState = GameManager.instance.GameState;
+            
             this.m_PlayerViewOrientationHandler = this.GetComponent<IPlayerViewOrientationHandler>();
+            this.m_PauseActionHandler = _GameState.SessionUser.GetComponent<IPauseActionHandler>();
+            
             this.m_RewindInput = this.GetComponent<RewindInput>();
             this.m_RewindManager = GameManager.instance.rewindManager;
         }
@@ -54,12 +65,15 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
         // Menu related Events
         // -----------------------------------------------------
         
+        // Tech Debt: #54 - Change name of UnPause to toggle pause.
+        //  - The input control should not care whether the UI is paused or not. 
+        //  - The input control should only be concerned about the interaction to the menu.
         void IRewindInputControl.OnPause(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
             
             // Ticket #46 - Clarify handling on UI events against game logic.
-            throw new NotImplementedException();
+            this.m_PauseActionHandler.TogglePause();
         }
         
         // -----------------------------------------------------

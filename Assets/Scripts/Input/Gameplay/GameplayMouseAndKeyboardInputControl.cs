@@ -22,12 +22,16 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         #region - - - - - - Fields - - - - - -
 
+        // Player behavior handlers
         private IPauseActionHandler m_PauseAction;
         private IPlayerAttackHandler m_PlayerAttackHandler;
         private IPlayerMovement m_PlayerMovement;
         private IPlayerTargetTracking m_PlayerTargetTracking;
         private IPlayerSpecialAction m_PlayerSpecialAction;
         private IPlayerViewOrientationHandler m_PlayerViewOrientationHandler;
+        
+        // Menu behavior handlers
+        private IPauseActionHandler m_PauseActionHandler;
         
         private bool m_IsInputActive;
 
@@ -37,14 +41,16 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         private void Start()
         {
-            GameState gameState = GameManager.instance.GameState;
+            GameState _GameState = GameManager.instance.GameState;
 
-            this.m_PauseAction = gameState.PauseMenu.GetComponent<IPauseActionHandler>();
-            this.m_PlayerMovement = gameState.ActivePlayer.GetComponent<IPlayerMovement>();
-            this.m_PlayerTargetTracking = gameState.ActivePlayer.GetComponent<IPlayerTargetTracking>();
-            this.m_PlayerAttackHandler = gameState.ActivePlayer.GetComponent<IPlayerAttackHandler>();
-            this.m_PlayerSpecialAction = gameState.ActivePlayer.GetComponent<IPlayerSpecialAction>();
-            this.m_PlayerViewOrientationHandler = gameState.ActivePlayer.GetComponent<IPlayerViewOrientationHandler>();
+            this.m_PauseAction = _GameState.PauseMenu.GetComponent<IPauseActionHandler>();
+            this.m_PlayerMovement = _GameState.ActivePlayer.GetComponent<IPlayerMovement>();
+            this.m_PlayerTargetTracking = _GameState.ActivePlayer.GetComponent<IPlayerTargetTracking>();
+            this.m_PlayerAttackHandler = _GameState.ActivePlayer.GetComponent<IPlayerAttackHandler>();
+            this.m_PlayerSpecialAction = _GameState.ActivePlayer.GetComponent<IPlayerSpecialAction>();
+            this.m_PlayerViewOrientationHandler = _GameState.ActivePlayer.GetComponent<IPlayerViewOrientationHandler>();
+
+            this.m_PauseActionHandler = _GameState.SessionUser.GetComponent<IPauseActionHandler>();
 
             this.m_IsInputActive = true;
         }
@@ -59,7 +65,6 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         void IGameplayInputControl.OnMovement(InputAction.CallbackContext context)
         {
-            Debug.Log("Encountering this point");
             if (!this.m_IsInputActive || IsPaused) return;
             this.m_PlayerMovement.PreparePlayerMovement(context.ReadValue<Vector2>());
         }
@@ -159,7 +164,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
             if (!this.m_IsInputActive) return;
             
             // Ticket #46 - Clarify handling on UI events against game logic.
-            throw new NotImplementedException();
+            this.m_PauseActionHandler.TogglePause();
         }
         
         // -----------------------------------------------------

@@ -8,6 +8,8 @@
 
         #region - - - - - - Methods - - - - - -
 
+        void DisplayPauseScreen();
+
         void ExitButton();
 
         void ResumeButton();

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMenu;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -27,6 +28,22 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
         Cursor.lockState = CursorLockMode.Confined;
         _input = GameManager.instance.playerController.gameObject.GetComponent<PlayerInput>();
         _input.SwitchCurrentActionMap("Menu");
+    }
+    
+    // This is to replace the above method as it relies on the object being active to run.
+    public void DisplayPauseScreen()
+    {
+        IInputManager _InputManager = GameManager.instance.InputManager;
+        
+        hidePopupEvent.Raise();
+        hideLockOnPopupEvent.Raise();
+        
+        timeScale = Time.timeScale;
+        Time.timeScale = 0f;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+        
+        _InputManager.SwitchToMenuControls();
     }
 
     public void ExitButton()

@@ -26,6 +26,8 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
         Time.timeScale = 0f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
+        
+        // Below this behavior is legacy
         _input = GameManager.instance.playerController.gameObject.GetComponent<PlayerInput>();
         _input.SwitchCurrentActionMap("Menu");
     }
@@ -33,8 +35,6 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
     // This is to replace the above method as it relies on the object being active to run.
     public void DisplayPauseScreen()
     {
-        IInputManager _InputManager = GameManager.instance.InputManager;
-        
         hidePopupEvent.Raise();
         hideLockOnPopupEvent.Raise();
         
@@ -43,6 +43,7 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
         
+        IInputManager _InputManager = GameManager.instance.InputManager;
         _InputManager.SwitchToMenuControls();
     }
 
@@ -79,4 +80,7 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
     {
         optionsMenu.SetActive(false);
     }
+
+    public void HidePauseScreen() 
+        => this.gameObject.SetActive(false);
 }

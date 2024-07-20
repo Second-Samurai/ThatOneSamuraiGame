@@ -11,6 +11,8 @@ namespace ThatOneSamuraiGame.Scripts.UI.Pause
 
         private IPauseMenuController m_PauseMenu;
 
+        private bool m_IsPauseScreenDisplayed;
+
         #endregion Fields
 
         #region - - - - - - Lifecycle Methods - - - - - -
@@ -26,7 +28,16 @@ namespace ThatOneSamuraiGame.Scripts.UI.Pause
         
         void IPauseActionHandler.TogglePause()
         {
-            throw new System.NotImplementedException();
+            if (this.m_IsPauseScreenDisplayed)
+            {
+                this.m_PauseMenu.DisplayPauseScreen();
+                this.m_IsPauseScreenDisplayed = true;
+            }
+            else
+            {
+                this.m_PauseMenu.HidePauseScreen();
+                this.m_IsPauseScreenDisplayed = false;
+            }
         }
 
         #endregion Methods

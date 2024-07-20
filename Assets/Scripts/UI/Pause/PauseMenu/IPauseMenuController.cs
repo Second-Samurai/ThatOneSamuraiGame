@@ -18,6 +18,8 @@
 
         void DisableOptionsMenu();
 
+        void HidePauseScreen();
+
         #endregion Methods
 
     }

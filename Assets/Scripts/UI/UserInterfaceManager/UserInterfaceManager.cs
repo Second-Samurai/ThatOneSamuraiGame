@@ -13,7 +13,7 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
         #region - - - - - - Fields - - - - - -
 
         // Menus
-        private IPauseMenuController m_PauseController;
+        private IPauseMenuController m_PauseMenuController;
         
         // Coupled fields
         private UserInterfaceConfiguration m_UserInterfaceConfiguration;
@@ -23,7 +23,7 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
         #region - - - - - - Properties - - - - - -
 
         IPauseMenuController IUserInterfaceManager.PauseMenu
-            => this.m_PauseController;
+            => this.m_PauseMenuController;
 
         #endregion Properties
 
@@ -34,9 +34,10 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
             this.m_UserInterfaceConfiguration = this.GetComponent<UserInterfaceConfiguration>();
             
             // Menus
-            this.m_PauseController = this.GetComponent<IPauseMenuController>();
+            this.m_PauseMenuController =
+                this.m_UserInterfaceConfiguration.PauseMenu.GetComponent<IPauseMenuController>();
         }
-
+        
         #endregion Lifecycle Methods
         
     }

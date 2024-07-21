@@ -72,8 +72,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
                 
                 if (this.m_HitstopController.bIsSlowing)
                     this.m_HitstopController.CancelEffects();
-
-                Debug.Log("Has been executed");
             }
             else if (this.m_HasPerformedAttack)
                 this.m_HasPerformedAttack = false;

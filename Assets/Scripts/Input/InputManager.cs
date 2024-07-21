@@ -44,7 +44,7 @@ namespace ThatOneSamuraiGame.Scripts.Input
         
         void IInputManager.ActivateMenuInputControl()
         {
-            this.m_PlayerInput.SwitchCurrentActionMap("Menu");
+            // this.m_PlayerInput.SwitchCurrentActionMap("Menu");
 
             IMenuInputControl _MenuInputControl;
             switch (this.m_SelectedDevice)
@@ -62,7 +62,8 @@ namespace ThatOneSamuraiGame.Scripts.Input
             };
             
             _MenuInputControl.ConfigureInputEvents(this.m_PlayerInput);
-            this.m_ActiveInputActionMap = InputActionMapType.Menu;
+            this.m_MenuInputControl = _MenuInputControl;
+            // this.m_ActiveInputActionMap = InputActionMapType.Menu;
         }
                 
         bool IInputManager.DoesGameplayInputControlExist()
@@ -153,8 +154,9 @@ namespace ThatOneSamuraiGame.Scripts.Input
         void IInputManager.SwitchToGameplayControls()
         {
             this.m_PlayerInput.SwitchCurrentActionMap("Gameplay");
+            
             this.m_GameplayInputControl.EnableInput();
-            // this.m_MenuInputControl.DisableInput();
+            this.m_MenuInputControl.DisableInput();
             this.m_RewindInputControl.DisableInput();
             
             this.m_ActiveInputActionMap = InputActionMapType.Gamplay;
@@ -163,8 +165,9 @@ namespace ThatOneSamuraiGame.Scripts.Input
         void IInputManager.SwitchToMenuControls()
         {
             this.m_PlayerInput.SwitchCurrentActionMap("Menu");
+            
             this.m_GameplayInputControl.DisableInput();
-            // this.m_MenuInputControl.EnableInput();
+            this.m_MenuInputControl.EnableInput();
             this.m_RewindInputControl.DisableInput();
             
             this.m_ActiveInputActionMap = InputActionMapType.Menu;
@@ -173,8 +176,9 @@ namespace ThatOneSamuraiGame.Scripts.Input
         void IInputManager.SwitchToRewindControls()
         {
             this.m_PlayerInput.SwitchCurrentActionMap("Rewind");
+            
             this.m_GameplayInputControl.DisableInput();
-            // this.m_MenuInputControl.DisableInput();
+            this.m_MenuInputControl.DisableInput();
             this.m_RewindInputControl.EnableInput();
             
             this.m_ActiveInputActionMap = InputActionMapType.Rewind;

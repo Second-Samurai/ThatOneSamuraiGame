@@ -29,7 +29,8 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
 
         #region - - - - - - Lifecycle Methods - - - - - -
 
-        private void Start()
+        // Note: Persistent services referred by the GameManager must initialise before MonoBehaviour.Start. 
+        private void Awake()
         {
             this.m_UserInterfaceConfiguration = this.GetComponent<UserInterfaceConfiguration>();
             

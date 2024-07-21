@@ -79,6 +79,8 @@ public class GameManager : MonoBehaviour
 
         // Perform setup pipeline
         // Ticket: #43 - Move this into its own pipeline handler to separate initialisation logic from the game manager.
+        
+        // Setup game scene
         SetupSceneCamera();
         SetupScene();
         // SetupUI();
@@ -88,6 +90,9 @@ public class GameManager : MonoBehaviour
         // Locate services
         this.m_GameState = this.GetComponent<GameState>();
         this.m_InputManager = this.GetComponent<IInputManager>();
+        
+        // Setup persistent service
+        this.m_InputManager.ActivateMenuInputControl();
     }
 
     // Start is called before the first frame update

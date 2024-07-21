@@ -16,25 +16,26 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
     public GameEvent hidePopupEvent;
     public GameEvent hideLockOnPopupEvent;
 
-    // This is an event method invoked by Unity.
-    private void OnEnable()
-    {
-        hidePopupEvent.Raise();
-        hideLockOnPopupEvent.Raise();
-        
-        timeScale = Time.timeScale;
-        Time.timeScale = 0f;
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.Confined;
-        
-        // Below this behavior is legacy
-        _input = GameManager.instance.playerController.gameObject.GetComponent<PlayerInput>();
-        _input.SwitchCurrentActionMap("Menu");
-    }
+    // Note: Keep legacy code
+    // private void OnEnable()
+    // {
+    //     hidePopupEvent.Raise();
+    //     hideLockOnPopupEvent.Raise();
+    //     
+    //     timeScale = Time.timeScale;
+    //     Time.timeScale = 0f;
+    //     Cursor.visible = true;
+    //     Cursor.lockState = CursorLockMode.Confined;
+    //     
+    //     IInputManager _InputManager = GameManager.instance.InputManager;
+    //     _InputManager.SwitchToMenuControls();
+    // }
     
     // This is to replace the above method as it relies on the object being active to run.
     public void DisplayPauseScreen()
     {
+        this.gameObject.SetActive(true);
+        
         hidePopupEvent.Raise();
         hideLockOnPopupEvent.Raise();
         
@@ -54,22 +55,8 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void ResumeButton()
-    {
-        Time.timeScale = timeScale;
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        if (GameManager.instance.rewindManager.isTravelling == true)
-        {
-            _input.SwitchCurrentActionMap("Rewind");
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            _input.SwitchCurrentActionMap("Gameplay");
-            gameObject.SetActive(false);
-        }
-    }
+    public void ResumeButton() 
+        => this.UnPauseGameplay();
 
     public void OptionsMenu()
     {
@@ -82,5 +69,26 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
     }
 
     public void HidePauseScreen() 
-        => this.gameObject.SetActive(false);
+        => this.UnPauseGameplay();
+
+    // Note: This is a temp method to prevent repetitive code.
+    private void UnPauseGameplay()
+    {
+        IInputManager _InputManager = GameManager.instance.InputManager;
+        
+        Time.timeScale = timeScale;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        
+        if (GameManager.instance.rewindManager.isTravelling == true)
+        {
+            _InputManager.SwitchToRewindControls();
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            _InputManager.SwitchToGameplayControls();
+            gameObject.SetActive(false);
+        }
+    }
 }

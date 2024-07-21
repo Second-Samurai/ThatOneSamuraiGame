@@ -161,7 +161,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         void IGameplayInputControl.OnPause(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive) return;
-
+            
             // Ticket #46 - Clarify handling on UI events against game logic.
             this.m_PauseActionHandler.TogglePause();
         }

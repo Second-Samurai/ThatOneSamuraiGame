@@ -1,27 +1,29 @@
-﻿using UnityEngine;
+﻿using ThatOneSamuraiGame.Scripts.Scene.DataContainers;
+using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts
 {
 
     /// <summary>
-    ///     GameState keeps track of the game's current state.
+    /// GameState keeps track of the game's current state.
     /// </summary>
     public class GameState : MonoBehaviour
     {
         
         #region - - - - - - Fields - - - - - -
 
-        // User/Player Objects
+        // Scene Objects
         [SerializeField]
         private GameObject m_ActivePlayer;
+        [SerializeField]
+        private GameObject m_SceneManagement;
+        [SerializeField]
+        private GameObject m_PauseManager;
 
         // Persistent Objects
         [SerializeField]
         private GameObject m_SessionUser;
 
-        // User Interfaces
-        [SerializeField]
-        private GameObject m_PauseMenu;
 
         #endregion Fields
 
@@ -32,6 +34,9 @@ namespace ThatOneSamuraiGame.Scripts
             get => m_ActivePlayer;
             set => m_ActivePlayer = value;
         }
+
+        public GameObject SceneManagement 
+            => this.m_SceneManagement;
 
         public GameObject SessionUser
         {
@@ -45,10 +50,10 @@ namespace ThatOneSamuraiGame.Scripts
             set => m_SessionUser = value;
         }
 
-        public GameObject PauseMenu
+        public GameObject PauseManager
         {
-            get => m_PauseMenu;
-            set => m_PauseMenu = value;
+            get => m_PauseManager;
+            set => m_PauseManager = value;
         }
 
         #endregion Properties

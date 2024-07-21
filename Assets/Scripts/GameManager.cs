@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using ThatOneSamuraiGame.Scripts;
 using ThatOneSamuraiGame.Scripts.Input;
+using ThatOneSamuraiGame.Scripts.UI.Pause.PauseActionHandler;
+using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMediator;
 using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
 using UnityEngine;
 
@@ -81,6 +83,7 @@ public class GameManager : MonoBehaviour
         // Ticket: #43 - Move this into its own pipeline handler to separate initialisation logic from the game manager.
         
         // Setup game scene
+        
         SetupSceneCamera();
         SetupScene();
         // SetupUI();
@@ -89,9 +92,8 @@ public class GameManager : MonoBehaviour
 
         // Locate services
         this.m_GameState = this.GetComponent<GameState>();
-        this.m_InputManager = this.GetComponent<IInputManager>();
         
-        // Setup persistent service
+        this.m_InputManager = this.GetComponent<IInputManager>();
         this.m_InputManager.ActivateMenuInputControl();
     }
 

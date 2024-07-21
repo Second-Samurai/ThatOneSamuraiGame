@@ -1,6 +1,6 @@
 using ThatOneSamuraiGame.Scripts.Base;
-using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMenu;
-using UnityEngine;
+using ThatOneSamuraiGame.Scripts.Scene.DataContainers;
+using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMediator;
 
 namespace ThatOneSamuraiGame.Scripts.UI.Pause.PauseActionHandler
 {
@@ -10,46 +10,30 @@ namespace ThatOneSamuraiGame.Scripts.UI.Pause.PauseActionHandler
         
         #region - - - - - - Fields - - - - - -
 
-        // Menus
-        private IPauseMenuController m_PauseMenu;
-
-        // Local Fields
-        private bool m_IsPauseScreenDisplayed;
+        private IPauseMediator m_PauseMediator;
+        private SceneState m_SceneState;
 
         #endregion Fields
 
         #region - - - - - - Lifecycle Methods - - - - - -
 
-        private void Start() 
-            => this.m_PauseMenu = GameManager.instance.UserInterfaceManager.PauseMenu;
+        private void Start()
+        {
+            GameState _GameState = GameManager.instance.GameState;
+            this.m_PauseMediator = _GameState.PauseManager.GetComponent<IPauseMediator>();
+            this.m_SceneState = _GameState.SceneManagement.GetComponent<SceneState>();
+        }
 
         #endregion Lifecycle Methods
         
         #region - - - - - - Methods - - - - - -
         
-        void IPauseActionHandler.TogglePause()
-        {
-            if (!this.m_IsPauseScreenDisplayed)
-            {
-                this.m_PauseMenu.DisplayPauseScreen();
-                this.m_IsPauseScreenDisplayed = true;
-                return;
-            }
-            
-            this.m_PauseMenu.HidePauseScreen();
-            this.m_IsPauseScreenDisplayed = false;
-        }
-        public override void OnPause()
-        {
-            base.OnPause();
-            this.m_IsPauseScreenDisplayed = true;
-        }
-
-        public override void OnUnPause()
-        {
-            base.OnUnPause();
-            this.m_IsPauseScreenDisplayed = false;
-        }
+        void IPauseActionHandler.TogglePause() 
+            => this.m_PauseMediator.Notify(
+                    nameof(IPauseActionHandler), 
+                    this.m_SceneState.IsGamePaused 
+                        ? PauseActionType.Unpause
+                        : PauseActionType.Pause);
 
         #endregion Methods
 

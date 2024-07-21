@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using ThatOneSamuraiGame.Scripts.Input;
+﻿using ThatOneSamuraiGame.Scripts.Input;
+using ThatOneSamuraiGame.Scripts.UI.Pause.PauseActionHandler;
+using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMediator;
 using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMenu;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,6 +16,9 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
     public GameEvent hidePopupEvent;
     public GameEvent hideLockOnPopupEvent;
 
+    [SerializeField]
+    private IPauseMediator m_PauseMediator;
+
     // Note: Keep legacy code
     // private void OnEnable()
     // {
@@ -30,7 +33,16 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
     //     IInputManager _InputManager = GameManager.instance.InputManager;
     //     _InputManager.SwitchToMenuControls();
     // }
-    
+
+    #region - - - - - - Lifecycle Methods - - - - - -
+
+    private void Start()
+        => this.m_PauseMediator = GameManager.instance.GameState.PauseManager.GetComponent<IPauseMediator>();
+
+    #endregion Lifecycle Methods
+
+    #region - - - - - - Methods - - - - - -
+
     // This is to replace the above method as it relies on the object being active to run.
     public void DisplayPauseScreen()
     {
@@ -55,8 +67,8 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void ResumeButton() 
-        => this.UnPauseGameplay();
+    public void ResumeButton()
+        => this.m_PauseMediator.Notify(nameof(IPauseMenuController), PauseActionType.Unpause);
 
     public void OptionsMenu()
     {
@@ -90,5 +102,9 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
             _InputManager.SwitchToGameplayControls();
             gameObject.SetActive(false);
         }
+
+        #endregion Methods
+        
     }
+    
 }

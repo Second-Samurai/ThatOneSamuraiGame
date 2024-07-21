@@ -1,7 +1,5 @@
-﻿using System;
-using ThatOneSamuraiGame.Scripts.Base;
-using ThatOneSamuraiGame.Scripts.UI.Pause;
-using UnityEngine;
+﻿using ThatOneSamuraiGame.Scripts.Base;
+using ThatOneSamuraiGame.Scripts.UI.Pause.PauseActionHandler;
 using UnityEngine.InputSystem;
 
 namespace ThatOneSamuraiGame.Scripts.Input.Menu
@@ -10,28 +8,29 @@ namespace ThatOneSamuraiGame.Scripts.Input.Menu
     /// <summary>
     /// Handles menu inputs for keyboard and mouse.
     /// </summary>
-    public class MenuMouseAndKeyboardInputControl: TOSGMonoBehaviourBase, IMenuInputControl
+    public class MenuMouseAndKeyboardInputControl : TOSGMonoBehaviourBase, IMenuInputControl
     {
-        
+
         #region - - - - - - Fields - - - - - -
 
+        // Menu behavior handlers
         private IPauseActionHandler m_PauseActionHandler;
 
+        // Local Fields
         private bool m_IsInputActive;
 
         #endregion Fields
-
+        
         #region - - - - - - Lifecycle Methods - - - - - -
 
         private void Start()
         {
-            GameState _GameState = GameManager.instance.GameState;
-
+            var _GameState = GameManager.instance.GameState;
             this.m_PauseActionHandler = _GameState.SessionUser.GetComponent<IPauseActionHandler>();
         }
 
         #endregion Lifecycle Methods
-        
+
         #region - - - - - - Event Handlers - - - - - -
 
         // Tech Debt: #54 - Change name of UnPause to toggle pause.
@@ -39,8 +38,8 @@ namespace ThatOneSamuraiGame.Scripts.Input.Menu
         //  - The input control should only be concerned about the interaction to the menu.
         void IMenuInputControl.UnPause(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive) return;
-            
+            if (!m_IsInputActive) return;
+
             // Ticket #46 - Clarify handling on UI events against game logic.
             this.m_PauseActionHandler.TogglePause();
         }
@@ -49,12 +48,9 @@ namespace ThatOneSamuraiGame.Scripts.Input.Menu
 
         #region - - - - - - Methods - - - - - -
 
-        void IInputControl.ConfigureInputEvents(PlayerInput playerInput)
-        {
-            // Menu Action
-            playerInput.actions["unpause"].performed += ((IMenuInputControl)this).UnPause;
-        }
-        
+        void IInputControl.ConfigureInputEvents(PlayerInput playerInput) 
+            => playerInput.actions["unpause"].performed += ((IMenuInputControl)this).UnPause;
+
         void IInputControl.DisableInput() 
             => this.m_IsInputActive = false;
 

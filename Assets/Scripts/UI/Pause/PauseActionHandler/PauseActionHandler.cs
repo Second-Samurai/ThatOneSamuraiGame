@@ -1,7 +1,7 @@
 using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMenu;
 using UnityEngine;
 
-namespace ThatOneSamuraiGame.Scripts.UI.Pause
+namespace ThatOneSamuraiGame.Scripts.UI.Pause.PauseActionHandler
 {
     
     public class PauseActionHandler : MonoBehaviour, IPauseActionHandler
@@ -9,18 +9,18 @@ namespace ThatOneSamuraiGame.Scripts.UI.Pause
         
         #region - - - - - - Fields - - - - - -
 
+        // Menus
         private IPauseMenuController m_PauseMenu;
 
+        // Local Fields
         private bool m_IsPauseScreenDisplayed;
 
         #endregion Fields
 
         #region - - - - - - Lifecycle Methods - - - - - -
 
-        private void Start()
-        {
-            this.m_PauseMenu = GameManager.instance.UserInterfaceManager.PauseMenu;
-        }    
+        private void Start() 
+            => this.m_PauseMenu = GameManager.instance.UserInterfaceManager.PauseMenu;
 
         #endregion Lifecycle Methods
         
@@ -32,12 +32,11 @@ namespace ThatOneSamuraiGame.Scripts.UI.Pause
             {
                 this.m_PauseMenu.DisplayPauseScreen();
                 this.m_IsPauseScreenDisplayed = true;
+                return;
             }
-            else
-            {
-                this.m_PauseMenu.HidePauseScreen();
-                this.m_IsPauseScreenDisplayed = false;
-            }
+            
+            this.m_PauseMenu.HidePauseScreen();
+            this.m_IsPauseScreenDisplayed = false;
         }
 
         #endregion Methods

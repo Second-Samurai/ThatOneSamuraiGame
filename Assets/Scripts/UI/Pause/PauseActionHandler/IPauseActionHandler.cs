@@ -1,4 +1,4 @@
-﻿namespace ThatOneSamuraiGame.Scripts.UI.Pause
+﻿namespace ThatOneSamuraiGame.Scripts.UI.Pause.PauseActionHandler
 {
     
     /// <summary>

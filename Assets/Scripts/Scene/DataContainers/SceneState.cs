@@ -15,7 +15,6 @@ namespace ThatOneSamuraiGame.Scripts.Scene.DataContainers
 
         #region - - - - - - Fields - - - - - -
 
-        // Public Fields
         public bool IsGamePaused;
         
         // Scene Objects

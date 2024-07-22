@@ -95,7 +95,6 @@ public class GameManager : MonoBehaviour
         // Ticket: #43 - Move this into its own pipeline handler to separate initialisation logic from the game manager.
         
         // Setup game scene
-        
         SetupSceneCamera();
         SetupScene();
         // SetupUI();

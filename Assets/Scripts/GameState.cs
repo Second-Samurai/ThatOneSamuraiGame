@@ -1,5 +1,4 @@
-﻿using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts
 {

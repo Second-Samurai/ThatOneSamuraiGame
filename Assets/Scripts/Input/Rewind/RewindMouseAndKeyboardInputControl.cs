@@ -32,7 +32,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
         {
             var _GameState = GameManager.instance.GameState;
 
-            this.m_PlayerViewOrientationHandler = GetComponent<IPlayerViewOrientationHandler>();
+            this.m_PlayerViewOrientationHandler = this.GetComponent<IPlayerViewOrientationHandler>();
             this.m_PauseActionHandler = _GameState.SessionUser.GetComponent<IPauseActionHandler>();
 
             this.m_RewindInput = GetComponent<RewindInput>();

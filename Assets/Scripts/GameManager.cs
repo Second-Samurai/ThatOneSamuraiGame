@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using ThatOneSamuraiGame.Scripts;
 using ThatOneSamuraiGame.Scripts.Input;
-using ThatOneSamuraiGame.Scripts.UI.Pause.PauseActionHandler;
-using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMediator;
+using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
+using ThatOneSamuraiGame.Scripts.UI.Pause.PauseManager;
 using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
 using UnityEngine;
 
@@ -47,23 +47,35 @@ public class GameManager : MonoBehaviour
     //UICanvases
     [HideInInspector] public GameObject guardMeterCanvas;
     
-    // UserInterface
-    [SerializeField]
-    private UserInterfaceManager m_UserInterfaceManager;
-
     // Private variables
     private GameState m_GameState;
-    private IInputManager m_InputManager;
 
+    [Header("Persistent Managers")]
+    [SerializeField] private SceneManager m_SceneManager;
+    [SerializeField] private UserInterfaceManager m_UserInterfaceManager;
+    [SerializeField] private PauseManager m_PauseManager;
+    
+    private IInputManager m_InputManager;
+    
     #endregion Fields
 
     #region - - - - - - Properties - - - - - -
 
     public GameState GameState
         => this.m_GameState;
+    
+    // ----------------------------------------------
+    // Managers
+    // ----------------------------------------------
 
     public IInputManager InputManager
         => this.m_InputManager;
+
+    public IPauseManager PauseManager
+        => this.m_PauseManager;
+
+    public ISceneManager SceneManager
+        => this.m_SceneManager;
 
     public IUserInterfaceManager UserInterfaceManager
         => this.m_UserInterfaceManager;

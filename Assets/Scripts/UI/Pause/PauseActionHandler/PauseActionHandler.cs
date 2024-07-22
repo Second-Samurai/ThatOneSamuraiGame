@@ -19,9 +19,9 @@ namespace ThatOneSamuraiGame.Scripts.UI.Pause.PauseActionHandler
 
         private void Start()
         {
-            GameState _GameState = GameManager.instance.GameState;
-            this.m_PauseMediator = _GameState.PauseManager.GetComponent<IPauseMediator>();
-            this.m_SceneState = _GameState.SceneManagement.GetComponent<SceneState>();
+            GameManager _GameManager = GameManager.instance;
+            this.m_PauseMediator = _GameManager.PauseManager.PauseMediator;
+            this.m_SceneState = _GameManager.SceneManager.SceneState;
         }
 
         #endregion Lifecycle Methods

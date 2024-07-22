@@ -4,7 +4,7 @@
     public interface IPauseMenuController
     {
         // Methods below are only based on existing Pause Menu buttons
-        // Ticket: #<ticket number> - Redesign Pause menu UI to undertake an MVC design.
+        // Ticket: #46 - Redesign Pause menu UI to undertake an MVC design.
 
         #region - - - - - - Methods - - - - - -
 

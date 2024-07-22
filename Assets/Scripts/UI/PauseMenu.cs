@@ -19,7 +19,7 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
     [SerializeField]
     private IPauseMediator m_PauseMediator;
 
-    // Note: Keep legacy code
+    // Note: Keeping legacy code until whole class is cut over.
     // private void OnEnable()
     // {
     //     hidePopupEvent.Raise();
@@ -37,7 +37,7 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
     #region - - - - - - Lifecycle Methods - - - - - -
 
     private void Start()
-        => this.m_PauseMediator = GameManager.instance.GameState.PauseManager.GetComponent<IPauseMediator>();
+        => this.m_PauseMediator = GameManager.instance.PauseManager.PauseMediator;
 
     #endregion Lifecycle Methods
 

@@ -184,7 +184,7 @@ public class GameManager : MonoBehaviour
     {
         playerController.Init(targetHolder);
 
-        if (this.m_InputManager.DoesGameplayInputControlExist())
+        if (this.m_InputManager.DoesGameplayInputControlExist()) 
             this.m_InputManager.PossesPlayerObject(this.playerController.gameObject);
     }
 
@@ -221,6 +221,14 @@ public class GameManager : MonoBehaviour
         if (FindObjectOfType<AudioManager>() == null) 
             audioManager = Instantiate(gameSettings.audioManger, transform.position, Quaternion.identity).GetComponent<AudioManager>();
     }
+    
+    // -----------------------------------------------------------
+    // Temporary: Actions pertaining to defined game events
+    // -----------------------------------------------------------
+
+    // Note: Should be refactored to its own definable hard-coded event.
+    public void OnOpeningSceneStart()
+        => Debug.LogWarning("Not implemented");
 
     #endregion Methods
 

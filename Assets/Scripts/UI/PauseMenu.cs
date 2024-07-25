@@ -1,4 +1,5 @@
 ﻿using ThatOneSamuraiGame.Scripts.Input;
+using ThatOneSamuraiGame.Scripts.Input.Gameplay;
 using ThatOneSamuraiGame.Scripts.UI.Pause.PauseActionHandler;
 using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMediator;
 using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMenu;
@@ -55,6 +56,9 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
         Time.timeScale = 0f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
+
+        // Included switching the below variable as the rewind behavior is poorly managed to discretely define concrete states
+        GameManager.instance.rewindManager.isTravelling = false;
         
         IInputManager _InputManager = GameManager.instance.InputManager;
         _InputManager.SwitchToMenuControls();
@@ -92,7 +96,8 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         
-        if (GameManager.instance.rewindManager.isTravelling == true)
+        if (GameManager.instance.rewindManager.isTravelling == true // relying on this alone is not enough, additional checks added to differentiate state.
+            && GameManager.instance.rewindManager.rewindUI.isActiveAndEnabled) 
         {
             _InputManager.SwitchToRewindControls();
             gameObject.SetActive(false);

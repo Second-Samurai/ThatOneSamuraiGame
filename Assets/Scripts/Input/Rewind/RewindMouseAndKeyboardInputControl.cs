@@ -90,8 +90,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
 
         void IInputControl.ConfigureInputEvents(PlayerInput playerInput)
         {
-            // Subscribe all events from input control
-            // Methods should be subscribed as the first in each event list
+            // Tech-Debt: #57 - Use constants to represent the different input actions.
 
             // Rewind
             playerInput.actions["endrewind"].performed += ((IRewindInputControl)this).OnEndRewind;

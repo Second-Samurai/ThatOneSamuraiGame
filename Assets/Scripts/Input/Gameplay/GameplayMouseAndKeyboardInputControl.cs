@@ -1,10 +1,5 @@
 ﻿using ThatOneSamuraiGame.Scripts.Base;
-using ThatOneSamuraiGame.Scripts.Player.Attack;
-using ThatOneSamuraiGame.Scripts.Player.Movement;
-using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
-using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
-using ThatOneSamuraiGame.Scripts.Player.ViewOrientation;
-using ThatOneSamuraiGame.Scripts.UI.Pause.PauseActionHandler;
+using ThatOneSamuraiGame.Scripts.General.Services;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
@@ -21,37 +16,20 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         #region - - - - - - Fields - - - - - -
 
-        // Player behavior handlers
-        private IPlayerAttackHandler m_PlayerAttackHandler;
-        private IPlayerMovement m_PlayerMovement;
-        private IPlayerTargetTracking m_PlayerTargetTracking;
-        private IPlayerSpecialAction m_PlayerSpecialAction;
-        private IPlayerViewOrientationHandler m_PlayerViewOrientationHandler;
-
-        // Menu behavior handlers
-        private IPauseActionHandler m_PauseActionHandler;
-
+        private GameplayInputControlData m_InputControlData;
+        private ICommand m_InitializerCommand;
         private bool m_IsInputActive;
 
         #endregion Fields
-        
+
         #region - - - - - - Lifecycle Methods - - - - - -
 
         private void Start()
         {
-            var _GameState = GameManager.instance.GameState;
-            this.m_PauseActionHandler = _GameState.SessionUser.GetComponent<IPauseActionHandler>();
-            
-            var _ActivePlayer = GameManager.instance.SceneManager.SceneState.ActivePlayer;
-            this.m_PlayerMovement = _ActivePlayer.GetComponent<IPlayerMovement>();
-            this.m_PlayerTargetTracking = _ActivePlayer.GetComponent<IPlayerTargetTracking>();
-            this.m_PlayerAttackHandler = _ActivePlayer.GetComponent<IPlayerAttackHandler>();
-            this.m_PlayerSpecialAction = _ActivePlayer.GetComponent<IPlayerSpecialAction>();
-            this.m_PlayerViewOrientationHandler = _ActivePlayer.GetComponent<IPlayerViewOrientationHandler>();
-
+            this.m_InitializerCommand.Execute();
             this.m_IsInputActive = true;
         }
-
+        
         #endregion Lifecycle Methods
 
         #region - - - - - - Event Handlers - - - - - -
@@ -63,13 +41,13 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         void IGameplayInputControl.OnMovement(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_PlayerMovement.PreparePlayerMovement(context.ReadValue<Vector2>());
+            this.m_InputControlData.PlayerMovement.PreparePlayerMovement(context.ReadValue<Vector2>());
         }
 
         void IGameplayInputControl.OnSprint(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_PlayerMovement.PrepareSprint(context.ReadValueAsButton());
+            this.m_InputControlData.PlayerMovement.PrepareSprint(context.ReadValueAsButton());
         }
 
         // -----------------------------------------------------
@@ -79,19 +57,19 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         void IGameplayInputControl.OnLockOn(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_PlayerTargetTracking.ToggleLockOn();
+            this.m_InputControlData.PlayerTargetTracking.ToggleLockOn();
         }
 
         void IGameplayInputControl.OnToggleLockLeft(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_PlayerTargetTracking.ToggleLockLeft();
+            this.m_InputControlData.PlayerTargetTracking.ToggleLockLeft();
         }
 
         void IGameplayInputControl.OnToggleLockRight(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_PlayerTargetTracking.ToggleLockRight();
+            this.m_InputControlData.PlayerTargetTracking.ToggleLockRight();
         }
 
         // -----------------------------------------------------
@@ -101,13 +79,13 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         void IGameplayInputControl.OnAttack(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_PlayerAttackHandler.Attack();
+            this.m_InputControlData.PlayerAttackHandler.Attack();
         }
 
         void IGameplayInputControl.OnSwordDraw(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_PlayerAttackHandler.DrawSword();
+            this.m_InputControlData.PlayerAttackHandler.DrawSword();
         }
 
         void IGameplayInputControl.OnStartHeavy(InputAction.CallbackContext context)
@@ -115,25 +93,25 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
             if (!this.m_IsInputActive || this.IsPaused) return;
 
             if (context.interaction is HoldInteraction)
-                this.m_PlayerAttackHandler.StartHeavy();
+                this.m_InputControlData.PlayerAttackHandler.StartHeavy();
         }
 
         void IGameplayInputControl.OnStartHeavyAlternative(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_PlayerAttackHandler.StartHeavyAlternative();
+            this.m_InputControlData.PlayerAttackHandler.StartHeavyAlternative();
         }
 
         void IGameplayInputControl.OnStartBlock(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            m_PlayerAttackHandler.StartBlock();
+            this.m_InputControlData.PlayerAttackHandler.StartBlock();
         }
 
         void IGameplayInputControl.OnEndBlock(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_PlayerAttackHandler.EndBlock();
+            this.m_InputControlData.PlayerAttackHandler.EndBlock();
         }
 
         // -----------------------------------------------------
@@ -143,13 +121,13 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         void IGameplayInputControl.OnDodge(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_PlayerSpecialAction.Dodge();
+            this.m_InputControlData.PlayerSpecialAction.Dodge();
         }
 
         void IGameplayInputControl.OnInitRewind(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_PlayerSpecialAction.ActivateRewind();
+            this.m_InputControlData.PlayerSpecialAction.ActivateRewind();
         }
 
         // -----------------------------------------------------
@@ -161,7 +139,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
             if (!this.m_IsInputActive) return;
             
             // Ticket #46 - Clarify handling on UI events against game logic.
-            this.m_PauseActionHandler.TogglePause();
+            this.m_InputControlData.PauseActionHandler.TogglePause();
         }
 
         // -----------------------------------------------------
@@ -171,7 +149,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         void IGameplayInputControl.OnRotateCamera(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_PlayerViewOrientationHandler.RotateViewOrientation(context.ReadValue<Vector2>());
+            this.m_InputControlData.PlayerViewOrientationHandler.RotateViewOrientation(context.ReadValue<Vector2>());
         }
 
         #endregion Event Handlers
@@ -180,8 +158,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         void IInputControl.ConfigureInputEvents(PlayerInput playerInput)
         {
-            // Subscribe all events from input control
-            // Methods should be subscribed as the first in each event list
+            // Tech-Debt: #57 - Use constants to represent the different input actions.
 
             // Movement
             playerInput.actions["movement"].performed += ((IGameplayInputControl)this).OnMovement;
@@ -221,8 +198,14 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         void IInputControl.DisableInput() 
             => this.m_IsInputActive = false;
 
+        void IGameplayInputControl.SetInitialiseGameplayInput(ICommand initializerCommand) 
+            => this.m_InitializerCommand = initializerCommand;
+
+        void IGameplayInputControl.SetInputControlData(GameplayInputControlData inputControlData)
+            => this.m_InputControlData = inputControlData;
+
         #endregion Methods
-        
+
     }
 
 }

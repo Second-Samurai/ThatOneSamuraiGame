@@ -1,3 +1,4 @@
+using ThatOneSamuraiGame.Scripts.General.Services;
 using UnityEngine.InputSystem;
 
 namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
@@ -5,7 +6,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
     
     public interface IGameplayInputControl: IInputControl
     {
-
+        
         #region - - - - - - Event Handlers - - - - - -
 
         // -----------------------------------------------------
@@ -63,7 +64,15 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         void OnPause(InputAction.CallbackContext context);
 
         #endregion Event Handlers
-        
+
+        #region - - - - - - Methods - - - - - -
+
+        void SetInitialiseGameplayInput(ICommand initializerCommand);
+
+        void SetInputControlData(GameplayInputControlData inputControlData);
+
+        #endregion Methods
+
     }
     
 }

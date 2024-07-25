@@ -48,6 +48,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Menu
 
         #region - - - - - - Methods - - - - - -
 
+        // Tech-Debt: #57 - Use constants to represent the different input actions.
         void IInputControl.ConfigureInputEvents(PlayerInput playerInput) 
             => playerInput.actions["unpause"].performed += ((IMenuInputControl)this).UnPause;
 

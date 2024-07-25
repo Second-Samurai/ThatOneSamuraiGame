@@ -105,7 +105,6 @@ public class GameManager : MonoBehaviour
         this.m_GameState = this.GetComponent<GameState>();
         
         this.m_InputManager = this.GetComponent<IInputManager>();
-        this.m_InputManager.ActivateMenuInputControl();
     }
 
     // Start is called before the first frame update
@@ -118,7 +117,9 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Main Menu not assigned! Finding in code");
             buttonController = GameObject.FindWithTag("MainMenu").GetComponent<ButtonController>();
         }
-
+        
+        this.m_InputManager.ConfigureMenuInputControl();
+        this.m_InputManager.SwitchToMenuControls();
     }
 
     #endregion Lifecycle Methods

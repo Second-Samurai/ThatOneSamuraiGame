@@ -140,9 +140,6 @@ namespace ThatOneSamuraiGame.Scripts.Input
             _RewindInputControl.ConfigureInputEvents(this.m_PlayerInput);
             this.m_RewindInputControl = _RewindInputControl;
             this.m_RewindInputControl.DisableInput();
-            
-            // Set Gameplay as active input by default
-            // this.m_ActiveInputActionMap = InputActionMapType.Gamplay;
         }
 
         void IInputManager.UnpossesPlayerObject(GameObject playerObject)

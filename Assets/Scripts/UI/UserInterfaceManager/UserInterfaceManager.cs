@@ -5,7 +5,7 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
 {
 
     /// <summary>
-    /// Centralized gateway to user interface provider and management.
+    /// Responsible for managing initialisation, state and view presentation of graphical user interfaces.
     /// </summary>
     public class UserInterfaceManager: MonoBehaviour, IUserInterfaceManager
     {
@@ -15,7 +15,6 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
         // Menus
         private IPauseMenuController m_PauseMenuController;
         
-        // Coupled fields
         private UserInterfaceConfiguration m_UserInterfaceConfiguration;
 
         #endregion Fields

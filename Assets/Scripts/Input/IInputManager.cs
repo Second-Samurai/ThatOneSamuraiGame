@@ -8,7 +8,7 @@ namespace ThatOneSamuraiGame.Scripts.Input
         
         #region - - - - - - Methods - - - - - -
 
-        void ActivateMenuInputControl();
+        void ConfigureMenuInputControl();
 
         bool DoesGameplayInputControlExist();
 

@@ -42,10 +42,8 @@ namespace ThatOneSamuraiGame.Scripts.Input
 
         #region - - - - - - Methods - - - - - -
         
-        void IInputManager.ActivateMenuInputControl()
+        void IInputManager.ConfigureMenuInputControl()
         {
-            this.m_PlayerInput.SwitchCurrentActionMap("Menu");
-
             IMenuInputControl _MenuInputControl;
             switch (this.m_SelectedDevice)
             {
@@ -62,7 +60,7 @@ namespace ThatOneSamuraiGame.Scripts.Input
             };
             
             _MenuInputControl.ConfigureInputEvents(this.m_PlayerInput);
-            this.m_ActiveInputActionMap = InputActionMapType.Menu;
+            this.m_MenuInputControl = _MenuInputControl;
         }
                 
         bool IInputManager.DoesGameplayInputControlExist()
@@ -76,10 +74,10 @@ namespace ThatOneSamuraiGame.Scripts.Input
                     this.m_GameplayInputControl.DisableInput();
                     break;
                 case InputActionMapType.Menu:
-                    // this.m_MenuInputControl.DisableInput();
+                    this.m_MenuInputControl.DisableInput();
                     break;
                 case InputActionMapType.Rewind:
-                    // this.m_RewindInputControl.DisableInput();
+                    this.m_RewindInputControl.DisableInput();
                     break;
                 default:
                     Debug.LogWarning("Either input control is not set or input mapping type not specified.");
@@ -95,10 +93,10 @@ namespace ThatOneSamuraiGame.Scripts.Input
                     this.m_GameplayInputControl.EnableInput();
                     break;
                 case InputActionMapType.Menu:
-                    // this.m_MenuInputControl.EnableInput();
+                    this.m_MenuInputControl.EnableInput();
                     break;
                 case InputActionMapType.Rewind:
-                    // this.m_RewindInputControl.EnableInput();
+                    this.m_RewindInputControl.EnableInput();
                     break;
                 default:
                     Debug.LogWarning("Either input control is not set or input mapping type not specified.");
@@ -128,16 +126,20 @@ namespace ThatOneSamuraiGame.Scripts.Input
                     _RewindInputControl = playerObject.AddComponent<RewindMouseAndKeyboardInputControl>();
                     break;
             };
-            
+
+            GameplayInputControlData _InputControlData = new GameplayInputControlData();
             _GameplayInputControl.ConfigureInputEvents(this.m_PlayerInput);
+            _GameplayInputControl.SetInputControlData(_InputControlData);
+            _GameplayInputControl.SetInitialiseGameplayInput(
+                                    new GameplayInputInitializerCommand(
+                                        _InputControlData, 
+                                        GameManager.instance.SceneManager.SceneState.ActivePlayer,
+                                        GameManager.instance.GameState.SessionUser));
             this.m_GameplayInputControl = _GameplayInputControl;
 
             _RewindInputControl.ConfigureInputEvents(this.m_PlayerInput);
             this.m_RewindInputControl = _RewindInputControl;
             this.m_RewindInputControl.DisableInput();
-            
-            // Set Gameplay as active input by default
-            this.m_ActiveInputActionMap = InputActionMapType.Gamplay;
         }
 
         void IInputManager.UnpossesPlayerObject(GameObject playerObject)
@@ -153,8 +155,9 @@ namespace ThatOneSamuraiGame.Scripts.Input
         void IInputManager.SwitchToGameplayControls()
         {
             this.m_PlayerInput.SwitchCurrentActionMap("Gameplay");
+            
             this.m_GameplayInputControl.EnableInput();
-            // this.m_MenuInputControl.DisableInput();
+            this.m_MenuInputControl.DisableInput();
             this.m_RewindInputControl.DisableInput();
             
             this.m_ActiveInputActionMap = InputActionMapType.Gamplay;
@@ -163,8 +166,9 @@ namespace ThatOneSamuraiGame.Scripts.Input
         void IInputManager.SwitchToMenuControls()
         {
             this.m_PlayerInput.SwitchCurrentActionMap("Menu");
+            
             this.m_GameplayInputControl.DisableInput();
-            // this.m_MenuInputControl.EnableInput();
+            this.m_MenuInputControl.EnableInput();
             this.m_RewindInputControl.DisableInput();
             
             this.m_ActiveInputActionMap = InputActionMapType.Menu;
@@ -173,8 +177,9 @@ namespace ThatOneSamuraiGame.Scripts.Input
         void IInputManager.SwitchToRewindControls()
         {
             this.m_PlayerInput.SwitchCurrentActionMap("Rewind");
+            
             this.m_GameplayInputControl.DisableInput();
-            // this.m_MenuInputControl.DisableInput();
+            this.m_MenuInputControl.DisableInput();
             this.m_RewindInputControl.EnableInput();
             
             this.m_ActiveInputActionMap = InputActionMapType.Rewind;

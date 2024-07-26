@@ -1,6 +1,5 @@
 using UnityEngine.InputSystem;
 
-
 namespace ThatOneSamuraiGame.Scripts.Input.Rewind
 {
     

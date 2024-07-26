@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using ThatOneSamuraiGame.Scripts;
 using ThatOneSamuraiGame.Scripts.Input;
+using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
+using ThatOneSamuraiGame.Scripts.UI.Pause.PauseManager;
+using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
 using UnityEngine;
 
 // Ticket: #45 - Move managers and services into their own namespaces.
@@ -43,20 +46,39 @@ public class GameManager : MonoBehaviour
 
     //UICanvases
     [HideInInspector] public GameObject guardMeterCanvas;
-
-    //Private variables
+    
+    // Private variables
     private GameState m_GameState;
-    private IInputManager m_InputManager;
 
+    [Header("Persistent Managers")]
+    [SerializeField] private SceneManager m_SceneManager;
+    [SerializeField] private UserInterfaceManager m_UserInterfaceManager;
+    [SerializeField] private PauseManager m_PauseManager;
+    
+    private IInputManager m_InputManager;
+    
     #endregion Fields
 
     #region - - - - - - Properties - - - - - -
 
     public GameState GameState
         => this.m_GameState;
+    
+    // ----------------------------------------------
+    // Managers
+    // ----------------------------------------------
 
     public IInputManager InputManager
         => this.m_InputManager;
+
+    public IPauseManager PauseManager
+        => this.m_PauseManager;
+
+    public ISceneManager SceneManager
+        => this.m_SceneManager;
+
+    public IUserInterfaceManager UserInterfaceManager
+        => this.m_UserInterfaceManager;
 
     #endregion Properties
 
@@ -71,6 +93,8 @@ public class GameManager : MonoBehaviour
 
         // Perform setup pipeline
         // Ticket: #43 - Move this into its own pipeline handler to separate initialisation logic from the game manager.
+        
+        // Setup game scene
         SetupSceneCamera();
         SetupScene();
         // SetupUI();
@@ -79,6 +103,7 @@ public class GameManager : MonoBehaviour
 
         // Locate services
         this.m_GameState = this.GetComponent<GameState>();
+        
         this.m_InputManager = this.GetComponent<IInputManager>();
     }
 
@@ -92,7 +117,9 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Main Menu not assigned! Finding in code");
             buttonController = GameObject.FindWithTag("MainMenu").GetComponent<ButtonController>();
         }
-
+        
+        this.m_InputManager.ConfigureMenuInputControl();
+        this.m_InputManager.SwitchToMenuControls();
     }
 
     #endregion Lifecycle Methods
@@ -158,7 +185,7 @@ public class GameManager : MonoBehaviour
     {
         playerController.Init(targetHolder);
 
-        if (this.m_InputManager.DoesGameplayInputControlExist())
+        if (this.m_InputManager.DoesGameplayInputControlExist()) 
             this.m_InputManager.PossesPlayerObject(this.playerController.gameObject);
     }
 
@@ -195,6 +222,14 @@ public class GameManager : MonoBehaviour
         if (FindObjectOfType<AudioManager>() == null) 
             audioManager = Instantiate(gameSettings.audioManger, transform.position, Quaternion.identity).GetComponent<AudioManager>();
     }
+    
+    // -----------------------------------------------------------
+    // Temporary: Actions pertaining to defined game events
+    // -----------------------------------------------------------
+
+    // Note: Should be refactored to its own definable hard-coded event.
+    public void OnOpeningSceneStart()
+        => Debug.LogWarning("Not implemented");
 
     #endregion Methods
 

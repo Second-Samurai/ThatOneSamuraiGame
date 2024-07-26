@@ -378,9 +378,4 @@ public class PlayerFunctions : MonoBehaviour
         //Vector3 CenterPos = GetMousePosition(screenCenter.position, Camera.main);
         //Vector3 attackDir = 
     }
-
-    public void Pause()
-    {
-        pauseMenu.SetActive(true);
-    }
 }

@@ -28,13 +28,13 @@ namespace ThatOneSamuraiGame.Scripts.Base
         /// <summary>
         /// Changes object's state to pause.
         /// </summary>
-        void IPausable.OnPause()
+        public virtual void OnPause()
             => this.m_IsPaused = true;
 
         /// <summary>
         /// Changes object's state to unpause.
         /// </summary>
-        void IPausable.OnUnPause()
+        public virtual void OnUnPause()
             => this.m_IsPaused = false;
 
         #endregion IPausable Methods

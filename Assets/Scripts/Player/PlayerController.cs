@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
     //NOTE: Once object is spawned through code init through awake instead.
     void Awake() {
         //NOTE: This is only temporary to fix the camera referencing issues
-        GameManager.instance.PlayerController = this;
+        // GameManager.instance.PlayerController = this;
     }
 
     private void Start() 

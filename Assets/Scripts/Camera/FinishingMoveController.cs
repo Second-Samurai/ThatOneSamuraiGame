@@ -6,6 +6,9 @@ using Cinemachine;
 using UnityEngine.Events;
 using UnityEngine.Timeline;
 using Enemies;
+using ThatOneSamuraiGame.Scripts.Player.Attack;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
+using ThatOneSamuraiGame.Scripts.Player.Movement;
 
 public class FinishingMoveController : MonoBehaviour
 {
@@ -15,7 +18,7 @@ public class FinishingMoveController : MonoBehaviour
 
     public PlayableAsset[] finishingMoves;
 
-    public PlayerInputScript playerInputScript;
+    // public PlayerInputScript playerInputScript;
 
     public GameEvent showFinisherTutorialEvent;
 
@@ -72,11 +75,18 @@ public class FinishingMoveController : MonoBehaviour
 
         detector.SetActive(false);
         damageController.DisableDamage();
-        playerInputScript.DisableMovement();
+        
+        // Note: This is only a temporary solution
+        IPlayerMovement _PlayerMovement = this.transform.parent.GetComponent<IPlayerMovement>();
+        _PlayerMovement.DisableMovement();
+        
         SetTargetEnemy(enemy.GetComponentInChildren<Animator>());
         SelectFinishingMove();
         _cutsceneDirector.Play();
-        playerInputScript.bCanAttack = false;
+        
+        // Note: This is only a temporary solution
+        PlayerAttackState _PlayerAttackState = this.transform.parent.GetComponent<IPlayerState>().PlayerAttackState;
+        _PlayerAttackState.CanAttack = false;
         
         enemies = GameManager.instance.enemyTracker.currentEnemies;
         //Debug.LogError(enemies.Count);
@@ -93,12 +103,22 @@ public class FinishingMoveController : MonoBehaviour
         targetEnemy.GetComponent<AISystem>().OnEnemyDeath();
         detector.SetActive(true);
         GameManager.instance.rewindManager.IncreaseRewindAmount();
-        playerInputScript.bCanAttack = true;
-        playerInputScript.EnableMovement();
+        // playerInputScript.bCanAttack = true;
+        // playerInputScript.EnableMovement();
+        // playerInputScript.bAlreadyAttacked = false;
+        // playerInputScript.ResetAttack();
+        
+        // Note: This is only a temporary solution
+        IPlayerMovement _PlayerMovement = this.transform.parent.GetComponent<IPlayerMovement>();
+        _PlayerMovement.EnableMovement();
+        
         damageController.EnableDamage();
-        playerInputScript.bAlreadyAttacked = false;
-        playerInputScript.ResetAttack();
+
+        IPlayerAttackHandler _PlayerAttackHandler = this.transform.parent.GetComponent<IPlayerAttackHandler>();
+        _PlayerAttackHandler.ResetAttack();
+        
         bIsFinishing = false;
+        
         //for (int i = 0; i < enemies.Count - 1; i++)
         //{
         //    enemies[i].GetComponent<AISystem>().EnemyState = enemiesCache[i].EnemyState;

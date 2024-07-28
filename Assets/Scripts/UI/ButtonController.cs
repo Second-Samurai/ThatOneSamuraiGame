@@ -1,15 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Cinemachine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class ButtonController : MonoBehaviour
 {
     public CinemachineVirtualCamera vcam, optionsVCam;
     public GameObject menu, optionsMenu;
-    PlayerInput _input;
     public GameObject cutscene;
     public Button continueButton;
     
@@ -60,12 +56,6 @@ public class ButtonController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked; 
         menu.SetActive(false);
         GameManager.instance.checkpointManager.LoadCheckpoint();
-    }
-
-    private void Start()
-    {
-        _input = GameManager.instance.playerController.gameObject.GetComponent<PlayerInput>();
-        _input.SwitchCurrentActionMap("Menu");
     }
 
     public void EnableContinue()

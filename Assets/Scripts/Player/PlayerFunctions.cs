@@ -1,10 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Enemies;
+using ThatOneSamuraiGame.Scripts.Input;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
+using ThatOneSamuraiGame.Scripts.Player.Movement;
+using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
+// Tech-Debt: #35 - PlayerFunctions will be refactored to mitigate large class bloat.
 public class PlayerFunctions : MonoBehaviour
 {
     [Header("Block Variables")]
@@ -37,10 +42,6 @@ public class PlayerFunctions : MonoBehaviour
 
     public GameObject pauseMenu;
 
-    public PlayerInput _inputComponent;
-
-    public PlayerInputScript playerInputScript;
-
     public GameObject lSword, rSword;
 
     public bool bSlide = false;
@@ -53,6 +54,12 @@ public class PlayerFunctions : MonoBehaviour
 
     RaycastHit sprintAttackTarget;
     [SerializeField] LayerMask enemyMask;
+    
+    // Player States
+    private PlayerMovementState m_PlayerMovementState;
+    private PlayerSpecialActionState m_PlayerSpecialActionState;
+
+    private IPlayerMovement m_PlayerMovement;
 
     private void Start()
     {
@@ -66,14 +73,16 @@ public class PlayerFunctions : MonoBehaviour
 
         _animator = GetComponent<Animator>();
 
-        _inputComponent = GetComponent<PlayerInput>();
-
-        playerInputScript = GetComponent<PlayerInputScript>();
-
         hitstopController = GameManager.instance.GetComponent<HitstopController>();
 
         enemyMask = LayerMask.GetMask("Enemy");
         //enemyMask = ~enemyMask;
+
+        this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
+
+        IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
+        this.m_PlayerMovementState = _PlayerState.PlayerMovementState;
+        this.m_PlayerSpecialActionState = _PlayerState.PlayerSpecialActionState;
     }
     public void SetBlockCooldown()
     {
@@ -121,13 +130,11 @@ public class PlayerFunctions : MonoBehaviour
 
         if (bAllowDeathMoveReset)
         {
-            if (bIsDead && playerInputScript.bCanMove)
-                playerInputScript.DisableMovement();
-            else if (!bIsDead && !playerInputScript.bCanMove)
-                playerInputScript.EnableMovement();
+            if (bIsDead && this.m_PlayerMovementState.IsMovementEnabled)
+                m_PlayerMovement.DisableMovement();
+            else if (!bIsDead && !this.m_PlayerMovementState.IsMovementEnabled)
+                m_PlayerMovement.EnableMovement();
         }
-
-
     }
      
 
@@ -256,8 +263,7 @@ public class PlayerFunctions : MonoBehaviour
 
     public void ApplyHit(GameObject attacker, bool unblockable, float damage)
     {
-        //Debug.LogWarning(playerInputScript.bIsDodging);
-        if (!playerInputScript.bIsDodging)
+        if (!this.m_PlayerSpecialActionState.IsDodging)
         { 
             if (bIsParrying && !unblockable)
             {
@@ -282,8 +288,8 @@ public class PlayerFunctions : MonoBehaviour
     public void CancelMove()
     {
         StopAllCoroutines(); 
-        playerInputScript.EnableMovement();
-        playerInputScript.EnableRotation();
+        this.m_PlayerMovement.EnableMovement();
+        this.m_PlayerMovement.EnableRotation();
         rb.linearVelocity = Vector3.zero;
         _animator.applyRootMotion = true;
     }
@@ -295,11 +301,11 @@ public class PlayerFunctions : MonoBehaviour
         {
             TriggerParry(attacker, amount);
         }
-        else if (!playerInputScript.bIsDodging)
+        else if (!this.m_PlayerSpecialActionState.IsDodging)
         {
             playerSFX.Smack();
             //Debug.Log("HIT" + amount * direction);
-            playerInputScript.DisableRotation();
+            this.m_PlayerMovement.DisableRotation();
             _animator.SetTrigger("KnockdownTrigger");
             StartCoroutine(ImpulseWithTimer(direction, amount, duration));
         }
@@ -335,13 +341,17 @@ public class PlayerFunctions : MonoBehaviour
     {
         if (!bIsDead)
         {
-            //play anim
+            // play anim
             _animator.SetTrigger("Death");
             _animator.SetBool("isDead", true);
-            //trigger rewind
+            
+            // trigger rewind
             bIsDead = true;
             
-            _inputComponent.SwitchCurrentActionMap("Rewind");
+            // Activate input switch to rewind
+            IInputManager _InputManager = GameManager.instance.InputManager;
+            _InputManager.SwitchToRewindControls();
+            
             //Debug.LogError("Player killed!");
             //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);
             //GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.3f);
@@ -367,10 +377,5 @@ public class PlayerFunctions : MonoBehaviour
     {
         //Vector3 CenterPos = GetMousePosition(screenCenter.position, Camera.main);
         //Vector3 attackDir = 
-    }
-
-    public void Pause()
-    {
-        pauseMenu.SetActive(true);
     }
 }

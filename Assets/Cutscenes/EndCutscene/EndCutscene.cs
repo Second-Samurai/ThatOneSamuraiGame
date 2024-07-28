@@ -103,9 +103,6 @@ public class EndCutscene : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void DisableInput()
-    {
-        GameManager.instance.DisableInput();
-    }
-
+    public void DisableInput() 
+        => GameManager.instance.InputManager.DisableActiveInputControl();
 }

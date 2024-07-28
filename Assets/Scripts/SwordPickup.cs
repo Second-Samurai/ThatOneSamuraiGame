@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ThatOneSamuraiGame.Scripts.Player.Attack;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
 
 public class SwordPickup : MonoBehaviour
@@ -10,7 +12,24 @@ public class SwordPickup : MonoBehaviour
         Lightsaber
     }
 
+    #region - - - - - - Fields - - - - - -
+
     public WeaponType weaponType;
+
+    private PlayerAttackState m_PlayerAttackState;
+
+    #endregion Fields
+
+    #region - - - - - - Lifecycle Methods - - - - - -
+
+    private void Start() 
+        => this.m_PlayerAttackState = GameManager.instance.playerController
+                                        .GetComponent<IPlayerState>()
+                                        .PlayerAttackState;
+
+    #endregion Lifecycle Methods
+
+    #region - - - - - - Methods - - - - - -
 
     /// <summary>
     /// Sets gameobject to player's swordmanager
@@ -33,8 +52,8 @@ public class SwordPickup : MonoBehaviour
         ICombatController playerCombatController = holder.GetComponent<ICombatController>();
         playerCombatController.DrawSword();
 
-        PlayerFunctions player = GameManager.instance.playerController.gameObject.GetComponent<PlayerFunctions>();
-        player.gameObject.GetComponent<PlayerInputScript>().bCanAttack = true; //TODO: CHANGE: input not incharge of attacking (combat controller maybe doing it already)
+        this.m_PlayerAttackState.CanAttack = true;
+        
         this.gameObject.SetActive(false);
     }
 
@@ -45,4 +64,7 @@ public class SwordPickup : MonoBehaviour
             PickupSword(other.GetComponent<ISwordManager>(), other.gameObject);
         }
     }
+
+    #endregion Methods
+    
 }

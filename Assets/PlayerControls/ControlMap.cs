@@ -41,7 +41,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""LockOn"",
                     ""type"": ""Button"",
                     ""id"": ""7d3b2d0c-6ef1-4db4-85ab-f1365c38ebdd"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
@@ -68,7 +68,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""EndBlock"",
                     ""type"": ""Button"",
                     ""id"": ""155d1532-4f55-42b2-abd4-2a8dceb44249"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=1)"",
                     ""initialStateCheck"": false
@@ -77,16 +77,16 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""bb4d4c72-aca8-4669-a79e-e0b19c891ba1"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Press(behavior=1)"",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Dodge"",
                     ""type"": ""Button"",
                     ""id"": ""f1e70147-378b-429e-a976-ca9e31227a1e"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
@@ -95,7 +95,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""InitRewind"",
                     ""type"": ""Button"",
                     ""id"": ""3be9406a-147b-42e2-9464-c8a788c65bb7"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
@@ -104,7 +104,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""ScrubForwardOLD"",
                     ""type"": ""Value"",
                     ""id"": ""fb68f0ce-984f-4167-8e4d-d9c07aee1e24"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)"",
                     ""initialStateCheck"": true
@@ -131,7 +131,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""ReleaseLockOn"",
                     ""type"": ""Button"",
                     ""id"": ""49a3647a-04d7-4753-9c18-a0dfb073b98b"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
@@ -140,7 +140,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""ToggleLockLeft"",
                     ""type"": ""Button"",
                     ""id"": ""bd0d209c-7483-408c-a191-99172ebbb538"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
@@ -149,7 +149,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""ToggleLockRight"",
                     ""type"": ""Button"",
                     ""id"": ""5661c98b-a309-46eb-a33a-5d0c715004c2"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
@@ -158,16 +158,16 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""StartHeavy"",
                     ""type"": ""Button"",
                     ""id"": ""29d73101-4da2-4199-99f3-8f4d7d6cd25e"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Hold(duration=0.3,pressPoint=0.5),Press"",
+                    ""interactions"": ""Hold"",
                     ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""StartHeavyAlternative"",
                     ""type"": ""Button"",
                     ""id"": ""d843801a-0efa-45c2-b0ff-e676c733d311"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
@@ -176,7 +176,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""58f1a698-757e-425c-aefc-947683b1f9ee"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -612,7 +612,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""17ad6dd6-9a2a-4a9e-9dfa-bf9f27fa785b"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""StartHeavy"",
@@ -704,7 +704,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""bb9ae5c8-0b93-44e0-b002-2b0380f4e35a"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -713,7 +713,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""EndRewind"",
                     ""type"": ""Button"",
                     ""id"": ""79a9d872-5340-4333-8f11-7577c02c03cf"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
@@ -838,7 +838,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""name"": ""Unpause"",
                     ""type"": ""Button"",
                     ""id"": ""2938e789-f18e-4651-a9f9-e5d9748bc73d"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false

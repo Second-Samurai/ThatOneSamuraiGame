@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using ThatOneSamuraiGame.Scripts;
 using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using ThatOneSamuraiGame.Scripts.UI.Pause.PauseManager;
 using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 // Ticket: #45 - Move managers and services into their own namespaces.
 public class GameManager : MonoBehaviour
@@ -31,28 +34,36 @@ public class GameManager : MonoBehaviour
     public Transform playerSpawnPoint; // scene manager
     public bool bShowAttackPopups = true;
 
-    [Header("Camera")]
-    [HideInInspector] public Camera mainCamera; // scene manager
-    public GameObject thirdPersonViewCamera; // scene manager
-    public LockOnTracker lockOnTracker; //scene manager
+    // [FormerlySerializedAs("thirdPersonViewCamera")]
+    // [FormerlySerializedAs("mainCamera")]
+    // [Header("Camera")]
+    // [HideInInspector] public Camera MainCamera; // scene manager
+    // public GameObject ThirdPersonViewCamera; // scene manager
+    // [FormerlySerializedAs("lockOnTracker")]
+    // public LockOnTracker LockOnTracker; //scene manager
 
-    [Header("Player")]
-    public PlayerController playerController; // scene manager
-    public CameraControl cameraControl; //scene manager
+    // [FormerlySerializedAs("playerController")]
+    // [Header("Player")]
+    // public PlayerController PlayerController; // scene manager
+    // [FormerlySerializedAs("cameraControl")]
+    // public CameraControl CameraControl; //scene manager
 
-    [Header("Controllers and Managers")]
-    public RewindManager rewindManager; //scene manager
-    public EnemyTracker enemyTracker; // scene manager
+    // [FormerlySerializedAs("enemyTracker")]
+    // [FormerlySerializedAs("rewindManager")]
+    // [Header("Controllers and Managers")]
+    // public RewindManager RewindManager; //scene manager
+    // public EnemyTracker EnemyTracker; // scene manager
 
     [Space]
     public PostProcessingController postProcessingController; // keep this, its likely to be part of some graphics manager
     public AudioManager audioManager; 
 
-    [Space]
-    public CheckpointManager checkpointManager; // scene manager
-    public EnemySpawnManager enemySpawnManager; // scene manager
+    // [FormerlySerializedAs("checkpointManager")]
+    // [Space]
+    // public CheckpointManager CheckpointManager; // scene manager
+    // public EnemySpawnManager EnemySpawnManager; // scene manager
     public ButtonController buttonController; // UI manager
-    public BossThemeManager bossThemeManager; // scene manager. Likely rename as its responsible for mostly one specific area
+    public BossThemeManager bossThemeManager; // Audio manager
 
     //UICanvases
     [HideInInspector] public GameObject guardMeterCanvas; // UI manager
@@ -88,7 +99,50 @@ public class GameManager : MonoBehaviour
 
     public IUserInterfaceManager UserInterfaceManager
         => this.m_UserInterfaceManager;
+    
+    // ----------------------------------------------
+    // Property pass-through 
+    // ----------------------------------------------
 
+    // ALL PROPERTIES BELOW THIS:
+    //  - This is to only maintain existing references to the old fields to reduce propagated changes.
+    //  - Will be resolved once the state of the source values are resolved.
+    
+    public CheckpointManager CheckpointManager
+        => ((ISceneManager)this.m_SceneManager).CheckpointManager;
+
+    public RewindManager RewindManager
+        => ((ISceneManager)this.m_SceneManager).RewindManager;
+
+    public EnemyTracker EnemyTracker
+        => ((ISceneManager)this.m_SceneManager).EnemyTracker;
+
+    public EnemySpawnManager EnemySpawnManager
+        => ((ISceneManager)this.m_SceneManager).EnemySpawnManager;
+    
+    // ----------------------------------------------
+    // Camera
+    // ----------------------------------------------
+
+    public CameraControl CameraControl
+        => ((ISceneManager)this.m_SceneManager).CameraControl;
+    
+    public LockOnTracker LockOnTracker
+        => ((ISceneManager)this.m_SceneManager).LockOnTracker;
+    
+    public Camera MainCamera
+        => ((ISceneManager)this.m_SceneManager).MainCamera;
+    
+    public GameObject ThirdPersonViewCamera
+        => ((ISceneManager)this.m_SceneManager).ThirdPersonViewCamera;
+
+    // ----------------------------------------------
+    // Player
+    // ----------------------------------------------
+
+    public PlayerController PlayerController
+        => ((ISceneManager)this.m_SceneManager).PlayerController;
+    
     #endregion Properties
 
     #region - - - - - - Lifecycle Methods - - - - - -
@@ -143,23 +197,23 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < sceneLoaders.Count; i++)
         {
             ISceneLoader loader = sceneLoaders[i].GetComponent<ISceneLoader>();
-            loader.Initialise(mainCamera.transform);
+            loader.Initialise(MainCamera.transform);
         }
     }
 
     void SetupSceneCamera() // Handled in pipeline
     {
-        lockOnTracker = FindObjectOfType<LockOnTracker>();
+        LockOnTracker = FindObjectOfType<LockOnTracker>();
         
-        if (!thirdPersonViewCamera)
+        if (!ThirdPersonViewCamera)
         {
             Debug.LogError("No third person camera in scene! Adding new object but please assign in inspector instead!");
             Vector3 thirdPersonViewPos = gameSettings.thirdPersonViewCam.transform.position;
-            thirdPersonViewCamera = Instantiate(gameSettings.thirdPersonViewCam, thirdPersonViewPos, Quaternion.identity);
+            ThirdPersonViewCamera = Instantiate(gameSettings.thirdPersonViewCam, thirdPersonViewPos, Quaternion.identity);
             
         }
         Vector3 mainCameraPos = gameSettings.mainCamera.transform.position;
-        mainCamera = Instantiate(gameSettings.mainCamera, mainCameraPos, Quaternion.identity).GetComponent<Camera>();
+        MainCamera = Instantiate(gameSettings.mainCamera, mainCameraPos, Quaternion.identity).GetComponent<Camera>();
 
         //Add Post Processing
         postProcessingController = Instantiate(gameSettings.dayPostProcessing, transform.position, Quaternion.identity).GetComponent<PostProcessingController>();
@@ -177,30 +231,30 @@ public class GameManager : MonoBehaviour
 
         PlayerController playerControl = FindObjectOfType<PlayerController>();
         
-        if(playerController != null)
+        if(PlayerController != null)
         {
-            playerController = playerControl;
-            cameraControl = playerControl.GetComponent<CameraControl>();
+            PlayerController = playerControl;
+            CameraControl = playerControl.GetComponent<CameraControl>();
             InitialisePlayer(targetHolder);
             return;
         }
 
         GameObject playerObject = Instantiate(gameSettings.playerPrefab, playerSpawnPoint.position, Quaternion.identity);
-        playerController = playerObject.GetComponentInChildren<PlayerController>();
+        PlayerController = playerObject.GetComponentInChildren<PlayerController>();
         InitialisePlayer(targetHolder);
     }
 
     void InitialisePlayer(GameObject targetHolder) // Handled in pipeline
     {
-        playerController.Init(targetHolder);
+        PlayerController.Init(targetHolder);
 
         if (this.m_InputManager.DoesGameplayInputControlExist()) 
-            this.m_InputManager.PossesPlayerObject(this.playerController.gameObject);
+            this.m_InputManager.PossesPlayerObject(this.PlayerController.gameObject);
     }
 
     void SetupEnemies() // Handled in pipeline
     {
-        enemyTracker = FindObjectOfType<EnemyTracker>();
+        EnemyTracker = FindObjectOfType<EnemyTracker>();
         gameSettings.enemySettings.SetTarget(FindObjectOfType<PlayerController>().transform);
         
         //Sets up the test enemies for tracking
@@ -215,14 +269,14 @@ public class GameManager : MonoBehaviour
         if (testEnemies.Length == 0) return;
 
         foreach (TestStaticTarget enemy in testEnemies) 
-            enemyTracker.AddEnemy(enemy.GetComponentInParent<Transform>());
+            EnemyTracker.AddEnemy(enemy.GetComponentInParent<Transform>());
     }
 
     void SetupRewind() // Handled in pipeline
     {
-        if (rewindManager == null)
+        if (RewindManager == null)
         {
-            rewindManager = Instantiate(gameSettings.rewindManager, transform.position, Quaternion.identity).GetComponent<RewindManager>();
+            this.RewindManager = Instantiate(gameSettings.rewindManager, transform.position, Quaternion.identity).GetComponent<RewindManager>();
         }
     }
 

@@ -13,7 +13,7 @@ public class ArmourRewindEntity : RewindEntity
     // Start is called before the first frame update
     protected new void Start()
     {
-        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
+        _rewindInput = GameManager.instance.RewindManager.GetComponent<RewindManager>();
         ArmourDataList = new List<ArmourTimeData>();
         _rewindInput.Reset += ResetTimeline;
         _rewindInput.OnEndRewind += ApplyData;

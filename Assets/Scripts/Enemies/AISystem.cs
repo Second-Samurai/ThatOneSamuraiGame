@@ -123,7 +123,7 @@ namespace Enemies
             enemySettings = GameManager.instance.gameSettings.enemySettings;
             
             // Get the enemy tracker
-            enemyTracker = GameManager.instance.enemyTracker;
+            enemyTracker = GameManager.instance.EnemyTracker;
 
             // Set up animator
             animator = GetComponent<Animator>();
@@ -876,14 +876,14 @@ namespace Enemies
 
         private void OnDisable()
         { 
-            GameManager.instance.enemyTracker.RemoveEnemy(rb.gameObject.transform);
-            GameManager.instance.lockOnTracker.RemoveEnemy(rb.gameObject.transform);
+            GameManager.instance.EnemyTracker.RemoveEnemy(rb.gameObject.transform);
+            GameManager.instance.LockOnTracker.RemoveEnemy(rb.gameObject.transform);
         }
 
         private void OnDestroy()
         {
-            GameManager.instance.enemyTracker.RemoveEnemy(rb.gameObject.transform);
-            GameManager.instance.lockOnTracker.RemoveEnemy(rb.gameObject.transform);
+            GameManager.instance.EnemyTracker.RemoveEnemy(rb.gameObject.transform);
+            GameManager.instance.LockOnTracker.RemoveEnemy(rb.gameObject.transform);
         }
         
     }

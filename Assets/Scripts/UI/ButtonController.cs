@@ -11,8 +11,8 @@ public class ButtonController : MonoBehaviour
     
     public void CloseMenu()
     {
-        GameManager.instance.checkpointManager.ResetCheckpoints();
-        GameManager.instance.enemySpawnManager.ResetList();
+        GameManager.instance.CheckpointManager.ResetCheckpoints();
+        GameManager.instance.EnemySpawnManager.ResetList();
 
         vcam.m_Priority = 0;
         optionsVCam.m_Priority = 0;
@@ -55,7 +55,7 @@ public class ButtonController : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked; 
         menu.SetActive(false);
-        GameManager.instance.checkpointManager.LoadCheckpoint();
+        GameManager.instance.CheckpointManager.LoadCheckpoint();
     }
 
     public void EnableContinue()

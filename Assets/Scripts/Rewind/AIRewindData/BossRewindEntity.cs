@@ -18,8 +18,8 @@ public class BossRewindEntity : EnemyRewindEntity
     // Start is called before the first frame update
     protected new void Start()
     {
-        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
-        _enemyTracker = GameManager.instance.enemyTracker;
+        _rewindInput = GameManager.instance.RewindManager.GetComponent<RewindManager>();
+        _enemyTracker = GameManager.instance.EnemyTracker;
         bossTimeList = new List<BossTimeData>();
         base.Start();
 

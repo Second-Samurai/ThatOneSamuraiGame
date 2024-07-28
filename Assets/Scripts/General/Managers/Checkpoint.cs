@@ -15,10 +15,10 @@ public class Checkpoint : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        checkpointManager = GameManager.instance.checkpointManager;
+        checkpointManager = GameManager.instance.CheckpointManager;
         //checkpointManager.checkpoints.Add(this); 
 
-        this.m_PlayerAttackState = GameManager.instance.playerController
+        this.m_PlayerAttackState = GameManager.instance.PlayerController
                                         .GetComponent<IPlayerState>()
                                         .PlayerAttackState;
     }
@@ -40,17 +40,17 @@ public class Checkpoint : MonoBehaviour
         }
         checkpointManager.activeCheckpoint = checkpointManager.checkpoints.IndexOf(this);
         bIsActive = true;
-        GameManager.instance.enemySpawnManager.SaveEnemyList();
-        GameManager.instance.rewindManager.IncreaseRewindAmount();
+        GameManager.instance.EnemySpawnManager.SaveEnemyList();
+        GameManager.instance.RewindManager.IncreaseRewindAmount();
     }
 
     public void LoadCheckpoint()
     {
-        GameManager.instance.playerController.gameObject.transform.position = spawnPos.position;
+        GameManager.instance.PlayerController.gameObject.transform.position = spawnPos.position;
         GameManager.instance.InputManager.EnableActiveInputControl();
-        GameManager.instance.thirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
-        GameManager.instance.rewindManager.isTravelling = false;
-        PlayerFunctions _Player = GameManager.instance.playerController.gameObject.GetComponent<PlayerFunctions>();
+        GameManager.instance.ThirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
+        GameManager.instance.RewindManager.isTravelling = false;
+        PlayerFunctions _Player = GameManager.instance.PlayerController.gameObject.GetComponent<PlayerFunctions>();
 
         // Note: The sword manager exists on the root parent fo the player object
         PSwordManager _PlayerSwordManager = this.GetComponent<PSwordManager>();

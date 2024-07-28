@@ -67,16 +67,16 @@ public class RewindManager : MonoBehaviour
         //rewindResource = maxRewindResource;
         if (rewindUI == null)
         {
-            rewindUI = GameManager.instance.playerController.gameObject.GetComponentInChildren<RewindBar>();
+            rewindUI = GameManager.instance.PlayerController.gameObject.GetComponentInChildren<RewindBar>();
         }
-        playerRewindEntity = GameManager.instance.playerController.gameObject.GetComponent<PlayerRewindEntity>();
+        playerRewindEntity = GameManager.instance.PlayerController.gameObject.GetComponent<PlayerRewindEntity>();
         isTravelling = true;
 
         gameOverMenu = GameManager.instance.gameObject.GetComponentInChildren<GameOverMenu>();
 
         _rewindAudio = gameObject.GetComponent<RewindAudio>();
 
-        damageController = GameManager.instance.playerController.gameObject.GetComponent<PDamageController>();
+        damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PDamageController>();
 
         
     }

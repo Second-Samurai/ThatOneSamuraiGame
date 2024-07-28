@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
     //NOTE: Once object is spawned through code init through awake instead.
     void Awake() {
         //NOTE: This is only temporary to fix the camera referencing issues
-        GameManager.instance.playerController = this;
+        GameManager.instance.PlayerController = this;
     }
 
     private void Start() 
@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
         stateMachine = this.gameObject.AddComponent<PlayerStateMachine>();
 
         //This assigns the thirdperson camera targets to this player
-        CinemachineFreeLook freeLockCamera = gameManager.thirdPersonViewCamera.GetComponent<CinemachineFreeLook>();
+        CinemachineFreeLook freeLockCamera = gameManager.ThirdPersonViewCamera.GetComponent<CinemachineFreeLook>();
         //freeLockCamera.Follow = this.transform;
         //freeLockCamera.LookAt = this.transform;
 

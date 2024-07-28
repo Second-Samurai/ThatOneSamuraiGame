@@ -13,7 +13,7 @@ public class BoardRewindEntity : RewindEntity
     protected new void Start()
     {
         boardBreak = gameObject.GetComponentInParent<BoardBreak>();
-        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
+        _rewindInput = GameManager.instance.RewindManager.GetComponent<RewindManager>();
         BoardDataList = new List<BoardTimeData>();
         _rewindInput.Reset += ResetTimeline;
         _rewindInput.OnEndRewind += ApplyData;

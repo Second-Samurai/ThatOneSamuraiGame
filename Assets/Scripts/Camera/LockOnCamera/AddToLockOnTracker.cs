@@ -20,7 +20,7 @@ public class AddToLockOnTracker : MonoBehaviour
     {
         raycastMaxDist = GetComponent<SphereCollider>().radius * 2;
 
-        _lockOnTracker = GameManager.instance.lockOnTracker;
+        _lockOnTracker = GameManager.instance.LockOnTracker;
         
         _cameraTransform = Camera.main.transform;
     }

@@ -27,8 +27,8 @@ public class OpeningCutscene : MonoBehaviour
 
     void AssignTargets()
     {
-        BindToTrack("Cinemachine Track", GameManager.instance.mainCamera.GetComponent<CinemachineBrain>());
-        BindToTrack("Animation Track", GameManager.instance.playerController.gameObject.GetComponent<Animator>());
+        BindToTrack("Cinemachine Track", GameManager.instance.MainCamera.GetComponent<CinemachineBrain>());
+        BindToTrack("Animation Track", GameManager.instance.PlayerController.gameObject.GetComponent<Animator>());
         //endCutscene.AddListener(GameManager.instance.playerController.gameObject.GetComponent<PlayerInputScript>().EnableInput);
         //signalReceiver.ChangeReactionAtIndex(1, endCutscene);
        // signalReceiver.AddEmptyReaction(endCutscene);
@@ -50,7 +50,7 @@ public class OpeningCutscene : MonoBehaviour
     public void ChangeCamPriority()
     {
         //Debug.Log("2");
-        GameManager.instance.thirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
+        GameManager.instance.ThirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
     }
 
     private void Update()
@@ -64,7 +64,7 @@ public class OpeningCutscene : MonoBehaviour
 
     public void StartRewindRecording()
     {
-        GameManager.instance.rewindManager.isTravelling = false;
+        GameManager.instance.RewindManager.isTravelling = false;
     }
 
 }

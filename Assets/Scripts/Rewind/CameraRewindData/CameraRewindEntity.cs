@@ -14,10 +14,10 @@ public class CameraRewindEntity : RewindEntity
     // Start is called before the first frame update
     protected new void Start()
     {
-        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
+        _rewindInput = GameManager.instance.RewindManager.GetComponent<RewindManager>();
         cameraDataList = new List<CameraTimeData>();
-        lockOnTargetManager = GameManager.instance.playerController.gameObject.GetComponentInChildren<LockOnTargetManager>();
-        cameraControl = GameManager.instance.playerController.gameObject.GetComponent<CameraControl>();
+        lockOnTargetManager = GameManager.instance.PlayerController.gameObject.GetComponentInChildren<LockOnTargetManager>();
+        cameraControl = GameManager.instance.PlayerController.gameObject.GetComponent<CameraControl>();
         _rewindInput.Reset += ResetTimeline;
         _rewindInput.OnEndRewind += ApplyData;
         _rewindInput.OnEndRewind += EnableEvents;

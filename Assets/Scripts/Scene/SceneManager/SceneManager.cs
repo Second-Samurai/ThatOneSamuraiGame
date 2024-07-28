@@ -13,8 +13,17 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         #region - - - - - - Fields - - - - - -
 
         [SerializeField] private SceneState m_SceneState;
+        [SerializeField] private RewindManager m_RewindManager;
+        [SerializeField] private EnemyTracker m_EnemyTracker;
         
         #endregion Fields
+        
+        #region - - - - - - Properties - - - - - -
+
+        SceneState ISceneManager.SceneState
+            => this.m_SceneState;
+
+        #endregion Properties
 
         #region - - - - - - Lifecycle Methods - - - - - -
 
@@ -25,13 +34,6 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         }
 
         #endregion Lifecycle Methods
-        
-        #region - - - - - - Methods - - - - - -
-
-        SceneState ISceneManager.SceneState
-            => this.m_SceneState;
-
-        #endregion Methods
 
         #region - - - - - - Validation Methods - - - - - -
 

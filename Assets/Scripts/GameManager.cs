@@ -10,6 +10,16 @@ using UnityEngine;
 // Ticket: #45 - Move managers and services into their own namespaces.
 public class GameManager : MonoBehaviour
 {
+    /*
+     * The Game manager should be reserved for:
+     * - holding high level references
+     * - handling game initialisation 
+     * - handling settings
+     * - handling state transitions for whole game
+     * - handling configuration
+     * - Handling coordination of global events
+     * - management of global services and lookup
+     */
     
     #region - - - - - - Fields - - - - - -
 
@@ -18,36 +28,35 @@ public class GameManager : MonoBehaviour
 
     [Header("Game Settings")]
     public GameSettings gameSettings;
-    public Transform playerSpawnPoint;
+    public Transform playerSpawnPoint; // scene manager
     public bool bShowAttackPopups = true;
 
     [Header("Camera")]
-    [HideInInspector] public Camera mainCamera;
-    public GameObject thirdPersonViewCamera;
-    public LockOnTracker lockOnTracker;
+    [HideInInspector] public Camera mainCamera; // scene manager
+    public GameObject thirdPersonViewCamera; // scene manager
+    public LockOnTracker lockOnTracker; //scene manager
 
     [Header("Player")]
-    public PlayerController playerController;
-    public CameraControl cameraControl;
+    public PlayerController playerController; // scene manager
+    public CameraControl cameraControl; //scene manager
 
     [Header("Controllers and Managers")]
-    public RewindManager rewindManager;
-    public EnemyTracker enemyTracker;
+    public RewindManager rewindManager; //scene manager
+    public EnemyTracker enemyTracker; // scene manager
 
     [Space]
-    public PostProcessingController postProcessingController;
-    public AudioManager audioManager;
+    public PostProcessingController postProcessingController; // keep this, its likely to be part of some graphics manager
+    public AudioManager audioManager; 
 
     [Space]
-    public CheckpointManager checkpointManager;
-    public EnemySpawnManager enemySpawnManager;
-    public ButtonController buttonController;
-    public BossThemeManager bossThemeManager;
+    public CheckpointManager checkpointManager; // scene manager
+    public EnemySpawnManager enemySpawnManager; // scene manager
+    public ButtonController buttonController; // UI manager
+    public BossThemeManager bossThemeManager; // scene manager. Likely rename as its responsible for mostly one specific area
 
     //UICanvases
-    [HideInInspector] public GameObject guardMeterCanvas;
+    [HideInInspector] public GameObject guardMeterCanvas; // UI manager
     
-    // Private variables
     private GameState m_GameState;
 
     [Header("Persistent Managers")]
@@ -126,7 +135,7 @@ public class GameManager : MonoBehaviour
 
     #region - - - - - - Methods - - - - - -
 
-    void SetupScene()
+    void SetupScene() // Handled in its own pipeline
     {
         List<Transform> sceneLoaders = FindObjectsOfType<Transform>().
             Where(o => o.GetComponent<ISceneLoader>() != null).ToList();
@@ -138,7 +147,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void SetupSceneCamera()
+    void SetupSceneCamera() // Handled in pipeline
     {
         lockOnTracker = FindObjectOfType<LockOnTracker>();
         
@@ -161,7 +170,7 @@ public class GameManager : MonoBehaviour
     //     //guardMeterCanvas = Instantiate(gameSettings.guardCanvasPrefab, transform.position, Quaternion.identity);
     // }
 
-    void SetupPlayer()
+    void SetupPlayer() // Handled in pipeline
     {
         Vector3 targetHolderPos = gameSettings.targetHolderPrefab.transform.position;
         GameObject targetHolder = Instantiate(gameSettings.targetHolderPrefab, targetHolderPos, Quaternion.identity);
@@ -181,7 +190,7 @@ public class GameManager : MonoBehaviour
         InitialisePlayer(targetHolder);
     }
 
-    void InitialisePlayer(GameObject targetHolder)
+    void InitialisePlayer(GameObject targetHolder) // Handled in pipeline
     {
         playerController.Init(targetHolder);
 
@@ -189,7 +198,7 @@ public class GameManager : MonoBehaviour
             this.m_InputManager.PossesPlayerObject(this.playerController.gameObject);
     }
 
-    void SetupEnemies()
+    void SetupEnemies() // Handled in pipeline
     {
         enemyTracker = FindObjectOfType<EnemyTracker>();
         gameSettings.enemySettings.SetTarget(FindObjectOfType<PlayerController>().transform);
@@ -198,7 +207,7 @@ public class GameManager : MonoBehaviour
         SetupTestScene();
     }
 
-    void SetupTestScene()
+    void SetupTestScene() // Handled in pipeline
     {
         TestStaticTarget[] testEnemies = FindObjectsOfType<TestStaticTarget>();
         
@@ -209,7 +218,7 @@ public class GameManager : MonoBehaviour
             enemyTracker.AddEnemy(enemy.GetComponentInParent<Transform>());
     }
 
-    void SetupRewind() 
+    void SetupRewind() // Handled in pipeline
     {
         if (rewindManager == null)
         {
@@ -217,7 +226,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void SetupAudio() 
+    void SetupAudio() // Handled in pipeline
     {
         if (FindObjectOfType<AudioManager>() == null) 
             audioManager = Instantiate(gameSettings.audioManger, transform.position, Quaternion.identity).GetComponent<AudioManager>();
@@ -228,7 +237,7 @@ public class GameManager : MonoBehaviour
     // -----------------------------------------------------------
 
     // Note: Should be refactored to its own definable hard-coded event.
-    public void OnOpeningSceneStart()
+    public void OnOpeningSceneStart() // Scene manager - but possible delete if not used
         => Debug.LogWarning("Not implemented");
 
     #endregion Methods

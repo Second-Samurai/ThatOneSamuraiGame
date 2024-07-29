@@ -159,9 +159,9 @@ public class GameManager : MonoBehaviour
         
         // Setup game scene
         SetupSceneCamera();
-        SetupScene();
+        // SetupScene();
         // SetupUI();
-        SetupRewind();
+        // SetupRewind();
         SetupAudio();
 
         // Locate services
@@ -173,8 +173,11 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SetupPlayer();
-        SetupEnemies();
+        ((ISceneManager)this.m_SceneManager).SetupScene();
+        
+        // SetupPlayer();
+        // SetupEnemies();
+        
         if (!buttonController)
         {
             Debug.LogError("Main Menu not assigned! Finding in code");
@@ -189,31 +192,31 @@ public class GameManager : MonoBehaviour
 
     #region - - - - - - Methods - - - - - -
 
-    void SetupScene() // Handled in its own pipeline
-    {
-        List<Transform> sceneLoaders = FindObjectsOfType<Transform>().
-            Where(o => o.GetComponent<ISceneLoader>() != null).ToList();
-
-        for (int i = 0; i < sceneLoaders.Count; i++)
-        {
-            ISceneLoader loader = sceneLoaders[i].GetComponent<ISceneLoader>();
-            loader.Initialise(MainCamera.transform);
-        }
-    }
+    // void SetupScene() // Handled in its own pipeline
+    // {
+    //     List<Transform> sceneLoaders = FindObjectsOfType<Transform>().
+    //         Where(o => o.GetComponent<ISceneLoader>() != null).ToList();
+    //
+    //     for (int i = 0; i < sceneLoaders.Count; i++)
+    //     {
+    //         ISceneLoader loader = sceneLoaders[i].GetComponent<ISceneLoader>();
+    //         loader.Initialise(MainCamera.transform);
+    //     }
+    // }
 
     void SetupSceneCamera() // Handled in pipeline
     {
-        LockOnTracker = FindObjectOfType<LockOnTracker>();
-        
-        if (!ThirdPersonViewCamera)
-        {
-            Debug.LogError("No third person camera in scene! Adding new object but please assign in inspector instead!");
-            Vector3 thirdPersonViewPos = gameSettings.thirdPersonViewCam.transform.position;
-            ThirdPersonViewCamera = Instantiate(gameSettings.thirdPersonViewCam, thirdPersonViewPos, Quaternion.identity);
-            
-        }
-        Vector3 mainCameraPos = gameSettings.mainCamera.transform.position;
-        MainCamera = Instantiate(gameSettings.mainCamera, mainCameraPos, Quaternion.identity).GetComponent<Camera>();
+        // LockOnTracker = FindObjectOfType<LockOnTracker>();
+        //
+        // if (!ThirdPersonViewCamera)
+        // {
+        //     Debug.LogError("No third person camera in scene! Adding new object but please assign in inspector instead!");
+        //     Vector3 thirdPersonViewPos = gameSettings.thirdPersonViewCam.transform.position;
+        //     ThirdPersonViewCamera = Instantiate(gameSettings.thirdPersonViewCam, thirdPersonViewPos, Quaternion.identity);
+        //     
+        // }
+        // Vector3 mainCameraPos = gameSettings.mainCamera.transform.position;
+        // MainCamera = Instantiate(gameSettings.mainCamera, mainCameraPos, Quaternion.identity).GetComponent<Camera>();
 
         //Add Post Processing
         postProcessingController = Instantiate(gameSettings.dayPostProcessing, transform.position, Quaternion.identity).GetComponent<PostProcessingController>();
@@ -224,61 +227,61 @@ public class GameManager : MonoBehaviour
     //     //guardMeterCanvas = Instantiate(gameSettings.guardCanvasPrefab, transform.position, Quaternion.identity);
     // }
 
-    void SetupPlayer() // Handled in pipeline
-    {
-        Vector3 targetHolderPos = gameSettings.targetHolderPrefab.transform.position;
-        GameObject targetHolder = Instantiate(gameSettings.targetHolderPrefab, targetHolderPos, Quaternion.identity);
+    // void SetupPlayer() // Handled in pipeline
+    // {
+    //     Vector3 targetHolderPos = gameSettings.targetHolderPrefab.transform.position;
+    //     GameObject targetHolder = Instantiate(gameSettings.targetHolderPrefab, targetHolderPos, Quaternion.identity);
+    //
+    //     PlayerController playerControl = FindObjectOfType<PlayerController>();
+    //     
+    //     if(PlayerController != null)
+    //     {
+    //         PlayerController = playerControl;
+    //         CameraControl = playerControl.GetComponent<CameraControl>();
+    //         InitialisePlayer(targetHolder);
+    //         return;
+    //     }
+    //
+    //     GameObject playerObject = Instantiate(gameSettings.playerPrefab, playerSpawnPoint.position, Quaternion.identity);
+    //     PlayerController = playerObject.GetComponentInChildren<PlayerController>();
+    //     InitialisePlayer(targetHolder);
+    // }
 
-        PlayerController playerControl = FindObjectOfType<PlayerController>();
-        
-        if(PlayerController != null)
-        {
-            PlayerController = playerControl;
-            CameraControl = playerControl.GetComponent<CameraControl>();
-            InitialisePlayer(targetHolder);
-            return;
-        }
+    // void InitialisePlayer(GameObject targetHolder) // Handled in pipeline
+    // {
+    //     PlayerController.Init(targetHolder);
+    //
+    //     if (this.m_InputManager.DoesGameplayInputControlExist()) 
+    //         this.m_InputManager.PossesPlayerObject(this.PlayerController.gameObject);
+    // }
 
-        GameObject playerObject = Instantiate(gameSettings.playerPrefab, playerSpawnPoint.position, Quaternion.identity);
-        PlayerController = playerObject.GetComponentInChildren<PlayerController>();
-        InitialisePlayer(targetHolder);
-    }
+    // void SetupEnemies() // Handled in pipeline
+    // {
+    //     EnemyTracker = FindObjectOfType<EnemyTracker>();
+    //     gameSettings.enemySettings.SetTarget(FindObjectOfType<PlayerController>().transform);
+    //     
+    //     //Sets up the test enemies for tracking
+    //     SetupTestScene();
+    // }
+    //
+    // void SetupTestScene() // Handled in pipeline
+    // {
+    //     TestStaticTarget[] testEnemies = FindObjectsOfType<TestStaticTarget>();
+    //     
+    //     //Check if there is none
+    //     if (testEnemies.Length == 0) return;
+    //
+    //     foreach (TestStaticTarget enemy in testEnemies) 
+    //         EnemyTracker.AddEnemy(enemy.GetComponentInParent<Transform>());
+    // }
 
-    void InitialisePlayer(GameObject targetHolder) // Handled in pipeline
-    {
-        PlayerController.Init(targetHolder);
-
-        if (this.m_InputManager.DoesGameplayInputControlExist()) 
-            this.m_InputManager.PossesPlayerObject(this.PlayerController.gameObject);
-    }
-
-    void SetupEnemies() // Handled in pipeline
-    {
-        EnemyTracker = FindObjectOfType<EnemyTracker>();
-        gameSettings.enemySettings.SetTarget(FindObjectOfType<PlayerController>().transform);
-        
-        //Sets up the test enemies for tracking
-        SetupTestScene();
-    }
-
-    void SetupTestScene() // Handled in pipeline
-    {
-        TestStaticTarget[] testEnemies = FindObjectsOfType<TestStaticTarget>();
-        
-        //Check if there is none
-        if (testEnemies.Length == 0) return;
-
-        foreach (TestStaticTarget enemy in testEnemies) 
-            EnemyTracker.AddEnemy(enemy.GetComponentInParent<Transform>());
-    }
-
-    void SetupRewind() // Handled in pipeline
-    {
-        if (RewindManager == null)
-        {
-            this.RewindManager = Instantiate(gameSettings.rewindManager, transform.position, Quaternion.identity).GetComponent<RewindManager>();
-        }
-    }
+    // void SetupRewind() // Handled in pipeline
+    // {
+    //     if (RewindManager == null)
+    //     {
+    //         this.RewindManager = Instantiate(gameSettings.rewindManager, transform.position, Quaternion.identity).GetComponent<RewindManager>();
+    //     }
+    // }
 
     void SetupAudio() // Handled in pipeline
     {

@@ -47,6 +47,12 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
 
         #endregion Properties
 
+        #region - - - - - - Methods - - - - - -
+
+        void SetupScene();
+
+        #endregion Methods
+
     }
 
 }

@@ -168,13 +168,12 @@ public class GameManager : MonoBehaviour
         this.m_GameState = this.GetComponent<GameState>();
         
         this.m_InputManager = this.GetComponent<IInputManager>();
+        ((ISceneManager)this.m_SceneManager).SetupScene();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        ((ISceneManager)this.m_SceneManager).SetupScene();
-        
         // SetupPlayer();
         // SetupEnemies();
         

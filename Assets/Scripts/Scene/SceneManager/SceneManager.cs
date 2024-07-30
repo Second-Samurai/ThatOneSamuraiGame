@@ -3,6 +3,7 @@ using System.Linq;
 using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.Scene.DataContainers;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
 {
@@ -102,6 +103,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         
         void ISceneManager.SetupScene()
         {
+            this.SetupSceneCamera();
             this.SetupSceneLoaders();
             this.SetupRewind();
             this.SetupPlayer();
@@ -115,8 +117,8 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         private void SetupSceneLoaders() // Handled in its own pipeline
         {
             List<Transform> _SceneLoaders = Object.FindObjectsByType<Transform>(FindObjectsSortMode.None)
-                                            .Where(t => t.GetComponent<ISceneLoader>() != null)
-                                            .ToList();
+                                                .Where(t => t.GetComponent<ISceneLoader>() != null)
+                                                .ToList();
 
             for (int i = 0; i < _SceneLoaders.Count; i++)
             {

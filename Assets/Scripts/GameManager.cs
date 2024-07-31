@@ -1,16 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using ThatOneSamuraiGame.Scripts;
 using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using ThatOneSamuraiGame.Scripts.UI.Pause.PauseManager;
 using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-// Ticket: #45 - Move managers and services into their own namespaces.
 public class GameManager : MonoBehaviour
 {
     /*
@@ -31,51 +25,19 @@ public class GameManager : MonoBehaviour
 
     [Header("Game Settings")]
     public GameSettings gameSettings;
-    // public Transform playerSpawnPoint; // scene manager
     public bool bShowAttackPopups = true;
-
-    // [FormerlySerializedAs("thirdPersonViewCamera")]
-    // [FormerlySerializedAs("mainCamera")]
-    // [Header("Camera")]
-    // [HideInInspector] public Camera MainCamera; // scene manager
-    // public GameObject ThirdPersonViewCamera; // scene manager
-    // [FormerlySerializedAs("lockOnTracker")]
-    // public LockOnTracker LockOnTracker; //scene manager
-
-    // [FormerlySerializedAs("playerController")]
-    // [Header("Player")]
-    // public PlayerController PlayerController; // scene manager
-    // [FormerlySerializedAs("cameraControl")]
-    // public CameraControl CameraControl; //scene manager
-
-    // [FormerlySerializedAs("enemyTracker")]
-    // [FormerlySerializedAs("rewindManager")]
-    // [Header("Controllers and Managers")]
-    // public RewindManager RewindManager; //scene manager
-    // public EnemyTracker EnemyTracker; // scene manager
 
     [Space]
     public PostProcessingController postProcessingController; // keep this, its likely to be part of some graphics manager
-    public AudioManager audioManager; 
-
-    // [FormerlySerializedAs("checkpointManager")]
-    // [Space]
-    // public CheckpointManager CheckpointManager; // scene manager
-    // public EnemySpawnManager EnemySpawnManager; // scene manager
-    // public ButtonController buttonController; // UI manager
-    // public BossThemeManager bossThemeManager; // Audio manager
-
-    //UICanvases
-    // [HideInInspector] public GameObject guardMeterCanvas; // UI manager
-    
-    private GameState m_GameState;
 
     [Header("Persistent Managers")]
     [SerializeField] private SceneManager m_SceneManager;
     [SerializeField] private UserInterfaceManager m_UserInterfaceManager;
     [SerializeField] private PauseManager m_PauseManager;
-    
+    public AudioManager audioManager;
     private IInputManager m_InputManager;
+    
+    private GameState m_GameState;
     
     #endregion Fields
 
@@ -158,10 +120,7 @@ public class GameManager : MonoBehaviour
         // Ticket: #43 - Move this into its own pipeline handler to separate initialisation logic from the game manager.
         
         // Setup game scene
-        SetupSceneCamera();
-        // SetupScene();
-        // SetupUI();
-        // SetupRewind();
+        SetupGraphics();
         SetupAudio();
 
         // Locate services
@@ -172,14 +131,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // SetupPlayer();
-        // SetupEnemies();
-        
-        // if (!buttonController)
-        // {
-        //     Debug.LogError("Main Menu not assigned! Finding in code");
-        //     buttonController = GameObject.FindWithTag("MainMenu").GetComponent<ButtonController>();
-        // }
         ((ISceneManager)this.m_SceneManager).SetupScene();
         ((IUserInterfaceManager)this.m_UserInterfaceManager).SetupUserInterface();
         
@@ -191,96 +142,11 @@ public class GameManager : MonoBehaviour
 
     #region - - - - - - Methods - - - - - -
 
-    // void SetupScene() // Handled in its own pipeline
-    // {
-    //     List<Transform> sceneLoaders = FindObjectsOfType<Transform>().
-    //         Where(o => o.GetComponent<ISceneLoader>() != null).ToList();
-    //
-    //     for (int i = 0; i < sceneLoaders.Count; i++)
-    //     {
-    //         ISceneLoader loader = sceneLoaders[i].GetComponent<ISceneLoader>();
-    //         loader.Initialise(MainCamera.transform);
-    //     }
-    // }
-
-    void SetupSceneCamera() // Handled in pipeline
+    void SetupGraphics() // Handled in pipeline
     {
-        // LockOnTracker = FindObjectOfType<LockOnTracker>();
-        //
-        // if (!ThirdPersonViewCamera)
-        // {
-        //     Debug.LogError("No third person camera in scene! Adding new object but please assign in inspector instead!");
-        //     Vector3 thirdPersonViewPos = gameSettings.thirdPersonViewCam.transform.position;
-        //     ThirdPersonViewCamera = Instantiate(gameSettings.thirdPersonViewCam, thirdPersonViewPos, Quaternion.identity);
-        //     
-        // }
-        // Vector3 mainCameraPos = gameSettings.mainCamera.transform.position;
-        // MainCamera = Instantiate(gameSettings.mainCamera, mainCameraPos, Quaternion.identity).GetComponent<Camera>();
-
         //Add Post Processing
         postProcessingController = Instantiate(gameSettings.dayPostProcessing, transform.position, Quaternion.identity).GetComponent<PostProcessingController>();
     }
-
-    // void SetupUI()
-    // {
-    //     //guardMeterCanvas = Instantiate(gameSettings.guardCanvasPrefab, transform.position, Quaternion.identity);
-    // }
-
-    // void SetupPlayer() // Handled in pipeline
-    // {
-    //     Vector3 targetHolderPos = gameSettings.targetHolderPrefab.transform.position;
-    //     GameObject targetHolder = Instantiate(gameSettings.targetHolderPrefab, targetHolderPos, Quaternion.identity);
-    //
-    //     PlayerController playerControl = FindObjectOfType<PlayerController>();
-    //     
-    //     if(PlayerController != null)
-    //     {
-    //         PlayerController = playerControl;
-    //         CameraControl = playerControl.GetComponent<CameraControl>();
-    //         InitialisePlayer(targetHolder);
-    //         return;
-    //     }
-    //
-    //     GameObject playerObject = Instantiate(gameSettings.playerPrefab, playerSpawnPoint.position, Quaternion.identity);
-    //     PlayerController = playerObject.GetComponentInChildren<PlayerController>();
-    //     InitialisePlayer(targetHolder);
-    // }
-
-    // void InitialisePlayer(GameObject targetHolder) // Handled in pipeline
-    // {
-    //     PlayerController.Init(targetHolder);
-    //
-    //     if (this.m_InputManager.DoesGameplayInputControlExist()) 
-    //         this.m_InputManager.PossesPlayerObject(this.PlayerController.gameObject);
-    // }
-
-    // void SetupEnemies() // Handled in pipeline
-    // {
-    //     EnemyTracker = FindObjectOfType<EnemyTracker>();
-    //     gameSettings.enemySettings.SetTarget(FindObjectOfType<PlayerController>().transform);
-    //     
-    //     //Sets up the test enemies for tracking
-    //     SetupTestScene();
-    // }
-    //
-    // void SetupTestScene() // Handled in pipeline
-    // {
-    //     TestStaticTarget[] testEnemies = FindObjectsOfType<TestStaticTarget>();
-    //     
-    //     //Check if there is none
-    //     if (testEnemies.Length == 0) return;
-    //
-    //     foreach (TestStaticTarget enemy in testEnemies) 
-    //         EnemyTracker.AddEnemy(enemy.GetComponentInParent<Transform>());
-    // }
-
-    // void SetupRewind() // Handled in pipeline
-    // {
-    //     if (RewindManager == null)
-    //     {
-    //         this.RewindManager = Instantiate(gameSettings.rewindManager, transform.position, Quaternion.identity).GetComponent<RewindManager>();
-    //     }
-    // }
 
     void SetupAudio() // Handled in pipeline
     {

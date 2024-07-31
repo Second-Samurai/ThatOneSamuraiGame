@@ -2078,6 +2078,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 924b0f29c0bc4d55a2bfd686be5282a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_GameSettings: {fileID: 11400000, guid: c71a704aefd554b1fa5b61875141ac6c, type: 2}
+  m_ButtonController: {fileID: 6310157197144914934}
 --- !u!4 &377877841
 Transform:
   m_ObjectHideFlags: 0
@@ -9692,9 +9694,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
+      propertyPath: BossThemeManager
+      value: 
+      objectReference: {fileID: 953564273}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
       propertyPath: sounds.Array.size
       value: 110
       objectReference: {fileID: 0}
+    - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
+        type: 3}
+      propertyPath: m_BossThemeManager
+      value: 
+      objectReference: {fileID: 953564273}
     - target: {fileID: 956594187861110589, guid: dd80b6594c995464db25b8378e7457ba,
         type: 3}
       propertyPath: sounds.Array.data[105].clip
@@ -18835,16 +18847,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameSettings: {fileID: 11400000, guid: c71a704aefd554b1fa5b61875141ac6c, type: 2}
-  playerSpawnPoint: {fileID: 1546768034}
   bShowAttackPopups: 1
   postProcessingController: {fileID: 0}
-  audioManager: {fileID: 1982880063}
-  buttonController: {fileID: 6310157197144914934}
-  bossThemeManager: {fileID: 953564273}
-  guardMeterCanvas: {fileID: 0}
   m_SceneManager: {fileID: 393975741}
   m_UserInterfaceManager: {fileID: 377877840}
   m_PauseManager: {fileID: 541873526}
+  audioManager: {fileID: 1982880063}
 --- !u!1 &5014418590227028124
 GameObject:
   m_ObjectHideFlags: 0

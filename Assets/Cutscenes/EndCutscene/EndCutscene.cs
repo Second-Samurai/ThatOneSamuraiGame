@@ -21,7 +21,7 @@ public class EndCutscene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        bossTheme = GameManager.instance.bossThemeManager;
+        bossTheme = GameManager.instance.audioManager.BossThemeManager;
         _cutsceneDirector = GetComponent<PlayableDirector>();
         if (endCutscene == null) endCutscene = new UnityEvent();
         if (signalReceiver == null) signalReceiver = GetComponent<SignalReceiver>();

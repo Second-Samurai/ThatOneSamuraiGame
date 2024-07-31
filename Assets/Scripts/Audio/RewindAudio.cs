@@ -39,7 +39,7 @@ public class RewindAudio : MonoBehaviour
         idle = GameManager.instance.audioManager.FindSound("idle");
         Death = GameManager.instance.audioManager.FindSound("deathsfx");
 
-        bossThemeManager = GameManager.instance.bossThemeManager;
+        bossThemeManager = GameManager.instance.audioManager.BossThemeManager;
         
         heartSource.loop = true;
         heartSource.playOnAwake = false;

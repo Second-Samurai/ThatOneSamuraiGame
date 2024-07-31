@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Game Settings")]
     public GameSettings gameSettings;
-    public Transform playerSpawnPoint; // scene manager
+    // public Transform playerSpawnPoint; // scene manager
     public bool bShowAttackPopups = true;
 
     // [FormerlySerializedAs("thirdPersonViewCamera")]
@@ -62,11 +62,11 @@ public class GameManager : MonoBehaviour
     // [Space]
     // public CheckpointManager CheckpointManager; // scene manager
     // public EnemySpawnManager EnemySpawnManager; // scene manager
-    public ButtonController buttonController; // UI manager
-    public BossThemeManager bossThemeManager; // Audio manager
+    // public ButtonController buttonController; // UI manager
+    // public BossThemeManager bossThemeManager; // Audio manager
 
     //UICanvases
-    [HideInInspector] public GameObject guardMeterCanvas; // UI manager
+    // [HideInInspector] public GameObject guardMeterCanvas; // UI manager
     
     private GameState m_GameState;
 
@@ -166,9 +166,7 @@ public class GameManager : MonoBehaviour
 
         // Locate services
         this.m_GameState = this.GetComponent<GameState>();
-        
         this.m_InputManager = this.GetComponent<IInputManager>();
-        ((ISceneManager)this.m_SceneManager).SetupScene();
     }
 
     // Start is called before the first frame update
@@ -177,11 +175,13 @@ public class GameManager : MonoBehaviour
         // SetupPlayer();
         // SetupEnemies();
         
-        if (!buttonController)
-        {
-            Debug.LogError("Main Menu not assigned! Finding in code");
-            buttonController = GameObject.FindWithTag("MainMenu").GetComponent<ButtonController>();
-        }
+        // if (!buttonController)
+        // {
+        //     Debug.LogError("Main Menu not assigned! Finding in code");
+        //     buttonController = GameObject.FindWithTag("MainMenu").GetComponent<ButtonController>();
+        // }
+        ((ISceneManager)this.m_SceneManager).SetupScene();
+        ((IUserInterfaceManager)this.m_UserInterfaceManager).SetupUserInterface();
         
         this.m_InputManager.ConfigureMenuInputControl();
         this.m_InputManager.SwitchToMenuControls();

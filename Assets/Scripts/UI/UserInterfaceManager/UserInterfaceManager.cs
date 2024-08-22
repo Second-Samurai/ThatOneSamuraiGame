@@ -12,9 +12,11 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
 
         #region - - - - - - Fields - - - - - -
 
-        // Menus
-        private IPauseMenuController m_PauseMenuController;
+        [SerializeField] private GameSettings m_GameSettings;
+        [SerializeField] private ButtonController m_ButtonController;
+        private GameObject m_GuardMeterCanvas;
         
+        private IPauseMenuController m_PauseMenuController;
         private UserInterfaceConfiguration m_UserInterfaceConfiguration;
 
         #endregion Fields
@@ -23,6 +25,9 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
 
         IPauseMenuController IUserInterfaceManager.PauseMenu
             => this.m_PauseMenuController;
+
+        ButtonController IUserInterfaceManager.ButtonController
+            => this.m_ButtonController;
 
         #endregion Properties
 
@@ -37,8 +42,21 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
             this.m_PauseMenuController =
                 this.m_UserInterfaceConfiguration.PauseMenu.GetComponent<IPauseMenuController>();
         }
-        
+
         #endregion Lifecycle Methods
+
+        #region - - - - - - Methods - - - - - -
+
+        void IUserInterfaceManager.SetupUserInterface()
+        {
+            this.m_GuardMeterCanvas = Object.Instantiate(
+                                        this.m_GameSettings.guardCanvasPrefab, 
+                                        transform.position,
+                                        Quaternion.identity);
+        }
+
+        #endregion Methods
+  
         
     }
 

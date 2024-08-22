@@ -14,7 +14,7 @@ public class ThirdPersonCamController : MonoBehaviour
         if (!camTargetController)
         {
             Debug.LogWarning("Cam not set in inspector! Trying to find component in game manager");
-            camTargetController = GameManager.instance.playerController.gameObject.transform.parent.GetComponentInChildren<PlayerCamTargetController>();
+            camTargetController = GameManager.instance.PlayerController.gameObject.transform.parent.GetComponentInChildren<PlayerCamTargetController>();
         }
         cam = this.GetComponent<CinemachineVirtualCamera>();
         if (!cam.m_Follow)

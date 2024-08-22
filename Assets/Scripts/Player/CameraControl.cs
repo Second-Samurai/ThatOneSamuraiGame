@@ -57,16 +57,16 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
         //Debug.Log("Test");
         
         GameManager gameManager = GameManager.instance;
-        CinematicBars cinematicBars = gameManager.mainCamera.GetComponentInChildren<CinematicBars>();
+        CinematicBars cinematicBars = gameManager.MainCamera.GetComponentInChildren<CinematicBars>();
 
         this.player = playerTarget;
-        this.unlockedCam = gameManager.thirdPersonViewCamera;
-        this._animator = gameManager.playerController.GetComponent<Animator>();
+        this.unlockedCam = gameManager.ThirdPersonViewCamera;
+        this._animator = gameManager.PlayerController.GetComponent<Animator>();
         this.cinematicBars = cinematicBars;
 
         if (!lockOnTracker)
         {
-            this.lockOnTracker = gameManager.lockOnTracker;
+            this.lockOnTracker = gameManager.LockOnTracker;
         }
         
         if (!unlockedCam)
@@ -153,7 +153,7 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
 
         // Set the lock on tracker
         if (lockOnTracker == null) 
-            lockOnTracker = GameManager.instance.lockOnTracker;
+            lockOnTracker = GameManager.instance.LockOnTracker;
         
         if (lockOnTracker.targetableEnemies.Count > 0)
         {

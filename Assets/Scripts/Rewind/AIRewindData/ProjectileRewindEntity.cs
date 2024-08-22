@@ -12,7 +12,7 @@ public class ProjectileRewindEntity : RewindEntity
 
     protected new void Start()
     {
-        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
+        _rewindInput = GameManager.instance.RewindManager.GetComponent<RewindManager>();
         ProjectileDataList = new List<ProjectileTimeData>();
 
         projectile = gameObject.GetComponent<Projectile>();

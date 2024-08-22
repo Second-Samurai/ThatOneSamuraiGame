@@ -28,7 +28,7 @@ public class LockOnPopup : Popup
         }
         
         // Ticket: #53 - Decouple the UI from the Player's camera control fields.
-        if (GameManager.instance.cameraControl.bLockedOn)
+        if (GameManager.instance.CameraControl.bLockedOn)
         {
             _popup.SetActive(true);
         }

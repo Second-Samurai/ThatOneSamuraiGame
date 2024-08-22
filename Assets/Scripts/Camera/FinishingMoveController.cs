@@ -33,8 +33,8 @@ public class FinishingMoveController : MonoBehaviour
     void Start()
     {
         _cutsceneDirector = GetComponent<PlayableDirector>();
-        BindToTrack("Cinemachine Track", GameManager.instance.mainCamera.GetComponent<CinemachineBrain>());
-        damageController = GameManager.instance.playerController.gameObject.GetComponent<PDamageController>();
+        BindToTrack("Cinemachine Track", GameManager.instance.MainCamera.GetComponent<CinemachineBrain>());
+        damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PDamageController>();
     }
 
    
@@ -88,7 +88,7 @@ public class FinishingMoveController : MonoBehaviour
         PlayerAttackState _PlayerAttackState = this.transform.parent.GetComponent<IPlayerState>().PlayerAttackState;
         _PlayerAttackState.CanAttack = false;
         
-        enemies = GameManager.instance.enemyTracker.currentEnemies;
+        enemies = GameManager.instance.EnemyTracker.currentEnemies;
         //Debug.LogError(enemies.Count);
         //for (int i = 0; i < enemies.Count-1; i++)
         //{
@@ -102,7 +102,7 @@ public class FinishingMoveController : MonoBehaviour
         targetEnemy.GetComponent<AISystem>().bFinish = true;
         targetEnemy.GetComponent<AISystem>().OnEnemyDeath();
         detector.SetActive(true);
-        GameManager.instance.rewindManager.IncreaseRewindAmount();
+        GameManager.instance.RewindManager.IncreaseRewindAmount();
         // playerInputScript.bCanAttack = true;
         // playerInputScript.EnableMovement();
         // playerInputScript.bAlreadyAttacked = false;

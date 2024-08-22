@@ -86,12 +86,12 @@ public class LockOnTracker : MonoBehaviour
             // Switch targets
             if (targetableEnemies.Count > 0)
             {
-                GameManager.instance.cameraControl.LockOn();
+                GameManager.instance.CameraControl.LockOn();
             }
             // Exit lockon
             else
             {
-                GameManager.instance.cameraControl.ToggleLockOn();
+                GameManager.instance.CameraControl.ToggleLockOn();
             }
         }
     }

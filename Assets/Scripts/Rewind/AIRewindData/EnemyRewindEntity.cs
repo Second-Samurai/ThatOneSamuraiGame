@@ -19,7 +19,7 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
     // Start is called before the first frame update
     protected new void Start()
     {
-        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
+        _rewindInput = GameManager.instance.RewindManager.GetComponent<RewindManager>();
         
         enemyDataList = new List<EnemyRewindData>();
         base.Start();

@@ -129,7 +129,7 @@ public class TrackManager : MonoBehaviour
         TweenCallback callback = ViolinLeadActive;
         if (Fadein)
         {
-            Debug.Log("fade");
+            // Debug.Log("fade");
             violinLead.DOFade(_audioManager.BGMVol, 2).OnComplete(callback); ;
         }
         else

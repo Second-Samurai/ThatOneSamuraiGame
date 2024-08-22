@@ -14,8 +14,8 @@ public class TrackerRewindEntity : RewindEntity
     // Start is called before the first frame update
     void Start()
     {
-        _enemyTracker = GameManager.instance.enemyTracker;
-        _lockOnTracker = GameManager.instance.lockOnTracker;
+        _enemyTracker = GameManager.instance.EnemyTracker;
+        _lockOnTracker = GameManager.instance.LockOnTracker;
         
         trackerDataList = new List<TrackerRewindData>();
         base.Start();

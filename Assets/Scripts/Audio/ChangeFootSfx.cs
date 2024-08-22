@@ -11,7 +11,7 @@ public class ChangeFootSfx : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _playerSFX = GameManager.instance.playerController.gameObject.GetComponent<PlayerSFX>();
+        _playerSFX = GameManager.instance.PlayerController.gameObject.GetComponent<PlayerSFX>();
         string arrayName = newClip.name;
         arrayName = arrayName.ToLower().Trim().Replace(" ", "");
         if (arrayName.Contains("grass"))

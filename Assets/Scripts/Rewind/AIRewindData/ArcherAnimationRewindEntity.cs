@@ -15,7 +15,7 @@ public class ArcherAnimationRewindEntity : RewindEntity
     // Start is called before the first frame update
     protected new void Start()
     {
-        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
+        _rewindInput = GameManager.instance.RewindManager.GetComponent<RewindManager>();
         archerAnimationDataList = new List<ArcherAnimationTimeData>();
         animator = gameObject.GetComponent<Animator>();
 

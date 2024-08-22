@@ -18,7 +18,7 @@ public class AddToTracker : MonoBehaviour
     {
         if (other.CompareTag("Player") && !_aiSystem.bIsDead)
         {
-            _enemyTracker = GameManager.instance.enemyTracker;
+            _enemyTracker = GameManager.instance.EnemyTracker;
             _enemyTracker.AddEnemy(GetComponentInParent<Rigidbody>().gameObject.transform);
 
             if (_aiSystem.bIsIdle) 
@@ -37,7 +37,7 @@ public class AddToTracker : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            _enemyTracker = GameManager.instance.enemyTracker;
+            _enemyTracker = GameManager.instance.EnemyTracker;
             _enemyTracker.RemoveEnemy(GetComponentInParent<Rigidbody>().gameObject.transform); 
         }
     }

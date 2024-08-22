@@ -28,7 +28,7 @@ public class RewindEntity : MonoBehaviour
         transformDataList = new List<PositionalTimeData>();
         thisTransform = gameObject.transform;
 
-        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
+        _rewindInput = GameManager.instance.RewindManager.GetComponent<RewindManager>();
         _rewindInput.rewindObjects.Add(this);
         _rewindInput.StepForward += StepForward;
         _rewindInput.StepBack += StepBack;

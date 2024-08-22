@@ -43,13 +43,13 @@ public class Guarding : MonoBehaviour
         _guardMeterCanvas = Instantiate(gameManager.gameSettings.guardCanvasPrefab, transform);
         uiGuardMeter = Instantiate(gameManager.gameSettings.guardMeterPrefab, _guardMeterCanvas.transform).GetComponent<UIGuardMeter>();
 
-        uiGuardMeter.Init(transform, statHandler, gameManager.mainCamera, _guardMeterCanvas.GetComponent<RectTransform>());
+        uiGuardMeter.Init(transform, statHandler, gameManager.MainCamera, _guardMeterCanvas.GetComponent<RectTransform>());
         OnGuardEvent.AddListener(uiGuardMeter.UpdateGuideMeter);
 
         _aiSystem = GetComponent<AISystem>();
         _guardCooldownTime = _aiSystem.enemySettings.GetEnemyStatType(_aiSystem.enemyType).guardCooldown;
 
-        _player = gameManager.playerController.gameObject.transform;
+        _player = gameManager.PlayerController.gameObject.transform;
     }
 
 

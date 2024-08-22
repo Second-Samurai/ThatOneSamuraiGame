@@ -17,7 +17,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
     // Start is called before the first frame update
     protected new void Start()
     {
-        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
+        _rewindInput = GameManager.instance.RewindManager.GetComponent<RewindManager>();
         playerDataList = new List<PlayerTimeData>();
 
         this.m_CameraController = this.GetComponent<ICameraController>();

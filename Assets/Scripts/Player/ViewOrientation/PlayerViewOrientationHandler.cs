@@ -44,7 +44,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation
             // Note: This calculation can be collapsed to a single if statement.
             if (this.m_ViewRotation != Vector2.zero && !this.m_CameraController.IsLockedOn)
                 this.m_CameraController.RotateCamera(this.m_ViewRotation);
-            else if (GameManager.instance.rewindManager.isTravelling)
+            else if (GameManager.instance.RewindManager.isTravelling)
                 this.m_CameraController.RotateCamera(this.m_ViewRotation);
         }
 

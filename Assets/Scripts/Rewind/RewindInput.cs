@@ -29,7 +29,7 @@ public class RewindInput : MonoBehaviour
     void Start()
     {
         //rewindEntity = gameObject.GetComponent<RewindEntity>();
-        rewindManager = GameManager.instance.rewindManager;
+        rewindManager = GameManager.instance.RewindManager;
         playerFunction = gameObject.GetComponent<PlayerFunctions>();
         finishingMoveController = GetComponentInChildren<FinishingMoveController>();
     }

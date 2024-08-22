@@ -12,7 +12,7 @@ public class SceneAreaRevealer : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        playerTransform = GameManager.instance.playerController.transform;
+        playerTransform = GameManager.instance.PlayerController.transform;
     }
 
     // Update is called once per frame

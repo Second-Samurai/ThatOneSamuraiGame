@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [ExecuteInEditMode]
@@ -16,8 +17,9 @@ public class AudioManager : MonoBehaviour
     public TrackManager trackManager;
     public bool LightSaber = false;
     public bool check = false;
-  
 
+    [FormerlySerializedAs("m_BossThemeManager")]
+    public BossThemeManager BossThemeManager;
 
     public static AudioManager instance;
     // Start is called before the first frame update

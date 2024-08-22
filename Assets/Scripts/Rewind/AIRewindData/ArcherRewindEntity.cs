@@ -13,7 +13,7 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
 
     protected new void Start()
     {
-        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
+        _rewindInput = GameManager.instance.RewindManager.GetComponent<RewindManager>();
         archerDataList = new List<ArcherTimeData>();
         basicArcher = gameObject.GetComponent<BasicArcher>();
 

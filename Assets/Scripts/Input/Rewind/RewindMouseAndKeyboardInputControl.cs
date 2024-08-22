@@ -36,7 +36,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
             this.m_PauseActionHandler = _GameState.SessionUser.GetComponent<IPauseActionHandler>();
 
             this.m_RewindInput = GetComponent<RewindInput>();
-            this.m_RewindManager = GameManager.instance.rewindManager;
+            this.m_RewindManager = GameManager.instance.RewindManager;
         }
 
         #endregion Lifecycle Methods

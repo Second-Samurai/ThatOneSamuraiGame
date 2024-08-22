@@ -45,7 +45,7 @@ public class GameOverMenu : MonoBehaviour
 
     public void ReturnToMenu()
     {
-        GameManager.instance.checkpointManager.SaveActiveCheckpoint(); 
+        GameManager.instance.CheckpointManager.SaveActiveCheckpoint(); 
         
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;

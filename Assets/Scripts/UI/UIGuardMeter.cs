@@ -32,7 +32,7 @@ public class UIGuardMeter : MonoBehaviour
     // Start is called before the first frame update
     public void Init(Transform entityTransform, StatHandler statHandler, Camera camera, RectTransform parentTransform)
     {
-        _lockOnTracker = GameManager.instance.lockOnTracker;
+        _lockOnTracker = GameManager.instance.LockOnTracker;
         
         this._entityTransform = entityTransform;
         this._statHandler = statHandler;
@@ -48,7 +48,7 @@ public class UIGuardMeter : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!GameManager.instance.rewindManager.isTravelling)
+        if (!GameManager.instance.RewindManager.isTravelling)
         {
             DestroyWhenEntityDead();
 
@@ -78,7 +78,7 @@ public class UIGuardMeter : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.instance.rewindManager.isTravelling)
+        if (GameManager.instance.RewindManager.isTravelling)
         {
             DestroyWhenEntityDead();
 
@@ -124,7 +124,7 @@ public class UIGuardMeter : MonoBehaviour
     {
         if (_canStayOff) return false;
 
-        _playerToEntityDist = Vector3.Distance(GameManager.instance.playerController.transform.position, _entityTransform.position);
+        _playerToEntityDist = Vector3.Distance(GameManager.instance.PlayerController.transform.position, _entityTransform.position);
         _entityDir = (_entityTransform.position - mainCamera.transform.position).normalized;
         _cameraForward = mainCamera.transform.forward.normalized;
 

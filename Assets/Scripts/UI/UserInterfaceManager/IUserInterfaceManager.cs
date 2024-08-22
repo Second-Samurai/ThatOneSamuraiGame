@@ -9,8 +9,17 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
         #region - - - - - - Properties - - - - - -
 
         IPauseMenuController PauseMenu { get; }
+        
+        ButtonController ButtonController { get; }
 
         #endregion Properties
+
+
+        #region - - - - - - Methods - - - - - -
+
+        void SetupUserInterface();
+
+        #endregion Methods
 
     }
 

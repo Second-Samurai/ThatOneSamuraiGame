@@ -1,6 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Serialization;
+using System.Collections.Generic;  
 using UnityEngine;
 
 public class PlayerSFX : MonoBehaviour
@@ -98,15 +97,25 @@ public class PlayerSFX : MonoBehaviour
     {
         int i = Random.Range(0, grassRoll.Length);
         int j = Random.Range(0, armourJingle.Length);
-        audioPlayer.PlayOnce(armourJingle[j], audioManager.SFXVol/2);
-        audioPlayer.PlayOnce(rollArray[i], audioManager.SFXVol);
-        //Debug.Log(i);
+        
+        if (armourJingle.Length > i && armourJingle[i] != null)
+        { 
+            audioPlayer.PlayOnce(armourJingle[j], audioManager.SFXVol/2);
+        }
+
+        if (rollArray.Length > j && rollArray[i] != null)
+        { 
+            audioPlayer.PlayOnce(rollArray[i], audioManager.SFXVol);
+        } 
     }
     private void Parry()
     {
         int i = Random.Range(0, parry.Length);
-        audioPlayer.PlayOnce(parry[i], audioManager.SFXVol);
-        //Debug.Log(i);
+
+        if (parry.Length > i && parry[i] != null)
+        {
+            audioPlayer.PlayOnce(parry[i], audioManager.SFXVol);
+        } 
     }
 
 
@@ -124,6 +133,10 @@ public class PlayerSFX : MonoBehaviour
     public void AllUnsheath()
     {
         int i = Random.Range(0, allUnsheath.Length);
-        audioPlayer.PlayOnce(allUnsheath[i], audioManager.SFXVol);
+
+        if (allUnsheath.Length > i && allUnsheath[i] != null)
+        {
+            audioPlayer.PlayOnce(allUnsheath[i], audioManager.SFXVol);
+        }
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using Cinemachine;
+using System;
 
 public class RewindManager : MonoBehaviour
 {
@@ -61,6 +62,7 @@ public class RewindManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        /*
         transition = false;
         postProcessingController = GameManager.instance.postProcessingController;
         rewindTime = Mathf.Round(timeThreashold.Variable.TimeThreashold * (1f / Time.fixedDeltaTime));
@@ -78,11 +80,12 @@ public class RewindManager : MonoBehaviour
 
         damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PDamageController>();
 
-        
+        */
     }
 
     private void Update()
     {
+        /*
         IncreaseResource();
         //UpdateRewindUI();
         if (rewindResource < maxRewindResource && !isTravelling && transition == false) 
@@ -98,6 +101,7 @@ public class RewindManager : MonoBehaviour
 
         rewindUI.UpdateBarColor();
     //Debug.Log(isTravelling);
+        */
     }
 
     void UpdateRewindUI()
@@ -107,11 +111,13 @@ public class RewindManager : MonoBehaviour
 
     }
 
+    [Obsolete("Deprecated", false)]
     public void ResetRewind()
     {
        // rewindResource = maxRewindResource;
     }
 
+    [Obsolete("Deprecated", false)]
     public void ReduceRewindAmount()
     {
         if(maxRewindResource > 0)
@@ -137,7 +143,8 @@ public class RewindManager : MonoBehaviour
         }
 
     }
-   
+
+    [Obsolete("Deprecated", false)]
     public void IncreaseRewindAmount()
     {
         if (maxRewindResource < 10)
@@ -232,8 +239,10 @@ public class RewindManager : MonoBehaviour
 
     }
 
+    [Obsolete("Deprecated", false)]
     public IEnumerator BecomeInvincible()
     {
+        
         damageController.DisableDamage();
         //Debug.Log("become invinvible");
         yield return new WaitForSeconds(invincabilityTimer);
@@ -243,8 +252,9 @@ public class RewindManager : MonoBehaviour
 
     }
 
+    [Obsolete("Deprecated", false)]
     public void StartRewind()
-    {
+    { 
         if (rewindCam) rewindCam.m_Priority = 20; 
         _rewindAudio.Freeze();
         _rewindAudio.Idle();
@@ -261,12 +271,13 @@ public class RewindManager : MonoBehaviour
             StartCoroutine("RewindCoroutine");
             //if (rewindUI != null)
             //    UpdateRewindUI();
-        }
+        } 
 
     }
 
+    [Obsolete("Deprecated", false)]
     public void EndRewind() 
-    {
+    { 
         _rewindAudio.StopSource();
         if(rewindCam) rewindCam.m_Priority = 3;
         if (isTravelling)

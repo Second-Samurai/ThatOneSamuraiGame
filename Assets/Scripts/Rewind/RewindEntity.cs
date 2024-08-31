@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,6 +26,7 @@ public class RewindEntity : MonoBehaviour
 
     protected void Start()
     {
+        /*
         transformDataList = new List<PositionalTimeData>();
         thisTransform = gameObject.transform;
 
@@ -35,23 +37,24 @@ public class RewindEntity : MonoBehaviour
 
         _rewindInput.Reset += ResetTimeline;
 
-
+        */
        
     }
 
     // Update is called once per frame
     public virtual void FixedUpdate()
     {
+        /*
         if (_rewindInput.isTravelling == false) 
         {
             RecordPast();
             
         }
-
+        */
     }
 
-   
 
+    [Obsolete("Deprecated", false)]
     public void RecordPast() 
     {
         //how much data is cached before list starts being culled (currently 10 seconds)
@@ -63,6 +66,7 @@ public class RewindEntity : MonoBehaviour
         transformDataList.Insert(0, new PositionalTimeData(thisTransform.position, thisTransform.rotation));
     }
 
+    [Obsolete("Deprecated", false)]
     public void ResetTimeline() 
     {
         for (int i = currentIndex; i >= 0; i--) 
@@ -76,6 +80,7 @@ public class RewindEntity : MonoBehaviour
         transformDataList.TrimExcess();
     }
 
+    [Obsolete("Deprecated", false)]
     public virtual void StepBack() 
     {
 
@@ -95,6 +100,7 @@ public class RewindEntity : MonoBehaviour
         }
     }
 
+    [Obsolete("Deprecated", false)]
     public virtual void StepForward()
     {
         if (transformDataList.Count > 0)
@@ -108,6 +114,7 @@ public class RewindEntity : MonoBehaviour
         }
     }
 
+    [Obsolete("Deprecated", false)]
     public void SetPosition() 
     {
         if (currentIndex <= transformDataList.Count - 1)
@@ -118,16 +125,18 @@ public class RewindEntity : MonoBehaviour
 
     }
 
+    [Obsolete("Deprecated", false)]
     public virtual void ApplyData()
     {
 
     }
     protected void OnDestroy()
     {
+        /*
         _rewindInput.Reset -= ResetTimeline; 
         _rewindInput.OnEndRewind -= ApplyData;
         _rewindInput.StepForward -= StepForward;
         _rewindInput.StepBack -= StepBack;
-
+        */
     }
 }

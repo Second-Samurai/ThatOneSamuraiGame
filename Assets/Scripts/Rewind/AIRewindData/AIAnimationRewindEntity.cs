@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ public class AIAnimationRewindEntity : RewindEntity
     // Start is called before the first frame update
     protected new void Start()
     {
+        /*
         _rewindInput = GameManager.instance.RewindManager.GetComponent<RewindManager>();
         animationDataList = new List<AIAnimationTimeData>();
         animator = gameObject.GetComponent<Animator>();
@@ -24,12 +26,13 @@ public class AIAnimationRewindEntity : RewindEntity
         _rewindInput.OnEndRewind += EnableEvents;
         _rewindInput.OnEndRewind += ApplyData;
 
-        base.Start();
+        base.Start();*/
     }
 
     // Update is called once per frame
     public override void FixedUpdate()
     {
+        /*
         if (_rewindInput.isTravelling == false)
         {
             RecordPast();
@@ -42,9 +45,10 @@ public class AIAnimationRewindEntity : RewindEntity
 
         }
 
-
+        */
     }
 
+    [Obsolete("Deprecated", false)]
     public  void DisableEvents()
     {
        
@@ -53,6 +57,7 @@ public class AIAnimationRewindEntity : RewindEntity
   
     }
 
+    [Obsolete("Deprecated", false)]
     public  void EnableEvents()
     {
         animator.fireEvents = true;
@@ -60,6 +65,7 @@ public class AIAnimationRewindEntity : RewindEntity
 
     }
 
+    [Obsolete("Deprecated", false)]
     public new void ResetTimeline()
     {
         for (int i = currentIndex; i >= 0; i--)
@@ -72,6 +78,7 @@ public class AIAnimationRewindEntity : RewindEntity
         animationDataList.TrimExcess();
     }
 
+    [Obsolete("Deprecated", false)]
     public new void RecordPast()
     {
         //how much data is cached before list starts being culled (currently 10 seconds)
@@ -93,6 +100,7 @@ public class AIAnimationRewindEntity : RewindEntity
         base.RecordPast();
     }
 
+    [Obsolete("Deprecated", false)]
     public override void StepBack()
     {
 
@@ -111,6 +119,7 @@ public class AIAnimationRewindEntity : RewindEntity
         }
     }
 
+    [Obsolete("Deprecated", false)]
     public override void StepForward()
     {
         if (animationDataList.Count > 0)
@@ -124,6 +133,7 @@ public class AIAnimationRewindEntity : RewindEntity
         }
     }
 
+    [Obsolete("Deprecated", false)]
     public new void SetPosition()
     {
         
@@ -138,16 +148,18 @@ public class AIAnimationRewindEntity : RewindEntity
             animator.Play(animationDataList[currentIndex].currentClip, 0, animationDataList[currentIndex].currentFrame);
         }
     }
+    [Obsolete("Deprecated", false)]
     public override void ApplyData()
     {
         
     }
     protected new void OnDestroy()
     {
+        /*
         _rewindInput.Reset -= ResetTimeline;
         _rewindInput.OnEndRewind -= EnableEvents;
         _rewindInput.OnStartRewind -= DisableEvents;
         _rewindInput.OnEndRewind -= ApplyData;
-        base.OnDestroy();
+        base.OnDestroy();*/
     }
 }

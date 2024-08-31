@@ -50,13 +50,13 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
         void IRewindInputControl.OnEndRewind(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_RewindInput.OnEndRewind(); // Temporarily act as a pass-through.
+            //this.m_RewindInput.OnEndRewind(); // Temporarily act as a pass-through.
         }
 
         void IRewindInputControl.OnScrub(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_RewindManager.rewindDirection = context.ReadValue<float>();
+            //this.m_RewindManager.rewindDirection = context.ReadValue<float>();
         }
 
         // -----------------------------------------------------

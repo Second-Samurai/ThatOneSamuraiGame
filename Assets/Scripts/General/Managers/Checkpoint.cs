@@ -41,7 +41,7 @@ public class Checkpoint : MonoBehaviour
         checkpointManager.activeCheckpoint = checkpointManager.checkpoints.IndexOf(this);
         bIsActive = true;
         GameManager.instance.EnemySpawnManager.SaveEnemyList();
-        GameManager.instance.RewindManager.IncreaseRewindAmount();
+        //GameManager.instance.RewindManager.IncreaseRewindAmount();
     }
 
     public void LoadCheckpoint()

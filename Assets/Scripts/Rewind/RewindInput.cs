@@ -28,15 +28,18 @@ public class RewindInput : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        /*
         //rewindEntity = gameObject.GetComponent<RewindEntity>();
         rewindManager = GameManager.instance.RewindManager;
         playerFunction = gameObject.GetComponent<PlayerFunctions>();
         finishingMoveController = GetComponentInChildren<FinishingMoveController>();
+        */
     }
 
 
     private void Update()
     {
+        /*
         // Note: This should be made event based instead of being tied to Unity's runtime events.
         if (Keyboard.current.iKey.wasPressedThisFrame)
         {
@@ -54,10 +57,13 @@ public class RewindInput : MonoBehaviour
             rewindManager.ResetRewind();
             rewindManager.EndRewind();
         }
+        */
     }
 
+    [Obsolete("Deprecated", false)]
     public void OnInitRewind()
     {
+        /*
         if (!finishingMoveController.bIsFinishing)
         {
             //if (playerInput.camControl.bLockedOn) playerInput.OnLockOn();
@@ -87,13 +93,14 @@ public class RewindInput : MonoBehaviour
                 GameManager.instance.postProcessingController.EnableRewindColourFilter();
 
             }
-        }
+        }*/
 
     }
 
+    [Obsolete("Deprecated", false)]
     public void OnEndRewind()
     {
-
+        /*
         if (isTravelling && !playerFunction.bIsDead)
         {
             IInputManager _InputManager = GameManager.instance.InputManager;
@@ -101,14 +108,15 @@ public class RewindInput : MonoBehaviour
             
             GameManager.instance.postProcessingController.DisableRewindColourFilter();
             isTravelling = false;
-            //rewindEntity.isTravelling = false;
-            rewindManager.EndRewind();
+             
+            //rewindManager.EndRewind();
             rewindTut.SetActive(false);
             rewindManager.isTravelling = false;
-            rewindManager.ResetRewind();
-        }
+            //rewindManager.ResetRewind();
+        }*/
     }
 
+    [Obsolete("Deprecated", false)]
     public void DeathRewind()
     {
         rewindManager.ReduceRewindAmount();

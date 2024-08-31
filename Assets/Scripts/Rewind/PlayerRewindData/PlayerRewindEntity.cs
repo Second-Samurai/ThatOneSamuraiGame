@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using ThatOneSamuraiGame.Scripts.Camera;
 using ThatOneSamuraiGame.Scripts.Input;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 public class PlayerRewindEntity : AnimationRewindEntity
 {
-
+    
     public List<PlayerTimeData> playerDataList;
     public Collider swordCollider;
     public Rigidbody gameObjectRigidbody;
@@ -17,6 +18,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
     // Start is called before the first frame update
     protected new void Start()
     {
+        /*
         _rewindInput = GameManager.instance.RewindManager.GetComponent<RewindManager>();
         playerDataList = new List<PlayerTimeData>();
 
@@ -30,34 +32,39 @@ public class PlayerRewindEntity : AnimationRewindEntity
 
         gameObjectRigidbody = gameObject.GetComponent<Rigidbody>();
         base.Start();
-
+        
     }
 
     public override void FixedUpdate()
     {
+        /*
         if (_rewindInput.isTravelling == false)
         {
             RecordPast();
 
         }
         DisableCollider();
-
+        */
     }
+
     //setting rigidbodys to kinimatic
+    [Obsolete("Deprecated", false)]
     public new void DisableEvents()
     {
         gameObjectRigidbody.isKinematic = true;
         base.DisableEvents();
     }
 
+    [Obsolete("Deprecated", false)]
     public new void EnableEvents()
     {
         gameObjectRigidbody.isKinematic = false;
 
         base.EnableEvents();
-        StartCoroutine(_rewindInput.BecomeInvincible());
+        //StartCoroutine(_rewindInput.BecomeInvincible());
     }
 
+    [Obsolete("Deprecated", false)]
     public new void ResetTimeline()
     {
 
@@ -72,7 +79,7 @@ public class PlayerRewindEntity : AnimationRewindEntity
         playerDataList.TrimExcess();
     }
 
-
+    [Obsolete("Deprecated", false)]
     public new void RecordPast()
     {
         //maybe make 10f into a global variable
@@ -88,9 +95,10 @@ public class PlayerRewindEntity : AnimationRewindEntity
         base.RecordPast();
     }
 
+    [Obsolete("Deprecated", false)]
     public override void StepBack()
     {
-
+        /*
         if (playerDataList.Count > 0)
         {
             if (currentIndex < playerDataList.Count - 1)
@@ -106,10 +114,13 @@ public class PlayerRewindEntity : AnimationRewindEntity
                 SetPosition();
             }
         }
+        */
     }
 
+    [Obsolete("Deprecated", false)]
     public override void StepForward()
     {
+        /*
         if (playerDataList.Count > 0)
         {
             if (currentIndex > 0)
@@ -118,18 +129,22 @@ public class PlayerRewindEntity : AnimationRewindEntity
                 currentIndex--;
             }
         }
+        */
     }
 
     // can be called in rewind input if needed incase jaiden yells at me for using update
+    [Obsolete("Deprecated", false)]
     public void DisableCollider()
     {
+        /*
         if (_rewindInput.isTravelling == true)
         {
             swordCollider.enabled = false;
         }
- 
+         */
     }
 
+    [Obsolete("Deprecated", false)]
     public new void SetPosition()
     {
         if (currentIndex <= playerDataList.Count - 1)
@@ -151,8 +166,10 @@ public class PlayerRewindEntity : AnimationRewindEntity
         base.SetPosition();
     }
 
+    [Obsolete("Deprecated", false)]
     public override void ApplyData()
     {
+        /*
         IInputManager _InputManager = GameManager.instance.InputManager;
         
         if (this.m_PlayerFunctions.bIsDead) 
@@ -161,8 +178,9 @@ public class PlayerRewindEntity : AnimationRewindEntity
             _InputManager.SwitchToGameplayControls();
         
         swordCollider.enabled = playerDataList[currentIndex].swordCollider;
-        
+        */
      //   playerInput.camControl.bLockedOn = false;
       //  playerInput.camControl.UnlockCam();
     }
+    
 }

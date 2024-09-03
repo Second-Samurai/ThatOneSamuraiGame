@@ -28,7 +28,6 @@ public class PDamageController : MonoBehaviour, IDamageable
     {
         if (!_canDamage) return;
         _functions.ApplyHit(attacker, unblockable, damage);
-        //Debug.Log("Player is Damaged");
     }
 
     /* Summary: This disables the damage from this component.

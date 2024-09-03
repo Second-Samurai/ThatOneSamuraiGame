@@ -141,7 +141,6 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
         _lockedCamScript.ClearTarget();
         lockOnTarget = null;
         cinematicBars.HideBars(.3f);
-        Debug.Log(300000);
         _animator.SetBool("LockedOn", false);
     }
 

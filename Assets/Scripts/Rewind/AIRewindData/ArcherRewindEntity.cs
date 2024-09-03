@@ -87,8 +87,6 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
         //move to animation rewind entity
         archerDataList.Insert(0, new ArcherTimeData(basicArcher.lastDirection, basicArcher.shotDirection, basicArcher.currentState, basicArcher.shotTimer, basicArcher.col.enabled));
 
-        //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + "   :   " + m_CurrentClipInfo[0].clip.name);
-
         base.RecordPast();
     }
 
@@ -106,7 +104,6 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
                 }
                 SetPosition();
             }
-            //Debug.LogWarning("animStepBack");
         }
     }
 
@@ -119,7 +116,6 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
                 SetPosition();
                 currentIndex--;
             }
-            // Debug.LogWarning("animStepForward");
         }
     }
 
@@ -155,7 +151,6 @@ public class ArcherRewindEntity : ArcherAnimationRewindEntity
     }
     protected new void OnDestroy()
     {
-
         _rewindInput.Reset -= ResetTimeline;
         _rewindInput.OnEndRewind -= EnableEvents;
         _rewindInput.OnStartRewind -= DisableEvents;

@@ -132,20 +132,14 @@ public class UIGuardMeter : MonoBehaviour
         if (_playerToEntityDist >= 20)
         {
             if (guardSlider.value == 0)
-            {
                 _canStayOff = true;
-            }
 
-            //Debug.Log(">> GuideMeter: is disabled");
             return false;
         }
 
         //Checks if the dot product is pointing behind camera
         if (Vector3.Dot(_cameraForward, _entityDir) < 0)
-        {
-            //Debug.Log(">> GuideMeter: is disabled");
             return false;
-        }
 
         return true;
     }

@@ -95,8 +95,6 @@ public class LDoorWays : MonoBehaviour
         currentRotation = doorPivot.rotation.eulerAngles;
         doorPivot.Rotate(0, rotationSpeed * Time.fixedDeltaTime, 0);
 
-        //Debug.Log(Quaternion.Euler(currentRotation).eulerAngles);
-
         //catches reverse angles
         if (inReverse)
         {

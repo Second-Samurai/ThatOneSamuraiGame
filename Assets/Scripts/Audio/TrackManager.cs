@@ -96,14 +96,9 @@ public class TrackManager : MonoBehaviour
     {
             TweenCallback callback = DrumsActive;
         if (Fadein)
-        {
             drums.DOFade(_audioManager.BGMVol / 2, 2).OnComplete(callback);
-           
-        }
         else 
-        {
             drums.DOFade(0, 2);
-        }
         
     }
 
@@ -128,15 +123,9 @@ public class TrackManager : MonoBehaviour
     {
         TweenCallback callback = ViolinLeadActive;
         if (Fadein)
-        {
-            // Debug.Log("fade");
-            violinLead.DOFade(_audioManager.BGMVol, 2).OnComplete(callback); ;
-        }
+            violinLead.DOFade(_audioManager.BGMVol, 2).OnComplete(callback);
         else
-        {
             violinLead.DOFade(0, 2);
-        }
-
     }
 
     public void ViolinLeadActive() { violinLeadActive = !violinLeadActive; }
@@ -146,14 +135,9 @@ public class TrackManager : MonoBehaviour
         TweenCallback callback = ViolinHarmonyActive;
 
         if (Fadein)
-        {
             violinHarmony.DOFade(_audioManager.BGMVol, 2).OnComplete(callback);
-        }
         else
-        {
             violinHarmony.DOFade(0, 2);
-        }
-
     }
 
     public void ViolinHarmonyActive() { violinHarmonyActive = !violinHarmonyActive; }
@@ -164,31 +148,20 @@ public class TrackManager : MonoBehaviour
         TweenCallback callback = FluteActive;
 
         if (Fadein)
-        {
             flute.DOFade(_audioManager.BGMVol, 2).OnComplete(callback);
-
-        }
         else
-        {
             flute.DOFade(0, 2);
-        }
     }
     public void FluteActive() { fluteActive = !fluteActive; }
-
   
-
     public void LowStringFade(bool Fadein)
     {
         TweenCallback callback = LowStringActive;
 
         if (Fadein)
-        {
             lowString.DOFade(_audioManager.BGMVol, 2).OnComplete(callback);
-        }
         else
-        {
             lowString.DOFade(0, 2);
-        }
     }
 
     public void LowStringActive() { lowStringActive = !lowStringActive; }
@@ -199,17 +172,11 @@ public class TrackManager : MonoBehaviour
         TweenCallback callback = ShakaActive;
 
         if (Fadein)
-        {
             shaka.DOFade(_audioManager.BGMVol, 2).OnComplete(callback);
-        }
         else
-        {
             shaka.DOFade(0, 2);
-        }
-
     }
     public void ShakaActive() { shakaActive = !shakaActive; }
-
 
 
     public void PauseAll()

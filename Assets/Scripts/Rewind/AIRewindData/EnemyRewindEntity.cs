@@ -171,8 +171,6 @@ public class EnemyRewindEntity : AIAnimationRewindEntity
             aISystem.eDamageController.enemyGuard.remainingCooldownTime = enemyDataList[currentIndex].remainingCooldownTime;
             //Called so it updates the current guard UI
             aISystem.eDamageController.enemyGuard.OnGuardEvent.Invoke();
-            
-            //Debug.LogError(enemyDataList[currentIndex].bIsDead);
         }
         // needs to set the enemy targeting
         base.SetPosition();

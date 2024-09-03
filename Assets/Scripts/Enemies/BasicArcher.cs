@@ -123,7 +123,6 @@ public class BasicArcher : MonoBehaviour, IDamageable
         anim.SetTrigger("Death");
         col.enabled = false;
         currentState = CurrentState.Dead;
-        //Debug.LogError("I Am dead");
         camImpulse.FireImpulse();
         GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.15f);
         StartCoroutine(DodgeImpulseCoroutine(Vector3.back, damage * 4, .3f));

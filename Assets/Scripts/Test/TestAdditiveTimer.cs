@@ -15,6 +15,5 @@ public class TestAdditiveTimer : MonoBehaviour
     void FixedUpdate()
     {
         time += Time.fixedDeltaTime;
-        //Debug.Log(time);
     }
 }

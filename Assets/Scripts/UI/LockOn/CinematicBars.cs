@@ -67,7 +67,6 @@ public class CinematicBars : MonoBehaviour
                 {
                     sizeDelta.y = targetSize;
                     _isActive = false;
-                   // Debug.Log("Done!");
                 }
             }
             else

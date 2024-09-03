@@ -83,8 +83,6 @@ public class ProjectileRewindEntity : RewindEntity
         //move to animation rewind entity
         ProjectileDataList.Insert(0, new ProjectileTimeData(projectile.direction, projectile.rb.linearVelocity, projectile.collider.enabled, projectile.hitEnemies));
 
-        //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + "   :   " + m_CurrentClipInfo[0].clip.name);
-
         base.RecordPast();
     }
 
@@ -102,7 +100,6 @@ public class ProjectileRewindEntity : RewindEntity
                 }
                 SetPosition();
             }
-            //Debug.LogWarning("animStepBack");
         }
     }
 
@@ -115,7 +112,6 @@ public class ProjectileRewindEntity : RewindEntity
                 SetPosition();
                 currentIndex--;
             }
-            // Debug.LogWarning("animStepForward");
         }
     }
 

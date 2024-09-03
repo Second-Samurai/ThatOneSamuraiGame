@@ -246,11 +246,12 @@ namespace Enemies
 
         public void ApplyHit(GameObject attacker)
         {
-            if (attacker.GetComponent<AISystem>())
-            {
-                Debug.Log("Friendly Fire hit");
-            }
-            else if (attacker.GetComponent<PlayerController>())
+            // if (attacker.GetComponent<AISystem>())
+            // {
+            //     // Debug.Log("Friendly Fire hit");
+            // }
+            // else 
+            if (attacker.GetComponent<PlayerController>())
             {
                 if (bHasArmour)
                 {

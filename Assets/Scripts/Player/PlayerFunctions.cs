@@ -213,7 +213,6 @@ public class PlayerFunctions : MonoBehaviour
         
         if( RadialCast(transform, 10, -45, enemyMask, ref sprintAttackTarget))
         {
-            //Debug.Log(sprintAttackTarget.collider.gameObject.name);
             transform.LookAt(sprintAttackTarget.collider.gameObject.transform);
             transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
             lastDir = sprintAttackTarget.collider.gameObject.transform.position - transform.position;

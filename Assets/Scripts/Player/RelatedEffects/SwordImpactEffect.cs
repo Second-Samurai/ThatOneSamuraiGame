@@ -52,10 +52,7 @@ public class SwordImpactEffect
         hit = hitResult.Where(predicate: x => x.collider.GetComponent<IDamageable>() != null).FirstOrDefault();
 
         if (hit.collider == null)
-        {
-            //Debug.LogWarning(">> PSword: hit raycast has returned nothing");
             return this._swordControl.transform.position;
-        }
 
         if (hit.collider.GetComponent<IDamageable>().GetEntityType() != EntityType.Player)
         {

@@ -24,7 +24,6 @@ public class EnemySpawnManager : MonoBehaviour
             
             Debug.Log(enemySpawnDictionary.Values);
         }
-        else Debug.LogError("NO DATA TO SPAWN");
     }
 
     public void SetSpawnValue()

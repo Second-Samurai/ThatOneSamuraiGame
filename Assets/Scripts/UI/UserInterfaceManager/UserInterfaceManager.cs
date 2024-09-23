@@ -56,7 +56,6 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
         }
 
         #endregion Methods
-  
         
     }
 

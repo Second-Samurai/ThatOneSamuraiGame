@@ -21,7 +21,6 @@ public class PlayerCamTargetController : MonoBehaviour
     private void LateUpdate()
     {
         transform.position = player.transform.position + posOffset;
-       
     }
 
     public void RotateCam(Vector2 mouseInput)

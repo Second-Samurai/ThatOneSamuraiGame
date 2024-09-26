@@ -1,6 +1,7 @@
 using ThatOneSamuraiGame.Scripts;
 using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
+using ThatOneSamuraiGame.Scripts.SetupHandlers.GameSetupHandlers;
 using ThatOneSamuraiGame.Scripts.UI.Pause.PauseManager;
 using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
 using UnityEngine;
@@ -34,8 +35,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SceneManager m_SceneManager;
     [SerializeField] private UserInterfaceManager m_UserInterfaceManager;
     [SerializeField] private PauseManager m_PauseManager;
+    [SerializeField] private InputManager m_InputManager;
     public AudioManager audioManager;
-    private IInputManager m_InputManager;
+
+    [Header("SetupHandler")]
+    [SerializeField] private GameSetupHandler m_GameSetupHandler;
     
     private GameState m_GameState;
     
@@ -116,27 +120,28 @@ public class GameManager : MonoBehaviour
         else
             Destroy(gameObject);
 
+        this.StartCoroutine(this.m_GameSetupHandler.RunSetup());
+        
         // Perform setup pipeline
         // Ticket: #43 - Move this into its own pipeline handler to separate initialisation logic from the game manager.
         
         // Setup game scene
-        SetupGraphics();
-        SetupAudio();
+        // SetupGraphics();
+        // SetupAudio();
 
         // Locate services
         this.m_GameState = this.GetComponent<GameState>();
-        this.m_InputManager = this.GetComponent<IInputManager>();
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
-        ((ISceneManager)this.m_SceneManager).SetupScene();
-        ((IUserInterfaceManager)this.m_UserInterfaceManager).SetupUserInterface();
-        
-        this.m_InputManager.ConfigureMenuInputControl();
-        this.m_InputManager.SwitchToMenuControls();
-    }
+    // void Start()
+    // {
+    //     ((ISceneManager)this.m_SceneManager).SetupScene();
+    //     ((IUserInterfaceManager)this.m_UserInterfaceManager).SetupUserInterface();
+    //     
+    //     this.m_InputManager.ConfigureMenuInputControl();
+    //     this.m_InputManager.SwitchToMenuControls();
+    // }
 
     #endregion Lifecycle Methods
 

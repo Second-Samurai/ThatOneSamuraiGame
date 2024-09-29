@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupHandlers
 {
@@ -11,16 +14,28 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupHandlers
     public class SceneSetupHandler : MonoBehaviour
     {
 
+        #region - - - - - - Unity Lifecycle Methods - - - - - -
 
+        private void Awake() 
+            => this.StartCoroutine(this.RunSetup());
+
+        #endregion Unity Lifecycle Methods
+  
         #region - - - - - - Methods - - - - - -
 
         public IEnumerator RunSetup()
         {
-            yield return null;
+            yield return StartCoroutine(this.SetupUserInterface());
+            yield return StartCoroutine(this.SetupScene());
+            
+            print($"[{DateTime.Now}]: Scene has been setup.");
         }
-
+        
         private IEnumerator SetupScene()
         {
+            ISceneManager _SceneManager =
+                Object.FindFirstObjectByType<SceneManager>(FindObjectsInactive.Exclude);
+            _SceneManager.SetupScene();
             yield return null;
         }
 
@@ -30,11 +45,6 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupHandlers
                 Object.FindFirstObjectByType<UserInterfaceManager>(FindObjectsInactive.Exclude);
             _UserInterfaceManager.SetupUserInterface();
             
-            yield return null;
-        }
-        
-        private IEnumerator SetupPlayer()
-        {
             yield return null;
         }
 

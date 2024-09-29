@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupHandlers
@@ -9,7 +10,10 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupHandlers
     /// </summary>
     public class SceneSetupHandler : MonoBehaviour
     {
-        
+
+
+        #region - - - - - - Methods - - - - - -
+
         public IEnumerator RunSetup()
         {
             yield return null;
@@ -22,6 +26,10 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupHandlers
 
         private IEnumerator SetupUserInterface()
         {
+            IUserInterfaceManager _UserInterfaceManager =
+                Object.FindFirstObjectByType<UserInterfaceManager>(FindObjectsInactive.Exclude);
+            _UserInterfaceManager.SetupUserInterface();
+            
             yield return null;
         }
         
@@ -29,7 +37,9 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupHandlers
         {
             yield return null;
         }
-        
+
+        #endregion Methods
+  
     }
 
 }

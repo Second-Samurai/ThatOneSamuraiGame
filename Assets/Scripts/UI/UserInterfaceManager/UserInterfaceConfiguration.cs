@@ -4,7 +4,7 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
 {
 
     /// <summary>
-    /// This stores both the injected User objects and prefab references.
+    /// [DEPRECATED]: This stores both the injected User objects and prefab references.
     /// </summary>
     public class UserInterfaceConfiguration : MonoBehaviour
     {

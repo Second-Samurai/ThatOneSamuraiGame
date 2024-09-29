@@ -145,28 +145,28 @@ public class GameManager : MonoBehaviour
 
     #endregion Lifecycle Methods
 
-    #region - - - - - - Methods - - - - - -
+    // #region - - - - - - Methods - - - - - -
 
-    void SetupGraphics() // Handled in pipeline
-    {
-        //Add Post Processing
-        postProcessingController = Instantiate(gameSettings.dayPostProcessing, transform.position, Quaternion.identity).GetComponent<PostProcessingController>();
-    }
+    // void SetupGraphics() // Handled in pipeline
+    // {
+    //     //Add Post Processing
+    //     postProcessingController = Instantiate(gameSettings.dayPostProcessing, transform.position, Quaternion.identity).GetComponent<PostProcessingController>();
+    // }
 
-    void SetupAudio() // Handled in pipeline
-    {
-        if (FindObjectOfType<AudioManager>() == null) 
-            audioManager = Instantiate(gameSettings.audioManger, transform.position, Quaternion.identity).GetComponent<AudioManager>();
-    }
+    // void SetupAudio() // Handled in pipeline
+    // {
+    //     if (FindObjectOfType<AudioManager>() == null) 
+    //         audioManager = Instantiate(gameSettings.audioManger, transform.position, Quaternion.identity).GetComponent<AudioManager>();
+    // }
     
     // -----------------------------------------------------------
     // Temporary: Actions pertaining to defined game events
     // -----------------------------------------------------------
 
     // Note: Should be refactored to its own definable hard-coded event.
-    public void OnOpeningSceneStart() // Scene manager - but possible delete if not used
-        => Debug.LogWarning("Not implemented");
+    // public void OnOpeningSceneStart() // Scene manager - but possible delete if not used
+    //     => Debug.LogWarning("Not implemented");
 
-    #endregion Methods
+    // #endregion Methods
 
 }

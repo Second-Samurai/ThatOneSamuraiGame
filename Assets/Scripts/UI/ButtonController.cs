@@ -2,6 +2,11 @@
 using Cinemachine;
 using UnityEngine.UI;
 
+// Note: This class is called the button controller but is attached to the 'Quit' UI Button.
+//  Its purpose is to manage the screen state after quitting the game.
+//      - This is only for the SwordCanvas and switches between menus 
+//      - Closes the menu but also handles the quit game behavior
+
 public class ButtonController : MonoBehaviour
 {
     public CinemachineVirtualCamera vcam, optionsVCam;
@@ -30,6 +35,7 @@ public class ButtonController : MonoBehaviour
         Application.Quit();
     }
 
+    // Opens the Options menu, de-activates the main menu
     public void OptionsMenu()
     {
         vcam.m_Priority = 0;
@@ -38,6 +44,7 @@ public class ButtonController : MonoBehaviour
         optionsMenu.SetActive(true);
     }
 
+    // Opens the MainMenu, de-activates the options menu
     public void MainMenu()
     {
         optionsVCam.m_Priority = 0;

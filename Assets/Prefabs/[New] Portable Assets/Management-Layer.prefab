@@ -290,7 +290,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3881957525265576832}
   - component: {fileID: 7251784603664655444}
-  - component: {fileID: 2871937191259265824}
   - component: {fileID: 4538395498033527719}
   m_Layer: 0
   m_Name: GameManager
@@ -333,20 +332,9 @@ MonoBehaviour:
   m_SceneManager: {fileID: 6510706554469319047}
   m_UserInterfaceManager: {fileID: 7151448739478652950}
   m_PauseManager: {fileID: 3478317692892313346}
+  m_InputManager: {fileID: 0}
   audioManager: {fileID: 6828592366553557563}
---- !u!114 &2871937191259265824
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3480514959005547005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ab8acebd0bd0c546a63b5ec86af3e8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bIsSlowing: 0
+  m_GameSetupHandler: {fileID: 0}
 --- !u!114 &4538395498033527719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -543,7 +531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_GameSettings: {fileID: 11400000, guid: c71a704aefd554b1fa5b61875141ac6c, type: 2}
-  m_ButtonController: {fileID: 0}
+  m_SwordCanvasController: {fileID: 0}
 --- !u!114 &1774090532039097453
 MonoBehaviour:
   m_ObjectHideFlags: 0

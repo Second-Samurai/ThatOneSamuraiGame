@@ -11,7 +11,6 @@ public class PlayerCamTargetController : MonoBehaviour
     float mouseX, mouseY;
     //public bool invertY = false;
 
-
     private void Start()
     {
         if (!player) 

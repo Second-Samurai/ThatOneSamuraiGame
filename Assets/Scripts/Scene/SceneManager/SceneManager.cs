@@ -17,25 +17,25 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         #region - - - - - - Fields - - - - - -
         
         [Header("Data State")]
-        [SerializeField] private GameSettings m_GameSettings;
-        [SerializeField] private SceneState m_SceneState;
+        [SerializeField] public GameSettings m_GameSettings;
+        [SerializeField] public SceneState m_SceneState;
 
         [Header("Controllers and Managers")]
-        [SerializeField] private CheckpointManager m_CheckPointManager;
-        [SerializeField] private RewindManager m_RewindManager;
+        [SerializeField] public CheckpointManager m_CheckPointManager;
+        [SerializeField] public RewindManager m_RewindManager;
         [Space]
-        [SerializeField] private EnemyTracker m_EnemyTracker;
-        [SerializeField] private EnemySpawnManager m_EnemySpawnManager;
+        [SerializeField] public EnemyTracker m_EnemyTracker;
+        [SerializeField] public EnemySpawnManager m_EnemySpawnManager;
 
         [Header("Camera")]
-        [SerializeField] private CameraControl m_CameraControl;
-        [SerializeField] private LockOnTracker m_LockOnTracker;
-        [SerializeField] private GameObject m_ThirdPersonViewCamera;
+        [SerializeField] public CameraControl m_CameraControl;
+        [SerializeField] public LockOnTracker m_LockOnTracker;
+        [SerializeField] public GameObject m_ThirdPersonViewCamera;
         private UnityEngine.Camera m_MainCamera;
 
         [Header("Player")]
-        [SerializeField] private PlayerController m_PlayerController;
-        [SerializeField] private Transform m_PlayerSpawnPoint;
+        [SerializeField] public PlayerController m_PlayerController;
+        [SerializeField] public Transform m_PlayerSpawnPoint;
         
         #endregion Fields
         
@@ -101,6 +101,10 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
 
         #region - - - - - - Methods - - - - - -
         
+        /// <summary>
+        /// Responsible for setting up the scene.
+        /// </summary>
+        /// <remarks>This should only be invoked from within the game scene.</remarks>
         void ISceneManager.SetupScene()
         {
             this.SetupSceneCamera();

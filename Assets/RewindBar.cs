@@ -61,11 +61,11 @@ public class RewindBar : MonoBehaviour
 
     public void UpdateBarColor() 
     {
-        if (GameManager.instance.RewindManager.rewindResource > 2f)
+        if (GameManager.instance.RewindManager.totalRewindQuantity > 2f)
         {
             rewindBar.color = new Color32(76, 101, 221, 255);
         }
-        else if (GameManager.instance.RewindManager.rewindResource < 2f)
+        else if (GameManager.instance.RewindManager.totalRewindQuantity < 2f)
         {
             rewindBar.color = new Color32(221, 76, 87, 255);
         }

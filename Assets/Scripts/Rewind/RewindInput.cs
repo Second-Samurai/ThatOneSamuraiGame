@@ -67,7 +67,7 @@ public class RewindInput : MonoBehaviour
             IInputManager _InputManager = GameManager.instance.InputManager;
             _InputManager.SwitchToRewindControls();
             
-            if (!isTravelling && rewindManager.maxRewindResource != 0)
+            if (!isTravelling && rewindManager.maxRewindQuantity != 0)
             {
                 isTravelling = true;
                 rewindManager.isTravelling = true;
@@ -75,9 +75,9 @@ public class RewindInput : MonoBehaviour
                 rewindTut.SetActive(true);
                 GameManager.instance.postProcessingController.EnableRewindColourFilter();
                 rewindManager.rewindUI.FadeIn(1f, 0f);
-                rewindManager.transition = true;
+                rewindManager.isTransitioning = true;
             }
-            else if (!isTravelling && rewindManager.maxRewindResource == 0)
+            else if (!isTravelling && rewindManager.maxRewindQuantity == 0)
             {
                 isTravelling = true;
                 rewindManager.isTravelling = true;

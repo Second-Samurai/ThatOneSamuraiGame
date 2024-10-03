@@ -1,14 +1,44 @@
-﻿using DG.Tweening;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.UI;
 using Cinemachine;
+using UnityEngine.Serialization;
 
 public class RewindManager : MonoBehaviour
 {
+
+    #region - - - - - - Fields - - - - - -
+
+    [Header("Rewind modifiers")]
+    public float rewindDirection;
+    public bool isTravelling = true;
+    public bool isTransitioning;
+
+    [Header("Time modifiers")]
+    public TimeThreasholdReferance timeThreashold;
+    public float rewindTime;
+    [FormerlySerializedAs("rewindResource")] public float totalRewindQuantity = 0f; // Later remove header
+    [FormerlySerializedAs("maxRewindResource")] public float maxRewindQuantity = 10f; // Later remove header
+    [FormerlySerializedAs("invincabilityTimer")] public float invincibilityTimer;
+
+    [Header("Entity tracking-list")]
+    public List<RewindEntity> rewindObjects;
+    WaitForSecondsRealtime wait = new WaitForSecondsRealtime(.05f);
+
+    [Header("Menus / Graphics")]
+    public RewindBar rewindUI;
+    public Canvas gameOverCanvas;
+    public CinemachineVirtualCamera rewindCam;
+    private GameOverMenu gameOverMenu;
+    
+    private PDamageController damageController;
+    PostProcessingController postProcessingController;
+    PlayerRewindEntity playerRewindEntity;
+    private RewindAudio _rewindAudio;
+
+    #endregion Fields
+
+    #region - - - - - - Events - - - - - -
 
     public delegate void StepBackEvent();
     public event StepBackEvent StepBack;
@@ -21,105 +51,72 @@ public class RewindManager : MonoBehaviour
 
     public delegate void EndRewindEvent();
     public event EndRewindEvent OnEndRewind;
-
-
-
-    public float rewindDirection;
-    public bool isTravelling = true;
-
-    WaitForSecondsRealtime wait = new WaitForSecondsRealtime(.05f);
-
-    public List<RewindEntity> rewindObjects;
-
+    
     public delegate void ResetEvent();
     public event ResetEvent Reset;
 
-    public TimeThreasholdReferance timeThreashold;
+    #endregion Events
 
-    public float rewindTime;
+    #region - - - - - - Unity Lifecycle Methods - - - - - -
 
-    PostProcessingController postProcessingController;
-
-    public float rewindResource = 0f, maxRewindResource = 10f;
-
-    public RewindBar rewindUI;
-
-    public Canvas gameOverCanvas;
-
-    private GameOverMenu gameOverMenu;
-
-    PlayerRewindEntity playerRewindEntity;
-
-    private RewindAudio _rewindAudio;
-
-    private PDamageController damageController;
-    public float invincabilityTimer;
-    public bool transition;
-
-    public CinemachineVirtualCamera rewindCam;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        transition = false;
+        isTransitioning = false;
         postProcessingController = GameManager.instance.postProcessingController;
         rewindTime = Mathf.Round(timeThreashold.Variable.TimeThreashold * (1f / Time.fixedDeltaTime));
         //rewindResource = maxRewindResource;
         if (rewindUI == null)
-        {
             rewindUI = GameManager.instance.PlayerController.gameObject.GetComponentInChildren<RewindBar>();
-        }
         playerRewindEntity = GameManager.instance.PlayerController.gameObject.GetComponent<PlayerRewindEntity>();
         isTravelling = true;
 
         gameOverMenu = GameManager.instance.gameObject.GetComponentInChildren<GameOverMenu>();
-
         _rewindAudio = gameObject.GetComponent<RewindAudio>();
-
         damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PDamageController>();
-
-        
     }
 
     private void Update()
     {
-        IncreaseResource();
+        IncreaseQuantityOfRewindTime();
         //UpdateRewindUI();
-        if (rewindResource < maxRewindResource && !isTravelling && transition == false) 
+        if (totalRewindQuantity < maxRewindQuantity && !isTravelling && isTransitioning == false) 
         {
             rewindUI.FadeIn(1f, 1f); 
-            transition = true;
+            isTransitioning = true;
         }
-        else if (rewindResource == maxRewindResource && !isTravelling && maxRewindResource > 2f && transition == true ) 
+        else if (totalRewindQuantity == maxRewindQuantity && !isTravelling && maxRewindQuantity > 2f && isTransitioning == true ) 
         { 
-            transition = false; 
+            isTransitioning = false; 
             rewindUI.FadeOut(0f, 1f);
         }
 
         rewindUI.UpdateBarColor();
     }
 
-    void UpdateRewindUI() 
-        => rewindUI.UpdateRewindAmount(rewindResource);
+    #endregion Unity Lifecycle Methods
 
-    public void ResetRewind() { }
+    #region - - - - - - Methods - - - - - -
+
+    public void ResetRewind()
+        => print("[LOG]: This method has no implementation. Please remove as part of future tech debt");
 
     public void ReduceRewindAmount()
     {
-        if(maxRewindResource > 0)
+        if(maxRewindQuantity > 0)
         {
-            float f = rewindResource / maxRewindResource;
-            maxRewindResource -= 2;
-            rewindUI.UpdateBarMax(maxRewindResource);
-            if(rewindUI.rewindBar.fillAmount > maxRewindResource / 10) rewindUI.UpdateRewindAmount(maxRewindResource);
-            rewindResource = maxRewindResource * f;
+            float f = totalRewindQuantity / maxRewindQuantity;
+            maxRewindQuantity -= 2;
+            rewindUI.UpdateBarMax(maxRewindQuantity);
+            
+            if(rewindUI.rewindBar.fillAmount > maxRewindQuantity / 10) 
+                rewindUI.UpdateRewindAmount(maxRewindQuantity);
+            totalRewindQuantity = maxRewindQuantity * f;
         }
-        if (maxRewindResource <= 3 && maxRewindResource > 0) 
-        {
+        
+        if (maxRewindQuantity <= 3 && maxRewindQuantity > 0) 
             _rewindAudio.HeartBeat();
-        }
 
-        if (maxRewindResource <= 0) 
+        if (maxRewindQuantity <= 0) 
         {
             _rewindAudio.StopSource();
             _rewindAudio.DeathSFX();
@@ -127,77 +124,70 @@ public class RewindManager : MonoBehaviour
             gameOverMenu.Invoke("ReturnToMenu", 10f);
             gameOverMenu.Invoke("TextFadeOut", 5f);
         }
-
     }
    
     public void IncreaseRewindAmount()
     {
-        if (maxRewindResource < 10)
-        {
-            float f = rewindResource / maxRewindResource;
-            maxRewindResource += 2;
-            rewindUI.UpdateBarMax(maxRewindResource);
-            rewindResource = maxRewindResource * f;
-            if (maxRewindResource > 3)
-            {
-                _rewindAudio.StopSource();
-            }
-        }
+        if (!(maxRewindQuantity < 10)) return;
+        
+        float f = totalRewindQuantity / maxRewindQuantity;
+        maxRewindQuantity += 2;
+        rewindUI.UpdateBarMax(maxRewindQuantity);
+        totalRewindQuantity = maxRewindQuantity * f;
+        if (maxRewindQuantity > 3) 
+            _rewindAudio.StopSource();
     }
 
-    void IncreaseResource()
+    void IncreaseQuantityOfRewindTime()
     {
-        if (rewindResource < maxRewindResource && !isTravelling)
+        if (totalRewindQuantity < maxRewindQuantity && !isTravelling)
         {
-            rewindResource += Time.deltaTime;
+            totalRewindQuantity += Time.deltaTime;
             //rewindUI.UpdateRewindAmount(Time.deltaTime);
             UpdateRewindUI();
         }
-        else if (rewindResource > maxRewindResource)
-        {
-            rewindResource = maxRewindResource;
-        }
+        else if (totalRewindQuantity > maxRewindQuantity)
+            totalRewindQuantity = maxRewindQuantity;
     }
 
-    IEnumerator RewindCoroutine()
+    private IEnumerator RewindCoroutine()
     {
-        if (isTravelling && rewindDirection < 0 && rewindResource > 0 && playerRewindEntity.currentIndex < playerRewindEntity.playerDataList.Count-1)
+        if (isTravelling && rewindDirection < 0 && totalRewindQuantity > 0 && playerRewindEntity.currentIndex < playerRewindEntity.playerDataList.Count-1)
         {
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
             if (StepBack != null) StepBack();
             postProcessingController.WarpLensToTargetAmount(-.6f);
-            rewindResource -= Time.deltaTime;
+            totalRewindQuantity -= Time.deltaTime;
             // rewindUI.UpdateRewindAmount(-Time.deltaTime);
             UpdateRewindUI();
 
-            if (rewindResource < 0)  
-                rewindResource = 0;
+            if (totalRewindQuantity < 0)  
+                totalRewindQuantity = 0;
             
             rewindUI.UpdateBarColor();
         }
-
-        else if (isTravelling && rewindDirection > 0 && rewindResource < maxRewindResource && playerRewindEntity.currentIndex > 0)
+        else if (isTravelling && rewindDirection > 0 && totalRewindQuantity < maxRewindQuantity && playerRewindEntity.currentIndex > 0)
         {
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
             if (StepForward != null) StepForward();
             postProcessingController.WarpLensToTargetAmount(-.6f);
-            rewindResource += Time.deltaTime;
+            totalRewindQuantity += Time.deltaTime;
             //rewindUI.UpdateRewindAmount(Time.deltaTime);
             UpdateRewindUI();
-            if (rewindResource > maxRewindResource) 
-                rewindResource = maxRewindResource;
+            if (totalRewindQuantity > maxRewindQuantity) 
+                totalRewindQuantity = maxRewindQuantity;
             rewindUI.UpdateBarColor();
         }
 
-        if (isTravelling && rewindDirection == 0 && maxRewindResource != 0)
+        if (isTravelling && rewindDirection == 0 && maxRewindQuantity != 0)
         {
             Time.timeScale = 0f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
             postProcessingController.WarpLensToTargetAmount(0f);
         }
-        else if (maxRewindResource == 0) 
+        else if (maxRewindQuantity == 0) 
         {
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
@@ -208,8 +198,6 @@ public class RewindManager : MonoBehaviour
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * .02f;
             postProcessingController.WarpLensToTargetAmount(0f);
-
-
         }
 
         //if (rewindUI != null)
@@ -218,46 +206,48 @@ public class RewindManager : MonoBehaviour
         yield return null;
 
         StartCoroutine(RewindCoroutine());
-
     }
 
     public IEnumerator BecomeInvincible()
     {
         damageController.DisableDamage();
-        yield return new WaitForSeconds(invincabilityTimer);
+        yield return new WaitForSeconds(invincibilityTimer);
         damageController.EnableDamage();
     }
 
     public void StartRewind()
     {
         if (rewindCam) rewindCam.m_Priority = 20; 
+        
         _rewindAudio.Freeze();
         _rewindAudio.Idle();
         _rewindAudio.audioManager.backgroundAudio.PauseMusic();
         _rewindAudio.audioManager.trackManager.PauseAll();
-        if (isTravelling)
-        {
-            OnStartRewind();
-            foreach (RewindEntity entity in rewindObjects) 
-                entity.isTravelling = true;
-            StartCoroutine("RewindCoroutine");
-        }
+
+        if (!isTravelling) return;
+        
+        OnStartRewind();
+        foreach (RewindEntity entity in rewindObjects) 
+            entity.isTravelling = true;
+        StartCoroutine("RewindCoroutine");
 
     }
 
     public void EndRewind() 
     {
         _rewindAudio.StopSource();
+        
         if(rewindCam) rewindCam.m_Priority = 3;
+        
         if (isTravelling)
         {
-            
             isTravelling = false;
             foreach (RewindEntity entity in rewindObjects)
             {
                 StopAllCoroutines();
                 entity.isTravelling = false;
             }
+            
             _rewindAudio.Resume();
             _rewindAudio.audioManager.backgroundAudio.ResumeMusic();
             _rewindAudio.audioManager.trackManager.PauseAll();
@@ -270,5 +260,9 @@ public class RewindManager : MonoBehaviour
         }
     }
 
+    void UpdateRewindUI() 
+        => rewindUI.UpdateRewindAmount(totalRewindQuantity);
+
+    #endregion Methods
 
 }

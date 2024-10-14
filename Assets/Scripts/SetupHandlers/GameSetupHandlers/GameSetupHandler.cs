@@ -12,18 +12,12 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.GameSetupHandlers
 
         public IEnumerator RunSetup()
         {
-            yield return StartCoroutine(this.SetupManagers());
             yield return StartCoroutine(this.SetupAudio());
             yield return StartCoroutine(this.SetupGraphics());
+            yield return StartCoroutine(this.SetupManagers());
             yield return StartCoroutine(this.LaunchGameScene());
             
             print($"[{DateTime.Now}]: Game Management layer has been setup.");
-        }
-
-        private IEnumerator SetupManagers()
-        {
-            Debug.Log("[LOG]: There are no managers to currently setup. Placeholder log thrown instead.");
-            yield return null;
         }
 
         private IEnumerator SetupAudio()
@@ -46,6 +40,14 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.GameSetupHandlers
                 Instantiate(
                     GameManager.instance.gameSettings.dayPostProcessing, 
                     transform.position, Quaternion.identity).GetComponent<PostProcessingController>();
+
+            yield return null;
+        }
+
+        private IEnumerator SetupManagers()
+        {
+            GameManager.instance.RewindManager.InitialiseRewindManager();
+            GameManager.instance.CheckpointManager.InitializeCheckpointManager();
 
             yield return null;
         }

@@ -59,24 +59,27 @@ public class RewindManager : MonoBehaviour
 
     #region - - - - - - Unity Lifecycle Methods - - - - - -
 
-    private void Start()
-    {
-        isTransitioning = false;
-        postProcessingController = GameManager.instance.postProcessingController;
-        rewindTime = Mathf.Round(timeThreashold.Variable.TimeThreashold * (1f / Time.fixedDeltaTime));
-        //rewindResource = maxRewindResource;
-        if (rewindUI == null)
-            rewindUI = GameManager.instance.PlayerController.gameObject.GetComponentInChildren<RewindBar>();
-        playerRewindEntity = GameManager.instance.PlayerController.gameObject.GetComponent<PlayerRewindEntity>();
-        isTravelling = true;
-
-        gameOverMenu = GameManager.instance.gameObject.GetComponentInChildren<GameOverMenu>();
-        _rewindAudio = gameObject.GetComponent<RewindAudio>();
-        damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PDamageController>();
-    }
+    // private void Start()
+    // {
+    //     isTransitioning = false;
+    //     postProcessingController = GameManager.instance.postProcessingController;
+    //     rewindTime = Mathf.Round(timeThreashold.Variable.TimeThreashold * (1f / Time.fixedDeltaTime));
+    //     //rewindResource = maxRewindResource;
+    //     if (rewindUI == null)
+    //         rewindUI = GameManager.instance.PlayerController.gameObject.GetComponentInChildren<RewindBar>();
+    //     playerRewindEntity = GameManager.instance.PlayerController.gameObject.GetComponent<PlayerRewindEntity>();
+    //     isTravelling = true;
+    //
+    //     gameOverMenu = GameManager.instance.gameObject.GetComponentInChildren<GameOverMenu>();
+    //     _rewindAudio = gameObject.GetComponent<RewindAudio>();
+    //     damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PDamageController>();
+    // }
 
     private void Update()
     {
+        // Validate whether it should run
+        if (this.rewindUI is null) return;
+        
         IncreaseQuantityOfRewindTime();
         //UpdateRewindUI();
         if (totalRewindQuantity < maxRewindQuantity && !isTravelling && isTransitioning == false) 
@@ -96,6 +99,22 @@ public class RewindManager : MonoBehaviour
     #endregion Unity Lifecycle Methods
 
     #region - - - - - - Methods - - - - - -
+
+    public void InitialiseRewindManager()
+    {
+        isTransitioning = false;
+        postProcessingController = GameManager.instance.postProcessingController;
+        rewindTime = Mathf.Round(timeThreashold.Variable.TimeThreashold * (1f / Time.fixedDeltaTime));
+        //rewindResource = maxRewindResource;
+        if (rewindUI == null)
+            rewindUI = GameManager.instance.PlayerController.gameObject.GetComponentInChildren<RewindBar>();
+        playerRewindEntity = GameManager.instance.PlayerController.gameObject.GetComponent<PlayerRewindEntity>();
+        isTravelling = true;
+
+        gameOverMenu = GameManager.instance.gameObject.GetComponentInChildren<GameOverMenu>();
+        _rewindAudio = gameObject.GetComponent<RewindAudio>();
+        damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PDamageController>();
+    }
 
     public void ResetRewind()
         => print("[LOG]: This method has no implementation. Please remove as part of future tech debt");

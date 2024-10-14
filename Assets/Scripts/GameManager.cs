@@ -36,11 +36,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UserInterfaceManager m_UserInterfaceManager;
     [SerializeField] private PauseManager m_PauseManager;
     [SerializeField] private InputManager m_InputManager;
+    [SerializeField] private RewindManager m_RewindManager;
+    [SerializeField] private CheckpointManager m_CheckpointManager;
     public AudioManager audioManager;
 
     [Header("SetupHandler")]
     [SerializeField] private GameSetupHandler m_GameSetupHandler;
-    
+
     private GameState m_GameState;
     
     #endregion Fields

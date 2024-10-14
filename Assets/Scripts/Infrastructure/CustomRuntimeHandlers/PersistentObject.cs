@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace ThatOneSamuraiGame.Scripts.Infrastructure
+namespace ThatOneSamuraiGame.Scripts.Infrastructure.CustomRuntimeHandlers
 {
 
     /// <summary>

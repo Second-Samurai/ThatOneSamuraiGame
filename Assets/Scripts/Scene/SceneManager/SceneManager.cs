@@ -60,7 +60,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
 
         EnemyTracker ISceneManager.EnemyTracker
             => this.m_EnemyTracker;
-
+        
         EnemySpawnManager ISceneManager.EnemySpawnManager
             => this.m_EnemySpawnManager;
         

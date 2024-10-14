@@ -4,18 +4,35 @@ using UnityEngine.SceneManagement;
 
 public class CheckpointManager : MonoBehaviour
 {
+
+    #region - - - - - - Fields - - - - - -
+
     public List<Checkpoint> checkpoints;
     public int activeCheckpoint;
 
-    private void Awake()
-    { 
-        SaveSystem.LoadGame();
-    }
+    #endregion Fields
 
-    private void Start()
+    #region - - - - - - Unity Lifecycle Methods - - - - - -
+
+    private void Awake() 
+        => SaveSystem.LoadGame();
+
+    // private void Start()
+    // {
+    //     GetSaveDataCheckpoint();
+    //     if(CheckIfCheckpointAvailable()) 
+    //         GameManager.instance.UserInterfaceManager.ButtonController.EnableContinue();
+    // }
+
+    #endregion Unity Lifecycle Methods
+  
+    #region - - - - - - Methods - - - - - -
+
+    public void InitializeCheckpointManager()
     {
         GetSaveDataCheckpoint();
-        if(CheckIfCheckpointAvailable()) GameManager.instance.UserInterfaceManager.ButtonController.EnableContinue();
+        if(CheckIfCheckpointAvailable()) 
+            GameManager.instance.UserInterfaceManager.ButtonController.EnableContinue();
     }
 
     public bool CheckIfCheckpointAvailable()
@@ -69,5 +86,7 @@ public class CheckpointManager : MonoBehaviour
         }
         activeCheckpoint = 0;
     }
-   
+
+    #endregion Methods
+  
 }

@@ -95,8 +95,6 @@ public class AIAnimationRewindEntity : RewindEntity
              animator.GetFloat("MovementX"),
              animator.GetFloat("MovementZ")));
 
-        //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + "   :   " + m_CurrentClipInfo[0].clip.name);
-
         base.RecordPast();
     }
 
@@ -129,7 +127,6 @@ public class AIAnimationRewindEntity : RewindEntity
                 SetPosition();
                 currentIndex--;
             }
-           // Debug.LogWarning("animStepForward");
         }
     }
 

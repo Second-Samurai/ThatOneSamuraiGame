@@ -89,7 +89,6 @@ public class FinishingMoveController : MonoBehaviour
         _PlayerAttackState.CanAttack = false;
         
         enemies = GameManager.instance.EnemyTracker.currentEnemies;
-        //Debug.LogError(enemies.Count);
         //for (int i = 0; i < enemies.Count-1; i++)
         //{
         //    enemiesCache[i] = enemies[i].GetComponent<AISystem>();

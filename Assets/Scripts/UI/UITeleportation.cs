@@ -25,13 +25,11 @@ public class UITeleportation : MonoBehaviour
 
     public bool RampFlashOn()
     {
-        //Debug.Log("Screen is brightening up");
         if (flashColor.a < 1)
         {
             flashColor.a += 0.005f;
             flashColor.a = Mathf.Clamp(flashColor.a, 0, 1);
             teleportationFlash.color = flashColor;
-            //Debug.Log(flashColor.a);
             return true;
         }
 
@@ -42,13 +40,11 @@ public class UITeleportation : MonoBehaviour
 
     public bool RampFlashOff()
     {
-        //Debug.Log("Screen is ramping down");
         if (flashColor.a > 0)
         {
             flashColor.a -= 0.005f;
             flashColor.a = Mathf.Clamp(flashColor.a, 0, 1);
             teleportationFlash.color = flashColor;
-           // Debug.Log(flashColor.a);
             return true;
         }
 
@@ -58,22 +54,13 @@ public class UITeleportation : MonoBehaviour
     }
 
     public void ConsoleSuccessful()
-    {
-        Debug.Log("Console Successful");
-        StartCoroutine(UITextScreenReveal(successfulText, 3.5f));
-    }
+        => StartCoroutine(UITextScreenReveal(successfulText, 3.5f));
 
     public void ConsoleUnsucessful()
-    {
-        Debug.Log("Console Unsucessful");
-        StartCoroutine(UITextScreenReveal(unsucessfulText, 3.5f));
-    }
+        => StartCoroutine(UITextScreenReveal(unsucessfulText, 3.5f));
 
     public void HelperText()
-    {
-        Debug.Log("Display Helper");
-        StartCoroutine(UITextScreenReveal(helperText, 3.5f));
-    }
+        => StartCoroutine(UITextScreenReveal(helperText, 3.5f));
 
     public IEnumerator UITextScreenReveal(TextMeshProUGUI textUI, float revealTime)
     {

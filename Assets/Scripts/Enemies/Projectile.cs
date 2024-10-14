@@ -92,8 +92,6 @@ public class Projectile : MonoBehaviour
                  !other.gameObject.CompareTag("LockOnTracker") &&
                  !hitEnemies)
         {
-            //Debug.Log("CATCH2");
-            //Debug.LogError(other.gameObject.name);
             StartCoroutine(Die(0f));
         }
     }

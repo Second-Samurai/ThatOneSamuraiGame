@@ -82,8 +82,6 @@ public class ArcherAnimationRewindEntity : RewindEntity
         //move to animation rewind entity
         archerAnimationDataList.Insert(0, new ArcherAnimationTimeData(animator.GetCurrentAnimatorStateInfo(0).normalizedTime, animator.GetCurrentAnimatorStateInfo(0).shortNameHash));
 
-        //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime + "   :   " + m_CurrentClipInfo[0].clip.name);
-
         base.RecordPast();
     }
 
@@ -101,7 +99,6 @@ public class ArcherAnimationRewindEntity : RewindEntity
                 }
                 SetPosition();
             }
-            //Debug.LogWarning("animStepBack");
         }
     }
 
@@ -114,7 +111,6 @@ public class ArcherAnimationRewindEntity : RewindEntity
                 SetPosition();
                 currentIndex--;
             }
-            // Debug.LogWarning("animStepForward");
         }
     }
 
@@ -125,9 +121,8 @@ public class ArcherAnimationRewindEntity : RewindEntity
             animator.Play(archerAnimationDataList[currentIndex].currentClip, 0, archerAnimationDataList[currentIndex].currentFrame);
         }
         base.SetPosition();
-
-
     }
+    
     public override void ApplyData()
     {
 

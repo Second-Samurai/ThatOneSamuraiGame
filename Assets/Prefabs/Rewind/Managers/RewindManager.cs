@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using Cinemachine;
-using System;
 
 public class RewindManager : MonoBehaviour
 {
@@ -62,7 +61,6 @@ public class RewindManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /*
         transition = false;
         postProcessingController = GameManager.instance.postProcessingController;
         rewindTime = Mathf.Round(timeThreashold.Variable.TimeThreashold * (1f / Time.fixedDeltaTime));
@@ -80,12 +78,11 @@ public class RewindManager : MonoBehaviour
 
         damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PDamageController>();
 
-        */
+        
     }
 
     private void Update()
     {
-        /*
         IncreaseResource();
         //UpdateRewindUI();
         if (rewindResource < maxRewindResource && !isTravelling && transition == false) 
@@ -100,24 +97,13 @@ public class RewindManager : MonoBehaviour
         }
 
         rewindUI.UpdateBarColor();
-    //Debug.Log(isTravelling);
-        */
     }
 
-    void UpdateRewindUI()
-    {
-        //Debug.LogWarning(rewindResource);
-        rewindUI.UpdateRewindAmount(rewindResource);
+    void UpdateRewindUI() 
+        => rewindUI.UpdateRewindAmount(rewindResource);
 
-    }
+    public void ResetRewind() { }
 
-    [Obsolete("Deprecated", false)]
-    public void ResetRewind()
-    {
-       // rewindResource = maxRewindResource;
-    }
-
-    [Obsolete("Deprecated", false)]
     public void ReduceRewindAmount()
     {
         if(maxRewindResource > 0)
@@ -143,8 +129,7 @@ public class RewindManager : MonoBehaviour
         }
 
     }
-
-    [Obsolete("Deprecated", false)]
+   
     public void IncreaseRewindAmount()
     {
         if (maxRewindResource < 10)
@@ -189,10 +174,7 @@ public class RewindManager : MonoBehaviour
             if (rewindResource < 0)  
                 rewindResource = 0;
             
-                rewindUI.UpdateBarColor();
-
-
-            // Debug.Log(Time.timeScale);
+            rewindUI.UpdateBarColor();
         }
 
         else if (isTravelling && rewindDirection > 0 && rewindResource < maxRewindResource && playerRewindEntity.currentIndex > 0)
@@ -206,7 +188,7 @@ public class RewindManager : MonoBehaviour
             UpdateRewindUI();
             if (rewindResource > maxRewindResource) 
                 rewindResource = maxRewindResource;
-                rewindUI.UpdateBarColor();
+            rewindUI.UpdateBarColor();
         }
 
         if (isTravelling && rewindDirection == 0 && maxRewindResource != 0)
@@ -239,22 +221,15 @@ public class RewindManager : MonoBehaviour
 
     }
 
-    [Obsolete("Deprecated", false)]
     public IEnumerator BecomeInvincible()
     {
-        
         damageController.DisableDamage();
-        //Debug.Log("become invinvible");
         yield return new WaitForSeconds(invincabilityTimer);
-
         damageController.EnableDamage();
-        //Debug.Log("disable invinvible");
-
     }
 
-    [Obsolete("Deprecated", false)]
     public void StartRewind()
-    { 
+    {
         if (rewindCam) rewindCam.m_Priority = 20; 
         _rewindAudio.Freeze();
         _rewindAudio.Idle();
@@ -262,22 +237,16 @@ public class RewindManager : MonoBehaviour
         _rewindAudio.audioManager.trackManager.PauseAll();
         if (isTravelling)
         {
-            
             OnStartRewind();
             foreach (RewindEntity entity in rewindObjects) 
-            {
                 entity.isTravelling = true;
-            }
             StartCoroutine("RewindCoroutine");
-            //if (rewindUI != null)
-            //    UpdateRewindUI();
-        } 
+        }
 
     }
 
-    [Obsolete("Deprecated", false)]
     public void EndRewind() 
-    { 
+    {
         _rewindAudio.StopSource();
         if(rewindCam) rewindCam.m_Priority = 3;
         if (isTravelling)
@@ -287,8 +256,6 @@ public class RewindManager : MonoBehaviour
             foreach (RewindEntity entity in rewindObjects)
             {
                 StopAllCoroutines();
-              //  Debug.LogError("BREAK");
-                //entity.ApplyData();
                 entity.isTravelling = false;
             }
             _rewindAudio.Resume();

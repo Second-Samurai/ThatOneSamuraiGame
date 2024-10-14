@@ -27,7 +27,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && !bIsActive)
         {
-            Debug.Log("Checkpoint Set");
+            // Debug.Log("Checkpoint Set");
             SetActiveCheckpoint();
         }
     }

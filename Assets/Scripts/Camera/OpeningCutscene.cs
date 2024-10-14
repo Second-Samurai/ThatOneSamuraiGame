@@ -48,10 +48,7 @@ public class OpeningCutscene : MonoBehaviour
     }
 
     public void ChangeCamPriority()
-    {
-        //Debug.Log("2");
-        GameManager.instance.ThirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
-    }
+        => GameManager.instance.ThirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
 
     private void Update()
     {
@@ -62,9 +59,6 @@ public class OpeningCutscene : MonoBehaviour
         } 
     }
 
-    public void StartRewindRecording()
-    {
-        GameManager.instance.RewindManager.isTravelling = false;
-    }
-
+    public void StartRewindRecording() 
+        => GameManager.instance.RewindManager.isTravelling = false;
 }

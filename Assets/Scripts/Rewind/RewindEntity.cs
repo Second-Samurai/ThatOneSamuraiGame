@@ -94,9 +94,7 @@ public class RewindEntity : MonoBehaviour
                     currentIndex = transformDataList.Count - 1;
                 }
                 SetPosition();
-                
             }
-            //Debug.Log("StepBack");
         }
     }
 
@@ -110,7 +108,6 @@ public class RewindEntity : MonoBehaviour
                 SetPosition();
                 currentIndex--;
             }
-           // Debug.Log("StepForward");
         }
     }
 

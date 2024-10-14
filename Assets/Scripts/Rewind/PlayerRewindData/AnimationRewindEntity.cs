@@ -107,7 +107,6 @@ public class AnimationRewindEntity : RewindEntity
                 }
                 SetPosition();
             }
-           // Debug.LogWarning("animStepBack");
         }
     }
 
@@ -120,7 +119,6 @@ public class AnimationRewindEntity : RewindEntity
                 SetPosition();
                 currentIndex--;
             }
-           // Debug.LogWarning("animStepForward");
         }
     }
 

@@ -82,7 +82,6 @@ public class RewindInput : MonoBehaviour
                 GameManager.instance.postProcessingController.EnableRewindColourFilter();
                 rewindManager.rewindUI.FadeIn(1f, 0f);
                 rewindManager.transition = true;
-                // Debug.Log("rewinding");
             }
             else if (!isTravelling && rewindManager.maxRewindResource == 0)
             {
@@ -91,7 +90,6 @@ public class RewindInput : MonoBehaviour
                 rewindManager.StartRewind();
                 rewindManager.isTravelling = false;
                 GameManager.instance.postProcessingController.EnableRewindColourFilter();
-
             }
         }*/
 

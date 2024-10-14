@@ -27,10 +27,7 @@ public class AttackSlide
     public void SlideToEnemy(Transform targetEnemy)
     {
         if (CheckWithinMinDist(targetEnemy))
-        {
-            //Debug.Log(">> AttackSlide: Is within minimum: " + (Vector3.Distance(_playerRB.transform.position, targetEnemy.position) <= _settings.minimumAttackDist));
             return;
-        }
 
         _combatController.StopCoroutine(SlideOverTime(targetEnemy));
         _combatController.StartCoroutine(SlideOverTime(targetEnemy));

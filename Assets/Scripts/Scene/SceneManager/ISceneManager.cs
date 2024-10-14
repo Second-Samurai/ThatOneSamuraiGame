@@ -20,9 +20,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         // -------------------------------
         
         CheckpointManager CheckpointManager { get; }
-        
-        RewindManager RewindManager { get; }
-        
+          
         EnemyTracker EnemyTracker { get; }
         
         EnemySpawnManager EnemySpawnManager { get; }

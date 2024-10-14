@@ -49,7 +49,7 @@ public class Checkpoint : MonoBehaviour
         GameManager.instance.PlayerController.gameObject.transform.position = spawnPos.position;
         GameManager.instance.InputManager.EnableActiveInputControl();
         GameManager.instance.ThirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
-        GameManager.instance.RewindManager.isTravelling = false;
+
         PlayerFunctions _Player = GameManager.instance.PlayerController.gameObject.GetComponent<PlayerFunctions>();
 
         // Note: The sword manager exists on the root parent fo the player object

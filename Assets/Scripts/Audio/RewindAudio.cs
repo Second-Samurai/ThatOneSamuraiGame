@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RewindAudio : MonoBehaviour
-{
-    [HideInInspector]
-    private RewindManager _rewindManager;
+{ 
     public AudioManager audioManager;
     private AudioClip heartBeat;
     private AudioPlayer audioPlayer;
@@ -28,9 +26,7 @@ public class RewindAudio : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        played = false;
-        _rewindManager = gameObject.GetComponent<RewindManager>();
-        maxRewind = _rewindManager.maxRewindResource;
+        played = false; 
         audioManager = GameManager.instance.audioManager;
         audioPlayer = gameObject.GetComponent<AudioPlayer>();
         heartBeat = GameManager.instance.audioManager.FindSound("HeartBeatSlow");
@@ -59,38 +55,33 @@ public class RewindAudio : MonoBehaviour
 
         deathSource.loop = false;
         deathSource.playOnAwake = false;
-        deathSource.clip = Death;
-
+        deathSource.clip = Death; 
     }
 
     public void HeartBeat()
     {
         heartSource.volume = audioManager.SFXVol;
-        heartSource.Play();
-       // audioPlayer.PlayOnce(heartBeat, audioManager.SFXVol, 1f, 1f, true);
+        heartSource.Play(); 
     }
 
     public void Idle()
     {
         idleSource.volume = audioManager.SFXVol;
-        idleSource.Play();
-
+        idleSource.Play(); 
     }
 
     public void Freeze()
     {
         bossThemeManager.PauseAll();
         freezeSource.volume = audioManager.SFXVol;
-        freezeSource.Play();
-
+        freezeSource.Play(); 
     }
 
     public void Resume()
     {
         bossThemeManager.UnPauseAll();
         resumeSource.volume = audioManager.SFXVol;
-        resumeSource.Play();
-
+        resumeSource.Play(); 
     }
 
     public void DeathSFX()
@@ -101,18 +92,9 @@ public class RewindAudio : MonoBehaviour
     }
 
     public void StopSource() 
-    {
-
+    { 
         resumeSource.Stop();
         idleSource.Stop();
-        freezeSource.Stop();
-        if (_rewindManager.maxRewindResource <= 0) 
-        {
-            heartSource.Stop();
-        }
-
-    }
-
-   
-
+        freezeSource.Stop();  
+    } 
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ThatOneSamuraiGame.Scripts.SetupHandlers.GameSetupHandlers
 {
@@ -8,6 +9,12 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.GameSetupHandlers
     public class GameSetupHandler : MonoBehaviour
     {
 
+        #region - - - - - - Fields - - - - - -
+
+        public UnityEvent OnGameSetupCompletion;
+
+        #endregion Fields
+  
         #region - - - - - - Methods - - - - - -
 
         public IEnumerator RunSetup()

@@ -1,14 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Cinemachine;
 
 public class ThirdPersonCamController : MonoBehaviour
 {
+
+    #region - - - - - - Fields - - - - - -
+
     public PlayerCamTargetController camTargetController;
-    CinemachineVirtualCamera cam;
     public CinemachineVirtualCamera sprintCam;
+
+    CinemachineVirtualCamera cam;
     
+    #endregion Fields
+
+    #region - - - - - - Unity Lifecycle Methods - - - - - -
+
     private void Start()
     {
         if (!camTargetController)
@@ -23,15 +29,21 @@ public class ThirdPersonCamController : MonoBehaviour
             cam.m_Follow = camTargetController.gameObject.transform;
         }
     }
-    // Start is called before the first frame update
+
+    #endregion Unity Lifecycle Methods
+
+    #region - - - - - - Methods - - - - - -
+
     public void SetPriority(int var)
     {
         cam.m_Priority = var;
     }
+    
     public void SetSensitivity(float sensitivity)
     {
         camTargetController.SetSensitivity(sensitivity);
     }
+    
     public void SprintOn()
     {
         sprintCam.m_Priority = 15;
@@ -41,4 +53,7 @@ public class ThirdPersonCamController : MonoBehaviour
     {
         sprintCam.m_Priority = 5;
     }
+
+    #endregion Methods
+  
 }

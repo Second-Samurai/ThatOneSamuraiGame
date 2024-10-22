@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections;
+using ThatOneSamuraiGame.Scripts.Enumeration;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+namespace ThatOneSamuraiGame.Scripts.Scene.Loaders
+{
+
+    public class SceneLoader : MonoBehaviour
+    {
+
+        #region - - - - - - Fields - - - - - -
+
+        private int m_SceneCount;
+
+        #endregion Fields
+
+        #region - - - - - - Unity Lifecycle Methods - - - - - -
+
+        private void Start()
+            => this.m_SceneCount = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings;
+
+        #endregion Unity Lifecycle Methods
+
+        #region - - - - - - Methods - - - - - -
+
+        public IEnumerator LoadScene(GameScenes gameScene)
+        {
+            if (gameScene > this.m_SceneCount)
+                throw new ArgumentOutOfRangeException();
+
+            UnityEngine.SceneManagement.SceneManager.LoadScene(gameScene.GetValue());
+            Debug.Log($"[LOG]: Loading scene {gameScene.GetValue()} -> '{gameScene}'");
+
+            yield return null;
+        }
+
+        #endregion Methods
+  
+    }
+
+}

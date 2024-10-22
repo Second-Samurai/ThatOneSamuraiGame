@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using ThatOneSamuraiGame.Scripts.Enumeration;
+using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace ThatOneSamuraiGame.Scripts.Scene.Loaders
 {
@@ -12,18 +12,19 @@ namespace ThatOneSamuraiGame.Scripts.Scene.Loaders
 
         #region - - - - - - Fields - - - - - -
 
+        private ISceneManager m_SceneManager;
+        
         private int m_SceneCount;
 
         #endregion Fields
 
-        #region - - - - - - Unity Lifecycle Methods - - - - - -
-
-        private void Start()
-            => this.m_SceneCount = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings;
-
-        #endregion Unity Lifecycle Methods
-
         #region - - - - - - Methods - - - - - -
+
+        public void InitialiseSceneLoader()
+        {
+            this.m_SceneCount = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings;
+            this.m_SceneManager = GameManager.instance.SceneManager;
+        }
 
         public IEnumerator LoadScene(GameScenes gameScene)
         {
@@ -32,6 +33,8 @@ namespace ThatOneSamuraiGame.Scripts.Scene.Loaders
 
             UnityEngine.SceneManagement.SceneManager.LoadScene(gameScene.GetValue());
             Debug.Log($"[LOG]: Loading scene {gameScene.GetValue()} -> '{gameScene}'");
+
+            this.m_SceneManager.SetupCurrentScene(gameScene);
 
             yield return null;
         }

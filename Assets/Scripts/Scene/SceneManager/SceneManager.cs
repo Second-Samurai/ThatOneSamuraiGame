@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ThatOneSamuraiGame.Scripts.Enumeration;
 using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.Scene.DataContainers;
+using ThatOneSamuraiGame.Scripts.Scene.Loaders;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -26,6 +28,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         [Space]
         [SerializeField] public EnemyTracker m_EnemyTracker;
         [SerializeField] public EnemySpawnManager m_EnemySpawnManager;
+        [SerializeField] private SceneLoader m_SceneLoader;
 
         [Header("Camera")]
         [SerializeField] public CameraControl m_CameraControl;
@@ -36,6 +39,8 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         [Header("Player")]
         [SerializeField] public PlayerController m_PlayerController;
         [SerializeField] public Transform m_PlayerSpawnPoint;
+
+        private GameScenes m_CurrentGameScene;
         
         #endregion Fields
         
@@ -63,6 +68,9 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         
         EnemySpawnManager ISceneManager.EnemySpawnManager
             => this.m_EnemySpawnManager;
+
+        SceneLoader ISceneManager.SceneLoader
+            => this.m_SceneLoader;
         
         // -------------------------------
         // Camera
@@ -113,7 +121,10 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
             this.SetupPlayer();
             this.SetupEnemies();
         }
-        
+
+        void ISceneManager.SetupCurrentScene(GameScenes gameScene) 
+            => this.m_CurrentGameScene = gameScene;
+
         // --------------------------------------------
         // Level specific behavior
         // -------------------------------------------

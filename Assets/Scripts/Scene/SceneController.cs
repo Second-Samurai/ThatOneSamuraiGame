@@ -11,9 +11,8 @@ namespace ThatOneSamuraiGame.Scripts.Scene
         [SerializeField] public EnemyTracker m_EnemyTracker;
         [SerializeField] public EnemySpawnManager m_EnemySpawnManager;
 
-
         #endregion Fields
-  
+
     }
 
 }

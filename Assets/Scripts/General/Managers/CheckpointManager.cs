@@ -35,6 +35,11 @@ public class CheckpointManager : MonoBehaviour
             GameManager.instance.UserInterfaceManager.ButtonController.EnableContinue();
     }
 
+    public void ScanForAvailableCheckpoints()
+    {
+        
+    }
+
     public bool CheckIfCheckpointAvailable()
     {
         foreach (Checkpoint checkpoint in checkpoints)
@@ -50,6 +55,7 @@ public class CheckpointManager : MonoBehaviour
         SaveSystem.SaveGame();
     }
 
+    // Retrieves all the checkpoints from the GameData
     public void GetSaveDataCheckpoint()
     {
         activeCheckpoint = GameData.currentCheckpoint;
@@ -60,12 +66,10 @@ public class CheckpointManager : MonoBehaviour
         }
         if (GameData.bLoaded)
         {
-
             checkpoints[activeCheckpoint].bIsActive = true;
         }
     }
 
-      
     public void LoadCheckpoint()
     {
         if(checkpoints[activeCheckpoint] != null && checkpoints[activeCheckpoint].bIsActive) checkpoints[activeCheckpoint].LoadCheckpoint();

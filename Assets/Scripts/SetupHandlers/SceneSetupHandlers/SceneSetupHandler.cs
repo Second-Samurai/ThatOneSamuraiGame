@@ -29,6 +29,11 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupHandlers
   
         #region - - - - - - Methods - - - - - -
 
+        public void InitialiseSceneSetupHandler()
+        {
+            
+        }
+
         public IEnumerator RunSetup()
         {
             yield return StartCoroutine(this.SetupUserInterface());

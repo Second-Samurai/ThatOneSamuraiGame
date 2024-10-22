@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using ThatOneSamuraiGame.Scripts.Scene.Loaders;
+using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -22,6 +24,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.GameSetupHandlers
             yield return StartCoroutine(this.SetupAudio());
             yield return StartCoroutine(this.SetupGraphics());
             yield return StartCoroutine(this.SetupManagers());
+            yield return StartCoroutine(this.SetupServices());
             yield return StartCoroutine(this.LaunchGameScene());
             
             print($"[{DateTime.Now}]: Game Management layer has been setup.");
@@ -51,9 +54,19 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.GameSetupHandlers
             yield return null;
         }
 
+        private IEnumerator SetupServices()
+        {
+            ISceneManager _SceneManager = GameManager.instance.SceneManager;
+
+            SceneLoader _SceneLoader = _SceneManager.SceneLoader;
+            _SceneLoader.InitialiseSceneLoader();
+            
+            yield return null;
+        }
+
         private IEnumerator SetupManagers()
         {
-            GameManager.instance.RewindManager.InitialiseRewindManager();
+            // GameManager.instance.RewindManager.InitialiseRewindManager();
             GameManager.instance.CheckpointManager.InitializeCheckpointManager();
 
             yield return null;

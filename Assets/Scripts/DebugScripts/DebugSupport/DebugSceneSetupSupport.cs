@@ -1,5 +1,5 @@
 ﻿using System;
-using ThatOneSamuraiGame.Scripts.SetupHandlers.GameSetupHandlers;
+using ThatOneSamuraiGame.Scripts.Enumeration;
 using ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupHandlers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport
 {
 
-    public class DebugSceneStartupSupport : MonoBehaviour
+    public class DebugSceneSetupSupport : MonoBehaviour
     {
         
         #region - - - - - - Fields - - - - - -
@@ -26,8 +26,8 @@ namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport
             // Validate whether boot scene was run first
             if (this.ValidateSupportRequirements()) return;
             
-            DebugSceneStartupSupport[] _StartupSupport = 
-                Object.FindObjectsByType<DebugSceneStartupSupport>(FindObjectsSortMode.None);
+            DebugSceneSetupSupport[] _StartupSupport = 
+                Object.FindObjectsByType<DebugSceneSetupSupport>(FindObjectsSortMode.None);
 
             // Remove duplicate instance
             if (_StartupSupport.Length > 1)
@@ -50,8 +50,8 @@ namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport
         {
             foreach (GameObject _SceneObject in this.m_ActiveSceneObjects)
             {
-                // if (!_SceneObject.layer.Equals(GameLayer.Ignore))
-                //     _SceneObject.SetActive(true);
+                if (!_SceneObject.layer.Equals(GameLayer.Ignore))
+                    _SceneObject.SetActive(true);
             }
 
             // Clear debug object collection from memory
@@ -62,17 +62,17 @@ namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport
                 Object.FindFirstObjectByType<SceneSetupHandler>(FindObjectsInactive.Exclude);
             if (_StartupHandler == null) return;
 
-            // _StartupHandler.InitialiseSceneStartupController();
-            // this.StartCoroutine(_StartupHandler.RunSceneStartup());
+            _StartupHandler.InitialiseSceneSetupHandler();
+            this.StartCoroutine(_StartupHandler.RunSetup());
         }
 
-        protected void LoadPersistenceScene()
+        private void LoadPersistenceScene()
         {
             if (!this.IsSceneInDevelopment) return;
             this.DeactivateScene();
             
             // Loads the persistent scene first
-            // SceneManager.LoadScene(GameScenes.PersistenceScene.GetValue(), LoadSceneMode.Additive);
+            SceneManager.LoadScene(GameScenes.PersistenceScene.GetValue(), LoadSceneMode.Additive);
         }
 
         private void DeactivateScene()
@@ -84,14 +84,14 @@ namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport
             this.m_ActiveSceneObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (GameObject _SceneObject in this.m_ActiveSceneObjects)
             {
-                // if (!_SceneObject.layer.Equals(GameLayer.Ignore) 
-                //     && _SceneObject.GetInstanceID() != this.gameObject.GetInstanceID())
-                //     _SceneObject.SetActive(false);
+                if (!_SceneObject.layer.Equals(GameLayer.Ignore) 
+                    && _SceneObject.GetInstanceID() != this.gameObject.GetInstanceID())
+                    _SceneObject.SetActive(false);
             }
         }
 
-        protected bool ValidateSupportRequirements() 
-            => Object.FindAnyObjectByType<DebugGameSupport>(FindObjectsInactive.Exclude);
+        private bool ValidateSupportRequirements() 
+            => Object.FindAnyObjectByType<DebugGameSetupSupport>(FindObjectsInactive.Exclude);
 
         #endregion Methods
         

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport
 {
 
-    public class DebugGameSupport : MonoBehaviour
+    public class DebugGameSetupSupport : MonoBehaviour
     {
 
         #region - - - - - - Fields - - - - - -
@@ -21,15 +21,15 @@ namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport
         /// </remarks>
         private void Awake()
         {
-            if (!Object.FindAnyObjectByType<DebugSceneStartupSupport>()) return;
+            if (!Object.FindAnyObjectByType<DebugSceneSetupSupport>()) return;
             
             // Add all debug services and handlers requiring initialisation
-            DebugSceneStartupSupport _SceneStartupSupport = Object.FindFirstObjectByType<DebugSceneStartupSupport>();
+            DebugSceneSetupSupport sceneSetupSupport = Object.FindFirstObjectByType<DebugSceneSetupSupport>();
             GameSetupHandler _GameSetupHandler = Object.FindFirstObjectByType<GameSetupHandler>();
-            if (_SceneStartupSupport != null) 
-                _GameSetupHandler.OnGameSetupCompletion.AddListener(_SceneStartupSupport.ActivateSceneObjects);
+            if (sceneSetupSupport != null) 
+                _GameSetupHandler.OnGameSetupCompletion.AddListener(sceneSetupSupport.ActivateSceneObjects);
             
-            this.IN_DEVELOPMENT = _SceneStartupSupport.IsSceneInDevelopment;
+            this.IN_DEVELOPMENT = sceneSetupSupport.IsSceneInDevelopment;
         }
 
         #endregion Unity Lifecycle

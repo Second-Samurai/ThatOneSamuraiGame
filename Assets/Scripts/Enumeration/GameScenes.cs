@@ -7,7 +7,8 @@
         #region - - - - - - Fields - - - - - -
 
         public static GameScenes PersistenceScene = new("PersistenceScene", 0);
-        public static GameScenes MainGameScene = new("MainGameScene", 3);
+        public static GameScenes MainGameScene = new("MainGameScene", 1);
+        public static GameScenes Debug_Scene = new("Debug_Scene", 999);
         
         #endregion Fields
   

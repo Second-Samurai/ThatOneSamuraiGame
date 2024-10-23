@@ -2,6 +2,7 @@ using System;
 using ThatOneSamuraiGame.Scripts.Input.Gameplay;
 using ThatOneSamuraiGame.Scripts.Input.Menu;
 using ThatOneSamuraiGame.Scripts.Input.Rewind;
+using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -133,7 +134,7 @@ namespace ThatOneSamuraiGame.Scripts.Input
             _GameplayInputControl.SetInitialiseGameplayInput(
                                     new GameplayInputInitializerCommand(
                                         _InputControlData, 
-                                        GameManager.instance.SceneManager.SceneState.ActivePlayer,
+                                        ((ISceneManager)SceneManager.Instance).SceneState.ActivePlayer,
                                         GameManager.instance.GameState.SessionUser));
             this.m_GameplayInputControl = _GameplayInputControl;
 

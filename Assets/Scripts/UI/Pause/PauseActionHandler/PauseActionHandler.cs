@@ -1,5 +1,6 @@
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Scene.DataContainers;
+using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMediator;
 
 namespace ThatOneSamuraiGame.Scripts.UI.Pause.PauseActionHandler
@@ -21,7 +22,7 @@ namespace ThatOneSamuraiGame.Scripts.UI.Pause.PauseActionHandler
         {
             GameManager _GameManager = GameManager.instance;
             this.m_PauseMediator = _GameManager.PauseManager.PauseMediator;
-            this.m_SceneState = _GameManager.SceneManager.SceneState;
+            this.m_SceneState = ((ISceneManager)SceneManager.Instance).SceneState;
         }
 
         #endregion Lifecycle Methods

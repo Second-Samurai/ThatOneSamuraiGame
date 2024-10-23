@@ -62,9 +62,6 @@ public class GameManager : MonoBehaviour
     public IPauseManager PauseManager
         => this.m_PauseManager;
 
-    public ISceneManager SceneManager
-        => this.m_SceneManager;
-
     public IUserInterfaceManager UserInterfaceManager
         => this.m_UserInterfaceManager;
     

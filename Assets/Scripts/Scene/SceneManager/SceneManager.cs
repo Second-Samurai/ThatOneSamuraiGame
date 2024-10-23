@@ -17,6 +17,8 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
     {
 
         #region - - - - - - Fields - - - - - -
+
+        public static SceneManager Instance;
         
         [Header("Data State")]
         [SerializeField] public GameSettings m_GameSettings;
@@ -98,6 +100,14 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         #endregion Properties
 
         #region - - - - - - Lifecycle Methods - - - - - -
+
+        private void Awake()
+        {
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
+        }
 
         private void Start()
         {

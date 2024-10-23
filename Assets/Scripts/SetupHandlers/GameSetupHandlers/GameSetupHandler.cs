@@ -56,7 +56,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.GameSetupHandlers
 
         private IEnumerator SetupServices()
         {
-            ISceneManager _SceneManager = GameManager.instance.SceneManager;
+            ISceneManager _SceneManager = SceneManager.Instance;
 
             SceneLoader _SceneLoader = _SceneManager.SceneLoader;
             _SceneLoader.InitialiseSceneLoader();

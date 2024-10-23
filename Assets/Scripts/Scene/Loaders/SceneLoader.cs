@@ -23,7 +23,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.Loaders
         public void InitialiseSceneLoader()
         {
             this.m_SceneCount = UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings;
-            this.m_SceneManager = GameManager.instance.SceneManager;
+            this.m_SceneManager = SceneManager.SceneManager.Instance;
         }
 
         public IEnumerator LoadScene(GameScenes gameScene)

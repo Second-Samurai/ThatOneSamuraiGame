@@ -67,7 +67,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.GameSetupHandlers
         private IEnumerator SetupManagers()
         {
             // GameManager.instance.RewindManager.InitialiseRewindManager();
-            GameManager.instance.CheckpointManager.InitializeCheckpointManager();
+            // GameManager.instance.CheckpointManager.InitializeCheckpointManager();
 
             yield return null;
         }

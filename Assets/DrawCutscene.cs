@@ -7,6 +7,8 @@ using UnityEngine.Timeline;
 using UnityEngine.Playables;
 using UnityEngine.InputSystem;
 
+
+// SCOPE: Scene-Only
 public class DrawCutscene : MonoBehaviour
 {
     PlayableDirector _cutsceneDirector;

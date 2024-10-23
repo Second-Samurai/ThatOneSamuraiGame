@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// SCOPE: SCENE-ONLY
 public class CheckpointManager : MonoBehaviour
 {
 
@@ -17,28 +18,28 @@ public class CheckpointManager : MonoBehaviour
     private void Awake() 
         => SaveSystem.LoadGame();
 
-    // private void Start()
-    // {
-    //     GetSaveDataCheckpoint();
-    //     if(CheckIfCheckpointAvailable()) 
-    //         GameManager.instance.UserInterfaceManager.ButtonController.EnableContinue();
-    // }
-
-    #endregion Unity Lifecycle Methods
-  
-    #region - - - - - - Methods - - - - - -
-
-    public void InitializeCheckpointManager()
+    private void Start()
     {
         GetSaveDataCheckpoint();
         if(CheckIfCheckpointAvailable()) 
             GameManager.instance.UserInterfaceManager.ButtonController.EnableContinue();
     }
 
-    public void ScanForAvailableCheckpoints()
-    {
-        
-    }
+    #endregion Unity Lifecycle Methods
+  
+    #region - - - - - - Methods - - - - - -
+
+    // public void InitializeCheckpointManager()
+    // {
+    //     GetSaveDataCheckpoint();
+    //     if(CheckIfCheckpointAvailable()) 
+    //         GameManager.instance.UserInterfaceManager.ButtonController.EnableContinue();
+    // }
+
+    // public void ScanForAvailableCheckpoints()
+    // {
+    //     
+    // }
 
     public bool CheckIfCheckpointAvailable()
     {

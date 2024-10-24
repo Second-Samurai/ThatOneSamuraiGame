@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using ThatOneSamuraiGame.Scripts.Camera;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 /* -----------------------------------------------------------
  * Noted Issues:
@@ -17,10 +14,16 @@ using UnityEngine.InputSystem;
 
 public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraController
 {
+
+    #region - - - - - - Fields - - - - - -
+
+    // Camera related
     public PlayerCamTargetController camTargetScript;
     public ThirdPersonCamController camScript;
     LockOnTargetManager _lockedCamScript;
     public GameObject unlockedCam, lockedCam;
+    
+    // Animator related
     private Animator _animator;
     public Transform lockOnTarget, player, lockOnNullDummy;
     public bool bLockedOn = false;
@@ -35,12 +38,16 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
 
     private PlayerTargetTrackingState m_PlayerTargetTrackingState;
 
+    #endregion Fields
+
     #region - - - - - - Properties - - - - - -
 
     bool ICameraController.IsLockedOn
         => this.bLockedOn;
     
     #endregion Properties
+
+    #region - - - - - - Unity Lifecycle Methods - - - - - -
 
     private void Start()
     {
@@ -50,12 +57,14 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
 
         this.m_PlayerTargetTrackingState = this.GetComponent<IPlayerState>().PlayerTargetTrackingState;
     }
+
+    #endregion Unity Lifecycle Methods
+
+    #region - - - - - - Methods - - - - - -
  
     //NOTE: this is called in player controller
     public void Init(Transform playerTarget)
     {
-        //Debug.Log("Test");
-        
         GameManager gameManager = GameManager.instance;
         CinematicBars cinematicBars = gameManager.MainCamera.GetComponentInChildren<CinematicBars>();
 
@@ -82,7 +91,6 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
         }
 
         //_camScript = unlockedCam.GetComponent<Player>();
-       
        
         _lockedCamScript = lockedCam.GetComponent<LockOnTargetManager>();
     }
@@ -190,7 +198,7 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
         {
             
             //_playerInput.target = lockOnNullDummy;
-           // SetTarget(lockOnNullDummy);
+            // SetTarget(lockOnNullDummy);
             bLockedOn = false;
             return bLockedOn;
         }
@@ -294,4 +302,7 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
         else
             this.camScript.SprintOff();
     }
+
+    #endregion Methods
+  
 }

@@ -11,12 +11,13 @@ namespace Player.Animation
         #region - - - - - - Animation Parameter Strings to Hashes - - - - - -
         
         // Movement Parameters
-        private static readonly string IsSprinting = "IsSprinting";
+        //private static readonly string IsSprinting = "IsSprinting";
         private static readonly string XInput = "XInput";
         private static readonly string YInput = "YInput";
         private static readonly string InputSpeed = "InputSpeed";
         
         // Attack Parameters
+        private static readonly string AttackLight = "AttackLight";
         private static readonly string FirstAttack = "FirstAttack";
         private static readonly string SecondAttack = "SecondAttack";
         private static readonly string LoopAttack = "LoopAttack";
@@ -25,10 +26,12 @@ namespace Player.Animation
         
         // Miscellaneous Parameters
         private static readonly string FinisherSetup = "FinisherSetup";
+        private static readonly string IsParried = "IsParried";
         private static readonly string IsDead = "IsDead";
         private static readonly string VGuard = "VGuard";
         private static readonly string LockedOn = "LockedOn";
-
+        private static readonly string DrawSword = "DrawSword";
+        
         #endregion Animation Parameter Strings to Hashes 
 
         #region - - - - - - Fields - - - - - -
@@ -59,9 +62,38 @@ namespace Player.Animation
         [System.Obsolete("This is an obsolete method, modify InputSpeed instead")]
         public void SetSprinting(bool isSprinting)
         {
-            m_Animator.SetBool(IsSprinting, isSprinting);
+            //m_Animator.SetBool(IsSprinting, isSprinting);
         }
 
+        public void TriggerDrawSword()
+        {
+            //m_Animator.SetBool("IsDrawn", true);
+            m_Animator.SetTrigger(DrawSword);
+            ResetLightAttack();
+        }
+
+        public void TriggerLightAttack()
+        {
+            m_Animator.SetTrigger(AttackLight);
+        }
+        
+        public void ResetLightAttack()
+        {
+            m_Animator.ResetTrigger(AttackLight);
+        }
+        
+        public void ResetAttackParameters()
+        {
+            m_Animator.SetBool(FirstAttack, false);
+            m_Animator.SetBool(SecondAttack, false);
+            //m_Animator.SetBool(LoopAttack, false);
+        }
+
+        public void TriggerIsParried()
+        {
+            m_Animator.SetTrigger(IsParried);
+        }
+        
         public void SetDead(bool isDead)
         {
             m_Animator.SetBool(IsDead, isDead);
@@ -100,16 +132,9 @@ namespace Player.Animation
                 movementSmoothingDampingTime,
                 Time.deltaTime);
         }
-
-        public void ResetAttackParameters()
-        {
-            m_Animator.SetBool(FirstAttack, false);
-            m_Animator.SetBool(SecondAttack, false);
-            //m_Animator.SetBool(LoopAttack, false);
-        }
         
         #endregion Parameter Changes
-
+        
         #region - - - - - - Rewind Functions - - - - - -
 
         public AnimationTimeData GetAnimationTimeData()
@@ -122,13 +147,13 @@ namespace Player.Animation
                 m_Animator.GetFloat(YInput), 
                 m_Animator.GetBool(LockedOn), 
                 m_Animator.GetBool(VGuard), 
-                m_Animator.GetInteger(ComboCount), 
+                //m_Animator.GetInteger(ComboCount), 
                 m_Animator.GetBool(FirstAttack), 
                 m_Animator.GetBool(SecondAttack), 
-                m_Animator.GetBool(LoopAttack), 
+                //m_Animator.GetBool(LoopAttack), 
                 m_Animator.GetBool(IsDead), 
-                m_Animator.GetBool(HeavyAttackHeld), 
-                m_Animator.GetBool(FinisherSetup));
+                m_Animator.GetBool(HeavyAttackHeld)/*, 
+                m_Animator.GetBool(FinisherSetup)*/);
         }
         
         public void SetAnimationTimeData(AnimationTimeData animationTimeData)

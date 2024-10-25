@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Player.Animation;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -31,7 +32,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     private EntityAttackRegister _attackRegister;
     private CloseEnemyGuideControl _guideController;
     private StatHandler _playerStats;
-    private Animator _animator;
+    private PlayerAnimationComponent m_PlayerAnimationComponent;
 
     private float _chargeTime;
     private int _comboHits;
@@ -53,7 +54,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     public void Init(StatHandler playerStats)
     {
         this._playerStats = playerStats;
-        this._animator = this.GetComponent<Animator>();
+        m_PlayerAnimationComponent = GetComponent<PlayerAnimationComponent>();
         comboTracker = GetComponent<AttackChainTracker>();
 
         swordManager = this.GetComponent<PSwordManager>();
@@ -83,8 +84,8 @@ public class PCombatController : MonoBehaviour, ICombatController
     {
         if (!swordManager.hasAWeapon) return;
         _isSwordDrawn = !_isSwordDrawn;
-        _animator.SetBool("IsDrawn", true);
-        _animator.ResetTrigger("AttackLight");
+
+        m_PlayerAnimationComponent.TriggerDrawSword();
     }
 
     /// <summary>
@@ -100,9 +101,9 @@ public class PCombatController : MonoBehaviour, ICombatController
         //if (!_isAttacking)
         //{
         comboTracker.RegisterInput();
-        _animator.SetTrigger("AttackLight");
+        m_PlayerAnimationComponent.TriggerLightAttack();
         //}
-        _animator.SetInteger("ComboCount", _comboHits);
+        //_animator.SetInteger("ComboCount", _comboHits);
     }
 
     private void HeavyAttack()
@@ -133,7 +134,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         _isAttacking = true;
         _functions.DisableBlock();
         attackCol.enabled = true;
-        _animator.ResetTrigger("AttackLight");
+        m_PlayerAnimationComponent.ResetLightAttack();
         _guideController.MoveToNearestEnemy();
     }
 
@@ -198,7 +199,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         EndUnblockable();
         EndAttacking();
         //_playerInput.RemoveOverride(); // Note: The override is unused
-        _animator.SetTrigger("IsParried");
+        m_PlayerAnimationComponent.TriggerIsParried();
 
         IPlayerSpecialAction _PlayerSpecialAction = this.GetComponent<IPlayerSpecialAction>();
         _PlayerSpecialAction.ResetDodge();

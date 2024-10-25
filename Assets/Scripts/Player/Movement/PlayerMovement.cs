@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Scripts.Base;
+﻿using Player.Animation;
+using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
@@ -12,8 +13,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
     {
         
         #region - - - - - - Fields - - - - - -
-
-        private Animator m_Animator;
+        
+        private PlayerAnimationComponent m_PlayerAnimationComponent;
         private ICameraController m_CameraController;
         private IControlledCameraState m_CameraState;
         private FinishingMoveController m_FinishingMoveController;
@@ -28,6 +29,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private bool m_IsRotationEnabled = true;
         private bool m_IsSprinting = false;
         private Vector2 m_InputDirection = Vector2.zero;
+        private float m_SprintMultiplier = 3f;
         private float m_RotationSpeed = 4f;
         private float m_MovementSmoothingDampingTime = .1f;
 
@@ -37,7 +39,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         private void Start()
         {
-            this.m_Animator = this.GetComponent<Animator>();
+            this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
             this.m_CameraController = this.GetComponent<ICameraController>();
             this.m_CameraState = this.GetComponent<IControlledCameraState>();
             this.m_FinishingMoveController = this.GetComponentInChildren<FinishingMoveController>();
@@ -83,10 +85,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             if (this.m_FinishingMoveController.bIsFinishing)
                 return;
             
-            // Ticket: #34 - Behaviour pertaining to animation will be moved to separate player animator component.
             if (moveDirection == Vector2.zero)
-                this.m_Animator.SetBool("IsSprinting", false);
-
+                m_PlayerAnimationComponent.SetSprinting(false);
+            
             this.m_InputDirection = moveDirection;
         }
 
@@ -100,11 +101,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_CameraController.ToggleSprintCameraState(this.m_IsSprinting);
             
             // Toggle sprinting animation
-            // Ticket: #34 - Behaviour pertaining to animation will be moved to separate player animator component.
             if (this.m_InputDirection == Vector2.zero || !this.m_IsSprinting)
-                this.m_Animator.SetBool("IsSprinting", false);
+                m_PlayerAnimationComponent.SetSprinting(false);
             else
-                this.m_Animator.SetBool("IsSprinting", true);
+                m_PlayerAnimationComponent.SetSprinting(true);
         }
 
         private Vector3 CalculateMovementDirection()
@@ -145,31 +145,16 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
             this.transform.rotation = Quaternion.Euler(0f, _NextAngleRotation, 0f);
         }
-
-        // Ticket: #34 - Behaviour pertaining to animation will be moved to separate player animator component.
+        
+        private float sprintModifier => m_IsSprinting == true ? m_SprintMultiplier : 1f;
         private void PerformMovement()
         {
             if (this.m_PlayerMovementState.IsMovementLocked)
                 return;
-
-            // Invokes player movement through the physically based animation movements
-            this.m_Animator.SetFloat(
-                "XInput", 
-                this.m_InputDirection.x, 
-                this.m_MovementSmoothingDampingTime, 
-                Time.deltaTime);
             
-            this.m_Animator.SetFloat(
-                "YInput",
-                this.m_InputDirection.y,
-                this.m_MovementSmoothingDampingTime,
-                Time.deltaTime);
-            
-            this.m_Animator.SetFloat(
-                "InputSpeed",
-                this.m_InputDirection.magnitude,
-                this.m_MovementSmoothingDampingTime,
-                Time.deltaTime);
+            // Invokes player movement through the physically based animation movements (Root Motion)
+            m_PlayerAnimationComponent.SetInputDirection(m_InputDirection, m_MovementSmoothingDampingTime);
+            m_PlayerAnimationComponent.SetInputSpeed(m_InputDirection.magnitude * sprintModifier, m_MovementSmoothingDampingTime);
         }
 
         #endregion Methods

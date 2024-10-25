@@ -1,17 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Player.Animation;
 using UnityEngine;
 
 public class AttackChainTracker : MonoBehaviour
 {
-    Animator _animator;
+    private PlayerAnimationComponent m_PlayerAnimationComponent;
     [SerializeField] int _inputCounter = 0;
     [SerializeField] float _lastInput = 0f;
     public float inputWindow = .9f;
 
     // Start is called before the first frame update
     void Start() 
-        => _animator = GetComponent<Animator>();
+        => m_PlayerAnimationComponent = GetComponent<PlayerAnimationComponent>();
 
     // Update is called once per frame
     void Update()
@@ -44,13 +45,13 @@ public class AttackChainTracker : MonoBehaviour
         if(_inputCounter >= 2)
         {
             //_animator.SetBool("SecondAttack", true);
-            _animator.SetBool("LoopAttack", false);
-            _animator.SetBool("FirstAttack", false);
+            //_animator.SetBool("LoopAttack", false);
+            //_animator.SetBool("FirstAttack", false);
 
         }
         else
         {
-            _animator.SetBool("FirstAttack", false);
+            //_animator.SetBool("FirstAttack", false);
             _inputCounter = 0;
            // _input.bCanDodge = true;
         }
@@ -61,24 +62,22 @@ public class AttackChainTracker : MonoBehaviour
         {
            // _animator.SetBool("LoopAttack", true);
            // _animator.SetTrigger("AttackLight");
-            _animator.SetBool("FirstAttack", false); 
-            _animator.SetBool("SecondAttack", false);
+            //_animator.SetBool("FirstAttack", false); 
+            //_animator.SetBool("SecondAttack", false);
 
             _inputCounter = 1;
         }
         else
         {
-            _animator.SetBool("SecondAttack", false);
+            //_animator.SetBool("SecondAttack", false);
             _inputCounter = 0;
           //  _input.bCanDodge = true;
         }
     }
 
-    public void ResetCombo()
+    private void ResetCombo()
     {
-        _animator.SetBool("FirstAttack", false);
-        _animator.SetBool("SecondAttack", false);
-        _animator.SetBool("LoopAttack", false);
-     //   _input.bCanDodge = true;
+        m_PlayerAnimationComponent.ResetAttackParameters();
+        //_input.bCanDodge = true;
     }
 }

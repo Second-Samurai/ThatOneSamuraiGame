@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Player.Animation;
 using UnityEngine;
 
 public class AnimationRewindEntity : RewindEntity
@@ -8,14 +9,13 @@ public class AnimationRewindEntity : RewindEntity
 
     public List<AnimationTimeData> animationDataList;
     // to be extrated
-    [SerializeField]
-    private Animator animator;
-    public AnimatorClipInfo[] m_CurrentClipInfo;
+    private PlayerAnimationComponent m_PlayerAnimationComponent;
+    //public AnimatorClipInfo[] m_CurrentClipInfo;
     
 
     [SerializeField]
     
-    //meeds extraction
+    //needs extraction
     public PlayerFunctions func;
 
  
@@ -24,7 +24,7 @@ public class AnimationRewindEntity : RewindEntity
     {
         _rewindInput = GameManager.instance.RewindManager.GetComponent<RewindManager>();
         animationDataList = new List<AnimationTimeData>();
-        animator = gameObject.GetComponent<Animator>();
+        m_PlayerAnimationComponent = GetComponent<PlayerAnimationComponent>();
         _rewindInput.Reset += ResetTimeline;
         _rewindInput.OnEndRewind += EnableEvents;
         _rewindInput.OnStartRewind += DisableEvents;
@@ -38,29 +38,23 @@ public class AnimationRewindEntity : RewindEntity
         if (_rewindInput.isTravelling == false)
         {
             RecordPast();
-            
             //animator.enabled = true;
         }
-        else 
-        {
-            
-          
-        }
- 
     }
-    public void DisableEvents()
+    
+    protected void DisableEvents()
     {
-        animator.fireEvents = false;
-        animator.applyRootMotion = false;
-
+        m_PlayerAnimationComponent.SetFireEvents(false);
+        m_PlayerAnimationComponent.SetRootMotion(false);
     }
-
-    public void EnableEvents()
+    
+    protected void EnableEvents()
     {
-        animator.fireEvents = true;
-        animator.applyRootMotion = true;
+        m_PlayerAnimationComponent.SetFireEvents(true);
+        m_PlayerAnimationComponent.SetRootMotion(true);
     }
-    public new void ResetTimeline()
+    
+    private new void ResetTimeline()
     {
         for (int i = currentIndex; i > 0; i--)
         {
@@ -81,20 +75,16 @@ public class AnimationRewindEntity : RewindEntity
         {
             animationDataList.RemoveAt(animationDataList.Count - 1);
         }
-        m_CurrentClipInfo = animator.GetCurrentAnimatorClipInfo(0);
+        //m_CurrentClipInfo = animator.GetCurrentAnimatorClipInfo(0);
 
         //move to animation rewind entity
-        animationDataList.Insert(0, new AnimationTimeData(animator.GetCurrentAnimatorStateInfo(0).normalizedTime, animator.GetCurrentAnimatorStateInfo(0).shortNameHash, 
-                                                                    animator.GetFloat("InputSpeed"), animator.GetFloat("XInput"), animator.GetFloat("YInput"), animator.GetBool("LockedOn"), 
-                                                                        animator.GetBool("VGuard"), animator.GetInteger("ComboCount"), animator.GetBool("FirstAttack"), animator.GetBool("SecondAttack"), 
-                                                                            animator.GetBool("LoopAttack"), animator.GetBool("isDead"), animator.GetBool("HeavyAttackHeld"), animator.GetBool("FinisherSetup")));
+        animationDataList.Insert(0, m_PlayerAnimationComponent.GetAnimationTimeData());
        
         base.RecordPast();
     }
 
     public override void StepBack()
     {
-
         if (animationDataList.Count > 0)
         {
             if (currentIndex < animationDataList.Count - 1)
@@ -122,37 +112,27 @@ public class AnimationRewindEntity : RewindEntity
         }
     }
 
-    public new void SetPosition()
+    protected new void SetPosition()
     {
         base.SetPosition();
-        //animator.enabled = true;
-        // animator.enabled = false;
+        
         if (currentIndex <= animationDataList.Count - 1)
         {
             func.bIsDead = animationDataList[currentIndex].isDead;
 
-            animator.SetFloat("InputSpeed", animationDataList[currentIndex].inputSpeed);
-            animator.SetFloat("XInput", animationDataList[currentIndex].xInput);
-            animator.SetFloat("YInput", animationDataList[currentIndex].yInput);
-            animator.SetBool("isDead", animationDataList[currentIndex].isDead);
-
-
-            animator.Play(animationDataList[currentIndex].currentClip, 0, animationDataList[currentIndex].currentFrame);
+            Vector2 inputDirection = new Vector2(animationDataList[currentIndex].xInput,
+                animationDataList[currentIndex].yInput);
+            m_PlayerAnimationComponent.SetInputSpeed(animationDataList[currentIndex].inputSpeed);
+            m_PlayerAnimationComponent.SetInputDirection(inputDirection);
+            m_PlayerAnimationComponent.SetDead(animationDataList[currentIndex].isDead);
+            m_PlayerAnimationComponent.SetAnimationOverride(
+                animationDataList[currentIndex].currentClip,
+                animationDataList[currentIndex].currentFrame);
         }
     }
 
     public override void ApplyData()
     {
-        Debug.Log("FUCK");
-
-        animator.SetBool("LockedOn", animationDataList[currentIndex].lockedOn);
-        Debug.Log(animationDataList[currentIndex].lockedOn);
-        animator.SetBool("VGuard", animationDataList[currentIndex].vGuard);
-        animator.SetInteger("ComboCount", animationDataList[currentIndex].comboCount);
-        animator.SetBool("FirstAttack", animationDataList[currentIndex].firstAttack);
-        animator.SetBool("SecondAttack", animationDataList[currentIndex].secondAttack);
-        animator.SetBool("LoopAttack", animationDataList[currentIndex].loopAttack);
-        animator.SetBool("HeavyAttackHeld", animationDataList[currentIndex].HeavyAttackHeld);
-        animator.SetBool("FinisherSetup", animationDataList[currentIndex].FinisherSetup);
+        m_PlayerAnimationComponent.SetAnimationTimeData(animationDataList[currentIndex]);
     }
 }

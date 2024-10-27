@@ -14,12 +14,6 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupHandlers
     public class SceneSetupHandler : MonoBehaviour
     {
 
-        #region - - - - - - Fields - - - - - -
-
-        public RewindBar RewindBar;
-
-        #endregion Fields
-  
         #region - - - - - - Unity Lifecycle Methods - - - - - -
 
         private void Awake() 

@@ -19,7 +19,8 @@ public class LockOnTargetManager : MonoBehaviour
     {
         cam = GetComponent<CinemachineFreeLook>();
         mainCam = Camera.main.GetComponent<CinemachineBrain>();
-        animator = GameManager.instance.PlayerController.gameObject.GetComponent<Animator>();
+        // animator = GameManager.instance.PlayerController.gameObject.GetComponent<Animator>();
+        animator = this.transform.root.GetComponent<Animator>();
     }
 
     private void FixedUpdate()

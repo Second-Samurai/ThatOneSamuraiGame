@@ -74,6 +74,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.GameSetupHandlers
 
         private IEnumerator LaunchGameScene()
         {
+            this.OnGameSetupCompletion.Invoke();
             yield return null;
         }
 

@@ -3,6 +3,7 @@ using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Attack
 {
@@ -40,7 +41,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_Animator = this.GetComponent<Animator>();
             this.m_CameraController = this.GetComponent<ICameraController>();
             this.m_CombatController = this.GetComponent<ICombatController>();
-            this.m_HitstopController = GameManager.instance.GetComponent<HitstopController>();
+            // this.m_HitstopController = GameManager.instance.GetComponent<HitstopController>();
+            this.m_HitstopController = Object.FindFirstObjectByType<HitstopController>();
             this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
             this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
 

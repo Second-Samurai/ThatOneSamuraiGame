@@ -175,6 +175,9 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
                                     _MainCameraPos, 
                                     Quaternion.identity
                                     ).GetComponent<UnityEngine.Camera>();
+            
+            // Get references from scene
+            this.m_LockOnTracker = Object.FindFirstObjectByType<LockOnTracker>();
         }
         
         // --------------------------------------------
@@ -187,17 +190,19 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
             GameObject _TargetHolder = Instantiate(this.m_GameSettings.targetHolderPrefab, _TargetHolderPos, Quaternion.identity);
 
             PlayerController _PlayerControl = Object.FindFirstObjectByType<PlayerController>();
-        
-            if(this.m_PlayerController != null)
+            if(this.m_PlayerController != null || _PlayerControl != null)
             {
                 this.m_PlayerController = _PlayerControl;
                 this.m_CameraControl = _PlayerControl.GetComponent<CameraControl>();
+                this.m_SceneState.ActivePlayer = this.m_PlayerController.gameObject;
                 this.InitialisePlayer(_TargetHolder);
                 return;
             }
 
-            GameObject _PlayerObject = Instantiate(this.m_GameSettings.playerPrefab, this.m_PlayerSpawnPoint.position, Quaternion.identity);
+            GameObject _PlayerObject = 
+                Instantiate(this.m_GameSettings.playerPrefab, this.m_PlayerSpawnPoint.position, Quaternion.identity);
             this.m_PlayerController = _PlayerObject.GetComponentInChildren<PlayerController>();
+            this.m_SceneState.ActivePlayer = _PlayerObject;
             this.InitialisePlayer(_TargetHolder);
         }
         

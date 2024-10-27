@@ -11,14 +11,17 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
         #region - - - - - - Fields - - - - - -
 
         private readonly GameObject m_Player;
+        private readonly ThirdPersonCamController m_ThirdPersonCamController;
 
         #endregion Fields
   
         #region - - - - - - Constructors - - - - - -
 
-        public PlayerInitializerCommand(GameObject player)
+        public PlayerInitializerCommand(GameObject player, ThirdPersonCamController thirdPersonCamController)
         {
             this.m_Player = player ?? throw new ArgumentNullException(nameof(player));
+            this.m_ThirdPersonCamController = thirdPersonCamController ??
+                                              throw new ArgumentNullException(nameof(thirdPersonCamController));
         }
 
         #endregion Constructors
@@ -27,6 +30,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
 
         public void Execute()
         {
+            // Initialise camera behavior
+            this.m_ThirdPersonCamController.Initialise();
+            
             // Initialise animation behavior
             FinishingMoveController _FinishingMoveController =
                 this.m_Player.GetComponentInChildren<FinishingMoveController>();

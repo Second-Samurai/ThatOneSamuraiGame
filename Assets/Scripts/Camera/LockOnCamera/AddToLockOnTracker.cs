@@ -25,6 +25,9 @@ public class AddToLockOnTracker : MonoBehaviour
 
     private void Update()
     {
+        // Validate dependencies before use
+        if (!_lockOnTracker || !_cameraTransform) return;
+        
         RaycastToCurrentEnemies();
     }
 

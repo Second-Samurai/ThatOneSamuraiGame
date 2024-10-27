@@ -27,13 +27,14 @@ namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport
             DebugSceneSetupSupport sceneSetupSupport = Object.FindFirstObjectByType<DebugSceneSetupSupport>();
             GameSetupHandler _GameSetupHandler = Object.FindFirstObjectByType<GameSetupHandler>();
             if (sceneSetupSupport != null) 
-                _GameSetupHandler.OnGameSetupCompletion.AddListener(sceneSetupSupport.ActivateSceneObjects);
+                _GameSetupHandler.OnGameSetupCompletion.AddListener(
+                    () => { this.StartCoroutine(sceneSetupSupport.ActivateSceneObjects()); });
             
             this.IN_DEVELOPMENT = sceneSetupSupport.IsSceneInDevelopment;
         }
 
         #endregion Unity Lifecycle
-
+  
     }
 
 }

@@ -35,6 +35,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
             // Initialise lock-on behavior
             AddToLockOnTracker _AddToLockOnTracker = this.m_Player.GetComponentInChildren<AddToLockOnTracker>();
             _AddToLockOnTracker.Initialise();
+
+            LockOnTargetManager _LockOnTargetManager = this.m_Player.GetComponentInChildren<LockOnTargetManager>();
+            _LockOnTargetManager.Initialise();
         }
 
         #endregion Methods

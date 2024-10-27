@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Runtime.CompilerServices;
+using ThatOneSamuraiGame.Scripts.DebugScripts.DebugSceneInvokers;
 using ThatOneSamuraiGame.Scripts.Enumeration;
 using ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupHandlers;
 using UnityEngine;
@@ -46,7 +49,7 @@ namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport
 
         #region - - - - - - Methods - - - - - -
 
-        public virtual void ActivateSceneObjects()
+        public IEnumerator ActivateSceneObjects()
         {
             foreach (GameObject _SceneObject in this.m_ActiveSceneObjects)
             {
@@ -60,10 +63,20 @@ namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport
             // Run the scene startup behavior
             SceneSetupHandler _StartupHandler =
                 Object.FindFirstObjectByType<SceneSetupHandler>(FindObjectsInactive.Exclude);
-            if (_StartupHandler == null) return;
-
-            _StartupHandler.InitialiseSceneSetupHandler();
-            this.StartCoroutine(_StartupHandler.RunSetup());
+            if (_StartupHandler != null)
+            {
+                _StartupHandler.InitialiseSceneSetupHandler();
+                yield return this.StartCoroutine(_StartupHandler.RunSetup());
+                
+                DebugStartupInvokerQue _DebugStartupCollectionInvoker =
+                    Object.FindFirstObjectByType<DebugStartupInvokerQue>(FindObjectsInactive.Exclude);
+                _DebugStartupCollectionInvoker.InvokeQueStartup();
+            }
+            else
+            {
+                Debug.LogWarning("[WARNING]: No scene setup handler is found. " +
+                                 "Scene initialisation and startup invocation que is not invoked");
+            }
         }
 
         private void LoadPersistenceScene()

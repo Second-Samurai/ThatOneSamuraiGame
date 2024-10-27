@@ -1,10 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Cinemachine;
 
 public class LockOnTargetManager : MonoBehaviour
 {
+
+    #region - - - - - - Fields - - - - - -
+
     public float lookSpeed = .5f;
     public CinemachineFreeLook cam;
     public bool   _bLockedOn = false;
@@ -12,25 +13,45 @@ public class LockOnTargetManager : MonoBehaviour
     public Transform _target, _player;
     public float swapSpeed = 10f;
     public FinisherCam finisherCam;
+    
     CinemachineBrain mainCam;
     Animator animator;
 
-    void Start()
-    {
-        cam = GetComponent<CinemachineFreeLook>();
-        mainCam = Camera.main.GetComponent<CinemachineBrain>();
-        // animator = GameManager.instance.PlayerController.gameObject.GetComponent<Animator>();
-        animator = this.transform.root.GetComponent<Animator>();
-    }
+    #endregion Fields
+
+
+    #region - - - - - - Unity Lifecycle Methods - - - - - -
+
+    // void Start()
+    // {
+    //     cam = GetComponent<CinemachineFreeLook>();
+    //     mainCam = Camera.main.GetComponent<CinemachineBrain>();
+    //     // animator = GameManager.instance.PlayerController.gameObject.GetComponent<Animator>();
+    //     animator = this.transform.root.GetComponent<Animator>();
+    // }
 
     private void FixedUpdate()
     {
+        // Validate whether dependencies exist
+        if (!cam || !mainCam || !animator) return;
+        
         if (_bLockedOn)
             MoveTarget();
         if((!_bLockedOn || !animator.GetBool("LockedOn"))&& cam.Equals((object)mainCam.ActiveVirtualCamera))
         {
             cam.m_Priority = 3;
         }
+    }
+
+    #endregion Unity Lifecycle Methods
+
+    #region - - - - - - Methods - - - - - -
+
+    public void Initialise()
+    {
+        cam = GetComponent<CinemachineFreeLook>();
+        mainCam = Camera.main.GetComponent<CinemachineBrain>();
+        animator = this.transform.root.GetComponent<Animator>();
     }
 
     void MoveTarget()
@@ -44,7 +65,7 @@ public class LockOnTargetManager : MonoBehaviour
     public void SetTarget(Transform target, Transform player)
     {
 
-       // targetHolder.transform.position = target.position;
+        // targetHolder.transform.position = target.position;
         cam.LookAt = target.transform;
         _bLockedOn = true;
         _target = target;
@@ -67,4 +88,7 @@ public class LockOnTargetManager : MonoBehaviour
     {
         finisherCam.LeaveCamera();
     }
+
+    #endregion Methods
+  
 }

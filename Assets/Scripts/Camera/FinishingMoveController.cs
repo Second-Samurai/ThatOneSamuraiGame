@@ -25,7 +25,7 @@ public class FinishingMoveController : MonoBehaviour
 
     #endregion Fields
 
-    #region - - - - - - Unity Lifecycle Methods - - - - - -
+    // #region - - - - - - Unity Lifecycle Methods - - - - - -
 
     // void Start()
     // {
@@ -33,8 +33,8 @@ public class FinishingMoveController : MonoBehaviour
     //     BindToTrack("Cinemachine Track", GameManager.instance.MainCamera.GetComponent<CinemachineBrain>());
     //     damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PDamageController>();
     // }
-
-    #endregion Unity Lifecycle Methods
+    //
+    // #endregion Unity Lifecycle Methods
 
     #region - - - - - - Methods - - - - - -
 

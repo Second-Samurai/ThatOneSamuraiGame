@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Enemies;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AddToLockOnTracker : MonoBehaviour
 {
@@ -16,18 +13,26 @@ public class AddToLockOnTracker : MonoBehaviour
 
     public GameEvent CancelLockOnEvent;
 
-    private void Start()
-    {
-        raycastMaxDist = GetComponent<SphereCollider>().radius * 2;
-
-        _lockOnTracker = GameManager.instance.LockOnTracker;
-        
-        _cameraTransform = Camera.main.transform;
-    }
+    // private void Start()
+    // {
+    //     raycastMaxDist = GetComponent<SphereCollider>().radius * 2;
+    //
+    //     _lockOnTracker = GameManager.instance.LockOnTracker;
+    //     
+    //     // _cameraTransform = Camera.main.transform;
+    //     _cameraTransform = GameManager.instance.MainCamera.transform;
+    // }
 
     private void Update()
     {
         RaycastToCurrentEnemies();
+    }
+
+    public void Initialise()
+    {
+        raycastMaxDist = GetComponent<SphereCollider>().radius * 2;
+        _lockOnTracker = GameManager.instance.LockOnTracker;
+        _cameraTransform = GameManager.instance.MainCamera.transform;
     }
     
     private void OnTriggerEnter(Collider other)

@@ -27,16 +27,23 @@ public class FinishingMoveController : MonoBehaviour
 
     #region - - - - - - Unity Lifecycle Methods - - - - - -
 
-    void Start()
+    // void Start()
+    // {
+    //     _cutsceneDirector = GetComponent<PlayableDirector>();
+    //     BindToTrack("Cinemachine Track", GameManager.instance.MainCamera.GetComponent<CinemachineBrain>());
+    //     damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PDamageController>();
+    // }
+
+    #endregion Unity Lifecycle Methods
+
+    #region - - - - - - Methods - - - - - -
+
+    public void Initialise()
     {
         _cutsceneDirector = GetComponent<PlayableDirector>();
         BindToTrack("Cinemachine Track", GameManager.instance.MainCamera.GetComponent<CinemachineBrain>());
         damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PDamageController>();
     }
-
-    #endregion Unity Lifecycle Methods
-
-    #region - - - - - - Methods - - - - - -
 
     void BindToTrack(string trackName, Object val)
     {

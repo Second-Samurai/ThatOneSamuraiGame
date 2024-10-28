@@ -56,10 +56,7 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
         Time.timeScale = 0f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
-
-        // Included switching the below variable as the rewind behavior is poorly managed to discretely define concrete states
-        GameManager.instance.RewindManager.isTravelling = false;
-        
+          
         IInputManager _InputManager = GameManager.instance.InputManager;
         _InputManager.SwitchToMenuControls();
     }
@@ -95,19 +92,10 @@ public class PauseMenu : MonoBehaviour, IPauseMenuController
         Time.timeScale = timeScale;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        
-        if (GameManager.instance.RewindManager.isTravelling == true // relying on this alone is not enough, additional checks added to differentiate state.
-            && GameManager.instance.RewindManager.rewindUI.isActiveAndEnabled) 
-        {
-            _InputManager.SwitchToRewindControls();
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            _InputManager.SwitchToGameplayControls();
-            gameObject.SetActive(false);
-        }
-
+         
+        _InputManager.SwitchToGameplayControls();
+        gameObject.SetActive(false);
+          
         #endregion Methods
         
     }

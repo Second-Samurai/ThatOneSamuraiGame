@@ -75,10 +75,7 @@ public class GameManager : MonoBehaviour
     
     public CheckpointManager CheckpointManager
         => ((ISceneManager)this.m_SceneManager).CheckpointManager;
-
-    public RewindManager RewindManager
-        => ((ISceneManager)this.m_SceneManager).RewindManager;
-
+      
     public EnemyTracker EnemyTracker
         => ((ISceneManager)this.m_SceneManager).EnemyTracker;
 

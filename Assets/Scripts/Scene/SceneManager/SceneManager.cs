@@ -25,8 +25,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         [SerializeField] public SceneState m_SceneState;
 
         [Header("Controllers and Managers")]
-        [SerializeField] public CheckpointManager m_CheckPointManager;
-        [SerializeField] public RewindManager m_RewindManager;
+        [SerializeField] private CheckpointManager m_CheckPointManager; 
         [Space]
         [SerializeField] public EnemyTracker m_EnemyTracker;
         [SerializeField] public EnemySpawnManager m_EnemySpawnManager;
@@ -61,10 +60,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         
         CheckpointManager ISceneManager.CheckpointManager
             => this.m_CheckPointManager;
-
-        RewindManager ISceneManager.RewindManager
-            => this.m_RewindManager;
-
+         
         EnemyTracker ISceneManager.EnemyTracker
             => this.m_EnemyTracker;
         
@@ -126,8 +122,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         void ISceneManager.SetupScene()
         {
             this.SetupSceneCamera();
-            this.SetupSceneLoaders();
-            this.SetupRewind();
+            this.SetupSceneLoaders(); 
             this.SetupPlayer();
             this.SetupEnemies();
         }
@@ -240,23 +235,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
             foreach (TestStaticTarget _Enemy in _TestEnemies) 
                 this.m_EnemyTracker.AddEnemy(_Enemy.GetComponentInParent<Transform>());
         }
-        
-        // --------------------------------------------
-        // Rewind specific behavior
-        // -------------------------------------------
-        
-        private void SetupRewind() // Handled in pipeline
-        {
-            if (this.m_RewindManager != null) 
-                return;
-            
-            this.m_RewindManager = Instantiate(
-                                        this.m_GameSettings.rewindManager, 
-                                        transform.position, 
-                                        Quaternion.identity)
-                                        .GetComponent<RewindManager>();
-        }
-
+         
         #endregion Methods
 
         #region - - - - - - Validation Methods - - - - - -

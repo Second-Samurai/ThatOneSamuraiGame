@@ -9,7 +9,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
     
     public class PlayerSpecialAction : MonoBehaviour, IPlayerSpecialAction
     {
-
+        
         #region - - - - - - Fields - - - - - -
 
         private ICameraController m_CameraController;
@@ -127,14 +127,18 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
             this.m_PlayerSpecialActionState.CanDodge = true;
             this.m_PlayerSpecialActionState.IsDodging = false;
         }
-        
+
         // -----------------------------------------------------
         // Rewind related Events
         // -----------------------------------------------------
 
         void IPlayerSpecialAction.ActivateRewind()
-            => this.m_RewindInput.OnInitRewind(); // This is temporary until a separate player handler is created.
+        { 
+            
+        }
 
+        //=>   //this.m_RewindInput.OnInitRewind(); // This is temporary until a separate player handler is created.
+        
         #endregion Methods
 
     }

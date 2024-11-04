@@ -62,16 +62,12 @@ public class EndCutscene : MonoBehaviour
 
     private void Update()
     {
-        //if (Keyboard.current.escapeKey.wasPressedThisFrame && !bSkipped)
-        //{
-        //    _cutsceneDirector.time = _cutsceneDirector.duration - 3;
-        //    bSkipped = true;
-        //}
+         
     }
 
     public void StartRewindRecording()
     {
-        GameManager.instance.RewindManager.isTravelling = false;
+        
     }
 
     public void PlayCutscene()

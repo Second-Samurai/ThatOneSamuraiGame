@@ -47,66 +47,33 @@ public class UIGuardMeter : MonoBehaviour
     }
 
     void FixedUpdate()
-    {
-        if (!GameManager.instance.RewindManager.isTravelling)
+    { 
+        //TODO - Ailin 14/10/24 refactor this out of update
+        DestroyWhenEntityDead();
+
+        if (!CheckInCameraView() || _entityTransform != _lockOnTracker.targetEnemy)
         {
-            DestroyWhenEntityDead();
-
-            if (!CheckInCameraView() || _entityTransform != _lockOnTracker.targetEnemy)
+            if (guardSlider.gameObject.activeInHierarchy)
             {
-                if (guardSlider.gameObject.activeInHierarchy)
-                {
-                    HideFinisherKey();
-                    guardSlider.gameObject.SetActive(false);
-                }
-                return;
+                HideFinisherKey();
+                guardSlider.gameObject.SetActive(false);
             }
-            else
-            {
-                if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _lockOnTracker.targetEnemy)
-                {
-                    guardSlider.gameObject.SetActive(true);
-                    if (guardSlider.value == guardSlider.maxValue)
-                    {
-                        ShowFinisherKey();
-                    }
-                }
-            }
-            SetMeterPosition();
+            return;
         }
-    }
-
-    private void Update()
-    {
-        if (GameManager.instance.RewindManager.isTravelling)
+        else
         {
-            DestroyWhenEntityDead();
-
-            if (!CheckInCameraView() || _entityTransform != _lockOnTracker.targetEnemy)
+            if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _lockOnTracker.targetEnemy)
             {
-                if (guardSlider.gameObject.activeInHierarchy)
+                guardSlider.gameObject.SetActive(true);
+                if (guardSlider.value == guardSlider.maxValue)
                 {
-                    HideFinisherKey();
-                    guardSlider.gameObject.SetActive(false);
-                }
-                return;
-            }
-            else
-            {
-                if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _lockOnTracker.targetEnemy)
-                {
-                    guardSlider.gameObject.SetActive(true);
-                    if (guardSlider.value == guardSlider.maxValue)
-                    {
-                        ShowFinisherKey();
-                    }
+                    ShowFinisherKey();
                 }
             }
-            SetMeterPosition();
         }
-    }
-
-
+        SetMeterPosition(); 
+    } 
+     
     //Summary: Updates guide meter when called through event.
     //
     public void UpdateGuideMeter()

@@ -57,8 +57,5 @@ public class OpeningCutscene : MonoBehaviour
             _cutsceneDirector.time = _cutsceneDirector.duration - 3;
             bSkipped = true;
         } 
-    }
-
-    public void StartRewindRecording() 
-        => GameManager.instance.RewindManager.isTravelling = false;
+    } 
 }

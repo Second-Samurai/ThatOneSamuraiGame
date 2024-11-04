@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UserInterfaceManager m_UserInterfaceManager;
     [SerializeField] private PauseManager m_PauseManager;
     [SerializeField] private InputManager m_InputManager;
-    [SerializeField] private RewindManager m_RewindManager;
     [SerializeField] private CheckpointManager m_CheckpointManager;
     public AudioManager audioManager;
 
@@ -75,10 +74,7 @@ public class GameManager : MonoBehaviour
     
     public CheckpointManager CheckpointManager
         => ((ISceneManager)this.m_SceneManager).CheckpointManager;
-
-    public RewindManager RewindManager
-        => ((ISceneManager)this.m_SceneManager).RewindManager;
-
+      
     public EnemyTracker EnemyTracker
         => ((ISceneManager)this.m_SceneManager).EnemyTracker;
 

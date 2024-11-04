@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using Cinemachine;
@@ -60,6 +61,7 @@ public class FinishingMoveController : MonoBehaviour
     public void SetTargetEnemy(Animator enemy)
     {
         BindToTrack("Animation Track (1)", enemy);
+
         targetEnemy = enemy.gameObject;
     }
 
@@ -101,7 +103,11 @@ public class FinishingMoveController : MonoBehaviour
         targetEnemy.GetComponent<AISystem>().bFinish = true;
         targetEnemy.GetComponent<AISystem>().OnEnemyDeath();
         detector.SetActive(true);
-        GameManager.instance.RewindManager.IncreaseRewindAmount();
+        //GameManager.instance.RewindManager.IncreaseRewindAmount();
+        // playerInputScript.bCanAttack = true;
+        // playerInputScript.EnableMovement();
+        // playerInputScript.bAlreadyAttacked = false;
+        // playerInputScript.ResetAttack();
         
         // Note: This is only a temporary solution
         IPlayerMovement _PlayerMovement = this.transform.parent.GetComponent<IPlayerMovement>();

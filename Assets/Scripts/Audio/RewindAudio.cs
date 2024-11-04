@@ -27,8 +27,6 @@ public class RewindAudio : MonoBehaviour
     void Start()
     {
         played = false;
-        _rewindManager = gameObject.GetComponent<RewindManager>();
-        maxRewind = _rewindManager.maxRewindQuantity;
         audioManager = GameManager.instance.audioManager;
         audioPlayer = gameObject.GetComponent<AudioPlayer>();
         heartBeat = GameManager.instance.audioManager.FindSound("HeartBeatSlow");

@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UserInterfaceManager m_UserInterfaceManager;
     [SerializeField] private PauseManager m_PauseManager;
     [SerializeField] private InputManager m_InputManager;
-    [SerializeField] private RewindManager m_RewindManager;
     [SerializeField] private CheckpointManager m_CheckpointManager;
     public AudioManager audioManager;
 

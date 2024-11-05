@@ -899,20 +899,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: 3rd Person Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 384454883045989429, guid: 3f7b0705999c4aa4699b9dea4ab75f6c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 384454883045989431, guid: 3f7b0705999c4aa4699b9dea4ab75f6c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.51781607
+      value: -0.23770249
       objectReference: {fileID: 0}
     - target: {fileID: 384454883045989431, guid: 3f7b0705999c4aa4699b9dea4ab75f6c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.901488
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 384454883045989431, guid: 3f7b0705999c4aa4699b9dea4ab75f6c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -17.64019
+      value: 0.046007633
       objectReference: {fileID: 0}
     - target: {fileID: 384454883045989431, guid: 3f7b0705999c4aa4699b9dea4ab75f6c,
         type: 3}
@@ -996,18 +1001,6 @@ Transform:
   - {fileID: 1086846968}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1564750743 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6720650519821614831, guid: 3f7b0705999c4aa4699b9dea4ab75f6c,
-    type: 3}
-  m_PrefabInstance: {fileID: 1427706356}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ca3b45b5c6697c4b9d0c1eda34abfdd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1815756559
 GameObject:
   m_ObjectHideFlags: 0
@@ -1390,7 +1383,7 @@ PrefabInstance:
         type: 3}
       propertyPath: camScript
       value: 
-      objectReference: {fileID: 1564750743}
+      objectReference: {fileID: 0}
     - target: {fileID: 3660346423577006649, guid: aa97918f90c075d439e098f1d7ea3b5a,
         type: 3}
       propertyPath: camTargetScript
@@ -1478,7 +1471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a2f49e149b419cad9028eaf73a44d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ThirdPersonCamController: {fileID: 1564750743}
+  ThirdPersonCamController: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

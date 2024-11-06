@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
 using ThatOneSamuraiGame.Scripts.DebugScripts.DebugSceneInvokers;
 using ThatOneSamuraiGame.Scripts.Enumeration;
 using ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupHandlers;
@@ -65,7 +64,7 @@ namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport
                 Object.FindFirstObjectByType<SceneSetupHandler>(FindObjectsInactive.Exclude);
             if (_StartupHandler != null)
             {
-                _StartupHandler.InitialiseSceneSetupHandler();
+                // _StartupHandler.InitialiseSceneSetupHandler(); Custom Setup initialization not needed.
                 yield return this.StartCoroutine(_StartupHandler.RunSetup());
                 
                 DebugStartupInvokerQue _DebugStartupCollectionInvoker =

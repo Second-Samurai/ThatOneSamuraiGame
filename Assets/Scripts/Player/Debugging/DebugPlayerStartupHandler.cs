@@ -18,6 +18,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
 
         public void Handle()
         {
+            if (this.ThirdPersonCamController == null)
+                Debug.LogError($"[ERROR]: No {nameof(ThirdPersonCamController)} found please set value.");
+            
             PlayerInitializerCommand _InitializerCommand = 
                 new PlayerInitializerCommand(this.gameObject, ThirdPersonCamController);
             _InitializerCommand.Execute();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Events;
 using Enemies;
@@ -37,18 +38,18 @@ public class Guarding : MonoBehaviour
     public void Init(StatHandler statHandler)
     {
         this.statHandler = statHandler;
-
+        
         GameManager gameManager = GameManager.instance;
-
+        
         _guardMeterCanvas = Instantiate(gameManager.gameSettings.guardCanvasPrefab, transform);
         uiGuardMeter = Instantiate(gameManager.gameSettings.guardMeterPrefab, _guardMeterCanvas.transform).GetComponent<UIGuardMeter>();
-
+        
         uiGuardMeter.Init(transform, statHandler, gameManager.MainCamera, _guardMeterCanvas.GetComponent<RectTransform>());
         OnGuardEvent.AddListener(uiGuardMeter.UpdateGuideMeter);
-
+        
         _aiSystem = GetComponent<AISystem>();
         _guardCooldownTime = _aiSystem.enemySettings.GetEnemyStatType(_aiSystem.enemyType).guardCooldown;
-
+        
         _player = gameManager.PlayerController.gameObject.transform;
     }
 
@@ -57,7 +58,7 @@ public class Guarding : MonoBehaviour
     {
         RunGuardCooldown();
         RunRecoveryCooldown();
-
+        
         if (isStunned) 
         {
             if (Vector3.Magnitude(gameObject.transform.position - _player.transform.position) < 3.2)

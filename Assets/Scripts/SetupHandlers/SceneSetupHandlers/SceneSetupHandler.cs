@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
 using UnityEngine;
@@ -16,17 +17,21 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupHandlers
 
         #region - - - - - - Unity Lifecycle Methods - - - - - -
 
-        private void Awake() 
-            => this.StartCoroutine(this.RunSetup());
+        private void Awake()
+        {
+            // -------------------------------------------------------------------------------
+            // During debug, setup invocation is invoked from the DebugStartup services.
+            // -------------------------------------------------------------------------------
+            DebugGameSetupSupport _GameSetupSupport = Object.FindFirstObjectByType<DebugGameSetupSupport>();
+            if (_GameSetupSupport != null && _GameSetupSupport.IN_DEVELOPMENT)
+                return;
+            
+            this.StartCoroutine(this.RunSetup());
+        }
 
         #endregion Unity Lifecycle Methods
   
         #region - - - - - - Methods - - - - - -
-
-        public void InitialiseSceneSetupHandler()
-        {
-            
-        }
 
         public IEnumerator RunSetup()
         {

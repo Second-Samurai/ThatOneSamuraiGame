@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using ThatOneSamuraiGame.Scripts.Enumeration;
 using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.Scene.DataContainers;
@@ -157,11 +158,13 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
             {
                 Debug.LogError("No third person camera in scene! Adding new object but please assign in inspector instead!");
                 
+                // TODO: No point in creating a position variable within this scope, just pass directly.
                 Vector3 _ThirdPersonViewPos = this.m_GameSettings.thirdPersonViewCam.transform.position;
                 this.m_ThirdPersonViewCamera = Instantiate(
                                                 this.m_GameSettings.thirdPersonViewCam, 
                                                 _ThirdPersonViewPos, 
                                                 Quaternion.identity);
+                Debug.LogWarning("This is instantiated for" + nameof(this.m_ThirdPersonViewCamera));
             }
             
             Vector3 _MainCameraPos = this.m_GameSettings.mainCamera.transform.position;

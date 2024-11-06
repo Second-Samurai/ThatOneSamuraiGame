@@ -69,7 +69,7 @@ public class CameraControl : MonoBehaviour, IControlledCameraState, ICameraContr
         CinematicBars cinematicBars = gameManager.MainCamera.GetComponentInChildren<CinematicBars>();
 
         this.player = playerTarget;
-        this.unlockedCam = gameManager.ThirdPersonViewCamera;
+        this.unlockedCam = gameManager.ThirdPersonViewCamera; // Why is this called 'Unlocked'??
         this._animator = gameManager.PlayerController.GetComponent<Animator>();
         this.cinematicBars = cinematicBars;
 

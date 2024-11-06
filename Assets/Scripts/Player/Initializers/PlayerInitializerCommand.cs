@@ -5,23 +5,35 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.Player.Initializers
 {
 
+    // TODO: Invoke this from the setup command
     public class PlayerInitializerCommand : ICommand
     {
 
         #region - - - - - - Fields - - - - - -
 
         private readonly GameObject m_Player;
+        
+        // External dependencies
+        private readonly PlayerCamTargetController m_PlayerCameraTargetController;
         private readonly ThirdPersonCamController m_ThirdPersonCamController;
+        private readonly GameObject m_TargetHolder;
 
         #endregion Fields
   
         #region - - - - - - Constructors - - - - - -
 
-        public PlayerInitializerCommand(GameObject player, ThirdPersonCamController thirdPersonCamController)
+        public PlayerInitializerCommand(
+            GameObject player, 
+            PlayerCamTargetController playerCameraTargetController,
+            ThirdPersonCamController thirdPersonCamController, 
+            GameObject targetHolder)
         {
             this.m_Player = player ?? throw new ArgumentNullException(nameof(player));
+            this.m_PlayerCameraTargetController = playerCameraTargetController ??
+                                                  throw new ArgumentNullException(nameof(playerCameraTargetController));
             this.m_ThirdPersonCamController = thirdPersonCamController ??
                                               throw new ArgumentNullException(nameof(thirdPersonCamController));
+            this.m_TargetHolder = targetHolder ?? throw new ArgumentNullException(nameof(targetHolder));
         }
 
         #endregion Constructors
@@ -44,6 +56,15 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
 
             LockOnTargetManager _LockOnTargetManager = this.m_Player.GetComponentInChildren<LockOnTargetManager>();
             _LockOnTargetManager.Initialise();
+            
+            // Initialise Camera Control
+            CameraControl _CameraController = this.m_Player.GetComponent<CameraControl>();
+            _CameraController.camTargetScript = this.m_PlayerCameraTargetController;
+            
+            // Temp: Call PlayerControl Initializer
+            // TODO: Migrate PlayerController specific initialization here.
+            PlayerController _PlayerController = this.m_Player.GetComponent<PlayerController>();
+            _PlayerController.Init(this.m_TargetHolder);
         }
 
         #endregion Methods

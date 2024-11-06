@@ -154,6 +154,8 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
 
         private void SetupSceneCamera() // Handled in pipeline
         {
+            // TODO: Investigate possibility of making configurabe scene setup so its not ties to one implementation for all scenes.
+            this.m_ThirdPersonViewCamera = Object.FindFirstObjectByType<ThirdPersonCamController>().gameObject;
             if (!this.m_ThirdPersonViewCamera)
             {
                 Debug.LogError("No third person camera in scene! Adding new object but please assign in inspector instead!");
@@ -206,6 +208,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         
         private void InitialisePlayer(GameObject targetHolder) // Handled in pipeline
         {
+            // TODO: Change this to be the PlayerInitializerCommandd
             this.m_PlayerController.Init(targetHolder);
 
             IInputManager _InputManager = GameManager.instance.InputManager;

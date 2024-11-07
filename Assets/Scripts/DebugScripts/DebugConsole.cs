@@ -7,41 +7,41 @@ using UnityEngine.UI;
 
 public class DebugConsole : MonoBehaviour
 {
-    private bool showConsole;
-    private bool showHelp;
+    private bool m_showConsole;
+    private bool m_showHelp;
 
-    private string input;
+    private string m_input;
 
-    private DebugManager debugManager;
+    private DebugManager m_debugManager;
 
-    private Vector2 scroll;
+    private Vector2 m_scroll;
 
     private void Start()
     {
-        debugManager = DebugManager.Instance;
+        m_debugManager = DebugManager.Instance;
     }
 
     public void OnConsolePressed()
     {
-        showConsole = !showConsole;
+        m_showConsole = !m_showConsole;
 
-        if (!showConsole )
+        if (!m_showConsole )
         {
-            showHelp = false;
+            m_showHelp = false;
         }
 
-        Cursor.lockState = showConsole ? CursorLockMode.None : CursorLockMode.Locked;
-        Cursor.visible = showConsole;
+        Cursor.lockState = m_showConsole ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = m_showConsole;
     }
 
     public void ShowHelp(bool showHelp)
     {
-        this.showHelp = showHelp;
+        this.m_showHelp = showHelp;
     }
 
     public void OnEnterPressed()
     {
-        if (showConsole)
+        if (m_showConsole)
         {
             HandleInput();
         }
@@ -49,24 +49,24 @@ public class DebugConsole : MonoBehaviour
 
     private void OnGUI()
     {
-        if (!showConsole)
+        if (!m_showConsole)
         { 
             return; 
         }
 
         float y = 0f;
 
-        if (showHelp)
+        if (m_showHelp)
         {
             GUI.Box(new Rect(0, y, Screen.width, 100), "");
 
-            Rect viewport = new Rect(0,0,Screen.width - 30, 20 * debugManager.CommandList.Count);
+            Rect viewport = new Rect(0,0,Screen.width - 30, 20 * m_debugManager.CommandList.Count);
 
-            scroll = GUI.BeginScrollView(new Rect(0, y+5f, Screen.width, 90), scroll, viewport); 
+            m_scroll = GUI.BeginScrollView(new Rect(0, y+5f, Screen.width, 90), m_scroll, viewport); 
 
-            for (int i = 0; i<debugManager.CommandList.Count; i++)
+            for (int i = 0; i < m_debugManager.CommandList.Count; i++)
             {
-                DebugCommandBase command = debugManager.CommandList[i] as DebugCommandBase;
+                DebugCommandBase command = m_debugManager.CommandList[i] as DebugCommandBase;
 
                 string label = $"{command.CommandFormat} - {command.CommandDescription}";
 
@@ -83,19 +83,19 @@ public class DebugConsole : MonoBehaviour
         GUI.Box(new Rect(0, y, Screen.width, 30), "");
         GUI.backgroundColor = new Color(0, 0, 0, 0);
 
-        input = GUI.TextField(new Rect(10f, y + 5f, Screen.width - 20f, 20f), input);
+        m_input = GUI.TextField(new Rect(10f, y + 5f, Screen.width - 20f, 20f), m_input);
     }
 
     private void HandleInput()
     {
-        if (input == null || input == "" || string.IsNullOrWhiteSpace(input))
+        if (m_input == null || m_input == "" || string.IsNullOrWhiteSpace(m_input))
         {
             return;
         }
 
-        string[] inputs = input.Split(' ', System.StringSplitOptions.RemoveEmptyEntries);
+        string[] inputs = m_input.Split(' ', System.StringSplitOptions.RemoveEmptyEntries);
 
-        var targetCommand = debugManager.CommandList.Find(x => x is DebugCommandBase commandBase && inputs[0] == commandBase.CommandId);
+        var targetCommand = m_debugManager.CommandList.Find(x => x is DebugCommandBase commandBase && inputs[0] == commandBase.CommandId);
 
         if (targetCommand != null)
         {
@@ -113,6 +113,6 @@ public class DebugConsole : MonoBehaviour
             }
         }
 
-        input = "";
+        m_input = "";
     }
 }

@@ -5,19 +5,19 @@ using UnityEngine;
 
 public class DebugCommandBase
 {
-    private string commandId;
-    private string commandDescription;
-    private string commandFormat;
+    private string m_commandId;
+    private string m_commandDescription;
+    private string m_commandFormat;
 
-    public string CommandId => commandId;
-    public string CommandDescription => commandDescription;
-    public string CommandFormat => commandFormat;
+    public string CommandId => m_commandId;
+    public string CommandDescription => m_commandDescription;
+    public string CommandFormat => m_commandFormat;
 
     public DebugCommandBase(string commandId, string commandDescription, string commandFormat)
     {
-        this.commandId = commandId;
-        this.commandDescription = commandDescription;
-        this.commandFormat = commandFormat;
+        this.m_commandId = commandId;
+        this.m_commandDescription = commandDescription;
+        this.m_commandFormat = commandFormat;
     }
 }
 

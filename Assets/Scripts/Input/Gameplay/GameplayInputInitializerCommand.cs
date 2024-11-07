@@ -45,6 +45,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
             this.m_InputControlData.PlayerSpecialAction = this.m_ActivePlayer.GetComponent<IPlayerSpecialAction>();
             this.m_InputControlData.PlayerTargetTracking = this.m_ActivePlayer.GetComponent<IPlayerTargetTracking>();
             this.m_InputControlData.PlayerViewOrientationHandler = this.m_ActivePlayer.GetComponent<IPlayerViewOrientationHandler>();
+            this.m_InputControlData.DebugHandler = this.m_ActivePlayer.GetComponent<IDebugHandler>();
         }
 
         #endregion Methods

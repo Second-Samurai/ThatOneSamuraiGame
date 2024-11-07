@@ -143,6 +143,28 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         }
 
         // -----------------------------------------------------
+        // Debug related Events
+        // -----------------------------------------------------
+
+        void IGameplayInputControl.OnDebug(InputAction.CallbackContext context)
+        {
+            if (!this.m_IsInputActive)
+                return;
+
+            // Ticket #46 - Clarify handling on UI events against game logic.
+            this.m_InputControlData.DebugHandler.ToggleDebugMenu();
+        }
+
+        void IGameplayInputControl.OnSubmitDebugCommand(InputAction.CallbackContext context)
+        {
+            if (!this.m_IsInputActive)
+                return;
+
+            // Ticket #46 - Clarify handling on UI events against game logic.
+            this.m_InputControlData.DebugHandler.SubmitDebugCommand();
+        }
+
+        // -----------------------------------------------------
         // View Orientation related Events
         // -----------------------------------------------------
 
@@ -190,6 +212,9 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
             // View Orientation
             playerInput.actions["rotatecamera"].performed += ((IGameplayInputControl)this).OnRotateCamera;
             playerInput.actions["rotatecamera"].canceled += ((IGameplayInputControl)this).OnRotateCamera;
+
+            playerInput.actions["debugconsole"].performed += ((IGameplayInputControl)this).OnDebug;
+            playerInput.actions["submitdebugcommand"].performed += ((IGameplayInputControl)this).OnSubmitDebugCommand;
         }
 
         void IInputControl.EnableInput() 

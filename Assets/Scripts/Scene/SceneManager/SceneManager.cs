@@ -52,9 +52,12 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         // Data State
         // -------------------------------
         
-        SceneState ISceneManager.SceneState
-            => this.m_SceneState;
-        
+        public SceneState SceneState
+        {
+            get { return this.m_SceneState; }
+            set { this.m_SceneState = value; }
+        }
+
         // -------------------------------
         // Controllers and Managers
         // -------------------------------
@@ -75,14 +78,23 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         // Camera
         // -------------------------------
         
-        CameraControl ISceneManager.CameraControl
-            => this.m_CameraControl;
+        public CameraControl CameraControl
+        {
+            get { return this.m_CameraControl; }
+            set { this.m_CameraControl = value; }
+        }
 
-        LockOnTracker ISceneManager.LockOnTracker
-            => this.m_LockOnTracker;
+        public LockOnTracker LockOnTracker
+        {
+            get { return this.m_LockOnTracker; }
+            set { this.m_LockOnTracker = value; }
+        }
 
-        UnityEngine.Camera ISceneManager.MainCamera
-            => this.m_MainCamera;
+        public UnityEngine.Camera MainCamera
+        {
+            get { return this.m_MainCamera; }
+            set { this.m_MainCamera = value; }
+        }
 
         GameObject ISceneManager.ThirdPersonViewCamera
             => this.m_ThirdPersonViewCamera;
@@ -91,8 +103,11 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         // Player
         // -------------------------------
         
-        PlayerController ISceneManager.PlayerController
-            => this.m_PlayerController;
+        public PlayerController PlayerController
+        {
+            get { return this.m_PlayerController; }
+            set { this.m_PlayerController = value; }
+        }
 
         #endregion Properties
 
@@ -154,30 +169,30 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
 
         private void SetupSceneCamera() // Handled in pipeline
         {
-            // TODO: Investigate possibility of making configurabe scene setup so its not ties to one implementation for all scenes.
-            this.m_ThirdPersonViewCamera = Object.FindFirstObjectByType<ThirdPersonCamController>().gameObject;
-            if (!this.m_ThirdPersonViewCamera)
-            {
-                Debug.LogError("No third person camera in scene! Adding new object but please assign in inspector instead!");
-                
-                // TODO: No point in creating a position variable within this scope, just pass directly.
-                Vector3 _ThirdPersonViewPos = this.m_GameSettings.thirdPersonViewCam.transform.position;
-                this.m_ThirdPersonViewCamera = Instantiate(
-                                                this.m_GameSettings.thirdPersonViewCam, 
-                                                _ThirdPersonViewPos, 
-                                                Quaternion.identity);
-                Debug.LogWarning("This is instantiated for" + nameof(this.m_ThirdPersonViewCamera));
-            }
-            
-            Vector3 _MainCameraPos = this.m_GameSettings.mainCamera.transform.position;
-            this.m_MainCamera = Instantiate(
-                                    this.m_GameSettings.mainCamera, 
-                                    _MainCameraPos, 
-                                    Quaternion.identity
-                                    ).GetComponent<UnityEngine.Camera>();
-            
-            // Get references from scene
-            this.m_LockOnTracker = Object.FindFirstObjectByType<LockOnTracker>();
+            // // TODO: Investigate possibility of making configurabe scene setup so its not ties to one implementation for all scenes.
+            // this.m_ThirdPersonViewCamera = Object.FindFirstObjectByType<ThirdPersonCamController>().gameObject;
+            // if (!this.m_ThirdPersonViewCamera)
+            // {
+            //     Debug.LogError("No third person camera in scene! Adding new object but please assign in inspector instead!");
+            //     
+            //     // TODO: No point in creating a position variable within this scope, just pass directly.
+            //     Vector3 _ThirdPersonViewPos = this.m_GameSettings.thirdPersonViewCam.transform.position;
+            //     this.m_ThirdPersonViewCamera = Instantiate(
+            //                                     this.m_GameSettings.thirdPersonViewCam, 
+            //                                     _ThirdPersonViewPos, 
+            //                                     Quaternion.identity);
+            //     Debug.LogWarning("This is instantiated for" + nameof(this.m_ThirdPersonViewCamera));
+            // }
+            //
+            // Vector3 _MainCameraPos = this.m_GameSettings.mainCamera.transform.position;
+            // this.m_MainCamera = Instantiate(
+            //                         this.m_GameSettings.mainCamera, 
+            //                         _MainCameraPos, 
+            //                         Quaternion.identity
+            //                         ).GetComponent<UnityEngine.Camera>();
+            //
+            // // Get references from scene
+            // this.m_LockOnTracker = Object.FindFirstObjectByType<LockOnTracker>();
         }
         
         // --------------------------------------------

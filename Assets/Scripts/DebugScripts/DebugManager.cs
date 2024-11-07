@@ -33,9 +33,7 @@ public class DebugManager : MonoBehaviour
     }
 
     private void InitCommands()
-    {
-        CommandList.Clear();
-
+    { 
         CommandList.Add(new DebugCommand("help", "shows all commands", "help", () => 
         {
             console.ShowHelp(true);

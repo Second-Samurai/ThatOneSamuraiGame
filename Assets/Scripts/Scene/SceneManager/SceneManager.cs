@@ -137,9 +137,9 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         /// <remarks>This should only be invoked from within the game scene.</remarks>
         void ISceneManager.SetupScene()
         {
-            this.SetupSceneCamera();
-            this.SetupSceneLoaders(); 
-            this.SetupPlayer();
+            // this.SetupSceneCamera();
+            // this.SetupSceneLoaders(); 
+            // this.SetupPlayer();
             this.SetupEnemies();
         }
 
@@ -150,18 +150,18 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         // Level specific behavior
         // -------------------------------------------
         
-        private void SetupSceneLoaders() // Handled in its own pipeline
-        {
-            List<Transform> _SceneLoaders = Object.FindObjectsByType<Transform>(FindObjectsSortMode.None)
-                                                .Where(t => t.GetComponent<ISceneLoader>() != null)
-                                                .ToList();
-
-            for (int i = 0; i < _SceneLoaders.Count; i++)
-            {
-                ISceneLoader _Loader = _SceneLoaders[i].GetComponent<ISceneLoader>();
-                _Loader.Initialise(this.m_MainCamera.transform);
-            }
-        }
+        // private void SetupSceneLoaders() // Handled in its own pipeline
+        // {
+        //     List<Transform> _SceneLoaders = Object.FindObjectsByType<Transform>(FindObjectsSortMode.None)
+        //                                         .Where(t => t.GetComponent<ISceneLoader>() != null)
+        //                                         .ToList();
+        //
+        //     for (int i = 0; i < _SceneLoaders.Count; i++)
+        //     {
+        //         ISceneLoader _Loader = _SceneLoaders[i].GetComponent<ISceneLoader>();
+        //         _Loader.Initialise(this.m_MainCamera.transform);
+        //     }
+        // }
 
         // --------------------------------------------
         // Camera specific behavior
@@ -194,43 +194,43 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
             // // Get references from scene
             // this.m_LockOnTracker = Object.FindFirstObjectByType<LockOnTracker>();
         }
-        
-        // --------------------------------------------
-        // Player specific behavior
-        // -------------------------------------------
-        
-        private void SetupPlayer() // Handled in pipeline
-        {
-            Vector3 _TargetHolderPos = this.m_GameSettings.targetHolderPrefab.transform.position;
-            GameObject _TargetHolder = Instantiate(this.m_GameSettings.targetHolderPrefab, _TargetHolderPos, Quaternion.identity);
-
-            PlayerController _PlayerControl = Object.FindFirstObjectByType<PlayerController>();
-            if(this.m_PlayerController != null || _PlayerControl != null)
-            {
-                this.m_PlayerController = _PlayerControl;
-                this.m_CameraControl = _PlayerControl.GetComponent<CameraControl>();
-                this.m_SceneState.ActivePlayer = this.m_PlayerController.gameObject;
-                this.InitialisePlayer(_TargetHolder);
-                return;
-            }
-
-            GameObject _PlayerObject = 
-                Instantiate(this.m_GameSettings.playerPrefab, this.m_PlayerSpawnPoint.position, Quaternion.identity);
-            this.m_PlayerController = _PlayerObject.GetComponentInChildren<PlayerController>();
-            this.m_SceneState.ActivePlayer = _PlayerObject;
-            this.InitialisePlayer(_TargetHolder);
-        }
-        
-        private void InitialisePlayer(GameObject targetHolder) // Handled in pipeline
-        {
-            // TODO: Change this to be the PlayerInitializerCommandd
-            this.m_PlayerController.Init(targetHolder);
-
-            IInputManager _InputManager = GameManager.instance.InputManager;
-
-            if (_InputManager.DoesGameplayInputControlExist()) 
-                _InputManager.PossesPlayerObject(this.m_PlayerController.gameObject);
-        }
+        //
+        // // --------------------------------------------
+        // // Player specific behavior
+        // // -------------------------------------------
+        //
+        // private void SetupPlayer() // Handled in pipeline
+        // {
+        //     Vector3 _TargetHolderPos = this.m_GameSettings.targetHolderPrefab.transform.position;
+        //     GameObject _TargetHolder = Instantiate(this.m_GameSettings.targetHolderPrefab, _TargetHolderPos, Quaternion.identity);
+        //
+        //     PlayerController _PlayerControl = Object.FindFirstObjectByType<PlayerController>();
+        //     if(this.m_PlayerController != null || _PlayerControl != null)
+        //     {
+        //         this.m_PlayerController = _PlayerControl;
+        //         this.m_CameraControl = _PlayerControl.GetComponent<CameraControl>();
+        //         this.m_SceneState.ActivePlayer = this.m_PlayerController.gameObject;
+        //         this.InitialisePlayer(_TargetHolder);
+        //         return;
+        //     }
+        //
+        //     GameObject _PlayerObject = 
+        //         Instantiate(this.m_GameSettings.playerPrefab, this.m_PlayerSpawnPoint.position, Quaternion.identity);
+        //     this.m_PlayerController = _PlayerObject.GetComponentInChildren<PlayerController>();
+        //     this.m_SceneState.ActivePlayer = _PlayerObject;
+        //     this.InitialisePlayer(_TargetHolder);
+        // }
+        //
+        // private void InitialisePlayer(GameObject targetHolder) // Handled in pipeline
+        // {
+        //     // TODO: Change this to be the PlayerInitializerCommandd
+        //     this.m_PlayerController.Init(targetHolder);
+        //
+        //     IInputManager _InputManager = GameManager.instance.InputManager;
+        //
+        //     if (_InputManager.DoesGameplayInputControlExist()) 
+        //         _InputManager.PossesPlayerObject(this.m_PlayerController.gameObject);
+        // }
         
         // --------------------------------------------
         // Enemy specific behavior

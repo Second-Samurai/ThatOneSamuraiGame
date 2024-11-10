@@ -51,8 +51,6 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
 
         #region - - - - - - Methods - - - - - -
 
-        void SetupScene();
-
         void SetupCurrentScene(GameScenes currentScene);
 
         #endregion Methods

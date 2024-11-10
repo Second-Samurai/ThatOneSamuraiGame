@@ -126,14 +126,6 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
 
         #region - - - - - - Methods - - - - - -
         
-        /// <summary>
-        /// Responsible for setting up the scene.
-        /// </summary>
-        /// <remarks>This should only be invoked from within the game scene.</remarks>
-        void ISceneManager.SetupScene()
-        {
-        }
-
         void ISceneManager.SetupCurrentScene(GameScenes gameScene) 
             => this.m_CurrentGameScene = gameScene;
 

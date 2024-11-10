@@ -1,12 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using ThatOneSamuraiGame.Scripts.Enumeration;
-using ThatOneSamuraiGame.Scripts.Input;
+﻿using ThatOneSamuraiGame.Scripts.Enumeration;
 using ThatOneSamuraiGame.Scripts.Scene.DataContainers;
 using ThatOneSamuraiGame.Scripts.Scene.Loaders;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
 {
@@ -137,113 +132,10 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         /// <remarks>This should only be invoked from within the game scene.</remarks>
         void ISceneManager.SetupScene()
         {
-            // this.SetupSceneCamera();
-            // this.SetupSceneLoaders(); 
-            // this.SetupPlayer();
-            // this.SetupEnemies();
         }
 
         void ISceneManager.SetupCurrentScene(GameScenes gameScene) 
             => this.m_CurrentGameScene = gameScene;
-
-        // --------------------------------------------
-        // Level specific behavior
-        // -------------------------------------------
-        
-        // private void SetupSceneLoaders() // Handled in its own pipeline
-        // {
-        //     List<Transform> _SceneLoaders = Object.FindObjectsByType<Transform>(FindObjectsSortMode.None)
-        //                                         .Where(t => t.GetComponent<ISceneLoader>() != null)
-        //                                         .ToList();
-        //
-        //     for (int i = 0; i < _SceneLoaders.Count; i++)
-        //     {
-        //         ISceneLoader _Loader = _SceneLoaders[i].GetComponent<ISceneLoader>();
-        //         _Loader.Initialise(this.m_MainCamera.transform);
-        //     }
-        // }
-
-        // --------------------------------------------
-        // Camera specific behavior
-        // -------------------------------------------
-
-        private void SetupSceneCamera() // Handled in pipeline
-        {
-            // // TODO: Investigate possibility of making configurabe scene setup so its not ties to one implementation for all scenes.
-            // this.m_ThirdPersonViewCamera = Object.FindFirstObjectByType<ThirdPersonCamController>().gameObject;
-            // if (!this.m_ThirdPersonViewCamera)
-            // {
-            //     Debug.LogError("No third person camera in scene! Adding new object but please assign in inspector instead!");
-            //     
-            //     // TODO: No point in creating a position variable within this scope, just pass directly.
-            //     Vector3 _ThirdPersonViewPos = this.m_GameSettings.thirdPersonViewCam.transform.position;
-            //     this.m_ThirdPersonViewCamera = Instantiate(
-            //                                     this.m_GameSettings.thirdPersonViewCam, 
-            //                                     _ThirdPersonViewPos, 
-            //                                     Quaternion.identity);
-            //     Debug.LogWarning("This is instantiated for" + nameof(this.m_ThirdPersonViewCamera));
-            // }
-            //
-            // Vector3 _MainCameraPos = this.m_GameSettings.mainCamera.transform.position;
-            // this.m_MainCamera = Instantiate(
-            //                         this.m_GameSettings.mainCamera, 
-            //                         _MainCameraPos, 
-            //                         Quaternion.identity
-            //                         ).GetComponent<UnityEngine.Camera>();
-            //
-            // // Get references from scene
-            // this.m_LockOnTracker = Object.FindFirstObjectByType<LockOnTracker>();
-        }
-        //
-        // // --------------------------------------------
-        // // Player specific behavior
-        // // -------------------------------------------
-        //
-        // private void SetupPlayer() // Handled in pipeline
-        // {
-        //     Vector3 _TargetHolderPos = this.m_GameSettings.targetHolderPrefab.transform.position;
-        //     GameObject _TargetHolder = Instantiate(this.m_GameSettings.targetHolderPrefab, _TargetHolderPos, Quaternion.identity);
-        //
-        //     PlayerController _PlayerControl = Object.FindFirstObjectByType<PlayerController>();
-        //     if(this.m_PlayerController != null || _PlayerControl != null)
-        //     {
-        //         this.m_PlayerController = _PlayerControl;
-        //         this.m_CameraControl = _PlayerControl.GetComponent<CameraControl>();
-        //         this.m_SceneState.ActivePlayer = this.m_PlayerController.gameObject;
-        //         this.InitialisePlayer(_TargetHolder);
-        //         return;
-        //     }
-        //
-        //     GameObject _PlayerObject = 
-        //         Instantiate(this.m_GameSettings.playerPrefab, this.m_PlayerSpawnPoint.position, Quaternion.identity);
-        //     this.m_PlayerController = _PlayerObject.GetComponentInChildren<PlayerController>();
-        //     this.m_SceneState.ActivePlayer = _PlayerObject;
-        //     this.InitialisePlayer(_TargetHolder);
-        // }
-        //
-        // private void InitialisePlayer(GameObject targetHolder) // Handled in pipeline
-        // {
-        //     // TODO: Change this to be the PlayerInitializerCommandd
-        //     this.m_PlayerController.Init(targetHolder);
-        //
-        //     IInputManager _InputManager = GameManager.instance.InputManager;
-        //
-        //     if (_InputManager.DoesGameplayInputControlExist()) 
-        //         _InputManager.PossesPlayerObject(this.m_PlayerController.gameObject);
-        // }
-        
-        // --------------------------------------------
-        // Enemy specific behavior
-        // -------------------------------------------
-        
-        // private void SetupEnemies() // Handled in pipeline
-        // {
-        //     this.m_EnemyTracker = FindFirstObjectByType<EnemyTracker>();
-        //     this.m_GameSettings.enemySettings.SetTarget(FindFirstObjectByType<PlayerController>().transform);
-        //
-        //     //Sets up the test enemies for tracking
-        //     this.SetupTestScene();
-        // }
 
         // This appears to be less relevant and more debug related
         private void SetupTestScene() // Handled in pipeline

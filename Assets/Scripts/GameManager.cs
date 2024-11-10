@@ -117,51 +117,10 @@ public class GameManager : MonoBehaviour
 
         this.StartCoroutine(this.m_GameSetupHandler.RunSetup());
         
-        // Perform setup pipeline
-        // Ticket: #43 - Move this into its own pipeline handler to separate initialisation logic from the game manager.
-        
-        // Setup game scene
-        // SetupGraphics();
-        // SetupAudio();
-
         // Locate services
         this.m_GameState = this.GetComponent<GameState>();
     }
 
-    // Start is called before the first frame update
-    // void Start()
-    // {
-    //     ((ISceneManager)this.m_SceneManager).SetupScene();
-    //     ((IUserInterfaceManager)this.m_UserInterfaceManager).SetupUserInterface();
-    //     
-    //     this.m_InputManager.ConfigureMenuInputControl();
-    //     this.m_InputManager.SwitchToMenuControls();
-    // }
-
     #endregion Lifecycle Methods
-
-    // #region - - - - - - Methods - - - - - -
-
-    // void SetupGraphics() // Handled in pipeline
-    // {
-    //     //Add Post Processing
-    //     postProcessingController = Instantiate(gameSettings.dayPostProcessing, transform.position, Quaternion.identity).GetComponent<PostProcessingController>();
-    // }
-
-    // void SetupAudio() // Handled in pipeline
-    // {
-    //     if (FindObjectOfType<AudioManager>() == null) 
-    //         audioManager = Instantiate(gameSettings.audioManger, transform.position, Quaternion.identity).GetComponent<AudioManager>();
-    // }
-    
-    // -----------------------------------------------------------
-    // Temporary: Actions pertaining to defined game events
-    // -----------------------------------------------------------
-
-    // Note: Should be refactored to its own definable hard-coded event.
-    // public void OnOpeningSceneStart() // Scene manager - but possible delete if not used
-    //     => Debug.LogWarning("Not implemented");
-
-    // #endregion Methods
 
 }

@@ -140,7 +140,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
             // this.SetupSceneCamera();
             // this.SetupSceneLoaders(); 
             // this.SetupPlayer();
-            this.SetupEnemies();
+            // this.SetupEnemies();
         }
 
         void ISceneManager.SetupCurrentScene(GameScenes gameScene) 
@@ -236,14 +236,14 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         // Enemy specific behavior
         // -------------------------------------------
         
-        private void SetupEnemies() // Handled in pipeline
-        {
-            this.m_EnemyTracker = FindFirstObjectByType<EnemyTracker>();
-            this.m_GameSettings.enemySettings.SetTarget(FindFirstObjectByType<PlayerController>().transform);
-        
-            //Sets up the test enemies for tracking
-            this.SetupTestScene();
-        }
+        // private void SetupEnemies() // Handled in pipeline
+        // {
+        //     this.m_EnemyTracker = FindFirstObjectByType<EnemyTracker>();
+        //     this.m_GameSettings.enemySettings.SetTarget(FindFirstObjectByType<PlayerController>().transform);
+        //
+        //     //Sets up the test enemies for tracking
+        //     this.SetupTestScene();
+        // }
 
         // This appears to be less relevant and more debug related
         private void SetupTestScene() // Handled in pipeline

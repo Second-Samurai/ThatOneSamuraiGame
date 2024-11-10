@@ -33,6 +33,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
                 foreach (ISceneLoader _SceneLoader in _SceneLoaders)
                     _SceneLoader.Initialise(_MainCamera.transform);
             
+            print("[LOG]: Completed Scene Loader setup.");
             this.m_NextHandler?.Handle();
         }
 

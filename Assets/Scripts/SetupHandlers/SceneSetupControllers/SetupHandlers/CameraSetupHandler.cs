@@ -25,10 +25,10 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         {
             GameSettings _GameSettings = GameManager.instance.gameSettings;
             
-            this.m_ThirdPersonViewCamera = Object.FindFirstObjectByType<ThirdPersonCamController>().gameObject;
+            this.m_ThirdPersonViewCamera ??= FindFirstObjectByType<ThirdPersonCamController>().gameObject;
             if (!this.m_ThirdPersonViewCamera)
             {
-                Debug.LogError("No third person camera in scene! Adding new object but please assign in inspector instead!");
+                Debug.LogWarning("No third person camera in scene! Adding new object but please assign in inspector instead!");
                 
                 // TODO: No point in creating a position variable within this scope, just pass directly.
                 Vector3 _ThirdPersonViewPos = _GameSettings.thirdPersonViewCam.transform.position;
@@ -36,7 +36,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
                     _GameSettings.thirdPersonViewCam, 
                     _ThirdPersonViewPos, 
                     Quaternion.identity);
-                Debug.LogWarning("This is instantiated for" + nameof(this.m_ThirdPersonViewCamera));
+                Debug.LogWarning("Third person camera instantiated for " + nameof(this.m_ThirdPersonViewCamera));
             }
             
             Vector3 _MainCameraPos = _GameSettings.mainCamera.transform.position;
@@ -47,8 +47,10 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
             ).GetComponent<UnityEngine.Camera>();
             
             // Get references from scene
+            SceneManager.Instance.m_ThirdPersonViewCamera = this.m_ThirdPersonViewCamera;
             SceneManager.Instance.LockOnTracker = Object.FindFirstObjectByType<LockOnTracker>();
             
+            print("[LOG]: Completed Scene Camera setup.");
             this.m_NextHandler?.Handle();
         }
 

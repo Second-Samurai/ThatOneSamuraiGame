@@ -105,8 +105,8 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         
         public PlayerController PlayerController
         {
-            get { return this.m_PlayerController; }
-            set { this.m_PlayerController = value; }
+            get => this.m_PlayerController;
+            set => this.m_PlayerController = value;
         }
 
         #endregion Properties

@@ -25,7 +25,9 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers
             // During debug, setup invocation is invoked from the DebugStartup services.
             // -------------------------------------------------------------------------------
             DebugGameSetupSupport _GameSetupSupport = Object.FindFirstObjectByType<DebugGameSetupSupport>();
-            if (_GameSetupSupport != null && _GameSetupSupport.IN_DEVELOPMENT)
+            DebugSceneSetupSupport _SceneSetupSupport = Object.FindFirstObjectByType<DebugSceneSetupSupport>();
+            if (_GameSetupSupport != null && _GameSetupSupport.IN_DEVELOPMENT
+                || _SceneSetupSupport != null && _SceneSetupSupport.IsSceneInDevelopment)
                 return;
 
             this.RunSetup();
@@ -35,7 +37,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers
   
         #region - - - - - - Methods - - - - - -
 
-        private void RunSetup()
+        public void RunSetup()
         {
             if (this.m_SetupHandlersObjects == null 
                 || !this.m_SetupHandlersObjects.FirstOrDefault()
@@ -50,11 +52,10 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers
                 .ToList();
             
             // Configure the handler chain for sequential invocation.
-            for (int i = 0; i < _SetupHandlers.Count; i++)
+            for (int i = 0; i < _SetupHandlers.Count - 1; i++)
             {
                 ISetupHandler _Handler = _SetupHandlers[i];
-                if (_SetupHandlers.Last()!= _Handler)
-                    _Handler.SetNext(_SetupHandlers[i++]);
+                _Handler.SetNext(_SetupHandlers[i + 1]);
             }
             
             // Initiate the chain invocation.

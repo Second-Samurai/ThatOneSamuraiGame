@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
     // ----------------------------------------------
 
     public PlayerController PlayerController
-        => ((ISceneManager)this.m_SceneManager).PlayerController;
+        => SceneManager.Instance.PlayerController;
     
     #endregion Properties
 

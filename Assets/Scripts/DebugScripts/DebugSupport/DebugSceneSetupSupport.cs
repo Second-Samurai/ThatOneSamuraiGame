@@ -68,7 +68,7 @@ namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport
                 
                 DebugStartupInvokerQue _DebugStartupCollectionInvoker =
                     Object.FindFirstObjectByType<DebugStartupInvokerQue>(FindObjectsInactive.Exclude);
-                _DebugStartupCollectionInvoker.InvokeQueStartup();
+                _DebugStartupCollectionInvoker?.InvokeQueStartup();
             }
             else
             {

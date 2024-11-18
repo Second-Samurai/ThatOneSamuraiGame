@@ -27,7 +27,10 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
             => this.m_PauseMenuController;
 
         ButtonController IUserInterfaceManager.ButtonController
-            => this.m_SwordCanvasController;
+        {
+            get => this.m_SwordCanvasController;
+            set => this.m_SwordCanvasController = value;
+        }
 
         #endregion Properties
 

@@ -31,6 +31,8 @@ namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport
             DebugSceneSetupSupport[] _StartupSupport = 
                 Object.FindObjectsByType<DebugSceneSetupSupport>(FindObjectsSortMode.None);
 
+            
+            Debug.Log(_StartupSupport.Length);
             // Remove duplicate instance
             if (_StartupSupport.Length > 1)
             {

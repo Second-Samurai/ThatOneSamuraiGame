@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
+using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHandlers
 {
@@ -21,6 +22,8 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         {
             CheckpointManager _CheckpointManager = FindFirstObjectByType<CheckpointManager>();
             _CheckpointManager.Initialize();
+
+            SceneManager.Instance.CheckpointManager = _CheckpointManager;
             
             this.m_NextHandler?.Handle();
         }

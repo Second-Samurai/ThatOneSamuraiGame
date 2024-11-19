@@ -114,10 +114,11 @@ public class GameManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
+    }
 
+    private void Start()
+    {
         // Run GameSetupHandler
-        if (this.m_GameSetupHandler == null)
-            this.m_GameSetupHandler = this.GetComponent<GameSetupHandler>();
         this.StartCoroutine(this.m_GameSetupHandler.RunSetup());
         
         // Locate services

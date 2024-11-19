@@ -57,9 +57,12 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         // Controllers and Managers
         // -------------------------------
         
-        CheckpointManager ISceneManager.CheckpointManager
-            => this.m_CheckPointManager;
-         
+        public CheckpointManager CheckpointManager
+        {
+            get => this.m_CheckPointManager;
+            set => this.m_CheckPointManager = value;
+        }
+
         EnemyTracker ISceneManager.EnemyTracker
             => this.m_EnemyTracker;
         

@@ -2,11 +2,18 @@
 
 public class PlayerCamTargetController : MonoBehaviour
 {
+
+    #region - - - - - - Fields - - - - - -
+
     public GameObject player;
     public Vector3 posOffset;
     public float rotationSpeed = 1f;
     float mouseX, mouseY;
     //public bool invertY = false;
+
+    #endregion Fields
+  
+    #region - - - - - - Unity Methods - - - - - -
 
     private void Start()
     {
@@ -16,8 +23,14 @@ public class PlayerCamTargetController : MonoBehaviour
 
     private void LateUpdate()
     {
+        Debug.Log(transform);
+        Debug.Log(player);
         transform.position = player.transform.position + posOffset;
     }
+
+    #endregion Unity Methods
+
+    #region - - - - - - Methods - - - - - -
 
     public void RotateCam(Vector2 mouseInput)
     {
@@ -38,6 +51,6 @@ public class PlayerCamTargetController : MonoBehaviour
         PlayerPrefs.SetFloat("Sensitivity", sensitivity);
     }
 
-   
+    #endregion Methods
 
 }

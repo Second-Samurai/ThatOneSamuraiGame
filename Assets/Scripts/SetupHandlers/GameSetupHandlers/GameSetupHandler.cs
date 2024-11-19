@@ -26,8 +26,6 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.GameSetupHandlers
             yield return StartCoroutine(this.SetupManagers());
             yield return StartCoroutine(this.SetupServices());
             yield return StartCoroutine(this.LaunchGameScene());
-            
-            print($"[{DateTime.Now}]: Game Management layer has been setup.");
         }
 
         private IEnumerator SetupAudio()
@@ -74,6 +72,8 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.GameSetupHandlers
 
         private IEnumerator LaunchGameScene()
         {
+            print($"[{DateTime.Now}]: Game Management layer has been setup.");
+            
             this.OnGameSetupCompletion.Invoke();
             yield return null;
         }

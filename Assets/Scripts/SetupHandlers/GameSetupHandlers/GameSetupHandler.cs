@@ -33,11 +33,11 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.GameSetupHandlers
             if (FindAnyObjectByType<AudioManager>()) 
                 yield return null;
 
-            GameObject _AudioManagerObject = Instantiate(
-                GameManager.instance.gameSettings.audioManger,
-                transform.position,
-                Quaternion.identity);
-            GameManager.instance.audioManager = _AudioManagerObject.GetComponent<AudioManager>();
+            // GameObject _AudioManagerObject = Instantiate(
+            //     GameManager.instance.gameSettings.audioManger,
+            //     transform.position,
+            //     Quaternion.identity);
+            // GameManager.instance.audioManager = _AudioManagerObject.GetComponent<AudioManager>();
             
             yield return null;
         }

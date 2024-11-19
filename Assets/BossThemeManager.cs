@@ -17,7 +17,7 @@ public class BossThemeManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        audioManager = GameManager.instance.audioManager.GetComponent<AudioManager>();
+        audioManager = AudioManager.instance;
         BackgroundAudio audio = AudioManager.instance.gameObject.GetComponent<BackgroundAudio>();
         audio.PauseAllMusic();
         AudioManager.instance.trackManager.FadeOutAll();

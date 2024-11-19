@@ -71,9 +71,9 @@ public class PCombatController : MonoBehaviour, ICombatController
 
     public void Start()
     {
-        audioManager = GameManager.instance.audioManager;
-        lightSaberHit = GameManager.instance.audioManager.FindAll("lightSaber-Slash").ToArray();
-        saberwhoosh = GameManager.instance.audioManager.FindAll("lightSaber-Swing ").ToArray();
+        audioManager = AudioManager.instance;
+        lightSaberHit = AudioManager.instance.FindAll("lightSaber-Slash").ToArray();
+        saberwhoosh = AudioManager.instance.FindAll("lightSaber-Swing ").ToArray();
 
     }
     /// <summary>
@@ -208,7 +208,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     {
         if (audioManager.LightSaber == false)
         {
-            if (!slash1) slash1 = GameManager.instance.audioManager.FindSound("Light Attack Swing 1");
+            if (!slash1) slash1 = AudioManager.instance.FindSound("Light Attack Swing 1");
             swordAudio.PlayOnce(slash1, audioManager.SFXVol);
         }
         else if (audioManager.LightSaber == true)
@@ -223,7 +223,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     {
         if (audioManager.LightSaber == false)
         {
-            if (!hit1) hit1 = GameManager.instance.audioManager.FindSound("Light Attack Hit 1");
+            if (!hit1) hit1 = AudioManager.instance.FindSound("Light Attack Hit 1");
             audio.PlayOnce(hit1, audioManager.SFXVol);
         }
 
@@ -238,7 +238,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     {
         if (audioManager.LightSaber == false)
         {
-            if (!heavySlash) heavySlash = GameManager.instance.audioManager.FindSound("Heavy Attack Swing 2");
+            if (!heavySlash) heavySlash = AudioManager.instance.FindSound("Heavy Attack Swing 2");
             swordAudio.PlayOnce(heavySlash, audioManager.SFXVol);
         }
         else if (audioManager.LightSaber == true)
@@ -252,7 +252,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     {
         if (audioManager.LightSaber == false)
         {
-            if (!heavyHit) heavyHit = GameManager.instance.audioManager.FindSound("Light Attack Hit 3");
+            if (!heavyHit) heavyHit = AudioManager.instance.FindSound("Light Attack Hit 3");
             audio.PlayOnce(heavyHit, audioManager.SFXVol);
         }
         else if (audioManager.LightSaber == true)

@@ -157,7 +157,7 @@ namespace Enemies
 
             particleSpawn = GetComponentInChildren<EnemyDeathParticleSpawn>();
 
-            _backgroundAudio = GameManager.instance.audioManager.backgroundAudio;
+            _backgroundAudio = AudioManager.instance.backgroundAudio;
         }
 
         private void Update()

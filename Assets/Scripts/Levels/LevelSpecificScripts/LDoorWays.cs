@@ -43,8 +43,8 @@ public class LDoorWays : MonoBehaviour
 
     private void Start()
     {
-        bossTheme = GameManager.instance.audioManager.BossThemeManager;
-        _backgroundAudio = GameManager.instance.audioManager.backgroundAudio;
+        bossTheme = AudioManager.instance.BossThemeManager;
+        _backgroundAudio = AudioManager.instance.backgroundAudio;
     }
 
     void FixedUpdate()

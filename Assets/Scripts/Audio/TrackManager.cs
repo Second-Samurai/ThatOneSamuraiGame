@@ -13,7 +13,7 @@ public class TrackManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _audioManager = GameManager.instance.audioManager;
+        _audioManager = AudioManager.instance;
         pause = false;
 
         drumsActive = false;

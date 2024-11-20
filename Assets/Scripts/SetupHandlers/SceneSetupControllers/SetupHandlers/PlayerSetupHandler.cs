@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Scripts.Input;
+﻿using ThatOneSamuraiGame.GameLogging;
+using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.Player.Initializers;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
@@ -20,8 +21,8 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
 
         [SerializeField] private Transform m_PlayerSpawnPoint;
         [SerializeField] private GameObject m_PlayerObject;
-        [SerializeField] private PlayerCamTargetController PlayerCameraTargetController;
-        [SerializeField] private  ThirdPersonCamController ThirdPersonCamController;
+        [SerializeField] private PlayerCamTargetController m_PlayerCameraTargetController;
+        [SerializeField] private  ThirdPersonCamController m_ThirdPersonCamController;
         
         private ISetupHandler m_NextHandler;
 
@@ -35,7 +36,14 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         void ISetupHandler.Handle()
         {
             // Validate required values
-            
+            if (!this.m_PlayerSpawnPoint)
+                GameLogger.LogError($"Assignment of '{this.m_PlayerSpawnPoint}', is non-existent.");
+            else if (!this.m_PlayerObject)
+                GameLogger.LogError($"Assignment of '{this.m_PlayerObject}', is non-existent.");
+            else if (!this.m_PlayerCameraTargetController)
+                GameLogger.LogError($"Assignment of '{this.m_PlayerCameraTargetController}', is non-existent.");
+            else if (!this.m_ThirdPersonCamController)
+                GameLogger.LogError($"Assignment of '{this.m_ThirdPersonCamController}', is non-existent.");
             
             // Initialise if the player exists.
             if (this.m_PlayerObject != null)
@@ -58,8 +66,8 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         {
             PlayerInitializerCommand _InitializerCommand = new PlayerInitializerCommand(
                 playerController.gameObject,
-                PlayerCameraTargetController,
-                ThirdPersonCamController,
+                this.m_PlayerCameraTargetController,
+                this.m_ThirdPersonCamController,
                 targetHolder);
             _InitializerCommand.Execute();
 

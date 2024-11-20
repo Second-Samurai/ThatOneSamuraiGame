@@ -12,6 +12,7 @@ public class ThirdPersonCamController : MonoBehaviour
     CinemachineVirtualCamera cam;
     
     #endregion Fields
+    
     //
     // #region - - - - - - Unity Lifecycle Methods - - - - - -
     //

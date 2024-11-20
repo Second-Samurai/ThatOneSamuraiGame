@@ -5,7 +5,6 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.Player.Initializers
 {
 
-    // TODO: Invoke this from the setup command
     public class PlayerInitializerCommand : ICommand
     {
 

@@ -1,4 +1,5 @@
 ﻿using ThatOneSamuraiGame.Scripts.Input;
+using ThatOneSamuraiGame.Scripts.Player.Initializers;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
 
@@ -19,6 +20,8 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
 
         [SerializeField] private Transform m_PlayerSpawnPoint;
         [SerializeField] private GameObject m_PlayerObject;
+        [SerializeField] private PlayerCamTargetController PlayerCameraTargetController;
+        [SerializeField] private  ThirdPersonCamController ThirdPersonCamController;
         
         private ISetupHandler m_NextHandler;
 
@@ -31,6 +34,9 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
 
         void ISetupHandler.Handle()
         {
+            // Validate required values
+            
+            
             // Initialise if the player exists.
             if (this.m_PlayerObject != null)
                 this.SetActivePlayer(this.m_PlayerObject);
@@ -46,6 +52,20 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
 
             print("[LOG]: Completed Scene Player setup.");
             this.m_NextHandler?.Handle();
+        }
+        
+        private void InitialisePlayer(GameObject targetHolder, PlayerController playerController)
+        {
+            PlayerInitializerCommand _InitializerCommand = new PlayerInitializerCommand(
+                playerController.gameObject,
+                PlayerCameraTargetController,
+                ThirdPersonCamController,
+                targetHolder);
+            _InitializerCommand.Execute();
+
+            IInputManager _InputManager = GameManager.instance.InputManager;
+            if (_InputManager.DoesGameplayInputControlExist()) 
+                _InputManager.PossesPlayerObject(playerController.gameObject);
         }
 
         private void SetActivePlayer(GameObject playerObject)
@@ -63,17 +83,6 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
             _SceneManager.SceneState.ActivePlayer = playerObject;
             
             this.InitialisePlayer(_TargetHolder, _PlayerController);
-        }
-        
-        private void InitialisePlayer(GameObject targetHolder, PlayerController playerController) // Handled in pipeline
-        {
-            // TODO: Change this to be the PlayerInitializerCommand
-            playerController.Init(targetHolder);
-
-            IInputManager _InputManager = GameManager.instance.InputManager;
-
-            if (_InputManager.DoesGameplayInputControlExist()) 
-                _InputManager.PossesPlayerObject(playerController.gameObject);
         }
 
         #endregion Methods

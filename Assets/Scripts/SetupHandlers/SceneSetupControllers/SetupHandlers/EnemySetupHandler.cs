@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
+﻿using System.Runtime.CompilerServices;
+using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHandlers
@@ -8,6 +9,8 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
     {
 
         #region - - - - - - Fielkds - - - - - -
+
+        [SerializeField] private EnemyTracker m_EnemyTracker;
 
         private ISetupHandler m_NextHandler;
 
@@ -20,11 +23,9 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
 
         void ISetupHandler.Handle()
         {
-            EnemyTracker _EnemyTracker = FindFirstObjectByType<EnemyTracker>();
-            if (_EnemyTracker == null)
-                Debug.LogWarning("[WARNING]: No EnemyTracker is found in scene.");
+            _ = GameValidator.NotNull(this.m_EnemyTracker, nameof(this.m_EnemyTracker));
 
-            SceneManager.Instance.EnemyTracker = _EnemyTracker;
+            SceneManager.Instance.EnemyTracker = this.m_EnemyTracker;
             GameManager.instance.gameSettings.enemySettings.SetTarget(FindFirstObjectByType<PlayerController>().transform);
             
             print("[LOG]: Completed Scene Enemy setup.");

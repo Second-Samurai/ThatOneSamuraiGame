@@ -22,10 +22,9 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
 
         [Header("Controllers and Managers")]
         [SerializeField] private CheckpointManager m_CheckPointManager; 
-        [Space]
-        [SerializeField] public EnemyTracker m_EnemyTracker;
         [SerializeField] public EnemySpawnManager m_EnemySpawnManager;
         [SerializeField] private SceneLoader m_SceneLoader;
+        private EnemyTracker m_EnemyTracker;
 
         [Header("Camera")]
         [SerializeField] public CameraControl m_CameraControl;
@@ -63,9 +62,12 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
             set => this.m_CheckPointManager = value;
         }
 
-        EnemyTracker ISceneManager.EnemyTracker
-            => this.m_EnemyTracker;
-        
+        public EnemyTracker EnemyTracker
+        {
+            get => this.m_EnemyTracker; 
+            set => this.m_EnemyTracker = value;
+        }
+
         EnemySpawnManager ISceneManager.EnemySpawnManager
             => this.m_EnemySpawnManager;
 
@@ -147,6 +149,18 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         #endregion Methods
 
         #region - - - - - - Validation Methods - - - - - -
+
+        public bool IsMembersValid()
+        {
+            return GameValidator.NotNull(this.m_CheckPointManager, nameof(this.m_CheckPointManager))
+                   & GameValidator.NotNull(this.m_EnemyTracker, nameof(this.m_EnemyTracker))
+                   & GameValidator.NotNull(this.m_EnemySpawnManager, nameof(this.m_EnemySpawnManager))
+                   & GameValidator.NotNull(this.m_SceneLoader, nameof(this.m_SceneLoader))
+                   & GameValidator.NotNull(this.m_CameraControl, nameof(this.m_CameraControl))
+                   & GameValidator.NotNull(this.m_LockOnTracker, nameof(this.m_LockOnTracker))
+                   & GameValidator.NotNull(this.m_ThirdPersonViewCamera, nameof(this.m_ThirdPersonViewCamera))
+                   & GameValidator.NotNull(this.m_MainCamera, nameof(this.m_MainCamera));
+        }
 
         private bool DoesSceneStateExist()
             => this.m_SceneState != null;

@@ -122,8 +122,28 @@ public class GameManager : MonoBehaviour
         
         // Locate services
         this.m_GameState = this.GetComponent<GameState>();
+        
+        // Validate Game Values
+        _ = GameValidator.NotNull(this.m_SceneManager, nameof(this.m_SceneManager));
+        _ = GameValidator.NotNull(this.m_UserInterfaceManager, nameof(this.m_UserInterfaceManager));
+        _ = GameValidator.NotNull(this.m_PauseManager, nameof(this.m_PauseManager));
+        _ = GameValidator.NotNull(this.m_InputManager, nameof(this.m_InputManager));
+        _ = GameValidator.NotNull(this.audioManager, nameof(this.audioManager));
     }
 
     #endregion Lifecycle Methods
 
+    #region - - - - - - Methods - - - - - -
+
+    public bool IsMembersValid()
+    {
+        return GameValidator.NotNull(this.m_SceneManager, nameof(this.m_SceneManager))
+               && GameValidator.NotNull(this.m_UserInterfaceManager, nameof(this.m_UserInterfaceManager))
+               && GameValidator.NotNull(this.m_PauseManager, nameof(this.m_PauseManager))
+               && GameValidator.NotNull(this.m_InputManager, nameof(this.m_InputManager))
+               && GameValidator.NotNull(this.audioManager, nameof(this.audioManager));
+    }
+
+    #endregion Methods
+  
 }

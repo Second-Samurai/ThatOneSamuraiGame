@@ -24,7 +24,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
             if (_EnemyTracker == null)
                 Debug.LogWarning("[WARNING]: No EnemyTracker is found in scene.");
 
-            SceneManager.Instance.m_EnemyTracker = _EnemyTracker;
+            SceneManager.Instance.EnemyTracker = _EnemyTracker;
             GameManager.instance.gameSettings.enemySettings.SetTarget(FindFirstObjectByType<PlayerController>().transform);
             
             print("[LOG]: Completed Scene Enemy setup.");

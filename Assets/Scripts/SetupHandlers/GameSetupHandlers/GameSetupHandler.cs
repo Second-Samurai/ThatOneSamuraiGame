@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Scene.Loaders;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
@@ -72,7 +73,10 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.GameSetupHandlers
 
         private IEnumerator LaunchGameScene()
         {
-            print($"[{DateTime.Now}]: Game Management layer has been setup.");
+            if (!GameManager.instance.IsMembersValid() || !SceneManager.Instance.IsMembersValid()) 
+                GameLogger.LogError("Please fix dependencies.");
+            
+            GameLogger.Log("Game Management layer has been setup.");
             
             this.OnGameSetupCompletion.Invoke();
             yield return null;

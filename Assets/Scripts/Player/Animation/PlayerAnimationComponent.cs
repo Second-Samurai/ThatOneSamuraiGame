@@ -37,6 +37,7 @@ namespace Player.Animation
         #region - - - - - - Fields - - - - - -
         
         private Animator m_Animator;
+        private float m_MinClampToZero = 0.0000001f;
         
         #endregion Fields
         
@@ -112,6 +113,13 @@ namespace Player.Animation
                 inputDirection.y,
                 movementSmoothingDampingTime,
                 Time.deltaTime);
+            
+            // Clamp small values to zero to prevent near-zero issues
+            if (Mathf.Abs(inputDirection.x) < m_MinClampToZero)
+                m_Animator.SetFloat(XInput, 0f);
+            
+            if (Mathf.Abs(inputDirection.y) < m_MinClampToZero)
+                m_Animator.SetFloat(YInput, 0f);
         }
 
         /// <summary>

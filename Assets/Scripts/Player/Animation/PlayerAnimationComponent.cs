@@ -8,7 +8,7 @@ namespace Player.Animation
     /// </summary>
     public class PlayerAnimationComponent : MonoBehaviour
     {
-        #region - - - - - - Animation Parameter Strings to Hashes - - - - - -
+        #region - - - - - - Animation Parameter Strings - - - - - -
         
         // Movement Parameters
         //private static readonly string IsSprinting = "IsSprinting";
@@ -32,7 +32,7 @@ namespace Player.Animation
         private static readonly string LockedOn = "LockedOn";
         private static readonly string DrawSword = "DrawSword";
         
-        #endregion Animation Parameter Strings to Hashes 
+        #endregion Animation Parameter Strings 
 
         #region - - - - - - Fields - - - - - -
         
@@ -120,10 +120,10 @@ namespace Player.Animation
         /// <param name="inputSpeed">The speed parameter the movement blend tree uses to determine what animation
         /// is to be player. Sprint multiplier is stored in PlayerMovement </param>
         /// <param name="movementSmoothingDampingTime"></param>
-        // INPUT SPEED
-        // < 1 walking
-        // == 1 jogging
-        // > 1 sprinting
+        // INPUT SPEED THRESHOLDS
+        // x < 0.25 Walking
+        // 0.25 < x < 0.5 Jogging (Moving with no sprint)
+        // x == 1 Sprinting
         public void SetInputSpeed(float inputSpeed, float movementSmoothingDampingTime = 0)
         {
             m_Animator.SetFloat(

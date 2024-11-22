@@ -29,7 +29,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private bool m_IsRotationEnabled = true;
         private bool m_IsSprinting = false;
         private Vector2 m_InputDirection = Vector2.zero;
-        private float m_SprintMultiplier = 3f;
+        private float m_MovementSpeed = 0.5f;
+        private float m_SprintMultiplier = 2.0f;
         private float m_RotationSpeed = 4f;
         private float m_MovementSmoothingDampingTime = .1f;
 
@@ -154,7 +155,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             
             // Invokes player movement through the physically based animation movements (Root Motion)
             m_PlayerAnimationComponent.SetInputDirection(m_InputDirection, m_MovementSmoothingDampingTime);
-            m_PlayerAnimationComponent.SetInputSpeed(m_InputDirection.magnitude * sprintModifier, m_MovementSmoothingDampingTime);
+            m_PlayerAnimationComponent.SetInputSpeed(m_InputDirection.magnitude * m_MovementSpeed * sprintModifier, m_MovementSmoothingDampingTime);
         }
 
         #endregion Methods

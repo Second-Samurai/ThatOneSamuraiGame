@@ -101,7 +101,7 @@ public class FinishingMoveController : MonoBehaviour
         targetEnemy.GetComponent<AISystem>().bFinish = true;
         targetEnemy.GetComponent<AISystem>().OnEnemyDeath();
         detector.SetActive(true);
-        GameManager.instance.RewindManager.IncreaseRewindAmount();
+        //GameManager.instance.RewindManager.IncreaseRewindAmount();
         // playerInputScript.bCanAttack = true;
         // playerInputScript.EnableMovement();
         // playerInputScript.bAlreadyAttacked = false;

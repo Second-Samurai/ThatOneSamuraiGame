@@ -17,11 +17,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
 
         // Menu related behaviors
         private IPauseActionHandler m_PauseActionHandler;
-
-        // Rewind related behaviors
-        private RewindInput m_RewindInput; // Ticket: # - Refactor methods for the player implementation.
-        private RewindManager m_RewindManager;
-
+          
         private bool m_IsInputActive;
 
         #endregion Fields
@@ -33,10 +29,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
             var _GameState = GameManager.instance.GameState;
 
             this.m_PlayerViewOrientationHandler = this.GetComponent<IPlayerViewOrientationHandler>();
-            this.m_PauseActionHandler = _GameState.SessionUser.GetComponent<IPauseActionHandler>();
-
-            this.m_RewindInput = GetComponent<RewindInput>();
-            this.m_RewindManager = GameManager.instance.RewindManager;
+            this.m_PauseActionHandler = _GameState.SessionUser.GetComponent<IPauseActionHandler>(); 
         }
 
         #endregion Lifecycle Methods
@@ -50,13 +43,13 @@ namespace ThatOneSamuraiGame.Scripts.Input.Rewind
         void IRewindInputControl.OnEndRewind(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_RewindInput.OnEndRewind(); // Temporarily act as a pass-through.
+            //this.m_RewindInput.OnEndRewind(); // Temporarily act as a pass-through.
         }
 
         void IRewindInputControl.OnScrub(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_RewindManager.rewindDirection = context.ReadValue<float>();
+            //this.m_RewindManager.rewindDirection = context.ReadValue<float>();
         }
 
         // -----------------------------------------------------

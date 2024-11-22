@@ -41,7 +41,7 @@ public class Checkpoint : MonoBehaviour
         checkpointManager.activeCheckpoint = checkpointManager.checkpoints.IndexOf(this);
         bIsActive = true;
         GameManager.instance.EnemySpawnManager.SaveEnemyList();
-        GameManager.instance.RewindManager.IncreaseRewindAmount();
+        //GameManager.instance.RewindManager.IncreaseRewindAmount();
     }
 
     public void LoadCheckpoint()
@@ -49,7 +49,7 @@ public class Checkpoint : MonoBehaviour
         GameManager.instance.PlayerController.gameObject.transform.position = spawnPos.position;
         GameManager.instance.InputManager.EnableActiveInputControl();
         GameManager.instance.ThirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
-        GameManager.instance.RewindManager.isTravelling = false;
+
         PlayerFunctions _Player = GameManager.instance.PlayerController.gameObject.GetComponent<PlayerFunctions>();
 
         // Note: The sword manager exists on the root parent fo the player object

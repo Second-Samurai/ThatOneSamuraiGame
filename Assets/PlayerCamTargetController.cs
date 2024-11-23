@@ -23,8 +23,6 @@ public class PlayerCamTargetController : MonoBehaviour
 
     private void LateUpdate()
     {
-        Debug.Log(transform);
-        Debug.Log(player);
         transform.position = player.transform.position + posOffset;
     }
 

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMediator;
 using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
 using UnityEngine;
 
@@ -10,6 +10,9 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         
         #region - - - - - - Fields - - - - - -
 
+        [SerializeField] private GameSettings m_GameSettings;
+        [SerializeField] private PauseMenu m_PauseMenu;
+        
         private ISetupHandler m_NextHandler;
 
         #endregion Fields
@@ -23,7 +26,16 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         {
             // Setup the ButtonController (actually is known as a Sword Canvas Controller)
             ButtonController _ButtonController = FindFirstObjectByType<ButtonController>();
-            GameManager.instance.UserInterfaceManager.ButtonController = _ButtonController;
+            
+            UserInterfaceManager.Instance.ButtonController = _ButtonController;
+            UserInterfaceManager.Instance.PauseMenu = this.m_PauseMenu;
+            UserInterfaceManager.Instance.GuardMeterCanvas = Instantiate(
+                this.m_GameSettings.guardCanvasPrefab, 
+                transform.position,
+                Quaternion.identity);
+
+            GameManager.instance.InputManager.ConfigureMenuInputControl();
+            GameManager.instance.PauseManager.PauseMediator.SetPauseMenuController(this.m_PauseMenu);
             
             this.m_NextHandler?.Handle();
         }

@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMenu;
+﻿using System.Runtime.CompilerServices;
+using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMenu;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -13,6 +14,8 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
 
         #region - - - - - - Fields - - - - - -
 
+        public static UserInterfaceManager Instance;
+
         [SerializeField] private GameSettings m_GameSettings;
         [SerializeField] private ButtonController m_SwordCanvasController; // This is known as the 'ButtonController' from its source.
         
@@ -23,26 +26,50 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
 
         #region - - - - - - Properties - - - - - -
 
-        IPauseMenuController IUserInterfaceManager.PauseMenu
-            => this.m_PauseMenuController;
+        public IPauseMenuController PauseMenu
+        {
+            get => this.m_PauseMenuController;
+            set => this.m_PauseMenuController = value;
+        }
 
-        ButtonController IUserInterfaceManager.ButtonController
+        public ButtonController ButtonController
         {
             get => this.m_SwordCanvasController;
             set => this.m_SwordCanvasController = value;
         }
 
+        public GameObject GuardMeterCanvas
+        {
+            get => this.m_GuardMeterCanvas;
+            set => this.m_GuardMeterCanvas = value;
+        }
+
         #endregion Properties
 
+        #region - - - - - - Unity Methods - - - - - -
+
+        void Awake()
+        {
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
+        }
+
+
+        #endregion Unity Methods
+  
         #region - - - - - - Methods - - - - - -
 
-        void IUserInterfaceManager.SetupUserInterface()
+        public bool IsMembersValid()
         {
-            this.m_PauseMenuController = Object.FindFirstObjectByType<PauseMenu>();
-            this.m_GuardMeterCanvas = Object.Instantiate(
-                                        this.m_GameSettings.guardCanvasPrefab, 
-                                        transform.position,
-                                        Quaternion.identity);
+            return GameValidator.NotNull(this.m_GameSettings, nameof(this.m_GameSettings))
+                   && GameValidator.NotNull(this.m_PauseMenuController, nameof(this.m_PauseMenuController))
+                   && GameValidator.NotNull(this.m_SwordCanvasController, nameof(this.m_SwordCanvasController));
+        }
+
+        public void SetupUserInterface()
+        {
         }
 
         #endregion Methods

@@ -1,4 +1,5 @@
 using System;
+using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Input.Gameplay;
 using ThatOneSamuraiGame.Scripts.Input.Menu;
 using ThatOneSamuraiGame.Scripts.Input.Rewind;
@@ -17,6 +18,8 @@ namespace ThatOneSamuraiGame.Scripts.Input
         
         #region - - - - - - - Fields - - - - - - -
 
+        public static InputManager Instance;
+
         private IInputControl m_GameplayInputControl;
         private IInputControl m_MenuInputControl;
         private IInputControl m_RewindInputControl;
@@ -30,6 +33,14 @@ namespace ThatOneSamuraiGame.Scripts.Input
         #endregion Fields
 
         #region - - - - - - - Lifecycle Methods - - - - - - -
+        
+        private void Awake()
+        {
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
+        }
 
         private void Start()
         {
@@ -42,6 +53,13 @@ namespace ThatOneSamuraiGame.Scripts.Input
         #endregion Lifecycle Methods
 
         #region - - - - - - Methods - - - - - -
+
+        public bool IsMembersValid()
+        {
+            return GameValidator.NotNull(this.m_GameplayInputControl, nameof(this.m_GameplayInputControl))
+                   && GameValidator.NotNull(this.m_MenuInputControl, nameof(this.m_MenuInputControl))
+                   && GameValidator.NotNull(this.m_RewindInputControl, nameof(this.m_RewindInputControl));
+        }
         
         void IInputManager.ConfigureMenuInputControl()
         {

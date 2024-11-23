@@ -73,7 +73,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.GameSetupHandlers
 
         private IEnumerator LaunchGameScene()
         {
-            if (!GameManager.instance.IsMembersValid() || !SceneManager.Instance.IsMembersValid()) 
+            if (!GameManager.instance.IsMembersValid()) 
                 GameLogger.LogError("Please fix dependencies.");
             
             GameLogger.Log("Game Management layer has been setup.");

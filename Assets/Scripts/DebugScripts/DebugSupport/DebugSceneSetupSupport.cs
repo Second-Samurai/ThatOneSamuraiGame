@@ -10,7 +10,7 @@ using Object = UnityEngine.Object;
 namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport
 {
 
-    public class DebugSceneSetupSupport : MonoBehaviour
+    public class DebugSceneSetupSupport : DebugComponent
     {
         
         #region - - - - - - Fields - - - - - -

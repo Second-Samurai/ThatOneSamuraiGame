@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSceneInvokers
 {
 
-    public class DebugStartupInvokerQue : MonoBehaviour
+    public class DebugStartupInvokerQue : DebugComponent
     {
 
         #region - - - - - - Fields - - - - - -

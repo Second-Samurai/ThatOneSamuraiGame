@@ -1,11 +1,12 @@
 ﻿
+using ThatOneSamuraiGame.Scripts.DebugScripts;
 using ThatOneSamuraiGame.Scripts.DebugScripts.DebugSceneInvokers;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Initializers
 {
 
-    public class DebugPlayerInitializer : MonoBehaviour, IDebugStartupHandler
+    public class DebugPlayerInitializer : DebugComponent, IDebugStartupHandler
     {
 
         #region - - - - - - Fields - - - - - -

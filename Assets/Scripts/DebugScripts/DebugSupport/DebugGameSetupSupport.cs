@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport
 {
 
-    public class DebugGameSetupSupport : MonoBehaviour
+    public class DebugGameSetupSupport : DebugComponent
     {
 
         #region - - - - - - Fields - - - - - -

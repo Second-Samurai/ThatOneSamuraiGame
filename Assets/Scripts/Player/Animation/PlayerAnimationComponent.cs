@@ -28,6 +28,7 @@ namespace Player.Animation
         private static readonly string FinisherSetup = "FinisherSetup";
         private static readonly string IsParried = "IsParried";
         private static readonly string IsDead = "IsDead";
+        private static readonly string IsSprinting = "IsSprinting";
         private static readonly string VGuard = "VGuard";
         private static readonly string LockedOn = "LockedOn";
         private static readonly string DrawSword = "DrawSword";
@@ -60,10 +61,9 @@ namespace Player.Animation
         
         #region - - - - - - Parameter Change Functions - - - - - -
         
-        [System.Obsolete("This is an obsolete method, modify InputSpeed instead")]
         public void SetSprinting(bool isSprinting)
         {
-            //m_Animator.SetBool(IsSprinting, isSprinting);
+            m_Animator.SetBool(IsSprinting, isSprinting);
         }
 
         public void TriggerDrawSword()
@@ -73,9 +73,21 @@ namespace Player.Animation
             ResetLightAttack();
         }
 
-        public void TriggerLightAttack()
+        public void TriggerLightAttack(int comboCount)
         {
             m_Animator.SetTrigger(AttackLight);
+
+            if (comboCount <= 1)
+            {
+                m_Animator.SetBool(FirstAttack, true);
+                m_Animator.SetBool(SecondAttack, false);
+            }
+            else
+            {
+                m_Animator.SetBool(FirstAttack, false);
+                m_Animator.SetBool(SecondAttack, true);
+            }
+                
         }
         
         public void ResetLightAttack()

@@ -28,15 +28,18 @@ public class AttackChainTracker : MonoBehaviour
     {
         _inputCounter++;
         _lastInput = Time.time;
+        
+        m_PlayerAnimationComponent.TriggerLightAttack(_inputCounter);
+        
         //_animator.SetTrigger("AttackLight");
-        if(_inputCounter == 1)
-        {
+        // if(_inputCounter == 1)
+        // {
             //if(!_animator.GetBool("FirstAttack"))
             //    _animator.SetBool("FirstAttack", true);
             //else
             //    _animator.SetBool("LoopAttack", true);
            // _input.bCanDodge = false;
-        }
+        // }
         _inputCounter = Mathf.Clamp(_inputCounter, 0, 3);
     }
 

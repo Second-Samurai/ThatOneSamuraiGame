@@ -29,7 +29,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         private bool m_CanBlock = true;
         private float m_HeavyAttackTimer;
         private float m_HeavyAttackMaxTimer = 2f;
-        private bool m_HasPerformedAttack;
+        //private bool m_HasPerformedAttack;
 
         #endregion Fields
 
@@ -49,6 +49,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         private void Update()
         {
+            Debug.Log(m_PlayerAttackState.CanAttack);
+            
             if (this.IsPaused)
                 return;
             
@@ -65,21 +67,21 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         void IPlayerAttackHandler.Attack()
         {
             // Perform main attack            
-            if (this.m_PlayerAttackState.CanAttack && !this.m_HasPerformedAttack)
+            if (this.m_PlayerAttackState.CanAttack /*&& !this.m_HasPerformedAttack*/)
             {
+                Debug.Log("IPlayerAttackHandler.Attack()");
+                
                 this.m_CombatController.RunLightAttack();
-                this.m_HasPerformedAttack = true;
+                //this.m_HasPerformedAttack = true;
                 
                 if (this.m_HitstopController.bIsSlowing)
                     this.m_HitstopController.CancelEffects();
             }
-            else if (this.m_HasPerformedAttack)
-                this.m_HasPerformedAttack = false;
             
             // Perform Heavy attack
             if (!this.m_Animator.GetBool("HeavyAttackHeld")) return;
             this.PerformHeavyAttack();
-            this.m_HasPerformedAttack = false;
+            //this.m_HasPerformedAttack = false;
         }
 
         void IPlayerAttackHandler.DrawSword() 
@@ -119,7 +121,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         void IPlayerAttackHandler.ResetAttack()
         {
             this.m_PlayerAttackState.CanAttack = true;
-            this.m_HasPerformedAttack = false;
+            //this.m_HasPerformedAttack = false;
             
             this.m_CombatController.EndAttacking();
             this.m_CombatController.ResetAttackCombo();
@@ -160,7 +162,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_HeavyAttackTimer -= Time.deltaTime;
             
             if (!(this.m_HeavyAttackTimer <= 0)) return;
-            this.m_HasPerformedAttack = true;
+            //this.m_HasPerformedAttack = true;
             this.m_HeavyAttackTimer = this.m_HeavyAttackMaxTimer;
             this.PerformHeavyAttack();
         }

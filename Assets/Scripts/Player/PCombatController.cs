@@ -93,16 +93,20 @@ public class PCombatController : MonoBehaviour, ICombatController
     /// </summary>
     public void RunLightAttack()
     {
-        if (_isInputBlocked) return;
+        if (_isInputBlocked)
+        {
+            Debug.Log("Input blocked");
+            return;
+        }
 
         _comboHits++;
         _comboHits = Mathf.Clamp(_comboHits, 0, 4);
         _chargeTime = 0;
-        //if (!_isAttacking)
-        //{
-        comboTracker.RegisterInput();
-        m_PlayerAnimationComponent.TriggerLightAttack();
-        //}
+        
+        if (!_isAttacking)
+        {
+            comboTracker.RegisterInput();
+        }
         //_animator.SetInteger("ComboCount", _comboHits);
     }
 
@@ -134,7 +138,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         _isAttacking = true;
         _functions.DisableBlock();
         attackCol.enabled = true;
-        m_PlayerAnimationComponent.ResetLightAttack();
+        //m_PlayerAnimationComponent.ResetLightAttack();
         _guideController.MoveToNearestEnemy();
     }
 

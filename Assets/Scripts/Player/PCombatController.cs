@@ -1,14 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Player.Animation;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 //Empty For now
 public interface ICombatController
 {
-    void RunLightAttack();  // May be redundant
+    void AttemptLightAttack();
     void BlockCombatInputs();
     void UnblockCombatInputs();
     void DrawSword();
@@ -24,6 +26,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     public Collider attackCol;
     public bool _isAttacking = false;
     public bool isUnblockable = false;
+    public float m_attackInputBufferDuration = 0.4f;
     [HideInInspector] public PSwordManager swordManager;
 
     //Private Variables
@@ -34,6 +37,9 @@ public class PCombatController : MonoBehaviour, ICombatController
     private StatHandler _playerStats;
     private PlayerAnimationComponent m_PlayerAnimationComponent;
 
+    private float m_attackInputBufferTimer;
+    private bool m_isAttackInputCached = false;
+    
     private float _chargeTime;
     private int _comboHits;
     private bool _isInputBlocked = false;
@@ -70,13 +76,24 @@ public class PCombatController : MonoBehaviour, ICombatController
         _guideController.Init(this, this.gameObject.transform, this.GetComponent<Rigidbody>());
     }
 
+    #region - - - - - - Lifecycle Methods - - - - - -
+    
     public void Start()
     {
         audioManager = GameManager.instance.audioManager;
         lightSaberHit = GameManager.instance.audioManager.FindAll("lightSaber-Slash").ToArray();
         saberwhoosh = GameManager.instance.audioManager.FindAll("lightSaber-Swing ").ToArray();
-
     }
+
+    private void Update()
+    {
+        LightAttackBufferUpdate();
+    }
+    
+    #endregion Lifecycle Methods
+    
+    #region - - - - - - Methods - - - - - -
+    
     /// <summary>
     /// Draws the player sword
     /// </summary>
@@ -87,26 +104,59 @@ public class PCombatController : MonoBehaviour, ICombatController
 
         m_PlayerAnimationComponent.TriggerDrawSword();
     }
+    
+    // Auto-property that checks if the input buffer timer is running for the light attack
+    private bool AttackInputBufferRunning => m_attackInputBufferTimer > 0f;
+    
+    private void LightAttackBufferUpdate()
+    {
+        if (AttackInputBufferRunning)
+        {
+            m_attackInputBufferTimer -= Time.deltaTime;
 
+            if (!AttackInputBufferRunning)
+            {
+                // If the user has cached an attack input (i.e. pressed attack mid-attack), then save the input
+                // and attack at the next available moment
+                if (m_isAttackInputCached)
+                {
+                    Debug.Log("Performing cached attack");
+                    m_isAttackInputCached = false;
+                    AttemptLightAttack();
+                }
+            }
+        }
+    }
+    
     /// <summary>
     /// Primary method for running Light Attacks.
     /// </summary>
-    public void RunLightAttack()
+    public void AttemptLightAttack()
     {
         if (_isInputBlocked)
         {
             Debug.Log("Input blocked");
             return;
         }
-
+        
+        if (AttackInputBufferRunning)
+        {
+            Debug.Log("Caching input as buffer is running");
+            m_isAttackInputCached = true;
+            return;
+        }
+        
+        // Start the buffer
+        m_attackInputBufferTimer = m_attackInputBufferDuration;
+        
+        // Increment combo
         _comboHits++;
         _comboHits = Mathf.Clamp(_comboHits, 0, 4);
         _chargeTime = 0;
         
-        if (!_isAttacking)
-        {
-            comboTracker.RegisterInput();
-        }
+        // Do the "Magic" of attacking
+        comboTracker.RegisterInput();
+        
         //_animator.SetInteger("ComboCount", _comboHits);
     }
 
@@ -266,5 +316,7 @@ public class PCombatController : MonoBehaviour, ICombatController
             swordAudio.PlayOnce(lightSaberHit[j], audioManager.SFXVol * 2, .5f, .7f);
         }
     }
+    
+    #endregion Methods
 
 }

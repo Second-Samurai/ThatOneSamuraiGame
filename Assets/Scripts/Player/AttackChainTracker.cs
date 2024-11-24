@@ -13,8 +13,7 @@ public class AttackChainTracker : MonoBehaviour
     // Start is called before the first frame update
     void Start() 
         => m_PlayerAnimationComponent = GetComponent<PlayerAnimationComponent>();
-
-    // Update is called once per frame
+    
     void Update()
     {
         if(Time.time - _lastInput > inputWindow)
@@ -80,6 +79,7 @@ public class AttackChainTracker : MonoBehaviour
 
     private void ResetCombo()
     {
+        Debug.Log("Reset combo");
         m_PlayerAnimationComponent.ResetAttackParameters();
         //_input.bCanDodge = true;
     }

@@ -79,11 +79,13 @@ namespace Player.Animation
 
             if (comboCount <= 1)
             {
+                Debug.Log("First Attack");
                 m_Animator.SetBool(FirstAttack, true);
                 m_Animator.SetBool(SecondAttack, false);
             }
             else
             {
+                Debug.Log($"Second Attack {comboCount}");
                 m_Animator.SetBool(FirstAttack, false);
                 m_Animator.SetBool(SecondAttack, true);
             }

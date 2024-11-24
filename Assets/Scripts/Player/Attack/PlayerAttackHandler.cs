@@ -49,8 +49,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         private void Update()
         {
-            Debug.Log(m_PlayerAttackState.CanAttack);
-            
             if (this.IsPaused)
                 return;
             
@@ -66,12 +64,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         void IPlayerAttackHandler.Attack()
         {
-            // Perform main attack            
-            if (this.m_PlayerAttackState.CanAttack /*&& !this.m_HasPerformedAttack*/)
+            if (this.m_PlayerAttackState.CanAttack)
             {
-                Debug.Log("IPlayerAttackHandler.Attack()");
-                
-                this.m_CombatController.RunLightAttack();
+                this.m_CombatController.AttemptLightAttack();
                 //this.m_HasPerformedAttack = true;
                 
                 if (this.m_HitstopController.bIsSlowing)

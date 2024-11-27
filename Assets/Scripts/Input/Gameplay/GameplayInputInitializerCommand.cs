@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Scripts.General.Services;
+﻿using System;
+using ThatOneSamuraiGame.Scripts.General.Services;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
@@ -28,9 +29,9 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
             GameObject activePlayer, 
             GameObject sessionUser)
         {
-            this.m_InputControlData = inputControlData;
-            this.m_ActivePlayer = activePlayer;
-            this.m_SessionUser = sessionUser;
+            this.m_InputControlData = inputControlData ?? throw new ArgumentNullException(nameof(inputControlData));
+            this.m_ActivePlayer = activePlayer ?? throw new ArgumentNullException(nameof(activePlayer));
+            this.m_SessionUser = sessionUser ?? throw new ArgumentNullException(nameof(sessionUser));
         }
 
         #endregion Constructors
@@ -45,6 +46,20 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
             this.m_InputControlData.PlayerSpecialAction = this.m_ActivePlayer.GetComponent<IPlayerSpecialAction>();
             this.m_InputControlData.PlayerTargetTracking = this.m_ActivePlayer.GetComponent<IPlayerTargetTracking>();
             this.m_InputControlData.PlayerViewOrientationHandler = this.m_ActivePlayer.GetComponent<IPlayerViewOrientationHandler>();
+            
+            // Validate the values
+            _ = GameValidator.NotNull(this.m_InputControlData.PauseActionHandler,
+                    nameof(this.m_InputControlData.PauseActionHandler));
+            _ = GameValidator.NotNull(this.m_InputControlData.PlayerAttackHandler, 
+                    nameof(this.m_InputControlData.PlayerAttackHandler));
+            _ = GameValidator.NotNull(this.m_InputControlData.PlayerMovement, 
+                    nameof(this.m_InputControlData.PlayerMovement));
+            _ = GameValidator.NotNull(this.m_InputControlData.PlayerSpecialAction, 
+                    nameof(this.m_InputControlData.PlayerSpecialAction));
+            _ = GameValidator.NotNull(this.m_InputControlData.PlayerTargetTracking, 
+                    nameof(this.m_InputControlData.PlayerTargetTracking));
+            _ = GameValidator.NotNull(this.m_InputControlData.PlayerViewOrientationHandler, 
+                    nameof(this.m_InputControlData.PlayerViewOrientationHandler));
         }
 
         #endregion Methods

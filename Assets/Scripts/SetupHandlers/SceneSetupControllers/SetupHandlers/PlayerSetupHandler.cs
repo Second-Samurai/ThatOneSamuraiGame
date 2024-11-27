@@ -36,14 +36,10 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         void ISetupHandler.Handle()
         {
             // Validate required values
-            if (!this.m_PlayerSpawnPoint)
-                GameLogger.LogError($"Assignment of '{this.m_PlayerSpawnPoint}', is non-existent.");
-            else if (!this.m_PlayerObject)
-                GameLogger.LogError($"Assignment of '{this.m_PlayerObject}', is non-existent.");
-            else if (!this.m_PlayerCameraTargetController)
-                GameLogger.LogError($"Assignment of '{this.m_PlayerCameraTargetController}', is non-existent.");
-            else if (!this.m_ThirdPersonCamController)
-                GameLogger.LogError($"Assignment of '{this.m_ThirdPersonCamController}', is non-existent.");
+            _ = GameValidator.NotNull(this.m_PlayerSpawnPoint, nameof(this.m_PlayerSpawnPoint));
+            _ = GameValidator.NotNull(this.m_PlayerObject, nameof(this.m_PlayerObject));
+            _ = GameValidator.NotNull(this.m_PlayerCameraTargetController, nameof(this.m_PlayerCameraTargetController));
+            _ = GameValidator.NotNull(this.m_ThirdPersonCamController, nameof(this.m_ThirdPersonCamController));
             
             // Initialise if the player exists.
             if (this.m_PlayerObject != null)

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ThatOneSamuraiGame.Legacy;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class OptionsMenu : MonoBehaviour
@@ -24,8 +25,6 @@ public class OptionsMenu : MonoBehaviour
         indicatorToggle.isOn = GameManager.instance.bShowAttackPopups;
         SFXVol.value = PlayerPrefs.GetFloat("SFXVolume");
         BGMVol.value = PlayerPrefs.GetFloat("BGMVolume");
-
-
     }
 
     public void SetSensitivity(float var)

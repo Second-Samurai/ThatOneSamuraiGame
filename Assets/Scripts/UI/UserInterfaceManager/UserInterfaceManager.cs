@@ -1,7 +1,5 @@
-﻿using System.Runtime.CompilerServices;
-using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMenu;
+﻿using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMenu;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
 {

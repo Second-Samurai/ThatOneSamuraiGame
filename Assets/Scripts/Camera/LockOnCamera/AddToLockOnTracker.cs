@@ -1,93 +1,102 @@
 ﻿using System;
 using UnityEngine;
 
-[Obsolete]
-public class AddToLockOnTracker : MonoBehaviour
+namespace ThatOneSamuraiGame.Legacy
 {
-    private LockOnTracker _lockOnTracker;
-    private Transform _cameraTransform;
 
-    public LayerMask layerMask;
-    public float raycastMaxDist;
-    
-    //Offset since the target point is at the enemy's feet
-    private Vector3 _offset = Vector3.up * 2;
+    [Obsolete]
 
-    public GameEvent CancelLockOnEvent;
-
-    // private void Start()
-    // {
-    //     raycastMaxDist = GetComponent<SphereCollider>().radius * 2;
-    //
-    //     _lockOnTracker = GameManager.instance.LockOnTracker;
-    //     
-    //     // _cameraTransform = Camera.main.transform;
-    //     _cameraTransform = GameManager.instance.MainCamera.transform;
-    // }
-
-    private void Update()
+    public class AddToLockOnTracker : MonoBehaviour
     {
-        // Validate dependencies before use
-        if (!_lockOnTracker || !_cameraTransform) return;
-        
-        RaycastToCurrentEnemies();
-    }
+        private LockOnTracker _lockOnTracker;
+        private Transform _cameraTransform;
 
-    public void Initialise()
-    {
-        raycastMaxDist = GetComponent<SphereCollider>().radius * 2;
-        _lockOnTracker = GameManager.instance.LockOnTracker;
-        _cameraTransform = GameManager.instance.MainCamera.transform;
-    }
-    
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
+        public LayerMask layerMask;
+        public float raycastMaxDist;
+
+        //Offset since the target point is at the enemy's feet
+        private Vector3 _offset = Vector3.up * 2;
+
+        public GameEvent CancelLockOnEvent;
+
+        // private void Start()
+        // {
+        //     raycastMaxDist = GetComponent<SphereCollider>().radius * 2;
+        //
+        //     _lockOnTracker = GameManager.instance.LockOnTracker;
+        //     
+        //     // _cameraTransform = Camera.main.transform;
+        //     _cameraTransform = GameManager.instance.MainCamera.transform;
+        // }
+
+        private void Update()
         {
-            _lockOnTracker.AddEnemy(other.transform);
+            // Validate dependencies before use
+            if (!_lockOnTracker || !_cameraTransform) return;
+
+            RaycastToCurrentEnemies();
         }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
-        {
-            _lockOnTracker.RemoveEnemy(other.transform);
-        }
-    }
 
-    private void RaycastToCurrentEnemies()
-    {
-        foreach (var enemyTransform in _lockOnTracker.currentEnemies)
+        public void Initialise()
         {
-            RaycastHit hit;
-            Vector3 rayStartPos = _cameraTransform.position;
-            
-            if (Physics.Raycast(rayStartPos, (enemyTransform.position + _offset - rayStartPos).normalized, out hit, raycastMaxDist, layerMask))
+            raycastMaxDist = GetComponent<SphereCollider>().radius * 2;
+            _lockOnTracker = GameManager.instance.LockOnTracker;
+            _cameraTransform = GameManager.instance.MainCamera.transform;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Enemy"))
             {
-                if (hit.collider.CompareTag("Enemy"))
-                {
-                    Debug.DrawRay(rayStartPos, enemyTransform.position + _offset - rayStartPos, Color.green);
-                    AddToTargetableEnemies(enemyTransform);
-                }
-                else
-                {
-                    Debug.DrawRay(rayStartPos, enemyTransform.position + _offset - rayStartPos, Color.red);
-                    _lockOnTracker.targetableEnemies.Remove(enemyTransform);
+                _lockOnTracker.AddEnemy(other.transform);
+            }
+        }
 
-                    if (enemyTransform == _lockOnTracker.targetEnemy)
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("Enemy"))
+            {
+                _lockOnTracker.RemoveEnemy(other.transform);
+            }
+        }
+
+        private void RaycastToCurrentEnemies()
+        {
+            foreach (var enemyTransform in _lockOnTracker.currentEnemies)
+            {
+                RaycastHit hit;
+                Vector3 rayStartPos = _cameraTransform.position;
+
+                if (Physics.Raycast(rayStartPos, (enemyTransform.position + _offset - rayStartPos).normalized, out hit,
+                        raycastMaxDist, layerMask))
+                {
+                    if (hit.collider.CompareTag("Enemy"))
                     {
-                        //CancelLockOnEvent.Raise();
+                        Debug.DrawRay(rayStartPos, enemyTransform.position + _offset - rayStartPos, Color.green);
+                        AddToTargetableEnemies(enemyTransform);
+                    }
+                    else
+                    {
+                        Debug.DrawRay(rayStartPos, enemyTransform.position + _offset - rayStartPos, Color.red);
+                        _lockOnTracker.targetableEnemies.Remove(enemyTransform);
+
+                        if (enemyTransform == _lockOnTracker.targetEnemy)
+                        {
+                            //CancelLockOnEvent.Raise();
+                        }
                     }
                 }
             }
         }
-    }
 
-    private void AddToTargetableEnemies(Transform enemy)
-    {
-        if (!_lockOnTracker.targetableEnemies.Contains(enemy))
+        private void AddToTargetableEnemies(Transform enemy)
         {
-            _lockOnTracker.targetableEnemies.Add(enemy);
+            if (!_lockOnTracker.targetableEnemies.Contains(enemy))
+            {
+                _lockOnTracker.targetableEnemies.Add(enemy);
+            }
         }
     }
+
+
 }

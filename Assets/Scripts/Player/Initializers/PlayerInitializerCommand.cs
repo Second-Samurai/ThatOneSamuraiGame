@@ -1,4 +1,5 @@
 ﻿using System;
+using ThatOneSamuraiGame.Legacy;
 using ThatOneSamuraiGame.Scripts.General.Services;
 using UnityEngine;
 

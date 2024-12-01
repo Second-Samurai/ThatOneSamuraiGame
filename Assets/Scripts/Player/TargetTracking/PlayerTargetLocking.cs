@@ -1,5 +1,5 @@
-﻿using ThatOneSamuraiGame.Scripts.Base;
-using ThatOneSamuraiGame.Scripts.Camera;
+﻿using ThatOneSamuraiGame.Legacy;
+using ThatOneSamuraiGame.Scripts.Base;
 
 namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
 {

@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using ThatOneSamuraiGame.Legacy;
 using UnityEngine;
 
 public class BasicArcher : MonoBehaviour, IDamageable

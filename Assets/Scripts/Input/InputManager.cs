@@ -1,5 +1,4 @@
 using System;
-using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Input.Gameplay;
 using ThatOneSamuraiGame.Scripts.Input.Menu;
 using ThatOneSamuraiGame.Scripts.Input.Rewind;

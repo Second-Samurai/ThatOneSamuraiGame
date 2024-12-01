@@ -1,6 +1,6 @@
 using System;
+using ThatOneSamuraiGame.Legacy;
 using ThatOneSamuraiGame.Scripts.Base;
-using ThatOneSamuraiGame.Scripts.Camera;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
 using Object = UnityEngine.Object;

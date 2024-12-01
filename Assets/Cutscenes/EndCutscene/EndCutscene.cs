@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Playables;
 using Cinemachine;
 using UnityEngine.Events;
 using UnityEngine.Timeline;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class EndCutscene : MonoBehaviour

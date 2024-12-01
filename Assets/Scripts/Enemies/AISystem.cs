@@ -1,12 +1,9 @@
-using System;
 using System.Collections;
-using System.Diagnostics;
 using Enemies.Enemy_States;
 using Enemy_Scripts;
 using UnityEngine;
 using UnityEngine.AI;
 using Debug = UnityEngine.Debug;
-using UnityEngine.InputSystem;
 
 public enum EnemyType
 {

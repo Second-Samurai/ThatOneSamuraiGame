@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using ThatOneSamuraiGame.Scripts.Camera;
+using ThatOneSamuraiGame.Legacy;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using UnityEngine;

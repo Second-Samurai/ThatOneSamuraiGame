@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ThatOneSamuraiGame.Scripts.Camera
+namespace ThatOneSamuraiGame.Legacy
 {
     
     [Obsolete]

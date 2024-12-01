@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Scene.Loaders;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;

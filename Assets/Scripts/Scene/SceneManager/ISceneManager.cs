@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Scripts.Enumeration;
+﻿using ThatOneSamuraiGame.Legacy;
+using ThatOneSamuraiGame.Scripts.Enumeration;
 using ThatOneSamuraiGame.Scripts.Scene.DataContainers;
 using ThatOneSamuraiGame.Scripts.Scene.Loaders;
 using UnityEngine;

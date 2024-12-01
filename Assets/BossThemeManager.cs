@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.SceneManagement;
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
 
 public class BossThemeManager : MonoBehaviour

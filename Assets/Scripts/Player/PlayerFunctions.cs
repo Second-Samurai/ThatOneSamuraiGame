@@ -1,13 +1,10 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using Enemies;
 using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.InputSystem;
 
 // Tech-Debt: #35 - PlayerFunctions will be refactored to mitigate large class bloat.
 public class PlayerFunctions : MonoBehaviour

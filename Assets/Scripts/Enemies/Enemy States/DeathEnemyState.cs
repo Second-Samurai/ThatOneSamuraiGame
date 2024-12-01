@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using UnityEngine;
+using ThatOneSamuraiGame.Legacy;
 
 namespace Enemies.Enemy_States
 {

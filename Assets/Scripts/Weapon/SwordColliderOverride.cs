@@ -1,5 +1,4 @@
-﻿using System;
-using Enemies;
+﻿using Enemies;
 using UnityEngine;
 
 public class SwordColliderOverride : MonoBehaviour

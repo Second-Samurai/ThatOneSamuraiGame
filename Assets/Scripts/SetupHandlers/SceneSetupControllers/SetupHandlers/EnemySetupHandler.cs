@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
+﻿using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHandlers

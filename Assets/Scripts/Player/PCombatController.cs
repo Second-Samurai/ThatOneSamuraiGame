@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
+﻿using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 //Empty For now
 public interface ICombatController

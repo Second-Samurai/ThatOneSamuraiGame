@@ -1,6 +1,4 @@
 ﻿using ThatOneSamuraiGame.Scripts.Input;
-using ThatOneSamuraiGame.Scripts.Input.Gameplay;
-using ThatOneSamuraiGame.Scripts.UI.Pause.PauseActionHandler;
 using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMediator;
 using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMenu;
 using UnityEngine;

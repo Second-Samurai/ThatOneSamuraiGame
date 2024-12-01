@@ -7,7 +7,7 @@
 using System;
 using UnityEngine;
 
-namespace UnityTemplateProjects
+namespace ThatOneSamuraiGame.Legacy
 {
     [Obsolete]
     public class SimpleCameraController : MonoBehaviour

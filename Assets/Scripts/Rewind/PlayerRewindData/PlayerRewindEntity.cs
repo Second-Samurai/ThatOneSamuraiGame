@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using ThatOneSamuraiGame.Scripts.Camera;
-using ThatOneSamuraiGame.Scripts.Input;
+using ThatOneSamuraiGame.Legacy;
 using UnityEngine;
 
 public class PlayerRewindEntity : AnimationRewindEntity

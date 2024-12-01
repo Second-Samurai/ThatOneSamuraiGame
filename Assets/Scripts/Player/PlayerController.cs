@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Cinemachine;
+using ThatOneSamuraiGame.Legacy;
 
 public interface IPlayerController {
     string GetStringID();

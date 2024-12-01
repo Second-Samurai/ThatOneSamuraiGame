@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+using ThatOneSamuraiGame.Legacy;
 using ThatOneSamuraiGame.Scripts;
 using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;

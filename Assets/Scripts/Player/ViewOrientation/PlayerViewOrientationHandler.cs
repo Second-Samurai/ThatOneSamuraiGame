@@ -1,6 +1,5 @@
-﻿using System;
+﻿using ThatOneSamuraiGame.Legacy;
 using ThatOneSamuraiGame.Scripts.Base;
-using ThatOneSamuraiGame.Scripts.Camera;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation

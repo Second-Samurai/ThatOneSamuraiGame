@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace ThatOneSamuraiGame.Scripts.Camera
+namespace ThatOneSamuraiGame.Legacy
 {
     
     // Note: This is not the correct behavior, this abstracts direct access of the player from the camera. 

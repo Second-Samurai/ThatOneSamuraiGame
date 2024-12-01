@@ -1,5 +1,4 @@
-﻿using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMediator;
-using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
+﻿using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHandlers

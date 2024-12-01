@@ -1,5 +1,4 @@
-﻿using ThatOneSamuraiGame.GameLogging;
-using ThatOneSamuraiGame.Scripts.Input;
+﻿using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.Player.Initializers;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;

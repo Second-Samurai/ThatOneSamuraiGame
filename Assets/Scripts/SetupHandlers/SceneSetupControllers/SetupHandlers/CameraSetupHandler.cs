@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
+﻿using ThatOneSamuraiGame.Legacy;
+using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

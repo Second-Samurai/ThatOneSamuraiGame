@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation
 {
 
-    public class PlayerViewOrientationHandler: TOSGMonoBehaviourBase, IPlayerViewOrientationHandler
+    public class PlayerViewOrientationHandler: PausableMonoBehaviour, IPlayerViewOrientationHandler
     {
         
         #region - - - - - - Fields - - - - - -

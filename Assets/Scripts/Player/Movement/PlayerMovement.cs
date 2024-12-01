@@ -8,7 +8,7 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.Player.Movement
 {
     
-    public class PlayerMovement : TOSGMonoBehaviourBase, IPlayerMovement
+    public class PlayerMovement : PausableMonoBehaviour, IPlayerMovement
     {
         
         #region - - - - - - Fields - - - - - -

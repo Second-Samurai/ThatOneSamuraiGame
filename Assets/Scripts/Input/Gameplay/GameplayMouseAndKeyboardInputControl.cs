@@ -11,7 +11,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
     /// Handles inputs for Gameplay actions for Mouse and Keyboard.
     /// </summary>
     /// <remarks>Provides input transformation and pass-through.</remarks>
-    public class GameplayMouseAndKeyboardInputControl : TOSGMonoBehaviourBase, IGameplayInputControl
+    public class GameplayMouseAndKeyboardInputControl : PausableMonoBehaviour, IGameplayInputControl
     {
 
         #region - - - - - - Fields - - - - - -

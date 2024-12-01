@@ -10,7 +10,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
     /// <summary>
     /// Responsible for handling animation events for the player.
     /// </summary>
-    public class PlayerAnimationEventHandler : TOSGMonoBehaviourBase
+    public class PlayerAnimationEventHandler : PausableMonoBehaviour
     {
 
         #region - - - - - - Fields - - - - - -

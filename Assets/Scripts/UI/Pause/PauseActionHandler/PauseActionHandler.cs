@@ -6,7 +6,7 @@ using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMediator;
 namespace ThatOneSamuraiGame.Scripts.UI.Pause.PauseActionHandler
 {
     
-    public class PauseActionHandler : TOSGMonoBehaviourBase, IPauseActionHandler
+    public class PauseActionHandler : PausableMonoBehaviour, IPauseActionHandler
     {
         
         #region - - - - - - Fields - - - - - -

@@ -4,7 +4,7 @@ using ThatOneSamuraiGame.Scripts.Base;
 namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
 {
     
-    public class PlayerTargetLocking : TOSGMonoBehaviourBase, IPlayerTargetTracking
+    public class PlayerTargetLocking : PausableMonoBehaviour, IPlayerTargetTracking
     {
 
         #region - - - - - - Fields - - - - - -

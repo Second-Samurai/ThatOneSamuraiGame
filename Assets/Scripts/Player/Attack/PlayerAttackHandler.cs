@@ -8,7 +8,7 @@ using Object = UnityEngine.Object;
 namespace ThatOneSamuraiGame.Scripts.Player.Attack
 {
     
-    public class PlayerAttackHandler : TOSGMonoBehaviourBase, IPlayerAttackHandler
+    public class PlayerAttackHandler : PausableMonoBehaviour, IPlayerAttackHandler
     {
 
         #region - - - - - - Fields - - - - - -

@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 namespace ThatOneSamuraiGame.Scripts.Input.Rewind
 {
 
-    public class RewindMouseAndKeyboardInputControl : TOSGMonoBehaviourBase, IRewindInputControl
+    public class RewindMouseAndKeyboardInputControl : PausableMonoBehaviour, IRewindInputControl
     {
 
         #region - - - - - - Fields - - - - - -

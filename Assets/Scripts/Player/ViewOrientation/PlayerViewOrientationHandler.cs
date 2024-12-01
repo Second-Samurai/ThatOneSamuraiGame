@@ -1,5 +1,4 @@
-﻿using ThatOneSamuraiGame.Legacy;
-using ThatOneSamuraiGame.Scripts.Base;
+﻿using ThatOneSamuraiGame.Scripts.Base;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation
@@ -10,7 +9,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation
         
         #region - - - - - - Fields - - - - - -
 
-        private ICameraController m_CameraController;
+        private ThatOneSamuraiGame.Legacy.ICameraController m_CameraController;
         
         private Vector2 m_ViewRotation = Vector2.zero;
 
@@ -19,7 +18,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation
         #region - - - - - - Lifecycle Methods - - - - - -
 
         private void Start() 
-            => this.m_CameraController = this.GetComponent<ICameraController>();
+            => this.m_CameraController = this.GetComponent<ThatOneSamuraiGame.Legacy.ICameraController>();
 
         private void Update()
         {
@@ -38,6 +37,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation
 
         #region - - - - - - Methods - - - - - -
 
+        Vector2 IPlayerViewOrientationHandler.GetInputScreenPosition()
+            => this.m_ViewRotation;
+
+        // FOLLOW BEHAVIOUR
         private void RotateCameraToViewRotation()
         {
             // Note: This calculation can be collapsed to a single if statement.

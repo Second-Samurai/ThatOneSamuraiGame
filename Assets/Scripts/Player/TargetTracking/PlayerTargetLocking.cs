@@ -9,14 +9,14 @@ namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
 
         #region - - - - - - Fields - - - - - -
 
-        private ICameraController m_CameraController;
+        private Legacy.ICameraController m_CameraController;
 
         #endregion Fields
 
         #region - - - - - - Lifecycle Methods - - - - - -
 
         private void Start() 
-            => this.m_CameraController = this.GetComponent<ICameraController>();
+            => this.m_CameraController = this.GetComponent<Legacy.ICameraController>();
 
         #endregion Lifecycle Methods
         

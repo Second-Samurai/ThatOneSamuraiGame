@@ -1,4 +1,4 @@
-﻿
+﻿using ThatOneSamuraiGame.Legacy;
 using ThatOneSamuraiGame.Scripts.DebugScripts;
 using ThatOneSamuraiGame.Scripts.DebugScripts.DebugSceneInvokers;
 using UnityEngine;

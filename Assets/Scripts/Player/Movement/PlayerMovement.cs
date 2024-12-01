@@ -14,7 +14,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         #region - - - - - - Fields - - - - - -
 
         private Animator m_Animator;
-        private ICameraController m_CameraController;
+        private Legacy.ICameraController m_CameraController;
         private IControlledCameraState m_CameraState;
         private FinishingMoveController m_FinishingMoveController;
         
@@ -38,7 +38,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private void Start()
         {
             this.m_Animator = this.GetComponent<Animator>();
-            this.m_CameraController = this.GetComponent<ICameraController>();
+            this.m_CameraController = this.GetComponent<Legacy.ICameraController>();
             this.m_CameraState = this.GetComponent<IControlledCameraState>();
             this.m_FinishingMoveController = this.GetComponentInChildren<FinishingMoveController>();
             this.m_PlayerTargetTrackingState = this.GetComponent<IPlayerState>().PlayerTargetTrackingState;

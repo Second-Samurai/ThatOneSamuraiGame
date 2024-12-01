@@ -104,16 +104,19 @@ namespace ThatOneSamuraiGame.Legacy
         {
             camTargetScript.RotateCam(rotationInput);
 
+            // Rotation above it coupled with lock on behavior
             if (_bRunLockCancelTimer) RunLockCancelTimer();
             else _lockCancelTimer = maxLockCancelTimer;
         }
 
+        // LOCK ON BEHAVIOUR
         public void SetTarget(Transform target)
         {
             lockOnTracker.SetTarget(target);
             _lockedCamScript.SetTarget(target, player);
         }
 
+        // LOCK ON BEHAVIOR
         public void ToggleLockOn()
         {
             if (!bLockedOn)
@@ -131,6 +134,7 @@ namespace ThatOneSamuraiGame.Legacy
             onLockOnEvent.Raise();
         }
 
+        // LOCK ON BEHAVIOUR
         public bool LockOn()
         {
             _bRunLockCancelTimer = false;
@@ -146,6 +150,7 @@ namespace ThatOneSamuraiGame.Legacy
 
         }
 
+        // LOCK ON BEHAVIOR
         public void UnlockCam()
         {
             lockOnTracker.ClearTarget();
@@ -158,6 +163,7 @@ namespace ThatOneSamuraiGame.Legacy
             _animator.SetBool("LockedOn", false);
         }
 
+        // LOCK ON BEHAVIOR
         public bool GetTarget()
         {
             // Initialise variables
@@ -217,6 +223,7 @@ namespace ThatOneSamuraiGame.Legacy
             this.StartCoroutine(this.RollCam());
         }
 
+        // Named roll cam but camera never rolls in game.
         public IEnumerator RollCam()
         {
             while (_lockedCamScript.cam.m_Lens.Dutch > -10)

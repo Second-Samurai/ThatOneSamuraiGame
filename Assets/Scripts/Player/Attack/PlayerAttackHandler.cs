@@ -1,5 +1,5 @@
 using System;
-using ThatOneSamuraiGame.Legacy;
+using ICameraController = ThatOneSamuraiGame.Legacy.ICameraController;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
@@ -14,7 +14,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         #region - - - - - - Fields - - - - - -
 
         private Animator m_Animator;
-        private ICameraController m_CameraController;
+        private Legacy.ICameraController m_CameraController;
         private ICombatController m_CombatController;
         private HitstopController m_HitstopController;
         private PlayerFunctions m_PlayerFunctions;
@@ -39,7 +39,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         private void Start()
         {
             this.m_Animator = this.GetComponent<Animator>();
-            this.m_CameraController = this.GetComponent<ICameraController>();
+            this.m_CameraController = this.GetComponent<Legacy.ICameraController>();
             this.m_CombatController = this.GetComponent<ICombatController>();
             // this.m_HitstopController = GameManager.instance.GetComponent<HitstopController>();
             this.m_HitstopController = Object.FindFirstObjectByType<HitstopController>();

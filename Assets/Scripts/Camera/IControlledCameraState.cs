@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Camera
 {
     
+    [Obsolete]
     public interface IControlledCameraState
     {
 

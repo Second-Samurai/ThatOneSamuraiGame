@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Cinemachine;
 
+[Obsolete]
 public class LockOnTargetManager : MonoBehaviour
 {
 

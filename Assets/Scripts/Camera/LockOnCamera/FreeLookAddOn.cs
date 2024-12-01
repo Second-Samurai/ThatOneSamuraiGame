@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
@@ -6,6 +7,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
  
+[Obsolete]
 public class FreeLookAddOn : MonoBehaviour
 {
     public float lookSpeed = .5f; 

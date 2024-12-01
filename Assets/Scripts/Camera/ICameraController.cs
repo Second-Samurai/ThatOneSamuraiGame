@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Camera
 {
@@ -9,6 +10,7 @@ namespace ThatOneSamuraiGame.Scripts.Camera
     //
     // Consideration:
     //       - Create a proxy within the player that will manage camera behaviours on the Camera's behalf
+    [Obsolete]
     public interface ICameraController
     {
 

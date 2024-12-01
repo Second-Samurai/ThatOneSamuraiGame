@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Enemies;
 using UnityEngine;
 
+[Obsolete]
 public class LockOnTracker : MonoBehaviour
 {
     public List<Transform> currentEnemies;

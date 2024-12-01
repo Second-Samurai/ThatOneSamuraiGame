@@ -4,10 +4,12 @@
     using UnityEngine.InputSystem.Controls;
 #endif
 
+using System;
 using UnityEngine;
 
 namespace UnityTemplateProjects
 {
+    [Obsolete]
     public class SimpleCameraController : MonoBehaviour
     {
         class CameraState

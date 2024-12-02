@@ -1,4 +1,5 @@
 ﻿using System;
+using Cinemachine;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Player.ViewOrientation;
 using UnityEngine;
@@ -17,8 +18,13 @@ public class FollowPlayerCameraState : PausableMonoBehaviour, ICameraState
     [SerializeField] private float m_MinimumPitchAngle = -35f;
     [SerializeField] private float m_MaximumPitchAngle = 60f;
 
+    public CinemachineVirtualCamera m_FollowCamera;
+
     private IPlayerViewOrientationHandler m_PlayerViewOrientationHandler;
     private ICameraController m_CameraController;
+
+    private float m_TargetYaw;
+    private float m_TargetPitch;
 
     #endregion Fields
   
@@ -50,12 +56,12 @@ public class FollowPlayerCameraState : PausableMonoBehaviour, ICameraState
     
     public void StartState()
     {
-        if (!this.ValidateState()) return;
+        this.m_FollowCamera.gameObject.SetActive(true);
     }
 
     public void EndState()
     {
-        throw new NotImplementedException();
+        this.m_FollowCamera.gameObject.SetActive(false);
     }
 
     public bool ValidateState()
@@ -66,13 +72,25 @@ public class FollowPlayerCameraState : PausableMonoBehaviour, ICameraState
     private void ApplyViewOrientation()
     {
         Vector2 _InputScreenPosition = this.m_PlayerViewOrientationHandler.GetInputScreenPosition();
-        this.m_CameraController.SetCameraRotation(new Vector3(
-            x: _InputScreenPosition.x * this.m_RotationSpeed, 
-            y: Mathf.Clamp(
-                _InputScreenPosition.y * this.m_RotationSpeed, 
-                this.m_MinimumPitchAngle, 
-                this.m_MaximumPitchAngle), 
-            z: 0));
+        
+        if (_InputScreenPosition == Vector2.zero) 
+            return;
+
+        this.m_TargetYaw =
+            Mathf.Clamp(this.m_TargetYaw + _InputScreenPosition.x * this.m_RotationSpeed, float.MinValue, float.MaxValue);
+        this.m_TargetPitch =
+            Mathf.Clamp(this.m_TargetPitch + _InputScreenPosition.y * this.m_RotationSpeed, this.m_MinimumPitchAngle,
+                this.m_MaximumPitchAngle);
+        
+        this.m_CameraController.SetCameraRotation(new Vector3(this.m_TargetPitch, this.m_TargetYaw, this.m_FollowCameraTargetPoint.eulerAngles.z));
+        
+        // this.m_CameraController.SetCameraRotation(new Vector3(
+        //     x: _InputScreenPosition.x * this.m_RotationSpeed, 
+        //     y: Mathf.Clamp(
+        //         _InputScreenPosition.y * this.m_RotationSpeed, 
+        //         this.m_MinimumPitchAngle, 
+        //         this.m_MaximumPitchAngle), 
+        //     z: 0));
     }
 
     #endregion Methods

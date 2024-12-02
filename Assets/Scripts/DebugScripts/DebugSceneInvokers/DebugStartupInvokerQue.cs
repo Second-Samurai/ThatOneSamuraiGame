@@ -19,6 +19,7 @@ namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSceneInvokers
         {
             foreach (GameObject _Item in this.OrderedQue)
             {
+                Debug.Log(_Item);
                 IDebugStartupHandler _StartupHandler = _Item.GetComponent<IDebugStartupHandler>();
                 _StartupHandler?.Handle();
             }

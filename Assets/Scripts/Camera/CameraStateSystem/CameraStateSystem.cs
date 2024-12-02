@@ -7,6 +7,8 @@ public interface ICameraStateSystem
 
     #region - - - - - - Methods - - - - - -
 
+    void Initialize();
+    
     void SetState(SceneCameras selectedCamera);
 
     #endregion Methods
@@ -29,7 +31,7 @@ public class CameraStateSystem : MonoBehaviour, ICameraStateSystem
 
     #region - - - - - - Unity Methods - - - - - -
 
-    private void Start()
+    public void Initialize()
     {
         CameraStateContext _Context = new()
         {

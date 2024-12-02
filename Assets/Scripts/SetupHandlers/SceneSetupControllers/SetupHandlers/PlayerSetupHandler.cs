@@ -7,6 +7,7 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHandlers
 {
 
+    // TODO: Remove old camera controllers
     /// <summary>
     /// Handles the initial setup of the player object.
     /// </summary>
@@ -38,8 +39,8 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
             // Validate required values
             _ = GameValidator.NotNull(this.m_PlayerSpawnPoint, nameof(this.m_PlayerSpawnPoint));
             _ = GameValidator.NotNull(this.m_PlayerObject, nameof(this.m_PlayerObject));
-            _ = GameValidator.NotNull(this.m_PlayerCameraTargetController, nameof(this.m_PlayerCameraTargetController));
-            _ = GameValidator.NotNull(this.m_ThirdPersonCamController, nameof(this.m_ThirdPersonCamController));
+            // _ = GameValidator.NotNull(this.m_PlayerCameraTargetController, nameof(this.m_PlayerCameraTargetController));
+            // _ = GameValidator.NotNull(this.m_ThirdPersonCamController, nameof(this.m_ThirdPersonCamController));
             
             // Initialise if the player exists.
             if (this.m_PlayerObject != null)
@@ -60,10 +61,11 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         
         private void InitialisePlayer(GameObject targetHolder, PlayerController playerController)
         {
+            // TODO: Remove old camera controllers
             PlayerInitializerCommand _InitializerCommand = new PlayerInitializerCommand(
                 playerController.gameObject,
-                this.m_PlayerCameraTargetController,
-                this.m_ThirdPersonCamController,
+                // this.m_PlayerCameraTargetController,
+                // this.m_ThirdPersonCamController,
                 targetHolder);
             _InitializerCommand.Execute();
 

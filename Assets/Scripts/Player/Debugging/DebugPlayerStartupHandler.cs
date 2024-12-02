@@ -6,13 +6,14 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.Player.Initializers
 {
 
+    // TODO: Remove legacy camera functionality
     public class DebugPlayerInitializer : DebugComponent, IDebugStartupHandler
     {
 
         #region - - - - - - Fields - - - - - -
 
-        public PlayerCamTargetController PlayerCameraTargetController;
-        public ThirdPersonCamController ThirdPersonCamController;
+        // public PlayerCamTargetController PlayerCameraTargetController;
+        // public ThirdPersonCamController ThirdPersonCamController;
 
         #endregion Fields
   
@@ -21,9 +22,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
         public void Handle()
         {
             GameSettings _GameSettings = GameManager.instance.gameSettings;
-            
-            if (this.ThirdPersonCamController == null)
-                Debug.LogError($"[ERROR]: No {nameof(ThirdPersonCamController)} found please set value.");
+            //
+            // if (this.ThirdPersonCamController == null)
+            //     Debug.LogError($"[ERROR]: No {nameof(ThirdPersonCamController)} found please set value.");
 
             GameObject _TargetHolder = Object.Instantiate(
                 _GameSettings.targetHolderPrefab,
@@ -32,8 +33,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
             PlayerInitializerCommand _InitializerCommand = 
                 new PlayerInitializerCommand(
                     this.gameObject, 
-                    this.PlayerCameraTargetController,
-                    ThirdPersonCamController, 
+                    // this.PlayerCameraTargetController,
+                    // ThirdPersonCamController, 
                     _TargetHolder);
             _InitializerCommand.Execute();
         }

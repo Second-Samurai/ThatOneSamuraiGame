@@ -14,8 +14,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
         private readonly GameObject m_Player;
         
         // External dependencies
-        private readonly PlayerCamTargetController m_PlayerCameraTargetController;
-        private readonly ThirdPersonCamController m_ThirdPersonCamController;
+        // private readonly PlayerCamTargetController m_PlayerCameraTargetController;
+        // private readonly ThirdPersonCamController m_ThirdPersonCamController;
         private readonly GameObject m_TargetHolder;
 
         #endregion Fields
@@ -24,15 +24,15 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
 
         public PlayerInitializerCommand(
             GameObject player, 
-            PlayerCamTargetController playerCameraTargetController,
-            ThirdPersonCamController thirdPersonCamController, 
+            // PlayerCamTargetController playerCameraTargetController,
+            // ThirdPersonCamController thirdPersonCamController, 
             GameObject targetHolder)
         {
             this.m_Player = player ?? throw new ArgumentNullException(nameof(player));
-            this.m_PlayerCameraTargetController = playerCameraTargetController ??
-                                                  throw new ArgumentNullException(nameof(playerCameraTargetController));
-            this.m_ThirdPersonCamController = thirdPersonCamController ??
-                                              throw new ArgumentNullException(nameof(thirdPersonCamController));
+            // this.m_PlayerCameraTargetController = playerCameraTargetController ??
+            //                                       throw new ArgumentNullException(nameof(playerCameraTargetController));
+            // this.m_ThirdPersonCamController = thirdPersonCamController ??
+            //                                   throw new ArgumentNullException(nameof(thirdPersonCamController));
             this.m_TargetHolder = targetHolder ?? throw new ArgumentNullException(nameof(targetHolder));
         }
 
@@ -40,10 +40,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
   
         #region - - - - - - Methods - - - - - -
 
+        // TODO: Remove old player camera controller initialisation
+        // TODO: Migrate player initialisation from controller to command
         public void Execute()
         {
             // Initialise camera behavior
-            this.m_ThirdPersonCamController.Initialise();
+            // this.m_ThirdPersonCamController.Initialise();
             
             // Initialise animation behavior
             FinishingMoveController _FinishingMoveController =
@@ -51,15 +53,15 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
             _FinishingMoveController.Initialise();
 
             // Initialise lock-on behavior
-            AddToLockOnTracker _AddToLockOnTracker = this.m_Player.GetComponentInChildren<AddToLockOnTracker>();
-            _AddToLockOnTracker.Initialise();
-
-            LockOnTargetManager _LockOnTargetManager = this.m_Player.GetComponentInChildren<LockOnTargetManager>();
-            _LockOnTargetManager.Initialise();
+            // AddToLockOnTracker _AddToLockOnTracker = this.m_Player.GetComponentInChildren<AddToLockOnTracker>();
+            // _AddToLockOnTracker.Initialise();
+            //
+            // LockOnTargetManager _LockOnTargetManager = this.m_Player.GetComponentInChildren<LockOnTargetManager>();
+            // _LockOnTargetManager.Initialise();
             
             // Initialise Camera Control
-            CameraControl _CameraController = this.m_Player.GetComponent<CameraControl>();
-            _CameraController.camTargetScript = this.m_PlayerCameraTargetController;
+            // CameraControl _CameraController = this.m_Player.GetComponent<CameraControl>();
+            // _CameraController.camTargetScript = this.m_PlayerCameraTargetController;
             
             // Temp: Call PlayerControl Initializer
             // TODO: Migrate PlayerController specific initialization here.

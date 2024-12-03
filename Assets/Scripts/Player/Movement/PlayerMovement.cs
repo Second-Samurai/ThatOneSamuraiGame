@@ -1,5 +1,4 @@
-﻿using ThatOneSamuraiGame.Legacy;
-using ThatOneSamuraiGame.Scripts.Base;
+﻿using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
@@ -13,9 +12,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         
         #region - - - - - - Fields - - - - - -
 
+        // Make these injected
+        public CameraController CameraController;
+
         private Animator m_Animator;
-        private Legacy.ICameraController m_CameraController;
-        private IControlledCameraState m_CameraState;
+        // private Legacy.ICameraController m_CameraController;
+        // private IControlledCameraState m_CameraState;
         private FinishingMoveController m_FinishingMoveController;
         
         // Player states
@@ -38,8 +40,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private void Start()
         {
             this.m_Animator = this.GetComponent<Animator>();
-            this.m_CameraController = this.GetComponent<Legacy.ICameraController>();
-            this.m_CameraState = this.GetComponent<IControlledCameraState>();
+            // this.m_CameraController = this.GetComponent<Legacy.ICameraController>();
+            // this.m_CameraState = this.GetComponent<IControlledCameraState>();
             this.m_FinishingMoveController = this.GetComponentInChildren<FinishingMoveController>();
             this.m_PlayerTargetTrackingState = this.GetComponent<IPlayerState>().PlayerTargetTrackingState;
 
@@ -94,10 +96,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         {
             this.m_IsSprinting = isSprinting;
 
-            if (this.m_CameraState.IsCameraViewTargetLocked) 
-                return;
-            
-            this.m_CameraController.ToggleSprintCameraState(this.m_IsSprinting);
+            // if (this.m_CameraState.IsCameraViewTargetLocked) 
+            //     return;
+            //
+            // this.m_CameraController.ToggleSprintCameraState(this.m_IsSprinting);
             
             // Toggle sprinting animation
             // Ticket: #34 - Behaviour pertaining to animation will be moved to separate player animator component.
@@ -115,8 +117,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         private void LockPlayerRotationToAttackTarget()
         {
-            if (!this.m_CameraState.IsCameraViewTargetLocked)
-                return;
+            // if (!this.m_CameraState.IsCameraViewTargetLocked)
+            //     return;
             
             Vector3 _NewLookDirection = this.m_PlayerTargetTrackingState.AttackTarget.transform.position - this.transform.position;
             this.transform.rotation = Quaternion.Slerp(
@@ -130,13 +132,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private void RotatePlayerToMovementDirection()
         {
             if (this.m_InputDirection == Vector2.zero
-                 || this.m_CameraState.IsCameraViewTargetLocked
+                 // || this.CameraController.IsCameraViewTargetLocked // TODO: This should come from a target manager or controller. Not from the camera
                  || !this.m_IsRotationEnabled
                  || this.m_PlayerAttackState.IsWeaponSheathed)
                 return;
 
             float _TargetAngle = Mathf.Atan2(this.m_PlayerMovementState.MoveDirection.x, this.m_PlayerMovementState.MoveDirection.z)
-                                 * Mathf.Rad2Deg + this.m_CameraState.CurrentEulerAngles.y;
+                                 * Mathf.Rad2Deg + this.CameraController.GetCameraEulerAngles().y; // TODO: get from the camera controller
             float _NextAngleRotation = Mathf.SmoothDampAngle(
                 this.transform.eulerAngles.y,
                 _TargetAngle,

@@ -14,7 +14,7 @@ public class FollowPlayerCameraState : PausableMonoBehaviour, ICameraState
 
     [SerializeField] private GameObject m_Player;
     [SerializeField] private Transform m_FollowCameraTargetPoint;
-    [SerializeField] private float m_RotationSpeed = 1f;
+    [SerializeField] private float m_RotationSpeed = 0.15f; // TODO: Change this to use the player prefs
     [SerializeField] private float m_MinimumPitchAngle = -35f;
     [SerializeField] private float m_MaximumPitchAngle = 60f;
 
@@ -43,7 +43,7 @@ public class FollowPlayerCameraState : PausableMonoBehaviour, ICameraState
 
     #region - - - - - - Unity Methods - - - - - -
 
-    private void Update()
+    private void LateUpdate()
     {
         if (this.IsPaused) return;
         
@@ -79,18 +79,10 @@ public class FollowPlayerCameraState : PausableMonoBehaviour, ICameraState
         this.m_TargetYaw =
             Mathf.Clamp(this.m_TargetYaw + _InputScreenPosition.x * this.m_RotationSpeed, float.MinValue, float.MaxValue);
         this.m_TargetPitch =
-            Mathf.Clamp(this.m_TargetPitch + _InputScreenPosition.y * this.m_RotationSpeed, this.m_MinimumPitchAngle,
+            Mathf.Clamp(this.m_TargetPitch + _InputScreenPosition.y * this.m_RotationSpeed * -1, this.m_MinimumPitchAngle,
                 this.m_MaximumPitchAngle);
         
-        this.m_CameraController.SetCameraRotation(new Vector3(this.m_TargetPitch, this.m_TargetYaw, this.m_FollowCameraTargetPoint.eulerAngles.z));
-        
-        // this.m_CameraController.SetCameraRotation(new Vector3(
-        //     x: _InputScreenPosition.x * this.m_RotationSpeed, 
-        //     y: Mathf.Clamp(
-        //         _InputScreenPosition.y * this.m_RotationSpeed, 
-        //         this.m_MinimumPitchAngle, 
-        //         this.m_MaximumPitchAngle), 
-        //     z: 0));
+        m_FollowCameraTargetPoint.rotation = Quaternion.Euler(new Vector3(this.m_TargetPitch, this.m_TargetYaw, this.m_FollowCameraTargetPoint.eulerAngles.z));
     }
 
     #endregion Methods

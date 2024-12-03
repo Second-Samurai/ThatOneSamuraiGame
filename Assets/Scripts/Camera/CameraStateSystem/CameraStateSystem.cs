@@ -48,6 +48,8 @@ public class CameraStateSystem : MonoBehaviour, ICameraStateSystem
     public void SetState(SceneCameras selectedCamera)
     {
         this.m_CurrentCameraState?.EndState();
+        
+        Debug.Log(selectedCamera);
 
         if(selectedCamera == SceneCameras.FollowPlayer)
             this.m_CurrentCameraState = this.m_FollowPlayerState.GetComponent<ICameraState>();

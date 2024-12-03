@@ -9,7 +9,7 @@ namespace ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem
         #region - - - - - - Fields - - - - - -
 
         public static SceneCameras FollowPlayer = new SceneCameras("FollowPlayerCamera", 15);
-        public static SceneCameras FollowSprintPlayer = new SceneCameras("FollowSprintPlayerCamera", 2);
+        public static SceneCameras FollowSprintPlayer = new SceneCameras("FollowSprintPlayerCamera", 10);
         public static SceneCameras FreeLook = new SceneCameras("FreeLookCamera", 3);
         public static SceneCameras LockOn = new SceneCameras("LockOnCamera", 4);
 

@@ -32,7 +32,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation
 
         void IPlayerViewOrientationHandler.RotateViewOrientation(Vector2 mouseInputVector)
         {
-            // Debug.Log(mouseInputVector);
             this.m_ViewRotation = mouseInputVector;
         }
 
@@ -42,17 +41,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation
 
         Vector2 IPlayerViewOrientationHandler.GetInputScreenPosition()
             => this.m_ViewRotation;
-
-        // TODO: Remove this
-        // FOLLOW BEHAVIOUR
-        // private void RotateCameraToViewRotation()
-        // {
-        //     // Note: This calculation can be collapsed to a single if statement.
-        //     if (this.m_ViewRotation != Vector2.zero && !this.m_CameraController.IsLockedOn)
-        //     {
-        //         this.m_CameraController.RotateCamera(this.m_ViewRotation);  
-        //     }
-        // }
 
         #endregion Methods
         

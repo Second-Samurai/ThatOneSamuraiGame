@@ -39,6 +39,7 @@ public class CameraStateSystem : MonoBehaviour, ICameraStateSystem
         };
         
         this.m_FollowPlayerState.InitializeState(_Context);
+        this.m_FollowSprintPlayerState.InitializeState(_Context);
     }
 
     #endregion Unity Methods

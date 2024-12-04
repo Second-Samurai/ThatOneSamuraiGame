@@ -1,5 +1,4 @@
-﻿using System;
-using Cinemachine;
+﻿using Cinemachine;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Player.ViewOrientation;
 using UnityEngine;
@@ -21,7 +20,6 @@ public class FollowPlayerCameraState : PausableMonoBehaviour, ICameraState
     public CinemachineVirtualCamera m_FollowCamera;
 
     private IPlayerViewOrientationHandler m_PlayerViewOrientationHandler;
-    private ICameraController m_CameraController;
 
     private float m_TargetYaw;
     private float m_TargetPitch;
@@ -32,10 +30,7 @@ public class FollowPlayerCameraState : PausableMonoBehaviour, ICameraState
 
     public void InitializeState(CameraStateContext context)
     {
-        this.m_CameraController =
-            context.CameraController ?? throw new ArgumentNullException(nameof(context.CameraController));
         this.m_PlayerViewOrientationHandler = this.m_Player.GetComponent<IPlayerViewOrientationHandler>();
-        
         _ = this.ValidateState();
     }
 
@@ -65,14 +60,12 @@ public class FollowPlayerCameraState : PausableMonoBehaviour, ICameraState
     }
 
     public bool ValidateState()
-        => GameValidator.NotNull(this.m_CameraController, nameof(this.m_CameraController))
-           && GameValidator.NotNull(this.m_Player, nameof(this.m_Player))
+        => GameValidator.NotNull(this.m_Player, nameof(this.m_Player))
            && GameValidator.NotNull(this.m_FollowCameraTargetPoint, nameof(this.m_FollowCameraTargetPoint));
 
     private void ApplyViewOrientation()
     {
         Vector2 _InputScreenPosition = this.m_PlayerViewOrientationHandler.GetInputScreenPosition();
-        
         if (_InputScreenPosition == Vector2.zero) 
             return;
 
@@ -82,7 +75,11 @@ public class FollowPlayerCameraState : PausableMonoBehaviour, ICameraState
             Mathf.Clamp(this.m_TargetPitch + _InputScreenPosition.y * this.m_RotationSpeed * -1, this.m_MinimumPitchAngle,
                 this.m_MaximumPitchAngle);
         
-        m_FollowCameraTargetPoint.rotation = Quaternion.Euler(new Vector3(this.m_TargetPitch, this.m_TargetYaw, this.m_FollowCameraTargetPoint.eulerAngles.z));
+        this.m_FollowCameraTargetPoint.rotation = Quaternion.Euler(
+            new Vector3(
+                this.m_TargetPitch, 
+                this.m_TargetYaw, 
+                this.m_FollowCameraTargetPoint.eulerAngles.z));
     }
 
     #endregion Methods

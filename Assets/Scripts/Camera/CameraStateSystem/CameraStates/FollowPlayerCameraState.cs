@@ -1,5 +1,6 @@
 ﻿using Cinemachine;
 using ThatOneSamuraiGame.Scripts.Base;
+using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.ViewOrientation;
 using UnityEngine;
 
@@ -58,6 +59,9 @@ public class FollowPlayerCameraState : PausableMonoBehaviour, ICameraState
     {
         this.m_FollowCamera.gameObject.SetActive(false);
     }
+
+    SceneCameras ICameraState.GetSceneState()
+        => SceneCameras.FollowPlayer;
 
     public bool ValidateState()
         => GameValidator.NotNull(this.m_Player, nameof(this.m_Player))

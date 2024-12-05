@@ -1,4 +1,6 @@
-﻿public interface ICameraState
+﻿using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
+
+public interface ICameraState
 {
 
     #region - - - - - - Methods - - - - - -
@@ -10,6 +12,8 @@
     void EndState();
 
     bool ValidateState();
+
+    SceneCameras GetSceneState();
 
     #endregion Methods
 

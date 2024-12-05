@@ -116,7 +116,7 @@ namespace ThatOneSamuraiGame.Legacy
             _lockedCamScript.SetTarget(target, player);
         }
 
-        // LOCK ON BEHAVIOR
+        // LOCK ON BEHAVIOR - camera
         public void ToggleLockOn()
         {
             if (!bLockedOn)
@@ -134,14 +134,14 @@ namespace ThatOneSamuraiGame.Legacy
             onLockOnEvent.Raise();
         }
 
-        // LOCK ON BEHAVIOUR
+        // LOCK ON BEHAVIOUR - Camera
         public bool LockOn()
         {
             _bRunLockCancelTimer = false;
             if (GetTarget())
             {
                 _bRunLockCancelTimer = false;
-                _animator.SetBool("LockedOn", true);
+                _animator.SetBool("LockedOn", true); // Move to lock on controller
                 _lockedCamScript.cam.Priority = 15;
                 cinematicBars.ShowBars(200f, .3f);
                 return true;
@@ -150,7 +150,7 @@ namespace ThatOneSamuraiGame.Legacy
 
         }
 
-        // LOCK ON BEHAVIOR
+        // LOCK ON BEHAVIOR - Camera
         public void UnlockCam()
         {
             lockOnTracker.ClearTarget();
@@ -244,6 +244,7 @@ namespace ThatOneSamuraiGame.Legacy
             this.StartCoroutine(this.ResetCamRoll());
         }
 
+        
         public IEnumerator ResetCamRoll()
         {
             while (_lockedCamScript.cam.m_Lens.Dutch < 0)
@@ -275,6 +276,7 @@ namespace ThatOneSamuraiGame.Legacy
             }
         }
 
+        // LOCK ON BEHAVIOUR - CAMERA
         private void RunLockCancelTimer()
         {
             _lockCancelTimer -= Time.deltaTime;

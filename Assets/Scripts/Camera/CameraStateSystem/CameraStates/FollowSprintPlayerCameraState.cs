@@ -1,5 +1,6 @@
 ﻿using Cinemachine;
 using ThatOneSamuraiGame.Scripts.Base;
+using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.ViewOrientation;
 using UnityEngine;
 
@@ -48,6 +49,9 @@ public class FollowSprintPlayerCameraState : PausableMonoBehaviour, ICameraState
     #endregion Unity Methods
 
     #region - - - - - - Methods - - - - - -
+
+    SceneCameras ICameraState.GetSceneState()
+        => SceneCameras.FollowSprintPlayer;
 
     void ICameraState.StartState()
     {

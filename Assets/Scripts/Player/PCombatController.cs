@@ -26,7 +26,6 @@ public class PCombatController : MonoBehaviour, ICombatController
     public Collider attackCol;
     public bool _isAttacking = false;
     public bool isUnblockable = false;
-    public float m_attackInputBufferDuration = 0.4f;
     [HideInInspector] public PSwordManager swordManager;
 
     //Private Variables
@@ -36,9 +35,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     private CloseEnemyGuideControl _guideController;
     private StatHandler _playerStats;
     private PlayerAnimationComponent m_PlayerAnimationComponent;
-
-    private float m_attackInputBufferTimer;
-    private bool m_isAttackInputCached = false;
+    private PBufferedInputs m_PlayerBufferedInputs;
     
     private float _chargeTime;
     private int _comboHits;
@@ -69,6 +66,8 @@ public class PCombatController : MonoBehaviour, ICombatController
         _damageController = GetComponent<PDamageController>();
         _functions = GetComponent<PlayerFunctions>();
 
+        m_PlayerBufferedInputs = GetComponent<PBufferedInputs>();
+
         _attackRegister = new EntityAttackRegister();
         _attackRegister.Init(this.gameObject, EntityType.Player);
 
@@ -83,11 +82,6 @@ public class PCombatController : MonoBehaviour, ICombatController
         audioManager = GameManager.instance.audioManager;
         lightSaberHit = GameManager.instance.audioManager.FindAll("lightSaber-Slash").ToArray();
         saberwhoosh = GameManager.instance.audioManager.FindAll("lightSaber-Swing ").ToArray();
-    }
-
-    private void Update()
-    {
-        LightAttackBufferUpdate();
     }
     
     #endregion Lifecycle Methods
@@ -105,29 +99,6 @@ public class PCombatController : MonoBehaviour, ICombatController
         m_PlayerAnimationComponent.TriggerDrawSword();
     }
     
-    // Auto-property that checks if the input buffer timer is running for the light attack
-    private bool AttackInputBufferRunning => m_attackInputBufferTimer > 0f;
-    
-    private void LightAttackBufferUpdate()
-    {
-        if (AttackInputBufferRunning)
-        {
-            m_attackInputBufferTimer -= Time.deltaTime;
-
-            if (!AttackInputBufferRunning)
-            {
-                // If the user has cached an attack input (i.e. pressed attack mid-attack), then save the input
-                // and attack at the next available moment
-                if (m_isAttackInputCached)
-                {
-                    Debug.Log("Performing cached attack");
-                    m_isAttackInputCached = false;
-                    AttemptLightAttack();
-                }
-            }
-        }
-    }
-    
     /// <summary>
     /// Primary method for running Light Attacks.
     /// </summary>
@@ -139,15 +110,14 @@ public class PCombatController : MonoBehaviour, ICombatController
             return;
         }
         
-        if (AttackInputBufferRunning)
+        if (m_PlayerBufferedInputs.IsAttackInputBufferRunning())
         {
-            Debug.Log("Caching input as buffer is running");
-            m_isAttackInputCached = true;
+            m_PlayerBufferedInputs.SetAttackInputCached(true);
             return;
         }
         
         // Start the buffer
-        m_attackInputBufferTimer = m_attackInputBufferDuration;
+        m_PlayerBufferedInputs.StartAttackBuffer();
         
         // Increment combo
         _comboHits++;

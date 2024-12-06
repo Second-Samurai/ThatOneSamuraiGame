@@ -54,25 +54,21 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
 
         public void EnableRotation()
             => this.m_PlayerMovement.EnableRotation();
-
-        // Tech Debt: #48 - Rename these methods to represent their action.
-        public void EndGotParried()
-            => this.m_PlayerAttackState.HasBeenParried = false;
-
-        // Tech Debt: #48 - Rename these methods to represent their action.
-        public void StartGotParried()
-            => this.m_PlayerAttackState.HasBeenParried = true;
+        
+        public void EndParryStunState()
+            => this.m_PlayerAttackState.ParryStunned = false;
+        
+        public void StartParryStunState()
+            => this.m_PlayerAttackState.ParryStunned = true;
 
         #endregion PlayerAttack Animation Events
         
         #region - - - - - - PlayerMovement Animation Events  - - - - - -
         
-        // Tech Debt: #48 - Rename these methods to represent their action.
-        public void OverrideMovement() 
+        public void DisableMovement() 
             => this.m_PlayerMovement.DisableMovement();
-
-        // Tech Debt: #48 - Rename these methods to represent their action.
-        public void RemoveOverride() 
+        
+        public void EnableMovement() 
             => this.m_PlayerMovement.EnableMovement();
 
         public void LockMoveInput() // This is not being used anywhere
@@ -83,7 +79,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
             this.m_PlayerMovementState.IsMovementLocked = true;
             this.StartDodging(); // Note: I find it unusual that Dodging is invoked when not moving the character.
         }
-
+        
         public void UnlockMoveInput()
         {
             if (!this.m_PlayerMovementState.IsMovementLocked)

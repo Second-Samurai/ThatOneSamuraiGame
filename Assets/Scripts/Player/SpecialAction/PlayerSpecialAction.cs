@@ -70,7 +70,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
                 this.m_PlayerMovement.EnableMovement();
                 this.m_PlayerMovement.EnableRotation();
                 
-                if (this.m_PlayerAttackState.HasBeenParried)
+                if (this.m_PlayerAttackState.ParryStunned)
                     this.m_PlayerAttackHandler.EndParryAction();
 
                 if (this.m_CameraController.IsLockedOn)
@@ -105,7 +105,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
                 this.m_PlayerMovement.EnableMovement();
                 this.m_PlayerMovement.EnableRotation();
                 
-                if (this.m_PlayerAttackState.HasBeenParried)
+                if (this.m_PlayerAttackState.ParryStunned)
                     this.m_PlayerAttackHandler.EndParryAction();
 
                 if (this.m_PlayerMovementState.MoveDirection == Vector3.zero 

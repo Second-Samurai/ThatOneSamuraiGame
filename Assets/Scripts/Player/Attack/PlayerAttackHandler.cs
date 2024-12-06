@@ -101,7 +101,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         void IPlayerAttackHandler.EndParryAction()
         {
-            this.m_PlayerAttackState.HasBeenParried = false;
+            this.m_PlayerAttackState.ParryStunned = false;
             this.m_HitstopController.CancelEffects();
         }
         
@@ -122,7 +122,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             if (!CanBlock())
                 return;
 
-            if (this.m_PlayerAttackState.HasBeenParried)
+            if (this.m_PlayerAttackState.ParryStunned)
                 ((IPlayerAttackHandler)this).EndParryAction();
             
             this.m_PlayerFunctions.StartBlock();

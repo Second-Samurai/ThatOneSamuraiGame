@@ -45,7 +45,7 @@ public class PBufferedInputs : MonoBehaviour
                 // and attack at the next available moment
                 if (m_isAttackInputCached)
                 {
-                    Debug.Log("Performing cached attack");
+                    //Debug.Log("Performing cached attack");
                     m_isAttackInputCached = false;
                     m_PlayerCombatController.AttemptLightAttack();
                 }
@@ -70,8 +70,10 @@ public class PBufferedInputs : MonoBehaviour
 
     public void SetAttackInputCached(bool value)
     {
-        if(value)
-            Debug.Log("Caching input as buffer is running");
+        if (value)
+        {
+            //Debug.Log("Caching input as buffer is running");
+        }
         
         m_isAttackInputCached = value;
     }

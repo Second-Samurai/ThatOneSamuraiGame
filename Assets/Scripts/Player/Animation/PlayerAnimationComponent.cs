@@ -77,19 +77,20 @@ namespace Player.Animation
         {
             m_Animator.SetTrigger(AttackLight);
 
-            if (comboCount <= 1)
+            if (comboCount % 2 != 0 || comboCount == 0)
             {
-                Debug.Log("First Attack");
+                //Debug.Log("First Attack");
                 m_Animator.SetBool(FirstAttack, true);
                 m_Animator.SetBool(SecondAttack, false);
             }
             else
             {
-                Debug.Log($"Second Attack {comboCount}");
+                //Debug.Log("Second Attack");
                 m_Animator.SetBool(FirstAttack, false);
                 m_Animator.SetBool(SecondAttack, true);
             }
-                
+            
+            //Debug.Log($"Combo: {comboCount}");
         }
         
         public void ResetLightAttack()

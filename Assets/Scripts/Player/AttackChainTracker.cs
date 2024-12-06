@@ -16,7 +16,7 @@ public class AttackChainTracker : MonoBehaviour
     
     void Update()
     {
-        if(Time.time - _lastInput > inputWindow)
+        if(Time.time - _lastInput > inputWindow && _inputCounter != 0)
         {
             _inputCounter = 0;
             ResetCombo();
@@ -39,7 +39,7 @@ public class AttackChainTracker : MonoBehaviour
             //    _animator.SetBool("LoopAttack", true);
            // _input.bCanDodge = false;
         // }
-        _inputCounter = Mathf.Clamp(_inputCounter, 0, 3);
+        //_inputCounter = Mathf.Clamp(_inputCounter, 0, 3);
     }
 
     public void CheckCombo()
@@ -79,7 +79,7 @@ public class AttackChainTracker : MonoBehaviour
 
     private void ResetCombo()
     {
-        Debug.Log("Reset combo");
+        //Debug.Log("Reset combo");
         m_PlayerAnimationComponent.ResetAttackParameters();
         //_input.bCanDodge = true;
     }

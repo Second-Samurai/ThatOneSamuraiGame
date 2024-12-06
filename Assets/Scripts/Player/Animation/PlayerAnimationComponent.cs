@@ -11,12 +11,13 @@ namespace Player.Animation
         #region - - - - - - Animation Parameter Strings - - - - - -
         
         // Movement Parameters
-        //private static readonly string IsSprinting = "IsSprinting";
+        private static readonly string IsSprinting = "IsSprinting";
         private static readonly string XInput = "XInput";
         private static readonly string YInput = "YInput";
         private static readonly string InputSpeed = "InputSpeed";
         
         // Attack Parameters
+        private static readonly string SprintAttack = "SprintAttack";
         private static readonly string AttackLight = "AttackLight";
         private static readonly string FirstAttack = "FirstAttack";
         private static readonly string SecondAttack = "SecondAttack";
@@ -29,7 +30,6 @@ namespace Player.Animation
         private static readonly string FinisherSetup = "FinisherSetup";
         private static readonly string IsParried = "IsParried";
         private static readonly string IsDead = "IsDead";
-        private static readonly string IsSprinting = "IsSprinting";
         private static readonly string VGuard = "VGuard";
         private static readonly string LockedOn = "LockedOn";
         private static readonly string DrawSword = "DrawSword";
@@ -74,24 +74,28 @@ namespace Player.Animation
             ResetLightAttack();
         }
 
-        public void TriggerLightAttack(int comboCount)
+        public void TriggerSprintAttack()
+        {
+            m_Animator.SetTrigger(SprintAttack);
+        }
+
+        public void TriggerLightAttack(int attackVariant)
         {
             m_Animator.SetTrigger(AttackLight);
 
-            if (comboCount % 2 != 0 || comboCount == 0)
+            switch (attackVariant)
             {
-                //Debug.Log("First Attack");
-                m_Animator.SetBool(FirstAttack, true);
-                m_Animator.SetBool(SecondAttack, false);
+                case 1:
+                    m_Animator.SetBool(FirstAttack, true);
+                    m_Animator.SetBool(SecondAttack, false);
+                    break;
+                case 2:
+                    m_Animator.SetBool(FirstAttack, false);
+                    m_Animator.SetBool(SecondAttack, true);
+                    break;
+                default:
+                    break;
             }
-            else
-            {
-                //Debug.Log("Second Attack");
-                m_Animator.SetBool(FirstAttack, false);
-                m_Animator.SetBool(SecondAttack, true);
-            }
-            
-            //Debug.Log($"Combo: {comboCount}");
         }
         
         public void ResetLightAttack()

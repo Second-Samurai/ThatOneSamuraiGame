@@ -31,6 +31,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private Vector2 m_InputDirection = Vector2.zero;
         private float m_MovementSpeed = 0.5f;
         private float m_SprintMultiplier = 2.0f;
+        private float m_SprintDuration = 0.0f;
         private float m_RotationSpeed = 4f;
         private float m_MovementSmoothingDampingTime = .1f;
 
@@ -63,11 +64,18 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             
             // Perform specific movement behavior
             this.LockPlayerRotationToAttackTarget();
+
+            if (IsSprinting())
+                TickSprintDuration();
         }
 
         #endregion Lifecycle Methods
         
         #region - - - - - - Methods - - - - - -
+
+        public bool IsSprinting() => m_IsSprinting;
+
+        public float GetSprintDuration() => m_SprintDuration;
 
         void IPlayerMovement.DisableMovement()
             => this.m_IsMovementEnabled = false;
@@ -103,9 +111,20 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             
             // Toggle sprinting animation
             if (this.m_InputDirection == Vector2.zero || !this.m_IsSprinting)
+            {
+                m_SprintDuration = 0.0f;
                 m_PlayerAnimationComponent.SetSprinting(false);
+            }
             else
+            {
+                m_SprintDuration = 0.0f;
                 m_PlayerAnimationComponent.SetSprinting(true);
+            }
+        }
+
+        private void TickSprintDuration()
+        {
+            m_SprintDuration += Time.deltaTime;
         }
 
         private Vector3 CalculateMovementDirection()

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Player.Animation;
+using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -35,9 +36,11 @@ public class PCombatController : MonoBehaviour, ICombatController
     private EntityAttackRegister _attackRegister;
     private CloseEnemyGuideControl _guideController;
     private StatHandler _playerStats;
+    private PlayerMovement m_PlayerMovement;
     private PlayerAnimationComponent m_PlayerAnimationComponent;
     private PBufferedInputs m_PlayerBufferedInputs;
-    
+
+    private float m_MinSprintTime = 0.5f;
     private float _chargeTime;
     private int _comboHits;
     private bool _isInputBlocked = false;
@@ -66,6 +69,7 @@ public class PCombatController : MonoBehaviour, ICombatController
 
         _damageController = GetComponent<PDamageController>();
         _functions = GetComponent<PlayerFunctions>();
+        m_PlayerMovement = GetComponent<PlayerMovement>();
 
         m_PlayerBufferedInputs = GetComponent<PBufferedInputs>();
 
@@ -132,10 +136,11 @@ public class PCombatController : MonoBehaviour, ICombatController
         //_comboHits = Mathf.Clamp(_comboHits, 0, 4);
         _chargeTime = 0;
         
-        // Do the "Magic" of attacking
-        comboTracker.RegisterInput();
+        // Determine if the next attack should be a sprint attack
+        bool isSprintAttack = m_PlayerMovement.IsSprinting() && m_PlayerMovement.GetSprintDuration() > m_MinSprintTime;
         
-        //_animator.SetInteger("ComboCount", _comboHits);
+        // Do the "Magic" of attacking
+        comboTracker.RegisterInput(isSprintAttack);
     }
 
     private void HeavyAttack()

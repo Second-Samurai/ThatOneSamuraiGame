@@ -23,12 +23,26 @@ public class AttackChainTracker : MonoBehaviour
         } 
     }
 
-    public void RegisterInput()
+    public void RegisterInput(bool isSprintAttack)
     {
         _inputCounter++;
         _lastInput = Time.time;
         
-        m_PlayerAnimationComponent.TriggerLightAttack(_inputCounter);
+        if (isSprintAttack)
+        {
+            m_PlayerAnimationComponent.TriggerSprintAttack();
+        }
+        else
+        {
+            if (_inputCounter % 2 != 0 || _inputCounter == 0)
+            {
+                m_PlayerAnimationComponent.TriggerLightAttack(1);
+            }
+            else
+            {
+                m_PlayerAnimationComponent.TriggerLightAttack(2);
+            }
+        }
         
         //_animator.SetTrigger("AttackLight");
         // if(_inputCounter == 1)

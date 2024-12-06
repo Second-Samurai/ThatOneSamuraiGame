@@ -14,6 +14,7 @@ public interface ICombatController
     void BlockCombatInputs();
     void UnblockCombatInputs();
     void DrawSword();
+    bool IsSwordDrawn();
     bool CheckIsAttacking();
     void EndAttacking();
     void ResetAttackCombo();
@@ -96,7 +97,14 @@ public class PCombatController : MonoBehaviour, ICombatController
         if (!swordManager.hasAWeapon) return;
         _isSwordDrawn = !_isSwordDrawn;
 
+        _isInputBlocked = false;
+
         m_PlayerAnimationComponent.TriggerDrawSword();
+    }
+    
+    public bool IsSwordDrawn()
+    {
+        return _isSwordDrawn;
     }
     
     /// <summary>
@@ -104,7 +112,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     /// </summary>
     public void AttemptLightAttack()
     {
-        if (_isInputBlocked)
+        if (_isInputBlocked || !_isSwordDrawn)
         {
             //Debug.Log("Input blocked");
             return;

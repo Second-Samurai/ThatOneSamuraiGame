@@ -1,4 +1,5 @@
 using System;
+using Player.Animation;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
@@ -12,7 +13,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         #region - - - - - - Fields - - - - - -
 
-        private Animator m_Animator;
+        private PlayerAnimationComponent m_PlayerAnimationComponent;
         private ICameraController m_CameraController;
         private ICombatController m_CombatController;
         private HitstopController m_HitstopController;
@@ -37,7 +38,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         private void Start()
         {
-            this.m_Animator = this.GetComponent<Animator>();
+            this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
             this.m_CameraController = this.GetComponent<ICameraController>();
             this.m_CombatController = this.GetComponent<ICombatController>();
             this.m_HitstopController = GameManager.instance.GetComponent<HitstopController>();
@@ -74,8 +75,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             }
             
             // Perform Heavy attack
-            if (!this.m_Animator.GetBool("HeavyAttackHeld")) return;
-            this.PerformHeavyAttack();
+            //if (!this.m_PlayerAnimationComponent.IsHeavyAttacking()) return;
+            
+            //this.PerformHeavyAttack();
             //this.m_HasPerformedAttack = false;
         }
 
@@ -99,7 +101,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         }
 
         // Note: This behaviour is not implemented, but will be open for future use.
-        void IPlayerAttackHandler.StartHeavyAlternative() 
+        void IPlayerAttackHandler.StartHeavyAlternative()
             => throw new NotImplementedException();
 
         void IPlayerAttackHandler.StartBlock()
@@ -121,7 +123,23 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_CombatController.EndAttacking();
             this.m_CombatController.ResetAttackCombo();
         }
+        
+        private void StartHeavyAttack()
+        {
+            if (!this.m_PlayerAttackState.CanAttack && m_PlayerAnimationComponent.IsHeavyAttacking())
+                return;
+            
+            this.m_ShowHeavyTelegraphEvent.Raise();
 
+            this.m_PlayerAttackState.IsWeaponSheathed = true;
+            this.m_PlayerAttackState.IsHeavyAttackCharging = true;
+            
+            this.m_PlayerAnimationComponent.ResetAttackParameters();
+            this.m_PlayerAnimationComponent.SetHeavyAttack(true);
+
+            this.m_CameraController.RollCamera();
+        }
+        
         private void PerformHeavyAttack()
         {
             this.m_ShowHeavyTutorialEvent.Raise();
@@ -133,24 +151,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             // Create gleam effect
             this.m_PlayerFunctions.parryEffects.PlayGleam();
             
-            this.m_Animator.SetBool("HeavyAttackHeld", false);
+            this.m_PlayerAnimationComponent.SetHeavyAttack(false);
             this.m_CameraController.ResetCameraRoll();
         }
-
-        private void StartHeavyAttack()
-        {
-            if (!this.m_PlayerAttackState.CanAttack && this.m_Animator.GetBool("HeavyAttackHeld"))
-                return;
-            
-            this.m_ShowHeavyTelegraphEvent.Raise();
-
-            this.m_PlayerAttackState.IsWeaponSheathed = true;
-            this.m_PlayerAttackState.IsHeavyAttackCharging = true;
-            this.m_Animator.SetBool("HeavyAttackHeld", true);
-
-            this.m_CameraController.RollCamera();
-        }
-
+        
         // Tech-Debt: #36 - Create a simple universal timer to keep timer behaviour consistent.
         private void TickHeavyTimer()
         {

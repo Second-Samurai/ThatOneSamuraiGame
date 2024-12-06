@@ -18,6 +18,7 @@ namespace Player.Animation
         
         // Attack Parameters
         private static readonly string AttackLight = "AttackLight";
+        private static readonly string AttackHeavy = "AttackHeavy";
         private static readonly string FirstAttack = "FirstAttack";
         private static readonly string SecondAttack = "SecondAttack";
         private static readonly string LoopAttack = "LoopAttack";
@@ -96,6 +97,19 @@ namespace Player.Animation
         public void ResetLightAttack()
         {
             m_Animator.ResetTrigger(AttackLight);
+        }
+
+        public void SetHeavyAttack(bool isHeavyAttacking)
+        {
+            if (isHeavyAttacking)
+                m_Animator.SetTrigger(AttackHeavy);
+            
+            m_Animator.SetBool(HeavyAttackHeld, isHeavyAttacking);
+        }
+
+        public bool IsHeavyAttacking()
+        {
+            return m_Animator.GetBool(HeavyAttackHeld);
         }
         
         public void ResetAttackParameters()

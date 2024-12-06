@@ -28,8 +28,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         private GameEvent m_EndHeavyTelegraphEvent; // This event feels out of place for this component. 
 
         private bool m_CanBlock = true;
+        private bool m_HeavyInputHeld = false;
         private float m_HeavyAttackTimer;
         private float m_HeavyAttackMaxTimer = 2f;
+
+        private bool m_GleamTimerFinished = false;
+        private float m_GleamTimer;
+        private float m_GleamPrecedeTime = 0.4f;
         //private bool m_HasPerformedAttack;
 
         #endregion Fields
@@ -46,6 +51,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
 
             this.m_HeavyAttackTimer = this.m_HeavyAttackMaxTimer;
+            m_GleamTimer = m_HeavyAttackMaxTimer - m_GleamPrecedeTime;
         }
 
         private void Update()
@@ -62,10 +68,19 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         #endregion Lifecycle Methods
         
         #region - - - - - - Methods - - - - - -
-
+        
+        
+        // NOTE: IPlayerAttackHandler.Attack() is a release input option (e.g. OnMouseUp)
         void IPlayerAttackHandler.Attack()
         {
-            if (this.m_PlayerAttackState.CanAttack)
+            // If the player was holding down the button (i.e. heavy attacking), don't perform a light attack.
+            // This is different from m_PlayerAttackState.IsHeavyAttackCharging, as a heavy attack could
+            // execute and the mouse button could still be held down
+            if (m_HeavyInputHeld)
+            {
+                m_HeavyInputHeld = false;
+            }
+            else if (this.m_PlayerAttackState.CanAttack)
             {
                 this.m_CombatController.AttemptLightAttack();
                 //this.m_HasPerformedAttack = true;
@@ -74,10 +89,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
                     this.m_HitstopController.CancelEffects();
             }
             
-            // Perform Heavy attack
-            //if (!this.m_PlayerAnimationComponent.IsHeavyAttacking()) return;
-            
-            //this.PerformHeavyAttack();
             //this.m_HasPerformedAttack = false;
         }
 
@@ -126,16 +137,17 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         
         private void StartHeavyAttack()
         {
-            if (!this.m_PlayerAttackState.CanAttack && m_PlayerAnimationComponent.IsHeavyAttacking())
+            if (!this.m_PlayerAttackState.CanAttack)
                 return;
             
             this.m_ShowHeavyTelegraphEvent.Raise();
 
+            this.m_HeavyInputHeld = true;
             this.m_PlayerAttackState.IsWeaponSheathed = true;
             this.m_PlayerAttackState.IsHeavyAttackCharging = true;
             
             this.m_PlayerAnimationComponent.ResetAttackParameters();
-            this.m_PlayerAnimationComponent.SetHeavyAttack(true);
+            this.m_PlayerAnimationComponent.ChargeHeavyAttack(true);
 
             this.m_CameraController.RollCamera();
         }
@@ -147,25 +159,44 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
             this.m_PlayerAttackState.IsHeavyAttackCharging = false;
             this.m_PlayerAttackState.IsWeaponSheathed = false;
-
-            // Create gleam effect
-            this.m_PlayerFunctions.parryEffects.PlayGleam();
+            this.m_GleamTimerFinished = false;
             
-            this.m_PlayerAnimationComponent.SetHeavyAttack(false);
             this.m_CameraController.ResetCameraRoll();
+            
+            this.m_PlayerAnimationComponent.TriggerHeavyAttack();
         }
         
-        // Tech-Debt: #36 - Create a simple universal timer to keep timer behaviour consistent.
         private void TickHeavyTimer()
+        {
+            CountdownHeavyTimer();
+            
+            if(!m_GleamTimerFinished)
+                CountdownGleamTimer();
+        }
+
+        // Tech-Debt: #36 - Create a simple universal timer to keep timer behaviour consistent.
+        private void CountdownHeavyTimer()
         {
             this.m_HeavyAttackTimer -= Time.deltaTime;
             
             if (!(this.m_HeavyAttackTimer <= 0)) return;
+            
             //this.m_HasPerformedAttack = true;
             this.m_HeavyAttackTimer = this.m_HeavyAttackMaxTimer;
             this.PerformHeavyAttack();
         }
-
+        
+        private void CountdownGleamTimer()
+        {
+            m_GleamTimer -= Time.deltaTime;
+            
+            if (!(m_GleamTimer <= 0)) return;
+            
+            m_GleamTimerFinished = true;
+            m_GleamTimer = m_HeavyAttackMaxTimer - m_GleamPrecedeTime;
+            m_PlayerFunctions.parryEffects.PlayGleam();
+        }
+        
         #endregion Methods
         
     }

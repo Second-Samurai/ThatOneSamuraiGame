@@ -79,7 +79,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""id"": ""bb4d4c72-aca8-4669-a79e-e0b19c891ba1"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Press"",
+                    ""interactions"": ""Press(behavior=1)"",
                     ""initialStateCheck"": false
                 },
                 {

@@ -106,7 +106,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     {
         if (_isInputBlocked)
         {
-            Debug.Log("Input blocked");
+            //Debug.Log("Input blocked");
             return;
         }
         
@@ -121,7 +121,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         
         // Increment combo
         _comboHits++;
-        _comboHits = Mathf.Clamp(_comboHits, 0, 4);
+        //_comboHits = Mathf.Clamp(_comboHits, 0, 4);
         _chargeTime = 0;
         
         // Do the "Magic" of attacking

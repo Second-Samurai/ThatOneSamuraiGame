@@ -18,11 +18,11 @@ namespace Player.Animation
         
         // Attack Parameters
         private static readonly string AttackLight = "AttackLight";
-        private static readonly string AttackHeavy = "AttackHeavy";
         private static readonly string FirstAttack = "FirstAttack";
         private static readonly string SecondAttack = "SecondAttack";
         private static readonly string LoopAttack = "LoopAttack";
-        private static readonly string HeavyAttackHeld = "HeavyAttackHeld";
+        private static readonly string StartHeavy = "StartHeavy";
+        private static readonly string AttackHeavy = "AttackHeavy";
         private static readonly string ComboCount = "ComboCount";
         
         // Miscellaneous Parameters
@@ -99,17 +99,15 @@ namespace Player.Animation
             m_Animator.ResetTrigger(AttackLight);
         }
 
-        public void SetHeavyAttack(bool isHeavyAttacking)
+        public void ChargeHeavyAttack(bool isHeavyAttacking)
         {
             if (isHeavyAttacking)
-                m_Animator.SetTrigger(AttackHeavy);
-            
-            m_Animator.SetBool(HeavyAttackHeld, isHeavyAttacking);
+                m_Animator.SetTrigger(StartHeavy);
         }
 
-        public bool IsHeavyAttacking()
+        public void TriggerHeavyAttack()
         {
-            return m_Animator.GetBool(HeavyAttackHeld);
+            m_Animator.SetTrigger(AttackHeavy);
         }
         
         public void ResetAttackParameters()
@@ -188,8 +186,8 @@ namespace Player.Animation
                 m_Animator.GetBool(FirstAttack), 
                 m_Animator.GetBool(SecondAttack), 
                 //m_Animator.GetBool(LoopAttack), 
-                m_Animator.GetBool(IsDead), 
-                m_Animator.GetBool(HeavyAttackHeld)/*, 
+                m_Animator.GetBool(IsDead)/*, 
+                m_Animator.GetBool(HeavyAttackHeld), 
                 m_Animator.GetBool(FinisherSetup)*/);
         }
         
@@ -202,7 +200,7 @@ namespace Player.Animation
             m_Animator.SetBool(FirstAttack, animationTimeData.firstAttack);
             m_Animator.SetBool(SecondAttack, animationTimeData.secondAttack);
             m_Animator.SetBool(LoopAttack, animationTimeData.loopAttack);
-            m_Animator.SetBool(HeavyAttackHeld, animationTimeData.HeavyAttackHeld);
+            //m_Animator.SetBool(HeavyAttackHeld, animationTimeData.HeavyAttackHeld);
             m_Animator.SetBool(FinisherSetup, animationTimeData.FinisherSetup);
         }
         

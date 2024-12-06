@@ -26,13 +26,19 @@ namespace Player.Animation
         private static readonly string AttackHeavy = "AttackHeavy";
         private static readonly string ComboCount = "ComboCount";
         
-        // Miscellaneous Parameters
+        // Miscellaneous Triggers
+        private static readonly string DrawSword = "DrawSword";
         private static readonly string FinisherSetup = "FinisherSetup";
+        private static readonly string Parrying = "Parrying";
+        private static readonly string GuardBreak = "GuardBreak";
+        private static readonly string Knockdown = "Knockdown";
+        
+        // Miscellaneous Bools
         private static readonly string IsParried = "IsParried";
         private static readonly string IsDead = "IsDead";
         private static readonly string VGuard = "VGuard";
         private static readonly string LockedOn = "LockedOn";
-        private static readonly string DrawSword = "DrawSword";
+        
         
         #endregion Animation Parameter Strings 
 
@@ -129,6 +135,26 @@ namespace Player.Animation
         public void SetDead(bool isDead)
         {
             m_Animator.SetBool(IsDead, isDead);
+        }
+
+        public void TriggerParry()
+        {
+            m_Animator.SetTrigger(Parrying);
+        }
+
+        public void TriggerGuardBreak()
+        {
+            m_Animator.SetTrigger(GuardBreak);
+        }
+
+        public void TriggerKnockdown()
+        {
+            m_Animator.SetTrigger(Knockdown);
+        }
+
+        public void TriggerFinisher()
+        {
+            m_Animator.SetTrigger(FinisherSetup);
         }
         
         public void SetInputDirection(Vector2 inputDirection, float movementSmoothingDampingTime = 0)

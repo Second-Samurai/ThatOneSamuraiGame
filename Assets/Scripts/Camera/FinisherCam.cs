@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Player.Animation;
 
 public class FinisherCam : MonoBehaviour
 {
     CinemachineVirtualCamera _cam;
-    Animator _animator;
+    PlayerAnimationComponent m_PlayerAnimationComponent;
 
     // Start is called before the first frame update
     void Start()
     {
         _cam = GetComponent<CinemachineVirtualCamera>();
-        _animator = GetComponentInParent<Animator>();
+        m_PlayerAnimationComponent = GetComponentInParent<PlayerAnimationComponent>();
     }
 
     public void TransitionToCamera(Transform target)
@@ -20,7 +21,7 @@ public class FinisherCam : MonoBehaviour
         _cam.m_Priority = 20;
         _cam.m_LookAt = target;
         //_animator.SetBool("FinisherSetup", true);
-        _animator.SetTrigger("FinisherSetupTrigger");
+        m_PlayerAnimationComponent.TriggerFinisher();
     }
 
     public void LeaveCamera()

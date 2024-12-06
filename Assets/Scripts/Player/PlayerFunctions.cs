@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Enemies;
+using Player.Animation;
 using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
@@ -28,7 +29,7 @@ public class PlayerFunctions : MonoBehaviour
     [Header("IK Functions")]
     IKPuppet _IKPuppet;
 
-    Animator _animator;
+    private PlayerAnimationComponent m_PlayerAnimationComponent;
     PDamageController _pDamageController;
     public Rigidbody rb;
 
@@ -71,7 +72,7 @@ public class PlayerFunctions : MonoBehaviour
 
         _pDamageController = GetComponent<PDamageController>();
 
-        _animator = GetComponent<Animator>();
+        m_PlayerAnimationComponent = GetComponent<PlayerAnimationComponent>();
 
         hitstopController = GameManager.instance.GetComponent<HitstopController>();
 
@@ -195,7 +196,7 @@ public class PlayerFunctions : MonoBehaviour
         {
             // if(bLockedOn)
             //transform.Translate(lastDir.normalized * force * Time.deltaTime);
-            _animator.applyRootMotion = false;
+            m_PlayerAnimationComponent.SetRootMotion(false);
             if (bIsSprintAttacking) CorrectAttackAngle(ref lastDir);
             rb.linearVelocity = lastDir.normalized * force ;
            // rb.MovePosition(transform.position + lastDir.normalized * force * Time.deltaTime);
@@ -204,7 +205,7 @@ public class PlayerFunctions : MonoBehaviour
             dodgeTimer -= Time.deltaTime;
             yield return null;
         }
-        _animator.applyRootMotion = true;
+        m_PlayerAnimationComponent.SetRootMotion(true);
         EnableBlock();
     }
 
@@ -290,7 +291,7 @@ public class PlayerFunctions : MonoBehaviour
         this.m_PlayerMovement.EnableMovement();
         this.m_PlayerMovement.EnableRotation();
         rb.linearVelocity = Vector3.zero;
-        _animator.applyRootMotion = true;
+        m_PlayerAnimationComponent.SetRootMotion(true);
     }
 
 
@@ -305,7 +306,7 @@ public class PlayerFunctions : MonoBehaviour
             playerSFX.Smack();
             //Debug.Log("HIT" + amount * direction);
             this.m_PlayerMovement.DisableRotation();
-            _animator.SetTrigger("KnockdownTrigger");
+            m_PlayerAnimationComponent.TriggerKnockdown();
             StartCoroutine(ImpulseWithTimer(direction, amount, duration));
         }
     }
@@ -313,7 +314,7 @@ public class PlayerFunctions : MonoBehaviour
     public void TriggerParry(GameObject attacker, float damage)
     {
         parryEffects.PlayParry();
-        _animator.SetTrigger("Parrying");
+        m_PlayerAnimationComponent.TriggerParry();
         if (attacker.GetComponent<AISystem>().enemyType != EnemyType.BOSS) hitstopController.SlowTime(.5f, 1);
         if(attacker != null)
         {
@@ -331,7 +332,7 @@ public class PlayerFunctions : MonoBehaviour
         parryEffects.PlayBlock();
         //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);
         bIsBlocking = false;
-        _animator.SetTrigger("GuardBreak");
+        m_PlayerAnimationComponent.TriggerGuardBreak();
         //Debug.LogWarning("Guard broken!");
         _IKPuppet.DisableIK();
     }
@@ -341,8 +342,7 @@ public class PlayerFunctions : MonoBehaviour
         if (!bIsDead)
         {
             // play anim
-            _animator.SetTrigger("Death");
-            _animator.SetBool("isDead", true);
+            m_PlayerAnimationComponent.SetDead(true);
             
             // trigger rewind
             bIsDead = true;

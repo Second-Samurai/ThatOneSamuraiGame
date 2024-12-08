@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Cinemachine;
 using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
@@ -9,6 +10,8 @@ public interface ICameraController
 {
 
     #region - - - - - - Methods - - - - - -
+
+    GameObject GetCamera(SceneCameras targetCamera);
 
     Vector3 GetCameraEulerAngles();
 
@@ -50,6 +53,12 @@ public class CameraController : PausableMonoBehaviour, ICameraController
     public void SelectCamera(SceneCameras selectedCamera)
     {
         this.m_CameraStateSystem.SetState(selectedCamera);
+    }
+
+    public GameObject GetCamera(SceneCameras targetCamera)
+    {
+        return this.m_CameraList.Select(c => (ICameraState)c).Single(cs => cs.GetSceneState() == targetCamera)
+            .GetCameraObject();
     }
 
     public IFreelookCameraController GetFreelookCameraController()

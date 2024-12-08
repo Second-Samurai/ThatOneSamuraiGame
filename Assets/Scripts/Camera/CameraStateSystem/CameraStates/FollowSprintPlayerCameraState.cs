@@ -35,6 +35,11 @@ public class FollowSprintPlayerCameraState : PausableMonoBehaviour, ICameraState
         _ = this.ValidateState();
     }
 
+    public GameObject GetCameraObject()
+    {
+        return this.gameObject;
+    }
+
     #endregion Initializers
     
     #region - - - - - - Unity Methods - - - - - -

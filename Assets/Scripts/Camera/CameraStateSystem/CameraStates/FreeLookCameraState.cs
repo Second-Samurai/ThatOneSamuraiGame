@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Numerics;
 using Cinemachine;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
+using UnityEngine;
+using Vector3 = System.Numerics.Vector3;
 
 public interface IFreelookCameraController
 {
@@ -33,6 +34,11 @@ public class FreeLookCameraState : PausableMonoBehaviour, ICameraState, IFreeloo
 
     public void InitializeState(CameraStateContext context)
     {
+    }
+
+    public GameObject GetCameraObject()
+    {
+        return this.gameObject;
     }
 
     #endregion Initializers

@@ -1,4 +1,5 @@
 ﻿using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
+using UnityEngine;
 
 public interface ICameraState
 {
@@ -6,6 +7,8 @@ public interface ICameraState
     #region - - - - - - Methods - - - - - -
 
     void InitializeState(CameraStateContext context);
+
+    GameObject GetCameraObject();
 
     void StartState();
 

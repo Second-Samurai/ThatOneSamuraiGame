@@ -80,6 +80,7 @@ namespace ThatOneSamuraiGame.Legacy
             Invoke("FindNewTarget", 1.0f);
         }
 
+        // Belongs to LockOnSystem
         public void FindNewTarget()
         {
             // Only find a new target if the player is still locked onto the dead enemy

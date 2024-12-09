@@ -41,6 +41,16 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
     }
 
     #endregion Unity Methods
+
+    #region - - - - - - Unity Event Methods - - - - - -
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Enemy") && other.transform == this.m_TargetTransform)
+            this.GetNearestTarget();
+    }
+
+    #endregion Unity Event Methods
   
     #region - - - - - - Methods - - - - - -
     

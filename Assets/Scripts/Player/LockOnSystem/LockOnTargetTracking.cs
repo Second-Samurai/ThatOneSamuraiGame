@@ -41,14 +41,8 @@ public class LockOnTargetTracking : PausableMonoBehaviour
     
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Enemy"))
-        {
-            this.m_PossibleTargets.Remove(other.transform);
-            this.m_PossibleTargets.TrimExcess();
-            
-            this.m_ValidTargetableEnemies.Remove(other.transform);
-            this.m_ValidTargetableEnemies.TrimExcess();
-        }
+        if (other.CompareTag("Enemy")) 
+            this.RemoveTarget(other.transform);
     }
 
     #endregion Unity Event Handlers
@@ -66,6 +60,15 @@ public class LockOnTargetTracking : PausableMonoBehaviour
     #endregion Methods
   
     #region - - - - - - Methods - - - - - -
+
+    public void RemoveTarget(Transform targetToRemove)
+    {
+        this.m_ValidTargetableEnemies.Remove(targetToRemove);
+        this.m_PossibleTargets.Remove(targetToRemove);
+        
+        this.m_PossibleTargets.TrimExcess();
+        this.m_ValidTargetableEnemies.TrimExcess();
+    }
 
     private void CollectTargetableEnemies()
     {

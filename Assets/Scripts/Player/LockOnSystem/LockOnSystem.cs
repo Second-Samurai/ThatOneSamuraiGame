@@ -8,6 +8,8 @@ public interface ILockOnSystem
 
     #region - - - - - - Methods - - - - - -
 
+    void RemoveTargetFromTracking(Transform targetToRemove); //TODO replace all instances calling upon the death or removal of target from list.
+
     void StartLockOn();
 
     void EndLockOn();
@@ -44,11 +46,11 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
 
     #region - - - - - - Unity Event Methods - - - - - -
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Enemy") && other.transform == this.m_TargetTransform)
-            this.GetNearestTarget();
-    }
+    // private void OnTriggerExit(Collider other)
+    // {
+    //     if (other.CompareTag("Enemy") && other.transform == this.m_TargetTransform)
+    //         this.GetNearestTarget();
+    // }
 
     #endregion Unity Event Methods
   
@@ -119,6 +121,9 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
         
         return this.m_TargetTransform;
     }
+
+    public void RemoveTargetFromTracking(Transform targetToRemove)
+        => this.m_LockOnTargetTracker.RemoveTarget(targetToRemove);
 
     private void ResetLockOnSystem()
     {

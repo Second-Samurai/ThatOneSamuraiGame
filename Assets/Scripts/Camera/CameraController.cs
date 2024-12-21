@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Cinemachine;
-using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using UnityEngine;
@@ -25,8 +23,6 @@ public class CameraController : PausableMonoBehaviour, ICameraController
 {
 
     #region - - - - - - Fields - - - - - -
-
-    [SerializeField] private List<CinemachineVirtualCamera> m_CameraList;
     
     private ICameraStateSystem m_CameraStateSystem;
     private ICinemachineCamera m_ActiveCamera;
@@ -60,22 +56,6 @@ public class CameraController : PausableMonoBehaviour, ICameraController
         return this.m_CameraStateSystem.GetCameraStates()
             .Single(cs => cs.GetSceneState() == targetCamera)
             .GetCameraObject();
-    }
-
-    public IFreelookCameraController GetFreelookCameraController()
-    {
-        // TODO: Rename the method below to .GetCurrentStateObject.
-        // Possibly also 
-        IFreelookCameraController _Controller =
-            this.m_CameraStateSystem.GetGetCurrentState().GetComponent<IFreelookCameraController>();
-
-        if (_Controller == null)
-        {
-            GameLogger.LogWarning($"No '{nameof(IFreelookCameraController)} was found. Please switch to the state before retrieval.");
-            return null;
-        }
-
-        return _Controller;
     }
 
     #endregion Methods

@@ -11,6 +11,8 @@ public interface ILockOnCamera
 
     void SetLockOnTarget(Transform targetTransform);
 
+    void SetFollowedTransform(Transform followTransform);
+
     #endregion Methods
 
 }
@@ -27,6 +29,7 @@ public class LockOnCameraState : PausableMonoBehaviour, ICameraState, ILockOnCam
     public CinematicBars m_CinematicBars;
 
     private Transform m_TargetTransform;
+    private Transform m_FollowedTransform;
     private bool m_RunLockCancelTimer = false;
 
     #endregion Fields
@@ -49,9 +52,14 @@ public class LockOnCameraState : PausableMonoBehaviour, ICameraState, ILockOnCam
     public void SetLockOnTarget(Transform targetTransform) 
         => this.m_TargetTransform = targetTransform;
 
+    public void SetFollowedTransform(Transform followTransform)
+        => this.m_FollowedTransform = followTransform;
+
     public void StartState()
     {
         this.m_LockOnCamera.gameObject.SetActive(true);
+        this.m_LockOnCamera.LookAt = this.m_TargetTransform;
+        this.m_LockOnCamera.Follow = this.m_FollowedTransform;
         
         this.m_RunLockCancelTimer = false;
         this.m_CinematicBars.ShowBars(200f, .3f); // TODO: Move to lock on controller
@@ -72,18 +80,6 @@ public class LockOnCameraState : PausableMonoBehaviour, ICameraState, ILockOnCam
 
     public SceneCameras GetSceneState() 
         => SceneCameras.LockOn;
-
-    // TODO: Create new aim logic to target
-    private void AimCameraToTarget()
-    {
-        
-    }
-
-    // TODO: Create new transition logic to view enemy
-    private void TransitionCameraToEnemy()
-    {
-        
-    }
 
     #endregion Methods
   

@@ -87,7 +87,6 @@ public class LockOnTargetTracking : PausableMonoBehaviour
     {
         foreach (var enemyTransform in this.m_PossibleTargets)
         {
-            // GameLogger.Log((nameof(enemyTransform), enemyTransform), (nameof(m_PossibleTargets), this.m_PossibleTargets));
             this.m_RaycastStartPosition = this.m_CameraTransform.position;
             
             // Verifies that there are targetable enemies withing a set radius

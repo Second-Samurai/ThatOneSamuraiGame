@@ -12,8 +12,6 @@ public interface ICameraStateSystem
     
     void SetState(SceneCameras selectedCamera);
 
-    GameObject GetGetCurrentState();
-
     List<ICameraState> GetCameraStates();
 
     #endregion Methods
@@ -70,22 +68,6 @@ public class CameraStateSystem : MonoBehaviour, ICameraStateSystem
             GameLogger.LogError($"No valid camera state was found. Instead received '{selectedCamera}'");
         
         this.m_CurrentCameraState?.StartState();
-    }
-    
-    // TODO: Change this to instead return its own object.
-    public GameObject GetGetCurrentState()
-    {
-        if (this.m_CurrentCameraState.GetSceneState() == SceneCameras.FollowPlayer)
-            return this.m_FollowPlayerState.gameObject;
-        if (this.m_CurrentCameraState.GetSceneState() == SceneCameras.FollowSprintPlayer)
-            return this.m_FollowSprintPlayerState.gameObject;
-        if (this.m_CurrentCameraState.GetSceneState() == SceneCameras.FreeLook)
-            return this.m_FreeLookState.gameObject;
-        if (this.m_CurrentCameraState.GetSceneState() == SceneCameras.LockOn)
-            return this.m_LockOnState.gameObject;
-        
-        GameLogger.LogError("No valid state found. Using FollowPlayer as default state.");
-        return this.m_FollowPlayerState.gameObject;
     }
 
     public List<ICameraState> GetCameraStates()

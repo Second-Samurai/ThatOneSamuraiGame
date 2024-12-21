@@ -27,6 +27,7 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
     public LockOnTargetTracking m_LockOnTargetTracker;
     public CameraController m_CameraController; // Change to interface
     public Animator m_Animator; // Should not be in here as this couples with the animation system.
+    public Transform m_FollowTransform;
     
     private ILockOnCamera m_LockOnCamera;
     private Transform m_TargetTransform;
@@ -65,9 +66,14 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
         this.m_IsLockedOn = true;
         this.m_Animator.SetBool("LockedOn", true);
         
-        // Find Target
+        // Set target to camera
         Transform _TargetTransform = this.GetNearestTarget();
-        Debug.Log(_TargetTransform);
+        if (!_TargetTransform) return;
+        
+        this.m_LockOnCamera.SetLockOnTarget(_TargetTransform);
+        this.m_LockOnCamera.SetFollowedTransform(this.m_FollowTransform);
+        this.m_CameraController.SelectCamera(SceneCameras.LockOn);
+        
         // this.m_EnemyAISystem = _TargetTransform.GetComponent<AISystem>();
         // if (this.m_EnemyAISystem != null)
         // {
@@ -77,9 +83,6 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
         //     this.m_EnemyAISystem.eDamageController.enemyGuard.OnGuardEvent.Invoke();
         // }
         
-        // Set target to camera
-        this.m_LockOnCamera.SetLockOnTarget(_TargetTransform);
-        this.m_CameraController.SelectCamera(SceneCameras.LockOn);
     }
 
     public void EndLockOn()

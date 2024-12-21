@@ -22,6 +22,9 @@ public class PlayerFunctions : MonoBehaviour
     public float parryTimerTarget;
     bool _bDontCheckParry = false;
 
+    [Header("Lock On Target")] 
+    public LockOnSystem LockOnSystem;
+
     [Header("IK Functions")]
     IKPuppet _IKPuppet;
 
@@ -351,7 +354,7 @@ public class PlayerFunctions : MonoBehaviour
             //Debug.LogError("Player killed!");
             //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);
             //GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.3f);
-
+            this.LockOnSystem.EndLockOn();
         }
     }
 

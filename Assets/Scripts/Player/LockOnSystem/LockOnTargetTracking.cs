@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
 using UnityEngine;
 
@@ -52,7 +53,8 @@ public class LockOnTargetTracking : PausableMonoBehaviour
     private void Update()
     {
         if (this.IsPaused || !this.m_CameraTransform) return;
-
+        GameLogger.Log((nameof(m_CameraTransform), m_CameraTransform), (nameof(m_PossibleTargets), this.m_PossibleTargets));
+        
         // Constantly searches for the nearby enemy.
         this.CollectTargetableEnemies();
     }
@@ -70,19 +72,44 @@ public class LockOnTargetTracking : PausableMonoBehaviour
         this.m_ValidTargetableEnemies.TrimExcess();
     }
 
-    private void CollectTargetableEnemies()
+    public void ClearTargets()
     {
-        foreach (var enemyTransform in this.m_ValidTargetableEnemies)
-        {
-            this.m_RaycastStartPosition = this.m_CameraTransform.position;
+        this.m_ValidTargetableEnemies.Clear();
+        this.m_PossibleTargets.Clear();
+    }
 
+    /* Observations of this class:
+     *  - The targetable enemies need to be bigger than 2 units vertically in order to be physically detected
+     *  - Only observes whatever is within a target radius determined by the sphere collider used for detection
+     *  - The starting point is from the camera's position
+     */
+    public void CollectTargetableEnemies()
+    {
+        foreach (var enemyTransform in this.m_PossibleTargets)
+        {
+            // GameLogger.Log((nameof(enemyTransform), enemyTransform), (nameof(m_PossibleTargets), this.m_PossibleTargets));
+            this.m_RaycastStartPosition = this.m_CameraTransform.position;
+            
+            // Verifies that there are targetable enemies withing a set radius
             if (!Physics.Raycast(
                     origin: this.m_RaycastStartPosition,
-                    direction: (enemyTransform.position + this.m_EnemyFeetOffset - this.m_RaycastStartPosition).normalized, 
+                    direction: (enemyTransform.position + this.m_EnemyFeetOffset - this.m_RaycastStartPosition)
+                    .normalized,
                     hitInfo: out RaycastHit _Hit,
-                    maxDistance: m_MaxRaycastDistance, 
+                    maxDistance: m_MaxRaycastDistance,
                     layerMask: this.m_TargetableLayers))
+            {
+                GameLogger.Log(
+                    (nameof(m_RaycastStartPosition), m_RaycastStartPosition),
+                    ("Direction: ", (enemyTransform.position + this.m_EnemyFeetOffset - this.m_RaycastStartPosition).normalized),
+                    ("Hit Info: ", _Hit),
+                    ("Max Distance: ", m_MaxRaycastDistance),
+                    ("Layer Mask: ", m_TargetableLayers.value));
+                
+                Debug.DrawLine(m_RaycastStartPosition, (enemyTransform.position + this.m_EnemyFeetOffset - this.m_RaycastStartPosition).normalized * m_MaxRaycastDistance, Color.yellow);
+                
                 return;
+            }
             
             if (_Hit.collider.CompareTag("Enemy"))
             {
@@ -106,7 +133,7 @@ public class LockOnTargetTracking : PausableMonoBehaviour
         if (!this.m_ValidTargetableEnemies.Contains(enemy))
             this.m_ValidTargetableEnemies.Add(enemy);
     }
-
+    
     #endregion Methods
 
 }

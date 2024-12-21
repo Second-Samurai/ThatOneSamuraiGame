@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.GameLogging;
+﻿using System.Collections.Generic;
+using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ public interface ICameraStateSystem
     void SetState(SceneCameras selectedCamera);
 
     GameObject GetGetCurrentState();
+
+    List<ICameraState> GetCameraStates();
 
     #endregion Methods
 
@@ -85,8 +88,17 @@ public class CameraStateSystem : MonoBehaviour, ICameraStateSystem
         return this.m_FollowPlayerState.gameObject;
     }
 
+    public List<ICameraState> GetCameraStates()
+        => new()
+        {
+            this.m_FollowPlayerState,
+            this.m_FollowSprintPlayerState,
+            this.m_FreeLookState,
+            this.m_LockOnState
+        };
+
     #endregion Methods
-  
+
 }
 
 public class CameraStateContext

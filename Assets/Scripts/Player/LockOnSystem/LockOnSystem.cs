@@ -1,4 +1,5 @@
 ﻿using Enemies;
+using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using UnityEngine;
@@ -24,10 +25,10 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
     #region - - - - - - Fields - - - - - -
 
     public LockOnTargetTracking m_LockOnTargetTracker;
+    public CameraController m_CameraController; // Change to interface
+    public Animator m_Animator; // Should not be in here as this couples with the animation system.
     
-    private ICameraController m_CameraController;
     private ILockOnCamera m_LockOnCamera;
-    private Animator m_Animator; // Should not be in here as this couples with the animation system.
     private Transform m_TargetTransform;
     private AISystem m_EnemyAISystem; // Maintained from before but should not be coupled.
 
@@ -40,6 +41,7 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
     private void Start()
     {
         this.m_LockOnCamera = this.m_CameraController.GetCamera(SceneCameras.LockOn).GetComponent<ILockOnCamera>();
+        this.m_LockOnTargetTracker.Initialise();
     }
 
     #endregion Unity Methods
@@ -58,22 +60,22 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
     
     public void StartLockOn()
     {
-        if (!GameValidator.NotNull(this.m_TargetTransform, nameof(this.m_TargetTransform))) return;
+        // if (!GameValidator.NotNull(this.m_TargetTransform, nameof(this.m_TargetTransform))) return;
 
         this.m_IsLockedOn = true;
         this.m_Animator.SetBool("LockedOn", true);
         
         // Find Target
         Transform _TargetTransform = this.GetNearestTarget();
-        
-        this.m_EnemyAISystem = _TargetTransform.GetComponent<AISystem>();
-        if (this.m_EnemyAISystem != null)
-        {
-            // Enable the guard meter
-            this.m_EnemyAISystem.eDamageController.enemyGuard.EnableGuardMeter();
-            // Set the guard meter to visible through this event
-            this.m_EnemyAISystem.eDamageController.enemyGuard.OnGuardEvent.Invoke();
-        }
+        Debug.Log(_TargetTransform);
+        // this.m_EnemyAISystem = _TargetTransform.GetComponent<AISystem>();
+        // if (this.m_EnemyAISystem != null)
+        // {
+        //     // Enable the guard meter
+        //     this.m_EnemyAISystem.eDamageController.enemyGuard.EnableGuardMeter();
+        //     // Set the guard meter to visible through this event
+        //     this.m_EnemyAISystem.eDamageController.enemyGuard.OnGuardEvent.Invoke();
+        // }
         
         // Set target to camera
         this.m_LockOnCamera.SetLockOnTarget(_TargetTransform);
@@ -86,8 +88,7 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
         
         this.m_IsLockedOn = false;
         this.m_CameraController.SelectCamera(SceneCameras.FollowPlayer);
-        
-        this.ResetLockOnSystem();
+        this.m_LockOnTargetTracker.ClearTargets();
     }
 
     // TODO: There needs to be a case when 
@@ -97,6 +98,10 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
         float _ClosestDistance = Mathf.Infinity;
         Transform _NextEnemy = null;
 
+        GameLogger.Log(
+            ("Possible Targets: ", this.m_LockOnTargetTracker.m_PossibleTargets.Count),
+            ("Valid Targets: ", this.m_LockOnTargetTracker.m_ValidTargetableEnemies.Count));
+        
         if (this.m_LockOnTargetTracker.m_ValidTargetableEnemies.Count > 0)
         {
             foreach (Transform enemy in this.m_LockOnTargetTracker.m_ValidTargetableEnemies)
@@ -124,11 +129,6 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
 
     public void RemoveTargetFromTracking(Transform targetToRemove)
         => this.m_LockOnTargetTracker.RemoveTarget(targetToRemove);
-
-    private void ResetLockOnSystem()
-    {
-        
-    }
 
     #endregion Methods
   

@@ -1,4 +1,5 @@
-﻿using Cinemachine;
+﻿using System;
+using Cinemachine;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using UnityEngine;
@@ -19,33 +20,39 @@ public interface ILockOnCamera
 /// </summary>
 public class LockOnCameraState : PausableMonoBehaviour, ICameraState, ILockOnCamera
 {
+
+    #region - - - - - - Fields - - - - - -
+
     public CinemachineFreeLook m_LockOnCamera;
     public CinematicBars m_CinematicBars;
 
     private Transform m_TargetTransform;
-
     private bool m_RunLockCancelTimer = false;
-    
+
+    #endregion Fields
+  
+    #region - - - - - - Initialize - - - - - -
+
     public void InitializeState(CameraStateContext context)
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
-    public GameObject GetCameraObject()
-    {
-        return this.gameObject;
-    }
+    #endregion Initialize
+  
+    #region - - - - - - Methods - - - - - -
 
-    public void SetLockOnTarget(Transform targetTransform)
-    {
-        this.m_TargetTransform = targetTransform;
-    }
+    // TODO: Remove might be unecessary
+    public GameObject GetCameraObject() 
+        => this.gameObject;
+
+    public void SetLockOnTarget(Transform targetTransform) 
+        => this.m_TargetTransform = targetTransform;
 
     public void StartState()
     {
         this.m_LockOnCamera.gameObject.SetActive(true);
         
-        // Trigger LockOn
         this.m_RunLockCancelTimer = false;
         this.m_CinematicBars.ShowBars(200f, .3f); // TODO: Move to lock on controller
     }
@@ -60,11 +67,24 @@ public class LockOnCameraState : PausableMonoBehaviour, ICameraState, ILockOnCam
     
     public bool ValidateState()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
-    public SceneCameras GetSceneState()
+    public SceneCameras GetSceneState() 
+        => SceneCameras.LockOn;
+
+    // TODO: Create new aim logic to target
+    private void AimCameraToTarget()
     {
-        throw new System.NotImplementedException();
+        
     }
+
+    // TODO: Create new transition logic to view enemy
+    private void TransitionCameraToEnemy()
+    {
+        
+    }
+
+    #endregion Methods
+  
 }

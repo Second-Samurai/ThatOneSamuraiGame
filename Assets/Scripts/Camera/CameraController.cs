@@ -57,7 +57,8 @@ public class CameraController : PausableMonoBehaviour, ICameraController
 
     public GameObject GetCamera(SceneCameras targetCamera)
     {
-        return this.m_CameraList.Select(c => (ICameraState)c).Single(cs => cs.GetSceneState() == targetCamera)
+        return this.m_CameraStateSystem.GetCameraStates()
+            .Single(cs => cs.GetSceneState() == targetCamera)
             .GetCameraObject();
     }
 

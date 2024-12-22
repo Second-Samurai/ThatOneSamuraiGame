@@ -26,6 +26,7 @@ public class CameraController : PausableMonoBehaviour, ICameraController
     
     private ICameraStateSystem m_CameraStateSystem;
     private ICinemachineCamera m_ActiveCamera;
+    private Camera m_MainCamera;
 
     #endregion Fields
 
@@ -37,19 +38,18 @@ public class CameraController : PausableMonoBehaviour, ICameraController
         this.m_CameraStateSystem.Initialize();
     }
 
+    private void Start() 
+        => this.m_MainCamera = Camera.main;
+
     #endregion Unity Methods
   
     #region - - - - - - Methods - - - - - -
 
-    public Vector3 GetCameraEulerAngles()
-    {
-        return Camera.main == null ? Vector3.zero : Camera.main.transform.eulerAngles;
-    }
+    public Vector3 GetCameraEulerAngles() 
+        => !this.m_MainCamera ? Vector3.zero : this.m_MainCamera.transform.eulerAngles;
 
-    public void SelectCamera(SceneCameras selectedCamera)
-    {
-        this.m_CameraStateSystem.SetState(selectedCamera);
-    }
+    public void SelectCamera(SceneCameras selectedCamera) 
+        => this.m_CameraStateSystem.SetState(selectedCamera);
 
     public GameObject GetCamera(SceneCameras targetCamera)
     {

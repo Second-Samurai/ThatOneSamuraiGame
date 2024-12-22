@@ -58,8 +58,15 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
         // Dodge related Events
         // -----------------------------------------------------
 
+        /* Refactor Notes:
+         *  - States are discrete between a normal set of dodges and dodges from the LockOn
+         *  - Dodge should be a facade but behaviour should be their own states
+         *  - SpecialAction and undescriptive is too generic and should be its own specific 'Dodge' class
+         * 
+         */
         void IPlayerSpecialAction.Dodge()
         {
+            // Run dodge when moving
             if (this.m_PlayerMovementState.MoveDirection != Vector3.zero 
                 && !this.m_PlayerSpecialActionState.IsDodging 
                 && this.m_PlayerSpecialActionState.CanDodge)
@@ -70,9 +77,11 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
                 this.m_PlayerMovement.EnableMovement();
                 this.m_PlayerMovement.EnableRotation();
                 
+                // TODO: If condition should be a check for the method
                 if (this.m_PlayerAttackState.HasBeenParried)
                     this.m_PlayerAttackHandler.EndParryAction();
 
+                // TODO: Change to point the player's locked state rather than the Cameras
                 if (this.m_CameraController.IsLockedOn)
                 {
                     StartCoroutine("DodgeImpulse");
@@ -89,12 +98,14 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
                 
                 this.m_PlayerAttackHandler.ResetAttack();
             }
+            // The below may not be feasable to trigger. But below runs if not able to dodge, is moving and is not dodging
             else if (this.m_PlayerMovementState.MoveDirection != Vector3.zero 
                      && !this.m_PlayerSpecialActionState.IsDodging 
                      && !this.m_PlayerSpecialActionState.CanDodge)
             {
                 this.m_DodgeCache = true;
             }
+            // Run this is dodge is triggered but no movement is toggled
             else if (this.m_PlayerMovementState.MoveDirection == Vector3.zero 
                      && !this.m_PlayerSpecialActionState.IsDodging 
                      && this.m_PlayerSpecialActionState.CanDodge)
@@ -108,6 +119,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
                 if (this.m_PlayerAttackState.HasBeenParried)
                     this.m_PlayerAttackHandler.EndParryAction();
 
+                // The below if statement is unusually repeated
                 if (this.m_PlayerMovementState.MoveDirection == Vector3.zero 
                     && !this.m_PlayerSpecialActionState.IsDodging 
                     && this.m_PlayerSpecialActionState.CanDodge)

@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Legacy;
+﻿using ThatOneSamuraiGame.GameLogging;
+using ThatOneSamuraiGame.Legacy;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
@@ -13,8 +14,6 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         #region - - - - - - Fields - - - - - -
         
         [SerializeField] public GameObject m_ThirdPersonViewCamera;
-        [SerializeField] private GameObject m_CameraControlObject;
-        [SerializeField] private LockOnSystem m_LockOnSystem;
 
         private ISetupHandler m_NextHandler;
 
@@ -54,25 +53,8 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
             SceneManager.Instance.m_ThirdPersonViewCamera = this.m_ThirdPersonViewCamera;
             SceneManager.Instance.LockOnTracker = Object.FindFirstObjectByType<LockOnTracker>(); // TODO: Remove this, thisd is now legacy
             
-            this.SetupLockOnCamera();
-            
             print("[LOG]: Completed Scene Camera setup.");
             this.m_NextHandler?.Handle();
-        }
-
-        private void SetupLockOnCamera()
-        {
-            if (!GameValidator.NotNull(this.m_LockOnSystem, nameof(this.m_LockOnSystem))) return;
-            
-            CameraController _CameraController = this.m_CameraControlObject.GetComponent<CameraController>();
-            ILockOnCamera _LockOnCamera = _CameraController.GetCamera(SceneCameras.LockOn).GetComponent<ILockOnCamera>();
-
-            this.m_LockOnSystem.OnLockOnEnable
-                .AddListener(() => _CameraController.SelectCamera(SceneCameras.LockOn));
-            this.m_LockOnSystem.OnNewLockOnTarget.AddListener(_LockOnCamera.SetLockOnTarget);
-            this.m_LockOnSystem.OnNewLockOnTarget.AddListener(_LockOnCamera.SetFollowedTransform);
-            this.m_LockOnSystem.OnLockOnDisable
-                .AddListener(() => _CameraController.SelectCamera(SceneCameras.FollowPlayer));
         }
 
         #endregion Methods

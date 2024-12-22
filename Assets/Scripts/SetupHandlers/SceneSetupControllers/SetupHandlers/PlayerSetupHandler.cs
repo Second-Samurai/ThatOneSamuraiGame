@@ -1,5 +1,6 @@
 ﻿using ThatOneSamuraiGame.Legacy;
 using ThatOneSamuraiGame.Scripts.Input;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Initializers;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
@@ -23,8 +24,8 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
 
         [SerializeField] private Transform m_PlayerSpawnPoint;
         [SerializeField] private GameObject m_PlayerObject;
-        [SerializeField] private PlayerCamTargetController m_PlayerCameraTargetController;
-        [SerializeField] private ThirdPersonCamController m_ThirdPersonCamController;
+        // [SerializeField] private PlayerCamTargetController m_PlayerCameraTargetController;
+        // [SerializeField] private ThirdPersonCamController m_ThirdPersonCamController;
         [SerializeField] private LockOnSystem m_LockOnSystem;
         
         private ISetupHandler m_NextHandler;
@@ -83,7 +84,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
             if (!GameValidator.NotNull(this.m_LockOnSystem, nameof(this.m_LockOnSystem))) return;
 
             PlayerTargetTrackingState _PlayerTargetTrackingState = 
-                this.m_PlayerObject.GetComponent<PlayerTargetTrackingState>();
+                this.m_PlayerObject.GetComponent<IPlayerState>().PlayerTargetTrackingState;;
             this.m_LockOnSystem.OnNewLockOnTarget
                 .AddListener(newTarget => _PlayerTargetTrackingState.AttackTarget = newTarget);
         }

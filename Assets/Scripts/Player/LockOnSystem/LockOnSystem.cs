@@ -3,6 +3,7 @@ using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using UnityEngine;
+using UnityEngine.Events;
 
 public interface ILockOnSystem
 {
@@ -28,6 +29,7 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
     public CameraController m_CameraController; // Change to interface
     public Animator m_Animator; // Should not be in here as this couples with the animation system.
     public Transform m_FollowTransform;
+
     
     private ILockOnCamera m_LockOnCamera;
     private Transform m_TargetTransform;
@@ -47,6 +49,16 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
 
     #endregion Unity Methods
 
+    #region - - - - - - Unity Events - - - - - -
+
+    public UnityEvent OnLockOnEnable;
+    
+    public UnityEvent<Transform> OnNewLockOnTarget;
+    
+    public UnityEvent OnLockOnDisable;
+
+    #endregion Unity Events
+  
     #region - - - - - - Unity Event Methods - - - - - -
 
     // private void OnTriggerExit(Collider other)
@@ -69,10 +81,15 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
         // Set target to camera
         Transform _TargetTransform = this.GetNearestTarget();
         if (!_TargetTransform) return;
+
+        this.OnNewLockOnTarget.Invoke(_TargetTransform);
+        this.OnLockOnEnable.Invoke();
         
-        this.m_LockOnCamera.SetLockOnTarget(_TargetTransform);
-        this.m_LockOnCamera.SetFollowedTransform(this.m_FollowTransform);
-        this.m_CameraController.SelectCamera(SceneCameras.LockOn);
+        // // TODO: Remove the lockOn camera to instead use the observer
+        // this.m_LockOnCamera.SetLockOnTarget(_TargetTransform);
+        // this.m_LockOnCamera.SetFollowedTransform(this.m_FollowTransform);
+        
+        // this.m_CameraController.SelectCamera(SceneCameras.LockOn);
         
         // this.m_EnemyAISystem = _TargetTransform.GetComponent<AISystem>();
         // if (this.m_EnemyAISystem != null)
@@ -88,13 +105,14 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
     public void EndLockOn()
     {
         if (!this.m_IsLockedOn) return;
+
+        this.OnLockOnDisable.Invoke();
         
         this.m_IsLockedOn = false;
-        this.m_CameraController.SelectCamera(SceneCameras.FollowPlayer);
+        // this.m_CameraController.SelectCamera(SceneCameras.FollowPlayer);
         this.m_LockOnTargetTracker.ClearTargets();
     }
 
-    // TODO: There needs to be a case when 
     private Transform GetNearestTarget()
     {
         // Initialise variables
@@ -125,6 +143,8 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
             // If the target enemy is not the same as the referred enemy then change target.
             if (_NextEnemy != this.m_TargetTransform)
                 this.m_TargetTransform = _NextEnemy;
+            
+            Debug.DrawLine(this.transform.position, (_NextEnemy.position + Vector3.up - this.transform.position).normalized * 90, Color.magenta);
         }
         
         return this.m_TargetTransform;

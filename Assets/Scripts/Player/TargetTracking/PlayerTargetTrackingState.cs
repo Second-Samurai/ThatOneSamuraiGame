@@ -9,13 +9,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
         #region - - - - - - Fields - - - - - -
 
         [SerializeField]
-        private GameObject m_AttackTarget;
+        private Transform m_AttackTarget;
 
         #endregion Fields
 
         #region - - - - - - Properties - - - - - -
 
-        public GameObject AttackTarget
+        public Transform AttackTarget
         {
             get => this.m_AttackTarget;
             set => this.m_AttackTarget = value;

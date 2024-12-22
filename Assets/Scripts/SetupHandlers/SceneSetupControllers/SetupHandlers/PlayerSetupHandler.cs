@@ -1,6 +1,7 @@
 ﻿using ThatOneSamuraiGame.Legacy;
 using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.Player.Initializers;
+using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
 
@@ -23,7 +24,8 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         [SerializeField] private Transform m_PlayerSpawnPoint;
         [SerializeField] private GameObject m_PlayerObject;
         [SerializeField] private PlayerCamTargetController m_PlayerCameraTargetController;
-        [SerializeField] private  ThirdPersonCamController m_ThirdPersonCamController;
+        [SerializeField] private ThirdPersonCamController m_ThirdPersonCamController;
+        [SerializeField] private LockOnSystem m_LockOnSystem;
         
         private ISetupHandler m_NextHandler;
 
@@ -54,6 +56,8 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
                     Quaternion.identity);
                 this.SetActivePlayer(_SpawnedPlayerObject);
             }
+            
+            this.SetupPlayerLockOnControl();
 
             print("[LOG]: Completed Scene Player setup.");
             this.m_NextHandler?.Handle();
@@ -74,6 +78,16 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
                 _InputManager.PossesPlayerObject(playerController.gameObject);
         }
 
+        private void SetupPlayerLockOnControl()
+        {
+            if (!GameValidator.NotNull(this.m_LockOnSystem, nameof(this.m_LockOnSystem))) return;
+
+            PlayerTargetTrackingState _PlayerTargetTrackingState = 
+                this.m_PlayerObject.GetComponent<PlayerTargetTrackingState>();
+            this.m_LockOnSystem.OnNewLockOnTarget
+                .AddListener(newTarget => _PlayerTargetTrackingState.AttackTarget = newTarget);
+        }
+
         private void SetActivePlayer(GameObject playerObject)
         {
             GameObject _TargetHolder = Instantiate(
@@ -90,7 +104,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
             
             this.InitialisePlayer(_TargetHolder, _PlayerController);
         }
-
+        
         #endregion Methods
   
     }

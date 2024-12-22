@@ -50,7 +50,7 @@ public class LockOnTargetTracking : PausableMonoBehaviour
 
     #region - - - - - - Methods - - - - - -
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (this.IsPaused || !this.m_CameraTransform) return;
         GameLogger.Log((nameof(m_CameraTransform), m_CameraTransform), (nameof(m_PossibleTargets), this.m_PossibleTargets));
@@ -113,14 +113,14 @@ public class LockOnTargetTracking : PausableMonoBehaviour
             if (_Hit.collider.CompareTag("Enemy"))
             {
                 // TODO: Remove this
-                Debug.DrawRay(this.m_RaycastStartPosition, enemyTransform.position + this.m_EnemyFeetOffset - this.m_RaycastStartPosition, Color.green);
+                Debug.DrawLine(m_RaycastStartPosition, (enemyTransform.position + this.m_EnemyFeetOffset - this.m_RaycastStartPosition).normalized * m_MaxRaycastDistance, Color.green);
                 
                 this.AddToTargetableEnemies(enemyTransform);
             }
             else
             {
                 // TODO: Remove this
-                Debug.DrawRay(this.m_RaycastStartPosition, enemyTransform.position + this.m_EnemyFeetOffset - this.m_RaycastStartPosition, Color.red);
+                Debug.DrawLine(m_RaycastStartPosition, (enemyTransform.position + this.m_EnemyFeetOffset - this.m_RaycastStartPosition).normalized * m_MaxRaycastDistance, Color.red);
                 
                 this.m_ValidTargetableEnemies.Remove(enemyTransform);
             }

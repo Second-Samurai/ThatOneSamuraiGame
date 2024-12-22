@@ -119,8 +119,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         {
             // if (!this.m_CameraState.IsCameraViewTargetLocked)
             //     return;
+
+            if (this.m_PlayerTargetTrackingState.AttackTarget == null) return;
             
-            Vector3 _NewLookDirection = this.m_PlayerTargetTrackingState.AttackTarget.transform.position - this.transform.position;
+            Vector3 _NewLookDirection = this.m_PlayerTargetTrackingState.AttackTarget.position - this.transform.position;
             this.transform.rotation = Quaternion.Slerp(
                 this.transform.rotation,
                 Quaternion.LookRotation(_NewLookDirection),

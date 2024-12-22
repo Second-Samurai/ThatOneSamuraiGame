@@ -195,7 +195,7 @@ namespace ThatOneSamuraiGame.Legacy
                 if (nextEnemy != lockOnTarget)
                 {
                     lockOnTarget = nextEnemy;
-                    this.m_PlayerTargetTrackingState.AttackTarget = lockOnTarget.gameObject;
+                    this.m_PlayerTargetTrackingState.AttackTarget = lockOnTarget.gameObject.transform;
                 }
 
                 // If not null then set the target

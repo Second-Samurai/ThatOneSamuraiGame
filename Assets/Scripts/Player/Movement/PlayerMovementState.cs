@@ -30,6 +30,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             set => this.m_CanOverrideMovement = value;
         }
 
+        public bool CanDodge { get; set; }
+
         public bool IsMovementEnabled
         {
             get => this.m_IsMovementEnabled;

@@ -55,10 +55,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_PlayerMovementState = _PlayerState.PlayerMovementState;
 
             this.m_NormalMovement = new PlayerNormalMovement(
+                this.GetComponent<IPlayerAttackHandler>(),
+                this.m_PlayerAttackState,
                 this.CameraController, 
                 this.m_PlayerMovementState,
                 this.m_Animator, 
-                this.transform);
+                this.transform,
+                this);
             
             this.m_CurrentMovementState = this.m_NormalMovement;
         }
@@ -73,6 +76,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             // this.RotatePlayerToMovementDirection();
             // this.PerformMovement();
             
+            this.m_CurrentMovementState.SetInputDirection(this.m_InputDirection);
             this.m_CurrentMovementState.CalculateMovement();
             this.m_CurrentMovementState.ApplyMovement();
             

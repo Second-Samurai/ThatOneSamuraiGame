@@ -68,7 +68,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
         {
             // Run dodge when moving
             if (this.m_PlayerMovementState.MoveDirection != Vector3.zero 
-                && !this.m_PlayerSpecialActionState.IsDodging 
+                && !this.m_PlayerSpecialActionState.IsDodging // Is not dodging
                 && this.m_PlayerSpecialActionState.CanDodge)
             {
                 this.m_Animator.SetTrigger("Dodge");

@@ -99,6 +99,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         public void BlockDodge() 
             => this.m_PlayerSpecialActionState.CanDodge = false;
 
+        // TODO: Remove resets from happening exclusivly from the AnimationEventHandler.
         public void ResetDodge()
             => this.m_PlayerSpecialAction.ResetDodge();
 

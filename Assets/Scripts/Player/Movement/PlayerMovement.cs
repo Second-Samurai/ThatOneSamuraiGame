@@ -6,8 +6,22 @@ using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Movement
 {
+
+    public interface IPlayerDodgeMovement
+    {
+
+        #region - - - - - - Methods - - - - - -
+
+        void EnableDodge();
+
+        void DisableDodge();
+
+        #endregion Methods
+
+    }
     
-    public class PlayerMovement : PausableMonoBehaviour, IPlayerMovement
+    [RequireComponent(typeof(Animator))]
+    public class PlayerMovement : PausableMonoBehaviour, IPlayerMovement, IPlayerDodgeMovement
     {
         
         #region - - - - - - Fields - - - - - -
@@ -94,6 +108,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             if (state == PlayerMovementStates.Normal)
                 this.m_CurrentMovementState = this.m_NormalMovement;
         }
+
+        void IPlayerDodgeMovement.EnableDodge()
+            => this.m_PlayerMovementState.CanDodge = true;
+
+        void IPlayerDodgeMovement.DisableDodge()
+            => this.m_PlayerMovementState.CanDodge = false;
 
         void IPlayerMovement.DisableMovement()
             => this.m_IsMovementEnabled = false;

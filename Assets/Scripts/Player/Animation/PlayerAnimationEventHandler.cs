@@ -96,12 +96,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
 
         #region - - - - - - PlayerSpecialAction Animation Events - - - - - -
         
-        public void BlockDodge() 
-            => this.m_PlayerSpecialActionState.CanDodge = false;
+        // public void BlockDodge() 
+        //     => this.m_PlayerSpecialActionState.CanDodge = false;
 
-        // TODO: Remove resets from happening exclusivly from the AnimationEventHandler.
-        public void ResetDodge()
-            => this.m_PlayerSpecialAction.ResetDodge();
+        // // TODO: Remove resets from happening exclusivly from the AnimationEventHandler.
+        // public void ResetDodge()
+        //     => this.m_PlayerSpecialAction.ResetDodge();
 
         public void StartDodging()
         {

@@ -1,4 +1,3 @@
-using ThatOneSamuraiGame.Legacy;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
@@ -136,8 +135,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
 
         void IPlayerSpecialAction.ResetDodge()
         {
-            this.m_PlayerSpecialActionState.CanDodge = true;
-            this.m_PlayerSpecialActionState.IsDodging = false;
+        //     this.m_PlayerSpecialActionState.CanDodge = true;
+        //     this.m_PlayerSpecialActionState.IsDodging = false;
         }
 
         // -----------------------------------------------------

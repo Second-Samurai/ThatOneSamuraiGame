@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
+﻿using ThatOneSamuraiGame.Scripts.Player.Movement;
+using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
 
 //Empty For now
@@ -197,8 +198,11 @@ public class PCombatController : MonoBehaviour, ICombatController
         //_playerInput.RemoveOverride(); // Note: The override is unused
         _animator.SetTrigger("IsParried");
 
-        IPlayerSpecialAction _PlayerSpecialAction = this.GetComponent<IPlayerSpecialAction>();
-        _PlayerSpecialAction.ResetDodge();
+        // IPlayerSpecialAction _PlayerSpecialAction = this.GetComponent<IPlayerSpecialAction>();
+        // _PlayerSpecialAction.ResetDodge();
+
+        IPlayerDodgeMovement _playerDodgeMovement = this.GetComponent<IPlayerDodgeMovement>();
+        _playerDodgeMovement.EnableDodge();
     }
  
     public void PlaySlash()

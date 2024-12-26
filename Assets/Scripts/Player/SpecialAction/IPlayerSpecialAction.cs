@@ -1,6 +1,9 @@
+using System;
+
 namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
 {
     
+    [Obsolete]
     public interface IPlayerSpecialAction
     {
 

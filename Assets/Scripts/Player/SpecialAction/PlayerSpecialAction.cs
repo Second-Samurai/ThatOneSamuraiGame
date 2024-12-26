@@ -1,3 +1,4 @@
+using System;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
@@ -6,6 +7,7 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
 {
     
+    [Obsolete]
     public class PlayerSpecialAction : MonoBehaviour, IPlayerSpecialAction
     {
         
@@ -66,71 +68,71 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
         void IPlayerSpecialAction.Dodge()
         {
             // Run dodge when moving
-            if (this.m_PlayerMovementState.MoveDirection != Vector3.zero 
-                && !this.m_PlayerSpecialActionState.IsDodging // Is not dodging
-                && this.m_PlayerSpecialActionState.CanDodge)
-            {
-                this.m_Animator.SetTrigger("Dodge");
-                this.m_Animator.ResetTrigger("AttackLight");
-                
-                this.m_PlayerMovement.EnableMovement();
-                this.m_PlayerMovement.EnableRotation();
-                
-                // TODO: If condition should be a check for the method
-                if (this.m_PlayerAttackState.HasBeenParried)
-                    this.m_PlayerAttackHandler.EndParryAction();
-
-                // TODO: Change to point the player's locked state rather than the Cameras
-                if (this.m_CameraController.IsLockedOn)
-                {
-                    StartCoroutine("DodgeImpulse");
-                    StartCoroutine(
-                        this.m_PlayerFunctions.DodgeImpulse(
-                            new Vector3(
-                                this.m_PlayerMovementState.MoveDirection.x,
-                                0,
-                                this.m_PlayerMovementState.MoveDirection.y),
-                                this.m_DodgeForce
-                        )
-                    );
-                }
-                
-                this.m_PlayerAttackHandler.ResetAttack();
-            }
-            // The below may not be feasable to trigger. But below runs if not able to dodge, is moving and is not dodging
-            else if (this.m_PlayerMovementState.MoveDirection != Vector3.zero 
-                     && !this.m_PlayerSpecialActionState.IsDodging 
-                     && !this.m_PlayerSpecialActionState.CanDodge)
-            {
-                this.m_DodgeCache = true;
-            }
-            // Run this is dodge is triggered but no movement is toggled
-            else if (this.m_PlayerMovementState.MoveDirection == Vector3.zero 
-                     && !this.m_PlayerSpecialActionState.IsDodging 
-                     && this.m_PlayerSpecialActionState.CanDodge)
-            {
-                this.m_Animator.SetTrigger("Dodge");
-                this.m_Animator.ResetTrigger("AttackLight");
-                
-                this.m_PlayerMovement.EnableMovement();
-                this.m_PlayerMovement.EnableRotation();
-                
-                if (this.m_PlayerAttackState.HasBeenParried)
-                    this.m_PlayerAttackHandler.EndParryAction();
-
-                // The below if statement is unusually repeated
-                if (this.m_PlayerMovementState.MoveDirection == Vector3.zero 
-                    && !this.m_PlayerSpecialActionState.IsDodging 
-                    && this.m_PlayerSpecialActionState.CanDodge)
-                {
-                    StopCoroutine("DodgeImpulse");
-                    StartCoroutine(this.m_PlayerFunctions.DodgeImpulse(
-                                    new Vector3(0, 0, 1), 
-                                    this.m_DodgeForce));
-                }
-                
-                this.m_PlayerAttackHandler.ResetAttack();
-            }
+            // if (this.m_PlayerMovementState.MoveDirection != Vector3.zero 
+            //     && !this.m_PlayerSpecialActionState.IsDodging // Is not dodging
+            //     && this.m_PlayerSpecialActionState.CanDodge)
+            // {
+            //     this.m_Animator.SetTrigger("Dodge");
+            //     this.m_Animator.ResetTrigger("AttackLight");
+            //     
+            //     this.m_PlayerMovement.EnableMovement();
+            //     this.m_PlayerMovement.EnableRotation();
+            //     
+            //     // TODO: If condition should be a check for the method
+            //     if (this.m_PlayerAttackState.HasBeenParried)
+            //         this.m_PlayerAttackHandler.EndParryAction();
+            //
+            //     // TODO: Change to point the player's locked state rather than the Cameras
+            //     if (this.m_CameraController.IsLockedOn)
+            //     {
+            //         StartCoroutine("DodgeImpulse");
+            //         StartCoroutine(
+            //             this.m_PlayerFunctions.DodgeImpulse(
+            //                 new Vector3(
+            //                     this.m_PlayerMovementState.MoveDirection.x,
+            //                     0,
+            //                     this.m_PlayerMovementState.MoveDirection.y),
+            //                     this.m_DodgeForce
+            //             )
+            //         );
+            //     }
+            //     
+            //     this.m_PlayerAttackHandler.ResetAttack();
+            // }
+            // // The below may not be feasable to trigger. But below runs if not able to dodge, is moving and is not dodging
+            // else if (this.m_PlayerMovementState.MoveDirection != Vector3.zero 
+            //          && !this.m_PlayerSpecialActionState.IsDodging 
+            //          && !this.m_PlayerSpecialActionState.CanDodge)
+            // {
+            //     this.m_DodgeCache = true;
+            // }
+            // // Run this is dodge is triggered but no movement is toggled
+            // else if (this.m_PlayerMovementState.MoveDirection == Vector3.zero 
+            //          && !this.m_PlayerSpecialActionState.IsDodging 
+            //          && this.m_PlayerSpecialActionState.CanDodge)
+            // {
+            //     this.m_Animator.SetTrigger("Dodge");
+            //     this.m_Animator.ResetTrigger("AttackLight");
+            //     
+            //     this.m_PlayerMovement.EnableMovement();
+            //     this.m_PlayerMovement.EnableRotation();
+            //     
+            //     if (this.m_PlayerAttackState.HasBeenParried)
+            //         this.m_PlayerAttackHandler.EndParryAction();
+            //
+            //     // The below if statement is unusually repeated
+            //     if (this.m_PlayerMovementState.MoveDirection == Vector3.zero 
+            //         && !this.m_PlayerSpecialActionState.IsDodging 
+            //         && this.m_PlayerSpecialActionState.CanDodge)
+            //     {
+            //         StopCoroutine("DodgeImpulse");
+            //         StartCoroutine(this.m_PlayerFunctions.DodgeImpulse(
+            //                         new Vector3(0, 0, 1), 
+            //                         this.m_DodgeForce));
+            //     }
+            //     
+            //     this.m_PlayerAttackHandler.ResetAttack();
+            // }
         }
 
         void IPlayerSpecialAction.ResetDodge()

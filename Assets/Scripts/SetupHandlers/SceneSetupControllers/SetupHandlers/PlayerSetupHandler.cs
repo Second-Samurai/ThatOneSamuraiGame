@@ -22,6 +22,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
 
         #region - - - - - - Fields - - - - - -
 
+        [SerializeField] private CameraController m_CameraController;
         [SerializeField] private Transform m_PlayerSpawnPoint;
         [SerializeField] private GameObject m_PlayerObject;
         // [SerializeField] private PlayerCamTargetController m_PlayerCameraTargetController;
@@ -71,7 +72,8 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
                 playerController.gameObject,
                 // this.m_PlayerCameraTargetController,
                 // this.m_ThirdPersonCamController,
-                targetHolder);
+                targetHolder,
+                m_CameraController);
             _InitializerCommand.Execute();
 
             IInputManager _InputManager = GameManager.instance.InputManager;

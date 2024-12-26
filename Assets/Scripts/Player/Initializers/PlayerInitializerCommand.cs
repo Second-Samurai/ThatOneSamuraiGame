@@ -1,6 +1,8 @@
 ﻿using System;
 using ThatOneSamuraiGame.Legacy;
 using ThatOneSamuraiGame.Scripts.General.Services;
+using ThatOneSamuraiGame.Scripts.Player.Movement;
+using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Initializers
@@ -17,6 +19,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
         // private readonly PlayerCamTargetController m_PlayerCameraTargetController;
         // private readonly ThirdPersonCamController m_ThirdPersonCamController;
         private readonly GameObject m_TargetHolder;
+        private readonly ICameraController m_CameraController;
 
         #endregion Fields
   
@@ -26,7 +29,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
             GameObject player, 
             // PlayerCamTargetController playerCameraTargetController,
             // ThirdPersonCamController thirdPersonCamController, 
-            GameObject targetHolder)
+            GameObject targetHolder,
+            ICameraController cameraController)
         {
             this.m_Player = player ?? throw new ArgumentNullException(nameof(player));
             // this.m_PlayerCameraTargetController = playerCameraTargetController ??
@@ -34,6 +38,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
             // this.m_ThirdPersonCamController = thirdPersonCamController ??
             //                                   throw new ArgumentNullException(nameof(thirdPersonCamController));
             this.m_TargetHolder = targetHolder ?? throw new ArgumentNullException(nameof(targetHolder));
+            this.m_CameraController = cameraController ?? throw new ArgumentNullException(nameof(cameraController));
         }
 
         #endregion Constructors
@@ -52,6 +57,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
                 this.m_Player.GetComponentInChildren<FinishingMoveController>();
             _FinishingMoveController.Initialise();
 
+            PlayerTargetLocking _PlayerTargetLocking = this.m_Player.GetComponent<PlayerTargetLocking>();
+            _PlayerTargetLocking.Initialize(this.m_CameraController);
+
             // Initialise lock-on behavior
             // AddToLockOnTracker _AddToLockOnTracker = this.m_Player.GetComponentInChildren<AddToLockOnTracker>();
             // _AddToLockOnTracker.Initialise();
@@ -62,7 +70,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
             // Initialise Camera Control
             // CameraControl _CameraController = this.m_Player.GetComponent<CameraControl>();
             // _CameraController.camTargetScript = this.m_PlayerCameraTargetController;
-            
+
             // Temp: Call PlayerControl Initializer
             // TODO: Migrate PlayerController specific initialization here.
             PlayerController _PlayerController = this.m_Player.GetComponent<PlayerController>();

@@ -1,5 +1,4 @@
-﻿using ThatOneSamuraiGame.Legacy;
-using ThatOneSamuraiGame.Scripts.DebugScripts;
+﻿using ThatOneSamuraiGame.Scripts.DebugScripts;
 using ThatOneSamuraiGame.Scripts.DebugScripts.DebugSceneInvokers;
 using UnityEngine;
 
@@ -14,6 +13,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
 
         // public PlayerCamTargetController PlayerCameraTargetController;
         // public ThirdPersonCamController ThirdPersonCamController;
+        public CameraController CameraController;
 
         #endregion Fields
   
@@ -35,7 +35,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
                     this.gameObject, 
                     // this.PlayerCameraTargetController,
                     // ThirdPersonCamController, 
-                    _TargetHolder);
+                    _TargetHolder,
+                    CameraController);
             _InitializerCommand.Execute();
         }
         

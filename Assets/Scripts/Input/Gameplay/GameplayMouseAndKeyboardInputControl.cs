@@ -121,7 +121,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         void IGameplayInputControl.OnDodge(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_InputControlData.PlayerSpecialAction.Dodge();
+            this.m_InputControlData.PlayerMovement.Dodge();
         }
 
         void IGameplayInputControl.OnInitRewind(InputAction.CallbackContext context)

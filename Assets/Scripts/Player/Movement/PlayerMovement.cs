@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Scripts.Base;
+﻿using Enemies.Enemy_States;
+using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
@@ -41,6 +42,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         
         // Player states
         private PlayerNormalMovement m_NormalMovement;
+        private PlayerLockOnMovement m_LockOnMovement;
 
         private IPlayerMovementState m_CurrentMovementState;
         
@@ -76,8 +78,15 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 this.m_Animator, 
                 this.transform,
                 this);
+            this.m_LockOnMovement = new PlayerLockOnMovement(
+                this.m_Animator,
+                this.transform,
+                this.m_PlayerMovementState,
+                this.m_PlayerTargetTrackingState);
             
             this.m_CurrentMovementState = this.m_NormalMovement;
+            
+            this.EnableDodge();
         }
 
         private void Update()
@@ -107,9 +116,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         {
             if (state == PlayerMovementStates.Normal)
                 this.m_CurrentMovementState = this.m_NormalMovement;
+            else if (state == PlayerMovementStates.LockOn)
+                this.m_CurrentMovementState = this.m_LockOnMovement;
+            
+            Debug.Log("Movement State is: " + state);
         }
 
-        void IPlayerDodgeMovement.EnableDodge()
+        public void EnableDodge()
             => this.m_PlayerMovementState.CanDodge = true;
 
         void IPlayerDodgeMovement.DisableDodge()
@@ -155,6 +168,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             else
                 this.m_Animator.SetBool("IsSprinting", true);
         }
+
+        public void Dodge()
+            => this.m_CurrentMovementState.PerformDodge();
 
         // private Vector3 CalculateMovementDirection()
         // {

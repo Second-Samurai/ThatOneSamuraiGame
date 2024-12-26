@@ -19,7 +19,6 @@ namespace ThatOneSamuraiGame.Scripts.Camera.Debugging
             => CameraControl.GetComponent<ICameraController>();
 
         #endregion Properties
-  
 
         #region - - - - - - Methods - - - - - -
 

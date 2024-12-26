@@ -12,6 +12,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         void DisableRotation();
 
+        void Dodge();
+
         void EnableMovement();
 
         void EnableRotation();
@@ -19,6 +21,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         void PreparePlayerMovement(Vector2 moveDirection);
 
         void PrepareSprint(bool isSprinting);
+
+        void SetState(PlayerMovementStates movementState);
 
         #endregion Methods
 

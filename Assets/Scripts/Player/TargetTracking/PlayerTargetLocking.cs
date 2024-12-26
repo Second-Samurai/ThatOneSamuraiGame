@@ -1,40 +1,53 @@
-﻿using ThatOneSamuraiGame.Legacy;
+﻿using System;
 using ThatOneSamuraiGame.Scripts.Base;
+using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
+using ThatOneSamuraiGame.Scripts.Player.Movement;
+using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
 {
     
+    [RequireComponent(typeof(IPlayerMovement))]
     public class PlayerTargetLocking : PausableMonoBehaviour, IPlayerTargetTracking
     {
 
         #region - - - - - - Fields - - - - - -
 
-        private Legacy.ICameraController m_CameraController;
+        private ICameraController m_CameraController;
+        private IPlayerMovement m_PlayerMovement;
 
         #endregion Fields
 
-        #region - - - - - - Lifecycle Methods - - - - - -
+        #region - - - - - - Initializers - - - - - -
 
-        private void Start() 
-            => this.m_CameraController = this.GetComponent<Legacy.ICameraController>();
+        public void Initialize(ICameraController cameraController)
+        {
+            this.m_CameraController = cameraController ?? throw new ArgumentNullException(nameof(cameraController));
+            this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
+        }
 
-        #endregion Lifecycle Methods
-        
+        #endregion Initializers
+  
         #region - - - - - - Methods - - - - - -
 
         void IPlayerTargetTracking.ToggleLockLeft()
         {
-            if (this.m_CameraController.IsLockedOn)
-                this.m_CameraController.LockOn();
+            // TODO: Change to get new target
+            // if (this.m_CameraController.IsLockedOn)
+            //     this.m_CameraController.LockOn();
         }
 
-        void IPlayerTargetTracking.ToggleLockOn()
-            => this.m_CameraController.ToggleLockOn();
-        
+        public void ToggleLockOn()
+        {
+            this.m_CameraController.SelectCamera(SceneCameras.LockOn);
+            this.m_PlayerMovement.SetState(PlayerMovementStates.LockOn);
+        }
+
         void IPlayerTargetTracking.ToggleLockRight()
         {
-            if (this.m_CameraController.IsLockedOn)
-                this.m_CameraController.LockOn();
+            // TODO: Change to get new target
+            // if (this.m_CameraController.IsLockedOn)
+            //     this.m_CameraController.LockOn();
         }
 
         #endregion Methods

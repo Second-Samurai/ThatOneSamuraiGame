@@ -2682,22 +2682,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 354458591}
-        m_TargetAssemblyTypeName: ThatOneSamuraiGame.Scripts.Camera.Debugging.DebugCameraStateGUIController,
+      - m_Target: {fileID: 215494514923266131}
+        m_TargetAssemblyTypeName: ThatOneSamuraiGame.Scripts.Player.TargetTracking.PlayerTargetLocking,
           Assembly-CSharp
-        m_MethodName: SwitchToLockOnCamera
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1756048565}
-        m_TargetAssemblyTypeName: LockOnSystem, Assembly-CSharp
-        m_MethodName: StartLockOn
+        m_MethodName: ToggleLockOn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5597,7 +5585,7 @@ GameObject:
   - component: {fileID: 1867263062}
   - component: {fileID: 1867263063}
   m_Layer: 0
-  m_Name: CameraSetup (1)
+  m_Name: 'CameraSetup REPLACEMENT]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40247,6 +40235,11 @@ PrefabInstance:
       objectReference: {fileID: 4573849219210010279}
     - target: {fileID: 7510437537952450416, guid: 1dfaf59a5685a934590fed49583c8942,
         type: 3}
+      propertyPath: m_CameraController
+      value: 
+      objectReference: {fileID: 1476549714}
+    - target: {fileID: 7510437537952450416, guid: 1dfaf59a5685a934590fed49583c8942,
+        type: 3}
       propertyPath: m_PlayerSpawnPoint
       value: 
       objectReference: {fileID: 471960474}
@@ -40261,11 +40254,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 778419170319803737, guid: 1dfaf59a5685a934590fed49583c8942, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4415289411924991187, guid: 1dfaf59a5685a934590fed49583c8942,
         type: 3}
-      insertIndex: 1
+      insertIndex: 0
       addedObject: {fileID: 1867263062}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1dfaf59a5685a934590fed49583c8942, type: 3}
@@ -41396,6 +41390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a2f49e149b419cad9028eaf73a44d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraController: {fileID: 1476549714}
 --- !u!4 &5556955577155988479
 Transform:
   m_ObjectHideFlags: 0

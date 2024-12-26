@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Diagnostics;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using UnityEngine;
@@ -36,7 +35,7 @@ public class PlayerNormalMovement : IPlayerMovementState
     private readonly PlayerMovementState m_MovementState;
     private readonly Animator m_PlayerAnimator;
     private readonly Transform m_PlayerTransform;
-    private readonly MonoBehaviour m_RootReferenceMonoBehaviour;
+    private readonly MonoBehaviour m_RootReferenceMonoBehaviour; // Required for Coroutine
     
     private Vector2 m_InputDirection;
     
@@ -107,7 +106,7 @@ public class PlayerNormalMovement : IPlayerMovementState
         this.m_MovementState.MoveDirection = new Vector3(this.m_InputDirection.x, 0, this.m_InputDirection.y).normalized;
         
         // Calculate Rotation
-        this.RotatePlayerToMovementDirection();
+        this.CalculatePlayerRotation();
     }
 
     public void PerformDodge()
@@ -135,7 +134,7 @@ public class PlayerNormalMovement : IPlayerMovementState
     public void SetInputDirection(Vector2 inputDirection) 
         => this.m_InputDirection = inputDirection;
 
-    private void RotatePlayerToMovementDirection()
+    private void CalculatePlayerRotation()
     {
         this.m_TargetAngleRotation = Mathf.Atan2(this.m_MovementState.MoveDirection.x, this.m_MovementState.MoveDirection.z)
             * Mathf.Rad2Deg + this.m_CameraController.GetCameraEulerAngles().y;

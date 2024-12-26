@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using UnityEngine;
@@ -82,6 +81,7 @@ public class PlayerNormalMovement : BasePlayerMovementState
     {
         if (!this.m_MovementState.CanDodge) return;
         
+        Debug.Log("Is Dodging");
         this.m_PlayerAnimator.SetTrigger("Dodge");
         this.m_PlayerAnimator.ResetTrigger("AttackLight");
         
@@ -90,14 +90,7 @@ public class PlayerNormalMovement : BasePlayerMovementState
 
         this.m_RootReferenceMonoBehaviour.StartCoroutine(
             this.ApplyDodgeTranslation(Vector3.forward, this.m_DodgeForce));
-        this.m_MovementState.CanDodge = false;
         this.m_AttackHandler.ResetAttack();
-        
-        // Limitations:
-        // -Needs a way of reseting the dodge state after animation events
-        // -The coroutine is the same on both normal and lockon
-        // -The InputDirection is passed seperately instead of being processed as part of one action.
-        // -Dodging affects the action of many other states. Perhaps a n observer wll be needed for exe
     }
 
     public override void SetInputDirection(Vector2 inputDirection) 

@@ -118,7 +118,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         public void EndDodging()
         {
             this.m_PlayerAttackState.CanAttack = true;
-            this.m_PlayerSpecialActionState.IsDodging = false;
+            // this.m_PlayerSpecialActionState.IsDodging = false;
             
             this.m_PlayerDamage.EnableDamage();
             this.m_PlayerFunctions.EnableBlock();

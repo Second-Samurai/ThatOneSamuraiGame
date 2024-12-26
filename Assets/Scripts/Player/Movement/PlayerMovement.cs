@@ -79,7 +79,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 this.m_Animator, 
                 this.transform,
                 this.m_PlayerMovementState,
-                this.m_PlayerTargetTrackingState,
                 this);
             
             this.m_CurrentMovementState = this.m_NormalMovement;

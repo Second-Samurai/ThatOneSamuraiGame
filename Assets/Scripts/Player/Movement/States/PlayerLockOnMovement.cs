@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
-using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using UnityEngine;
 
 public class PlayerLockOnMovement : BasePlayerMovementState
 {
     private readonly IPlayerAttackHandler m_AttackHandler;
     private readonly PlayerAttackState m_AttackState;
-    private PlayerTargetTrackingState m_PlayerTargetTrackingState;
     private readonly MonoBehaviour m_RootReferenceMonoBehaviour; // Required for Coroutine
     
     private float m_CurrentAngleSmoothVelocity;
@@ -23,14 +20,11 @@ public class PlayerLockOnMovement : BasePlayerMovementState
         Animator playerAnimator, 
         Transform playerTransform, 
         PlayerMovementState movementState, 
-        PlayerTargetTrackingState targetTrackingState,
         MonoBehaviour refMonoBehaviour) 
         : base(playerAnimator, playerTransform, movementState)
     {
         this.m_AttackHandler = attackHandler ?? throw new ArgumentNullException(nameof(attackHandler));
         this.m_AttackState = attackState ?? throw new ArgumentNullException(nameof(attackState));
-        this.m_PlayerTargetTrackingState =
-            targetTrackingState ?? throw new ArgumentNullException(nameof(targetTrackingState));
         this.m_RootReferenceMonoBehaviour =
             refMonoBehaviour ?? throw new ArgumentNullException(nameof(refMonoBehaviour));
     }
@@ -67,7 +61,6 @@ public class PlayerLockOnMovement : BasePlayerMovementState
             this.ApplyDodgeTranslation(
                 new Vector3(this.m_MovementState.MoveDirection.x, 0, this.m_MovementState.MoveDirection.y),
                 this.m_DodgeForce));
-        this.m_MovementState.CanDodge = false;
         this.m_AttackHandler.ResetAttack();
     }
 

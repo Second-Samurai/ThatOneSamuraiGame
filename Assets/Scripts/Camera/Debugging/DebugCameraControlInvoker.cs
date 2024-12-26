@@ -12,8 +12,6 @@ public class DebugCameraControlInvoker : DebugComponent, IDebugStartupHandler
     {
         ICameraController _CameraController = this.GetComponent<ICameraController>();
         _CameraController.SelectCamera(SceneCameras.FollowPlayer);
-        
-        Debug.Log("Is this bloody invoking");
     }
 
     #endregion Methods

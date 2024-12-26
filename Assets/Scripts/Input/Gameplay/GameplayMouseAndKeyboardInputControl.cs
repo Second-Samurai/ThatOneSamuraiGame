@@ -127,7 +127,8 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         void IGameplayInputControl.OnInitRewind(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_InputControlData.PlayerSpecialAction.ActivateRewind();
+            // this.m_InputControlData.PlayerSpecialAction.ActivateRewind();
+            Debug.Log("Rewind has been removed.");
         }
 
         // -----------------------------------------------------

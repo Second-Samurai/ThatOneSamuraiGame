@@ -53,7 +53,6 @@ public class LockOnTargetTracking : PausableMonoBehaviour
     private void FixedUpdate()
     {
         if (this.IsPaused || !this.m_CameraTransform) return;
-        GameLogger.Log((nameof(m_CameraTransform), m_CameraTransform), (nameof(m_PossibleTargets), this.m_PossibleTargets));
         
         // Constantly searches for the nearby enemy.
         this.CollectTargetableEnemies();

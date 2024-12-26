@@ -54,8 +54,6 @@ public class CameraStateSystem : MonoBehaviour, ICameraStateSystem
     {
         this.m_CurrentCameraState?.EndState();
         
-        Debug.Log(selectedCamera);
-
         if(selectedCamera == SceneCameras.FollowPlayer)
             this.m_CurrentCameraState = this.m_FollowPlayerState.GetComponent<ICameraState>();
         else if (selectedCamera == SceneCameras.FollowSprintPlayer)

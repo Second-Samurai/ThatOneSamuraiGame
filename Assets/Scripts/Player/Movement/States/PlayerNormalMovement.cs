@@ -3,23 +3,6 @@ using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using UnityEngine;
 
-public interface IPlayerMovementState
-{
-
-    #region - - - - - - Methods - - - - - -
-
-    void CalculateMovement();
-
-    void ApplyMovement();
-
-    void PerformDodge();
-
-    void SetInputDirection(Vector2 inputDirection);
-
-    #endregion Methods
-  
-}
-
 public class PlayerNormalMovement : BasePlayerMovementState
 {
 
@@ -81,7 +64,6 @@ public class PlayerNormalMovement : BasePlayerMovementState
     {
         if (!this.m_MovementState.CanDodge) return;
         
-        Debug.Log("Is Dodging");
         this.m_PlayerAnimator.SetTrigger("Dodge");
         this.m_PlayerAnimator.ResetTrigger("AttackLight");
         

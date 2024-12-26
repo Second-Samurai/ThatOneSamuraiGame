@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerLockOnMovement : BasePlayerMovementState
 {
+
+    #region - - - - - - Fields - - - - - -
+
     private readonly IPlayerAttackHandler m_AttackHandler;
     private readonly PlayerAttackState m_AttackState;
     private readonly MonoBehaviour m_RootReferenceMonoBehaviour; // Required for Coroutine
@@ -13,6 +16,10 @@ public class PlayerLockOnMovement : BasePlayerMovementState
     private Quaternion m_CurrentRotation;
     private float m_DodgeForce = 10f;
     private float m_RotationSpeed = 4f;
+
+    #endregion Fields
+
+    #region - - - - - - Constructors - - - - - -
 
     public PlayerLockOnMovement(
         IPlayerAttackHandler attackHandler,
@@ -28,7 +35,11 @@ public class PlayerLockOnMovement : BasePlayerMovementState
         this.m_RootReferenceMonoBehaviour =
             refMonoBehaviour ?? throw new ArgumentNullException(nameof(refMonoBehaviour));
     }
-    
+
+    #endregion Constructors
+
+    #region - - - - - - Methods - - - - - -
+
     public override void CalculateMovement()
     {
         this.m_MovementState.MoveDirection = 
@@ -66,5 +77,7 @@ public class PlayerLockOnMovement : BasePlayerMovementState
 
     public override void SetInputDirection(Vector2 inputDirection)
         => this.m_InputDirection = inputDirection;
+
+    #endregion Methods
 
 }

@@ -7,19 +7,6 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.Player.Movement
 {
 
-    public interface IPlayerDodgeMovement
-    {
-
-        #region - - - - - - Methods - - - - - -
-
-        void EnableDodge();
-
-        void DisableDodge();
-
-        #endregion Methods
-
-    }
-    
     [RequireComponent(typeof(Animator))]
     public class PlayerMovement : PausableMonoBehaviour, IPlayerMovement, IPlayerDodgeMovement
     {
@@ -38,18 +25,16 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private PlayerTargetTrackingState m_PlayerTargetTrackingState;
         
         // Player states
+        private IPlayerMovementState m_CurrentMovementState;
         private PlayerNormalMovement m_NormalMovement;
         private PlayerLockOnMovement m_LockOnMovement;
-
-        private IPlayerMovementState m_CurrentMovementState;
         
         private float m_CurrentAngleSmoothVelocity;
+        private Vector2 m_InputDirection = Vector2.zero;
         private bool m_IsMovementEnabled = true;
         private bool m_IsRotationEnabled = true;
         private bool m_IsSprinting = false;
-        private Vector2 m_InputDirection = Vector2.zero;
         private float m_RotationSpeed = 4f;
-        private float m_MovementSmoothingDampingTime = .1f;
 
         #endregion Fields
         
@@ -65,6 +50,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_PlayerAttackState = _PlayerState.PlayerAttackState;
             this.m_PlayerMovementState = _PlayerState.PlayerMovementState;
 
+            // Initialize Movement States
             this.m_NormalMovement = new PlayerNormalMovement(
                 this.GetComponent<IPlayerAttackHandler>(),
                 this.m_PlayerAttackState,
@@ -83,7 +69,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             
             this.m_CurrentMovementState = this.m_NormalMovement;
             
-            this.EnableDodge();
+            ((IPlayerDodgeMovement)this).EnableDodge();
         }
 
         private void Update()
@@ -103,18 +89,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         
         #region - - - - - - Methods - - - - - -
         
-        // TODO: Convert to interface
-        public void SetState(PlayerMovementStates state)
-        {
-            if (state == PlayerMovementStates.Normal)
-                this.m_CurrentMovementState = this.m_NormalMovement;
-            else if (state == PlayerMovementStates.LockOn)
-                this.m_CurrentMovementState = this.m_LockOnMovement;
-            
-            Debug.Log("Movement State is: " + state);
-        }
+        public void Dodge()
+            => this.m_CurrentMovementState.PerformDodge();
 
-        public void EnableDodge()
+        void IPlayerDodgeMovement.EnableDodge()
             => this.m_PlayerMovementState.CanDodge = true;
 
         void IPlayerDodgeMovement.DisableDodge()
@@ -155,9 +133,16 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             else
                 this.m_Animator.SetBool("IsSprinting", true);
         }
-
-        public void Dodge()
-            => this.m_CurrentMovementState.PerformDodge();
+        
+        void IPlayerMovement.SetState(PlayerMovementStates state)
+        {
+            if (state == PlayerMovementStates.Normal)
+                this.m_CurrentMovementState = this.m_NormalMovement;
+            else if (state == PlayerMovementStates.LockOn)
+                this.m_CurrentMovementState = this.m_LockOnMovement;
+            
+            Debug.Log("Movement State is: " + state);
+        }
 
         private void LockPlayerRotationToAttackTarget()
         {

@@ -43,7 +43,6 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
             this.m_InputControlData.PauseActionHandler = this.m_SessionUser.GetComponent<IPauseActionHandler>();
             this.m_InputControlData.PlayerAttackHandler = this.m_ActivePlayer.GetComponent<IPlayerAttackHandler>();
             this.m_InputControlData.PlayerMovement = this.m_ActivePlayer.GetComponent<IPlayerMovement>();
-            this.m_InputControlData.PlayerSpecialAction = this.m_ActivePlayer.GetComponent<IPlayerSpecialAction>();
             this.m_InputControlData.PlayerTargetTracking = this.m_ActivePlayer.GetComponent<IPlayerTargetTracking>();
             this.m_InputControlData.PlayerViewOrientationHandler = this.m_ActivePlayer.GetComponent<IPlayerViewOrientationHandler>();
             
@@ -54,8 +53,6 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
                     nameof(this.m_InputControlData.PlayerAttackHandler));
             _ = GameValidator.NotNull(this.m_InputControlData.PlayerMovement, 
                     nameof(this.m_InputControlData.PlayerMovement));
-            _ = GameValidator.NotNull(this.m_InputControlData.PlayerSpecialAction, 
-                    nameof(this.m_InputControlData.PlayerSpecialAction));
             _ = GameValidator.NotNull(this.m_InputControlData.PlayerTargetTracking, 
                     nameof(this.m_InputControlData.PlayerTargetTracking));
             _ = GameValidator.NotNull(this.m_InputControlData.PlayerViewOrientationHandler, 

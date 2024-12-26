@@ -1,4 +1,5 @@
 ﻿using System;
+using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using UnityEngine;
 
@@ -33,6 +34,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_PlayerMovementState = movementState ?? throw new ArgumentNullException(nameof(movementState));
             this.m_PlayerTargetTrackingState =
                 targetTrackingState ?? throw new ArgumentNullException(nameof(targetTrackingState));
+
+            this.m_DeltaTime = Time.deltaTime;
         }
         
         public void CalculateMovement()
@@ -47,6 +50,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         public void ApplyMovement()
         {
+            GameLogger.Log(
+                ("Input X Direction", this.m_InputDirection.x),
+                ("Input Speed", this.m_InputDirection.magnitude));
+            
             // Invokes player movement through the physically based animation movements
             this.m_PlayerAnimator.SetFloat(
                 "XInput", 

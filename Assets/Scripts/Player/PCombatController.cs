@@ -5,6 +5,8 @@ using UnityEngine;
 //Empty For now
 public interface ICombatController
 {
+    bool IsSwordDrawn { get; }
+    
     void RunLightAttack();  // May be redundant
     void BlockCombatInputs();
     void UnblockCombatInputs();
@@ -44,6 +46,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     public AudioClip[] saberwhoosh;
     public AudioClip[] lightSaberHit;
 
+    public bool IsSwordDrawn => this._isSwordDrawn;
 
     /// <summary>
     /// Initialises Combat Controller variables and related class components

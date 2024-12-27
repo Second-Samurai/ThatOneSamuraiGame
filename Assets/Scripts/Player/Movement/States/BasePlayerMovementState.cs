@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Player.Animation;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ public class BasePlayerMovementState : IPlayerMovementState
     protected readonly float m_DeltaTime;
     protected Vector2 m_InputDirection;
     protected readonly PlayerMovementState m_MovementState;
-    protected readonly Animator m_PlayerAnimator;
+    protected readonly PlayerAnimationComponent m_PlayerAnimationComponent;
     protected readonly Transform m_PlayerTransform;
 
     #endregion Fields
@@ -22,11 +23,11 @@ public class BasePlayerMovementState : IPlayerMovementState
     #region - - - - - - Constructors - - - - - -
 
     public BasePlayerMovementState(
-        Animator playerAnimator, 
+        PlayerAnimationComponent playerAnimationComponent, 
         Transform playerTransform, 
         PlayerMovementState movementState)
     {
-        this.m_PlayerAnimator = playerAnimator ?? throw new ArgumentNullException(nameof(playerAnimator));
+        this.m_PlayerAnimationComponent = playerAnimationComponent ?? throw new ArgumentNullException(nameof(playerAnimationComponent));
         this.m_PlayerTransform = playerTransform ?? throw new ArgumentNullException(nameof(playerTransform));
         this.m_MovementState = movementState ?? throw new ArgumentNullException(nameof(movementState));
         
@@ -42,23 +43,13 @@ public class BasePlayerMovementState : IPlayerMovementState
     public virtual void ApplyMovement()
     {
         // Invokes player movement through the physically based animation movements
-        this.m_PlayerAnimator.SetFloat(
-            "XInput", 
-            this.m_InputDirection.x, 
-            MOVEMENT_SMOOTHING_DAMPING_TIME,
-            this.m_DeltaTime);
+        this.m_PlayerAnimationComponent.SetInputDirection(
+            new Vector2(this.m_InputDirection.x, this.m_InputDirection.y),
+            MOVEMENT_SMOOTHING_DAMPING_TIME);
         
-        this.m_PlayerAnimator.SetFloat(
-            "YInput",
-            this.m_InputDirection.y,
-            MOVEMENT_SMOOTHING_DAMPING_TIME,
-            this.m_DeltaTime);
-        
-        this.m_PlayerAnimator.SetFloat(
-            "InputSpeed",
+        this.m_PlayerAnimationComponent.SetInputSpeed(
             this.m_InputDirection.magnitude,
-            MOVEMENT_SMOOTHING_DAMPING_TIME,
-            this.m_DeltaTime);
+            MOVEMENT_SMOOTHING_DAMPING_TIME);
     }
 
     public virtual void PerformDodge() { }

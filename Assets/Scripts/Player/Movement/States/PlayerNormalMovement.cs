@@ -1,4 +1,5 @@
 ﻿using System;
+using Player.Animation;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using UnityEngine;
@@ -27,10 +28,10 @@ public class PlayerNormalMovement : BasePlayerMovementState
         PlayerAttackState attackState,
         CameraController cameraController,
         PlayerMovementState movementState,
-        Animator playerAnimator,
+        PlayerAnimationComponent playerAnimationComponent,
         Transform playerTransform,
         MonoBehaviour refMonoBehaviour)
-        : base(playerAnimator, playerTransform, movementState)
+        : base(playerAnimationComponent, playerTransform, movementState)
     {
         this.m_AttackHandler = attackHandler ?? throw new ArgumentNullException(nameof(attackHandler));
         this.m_AttackState = attackState ?? throw new ArgumentNullException(nameof(attackState));
@@ -64,8 +65,8 @@ public class PlayerNormalMovement : BasePlayerMovementState
     {
         if (!this.m_MovementState.CanDodge) return;
         
-        this.m_PlayerAnimator.SetTrigger("Dodge");
-        this.m_PlayerAnimator.ResetTrigger("AttackLight");
+        this.m_PlayerAnimationComponent.SetTrigger("Dodge");
+        this.m_PlayerAnimationComponent.ResetTrigger("AttackLight");
         
         if (this.m_AttackState.ParryStunned)
             this.m_AttackHandler.EndParryAction();

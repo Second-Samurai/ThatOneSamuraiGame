@@ -1,4 +1,5 @@
 ﻿using System;
+using Player.Animation;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using UnityEngine;
@@ -24,11 +25,11 @@ public class PlayerLockOnMovement : BasePlayerMovementState
     public PlayerLockOnMovement(
         IPlayerAttackHandler attackHandler,
         PlayerAttackState attackState,
-        Animator playerAnimator, 
+        PlayerAnimationComponent playerAnimationComponent, 
         Transform playerTransform, 
         PlayerMovementState movementState, 
         MonoBehaviour refMonoBehaviour) 
-        : base(playerAnimator, playerTransform, movementState)
+        : base(playerAnimationComponent, playerTransform, movementState)
     {
         this.m_AttackHandler = attackHandler ?? throw new ArgumentNullException(nameof(attackHandler));
         this.m_AttackState = attackState ?? throw new ArgumentNullException(nameof(attackState));

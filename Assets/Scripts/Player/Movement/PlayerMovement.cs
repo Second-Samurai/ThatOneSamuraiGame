@@ -1,6 +1,4 @@
-﻿using Player.Animation;
-using ThatOneSamuraiGame.Scripts.Base;
-using ThatOneSamuraiGame.Scripts.Camera;
+﻿using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
@@ -8,8 +6,9 @@ using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Movement
 {
-    
-    public class PlayerMovement : TOSGMonoBehaviourBase, IPlayerMovement
+
+    [RequireComponent(typeof(Animator))]
+    public class PlayerMovement : PausableMonoBehaviour, IPlayerMovement, IPlayerDodgeMovement
     {
         
         #region - - - - - - Fields - - - - - -
@@ -19,12 +18,18 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private IControlledCameraState m_CameraState;
         private FinishingMoveController m_FinishingMoveController;
         
-        // Player states
+        // Player data containers
         private PlayerAttackState m_PlayerAttackState;
         private PlayerMovementState m_PlayerMovementState;
         private PlayerTargetTrackingState m_PlayerTargetTrackingState;
         
+        // Player states
+        private IPlayerMovementState m_CurrentMovementState;
+        private PlayerNormalMovement m_NormalMovement;
+        private PlayerLockOnMovement m_LockOnMovement;
+        
         private float m_CurrentAngleSmoothVelocity;
+        private Vector2 m_InputDirection = Vector2.zero;
         private bool m_IsMovementEnabled = true;
         private bool m_IsRotationEnabled = true;
         private bool m_IsSprinting = false;
@@ -33,7 +38,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private float m_SprintMultiplier = 2.0f;
         private float m_SprintDuration = 0.0f;
         private float m_RotationSpeed = 4f;
-        private float m_MovementSmoothingDampingTime = .1f;
 
         #endregion Fields
         
@@ -50,6 +54,27 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
             this.m_PlayerAttackState = _PlayerState.PlayerAttackState;
             this.m_PlayerMovementState = _PlayerState.PlayerMovementState;
+
+            // Initialize Movement States
+            this.m_NormalMovement = new PlayerNormalMovement(
+                this.GetComponent<IPlayerAttackHandler>(),
+                this.m_PlayerAttackState,
+                this.CameraController, 
+                this.m_PlayerMovementState,
+                this.m_Animator, 
+                this.transform,
+                this);
+            this.m_LockOnMovement = new PlayerLockOnMovement(
+                this.GetComponent<IPlayerAttackHandler>(),
+                this.m_PlayerAttackState,
+                this.m_Animator, 
+                this.transform,
+                this.m_PlayerMovementState,
+                this);
+            
+            this.m_CurrentMovementState = this.m_NormalMovement;
+            
+            ((IPlayerDodgeMovement)this).EnableDodge();
         }
 
         private void Update()
@@ -57,10 +82,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             if (this.IsPaused || !this.m_IsMovementEnabled || this.m_FinishingMoveController.bIsFinishing) 
                 return;
 
-            // Move the player
-            this.CalculateMovementDirection();
-            this.RotatePlayerToMovementDirection();
-            this.PerformMovement();
+            this.m_CurrentMovementState.SetInputDirection(this.m_InputDirection);
+            this.m_CurrentMovementState.CalculateMovement();
+            this.m_CurrentMovementState.ApplyMovement();
             
             // Perform specific movement behavior
             this.LockPlayerRotationToAttackTarget();
@@ -72,6 +96,15 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         #endregion Lifecycle Methods
         
         #region - - - - - - Methods - - - - - -
+        
+        public void Dodge()
+            => this.m_CurrentMovementState.PerformDodge();
+
+        void IPlayerDodgeMovement.EnableDodge()
+            => this.m_PlayerMovementState.CanDodge = true;
+
+        void IPlayerDodgeMovement.DisableDodge()
+            => this.m_PlayerMovementState.CanDodge = false;
 
         public bool IsSprinting() => m_IsSprinting;
 
@@ -104,11 +137,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         {
             this.m_IsSprinting = isSprinting;
 
-            if (this.m_CameraState.IsCameraViewTargetLocked) 
-                return;
-            
-            this.m_CameraController.ToggleSprintCameraState(this.m_IsSprinting);
-            
             // Toggle sprinting animation
             if (this.m_InputDirection == Vector2.zero || !this.m_IsSprinting)
             {
@@ -126,19 +154,22 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         {
             m_SprintDuration += Time.deltaTime;
         }
-
-        private Vector3 CalculateMovementDirection()
+        
+        void IPlayerMovement.SetState(PlayerMovementStates state)
         {
-            this.m_PlayerMovementState.MoveDirection = new Vector3(this.m_InputDirection.x, 0, this.m_InputDirection.y).normalized;
-            return this.m_PlayerMovementState.MoveDirection;
-        }        
+            if (state == PlayerMovementStates.Normal)
+                this.m_CurrentMovementState = this.m_NormalMovement;
+            else if (state == PlayerMovementStates.LockOn)
+                this.m_CurrentMovementState = this.m_LockOnMovement;
+            
+            Debug.Log("Movement State is: " + state);
+        }
 
         private void LockPlayerRotationToAttackTarget()
         {
-            if (!this.m_CameraState.IsCameraViewTargetLocked)
-                return;
+            if (this.m_PlayerTargetTrackingState.AttackTarget == null) return;
             
-            Vector3 _NewLookDirection = this.m_PlayerTargetTrackingState.AttackTarget.transform.position - this.transform.position;
+            Vector3 _NewLookDirection = this.m_PlayerTargetTrackingState.AttackTarget.position - this.transform.position;
             this.transform.rotation = Quaternion.Slerp(
                 this.transform.rotation,
                 Quaternion.LookRotation(_NewLookDirection),

@@ -1,17 +1,15 @@
-﻿using System;
-using ThatOneSamuraiGame.Scripts.Base;
-using ThatOneSamuraiGame.Scripts.Camera;
+﻿using ThatOneSamuraiGame.Scripts.Base;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation
 {
 
-    public class PlayerViewOrientationHandler: TOSGMonoBehaviourBase, IPlayerViewOrientationHandler
+    public class PlayerViewOrientationHandler: PausableMonoBehaviour, IPlayerViewOrientationHandler
     {
         
         #region - - - - - - Fields - - - - - -
 
-        private ICameraController m_CameraController;
+        private ThatOneSamuraiGame.Legacy.ICameraController m_CameraController;
         
         private Vector2 m_ViewRotation = Vector2.zero;
 
@@ -20,33 +18,29 @@ namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation
         #region - - - - - - Lifecycle Methods - - - - - -
 
         private void Start() 
-            => this.m_CameraController = this.GetComponent<ICameraController>();
+            => this.m_CameraController = this.GetComponent<ThatOneSamuraiGame.Legacy.ICameraController>();
 
         private void Update()
         {
             if (IsPaused) return;
-            this.RotateCameraToViewRotation();
+            // this.RotateCameraToViewRotation();
         }
 
         #endregion Lifecycle Methods
 
         #region - - - - - - Event Handlers - - - - - -
 
-        void IPlayerViewOrientationHandler.RotateViewOrientation(Vector2 mouseInputVector) 
-            => this.m_ViewRotation = mouseInputVector;
+        void IPlayerViewOrientationHandler.RotateViewOrientation(Vector2 mouseInputVector)
+        {
+            this.m_ViewRotation = mouseInputVector;
+        }
 
         #endregion Event Handlers
 
         #region - - - - - - Methods - - - - - -
 
-        private void RotateCameraToViewRotation()
-        {
-            // Note: This calculation can be collapsed to a single if statement.
-            if (this.m_ViewRotation != Vector2.zero && !this.m_CameraController.IsLockedOn)
-            {
-                this.m_CameraController.RotateCamera(this.m_ViewRotation);  
-            }
-        }
+        Vector2 IPlayerViewOrientationHandler.GetInputScreenPosition()
+            => this.m_ViewRotation;
 
         #endregion Methods
         

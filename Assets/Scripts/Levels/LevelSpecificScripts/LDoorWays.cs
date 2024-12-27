@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LDoorWays : MonoBehaviour
 {
@@ -43,8 +41,8 @@ public class LDoorWays : MonoBehaviour
 
     private void Start()
     {
-        bossTheme = GameManager.instance.audioManager.BossThemeManager;
-        _backgroundAudio = GameManager.instance.audioManager.backgroundAudio;
+        bossTheme = AudioManager.instance.BossThemeManager;
+        _backgroundAudio = AudioManager.instance.backgroundAudio;
     }
 
     void FixedUpdate()

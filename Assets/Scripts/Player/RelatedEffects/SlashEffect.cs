@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class SlashEffect
+﻿public class SlashEffect
 {
     private GameSettings _gameSettings;
 

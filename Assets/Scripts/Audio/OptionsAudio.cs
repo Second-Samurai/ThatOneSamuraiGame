@@ -1,21 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class OptionsAudio : MonoBehaviour
 {
-    private AudioManager audioManager;
+
+    #region - - - - - - Fields - - - - - -
+
+    public AudioSource audioSource;
     public AudioClip optionsSelect;
     public AudioClip startGame;
 
-    public AudioSource audioSource;
+    private AudioManager audioManager;
+
+    #endregion Fields
+
+    #region - - - - - - Unity Methods - - - - - -
+
     void Start()
     {
-        audioManager = GameManager.instance.audioManager;
-        audioSource = GameManager.instance.audioManager.backgroundAudio.optionsSelectSource;
-        startGame = GameManager.instance.audioManager.FindSound("selectbuttonsfx");
-        optionsSelect = GameManager.instance.audioManager.FindSound("scrollingsfx");
+        audioManager = AudioManager.instance;
+        audioSource = AudioManager.instance.backgroundAudio.optionsSelectSource;
+        startGame = AudioManager.instance.FindSound("selectbuttonsfx");
+        optionsSelect = AudioManager.instance.FindSound("scrollingsfx");
     }
+
+    #endregion Unity Methods
+
+    #region - - - - - - Methods - - - - - -
 
     public void PlaySelect()
     {
@@ -34,5 +44,7 @@ public class OptionsAudio : MonoBehaviour
         audioManager.backgroundAudio.PlayScore();
         audioManager.backgroundAudio.PauseMenuMusic();
     }
+
+    #endregion Methods
 
 }

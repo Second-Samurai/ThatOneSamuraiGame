@@ -1,20 +1,21 @@
 using System;
 using Player.Animation;
+using ICameraController = ThatOneSamuraiGame.Legacy.ICameraController;
 using ThatOneSamuraiGame.Scripts.Base;
-using ThatOneSamuraiGame.Scripts.Camera;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Attack
 {
     
-    public class PlayerAttackHandler : TOSGMonoBehaviourBase, IPlayerAttackHandler
+    public class PlayerAttackHandler : PausableMonoBehaviour, IPlayerAttackHandler
     {
 
         #region - - - - - - Fields - - - - - -
 
         private PlayerAnimationComponent m_PlayerAnimationComponent;
-        private ICameraController m_CameraController;
+        private Legacy.ICameraController m_CameraController;
         private ICombatController m_CombatController;
         private HitstopController m_HitstopController;
         private PlayerFunctions m_PlayerFunctions;
@@ -44,9 +45,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         private void Start()
         {
             this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
-            this.m_CameraController = this.GetComponent<ICameraController>();
+            this.m_CameraController = this.GetComponent<Legacy.ICameraController>();
             this.m_CombatController = this.GetComponent<ICombatController>();
-            this.m_HitstopController = GameManager.instance.GetComponent<HitstopController>();
+            // this.m_HitstopController = GameManager.instance.GetComponent<HitstopController>();
+            this.m_HitstopController = Object.FindFirstObjectByType<HitstopController>();
             this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
             this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
 

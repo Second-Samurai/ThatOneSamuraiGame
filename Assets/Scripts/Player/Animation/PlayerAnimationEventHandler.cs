@@ -3,7 +3,6 @@ using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
-using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Animation
 {
@@ -11,7 +10,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
     /// <summary>
     /// Responsible for handling animation events for the player.
     /// </summary>
-    public class PlayerAnimationEventHandler : TOSGMonoBehaviourBase
+    public class PlayerAnimationEventHandler : PausableMonoBehaviour
     {
 
         #region - - - - - - Fields - - - - - -
@@ -93,11 +92,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
 
         #region - - - - - - PlayerSpecialAction Animation Events - - - - - -
         
-        public void BlockDodge() 
-            => this.m_PlayerSpecialActionState.CanDodge = false;
+        // public void BlockDodge() 
+        //     => this.m_PlayerSpecialActionState.CanDodge = false;
 
-        public void ResetDodge()
-            => this.m_PlayerSpecialAction.ResetDodge();
+        // // TODO: Remove resets from happening exclusivly from the AnimationEventHandler.
+        // public void ResetDodge()
+        //     => this.m_PlayerSpecialAction.ResetDodge();
 
         public void StartDodging()
         {
@@ -114,7 +114,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         public void EndDodging()
         {
             this.m_PlayerAttackState.CanAttack = true;
-            this.m_PlayerSpecialActionState.IsDodging = false;
+            // this.m_PlayerSpecialActionState.IsDodging = false;
             
             this.m_PlayerDamage.EnableDamage();
             this.m_PlayerFunctions.EnableBlock();

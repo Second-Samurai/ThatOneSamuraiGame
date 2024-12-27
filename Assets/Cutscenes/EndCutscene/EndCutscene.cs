@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Playables;
 using Cinemachine;
+using ThatOneSamuraiGame.Legacy;
 using UnityEngine.Events;
 using UnityEngine.Timeline;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class EndCutscene : MonoBehaviour
@@ -21,7 +19,7 @@ public class EndCutscene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        bossTheme = GameManager.instance.audioManager.BossThemeManager;
+        bossTheme = AudioManager.instance.BossThemeManager;
         _cutsceneDirector = GetComponent<PlayableDirector>();
         if (endCutscene == null) endCutscene = new UnityEvent();
         if (signalReceiver == null) signalReceiver = GetComponent<SignalReceiver>();

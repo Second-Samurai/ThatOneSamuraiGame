@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Player.Animation;
-using ThatOneSamuraiGame.Scripts.Player.Movement;
+﻿using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using Random = UnityEngine.Random;
 
 //Empty For now
 public interface ICombatController
 {
     void AttemptLightAttack();
+    bool IsSwordDrawn { get; }
     void BlockCombatInputs();
     void UnblockCombatInputs();
     void DrawSword();
@@ -54,6 +49,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     public AudioClip[] saberwhoosh;
     public AudioClip[] lightSaberHit;
 
+    public bool IsSwordDrawn => this._isSwordDrawn;
 
     /// <summary>
     /// Initialises Combat Controller variables and related class components
@@ -84,9 +80,10 @@ public class PCombatController : MonoBehaviour, ICombatController
     
     public void Start()
     {
-        audioManager = GameManager.instance.audioManager;
-        lightSaberHit = GameManager.instance.audioManager.FindAll("lightSaber-Slash").ToArray();
-        saberwhoosh = GameManager.instance.audioManager.FindAll("lightSaber-Swing ").ToArray();
+        audioManager = AudioManager.instance;
+        lightSaberHit = AudioManager.instance.FindAll("lightSaber-Slash").ToArray();
+        saberwhoosh = AudioManager.instance.FindAll("lightSaber-Swing ").ToArray();
+
     }
     
     #endregion Lifecycle Methods
@@ -238,15 +235,18 @@ public class PCombatController : MonoBehaviour, ICombatController
         //_playerInput.RemoveOverride(); // Note: The override is unused
         m_PlayerAnimationComponent.TriggerIsParried();
 
-        IPlayerSpecialAction _PlayerSpecialAction = this.GetComponent<IPlayerSpecialAction>();
-        _PlayerSpecialAction.ResetDodge();
+        // IPlayerSpecialAction _PlayerSpecialAction = this.GetComponent<IPlayerSpecialAction>();
+        // _PlayerSpecialAction.ResetDodge();
+
+        IPlayerDodgeMovement _playerDodgeMovement = this.GetComponent<IPlayerDodgeMovement>();
+        _playerDodgeMovement.EnableDodge();
     }
  
     public void PlaySlash()
     {
         if (audioManager.LightSaber == false)
         {
-            if (!slash1) slash1 = GameManager.instance.audioManager.FindSound("Light Attack Swing 1");
+            if (!slash1) slash1 = AudioManager.instance.FindSound("Light Attack Swing 1");
             swordAudio.PlayOnce(slash1, audioManager.SFXVol);
         }
         else if (audioManager.LightSaber == true)
@@ -261,7 +261,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     {
         if (audioManager.LightSaber == false)
         {
-            if (!hit1) hit1 = GameManager.instance.audioManager.FindSound("Light Attack Hit 1");
+            if (!hit1) hit1 = AudioManager.instance.FindSound("Light Attack Hit 1");
             audio.PlayOnce(hit1, audioManager.SFXVol);
         }
 
@@ -276,7 +276,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     {
         if (audioManager.LightSaber == false)
         {
-            if (!heavySlash) heavySlash = GameManager.instance.audioManager.FindSound("Heavy Attack Swing 2");
+            if (!heavySlash) heavySlash = AudioManager.instance.FindSound("Heavy Attack Swing 2");
             swordAudio.PlayOnce(heavySlash, audioManager.SFXVol);
         }
         else if (audioManager.LightSaber == true)
@@ -290,7 +290,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     {
         if (audioManager.LightSaber == false)
         {
-            if (!heavyHit) heavyHit = GameManager.instance.audioManager.FindSound("Light Attack Hit 3");
+            if (!heavyHit) heavyHit = AudioManager.instance.FindSound("Light Attack Hit 3");
             audio.PlayOnce(heavyHit, audioManager.SFXVol);
         }
         else if (audioManager.LightSaber == true)

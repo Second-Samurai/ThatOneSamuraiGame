@@ -2,7 +2,6 @@
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
-using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Containers
 {

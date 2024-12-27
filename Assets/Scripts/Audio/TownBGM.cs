@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TownBGM : MonoBehaviour
 {
@@ -9,10 +7,8 @@ public class TownBGM : MonoBehaviour
 
     void Start()
     {
-        backgroundAudio = GameManager.instance.audioManager.backgroundAudio;
+        backgroundAudio = AudioManager.instance.backgroundAudio;
     }
-
-
 
     private void OnTriggerEnter(Collider other)
     {

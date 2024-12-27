@@ -4,6 +4,7 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.Player.Movement
 {
     
+    // TODO: Rename to PlayerMovementDataContainer
     [Serializable]
     public class PlayerMovementState
     {
@@ -28,6 +29,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             get => this.m_CanOverrideMovement;
             set => this.m_CanOverrideMovement = value;
         }
+
+        public bool CanDodge { get; set; }
 
         public bool IsMovementEnabled
         {

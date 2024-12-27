@@ -1,4 +1,5 @@
 ﻿using ThatOneSamuraiGame.Scripts.Scene.DataContainers;
+using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using ThatOneSamuraiGame.Scripts.UI.Pause.PauseActionHandler;
 using ThatOneSamuraiGame.Scripts.UI.Pause.PauseMenu;
 using ThatOneSamuraiGame.Scripts.UI.Pause.PauseObserver;
@@ -25,16 +26,16 @@ namespace ThatOneSamuraiGame.Scripts.UI.Pause.PauseMediator
 
         private void Start()
         {
-            GameManager _GameManager = GameManager.instance;
-            this.m_PauseMenuController = _GameManager.UserInterfaceManager.PauseMenu;
-            this.m_SceneState = _GameManager.SceneManager.SceneState;
-            
+            this.m_SceneState = ((ISceneManager)SceneManager.Instance).SceneState;
             this.m_PauseObserver = this.GetComponent<IPauseObserver>();
         }
 
         #endregion Lifecycle Methods
 
         #region - - - - - - Methods - - - - - -
+
+        public void SetPauseMenuController(IPauseMenuController pauseMenuController) 
+            => this.m_PauseMenuController = pauseMenuController;
 
         void IPauseMediator.Notify(string component, PauseActionType pauseActionType)
         {

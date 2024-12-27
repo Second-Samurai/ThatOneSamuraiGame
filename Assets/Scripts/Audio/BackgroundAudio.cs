@@ -1,11 +1,8 @@
 ﻿using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BackgroundAudio : MonoBehaviour
 {
-    public AudioManager audioManager;
     public AudioClip birdAndTrees;
     public AudioClip menuMusic;
     public AudioClip optionsSelect;
@@ -29,32 +26,32 @@ public class BackgroundAudio : MonoBehaviour
 
     public bool bActive;
 
-
+    private AudioManager m_AudioManager;
 
 
     // Start is called before the first frame update
     void Start()
     {
         bActive = true;
-        audioManager = gameObject.GetComponent<AudioManager>();
+        AudioManager _AudioManager = gameObject.GetComponent<AudioManager>();
+        this.m_AudioManager = _AudioManager;
         //birdsAndTreesSource = gameObject.GetComponent<AudioSource>();
         //menuMusicSource = gameObject.GetComponent<AudioSource>();
         //optionsSelectSource = gameObject.GetComponent<AudioSource>();
         //backgroundMusicSource = gameObject.GetComponent<AudioSource>();
 
+        menuMusic = _AudioManager.FindSound("Menu");
+        birdAndTrees = _AudioManager.FindSound("Birds");
+        startGame = _AudioManager.FindSound("selectbuttonsfx");
+        optionsSelect = _AudioManager.FindSound("scrollingsfx");
+        backgroudMusic = _AudioManager.FindSound("background music");
+        doorClose = _AudioManager.FindSound("gate open");
+        doorSlam = _AudioManager.FindSound("shut");
+        saberHum = _AudioManager.FindSound("hum");
+        fire = _AudioManager.FindSound("fire");
+        rain = _AudioManager.FindSound("Rainfall W thunder");
 
-        menuMusic = GameManager.instance.audioManager.FindSound("Menu");
-        birdAndTrees = GameManager.instance.audioManager.FindSound("Birds");
-        startGame = GameManager.instance.audioManager.FindSound("selectbuttonsfx");
-        optionsSelect = GameManager.instance.audioManager.FindSound("scrollingsfx");
-        backgroudMusic = GameManager.instance.audioManager.FindSound("background music");
-        doorClose = GameManager.instance.audioManager.FindSound("gate open");
-        doorSlam = GameManager.instance.audioManager.FindSound("shut");
-        saberHum = GameManager.instance.audioManager.FindSound("hum");
-        fire = GameManager.instance.audioManager.FindSound("fire");
-        rain = GameManager.instance.audioManager.FindSound("Rainfall W thunder");
-
-        thunder = GameManager.instance.audioManager.FindAll("thunder").ToArray();
+        thunder = _AudioManager.FindAll("thunder").ToArray();
 
         // audiosource settings
         menuMusicSource.loop = true;
@@ -76,20 +73,20 @@ public class BackgroundAudio : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        birdsAndTreesSource.volume = audioManager.BGMVol;
-        menuMusicSource.volume = audioManager.BGMVol;
-        doorSource.volume = audioManager.BGMVol;
-        hum.volume = audioManager.SFXVol / 4;
+        birdsAndTreesSource.volume = this.m_AudioManager.BGMVol;
+        menuMusicSource.volume = this.m_AudioManager.BGMVol;
+        doorSource.volume = this.m_AudioManager.BGMVol;
+        hum.volume = this.m_AudioManager.SFXVol / 4;
 
         if (bActive)
         {
-            backgroundMusicSource.volume = audioManager.BGMVol;
+            backgroundMusicSource.volume = this.m_AudioManager.BGMVol;
         }
 
-        if (audioManager.LightSaber == true && audioManager.check == false)
+        if (this.m_AudioManager.LightSaber == true && this.m_AudioManager.check == false)
         {
             PlayHum();
-            audioManager.check = true;
+            this.m_AudioManager.check = true;
         }
     }
 
@@ -133,45 +130,45 @@ public class BackgroundAudio : MonoBehaviour
         hum.Pause();
     }
 
-    public void ResumeMusic()
-    {
-        backgroundMusicSource.UnPause();
-        hum.UnPause();
-    }
+    // public void ResumeMusic()
+    // {
+    //     backgroundMusicSource.UnPause();
+    //     hum.UnPause();
+    // }
+    //
+    // public void Select(AudioSource audioSource)
+    // {
+    //     audioSource.PlayOneShot(optionsSelect, 1);
+    // }
 
-    public void Select(AudioSource audioSource)
-    {
-        audioSource.PlayOneShot(optionsSelect, 1);
-    }
+    // public void StartGameSelect(AudioSource audioSource)
+    // {
+    //     audioSource.PlayOneShot(startGame, 1);
+    // }
+    //
+    // public void AtmosFadeOut(bool Fadein)
+    // {
+    //     if (Fadein)
+    //     {
+    //         backgroundMusicSource.DOFade(this.m_AudioManager.BGMVol, 2);
+    //     }
+    //     else
+    //     {
+    //         backgroundMusicSource.DOFade(0, 2);
+    //     }
+    // }
 
-    public void StartGameSelect(AudioSource audioSource)
-    {
-        audioSource.PlayOneShot(startGame, 1);
-    }
-
-    public void AtmosFadeOut(bool Fadein)
-    {
-        if (Fadein)
-        {
-            backgroundMusicSource.DOFade(audioManager.BGMVol, 2);
-        }
-        else
-        {
-            backgroundMusicSource.DOFade(0, 2);
-        }
-    }
-
-    public void AtmosFadeOut(bool Fadein, float time)
-    {
-        if (Fadein)
-        {
-            backgroundMusicSource.DOFade(audioManager.BGMVol, time);
-        }
-        else
-        {
-            backgroundMusicSource.DOFade(0, time);
-        }
-    }
+    // public void AtmosFadeOut(bool Fadein, float time)
+    // {
+    //     if (Fadein)
+    //     {
+    //         backgroundMusicSource.DOFade(this.m_AudioManager.BGMVol, time);
+    //     }
+    //     else
+    //     {
+    //         backgroundMusicSource.DOFade(0, time);
+    //     }
+    // }
 
     public void PlayClose()
     {

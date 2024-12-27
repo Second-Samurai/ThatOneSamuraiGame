@@ -10,6 +10,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.ViewOrientation
 
         void RotateViewOrientation(Vector2 mouseInputVector);
 
+        Vector2 GetInputScreenPosition();
+
         #endregion Event Handlers
 
     }

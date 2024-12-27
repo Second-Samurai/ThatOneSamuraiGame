@@ -1,9 +1,4 @@
-﻿using Microsoft.SqlServer.Server;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class AnimationTimeData
+﻿public class AnimationTimeData
 {
 
     public float currentFrame;

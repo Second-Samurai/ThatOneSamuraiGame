@@ -1,40 +1,62 @@
-﻿using ThatOneSamuraiGame.Scripts.Base;
-using ThatOneSamuraiGame.Scripts.Camera;
+﻿using System;
+using ThatOneSamuraiGame.Scripts.Base;
+using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
+using ThatOneSamuraiGame.Scripts.Player.Movement;
+using Unity.XR.OpenVR;
+using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
 {
     
-    public class PlayerTargetLocking : TOSGMonoBehaviourBase, IPlayerTargetTracking
+    [RequireComponent(typeof(IPlayerMovement))]
+    public class PlayerTargetLocking : PausableMonoBehaviour, IPlayerTargetTracking
     {
 
         #region - - - - - - Fields - - - - - -
 
         private ICameraController m_CameraController;
+        private ICombatController m_CombatController;
+        private IPlayerMovement m_PlayerMovement;
+        private ILockOnSystem m_LockOnSystem;
 
         #endregion Fields
 
-        #region - - - - - - Lifecycle Methods - - - - - -
+        #region - - - - - - Initializers - - - - - -
 
-        private void Start() 
-            => this.m_CameraController = this.GetComponent<ICameraController>();
+        public void Initialize(ICameraController cameraController)
+        {
+            this.m_CameraController = cameraController ?? throw new ArgumentNullException(nameof(cameraController));
+            this.m_CombatController = this.GetComponent<ICombatController>();
+            this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
+            this.m_LockOnSystem = this.GetComponentInChildren<ILockOnSystem>();
+        }
 
-        #endregion Lifecycle Methods
-        
+        #endregion Initializers
+  
         #region - - - - - - Methods - - - - - -
 
         void IPlayerTargetTracking.ToggleLockLeft()
         {
-            if (this.m_CameraController.IsLockedOn)
-                this.m_CameraController.LockOn();
+            // TODO: Change to get new target
+            // if (this.m_CameraController.IsLockedOn)
+            //     this.m_CameraController.LockOn();
         }
 
-        void IPlayerTargetTracking.ToggleLockOn()
-            => this.m_CameraController.ToggleLockOn();
-        
+        public void ToggleLockOn()
+        {
+            // Cannot run lock on targeting if no swords are drawn
+            if (!this.m_CombatController.IsSwordDrawn) return;
+            
+            this.m_LockOnSystem.StartLockOn();
+            this.m_CameraController.SelectCamera(SceneCameras.LockOn);
+            this.m_PlayerMovement.SetState(PlayerMovementStates.LockOn);
+        }
+
         void IPlayerTargetTracking.ToggleLockRight()
         {
-            if (this.m_CameraController.IsLockedOn)
-                this.m_CameraController.LockOn();
+            // TODO: Change to get new target
+            // if (this.m_CameraController.IsLockedOn)
+            //     this.m_CameraController.LockOn();
         }
 
         #endregion Methods

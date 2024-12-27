@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using ThatOneSamuraiGame.Legacy;
 using UnityEngine;
 
 public class BasicArcher : MonoBehaviour, IDamageable
@@ -36,7 +36,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        audioManager = GameManager.instance.audioManager;
+        audioManager = AudioManager.instance;
         if(GameManager.instance.PlayerController != null)
             player = GameManager.instance.PlayerController.gameObject.transform;
         if(!draw) draw = AudioManager.instance.FindSound("Bow Draw");

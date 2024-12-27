@@ -11,7 +11,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
     /// Handles inputs for Gameplay actions for Mouse and Keyboard.
     /// </summary>
     /// <remarks>Provides input transformation and pass-through.</remarks>
-    public class GameplayMouseAndKeyboardInputControl : TOSGMonoBehaviourBase, IGameplayInputControl
+    public class GameplayMouseAndKeyboardInputControl : PausableMonoBehaviour, IGameplayInputControl
     {
 
         #region - - - - - - Fields - - - - - -
@@ -121,13 +121,14 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         void IGameplayInputControl.OnDodge(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_InputControlData.PlayerSpecialAction.Dodge();
+            this.m_InputControlData.PlayerMovement.Dodge();
         }
 
         void IGameplayInputControl.OnInitRewind(InputAction.CallbackContext context)
         {
             if (!this.m_IsInputActive || this.IsPaused) return;
-            this.m_InputControlData.PlayerSpecialAction.ActivateRewind();
+            // this.m_InputControlData.PlayerSpecialAction.ActivateRewind();
+            Debug.Log("Rewind has been removed.");
         }
 
         // -----------------------------------------------------

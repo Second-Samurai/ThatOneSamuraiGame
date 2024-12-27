@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class ArcherAnimationTimeData 
+﻿public class ArcherAnimationTimeData 
 {
     public float currentFrame;
     public int currentClip;

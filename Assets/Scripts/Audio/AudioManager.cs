@@ -1,15 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System;
 using UnityEngine;
-using UnityEngine.Audio;
-using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 [ExecuteInEditMode]
 public class AudioManager : MonoBehaviour
 {
+
+    #region - - - - - - Fields - - - - - -
+
+    public static AudioManager instance;
+    
     public Sound[] sounds;
     public float BGMVol;
     public float SFXVol;
@@ -21,9 +22,10 @@ public class AudioManager : MonoBehaviour
     [FormerlySerializedAs("m_BossThemeManager")]
     public BossThemeManager BossThemeManager;
 
-    public static AudioManager instance;
-    
-    // Start is called before the first frame update
+    #endregion Fields
+
+    #region - - - - - - Unity Lifecycle Methods - - - - - -
+
     void Awake()
     {
         if (instance == null)
@@ -40,23 +42,23 @@ public class AudioManager : MonoBehaviour
         foreach (Sound s in sounds) 
         {
             s.name = s.clip.name.ToLower().Trim().Replace(" ", "");
-            if (s.createSource == true)
-            {
-                CreateSource(s);
-            }
-            if (s.createSource == false) 
-            {
-                DestroyImmediate(s.source);
-            }
+            if (s.createSource == true) CreateSource(s);
+            if (s.createSource == false) DestroyImmediate(s.source);
         }
+        
         SFXVol = PlayerPrefs.GetFloat("SFXVolume");
         BGMVol = PlayerPrefs.GetFloat("BGMVolume");
         backgroundAudio = gameObject.GetComponent<BackgroundAudio>();
         trackManager = gameObject.GetComponentInChildren<TrackManager>();
     }
 
+    #endregion Unity Lifecycle Methods
 
-    //finds and returns a  sound contaning a given string in its name
+    #region - - - - - - Methods - - - - - -
+
+    /// <summary>
+    /// finds and returns a sound containing a given string in its name
+    /// </summary>
     public AudioClip FindSound(string name) 
     {
         Sound s = Array.Find(sounds, sound => sound.name.Contains(name.ToLower().Trim().Replace(" ", "")));
@@ -68,7 +70,9 @@ public class AudioManager : MonoBehaviour
         return s.clip;
     }
 
-    // finds and returns a list of every sound contaning a given string in its name
+    /// <summary>
+    /// finds and returns a list of every sound containing a given string in its name
+    /// </summary>
     public List<AudioClip> FindAll(string name) 
     {
         List<AudioClip> passOver = new List<AudioClip>();
@@ -84,7 +88,9 @@ public class AudioManager : MonoBehaviour
         return passOver;     
     }
 
-    // finds and plays a  sound contaning a given string in its name
+    /// <summary>
+    /// finds and plays a  sound containing a given string in its name
+    /// </summary>
     public void Play(string name) 
     {
         Sound s = Array.Find(sounds, sound => sound.name.Contains(name.ToLower().Trim().Replace(" ", "")));
@@ -111,4 +117,7 @@ public class AudioManager : MonoBehaviour
         s.source.pitch = s.pitch;
         s.source.loop = s.loop;
     }
+
+    #endregion Methods
+  
 }

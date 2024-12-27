@@ -1,5 +1,5 @@
-using System;
 using Enemies;
+using ThatOneSamuraiGame.Legacy;
 using UnityEngine;
 
 public class EDamageController : MonoBehaviour, IDamageable

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using Enemies;
 using Player.Animation;
 using ThatOneSamuraiGame.Scripts.Input;
@@ -7,8 +6,6 @@ using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.InputSystem;
 
 // Tech-Debt: #35 - PlayerFunctions will be refactored to mitigate large class bloat.
 public class PlayerFunctions : MonoBehaviour
@@ -25,6 +22,9 @@ public class PlayerFunctions : MonoBehaviour
     public float parryTimer = 0f; 
     public float parryTimerTarget;
     bool _bDontCheckParry = false;
+
+    [Header("Lock On Target")] 
+    public LockOnSystem LockOnSystem;
 
     [Header("IK Functions")]
     IKPuppet _IKPuppet;
@@ -354,7 +354,7 @@ public class PlayerFunctions : MonoBehaviour
             //Debug.LogError("Player killed!");
             //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);
             //GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.3f);
-
+            this.LockOnSystem.EndLockOn();
         }
     }
 

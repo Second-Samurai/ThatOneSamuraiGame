@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Cinemachine;
+using ThatOneSamuraiGame.Legacy;
 
 public interface IPlayerController {
     string GetStringID();
@@ -68,7 +67,7 @@ public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
         stateMachine = this.gameObject.AddComponent<PlayerStateMachine>();
 
         //This assigns the thirdperson camera targets to this player
-        CinemachineFreeLook freeLockCamera = gameManager.ThirdPersonViewCamera.GetComponent<CinemachineFreeLook>();
+        // CinemachineFreeLook freeLockCamera = gameManager.ThirdPersonViewCamera.GetComponent<CinemachineFreeLook>();
         //freeLockCamera.Follow = this.transform;
         //freeLockCamera.LookAt = this.transform;
 
@@ -77,11 +76,11 @@ public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
         combatController.UnblockCombatInputs();
 
         //Sets up the player's camera controller
-        cameraController = this.GetComponent<CameraControl>();
-        cameraController.Init(this.transform);
+        // cameraController = this.GetComponent<CameraControl>();
+        // cameraController.Init(this.transform);
 
-        LockOnTargetManager lockOnManager = this.gameObject.GetComponentInChildren<LockOnTargetManager>();
-        lockOnManager.targetHolder = targetHolder; //Sets the holder from the gamemanager into the LockOn script
+        // LockOnTargetManager lockOnManager = this.gameObject.GetComponentInChildren<LockOnTargetManager>();
+        // lockOnManager.targetHolder = targetHolder; //Sets the holder from the gamemanager into the LockOn script
 
         SetState<PNormalState>();
     }

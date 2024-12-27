@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Playables;
 using Cinemachine;
+using ThatOneSamuraiGame.Legacy;
 using UnityEngine.Events;
 using UnityEngine.Timeline;
 using UnityEngine.InputSystem;

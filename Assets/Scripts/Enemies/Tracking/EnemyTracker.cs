@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Enemies;
+using ThatOneSamuraiGame.Legacy;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

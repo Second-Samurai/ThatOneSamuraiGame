@@ -1,4 +1,6 @@
-﻿using ThatOneSamuraiGame.Scripts.Base;
+﻿using Player.Animation;
+using ThatOneSamuraiGame.Legacy;
+using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
@@ -12,6 +14,11 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
     {
         
         #region - - - - - - Fields - - - - - -
+        
+        // Make these injected
+        public CameraController CameraController;
+        
+        private FinishingMoveController m_FinishingMoveController;
         
         private PlayerAnimationComponent m_PlayerAnimationComponent;
         private ICameraController m_CameraController;
@@ -33,12 +40,11 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private bool m_IsMovementEnabled = true;
         private bool m_IsRotationEnabled = true;
         private bool m_IsSprinting = false;
-        private Vector2 m_InputDirection = Vector2.zero;
         private float m_MovementSpeed = 0.5f;
         private float m_SprintMultiplier = 2.0f;
         private float m_SprintDuration = 0.0f;
         private float m_RotationSpeed = 4f;
-
+        
         #endregion Fields
         
         #region - - - - - - Lifecycle Methods - - - - - -

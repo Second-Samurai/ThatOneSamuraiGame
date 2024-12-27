@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Scripts.Player.Movement;
+﻿using Player.Animation;
+using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
 
@@ -10,7 +11,6 @@ public interface ICombatController
     void BlockCombatInputs();
     void UnblockCombatInputs();
     void DrawSword();
-    bool IsSwordDrawn();
     bool CheckIsAttacking();
     void EndAttacking();
     void ResetAttackCombo();
@@ -101,11 +101,6 @@ public class PCombatController : MonoBehaviour, ICombatController
         _isInputBlocked = false;
 
         m_PlayerAnimationComponent.TriggerDrawSword();
-    }
-    
-    public bool IsSwordDrawn()
-    {
-        return _isSwordDrawn;
     }
     
     /// <summary>

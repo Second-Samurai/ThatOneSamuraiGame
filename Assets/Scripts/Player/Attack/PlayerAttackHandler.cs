@@ -117,7 +117,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         void IPlayerAttackHandler.StartHeavyAlternative()
             => throw new NotImplementedException();
         
-        private bool CanBlock() => m_CombatController.IsSwordDrawn() && this.m_CanBlock;
+        private bool CanBlock() => m_CombatController.IsSwordDrawn && this.m_CanBlock;
         
         void IPlayerAttackHandler.StartBlock()
         {

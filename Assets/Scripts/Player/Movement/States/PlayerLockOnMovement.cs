@@ -65,7 +65,7 @@ public class PlayerLockOnMovement : BasePlayerMovementState
         this.m_PlayerAnimator.SetTrigger("Dodge");
         this.m_PlayerAnimator.ResetTrigger("AttackLight");
     
-        if (this.m_AttackState.HasBeenParried)
+        if (this.m_AttackState.ParryStunned)
             this.m_AttackHandler.EndParryAction();
         
         this.m_RootReferenceMonoBehaviour.StartCoroutine(

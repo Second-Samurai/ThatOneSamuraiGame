@@ -25,8 +25,8 @@ public class DrawCutscene : MonoBehaviour
 
     void AssignTargets()
     {
-        BindToTrack("Cinemachine Track", GameManager.instance.mainCamera.GetComponent<CinemachineBrain>());
-        BindToTrack("Animation Track", GameManager.instance.playerController.gameObject.GetComponent<Animator>());
+        BindToTrack("Cinemachine Track", GameManager.instance.MainCamera.GetComponent<CinemachineBrain>());
+        BindToTrack("Animation Track", GameManager.instance.PlayerController.gameObject.GetComponent<Animator>());
         //endCutscene.AddListener(GameManager.instance.playerController.gameObject.GetComponent<PlayerInputScript>().EnableInput);
         //signalReceiver.ChangeReactionAtIndex(1, endCutscene);
         // signalReceiver.AddEmptyReaction(endCutscene);

@@ -46,7 +46,6 @@ public class TestStaticTarget : MonoBehaviour, IDamageable
     void CalculateDamage(float damage)
     {
         testEnemyStats.CurrentHealth -= damage;
-        Debug.Log(">> " + gameObject.name + ", Damage applied: " + damage);
     }
 
     public bool CheckCanDamage()

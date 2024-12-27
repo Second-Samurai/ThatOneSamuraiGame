@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ThatOneSamuraiGame.Scripts.Player.Attack;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
@@ -8,18 +10,24 @@ public class Checkpoint : MonoBehaviour
     public bool bIsActive = false;
     public Transform spawnPos;
 
+    private PlayerAttackState m_PlayerAttackState;
+
     // Start is called before the first frame update
     void Awake()
     {
-        checkpointManager = GameManager.instance.checkpointManager;
+        checkpointManager = GameManager.instance.CheckpointManager;
         //checkpointManager.checkpoints.Add(this); 
+
+        this.m_PlayerAttackState = GameManager.instance.PlayerController
+                                        .GetComponent<IPlayerState>()
+                                        .PlayerAttackState;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player") && !bIsActive)
         {
-            Debug.Log("Checkpoint Set");
+            // Debug.Log("Checkpoint Set");
             SetActiveCheckpoint();
         }
     }
@@ -32,24 +40,26 @@ public class Checkpoint : MonoBehaviour
         }
         checkpointManager.activeCheckpoint = checkpointManager.checkpoints.IndexOf(this);
         bIsActive = true;
-        GameManager.instance.enemySpawnManager.SaveEnemyList();
-        GameManager.instance.rewindManager.IncreaseRewindAmount();
+        GameManager.instance.EnemySpawnManager.SaveEnemyList();
+        //GameManager.instance.RewindManager.IncreaseRewindAmount();
     }
 
     public void LoadCheckpoint()
     {
-        GameManager.instance.playerController.gameObject.transform.position = spawnPos.position;
-        GameManager.instance.EnableInput();
-        GameManager.instance.thirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
-        GameManager.instance.rewindManager.isTravelling = false;
-        PlayerFunctions player = GameManager.instance.playerController.gameObject.GetComponent<PlayerFunctions>();
+        GameManager.instance.PlayerController.gameObject.transform.position = spawnPos.position;
+        GameManager.instance.InputManager.EnableActiveInputControl();
+        GameManager.instance.ThirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
 
-        player.playerInputScript._pCombatController.swordManager.SetWeapon(true, GameManager.instance.gameSettings.katanaPrefab);
+        PlayerFunctions _Player = GameManager.instance.PlayerController.gameObject.GetComponent<PlayerFunctions>();
 
-        ICombatController playerCombatController = player.gameObject.GetComponent<ICombatController>();
+        // Note: The sword manager exists on the root parent fo the player object
+        PSwordManager _PlayerSwordManager = this.GetComponent<PSwordManager>();
+        _PlayerSwordManager.SetWeapon(true, GameManager.instance.gameSettings.katanaPrefab);
+
+        ICombatController playerCombatController = _Player.gameObject.GetComponent<ICombatController>();
         playerCombatController.DrawSword();
-         
-        player.gameObject.GetComponent<PlayerInputScript>().bCanAttack = true; //TODO: CHANGE: input not incharge of attacking (combat controller maybe doing it already)
+
+        this.m_PlayerAttackState.CanAttack = true;
     }
 
 }

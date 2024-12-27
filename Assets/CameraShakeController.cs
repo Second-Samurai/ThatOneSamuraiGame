@@ -5,7 +5,6 @@ using Cinemachine;
 
 public class CameraShakeController : MonoBehaviour
 {
-
     CinemachineBrain mainCamera;
     public CinemachineFreeLook cam;
     public CinemachineBasicMultiChannelPerlin noise;
@@ -27,7 +26,6 @@ public class CameraShakeController : MonoBehaviour
 
     IEnumerator CameraShakeCR(float amount)
     {
-        Debug.LogError("SHAKE");
         noise.m_AmplitudeGain = amount;
         while(noise.m_AmplitudeGain > 0)
         {

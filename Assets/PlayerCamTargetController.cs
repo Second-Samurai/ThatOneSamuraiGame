@@ -14,11 +14,8 @@ public class PlayerCamTargetController : MonoBehaviour
 
     private void Start()
     {
-        if (!player)
-        {
-            Debug.LogWarning("Player not assigned in inspector! Trying to find through manager");
-            player = GameManager.instance.playerController.gameObject;
-        }
+        if (!player) 
+            player = GameManager.instance.PlayerController.gameObject;
     }
 
     private void LateUpdate()

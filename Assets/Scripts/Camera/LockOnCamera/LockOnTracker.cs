@@ -45,6 +45,9 @@ public class LockOnTracker : MonoBehaviour
 
     #region Lock On Camera Targeting
 
+    // Tech Debt: #47 - This method invocation is too expensive and needs to be optimised
+    //     - It is invoking GetComponent at runtime due to its usage by the CameraController.
+    //     - The null comparison can be improved to be explicitly checked against the object.
     public void SetTarget(Transform newTargetEnemy)
     {
         targetEnemy = newTargetEnemy;
@@ -78,18 +81,10 @@ public class LockOnTracker : MonoBehaviour
         // Only find a new target if the player is still locked onto the dead enemy
         if (_lastKilledEnemy == targetEnemy)
         {
-            Debug.Log(12);
-
-            // Switch targets
             if (targetableEnemies.Count > 0)
-            {
-                GameManager.instance.cameraControl.LockOn();
-            }
-            // Exit lockon
+                GameManager.instance.CameraControl.LockOn();
             else
-            {
-                GameManager.instance.cameraControl.ToggleLockOn();
-            }
+                GameManager.instance.CameraControl.ToggleLockOn();
         }
     }
 

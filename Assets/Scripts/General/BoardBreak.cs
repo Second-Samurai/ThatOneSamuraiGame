@@ -49,7 +49,7 @@ public class BoardBreak : MonoBehaviour, IDamageable
             foreach (Rigidbody board in boards)
             {
                 board.isKinematic = true;
-                board.velocity = Vector3.zero;
+                board.linearVelocity = Vector3.zero;
             }
         }
     }

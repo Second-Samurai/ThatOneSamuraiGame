@@ -48,7 +48,6 @@ public class PFeetGrounded : MonoBehaviour
     //
     private bool CheckIsGrounded()
     {
-        //Debug.DrawRay(footBaseTransform.position, -Vector3.up, Color.cyan);
         if (Physics.Raycast(footBaseTransform.position, -Vector3.up, out _rayHit, 2f))
         {
             _groundPosition = _rayHit.point;
@@ -63,15 +62,15 @@ public class PFeetGrounded : MonoBehaviour
     //
     private void StepDown()
     {
-        rootVelocity = playerRb.velocity + Vector3.down * stepDown;
-        playerRb.velocity = rootVelocity;
+        rootVelocity = playerRb.linearVelocity + Vector3.down * stepDown;
+        playerRb.linearVelocity = rootVelocity;
     }
 
     // Summary: During motion apply gravity to player until they reach the ground
     //
     private void LockToGround()
     {
-        rootVelocity = playerRb.velocity +  Vector3.down * gravity * Time.fixedDeltaTime;
-        playerRb.velocity = rootVelocity;
+        rootVelocity = playerRb.linearVelocity +  Vector3.down * gravity * Time.fixedDeltaTime;
+        playerRb.linearVelocity = rootVelocity;
     }
 }

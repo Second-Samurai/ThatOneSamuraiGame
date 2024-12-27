@@ -37,8 +37,8 @@ public class BasicArcher : MonoBehaviour, IDamageable
     private void Start()
     {
         audioManager = GameManager.instance.audioManager;
-        if(GameManager.instance.playerController != null)
-            player = GameManager.instance.playerController.gameObject.transform;
+        if(GameManager.instance.PlayerController != null)
+            player = GameManager.instance.PlayerController.gameObject.transform;
         if(!draw) draw = AudioManager.instance.FindSound("Bow Draw");
         if(!release) release = AudioManager.instance.FindSound("Bow Release");
         //  lineRenderer = GetComponent<LineRenderer>();
@@ -49,7 +49,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
 
     void FindPlayer()
     {
-        player = GameManager.instance.playerController.gameObject.transform;
+        player = GameManager.instance.PlayerController.gameObject.transform;
     }
 
     private void Update()
@@ -123,17 +123,16 @@ public class BasicArcher : MonoBehaviour, IDamageable
         anim.SetTrigger("Death");
         col.enabled = false;
         currentState = CurrentState.Dead;
-        //Debug.LogError("I Am dead");
         camImpulse.FireImpulse();
         GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.15f);
         StartCoroutine(DodgeImpulseCoroutine(Vector3.back, damage * 4, .3f));
         
-        LockOnTracker lockOnTracker = GameManager.instance.lockOnTracker;
+        LockOnTracker lockOnTracker = GameManager.instance.LockOnTracker;
         
         // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy)
         lockOnTracker.SwitchDeathTarget(transform);
         lockOnTracker.RemoveEnemy(transform);
-        GameManager.instance.enemyTracker.RemoveEnemy(transform);
+        GameManager.instance.EnemyTracker.RemoveEnemy(transform);
 
         if (particleSpawn) particleSpawn.SpawnParticles();
 

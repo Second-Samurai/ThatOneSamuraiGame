@@ -20,7 +20,7 @@ public class AddToLockOnTracker : MonoBehaviour
     {
         raycastMaxDist = GetComponent<SphereCollider>().radius * 2;
 
-        _lockOnTracker = GameManager.instance.lockOnTracker;
+        _lockOnTracker = GameManager.instance.LockOnTracker;
         
         _cameraTransform = Camera.main.transform;
     }
@@ -57,18 +57,15 @@ public class AddToLockOnTracker : MonoBehaviour
                 if (hit.collider.CompareTag("Enemy"))
                 {
                     Debug.DrawRay(rayStartPos, enemyTransform.position + _offset - rayStartPos, Color.green);
-                    
                     AddToTargetableEnemies(enemyTransform);
                 }
                 else
                 {
                     Debug.DrawRay(rayStartPos, enemyTransform.position + _offset - rayStartPos, Color.red);
-
                     _lockOnTracker.targetableEnemies.Remove(enemyTransform);
 
                     if (enemyTransform == _lockOnTracker.targetEnemy)
                     {
-                        Debug.Log("Raycast interrupted by " + hit.collider.name);
                         //CancelLockOnEvent.Raise();
                     }
                 }

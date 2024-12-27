@@ -12,8 +12,7 @@ public class RewindBar : MonoBehaviour
     public float maxValue = 1.0f;
 
     private void Start()
-    {
-        GameManager.instance.rewindManager.rewindUI = this;
+    { 
         rewindBar.fillAmount = 0;
     }
     
@@ -61,13 +60,6 @@ public class RewindBar : MonoBehaviour
 
     public void UpdateBarColor() 
     {
-        if (GameManager.instance.rewindManager.rewindResource > 2f)
-        {
-            rewindBar.color = new Color32(76, 101, 221, 255);
-        }
-        else if (GameManager.instance.rewindManager.rewindResource < 2f)
-        {
-            rewindBar.color = new Color32(221, 76, 87, 255);
-        }
+         
     }
 }

@@ -17,7 +17,7 @@ public class CheckpointManager : MonoBehaviour
     private void Start()
     {
         GetSaveDataCheckpoint();
-        if(CheckIfCheckpointAvailable()) GameManager.instance.buttonController.EnableContinue();
+        if(CheckIfCheckpointAvailable()) GameManager.instance.UserInterfaceManager.ButtonController.EnableContinue();
     }
 
     public bool CheckIfCheckpointAvailable()

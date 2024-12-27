@@ -100,13 +100,11 @@ public class PlayerSFX : MonoBehaviour
         int j = Random.Range(0, armourJingle.Length);
         audioPlayer.PlayOnce(armourJingle[j], audioManager.SFXVol/2);
         audioPlayer.PlayOnce(rollArray[i], audioManager.SFXVol);
-        //Debug.Log(i);
     }
     private void Parry()
     {
         int i = Random.Range(0, parry.Length);
         audioPlayer.PlayOnce(parry[i], audioManager.SFXVol);
-        //Debug.Log(i);
     }
 
 

@@ -23,6 +23,9 @@ public interface ISecretValidator
 
 public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
 {
+    
+    #region - - - - - - Fields - - - - - -
+
     public string playerID = "defaultID1234";
     [HideInInspector] public StatHandler playerStats;
     [HideInInspector] public PlayerSettings playerSettings;
@@ -32,11 +35,24 @@ public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
     [HideInInspector] public int totalCollectedKeys = 0;
     [HideInInspector] public int totalKillCount = 0;
 
+    private PlayerState m_PlayerState;
+
+    #endregion Fields
+
+    #region - - - - - - Lifecycle Methods - - - - - -
+
     //NOTE: Once object is spawned through code init through awake instead.
     void Awake() {
         //NOTE: This is only temporary to fix the camera referencing issues
-        GameManager.instance.playerController = this;
+        // GameManager.instance.PlayerController = this;
     }
+
+    private void Start() 
+        => this.m_PlayerState = this.GetComponent<PlayerState>();
+
+    #endregion Lifecycle Methods
+
+    #region - - - - - - Methods - - - - - -
 
     //Summary: Sets initial state and initialise variables
     //
@@ -52,7 +68,7 @@ public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
         stateMachine = this.gameObject.AddComponent<PlayerStateMachine>();
 
         //This assigns the thirdperson camera targets to this player
-        CinemachineFreeLook freeLockCamera = gameManager.thirdPersonViewCamera.GetComponent<CinemachineFreeLook>();
+        CinemachineFreeLook freeLockCamera = gameManager.ThirdPersonViewCamera.GetComponent<CinemachineFreeLook>();
         //freeLockCamera.Follow = this.transform;
         //freeLockCamera.LookAt = this.transform;
 
@@ -73,26 +89,20 @@ public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
     //Summary: Clears and Sets the new specified state for player.
     //
     public void SetState<T>() where T : PlayerState 
-    {
-        stateMachine.AddState<T>();
-    }
+        => stateMachine.AddState<T>();
 
-    public string GetStringID() {
-        return playerID;
-    }
+    public string GetStringID() 
+        => playerID;
 
-    public StatHandler GetPlayerStats()
-    {
-        return playerStats;
-    }
+    public StatHandler GetPlayerStats() 
+        => playerStats;
 
-    public int GetKillCount()
-    {
-        return totalKillCount;
-    }
+    public int GetKillCount() 
+        => totalKillCount;
 
-    public int GetKeyCount()
-    {
-        return totalCollectedKeys;
-    }
+    public int GetKeyCount() 
+        => totalCollectedKeys;
+
+    #endregion Methods
+    
 }

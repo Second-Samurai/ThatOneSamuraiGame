@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [ExecuteInEditMode]
@@ -16,10 +17,12 @@ public class AudioManager : MonoBehaviour
     public TrackManager trackManager;
     public bool LightSaber = false;
     public bool check = false;
-  
 
+    [FormerlySerializedAs("m_BossThemeManager")]
+    public BossThemeManager BossThemeManager;
 
     public static AudioManager instance;
+    
     // Start is called before the first frame update
     void Awake()
     {
@@ -52,14 +55,8 @@ public class AudioManager : MonoBehaviour
         trackManager = gameObject.GetComponentInChildren<TrackManager>();
     }
 
-    private void Start()
-    {
-    }
-    // update for debugging
-
 
     //finds and returns a  sound contaning a given string in its name
-
     public AudioClip FindSound(string name) 
     {
         Sound s = Array.Find(sounds, sound => sound.name.Contains(name.ToLower().Trim().Replace(" ", "")));
@@ -68,7 +65,6 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return null;
         }
-       // Debug.LogWarning(s.clip.name);
         return s.clip;
     }
 
@@ -76,24 +72,16 @@ public class AudioManager : MonoBehaviour
     public List<AudioClip> FindAll(string name) 
     {
         List<AudioClip> passOver = new List<AudioClip>();
-
         for (int s = 0;  s < sounds.Length; s++) 
         {
- 
             sounds[s].clip.name = sounds[s].clip.name.ToLower().Trim().Replace(" ", "");
-            //Debug.Log(sounds[s].clip.name);
             if (sounds[s].clip.name.Contains(name.ToLower().Trim().Replace(" ", "")))
-            {
                 passOver.Add(sounds[s].clip) ;
-            }
         }
         if (passOver.Count == 0) 
-        {
-           // Debug.LogWarning("Sound: " + name + " not found!");
             return null;
-        }
-          //  Debug.LogWarning( "length " + passOver.Count);
-           return passOver;     
+        
+        return passOver;     
     }
 
     // finds and plays a  sound contaning a given string in its name

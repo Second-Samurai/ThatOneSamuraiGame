@@ -32,7 +32,7 @@ public class UIGuardMeter : MonoBehaviour
     // Start is called before the first frame update
     public void Init(Transform entityTransform, StatHandler statHandler, Camera camera, RectTransform parentTransform)
     {
-        _lockOnTracker = GameManager.instance.lockOnTracker;
+        _lockOnTracker = GameManager.instance.LockOnTracker;
         
         this._entityTransform = entityTransform;
         this._statHandler = statHandler;
@@ -47,66 +47,33 @@ public class UIGuardMeter : MonoBehaviour
     }
 
     void FixedUpdate()
-    {
-        if (!GameManager.instance.rewindManager.isTravelling)
+    { 
+        //TODO - Ailin 14/10/24 refactor this out of update
+        DestroyWhenEntityDead();
+
+        if (!CheckInCameraView() || _entityTransform != _lockOnTracker.targetEnemy)
         {
-            DestroyWhenEntityDead();
-
-            if (!CheckInCameraView() || _entityTransform != _lockOnTracker.targetEnemy)
+            if (guardSlider.gameObject.activeInHierarchy)
             {
-                if (guardSlider.gameObject.activeInHierarchy)
-                {
-                    HideFinisherKey();
-                    guardSlider.gameObject.SetActive(false);
-                }
-                return;
+                HideFinisherKey();
+                guardSlider.gameObject.SetActive(false);
             }
-            else
-            {
-                if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _lockOnTracker.targetEnemy)
-                {
-                    guardSlider.gameObject.SetActive(true);
-                    if (guardSlider.value == guardSlider.maxValue)
-                    {
-                        ShowFinisherKey();
-                    }
-                }
-            }
-            SetMeterPosition();
+            return;
         }
-    }
-
-    private void Update()
-    {
-        if (GameManager.instance.rewindManager.isTravelling)
+        else
         {
-            DestroyWhenEntityDead();
-
-            if (!CheckInCameraView() || _entityTransform != _lockOnTracker.targetEnemy)
+            if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _lockOnTracker.targetEnemy)
             {
-                if (guardSlider.gameObject.activeInHierarchy)
+                guardSlider.gameObject.SetActive(true);
+                if (guardSlider.value == guardSlider.maxValue)
                 {
-                    HideFinisherKey();
-                    guardSlider.gameObject.SetActive(false);
-                }
-                return;
-            }
-            else
-            {
-                if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _lockOnTracker.targetEnemy)
-                {
-                    guardSlider.gameObject.SetActive(true);
-                    if (guardSlider.value == guardSlider.maxValue)
-                    {
-                        ShowFinisherKey();
-                    }
+                    ShowFinisherKey();
                 }
             }
-            SetMeterPosition();
         }
-    }
-
-
+        SetMeterPosition(); 
+    } 
+     
     //Summary: Updates guide meter when called through event.
     //
     public void UpdateGuideMeter()
@@ -124,7 +91,7 @@ public class UIGuardMeter : MonoBehaviour
     {
         if (_canStayOff) return false;
 
-        _playerToEntityDist = Vector3.Distance(GameManager.instance.playerController.transform.position, _entityTransform.position);
+        _playerToEntityDist = Vector3.Distance(GameManager.instance.PlayerController.transform.position, _entityTransform.position);
         _entityDir = (_entityTransform.position - mainCamera.transform.position).normalized;
         _cameraForward = mainCamera.transform.forward.normalized;
 
@@ -132,20 +99,14 @@ public class UIGuardMeter : MonoBehaviour
         if (_playerToEntityDist >= 20)
         {
             if (guardSlider.value == 0)
-            {
                 _canStayOff = true;
-            }
 
-            //Debug.Log(">> GuideMeter: is disabled");
             return false;
         }
 
         //Checks if the dot product is pointing behind camera
         if (Vector3.Dot(_cameraForward, _entityDir) < 0)
-        {
-            //Debug.Log(">> GuideMeter: is disabled");
             return false;
-        }
 
         return true;
     }

@@ -4,26 +4,16 @@ using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using UnityEngine;
 
-public interface ICameraController
-{
-
-    #region - - - - - - Methods - - - - - -
-
-    GameObject GetCamera(SceneCameras targetCamera);
-
-    Vector3 GetCameraEulerAngles();
-
-    void SelectCamera(SceneCameras selectedCamera);
-
-    #endregion Methods
-
-}
-
+/// <summary>
+/// Responsible for main control of the Camera's Systems.
+/// This is mainly a facade to each of the different camera systems.
+/// </summary>
 public class CameraController : PausableMonoBehaviour, ICameraController
 {
 
     #region - - - - - - Fields - - - - - -
     
+    private ICameraActionHandler m_CameraActionHandler;
     private ICameraStateSystem m_CameraStateSystem;
     private ICinemachineCamera m_ActiveCamera;
     private Camera m_MainCamera;
@@ -34,6 +24,7 @@ public class CameraController : PausableMonoBehaviour, ICameraController
 
     private void Awake()
     {
+        this.m_CameraActionHandler = this.GetComponent<ICameraActionHandler>();
         this.m_CameraStateSystem = this.GetComponent<ICameraStateSystem>();
         this.m_CameraStateSystem.Initialize();
     }
@@ -42,8 +33,8 @@ public class CameraController : PausableMonoBehaviour, ICameraController
         => this.m_MainCamera = Camera.main;
 
     #endregion Unity Methods
-  
-    #region - - - - - - Methods - - - - - -
+
+    #region - - - - - - CameraStateSystem Methods - - - - - -
 
     public Vector3 GetCameraEulerAngles() 
         => !this.m_MainCamera ? Vector3.zero : this.m_MainCamera.transform.eulerAngles;
@@ -58,6 +49,17 @@ public class CameraController : PausableMonoBehaviour, ICameraController
             .GetCameraObject();
     }
 
-    #endregion Methods
+    #endregion CameraStateSystem Methods
+
+    #region - - - - - - CameraActionHandler Methods - - - - - -
+
+    // This both sets and starts the camera action.
+    public void SetCameraAction(ICameraAction cameraAction)
+        => this.m_CameraActionHandler.SetCameraAction(cameraAction);
+
+    public void EndCameraAction()
+        => this.m_CameraActionHandler.EndCameraAction();
+
+    #endregion CameraActionHandler Methods
 
 }

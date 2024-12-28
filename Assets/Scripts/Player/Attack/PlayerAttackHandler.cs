@@ -1,6 +1,6 @@
 using System;
-using ICameraController = ThatOneSamuraiGame.Legacy.ICameraController;
 using ThatOneSamuraiGame.Scripts.Base;
+using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -13,8 +13,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         #region - - - - - - Fields - - - - - -
 
+        // TODO: Inject this into the handler
+        [SerializeField] private CameraController m_CameraController;
+        
         private Animator m_Animator;
-        private Legacy.ICameraController m_CameraController;
         private ICombatController m_CombatController;
         private HitstopController m_HitstopController;
         private PlayerFunctions m_PlayerFunctions;
@@ -39,7 +41,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         private void Start()
         {
             this.m_Animator = this.GetComponent<Animator>();
-            this.m_CameraController = this.GetComponent<Legacy.ICameraController>();
+            // this.m_CameraController = this.GetComponent<Legacy.ICameraController>();
             this.m_CombatController = this.GetComponent<ICombatController>();
             // this.m_HitstopController = GameManager.instance.GetComponent<HitstopController>();
             this.m_HitstopController = Object.FindFirstObjectByType<HitstopController>();
@@ -139,7 +141,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_PlayerFunctions.parryEffects.PlayGleam();
             
             this.m_Animator.SetBool("HeavyAttackHeld", false);
-            this.m_CameraController.ResetCameraRoll();
+            
+            // Rolls the camera
+            IFreelookCameraController _FreeLookCamera = this.m_CameraController
+                .GetCamera(SceneCameras.FreeLook)
+                .GetComponent<IFreelookCameraController>();
+            CameraRollAction _CameraRoll = new CameraRollAction(_FreeLookCamera, this);
+            this.m_CameraController.SetCameraAction(_CameraRoll);
         }
 
         private void StartHeavyAttack()
@@ -153,7 +161,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_PlayerAttackState.IsHeavyAttackCharging = true;
             this.m_Animator.SetBool("HeavyAttackHeld", true);
 
-            this.m_CameraController.RollCamera();
+            // Ends the camera roll
+            this.m_CameraController.EndCameraAction();
         }
 
         // Tech-Debt: #36 - Create a simple universal timer to keep timer behaviour consistent.

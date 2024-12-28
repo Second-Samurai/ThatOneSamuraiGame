@@ -3967,6 +3967,7 @@ GameObject:
   - component: {fileID: 1476549710}
   - component: {fileID: 1476549714}
   - component: {fileID: 1476549713}
+  - component: {fileID: 1476549715}
   - component: {fileID: 1476549711}
   m_Layer: 0
   m_Name: '[NEW] CameraControl'
@@ -4034,6 +4035,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 416960a9551a40c38ab4b62df21ae589, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1476549715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476549708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d87ac98e3234033b0d7ec9a6c7882d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1497349858
@@ -4970,10 +4983,10 @@ MonoBehaviour:
   OnLockOnEnable:
     m_PersistentCalls:
       m_Calls: []
-  OnNewLockOnTarget:
+  OnNewLockOnTargetEvent:
     m_PersistentCalls:
       m_Calls: []
-  OnLockOnDisable:
+  OnLockOnDisableEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!135 &1756048566
@@ -28694,6 +28707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 288e5f7cc8b641a1b91cc0f577f8cc3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_CameraController: {fileID: 0}
   m_ShowHeavyTutorialEvent: {fileID: 11400000, guid: 025630d0818ca5241bd1f76f49d79651,
     type: 2}
   m_ShowHeavyTelegraphEvent: {fileID: 11400000, guid: 410948a5fa6416b4bbc2a539a516b4be,

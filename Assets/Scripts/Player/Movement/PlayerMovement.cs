@@ -17,7 +17,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         public CameraController CameraController;
 
         private Animator m_Animator;
-        private FinishingMoveController m_FinishingMoveController;
+        // private FinishingMoveController m_FinishingMoveController;
         
         // Player data containers
         private PlayerAttackState m_PlayerAttackState;
@@ -28,6 +28,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private IPlayerMovementState m_CurrentMovementState;
         private PlayerNormalMovement m_NormalMovement;
         private PlayerLockOnMovement m_LockOnMovement;
+        private PlayerFinishMovement m_FinisherMovement;
         
         private float m_CurrentAngleSmoothVelocity;
         private Vector2 m_InputDirection = Vector2.zero;
@@ -43,7 +44,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private void Start()
         {
             this.m_Animator = this.GetComponent<Animator>();
-            this.m_FinishingMoveController = this.GetComponentInChildren<FinishingMoveController>();
+            // this.m_FinishingMoveController = this.GetComponentInChildren<FinishingMoveController>();
             this.m_PlayerTargetTrackingState = this.GetComponent<IPlayerState>().PlayerTargetTrackingState;
 
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
@@ -66,6 +67,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 this.transform,
                 this.m_PlayerMovementState,
                 this);
+            ILockOnSystem _LockOnSystem = this.GetComponentInChildren<ILockOnSystem>();
+            // this.m_FinisherMovement = new PlayerFinishMovement(
+            //     _LockOnSystem,
+            //     this.m_PlayerMovementState,
+            //     this.m_Animator,
+            //     this.transform,
+            //     this);
             
             this.m_CurrentMovementState = this.m_NormalMovement;
             
@@ -74,7 +82,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         private void Update()
         {
-            if (this.IsPaused || !this.m_IsMovementEnabled || this.m_FinishingMoveController.bIsFinishing) 
+            if (this.IsPaused 
+                || !this.m_IsMovementEnabled 
+                || this.m_CurrentMovementState.GetState() == PlayerMovementStates.Finisher) // This needs to be removed
                 return;
 
             this.m_CurrentMovementState.SetInputDirection(this.m_InputDirection);
@@ -112,7 +122,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         void IPlayerMovement.PreparePlayerMovement(Vector2 moveDirection)
         {
-            if (this.m_FinishingMoveController.bIsFinishing)
+            if (this.m_CurrentMovementState.GetState() == PlayerMovementStates.Finisher)
                 return;
             
             // Ticket: #34 - Behaviour pertaining to animation will be moved to separate player animator component.
@@ -140,6 +150,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 this.m_CurrentMovementState = this.m_NormalMovement;
             else if (state == PlayerMovementStates.LockOn)
                 this.m_CurrentMovementState = this.m_LockOnMovement;
+            else if (state == PlayerMovementStates.Finisher)
+                this.m_CurrentMovementState = this.m_FinisherMovement;
             
             Debug.Log("Movement State is: " + state);
         }

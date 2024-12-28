@@ -12,10 +12,11 @@ public class PlayerLockOnMovement : BasePlayerMovementState
     private readonly PlayerAttackState m_AttackState;
     private readonly MonoBehaviour m_RootReferenceMonoBehaviour; // Required for Coroutine
     
+    private readonly float m_DodgeForce = 10f;
+    private readonly float m_RotationSpeed = 4f;
+    
     private float m_CurrentAngleSmoothVelocity;
     private Quaternion m_CurrentRotation;
-    private float m_DodgeForce = 10f;
-    private float m_RotationSpeed = 4f;
 
     #endregion Fields
 
@@ -57,6 +58,9 @@ public class PlayerLockOnMovement : BasePlayerMovementState
         // Apply rotation
         this.m_PlayerTransform.rotation = Quaternion.Euler(0, this.m_CurrentRotation.y, 0);
     }
+    
+    public override PlayerMovementStates GetState()
+        => PlayerMovementStates.LockOn;
 
     public override void PerformDodge()
     {

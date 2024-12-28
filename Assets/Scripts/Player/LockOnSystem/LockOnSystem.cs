@@ -8,6 +8,14 @@ using UnityEngine.Events;
 public interface ILockOnSystem
 {
 
+    #region - - - - - - Properties - - - - - -
+
+    UnityEvent<Transform> OnNewLockOnTarget { get; }
+    
+    UnityEvent OnLockOnDisable { get; }
+
+    #endregion Properties
+  
     #region - - - - - - Methods - - - - - -
 
     void RemoveTargetFromTracking(Transform targetToRemove); //TODO replace all instances calling upon the death or removal of target from list.
@@ -39,6 +47,18 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
 
     #endregion Fields
 
+    #region - - - - - - Properties - - - - - -
+
+    // Calls underlying UnityEvent as the type itself does not truly reflect a C# event to be declared in interfaces.
+    public UnityEvent<Transform> OnNewLockOnTarget
+        => this.OnNewLockOnTargetEvent;
+    
+    // Calls underlying UnityEvent as the type itself does not truly reflect a C# event to be declared in interfaces.
+    public UnityEvent OnLockOnDisable
+        => this.OnLockOnDisableEvent;
+
+    #endregion Properties
+  
     #region - - - - - - Unity Methods - - - - - -
 
     private void Start()
@@ -53,21 +73,11 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
 
     public UnityEvent OnLockOnEnable;
     
-    public UnityEvent<Transform> OnNewLockOnTarget;
+    public UnityEvent<Transform> OnNewLockOnTargetEvent;
     
-    public UnityEvent OnLockOnDisable;
+    public UnityEvent OnLockOnDisableEvent;
 
     #endregion Unity Events
-  
-    #region - - - - - - Unity Event Methods - - - - - -
-
-    // private void OnTriggerExit(Collider other)
-    // {
-    //     if (other.CompareTag("Enemy") && other.transform == this.m_TargetTransform)
-    //         this.GetNearestTarget();
-    // }
-
-    #endregion Unity Event Methods
   
     #region - - - - - - Methods - - - - - -
     

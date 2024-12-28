@@ -27131,7 +27131,7 @@ MonoBehaviour:
   m_PlayerMovementState:
     m_CanOverrideMovement: 0
     m_IsMovementEnabled: 0
-    m_IsMovementLocked: 0
+    m_IsMovementLocked: 1
   m_PlayerSpecialActionState:
     m_CanDodge: 1
     m_IsDodging: 0
@@ -29743,30 +29743,6 @@ Transform:
   - {fileID: 7158566578492105122}
   m_Father: {fileID: 891837833274738936}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3660346423126973905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4573849219210010279}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e234c93e2dfdad43a1c61bb7ebf7214, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camTargetScript: {fileID: 0}
-  camScript: {fileID: 0}
-  unlockedCam: {fileID: 0}
-  lockedCam: {fileID: 443166596266541195}
-  lockOnTarget: {fileID: 0}
-  player: {fileID: 6268768001105619820}
-  lockOnNullDummy: {fileID: 203399444893768155}
-  bLockedOn: 0
-  lockOnTracker: {fileID: 0}
-  cinematicBars: {fileID: 0}
-  onLockOnEvent: {fileID: 11400000, guid: 5f051e9e3ef171047a76de81e93abe48, type: 2}
-  _lockCancelTimer: 0
 --- !u!199 &3670761145448570832
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -40434,11 +40410,9 @@ GameObject:
   - component: {fileID: 3083788805558616400}
   - component: {fileID: 1589609326363381212}
   - component: {fileID: 1499039855840795657}
-  - component: {fileID: 8031056686451578001}
   - component: {fileID: 215494514923266131}
   - component: {fileID: 3394544472065672535}
   - component: {fileID: 4927410368920194167}
-  - component: {fileID: 3660346423126973905}
   - component: {fileID: 426033777045314759}
   - component: {fileID: 2972178455989772386}
   - component: {fileID: 4763312774280357844}
@@ -51516,7 +51490,7 @@ MonoBehaviour:
   Response:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3660346423126973905}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: CancelLockOnResponse
         m_Mode: 1
@@ -63328,18 +63302,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &8031056686451578001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4573849219210010279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a90d100e89fc4a95b67472b6179eeab2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8056179863523501485
 GameObject:
   m_ObjectHideFlags: 0

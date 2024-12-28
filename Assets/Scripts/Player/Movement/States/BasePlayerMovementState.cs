@@ -65,6 +65,9 @@ public class BasePlayerMovementState : IPlayerMovementState
 
     public virtual void SetInputDirection(Vector2 inputDirection) { }
     
+    public virtual PlayerMovementStates GetState()
+        => PlayerMovementStates.Normal; // Returns normal movement by default. Just to satisfy return value.
+    
     protected IEnumerator ApplyDodgeTranslation(Vector3 lastDirection, float force)
     {
         this.m_MovementState.CanDodge = false;

@@ -1,6 +1,7 @@
 ﻿using System;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
+using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using UnityEngine;
 
 public class PlayerLockOnMovement : BasePlayerMovementState
@@ -10,12 +11,12 @@ public class PlayerLockOnMovement : BasePlayerMovementState
 
     private readonly IPlayerAttackHandler m_AttackHandler;
     private readonly PlayerAttackState m_AttackState;
+    private readonly PlayerTargetTrackingState m_TargetTrackingState;
     private readonly MonoBehaviour m_RootReferenceMonoBehaviour; // Required for Coroutine
     
     private readonly float m_DodgeForce = 10f;
     private readonly float m_RotationSpeed = 4f;
     
-    private float m_CurrentAngleSmoothVelocity;
     private Quaternion m_CurrentRotation;
 
     #endregion Fields
@@ -28,6 +29,7 @@ public class PlayerLockOnMovement : BasePlayerMovementState
         Animator playerAnimator, 
         Transform playerTransform, 
         PlayerMovementState movementState, 
+        PlayerTargetTrackingState targetTrackingState,
         MonoBehaviour refMonoBehaviour) 
         : base(playerAnimator, playerTransform, movementState)
     {
@@ -35,6 +37,8 @@ public class PlayerLockOnMovement : BasePlayerMovementState
         this.m_AttackState = attackState ?? throw new ArgumentNullException(nameof(attackState));
         this.m_RootReferenceMonoBehaviour =
             refMonoBehaviour ?? throw new ArgumentNullException(nameof(refMonoBehaviour));
+        this.m_TargetTrackingState =
+            targetTrackingState ?? throw new ArgumentNullException(nameof(targetTrackingState));
     }
 
     #endregion Constructors
@@ -44,7 +48,7 @@ public class PlayerLockOnMovement : BasePlayerMovementState
     public override void CalculateMovement()
     {
         this.m_MovementState.MoveDirection = 
-            new Vector3(this.m_InputDirection.x, 0, this.m_InputDirection.y).normalized;
+            this.m_TargetTrackingState.AttackTarget.position - this.m_PlayerTransform.position;
         this.m_CurrentRotation = Quaternion.Slerp(
             this.m_PlayerTransform.rotation,
             Quaternion.LookRotation(this.m_MovementState.MoveDirection),
@@ -54,9 +58,9 @@ public class PlayerLockOnMovement : BasePlayerMovementState
     public override void ApplyMovement()
     {
         base.ApplyMovement();
-    
+        
         // Apply rotation
-        this.m_PlayerTransform.rotation = Quaternion.Euler(0, this.m_CurrentRotation.y, 0);
+        this.m_PlayerTransform.rotation = Quaternion.Euler(0, this.m_CurrentRotation.eulerAngles.y, 0);
     }
     
     public override PlayerMovementStates GetState()

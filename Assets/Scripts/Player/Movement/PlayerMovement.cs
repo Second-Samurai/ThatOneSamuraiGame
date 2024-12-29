@@ -36,10 +36,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private IPlayerMovementState m_LockOnMovement;
         private IPlayerMovementState m_FinisherMovement;
         
-        // private float m_CurrentAngleSmoothVelocity;
         private bool m_IsMovementEnabled = true;
         private bool m_IsRotationEnabled = true;
-        // private float m_RotationSpeed = 4f;
 
         #endregion Fields
         
@@ -70,6 +68,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 this.m_Animator, 
                 this.transform,
                 this.m_PlayerMovementState,
+                this.m_PlayerTargetTrackingState,
                 this);
             // ILockOnSystem _LockOnSystem = this.GetComponentInChildren<ILockOnSystem>();
             // this.m_FinisherMovement = new PlayerFinishMovement(

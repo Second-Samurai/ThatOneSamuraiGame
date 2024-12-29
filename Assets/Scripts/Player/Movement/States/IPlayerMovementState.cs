@@ -13,6 +13,8 @@ public interface IPlayerMovementState
 
     void PerformDodge();
 
+    void PerformSprint(bool isSprinting);
+
     void SetInputDirection(Vector2 inputDirection);
 
     #endregion Methods

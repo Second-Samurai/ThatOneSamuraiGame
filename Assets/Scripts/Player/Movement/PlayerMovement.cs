@@ -14,8 +14,14 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         #region - - - - - - Fields - - - - - -
         
         // Make these injected
-        public CameraController CameraController;
-
+        [RequiredField]
+        [SerializeField]
+        private CameraController CameraController;
+        [RequiredField]
+        [SerializeField]
+        private LockOnSystem LockOnSystem;
+        [RequiredField]
+        [SerializeField]
         private Animator m_Animator;
         // private FinishingMoveController m_FinishingMoveController;
         
@@ -26,16 +32,14 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         
         // Player states
         private IPlayerMovementState m_CurrentMovementState;
-        private PlayerNormalMovement m_NormalMovement;
-        private PlayerLockOnMovement m_LockOnMovement;
-        private PlayerFinishMovement m_FinisherMovement;
+        private IPlayerMovementState m_NormalMovement;
+        private IPlayerMovementState m_LockOnMovement;
+        private IPlayerMovementState m_FinisherMovement;
         
-        private float m_CurrentAngleSmoothVelocity;
-        private Vector2 m_InputDirection = Vector2.zero;
+        // private float m_CurrentAngleSmoothVelocity;
         private bool m_IsMovementEnabled = true;
         private bool m_IsRotationEnabled = true;
-        private bool m_IsSprinting = false;
-        private float m_RotationSpeed = 4f;
+        // private float m_RotationSpeed = 4f;
 
         #endregion Fields
         
@@ -43,7 +47,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         private void Start()
         {
-            this.m_Animator = this.GetComponent<Animator>();
+            // this.m_Animator = this.GetComponent<Animator>();
             // this.m_FinishingMoveController = this.GetComponentInChildren<FinishingMoveController>();
             this.m_PlayerTargetTrackingState = this.GetComponent<IPlayerState>().PlayerTargetTrackingState;
 
@@ -67,7 +71,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 this.transform,
                 this.m_PlayerMovementState,
                 this);
-            ILockOnSystem _LockOnSystem = this.GetComponentInChildren<ILockOnSystem>();
+            // ILockOnSystem _LockOnSystem = this.GetComponentInChildren<ILockOnSystem>();
             // this.m_FinisherMovement = new PlayerFinishMovement(
             //     _LockOnSystem,
             //     this.m_PlayerMovementState,
@@ -87,17 +91,17 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 || this.m_CurrentMovementState.GetState() == PlayerMovementStates.Finisher) // This needs to be removed
                 return;
 
-            this.m_CurrentMovementState.SetInputDirection(this.m_InputDirection);
             this.m_CurrentMovementState.CalculateMovement();
             this.m_CurrentMovementState.ApplyMovement();
-            
-            // Perform specific movement behavior
-            this.LockPlayerRotationToAttackTarget();
         }
 
         #endregion Lifecycle Methods
         
         #region - - - - - - Methods - - - - - -
+        
+        // --------------------------------
+        // Dodge
+        // --------------------------------
         
         public void Dodge()
             => this.m_CurrentMovementState.PerformDodge();
@@ -107,42 +111,42 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         void IPlayerDodgeMovement.DisableDodge()
             => this.m_PlayerMovementState.CanDodge = false;
+        
+        // --------------------------------
+        // Movement
+        // --------------------------------
 
         void IPlayerMovement.DisableMovement()
             => this.m_IsMovementEnabled = false;
 
-        void IPlayerMovement.DisableRotation()
-            => this.m_IsRotationEnabled = false;
-
         void IPlayerMovement.EnableMovement()
             => this.m_IsMovementEnabled = true;
 
-        void IPlayerMovement.EnableRotation()
-            => this.m_IsRotationEnabled = true;
-
         void IPlayerMovement.PreparePlayerMovement(Vector2 moveDirection)
         {
-            if (this.m_CurrentMovementState.GetState() == PlayerMovementStates.Finisher)
-                return;
-            
             // Ticket: #34 - Behaviour pertaining to animation will be moved to separate player animator component.
             if (moveDirection == Vector2.zero)
-                this.m_Animator.SetBool("IsSprinting", false);
+                this.m_CurrentMovementState.PerformSprint(false);
 
-            this.m_InputDirection = moveDirection;
+            this.m_CurrentMovementState.SetInputDirection(moveDirection);
         }
 
         void IPlayerMovement.PrepareSprint(bool isSprinting)
-        {
-            this.m_IsSprinting = isSprinting;
+            => this.m_CurrentMovementState.PerformSprint(isSprinting);
+        
+        // --------------------------------
+        // Rotation
+        // --------------------------------
 
-            // Toggle sprinting animation
-            // Ticket: #34 - Behaviour pertaining to animation will be moved to separate player animator component.
-            if (this.m_InputDirection == Vector2.zero || !this.m_IsSprinting)
-                this.m_Animator.SetBool("IsSprinting", false);
-            else
-                this.m_Animator.SetBool("IsSprinting", true);
-        }
+        void IPlayerMovement.DisableRotation()
+            => this.m_IsRotationEnabled = false;
+
+        void IPlayerMovement.EnableRotation()
+            => this.m_IsRotationEnabled = true;
+        
+        // --------------------------------
+        // State Management
+        // --------------------------------
         
         void IPlayerMovement.SetState(PlayerMovementStates state)
         {
@@ -154,19 +158,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 this.m_CurrentMovementState = this.m_FinisherMovement;
             
             Debug.Log("Movement State is: " + state);
-        }
-
-        private void LockPlayerRotationToAttackTarget()
-        {
-            if (this.m_PlayerTargetTrackingState.AttackTarget == null) return;
-            
-            Vector3 _NewLookDirection = this.m_PlayerTargetTrackingState.AttackTarget.position - this.transform.position;
-            this.transform.rotation = Quaternion.Slerp(
-                this.transform.rotation,
-                Quaternion.LookRotation(_NewLookDirection),
-                this.m_RotationSpeed);
-            
-            this.transform.rotation = Quaternion.Euler(0, this.transform.rotation.eulerAngles.y, 0);
         }
 
         #endregion Methods

@@ -6,7 +6,6 @@ using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using UnityEngine;
 using UnityEngine.Playables;
-using Object = UnityEngine.Object;
 
 public class PlayerFinishMovement : BasePlayerMovementState
 {
@@ -16,7 +15,7 @@ public class PlayerFinishMovement : BasePlayerMovementState
     // public PlayableAsset[] finishingMoves;
     // public bool bIsFinishing = false; // Might be no longer relevant
 
-    private PlayableDirector _cutsceneDirector;
+    // private PlayableDirector _cutsceneDirector;
     private PDamageController damageController;
     // private List<Transform> enemies; // There is no reason to have all the enemies
     // private List<AISystem> enemiesCache; // This seems unnecessary
@@ -45,8 +44,8 @@ public class PlayerFinishMovement : BasePlayerMovementState
         lockOnSystem.OnNewLockOnTarget.AddListener(this.SetFinishingTargetEnemy);
         lockOnSystem.OnLockOnDisable.AddListener(this.ResetState);
         
-        _cutsceneDirector = this.m_ReferenceMonoBehaviour.GetComponent<PlayableDirector>();
-        BindToTrack("Cinemachine Track", GameManager.instance.MainCamera.GetComponent<CinemachineBrain>());
+        // _cutsceneDirector = this.m_ReferenceMonoBehaviour.GetComponent<PlayableDirector>();
+        // BindToTrack("Cinemachine Track", GameManager.instance.MainCamera.GetComponent<CinemachineBrain>());
         damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PDamageController>();
     }
   
@@ -67,7 +66,7 @@ public class PlayerFinishMovement : BasePlayerMovementState
         this.m_CollisionDetector.enabled = false;
         damageController.DisableDamage();
         
-        _cutsceneDirector.Play();
+        // _cutsceneDirector.Play();
         
         // Note: This is only a temporary solution
         PlayerAttackState _PlayerAttackState = this.m_PlayerTransform.parent.GetComponent<IPlayerState>().PlayerAttackState;
@@ -131,6 +130,8 @@ public class PlayerFinishMovement : BasePlayerMovementState
         this.m_TargetEnemy.GetComponent<AISystem>().bFinish = true; // Belongs to enemy
         this.m_TargetEnemy.GetComponent<AISystem>().OnEnemyDeath(); // Belongs to enemy
         this.m_CollisionDetector.enabled = true;
+        
+        // Below can be removed.
         //GameManager.instance.RewindManager.IncreaseRewindAmount();
         // playerInputScript.bCanAttack = true;
         // playerInputScript.EnableMovement();
@@ -148,25 +149,25 @@ public class PlayerFinishMovement : BasePlayerMovementState
         
         // bIsFinishing = false;
     }
-    
-    // TODO: This is behaviour specific to the CutSceneDirector and not the FinishMovementController
-    private void BindToTrack(string trackName, Object val)
-    {
-        foreach (var playableAssetOutput in _cutsceneDirector.playableAsset.outputs)
-        {
-            if (playableAssetOutput.streamName == trackName)
-            {
-                _cutsceneDirector.SetGenericBinding(playableAssetOutput.sourceObject, val);
-                break;
-            }
-        }
-    }
+    //
+    // // TODO: This is behaviour specific to the CutSceneDirector and not the FinishMovementController
+    // private void BindToTrack(string trackName, Object val)
+    // {
+    //     foreach (var playableAssetOutput in _cutsceneDirector.playableAsset.outputs)
+    //     {
+    //         if (playableAssetOutput.streamName == trackName)
+    //         {
+    //             _cutsceneDirector.SetGenericBinding(playableAssetOutput.sourceObject, val);
+    //             break;
+    //         }
+    //     }
+    // }
 
     // Transform is passed instead of GameObject as LockOnSystem relies on transform over gameobject.
     private void SetFinishingTargetEnemy(Transform targetEnemyTransform)
     {
         this.m_TargetEnemy = targetEnemyTransform.gameObject;
-        BindToTrack("Animation Track (1)", this.m_TargetEnemy);
+        // BindToTrack("Animation Track (1)", this.m_TargetEnemy);
     }
 
     // Note: If necessary, an end state method can be applied to the BasePlayerMovementState class

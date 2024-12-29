@@ -52,7 +52,7 @@ public class FreeLookCameraState : PausableMonoBehaviour, ICameraState, IFreeloo
         get => this.m_FreeLookCamera.m_Lens.FieldOfView;
         set => this.m_FreeLookCamera.m_Lens.FieldOfView = value;
     }
-
+    
     #endregion Properties
   
     #region - - - - - - Initializers - - - - - -

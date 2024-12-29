@@ -78,9 +78,9 @@ public class EDamageController : MonoBehaviour, IDamageable
                 _aiSystem.ApplyHit(attacker);
             }
         }
-        else if (enemyGuard.isStunned && unblockable)
+        else if (enemyGuard.isStunned && unblockable) // Invert state to be from the Player's standpoint
         {
-            //Debug.Log("FINISHER");
+            Debug.Log("FINISHER is invoked");
             attacker.GetComponentInChildren<LockOnTargetManager>().EndGuardBreakCam();
             attacker.GetComponentInChildren<FinishingMoveController>().PlayFinishingMove(gameObject);
             return;

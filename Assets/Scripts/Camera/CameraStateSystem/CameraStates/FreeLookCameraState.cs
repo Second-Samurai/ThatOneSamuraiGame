@@ -14,6 +14,10 @@ public interface IFreelookCameraController
     float DutchAngle { get; set; }
     
     float FieldOfView { get; set; }
+    
+    Transform Follow { get; set; }
+    
+    Transform LookAt { get; set; }
 
     #endregion Properties
   
@@ -51,6 +55,18 @@ public class FreeLookCameraState : PausableMonoBehaviour, ICameraState, IFreeloo
     {
         get => this.m_FreeLookCamera.m_Lens.FieldOfView;
         set => this.m_FreeLookCamera.m_Lens.FieldOfView = value;
+    }
+
+    Transform IFreelookCameraController.Follow
+    {
+        get => this.m_FreeLookCamera.Follow;
+        set => this.m_FreeLookCamera.Follow = value;
+    }
+
+    Transform IFreelookCameraController.LookAt
+    {
+        get => this.m_FreeLookCamera.LookAt;
+        set => this.m_FreeLookCamera.LookAt = value;
     }
     
     #endregion Properties

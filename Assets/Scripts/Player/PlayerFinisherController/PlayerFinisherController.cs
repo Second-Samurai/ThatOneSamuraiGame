@@ -1,5 +1,4 @@
 ﻿using Cinemachine;
-using Enemies;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
@@ -26,17 +25,23 @@ public interface IFinisherController
 /// </summary>
 public class PlayerFinisherController : PausableMonoBehaviour, IFinisherController
 {
+
+    #region - - - - - - Fields - - - - - -
+
     [RequiredField] public PlayerMovement m_PlayerMovement;
     [RequiredField] public PlayerFinisherCutsceneDirector m_CutSceneDirector;
     [RequiredField] public LockOnSystem m_LockOnSystem;
     [RequiredField] public PDamageController m_PlayerDamageController;
     [RequiredField] public PlayerAttackHandler m_PlayerAttackHandler;
     [RequiredField] public CameraController m_CameraController;
-    public GameObject m_PlayerObject;
-
-    public GameObject PlayerDetector; // Note: Used for enemies for detecting the player.
+    [RequiredField] public GameObject m_PlayerObject;
+    [RequiredField] public GameObject PlayerDetector; // Note: Used for enemies for detecting the player.
 
     private GameObject m_TargetEnemy;
+
+    #endregion Fields
+
+    #region - - - - - - Unity Methods - - - - - -
 
     private void Start()
     {
@@ -46,28 +51,33 @@ public class PlayerFinisherController : PausableMonoBehaviour, IFinisherControll
         this.m_CutSceneDirector.BindToTrack("Cinemachine Track", _MainCameraCinemachineBrain);
     }
 
+    #endregion Unity Methods
+
+    #region - - - - - - Methods - - - - - -
+
     void IFinisherController.StartFinishingAction()
     {
-        this.PlayerDetector.SetActive(false);
-
         if (this.m_TargetEnemy)
         {
-            Guarding _EnemyGuardSystem = this.m_TargetEnemy.GetComponent<AISystem>().eDamageController.enemyGuard;
-            _EnemyGuardSystem.bRunCooldownTimer = false;
-            _EnemyGuardSystem.bRunRecoveryTimer = false;
-            _EnemyGuardSystem.uiGuardMeter.HideFinisherKey();
+            // Disable the enemy guard and its UI.
+            IGuarding _EnemyGuard = this.m_TargetEnemy.GetComponent<IGuarding>();
+            _EnemyGuard.CanRunCooldownTimer = false;
+            _EnemyGuard.CanRunRecoveryTimer = false;
+            _EnemyGuard.UIGuardMeter.HideFinisherKey();
 
             this.m_PlayerDamageController.DisableDamage();
             
             // Note: This is only a temporary solution
-            PlayerAttackState _PlayerAttackState = this.m_PlayerObject.transform.parent
-                .GetComponent<IPlayerState>().PlayerAttackState;
+            PlayerAttackState _PlayerAttackState = 
+                this.m_PlayerObject.GetComponent<IPlayerState>().PlayerAttackState;
             _PlayerAttackState.CanAttack = false;
         }
-        
-        ((IPlayerMovement)this.m_PlayerMovement).SetState(PlayerMovementStates.Finisher);
+
         this.m_CameraController.SelectCamera(SceneCameras.FollowPlayer);
+        ((IPlayerMovement)this.m_PlayerMovement).SetState(PlayerMovementStates.Finisher);
+        
         this.m_CutSceneDirector.Play();
+        this.PlayerDetector.SetActive(false);
     }
     
     // Transform is passed instead of GameObject as LockOnSystem relies on transform over gameobject.
@@ -77,12 +87,18 @@ public class PlayerFinisherController : PausableMonoBehaviour, IFinisherControll
         this.m_CutSceneDirector.BindToTrack("Animation Track (1)", this.m_TargetEnemy);
     }
 
+    // This is being invoked by the SignalReciever component, triggered by the timeline played by the director.
     public void EndFinishingActionSequence()
     {
         this.PlayerDetector.SetActive(true);
-        
+        this.m_PlayerDamageController.EnableDamage();
         ((IPlayerMovement)this.m_PlayerMovement).EnableMovement();
         ((IPlayerAttackHandler)m_PlayerAttackHandler).ResetAttack();
-        this.m_PlayerDamageController.EnableDamage();
+        
+        this.m_CameraController.SelectCamera(SceneCameras.FollowPlayer);
+        ((IPlayerMovement)this.m_PlayerMovement).SetState(PlayerMovementStates.Normal);
     }
+
+    #endregion Methods
+  
 }

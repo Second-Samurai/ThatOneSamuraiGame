@@ -2,7 +2,20 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIGuardMeter : MonoBehaviour
+public interface IFloatingEnemyGuardMeter
+{
+
+    #region - - - - - - MyRegion - - - - - -
+
+    void ShowFinisherKey();
+
+    void HideFinisherKey();
+
+    #endregion MyRegion
+
+}
+
+public class UIGuardMeter : MonoBehaviour, IFloatingEnemyGuardMeter
 {
     public Slider guardSlider;
     public Canvas finisherKey;

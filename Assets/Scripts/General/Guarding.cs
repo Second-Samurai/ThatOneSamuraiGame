@@ -2,7 +2,23 @@
 using UnityEngine.Events;
 using Enemies;
 
-public class Guarding : MonoBehaviour
+// Note: This is currently setup to handle guarding for the PlayerFinisherController.
+public interface IGuarding
+{
+
+    #region - - - - - - Properties - - - - - -
+ 
+    bool CanRunCooldownTimer { get; set; }
+    
+    bool CanRunRecoveryTimer { get; set; }
+    
+    IFloatingEnemyGuardMeter UIGuardMeter { get; } // Having the enemy provide its UI is incorrect as now the gamelogic and UI are coupled.
+    
+    #endregion Properties
+
+}
+
+public class Guarding : MonoBehaviour, IGuarding
 {
     public bool canParry = false;
     public bool canGuard = true;
@@ -30,6 +46,25 @@ public class Guarding : MonoBehaviour
     public bool bSuperArmour = false;
     
     private Transform _player;
+
+    #region - - - - - - Properties - - - - - -
+
+    public bool CanRunCooldownTimer
+    {
+        get => this.bRunCooldownTimer;
+        set => this.bRunCooldownTimer = value;
+    }
+
+    public bool CanRunRecoveryTimer
+    {
+        get => this.bRunRecoveryTimer;
+        set => this.bRunRecoveryTimer = value;
+    }
+
+    public IFloatingEnemyGuardMeter UIGuardMeter
+        => this.uiGuardMeter;
+    
+    #endregion Properties
 
     public void Init(StatHandler statHandler)
     {

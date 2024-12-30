@@ -1714,6 +1714,100 @@ MonoBehaviour:
   CameraRadius: 0.2
   DampingIntoCollision: 0
   DampingFromCollision: 2
+--- !u!1 &742967282
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 742967283}
+  - component: {fileID: 742967286}
+  - component: {fileID: 742967285}
+  - component: {fileID: 742967284}
+  m_Layer: 9
+  m_Name: FinisherControl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &742967283
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742967282}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6268768001105619820}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!320 &742967284
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742967282}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: be4ae4b6aa8ea824f87be1f26c096d8c, type: 2}
+  m_InitialState: 0
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: 5684960013270232618, guid: be4ae4b6aa8ea824f87be1f26c096d8c, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -9152390424296377908, guid: be4ae4b6aa8ea824f87be1f26c096d8c, type: 2}
+    value: {fileID: 3520858649588057780}
+  - key: {fileID: -1231079426727226961, guid: be4ae4b6aa8ea824f87be1f26c096d8c, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -3800368180400778700, guid: be4ae4b6aa8ea824f87be1f26c096d8c, type: 2}
+    value: {fileID: 6600890302855102733}
+  - key: {fileID: -8084170624380514310, guid: be4ae4b6aa8ea824f87be1f26c096d8c, type: 2}
+    value: {fileID: 1223054951506815909}
+  m_ExposedReferences:
+    m_References:
+    - 09be9744ca08c4b40a36c59de4e01162: {fileID: 1515681017898733794}
+--- !u!114 &742967285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742967282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ba7d6a5603d4a0fba289e1440b6adf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PlayableDirector: {fileID: 742967284}
+--- !u!114 &742967286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742967282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52f203a08853493ead2b28b9860fc6b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PlayerMovement: {fileID: 1589609326363381212}
+  m_CutSceneDirector: {fileID: 742967285}
+  m_LockOnSystem: {fileID: 1756048565}
+  m_PlayerDamageController: {fileID: 4763312774280357844}
+  m_PlayerAttackHandler: {fileID: 3083788805558616400}
+  m_CameraController: {fileID: 1476549714}
+  PlayerDetector: {fileID: 82803442191706017}
 --- !u!1 &743366275
 GameObject:
   m_ObjectHideFlags: 0
@@ -4129,7 +4223,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -248, y: 92}
+  m_AnchoredPosition: {x: -246, y: 92}
   m_SizeDelta: {x: 112.0348, y: 39.811}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1464840581
@@ -4175,20 +4269,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1464840582}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 215494514923266131}
-        m_TargetAssemblyTypeName: ThatOneSamuraiGame.Scripts.Player.TargetTracking.PlayerTargetLocking,
-          Assembly-CSharp
-        m_MethodName: ToggleLockOn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1464840582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4472,22 +4553,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1500113733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81703e33ba2dc465aa5e45f4628aedcc, type: 3}
+  m_Script: {fileID: 11500000, guid: cdf26fd849c044959184df59351fcfb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canParry: 0
-  canGuard: 1
-  isStunned: 0
-  camImpulse: {fileID: 0}
-  OnGuardEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  _aiSystem: {fileID: 0}
-  uiGuardMeter: {fileID: 0}
-  bRunCooldownTimer: 0
-  remainingCooldownTime: 0
-  bRunRecoveryTimer: 0
-  bSuperArmour: 0
+  CanTriggerFinishMovement: 1
 --- !u!1 &1533951642
 GameObject:
   m_ObjectHideFlags: 0
@@ -56807,6 +56876,7 @@ Transform:
   - {fileID: 546832107}
   - {fileID: 1745930805}
   - {fileID: 1756048563}
+  - {fileID: 742967283}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6269874414572071383
@@ -64930,5 +65000,5 @@ SceneRoots:
   - {fileID: 1476549710}
   - {fileID: 1207634285}
   - {fileID: 1500113737}
-  - {fileID: 1608426054}
   - {fileID: 1709080730}
+  - {fileID: 1608426054}

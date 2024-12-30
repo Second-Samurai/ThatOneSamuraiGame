@@ -70,13 +70,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 this.m_PlayerMovementState,
                 this.m_PlayerTargetTrackingState,
                 this);
-            // ILockOnSystem _LockOnSystem = this.GetComponentInChildren<ILockOnSystem>();
-            // this.m_FinisherMovement = new PlayerFinishMovement(
-            //     _LockOnSystem,
-            //     this.m_PlayerMovementState,
-            //     this.m_Animator,
-            //     this.transform,
-            //     this);
+            this.m_FinisherMovement = new PlayerFinishMovement(
+                this.LockOnSystem,
+                this.m_PlayerMovementState,
+                this.m_Animator,
+                this.transform,
+                this);
             
             this.m_CurrentMovementState = this.m_NormalMovement;
             
@@ -85,9 +84,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         private void Update()
         {
-            if (this.IsPaused 
-                || !this.m_IsMovementEnabled 
-                || this.m_CurrentMovementState.GetState() == PlayerMovementStates.Finisher) // This needs to be removed
+            if (this.IsPaused || !this.m_IsMovementEnabled)
                 return;
 
             this.m_CurrentMovementState.CalculateMovement();

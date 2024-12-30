@@ -20,6 +20,8 @@ public interface ILockOnSystem
 
     void RemoveTargetFromTracking(Transform targetToRemove); //TODO replace all instances calling upon the death or removal of target from list.
 
+    void SelectNewTarget();
+
     void StartLockOn();
 
     void EndLockOn();
@@ -110,6 +112,16 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
         //     this.m_EnemyAISystem.eDamageController.enemyGuard.OnGuardEvent.Invoke();
         // }
         
+    }
+
+    public void SelectNewTarget()
+    {
+        if (!this.m_IsLockedOn) return;
+        
+        Transform _TargetTransform = this.GetNearestTarget();
+        if (!_TargetTransform) return;
+
+        this.OnNewLockOnTarget.Invoke(_TargetTransform);
     }
 
     public void EndLockOn()

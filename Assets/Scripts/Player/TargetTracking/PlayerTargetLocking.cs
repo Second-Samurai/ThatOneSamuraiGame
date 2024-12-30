@@ -38,8 +38,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
 
         void IPlayerTargetTracking.ToggleLockLeft()
         {
-            if (this.m_IsLockedOn)
-                this.m_LockOnSystem.StartLockOn(); // Change to use a seperate method called 'Get new target'
+            if (!this.m_IsLockedOn) return;
+            this.m_LockOnSystem.SelectNewTarget();
         }
 
         public void ToggleLockOn()
@@ -57,9 +57,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
 
         void IPlayerTargetTracking.ToggleLockRight()
         {
-            // Note: Does not matter whether the target is left or right.
-            if (this.m_IsLockedOn)
-                this.m_LockOnSystem.StartLockOn(); // Change to use a seperate method called 'Get new target'
+            if (!this.m_IsLockedOn) return;
+            this.m_LockOnSystem.SelectNewTarget();
         }
 
         #endregion Methods

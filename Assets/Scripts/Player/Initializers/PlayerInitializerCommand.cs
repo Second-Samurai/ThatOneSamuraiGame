@@ -53,9 +53,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
             // this.m_ThirdPersonCamController.Initialise();
             
             // Initialise animation behavior
-            FinishingMoveController _FinishingMoveController =
-                this.m_Player.GetComponentInChildren<FinishingMoveController>();
-            _FinishingMoveController.Initialise();
+            // FinishingMoveController _FinishingMoveController =
+            //     this.m_Player.GetComponentInChildren<FinishingMoveController>();
+            // _FinishingMoveController.Initialise();
 
             PlayerTargetLocking _PlayerTargetLocking = this.m_Player.GetComponent<PlayerTargetLocking>();
             _PlayerTargetLocking.Initialize(this.m_CameraController);

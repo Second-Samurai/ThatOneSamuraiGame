@@ -1820,7 +1820,7 @@ PlayableDirector:
   - key: {fileID: -1231079426727226961, guid: be4ae4b6aa8ea824f87be1f26c096d8c, type: 2}
     value: {fileID: 0}
   - key: {fileID: -3800368180400778700, guid: be4ae4b6aa8ea824f87be1f26c096d8c, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 6600890302855102733}
   - key: {fileID: -8084170624380514310, guid: be4ae4b6aa8ea824f87be1f26c096d8c, type: 2}
     value: {fileID: 1223054951506815909}
   m_ExposedReferences:
@@ -1853,7 +1853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlayerMovement: {fileID: 1589609326363381212}
   m_CutSceneDirector: {fileID: 742967285}
-  m_LockOnSystem: {fileID: 1756048565}
+  m_LockOnObserver: {fileID: 1756048567}
   m_PlayerDamageController: {fileID: 4763312774280357844}
   m_PlayerAttackHandler: {fileID: 3083788805558616400}
   m_CameraController: {fileID: 1476549714}
@@ -5385,6 +5385,7 @@ GameObject:
   - component: {fileID: 1756048563}
   - component: {fileID: 1756048565}
   - component: {fileID: 1756048564}
+  - component: {fileID: 1756048567}
   - component: {fileID: 1756048566}
   m_Layer: 9
   m_Name: LockOnControl
@@ -5440,16 +5441,6 @@ MonoBehaviour:
   m_LockOnTargetTracker: {fileID: 1756048564}
   m_CameraController: {fileID: 1476549714}
   m_Animator: {fileID: 3520858649588057780}
-  m_FollowTransform: {fileID: 6268768001105619820}
-  OnLockOnEnable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnNewLockOnTargetEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnLockOnDisableEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!135 &1756048566
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5471,6 +5462,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 45
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1756048567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756048562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4af6e79db8354f679d52beb083dcf9cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1759719802
 GameObject:
   m_ObjectHideFlags: 3
@@ -6093,7 +6096,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_CameraControlObject: {fileID: 1476549708}
-  m_LockOnSystem: {fileID: 1756048565}
+  m_LockOnObserver: {fileID: 1756048567}
   m_PlayerObject: {fileID: 4573849219210010279}
 --- !u!1 &1906171135
 GameObject:
@@ -40735,6 +40738,11 @@ PrefabInstance:
       objectReference: {fileID: 4573849219210010279}
     - target: {fileID: 7510437537952450416, guid: 1dfaf59a5685a934590fed49583c8942,
         type: 3}
+      propertyPath: m_LockOnObserver
+      value: 
+      objectReference: {fileID: 1756048567}
+    - target: {fileID: 7510437537952450416, guid: 1dfaf59a5685a934590fed49583c8942,
+        type: 3}
       propertyPath: m_CameraController
       value: 
       objectReference: {fileID: 1476549714}
@@ -57091,7 +57099,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3902032537346149874}
   m_Layer: 9
-  m_Name: JumpSlashCameras
+  m_Name: JumpSlash_Finisher_CameraSequence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64007,7 +64015,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &8350374743213221657
 GameObject:
   m_ObjectHideFlags: 0

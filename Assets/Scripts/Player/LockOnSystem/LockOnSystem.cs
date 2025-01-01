@@ -3,19 +3,10 @@ using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using UnityEngine;
-using UnityEngine.Events;
 
 public interface ILockOnSystem
 {
 
-    #region - - - - - - Properties - - - - - -
-
-    UnityEvent<Transform> OnNewLockOnTarget { get; }
-    
-    UnityEvent OnLockOnDisable { get; }
-
-    #endregion Properties
-  
     #region - - - - - - Methods - - - - - -
 
     void RemoveTargetFromTracking(Transform targetToRemove); //TODO replace all instances calling upon the death or removal of target from list.
@@ -30,63 +21,41 @@ public interface ILockOnSystem
 
 }
 
+[RequireComponent(typeof(ILockOnObserver))]
 public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
 {
 
     #region - - - - - - Fields - - - - - -
 
-    public LockOnTargetTracking m_LockOnTargetTracker;
-    public CameraController m_CameraController; // Change to interface
-    public Animator m_Animator; // Should not be in here as this couples with the animation system.
-    public Transform m_FollowTransform;
-
+    [RequiredField] public LockOnTargetTracking m_LockOnTargetTracker;
+    [RequiredField] public CameraController m_CameraController; // Change to interface
+    [RequiredField] public Animator m_Animator; // Should not be in here as this couples with the animation system.
     
-    private ILockOnCamera m_LockOnCamera;
+    private ILockOnObserver m_LockOnObserver;
     private Transform m_TargetTransform;
     private AISystem m_EnemyAISystem; // Maintained from before but should not be coupled.
 
     private bool m_IsLockedOn;
 
     #endregion Fields
-
-    #region - - - - - - Properties - - - - - -
-
-    // Calls underlying UnityEvent as the type itself does not truly reflect a C# event to be declared in interfaces.
-    public UnityEvent<Transform> OnNewLockOnTarget
-        => this.OnNewLockOnTargetEvent;
-    
-    // Calls underlying UnityEvent as the type itself does not truly reflect a C# event to be declared in interfaces.
-    public UnityEvent OnLockOnDisable
-        => this.OnLockOnDisableEvent;
-
-    #endregion Properties
   
     #region - - - - - - Unity Methods - - - - - -
 
     private void Start()
     {
-        this.m_LockOnCamera = this.m_CameraController.GetCamera(SceneCameras.LockOn).GetComponent<ILockOnCamera>();
+        // this.m_LockOnCamera = this.m_CameraController.GetCamera(SceneCameras.LockOn).GetComponent<ILockOnCamera>();
+        this.m_LockOnObserver = this.GetComponent<ILockOnObserver>();
         this.m_LockOnTargetTracker.Initialise();
+        
+        this.m_LockOnObserver.OnLockOnDisable.AddListener(this.EndLockOn);
     }
 
     #endregion Unity Methods
 
-    #region - - - - - - Unity Events - - - - - -
-
-    public UnityEvent OnLockOnEnable;
-    
-    public UnityEvent<Transform> OnNewLockOnTargetEvent;
-    
-    public UnityEvent OnLockOnDisableEvent;
-
-    #endregion Unity Events
-  
     #region - - - - - - Methods - - - - - -
     
     public void StartLockOn()
     {
-        // if (!GameValidator.NotNull(this.m_TargetTransform, nameof(this.m_TargetTransform))) return;
-
         this.m_IsLockedOn = true;
         this.m_Animator.SetBool("LockedOn", true);
         
@@ -94,8 +63,8 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
         Transform _TargetTransform = this.GetNearestTarget();
         if (!_TargetTransform) return;
 
-        this.OnNewLockOnTarget.Invoke(_TargetTransform);
-        this.OnLockOnEnable.Invoke();
+        this.m_LockOnObserver.OnNewLockOnTarget.Invoke(_TargetTransform);
+        this.m_LockOnObserver.OnLockOnEnable.Invoke();
         
         // // TODO: Remove the lockOn camera to instead use the observer
         // this.m_LockOnCamera.SetLockOnTarget(_TargetTransform);
@@ -121,17 +90,17 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
         Transform _TargetTransform = this.GetNearestTarget();
         if (!_TargetTransform) return;
 
-        this.OnNewLockOnTarget.Invoke(_TargetTransform);
+        this.m_LockOnObserver.OnNewLockOnTarget.Invoke(_TargetTransform);
     }
 
     public void EndLockOn()
     {
         if (!this.m_IsLockedOn) return;
 
-        this.OnLockOnDisable.Invoke();
+        this.m_LockOnObserver.OnLockOnDisable.Invoke();
         
         this.m_IsLockedOn = false;
-        // this.m_CameraController.SelectCamera(SceneCameras.FollowPlayer);
+        this.m_CameraController.SelectCamera(SceneCameras.FollowPlayer);
         this.m_LockOnTargetTracker.ClearTargets();
     }
 

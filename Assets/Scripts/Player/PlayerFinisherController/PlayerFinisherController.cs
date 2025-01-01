@@ -30,7 +30,7 @@ public class PlayerFinisherController : PausableMonoBehaviour, IFinisherControll
 
     [RequiredField] public PlayerMovement m_PlayerMovement;
     [RequiredField] public PlayerFinisherCutsceneDirector m_CutSceneDirector;
-    [RequiredField] public LockOnSystem m_LockOnSystem;
+    [RequiredField] public LockOnObserver m_LockOnObserver;
     [RequiredField] public PDamageController m_PlayerDamageController;
     [RequiredField] public PlayerAttackHandler m_PlayerAttackHandler;
     [RequiredField] public CameraController m_CameraController;
@@ -45,7 +45,7 @@ public class PlayerFinisherController : PausableMonoBehaviour, IFinisherControll
 
     private void Start()
     {
-        this.m_LockOnSystem.OnNewLockOnTarget.AddListener(((IFinisherController)this).SetFinishingTargetEnemy);
+        this.m_LockOnObserver.OnNewLockOnTarget.AddListener(((IFinisherController)this).SetFinishingTargetEnemy);
         
         CinemachineBrain _MainCameraCinemachineBrain = GameManager.instance.MainCamera.GetComponent<CinemachineBrain>();
         this.m_CutSceneDirector.BindToTrack("Cinemachine Track", _MainCameraCinemachineBrain);

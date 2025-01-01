@@ -15,7 +15,8 @@ public class OptionsMenu : MonoBehaviour
 
     private void Start()
     {
-        camTargetScript = GameManager.instance.PlayerController.gameObject.GetComponent<CameraControl>().camTargetScript;
+        // TODO: Change this to be the current camera control.
+        // camTargetScript = GameManager.instance.PlayerController.gameObject.GetComponent<CameraControl>().camTargetScript;
         audioManager = AudioManager.instance;
         _sensitivitySlider = GetComponentInChildren<Slider>();
         _sensitivitySlider.value = camTargetScript.rotationSpeed;

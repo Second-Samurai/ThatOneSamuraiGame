@@ -15,7 +15,7 @@ namespace ThatOneSamuraiGame.Legacy
         void Start()
         {
             _enemyTracker = GameManager.instance.EnemyTracker;
-            _lockOnTracker = GameManager.instance.LockOnTracker;
+            // _lockOnTracker = GameManager.instance.LockOnTracker;
 
             trackerDataList = new List<TrackerRewindData>();
             base.Start();

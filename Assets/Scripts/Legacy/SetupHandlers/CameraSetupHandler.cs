@@ -1,13 +1,12 @@
-﻿using ThatOneSamuraiGame.GameLogging;
-using ThatOneSamuraiGame.Legacy;
-using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
+﻿using System;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
+using ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHandlers;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
-namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHandlers
+namespace ThatOneSamuraiGame.Legacy
 {
 
+    [Obsolete]
     public class CameraSetupHandler : MonoBehaviour, ISetupHandler
     {
 
@@ -50,8 +49,8 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
             ).GetComponent<UnityEngine.Camera>();
             
             // Get references from scene
-            SceneManager.Instance.m_ThirdPersonViewCamera = this.m_ThirdPersonViewCamera;
-            SceneManager.Instance.LockOnTracker = Object.FindFirstObjectByType<LockOnTracker>(); // TODO: Remove this, thisd is now legacy
+            // SceneManager.Instance.m_ThirdPersonViewCamera = this.m_ThirdPersonViewCamera;
+            // SceneManager.Instance.LockOnTracker = Object.FindFirstObjectByType<LockOnTracker>(); // TODO: Remove this, thisd is now legacy
             
             print("[LOG]: Completed Scene Camera setup.");
             this.m_NextHandler?.Handle();

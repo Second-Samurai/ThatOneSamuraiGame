@@ -97,7 +97,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
             PlayerController _PlayerController = playerObject.GetComponent<PlayerController>();
             SceneManager _SceneManager = SceneManager.Instance;
             
-            _SceneManager.CameraControl = playerObject.GetComponent<CameraControl>(); // TODO: This is camera specific, move to camera setup handler
+            // _SceneManager.CameraControl = playerObject.GetComponent<CameraControl>(); // TODO: This is camera specific, move to camera setup handler
             _SceneManager.SceneState.ActivePlayer = playerObject;
             _SceneManager.PlayerController = _PlayerController;
             _SceneManager.SceneState.ActivePlayer = playerObject;

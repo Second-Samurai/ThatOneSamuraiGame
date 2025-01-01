@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+// TODO: Seperate into a seperate file
 public interface IFloatingEnemyGuardMeter
 {
 
@@ -43,7 +44,8 @@ public class UIGuardMeter : MonoBehaviour, IFloatingEnemyGuardMeter
     // Start is called before the first frame update
     public void Init(Transform entityTransform, StatHandler statHandler, Camera camera, RectTransform parentTransform)
     {
-        _lockOnTracker = GameManager.instance.LockOnTracker;
+        // TODO: Fix implementation to use the lock on tracker
+        // _lockOnTracker = GameManager.instance.LockOnTracker;
         
         this._entityTransform = entityTransform;
         this._statHandler = statHandler;

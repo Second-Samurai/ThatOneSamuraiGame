@@ -875,13 +875,13 @@ namespace Enemies
         private void OnDisable()
         { 
             GameManager.instance.EnemyTracker.RemoveEnemy(rb.gameObject.transform);
-            GameManager.instance.LockOnTracker.RemoveEnemy(rb.gameObject.transform);
+            // GameManager.instance.LockOnTracker.RemoveEnemy(rb.gameObject.transform);
         }
 
         private void OnDestroy()
         {
             GameManager.instance.EnemyTracker.RemoveEnemy(rb.gameObject.transform);
-            GameManager.instance.LockOnTracker.RemoveEnemy(rb.gameObject.transform);
+            // GameManager.instance.LockOnTracker.RemoveEnemy(rb.gameObject.transform);
         }
         
     }

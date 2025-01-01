@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
     [HideInInspector] public StatHandler playerStats;
     [HideInInspector] public PlayerSettings playerSettings;
     [HideInInspector] public PlayerStateMachine stateMachine;
-    [HideInInspector] public CameraControl cameraController;
+    // [HideInInspector] public CameraControl cameraController; // TODO: Remove any old reference to this
 
     [HideInInspector] public int totalCollectedKeys = 0;
     [HideInInspector] public int totalKillCount = 0;

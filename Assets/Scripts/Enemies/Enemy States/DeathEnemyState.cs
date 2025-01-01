@@ -20,7 +20,7 @@ namespace Enemies.Enemy_States
             AISystem.bIsDead = true;
             
             // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy)
-            _lockOnTracker = GameManager.instance.LockOnTracker;
+            // _lockOnTracker = GameManager.instance.LockOnTracker;
             _lockOnTracker.SwitchDeathTarget(AISystem.transform);
             
             // Remove enemy from enemy tracker and lock on tracker

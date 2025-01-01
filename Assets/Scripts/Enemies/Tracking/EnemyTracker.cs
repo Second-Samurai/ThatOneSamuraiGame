@@ -29,7 +29,7 @@ public class EnemyTracker : MonoBehaviour
     private void Start()
     {
         _enemySettings = GameManager.instance.gameSettings.enemySettings;
-        _lockOnTracker = GameManager.instance.LockOnTracker;
+        // _lockOnTracker = GameManager.instance.LockOnTracker;
     }
 
     private void Update()

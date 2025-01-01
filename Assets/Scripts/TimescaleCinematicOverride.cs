@@ -2,18 +2,21 @@
 
 public class TimescaleCinematicOverride : MonoBehaviour
 {
+
+    #region - - - - - - Fields - - - - - -
+
     public float timeScale = 1f;
-    public bool isOverriding = false;
+    public bool isOverriding;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    #endregion Fields
 
-    // Update is called once per frame
+    #region - - - - - - Unity Methods - - - - - -
+
     void Update()
     {
         if (isOverriding) Time.timeScale = timeScale;
     }
+
+    #endregion Unity Methods
+  
 }

@@ -4,6 +4,7 @@ using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using UnityEngine;
 
+// TODO: Refactor to seperate file
 public interface ILockOnSystem
 {
 

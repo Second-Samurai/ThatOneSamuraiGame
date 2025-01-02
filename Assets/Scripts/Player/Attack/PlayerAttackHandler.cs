@@ -7,16 +7,35 @@ using Object = UnityEngine.Object;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Attack
 {
+
+    public class PlayerAttackInitializerData
+    {
+
+        #region - - - - - - Properties - - - - - -
+
+        public ICameraController CameraController { get; private set; }
+
+        #endregion Properties
+
+        #region - - - - - - Constructors - - - - - -
+
+        public PlayerAttackInitializerData(ICameraController cameraController) 
+            => this.CameraController = cameraController;
+
+        #endregion Constructors
+  
+    }
     
-    public class PlayerAttackHandler : PausableMonoBehaviour, IPlayerAttackHandler
+    public class PlayerAttackHandler : 
+        PausableMonoBehaviour, 
+        IInitialize<PlayerAttackInitializerData>,
+        IPlayerAttackHandler
     {
 
         #region - - - - - - Fields - - - - - -
 
-        // TODO: Inject this into the handler
-        [SerializeField] private CameraController m_CameraController;
-        
         private Animator m_Animator;
+        private ICameraController m_CameraController;
         private ICombatController m_CombatController;
         private HitstopController m_HitstopController;
         private PlayerFunctions m_PlayerFunctions;
@@ -36,14 +55,23 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         #endregion Fields
 
+        #region - - - - - - Initializers - - - - - -
+
+        public void Initialize(PlayerAttackInitializerData initializerData)
+        {
+            this.m_CameraController = 
+                initializerData.CameraController 
+                    ?? throw new ArgumentNullException(nameof(initializerData.CameraController));
+        }
+
+        #endregion Initializers
+  
         #region - - - - - - Lifecycle Methods - - - - - -
 
         private void Start()
         {
             this.m_Animator = this.GetComponent<Animator>();
-            // this.m_CameraController = this.GetComponent<Legacy.ICameraController>();
             this.m_CombatController = this.GetComponent<ICombatController>();
-            // this.m_HitstopController = GameManager.instance.GetComponent<HitstopController>();
             this.m_HitstopController = Object.FindFirstObjectByType<HitstopController>();
             this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
             this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;

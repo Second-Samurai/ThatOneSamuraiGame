@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Scripts.Base;
+﻿using System;
+using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
@@ -7,25 +8,43 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.Player.Movement
 {
 
+    public class PlayerMovementInitializerData
+    {
+
+        #region - - - - - - Properties - - - - - -
+
+        public ICameraController CameraController { get; private set; }
+
+        #endregion Properties
+
+        #region - - - - - - Constructors - - - - - -
+
+        public PlayerMovementInitializerData(ICameraController cameraController) 
+            => this.CameraController = cameraController;
+
+        #endregion Constructors
+  
+    }
+    
     [RequireComponent(typeof(Animator))]
-    public class PlayerMovement : PausableMonoBehaviour, IPlayerMovement, IPlayerDodgeMovement
+    public class PlayerMovement : 
+        PausableMonoBehaviour, 
+        IInitialize<PlayerMovementInitializerData>,
+        IPlayerMovement, 
+        IPlayerDodgeMovement
     {
         
         #region - - - - - - Fields - - - - - -
         
-        // Make these injected
-        [RequiredField]
-        [SerializeField]
-        private CameraController CameraController;
         [RequiredField]
         [SerializeField]
         private LockOnSystem LockOnSystem;
         [RequiredField]
         [SerializeField]
         private Animator m_Animator;
-        // private FinishingMoveController m_FinishingMoveController;
         
         // Player data containers
+        private ICameraController m_CameraController;
         private PlayerAttackState m_PlayerAttackState;
         private PlayerMovementState m_PlayerMovementState;
         private PlayerTargetTrackingState m_PlayerTargetTrackingState;
@@ -40,6 +59,17 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private bool m_IsRotationEnabled = true;
 
         #endregion Fields
+        
+        #region - - - - - - Initializers - - - - - -
+
+        public void Initialize(PlayerMovementInitializerData initializerData)
+        {
+            this.m_CameraController = 
+                initializerData.CameraController 
+                ?? throw new ArgumentNullException(nameof(initializerData.CameraController));
+        }
+
+        #endregion Initializers
         
         #region - - - - - - Lifecycle Methods - - - - - -
 
@@ -57,7 +87,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_NormalMovement = new PlayerNormalMovement(
                 this.GetComponent<IPlayerAttackHandler>(),
                 this.m_PlayerAttackState,
-                this.CameraController, 
+                this.m_CameraController, 
                 this.m_PlayerMovementState,
                 this.m_Animator, 
                 this.transform,

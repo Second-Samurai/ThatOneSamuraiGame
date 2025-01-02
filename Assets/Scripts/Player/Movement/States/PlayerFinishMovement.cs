@@ -1,8 +1,4 @@
-﻿using System;
-using Enemies;
-using ThatOneSamuraiGame.Scripts.Player.Attack;
-using ThatOneSamuraiGame.Scripts.Player.Containers;
-using ThatOneSamuraiGame.Scripts.Player.Movement;
+﻿using ThatOneSamuraiGame.Scripts.Player.Movement;
 using UnityEngine;
 
 public class PlayerFinishMovement : BasePlayerMovementState

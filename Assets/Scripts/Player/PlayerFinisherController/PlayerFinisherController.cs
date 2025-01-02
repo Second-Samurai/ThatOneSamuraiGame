@@ -1,4 +1,5 @@
-﻿using Cinemachine;
+﻿using System;
+using Cinemachine;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
@@ -19,11 +20,32 @@ public interface IFinisherController
 
 }
 
+public class PlayerFinisherControllerInitializerData
+{
+
+    #region - - - - - - Properties - - - - - -
+
+    public ICameraController CameraController { get; private set; }
+
+    #endregion Properties
+
+    #region - - - - - - Constructors - - - - - -
+
+    public PlayerFinisherControllerInitializerData(ICameraController cameraController) 
+        => this.CameraController = cameraController;
+
+    #endregion Constructors
+  
+}
+
 /// <summary>
 /// Facade for handling 'Finishing' action related behaviour. Its responsible for handling finishing sequences against
 /// bladed enemies.
 /// </summary>
-public class PlayerFinisherController : PausableMonoBehaviour, IFinisherController
+public class PlayerFinisherController : 
+    PausableMonoBehaviour, 
+    IFinisherController, 
+    IInitialize<PlayerFinisherControllerInitializerData>
 {
 
     #region - - - - - - Fields - - - - - -
@@ -33,14 +55,25 @@ public class PlayerFinisherController : PausableMonoBehaviour, IFinisherControll
     [RequiredField] public LockOnObserver m_LockOnObserver;
     [RequiredField] public PDamageController m_PlayerDamageController;
     [RequiredField] public PlayerAttackHandler m_PlayerAttackHandler;
-    [RequiredField] public CameraController m_CameraController;
     [RequiredField] public GameObject m_PlayerObject;
     [RequiredField] public GameObject PlayerDetector; // Note: Used for enemies for detecting the player.
 
+    private ICameraController m_CameraController;
     private GameObject m_TargetEnemy;
 
     #endregion Fields
+    
+    #region - - - - - - Initializers - - - - - -
 
+    public void Initialize(PlayerFinisherControllerInitializerData initializerData)
+    {
+        this.m_CameraController = 
+            initializerData.CameraController 
+            ?? throw new ArgumentNullException(nameof(initializerData.CameraController));
+    }
+
+    #endregion Initializers
+    
     #region - - - - - - Unity Methods - - - - - -
 
     private void Start()

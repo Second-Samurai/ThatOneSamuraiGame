@@ -22,16 +22,36 @@ public interface ILockOnSystem
 
 }
 
+public class LockOnSystemInitializationData
+{
+
+    #region - - - - - - Properties - - - - - -
+
+    public ICameraController CameraController { get; private set; }
+
+    #endregion Properties
+
+    #region - - - - - - Constructors - - - - - -
+
+    public LockOnSystemInitializationData(ICameraController cameraController)
+    {
+        this.CameraController = cameraController;
+    }
+
+    #endregion Constructors
+  
+}
+
 [RequireComponent(typeof(ILockOnObserver))]
-public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
+public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<LockOnSystemInitializationData>
 {
 
     #region - - - - - - Fields - - - - - -
 
     [RequiredField] public LockOnTargetTracking m_LockOnTargetTracker;
-    [RequiredField] public CameraController m_CameraController; // Change to interface
     [RequiredField] public Animator m_Animator; // Should not be in here as this couples with the animation system.
-    
+
+    private ICameraController m_CameraController;
     private ILockOnObserver m_LockOnObserver;
     private Transform m_TargetTransform;
     private AISystem m_EnemyAISystem; // Maintained from before but should not be coupled.
@@ -39,19 +59,20 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
     private bool m_IsLockedOn;
 
     #endregion Fields
-  
-    #region - - - - - - Unity Methods - - - - - -
 
-    private void Start()
+    #region - - - - - - Initializers - - - - - -
+
+    public void Initialize(LockOnSystemInitializationData initializationData)
     {
-        // this.m_LockOnCamera = this.m_CameraController.GetCamera(SceneCameras.LockOn).GetComponent<ILockOnCamera>();
+        this.m_CameraController = initializationData.CameraController;
+        
         this.m_LockOnObserver = this.GetComponent<ILockOnObserver>();
         this.m_LockOnTargetTracker.Initialise();
         
         this.m_LockOnObserver.OnLockOnDisable.AddListener(this.EndLockOn);
     }
 
-    #endregion Unity Methods
+    #endregion Initializers
 
     #region - - - - - - Methods - - - - - -
     
@@ -146,5 +167,5 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
         => this.m_LockOnTargetTracker.RemoveTarget(targetToRemove);
 
     #endregion Methods
-  
+
 }

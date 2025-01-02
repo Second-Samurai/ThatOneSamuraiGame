@@ -14,6 +14,8 @@ public interface ICameraController
 
     void SetCameraAction(ICameraAction cameraAction);
 
+    void EndCameraAction();
+
     #endregion Methods
 
 }

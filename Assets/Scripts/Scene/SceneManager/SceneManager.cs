@@ -78,11 +78,8 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         // Camera
         // -------------------------------
         
-        // public CameraControl CameraControl
-        // {
-        //     get { return this.m_CameraControl; }
-        //     set { this.m_CameraControl = value; }
-        // }
+        public ICameraController CameraController { get; set; }
+        
         //
         // public LockOnTracker LockOnTracker
         // {

@@ -22,9 +22,11 @@ public class NewCameraSetupHandler : MonoBehaviour, ISetupHandler
 
     void ISetupHandler.Handle(SceneSetupContext setupContext)
     {
+        // Load data      
         GameSettings _GameSettings = GameManager.instance.gameSettings;
         ICameraController _CameraController = setupContext.CameraControlObject.GetComponent<ICameraController>();
         
+        // Spawn main camera
         Vector3 _MainCameraPos = _GameSettings.mainCamera.transform.position;
         SceneManager.Instance.MainCamera = Instantiate(
             _GameSettings.mainCamera, 
@@ -32,7 +34,9 @@ public class NewCameraSetupHandler : MonoBehaviour, ISetupHandler
             Quaternion.identity
         ).GetComponent<UnityEngine.Camera>();
 
+        // Setup Camera Systems
         this.SetupLockOnCamera(_CameraController);
+        SceneManager.Instance.CameraController = _CameraController;
         
         print("[LOG]: Completed Scene Camera setup.");
         this.m_NextHandler?.Handle(setupContext);

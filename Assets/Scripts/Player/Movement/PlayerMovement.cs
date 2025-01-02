@@ -75,8 +75,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         private void Start()
         {
-            // this.m_Animator = this.GetComponent<Animator>();
-            // this.m_FinishingMoveController = this.GetComponentInChildren<FinishingMoveController>();
             this.m_PlayerTargetTrackingState = this.GetComponent<IPlayerState>().PlayerTargetTrackingState;
 
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
@@ -101,11 +99,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 this.m_PlayerTargetTrackingState,
                 this);
             this.m_FinisherMovement = new PlayerFinishMovement(
-                this.LockOnSystem,
                 this.m_PlayerMovementState,
                 this.m_Animator,
-                this.transform,
-                this);
+                this.transform);
             
             this.m_CurrentMovementState = this.m_NormalMovement;
             

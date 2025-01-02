@@ -3,7 +3,7 @@ using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHandlers;
 using UnityEngine;
 
-public class NewCameraSetupHandler : MonoBehaviour, ISetupHandler
+public class CameraSetupHandler : MonoBehaviour, ISetupHandler
 {
 
     #region - - - - - - Fields - - - - - -

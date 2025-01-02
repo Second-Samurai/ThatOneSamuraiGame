@@ -27,8 +27,6 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         private EnemyTracker m_EnemyTracker;
 
         [Header("Camera")]
-        // [SerializeField] public CameraControl m_CameraControl;
-        // [SerializeField] public LockOnTracker m_LockOnTracker;
         [SerializeField] public GameObject m_ThirdPersonViewCamera;
         private UnityEngine.Camera m_MainCamera;
 

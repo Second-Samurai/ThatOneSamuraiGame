@@ -20,7 +20,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         void ISetupHandler.SetNext(ISetupHandler setupHandler)
             => this.m_NextHandler = setupHandler;
 
-        void ISetupHandler.Handle()
+        void ISetupHandler.Handle(SceneSetupContext setupContext)
         {
             Transform _MainCamera = SceneManager.Instance.MainCamera.transform;
             
@@ -34,7 +34,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
                     _SceneLoader.Initialise(_MainCamera.transform);
             
             print("[LOG]: Completed Scene Loader setup.");
-            this.m_NextHandler?.Handle();
+            this.m_NextHandler?.Handle(setupContext);
         }
 
         #endregion Methods

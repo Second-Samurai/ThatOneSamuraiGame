@@ -21,7 +21,7 @@ public class NewCameraSetupHandler : MonoBehaviour, ISetupHandler
     void ISetupHandler.SetNext(ISetupHandler setupHandler)
         => this.m_NextHandler = setupHandler;
 
-    void ISetupHandler.Handle()
+    void ISetupHandler.Handle(SceneSetupContext setupContext)
     {
         GameSettings _GameSettings = GameManager.instance.gameSettings;
         
@@ -35,7 +35,7 @@ public class NewCameraSetupHandler : MonoBehaviour, ISetupHandler
         this.SetupLockOnCamera();
         
         print("[LOG]: Completed Scene Camera setup.");
-        this.m_NextHandler?.Handle();
+        this.m_NextHandler?.Handle(setupContext);
     }
     
     private void SetupLockOnCamera()

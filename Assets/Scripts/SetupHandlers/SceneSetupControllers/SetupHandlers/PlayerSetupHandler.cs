@@ -35,7 +35,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         void ISetupHandler.SetNext(ISetupHandler setupHandler)
             => this.m_NextHandler = setupHandler;
 
-        void ISetupHandler.Handle()
+        void ISetupHandler.Handle(SceneSetupContext setupContext)
         {
             // Validate required values
             _ = GameValidator.NotNull(this.m_PlayerSpawnPoint, nameof(this.m_PlayerSpawnPoint));
@@ -59,7 +59,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
             this.SetupPlayerLockOnControl();
 
             print("[LOG]: Completed Scene Player setup.");
-            this.m_NextHandler?.Handle();
+            this.m_NextHandler?.Handle(setupContext);
         }
         
         private void InitialisePlayer(GameObject targetHolder, PlayerController playerController)

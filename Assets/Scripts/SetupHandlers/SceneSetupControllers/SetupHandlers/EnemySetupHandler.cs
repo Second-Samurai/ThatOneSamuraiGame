@@ -20,7 +20,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         void ISetupHandler.SetNext(ISetupHandler setupHandler)
             => this.m_NextHandler = setupHandler;
 
-        void ISetupHandler.Handle()
+        void ISetupHandler.Handle(SceneSetupContext setupContext)
         {
             _ = GameValidator.NotNull(this.m_EnemyTracker, nameof(this.m_EnemyTracker));
 
@@ -28,7 +28,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
             GameManager.instance.gameSettings.enemySettings.SetTarget(FindFirstObjectByType<PlayerController>().transform);
             
             print("[LOG]: Completed Scene Enemy setup.");
-            this.m_NextHandler?.Handle();
+            this.m_NextHandler?.Handle(setupContext);
         }
 
         #endregion Methods

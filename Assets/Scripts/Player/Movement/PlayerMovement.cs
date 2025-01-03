@@ -14,13 +14,18 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         #region - - - - - - Properties - - - - - -
 
         public ICameraController CameraController { get; private set; }
+        
+        public ILockOnObserver LockOnObserver { get; private set; }
 
         #endregion Properties
 
         #region - - - - - - Constructors - - - - - -
 
-        public PlayerMovementInitializerData(ICameraController cameraController) 
-            => this.CameraController = cameraController;
+        public PlayerMovementInitializerData(ICameraController cameraController, ILockOnObserver lockOnObserver)
+        {
+            this.CameraController = cameraController;
+            this.LockOnObserver = lockOnObserver;
+        }
 
         #endregion Constructors
   
@@ -65,6 +70,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_CameraController = 
                 initializerData.CameraController 
                 ?? throw new ArgumentNullException(nameof(initializerData.CameraController));
+            
+            // Bind to observers
+            initializerData.LockOnObserver.OnLockOnDisable.AddListener(() => 
+                ((IPlayerMovement)this).SetState(PlayerMovementStates.Normal));
         }
 
         #endregion Initializers

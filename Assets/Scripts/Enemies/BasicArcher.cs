@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using ThatOneSamuraiGame.Legacy;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using SceneManager = ThatOneSamuraiGame.Scripts.Scene.SceneManager.SceneManager;
 
 public class BasicArcher : MonoBehaviour, IDamageable
 {
@@ -127,11 +130,21 @@ public class BasicArcher : MonoBehaviour, IDamageable
         GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.15f);
         StartCoroutine(DodgeImpulseCoroutine(Vector3.back, damage * 4, .3f));
         
-        // LockOnTracker lockOnTracker = GameManager.instance.LockOnTracker;
+        // -------------------------------------------
+        // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy). KEPT FOR RECORD
+        // -------------------------------------------
         
-        // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy)
+        // LockOnTracker lockOnTracker = GameManager.instance.LockOnTracker;
         // lockOnTracker.SwitchDeathTarget(transform);
         // lockOnTracker.RemoveEnemy(transform);
+        
+        // Note: Temporary replacement, since the previous commented out behaviour above both assigns and removes itself from the tracked entities.
+        //  This feels cheap as this would mean that each Basic Archer can free manage the tracked transforms from the list. 
+        //  If this needs to be consistent with before, this should be managed by the events to ensure that changes to the recorded list can affect behaviour.
+        ILockOnSystem _LockOnSystem = SceneManager.Instance.LockOnSystem 
+            ?? throw new ArgumentNullException(nameof(SceneManager.Instance.LockOnSystem));
+        _LockOnSystem.SelectNewTarget();
+        
         GameManager.instance.EnemyTracker.RemoveEnemy(transform);
 
         if (particleSpawn) particleSpawn.SpawnParticles();

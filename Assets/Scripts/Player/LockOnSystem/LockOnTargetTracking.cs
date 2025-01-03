@@ -28,6 +28,9 @@ public class LockOnTargetTracking : PausableMonoBehaviour
     {
         this.m_MaxRaycastDistance = this.GetComponent<SphereCollider>().radius * 2;
         this.m_CameraTransform = GameManager.instance.MainCamera.transform;
+
+        ILockOnObserver _LockOnObserver = this.GetComponent<ILockOnObserver>();
+        _LockOnObserver.OnRemoveLockOnTarget.AddListener(this.RemoveTarget);
     }
 
     #endregion Initializers
@@ -97,13 +100,14 @@ public class LockOnTargetTracking : PausableMonoBehaviour
                     maxDistance: m_MaxRaycastDistance,
                     layerMask: this.m_TargetableLayers))
             {
-                GameLogger.Log(
-                    (nameof(m_RaycastStartPosition), m_RaycastStartPosition),
-                    ("Direction: ", (enemyTransform.position + this.m_EnemyFeetOffset - this.m_RaycastStartPosition).normalized),
-                    ("Hit Info: ", _Hit),
-                    ("Max Distance: ", m_MaxRaycastDistance),
-                    ("Layer Mask: ", m_TargetableLayers.value));
+                // GameLogger.Log(
+                //     (nameof(m_RaycastStartPosition), m_RaycastStartPosition),
+                //     ("Direction: ", (enemyTransform.position + this.m_EnemyFeetOffset - this.m_RaycastStartPosition).normalized),
+                //     ("Hit Info: ", _Hit),
+                //     ("Max Distance: ", m_MaxRaycastDistance),
+                //     ("Layer Mask: ", m_TargetableLayers.value));
                 
+                // TODO: Remove this
                 Debug.DrawLine(m_RaycastStartPosition, (enemyTransform.position + this.m_EnemyFeetOffset - this.m_RaycastStartPosition).normalized * m_MaxRaycastDistance, Color.yellow);
                 
                 return;

@@ -79,6 +79,8 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         public ICameraController CameraController { get; set; }
         
         public ILockOnSystem LockOnSystem { get; set; }
+
+        public ILockOnObserver LockOnObserver { get; set; }
         
         public UnityEngine.Camera MainCamera
         {

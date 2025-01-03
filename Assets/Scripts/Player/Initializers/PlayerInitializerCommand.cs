@@ -53,7 +53,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
 
             IInitialize<PlayerMovementInitializerData> _PlayerMovementInitializer =
                 this.m_Player.GetComponent<IInitialize<PlayerMovementInitializerData>>();
-            _PlayerMovementInitializer.Initialize(new PlayerMovementInitializerData(this.m_CameraController));
+            _PlayerMovementInitializer.Initialize(new PlayerMovementInitializerData(
+                this.m_CameraController, this.m_LockOnObserver));
             
             IInitialize<PlayerFinisherControllerInitializerData> _PlayerFinisherControllerInitializer =
                 this.m_Player.GetComponentInChildren<IInitialize<PlayerFinisherControllerInitializerData>>();

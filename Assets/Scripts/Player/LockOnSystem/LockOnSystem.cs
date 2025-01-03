@@ -58,6 +58,9 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
     #endregion Initializers
 
     #region - - - - - - Methods - - - - - -
+
+    GameObject ILockOnSystem.GetCurrentTarget()
+        => this.m_TargetTransform.gameObject;
     
     public void StartLockOn()
     {
@@ -145,9 +148,6 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
         
         return this.m_TargetTransform;
     }
-
-    public void RemoveTargetFromTracking(Transform targetToRemove)
-        => this.m_LockOnTargetTracker.RemoveTarget(targetToRemove);
 
     #endregion Methods
 

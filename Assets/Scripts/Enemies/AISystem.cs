@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using Enemies.Enemy_States;
 using Enemy_Scripts;
+using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
 using UnityEngine.AI;
 using Debug = UnityEngine.Debug;
@@ -105,6 +107,8 @@ namespace Enemies
 
         //AUDIO
         private BackgroundAudio _backgroundAudio;
+
+        private ILockOnObserver m_LockOnObserver;
         
         #endregion
         
@@ -112,8 +116,9 @@ namespace Enemies
 
         private void Start()
         {
-
-
+            this.m_LockOnObserver = SceneManager.Instance.LockOnObserver
+                ?? throw new ArgumentNullException(nameof(SceneManager.Instance.LockOnObserver));
+            
             hitstopController = GameManager.instance.gameObject.GetComponent<HitstopController>();
             
             // Grab the enemy settings from the Game Manager > Game Settings > Enemy Settings
@@ -875,13 +880,13 @@ namespace Enemies
         private void OnDisable()
         { 
             GameManager.instance.EnemyTracker.RemoveEnemy(rb.gameObject.transform);
-            // GameManager.instance.LockOnTracker.RemoveEnemy(rb.gameObject.transform);
+            this.m_LockOnObserver.OnRemoveLockOnTarget.Invoke(rb.gameObject.transform);
         }
 
         private void OnDestroy()
         {
             GameManager.instance.EnemyTracker.RemoveEnemy(rb.gameObject.transform);
-            // GameManager.instance.LockOnTracker.RemoveEnemy(rb.gameObject.transform);
+            this.m_LockOnObserver.OnRemoveLockOnTarget.Invoke(rb.gameObject.transform);
         }
         
     }

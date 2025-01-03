@@ -8,6 +8,7 @@ public class LockOnObserver : MonoBehaviour, ILockOnObserver
 
     private readonly UnityEvent m_OnLockOnEnable = new();
     private readonly UnityEvent<Transform> m_OnNewLockOnTarget = new();
+    private readonly UnityEvent<Transform> m_OnRemoveLockOnTarget = new();
     private readonly UnityEvent m_OnLockOnDisable = new();
 
     #endregion Fields
@@ -19,6 +20,9 @@ public class LockOnObserver : MonoBehaviour, ILockOnObserver
     
     public UnityEvent<Transform> OnNewLockOnTarget
         => this.m_OnNewLockOnTarget;
+
+    public UnityEvent<Transform> OnRemoveLockOnTarget
+        => this.m_OnRemoveLockOnTarget;
 
     public UnityEvent OnLockOnDisable
         => this.m_OnLockOnDisable;

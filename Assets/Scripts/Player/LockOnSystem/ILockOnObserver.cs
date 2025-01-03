@@ -9,6 +9,8 @@ public interface ILockOnObserver
     UnityEvent OnLockOnEnable { get; }
 
     UnityEvent<Transform> OnNewLockOnTarget { get; }
+    
+    UnityEvent<Transform> OnRemoveLockOnTarget { get; }
 
     UnityEvent OnLockOnDisable { get; }
 

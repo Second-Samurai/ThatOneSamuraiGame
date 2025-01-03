@@ -16,6 +16,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
         private readonly GameObject m_Player;
         private readonly GameObject m_TargetHolder;
         private readonly ICameraController m_CameraController;
+        private readonly ILockOnObserver m_LockOnObserver;
 
         #endregion Fields
   
@@ -24,11 +25,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
         public PlayerInitializerCommand(
             GameObject player, 
             GameObject targetHolder,
-            ICameraController cameraController)
+            ICameraController cameraController,
+            ILockOnObserver lockOnObserver)
         {
             this.m_Player = player ?? throw new ArgumentNullException(nameof(player));
             this.m_TargetHolder = targetHolder ?? throw new ArgumentNullException(nameof(targetHolder));
             this.m_CameraController = cameraController ?? throw new ArgumentNullException(nameof(cameraController));
+            this.m_LockOnObserver = lockOnObserver ?? throw new ArgumentNullException(nameof(lockOnObserver));
         }
 
         #endregion Constructors
@@ -55,7 +58,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
             IInitialize<PlayerFinisherControllerInitializerData> _PlayerFinisherControllerInitializer =
                 this.m_Player.GetComponentInChildren<IInitialize<PlayerFinisherControllerInitializerData>>();
             _PlayerFinisherControllerInitializer
-                .Initialize(new PlayerFinisherControllerInitializerData(this.m_CameraController));
+                .Initialize(new PlayerFinisherControllerInitializerData(this.m_CameraController, this.m_LockOnObserver));
         }
 
         #endregion Methods

@@ -13,13 +13,18 @@ public class PlayerFinisherControllerInitializerData
     #region - - - - - - Properties - - - - - -
 
     public ICameraController CameraController { get; private set; }
+    
+    public ILockOnObserver LockOnObserver { get; private set; }
 
     #endregion Properties
 
     #region - - - - - - Constructors - - - - - -
 
-    public PlayerFinisherControllerInitializerData(ICameraController cameraController) 
-        => this.CameraController = cameraController;
+    public PlayerFinisherControllerInitializerData(ICameraController cameraController, ILockOnObserver lockOnObserver)
+    {
+        this.CameraController = cameraController;
+        this.LockOnObserver = lockOnObserver;
+    }
 
     #endregion Constructors
   
@@ -39,13 +44,13 @@ public class PlayerFinisherController :
 
     [RequiredField] public PlayerMovement m_PlayerMovement;
     [RequiredField] public PlayerFinisherCutsceneDirector m_CutSceneDirector;
-    [RequiredField] public LockOnObserver m_LockOnObserver;
     [RequiredField] public PDamageController m_PlayerDamageController;
     [RequiredField] public PlayerAttackHandler m_PlayerAttackHandler;
     [RequiredField] public GameObject m_PlayerObject;
     [RequiredField] public GameObject PlayerDetector; // Note: Used for enemies for detecting the player.
 
     private ICameraController m_CameraController;
+    private ILockOnObserver m_LockOnObserver;
     private GameObject m_TargetEnemy;
 
     #endregion Fields
@@ -54,9 +59,10 @@ public class PlayerFinisherController :
 
     public void Initialize(PlayerFinisherControllerInitializerData initializerData)
     {
-        this.m_CameraController = 
-            initializerData.CameraController 
+        this.m_CameraController = initializerData.CameraController 
             ?? throw new ArgumentNullException(nameof(initializerData.CameraController));
+        this.m_LockOnObserver = initializerData.LockOnObserver
+            ?? throw new ArgumentNullException(nameof(initializerData.LockOnObserver));
     }
 
     #endregion Initializers

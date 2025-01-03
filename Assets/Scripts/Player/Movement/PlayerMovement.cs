@@ -38,13 +38,11 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         
         [RequiredField]
         [SerializeField]
-        private LockOnSystem LockOnSystem;
-        [RequiredField]
-        [SerializeField]
         private Animator m_Animator;
         
-        // Player data containers
         private ICameraController m_CameraController;
+        
+        // Player data containers
         private PlayerAttackState m_PlayerAttackState;
         private PlayerMovementState m_PlayerMovementState;
         private PlayerTargetTrackingState m_PlayerTargetTrackingState;

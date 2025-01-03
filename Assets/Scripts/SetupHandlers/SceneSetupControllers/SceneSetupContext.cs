@@ -7,8 +7,12 @@ public class SceneSetupContext
 
     #region - - - - - - Fields - - - - - -
 
-    [RequiredField] public GameObject CameraControlObject;
-    [RequiredField] public GameObject LockOnControlObject;
+    [Header("Camera Dependencies")]
+    [RequiredField] public CameraController CameraController;
+    
+    [Header("LockOn Dependencies")]
+    [RequiredField] public LockOnSystem LockOnSystem;
+    [RequiredField] public LockOnObserver LockOnObserver;
 
     #endregion Fields
 

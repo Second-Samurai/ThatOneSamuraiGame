@@ -8,7 +8,6 @@ public class CameraSetupHandler : MonoBehaviour, ISetupHandler
 
     #region - - - - - - Fields - - - - - -
     
-    [SerializeField] private LockOnObserver m_LockOnObserver;
     [SerializeField] private GameObject m_PlayerObject;
 
     private ISetupHandler m_NextHandler;
@@ -24,7 +23,6 @@ public class CameraSetupHandler : MonoBehaviour, ISetupHandler
     {
         // Load data      
         GameSettings _GameSettings = GameManager.instance.gameSettings;
-        ICameraController _CameraController = setupContext.CameraControlObject.GetComponent<ICameraController>();
         
         // Spawn main camera
         Vector3 _MainCameraPos = _GameSettings.mainCamera.transform.position;
@@ -35,24 +33,21 @@ public class CameraSetupHandler : MonoBehaviour, ISetupHandler
         ).GetComponent<UnityEngine.Camera>();
 
         // Setup Camera Systems
-        this.SetupLockOnCamera(_CameraController);
-        SceneManager.Instance.CameraController = _CameraController;
+        this.SetupLockOnCamera(setupContext.CameraController, setupContext.LockOnObserver);
+        SceneManager.Instance.CameraController = setupContext.CameraController;
         
         print("[LOG]: Completed Scene Camera setup.");
         this.m_NextHandler?.Handle(setupContext);
     }
     
-    private void SetupLockOnCamera(ICameraController cameraController)
+    private void SetupLockOnCamera(ICameraController cameraController, ILockOnObserver lockOnObserver)
     {
-        if (!GameValidator.NotNull(this.m_LockOnObserver, nameof(this.m_LockOnObserver))) return;
+        if (!GameValidator.NotNull(lockOnObserver, nameof(lockOnObserver))) return;
             
         ILockOnCamera _LockOnCamera = cameraController.GetCamera(SceneCameras.LockOn).GetComponent<ILockOnCamera>();
-        
-        this.m_LockOnObserver.OnLockOnEnable
-            .AddListener(() => cameraController.SelectCamera(SceneCameras.LockOn));
-        this.m_LockOnObserver.OnNewLockOnTarget.AddListener(_LockOnCamera.SetLockOnTarget);
-        this.m_LockOnObserver.OnLockOnDisable
-            .AddListener(() => cameraController.SelectCamera(SceneCameras.FollowPlayer));
+        lockOnObserver.OnLockOnEnable .AddListener(() => cameraController.SelectCamera(SceneCameras.LockOn));
+        lockOnObserver.OnNewLockOnTarget.AddListener(_LockOnCamera.SetLockOnTarget);
+        lockOnObserver.OnLockOnDisable.AddListener(() => cameraController.SelectCamera(SceneCameras.FollowPlayer));
 
         _LockOnCamera.SetFollowedTransform(this.m_PlayerObject.transform);
     }

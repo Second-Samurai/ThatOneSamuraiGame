@@ -36,12 +36,9 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         {
             this.ValidateParameters(setupContext);
             
-            // Load dependencies
-            ICameraController _CameraController = setupContext.CameraControlObject.GetComponent<ICameraController>();
-            
             // Initialise if the player exists.
             if (this.m_PlayerObject != null)
-                this.SetActivePlayer(_CameraController, this.m_PlayerObject);
+                this.SetActivePlayer(setupContext.CameraController, setupContext.LockOnObserver, this.m_PlayerObject);
             else
             {
                 // Create a player object if the player does not exist in scene.
@@ -49,35 +46,37 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
                     GameManager.instance.gameSettings.playerPrefab, 
                     this.m_PlayerSpawnPoint.position, 
                     Quaternion.identity);
-                this.SetActivePlayer(_CameraController, _SpawnedPlayerObject);
+                this.SetActivePlayer(setupContext.CameraController, setupContext.LockOnObserver, _SpawnedPlayerObject);
             }
             
-            this.SetupPlayerLockOnControl(_CameraController, setupContext.LockOnControlObject);
+            this.SetupPlayerLockOnControl(
+                setupContext.CameraController, 
+                setupContext.LockOnSystem, 
+                setupContext.LockOnObserver);
 
             print("[LOG]: Completed Scene Player setup.");
             this.m_NextHandler?.Handle(setupContext);
         }
 
-        private void SetupPlayerLockOnControl(ICameraController cameraController, GameObject lockOnObject)
+        private void SetupPlayerLockOnControl(
+            ICameraController cameraController, 
+            LockOnSystem lockOnSystem, 
+            ILockOnObserver lockOnObserver)
         {
-            if (!GameValidator.NotNull(lockOnObject, nameof(lockOnObject))
-                || !GameValidator.NotNull(cameraController, nameof(cameraController))) return;
-
-            IInitialize<LockOnSystemInitializationData> _LockOnInitializer =
-                lockOnObject.GetComponent<IInitialize<LockOnSystemInitializationData>>();
-            ILockOnObserver _LockOnObserver = lockOnObject.GetComponent<ILockOnObserver>();
-            
             // Initialize lock on system.
-            _LockOnInitializer.Initialize(new LockOnSystemInitializationData(cameraController));
+            lockOnSystem.Initialize(new LockOnSystemInitializationData(cameraController));
             
             // Assign values
             PlayerTargetTrackingState _PlayerTargetTrackingState = 
                 this.m_PlayerObject.GetComponent<IPlayerState>().PlayerTargetTrackingState;;
-            _LockOnObserver.OnNewLockOnTarget
+            lockOnObserver.OnNewLockOnTarget
                 .AddListener(newTarget => _PlayerTargetTrackingState.AttackTarget = newTarget);
         }
 
-        private void SetActivePlayer(ICameraController cameraController, GameObject playerObject)
+        private void SetActivePlayer(
+            ICameraController cameraController, 
+            ILockOnObserver lockOnObserver, 
+            GameObject playerObject)
         {
             GameObject _TargetHolder = Instantiate(
                 GameManager.instance.gameSettings.targetHolderPrefab, 
@@ -94,7 +93,8 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
             PlayerInitializerCommand _InitializerCommand = new PlayerInitializerCommand(
                 _PlayerController.gameObject,
                  _TargetHolder,
-                cameraController);
+                cameraController,
+                lockOnObserver);
             _InitializerCommand.Execute();
 
             IInputManager _InputManager = GameManager.instance.InputManager;
@@ -106,8 +106,8 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         {
             _ = GameValidator.NotNull(this.m_PlayerSpawnPoint, nameof(this.m_PlayerSpawnPoint));
             _ = GameValidator.NotNull(this.m_PlayerObject, nameof(this.m_PlayerObject));
-            _ = GameValidator.NotNull(setupContext.CameraControlObject, nameof(setupContext.CameraControlObject));
-            _ = GameValidator.NotNull(setupContext.LockOnControlObject, nameof(setupContext.LockOnControlObject));
+            _ = GameValidator.NotNull(setupContext.LockOnObserver, nameof(setupContext.LockOnObserver));
+            _ = GameValidator.NotNull(setupContext.LockOnSystem, nameof(setupContext.LockOnSystem));
         }
 
         #endregion Methods

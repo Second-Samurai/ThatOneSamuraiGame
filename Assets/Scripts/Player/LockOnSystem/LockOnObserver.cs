@@ -1,22 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-// TODO: Refactor to seperate file
-public interface ILockOnObserver
-{
-
-    #region - - - - - - Properties - - - - - -
-
-    UnityEvent OnLockOnEnable { get; }
-
-    UnityEvent<Transform> OnNewLockOnTarget { get; }
-
-    UnityEvent OnLockOnDisable { get; }
-
-    #endregion Properties
-
-}
-
 public class LockOnObserver : MonoBehaviour, ILockOnObserver
 {
 

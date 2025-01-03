@@ -4,24 +4,6 @@ using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using UnityEngine;
 
-// TODO: Refactor to seperate file
-public interface ILockOnSystem
-{
-
-    #region - - - - - - Methods - - - - - -
-
-    void RemoveTargetFromTracking(Transform targetToRemove); //TODO replace all instances calling upon the death or removal of target from list.
-
-    void SelectNewTarget();
-
-    void StartLockOn();
-
-    void EndLockOn();
-
-    #endregion Methods
-
-}
-
 public class LockOnSystemInitializationData
 {
 
@@ -33,15 +15,16 @@ public class LockOnSystemInitializationData
 
     #region - - - - - - Constructors - - - - - -
 
-    public LockOnSystemInitializationData(ICameraController cameraController)
-    {
-        this.CameraController = cameraController;
-    }
+    public LockOnSystemInitializationData(ICameraController cameraController) 
+        => this.CameraController = cameraController;
 
     #endregion Constructors
   
 }
 
+/// <summary>
+/// Responsible for managing the Player's LockOn behaviour.
+/// </summary>
 [RequireComponent(typeof(ILockOnObserver))]
 public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<LockOnSystemInitializationData>
 {

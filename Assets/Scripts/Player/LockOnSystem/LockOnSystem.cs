@@ -81,10 +81,6 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
         this.m_LockOnObserver.OnNewLockOnTarget.Invoke(_TargetTransform);
         this.m_LockOnObserver.OnLockOnEnable.Invoke();
         
-        // // TODO: Remove the lockOn camera to instead use the observer
-        // this.m_LockOnCamera.SetLockOnTarget(_TargetTransform);
-        // this.m_LockOnCamera.SetFollowedTransform(this.m_FollowTransform);
-        
         // this.m_CameraController.SelectCamera(SceneCameras.LockOn);
         
         // this.m_EnemyAISystem = _TargetTransform.GetComponent<AISystem>();

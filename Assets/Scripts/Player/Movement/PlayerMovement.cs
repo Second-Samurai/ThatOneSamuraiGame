@@ -185,6 +185,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         
         void IPlayerMovement.SetState(PlayerMovementStates state)
         {
+            // A check is performed as the swordsman implementation might cause a stackoverflow,
+            //  by running this operation multiple times upon its death.
+            if (this.m_CurrentMovementState != null && this.m_CurrentMovementState.GetState() == state) return;
+            
             if (state == PlayerMovementStates.Normal)
                 this.m_CurrentMovementState = this.m_NormalMovement;
             else if (state == PlayerMovementStates.LockOn)

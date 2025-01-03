@@ -1,5 +1,6 @@
 ﻿using System;
 using Cinemachine;
+using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using UnityEngine;
@@ -25,6 +26,7 @@ public class LockOnCameraState : PausableMonoBehaviour, ICameraState, ILockOnCam
 
     #region - - - - - - Fields - - - - - -
 
+    public Transform m_FollowCameraTargetPoint;
     public CinemachineFreeLook m_LockOnCamera;
     public CinematicBars m_CinematicBars;
 
@@ -36,10 +38,8 @@ public class LockOnCameraState : PausableMonoBehaviour, ICameraState, ILockOnCam
   
     #region - - - - - - Initialize - - - - - -
 
-    public void InitializeState(CameraStateContext context)
-    {
-        throw new NotImplementedException();
-    }
+    public void InitializeState(CameraStateContext context) 
+        => this.m_LockOnCamera.Follow = this.m_FollowCameraTargetPoint;
 
     #endregion Initialize
   
@@ -52,12 +52,17 @@ public class LockOnCameraState : PausableMonoBehaviour, ICameraState, ILockOnCam
     public void SetLockOnTarget(Transform targetTransform) 
         => this.m_TargetTransform = targetTransform;
 
-    public void SetFollowedTransform(Transform followTransform)
+    public void SetFollowedTransform(Transform followTransform) 
         => this.m_FollowedTransform = followTransform;
 
     public void StartState()
     {
         this.m_LockOnCamera.gameObject.SetActive(true);
+        
+        GameLogger.Log(
+            (nameof(this.m_TargetTransform), this.m_TargetTransform),
+            (nameof(this.m_FollowedTransform), this.m_FollowedTransform));
+        
         this.m_LockOnCamera.LookAt = this.m_TargetTransform;
         this.m_LockOnCamera.Follow = this.m_FollowedTransform;
         

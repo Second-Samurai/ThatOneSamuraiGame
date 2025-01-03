@@ -35,8 +35,13 @@ public class CameraStateSystem : MonoBehaviour, ICameraStateSystem
   
     #region - - - - - - Methods - - - - - -
 
+
     public void SetState(SceneCameras selectedCamera)
     {
+        // A check is performed as the swordsman implementation might cause a stackoverflow,
+        //  by running this operation multiple times upon its death.
+        if (this.m_CurrentCameraState != null && this.m_CurrentCameraState.GetSceneState() == selectedCamera) return;
+        
         this.m_CurrentCameraState?.EndState();
         
         if(selectedCamera == SceneCameras.FollowPlayer)

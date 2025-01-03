@@ -5578,10 +5578,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlayerMovement: {fileID: 5633744344342286438}
   m_CutSceneDirector: {fileID: 7152012394985288617}
-  m_LockOnObserver: {fileID: 4128458006612135491}
   m_PlayerDamageController: {fileID: 2962830070630296324}
   m_PlayerAttackHandler: {fileID: 7679672917170573754}
-  m_CameraController: {fileID: 0}
   m_PlayerObject: {fileID: 5395489358580600328}
   PlayerDetector: {fileID: 6802332872139996132}
 --- !u!114 &7152012394985288617
@@ -33732,6 +33730,7 @@ GameObject:
   - component: {fileID: 4919045232634534813}
   - component: {fileID: 4482437867961119914}
   - component: {fileID: 3756120450154336460}
+  - component: {fileID: 7811938678449757978}
   - component: {fileID: 1522242138330992770}
   - component: {fileID: 7679672917170573754}
   - component: {fileID: 5633744344342286438}
@@ -33844,7 +33843,7 @@ Animator:
   m_GameObject: {fileID: 5395489358580600328}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: ec8448545c3dc407ab5081bbc2313aaa, type: 3}
-  m_Controller: {fileID: 9100000, guid: f2fd463caa2034214961427e84030aff, type: 2}
+  m_Controller: {fileID: 9100000, guid: dbd6aecbfc8dde2499bc2f9a72ef2751, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -33856,6 +33855,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7811938678449757978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5395489358580600328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d766eabb7d667cd4c9c15d765382d85a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1522242138330992770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33880,7 +33891,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 288e5f7cc8b641a1b91cc0f577f8cc3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CameraController: {fileID: 0}
   m_ShowHeavyTutorialEvent: {fileID: 11400000, guid: 025630d0818ca5241bd1f76f49d79651,
     type: 2}
   m_ShowHeavyTelegraphEvent: {fileID: 11400000, guid: 410948a5fa6416b4bbc2a539a516b4be,
@@ -33899,9 +33909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65abbc4fd76943b3b5d8112ace964d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraController: {fileID: 0}
-  LockOnSystem: {fileID: 4241970461219713044}
-  m_Animator: {fileID: 3756120450154336460}
+  m_PlayerAnimationComponent: {fileID: 0}
 --- !u!114 &2948093329356755429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33916,7 +33924,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlayerAttackState:
     m_CanAttack: 1
-    m_HasBeenParried: 0
+    m_IsParryStunned: 0
     m_IsHeavyAttackCharging: 0
     m_IsWeaponSheathed: 0
   m_PlayerMovementState:
@@ -33965,7 +33973,6 @@ MonoBehaviour:
   playerID: defaultID1234
   playerSettings: {fileID: 0}
   stateMachine: {fileID: 0}
-  cameraController: {fileID: 0}
   totalCollectedKeys: 0
   totalKillCount: 0
 --- !u!114 &8675417326419144154
@@ -34006,7 +34013,6 @@ MonoBehaviour:
   bIsParrying: 0
   parryTimer: 0
   parryTimerTarget: 0.4
-  LockOnSystem: {fileID: 4241970461219713044}
   rb: {fileID: 0}
   bIsDead: 0
   screenCenter: {fileID: 0}
@@ -34181,6 +34187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CameraController: {fileID: 0}
+  LockOnObserver: {fileID: 0}
 --- !u!1 &5481850712639538546
 GameObject:
   m_ObjectHideFlags: 0
@@ -50103,7 +50110,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_LockOnTargetTracker: {fileID: 4205955361373828669}
-  m_CameraController: {fileID: 0}
   m_Animator: {fileID: 3756120450154336460}
 --- !u!114 &4205955361373828669
 MonoBehaviour:

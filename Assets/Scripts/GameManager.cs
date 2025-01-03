@@ -84,13 +84,7 @@ public class GameManager : MonoBehaviour
     // ----------------------------------------------
     // Camera
     // ----------------------------------------------
-
-    // public CameraControl CameraControl
-    //     => ((ISceneManager)this.m_SceneManager).CameraControl;
-    //
-    // public LockOnTracker LockOnTracker
-    //     => ((ISceneManager)this.m_SceneManager).LockOnTracker;
-    //
+    
     public Camera MainCamera
         => ((ISceneManager)this.m_SceneManager).MainCamera;
     

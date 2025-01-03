@@ -75,13 +75,6 @@ public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
         combatController.Init(playerStats);
         combatController.UnblockCombatInputs();
 
-        //Sets up the player's camera controller
-        // cameraController = this.GetComponent<CameraControl>();
-        // cameraController.Init(this.transform);
-
-        // LockOnTargetManager lockOnManager = this.gameObject.GetComponentInChildren<LockOnTargetManager>();
-        // lockOnManager.targetHolder = targetHolder; //Sets the holder from the gamemanager into the LockOn script
-
         SetState<PNormalState>();
     }
 

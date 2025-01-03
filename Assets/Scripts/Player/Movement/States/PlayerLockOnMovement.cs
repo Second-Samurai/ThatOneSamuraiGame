@@ -63,8 +63,8 @@ public class PlayerLockOnMovement : BasePlayerMovementState
     {
         if (!this.m_MovementState.CanDodge) return;
         
-        this.m_PlayerAnimator.SetTrigger("Dodge");
-        this.m_PlayerAnimator.ResetTrigger("AttackLight");
+        this.m_PlayerAnimationComponent.TriggerDodge();
+        this.m_PlayerAnimationComponent.ResetLightAttack();
     
         if (this.m_AttackState.ParryStunned)
             this.m_AttackHandler.EndParryAction();

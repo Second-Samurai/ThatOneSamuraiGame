@@ -30,6 +30,7 @@ namespace Player.Animation
         private static readonly string DrawSword = "DrawSword";
         private static readonly string FinisherSetup = "FinisherSetup";
         private static readonly string Parrying = "Parrying";
+        private static readonly string Dodge = "Dodge";
         private static readonly string GuardBreak = "GuardBreak";
         private static readonly string Knockdown = "Knockdown";
         
@@ -140,6 +141,11 @@ namespace Player.Animation
         public void TriggerParry()
         {
             m_Animator.SetTrigger(Parrying);
+        }
+
+        public void TriggerDodge()
+        {
+            m_Animator.SetTrigger(Dodge);
         }
 
         public void TriggerGuardBreak()

@@ -65,8 +65,8 @@ public class PlayerNormalMovement : BasePlayerMovementState
     {
         if (!this.m_MovementState.CanDodge) return;
         
-        this.m_PlayerAnimationComponent.SetTrigger("Dodge");
-        this.m_PlayerAnimationComponent.ResetTrigger("AttackLight");
+        this.m_PlayerAnimationComponent.TriggerDodge();
+        this.m_PlayerAnimationComponent.ResetLightAttack();
         
         if (this.m_AttackState.ParryStunned)
             this.m_AttackHandler.EndParryAction();

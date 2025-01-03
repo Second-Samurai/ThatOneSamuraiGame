@@ -8,7 +8,9 @@ public class CameraSetupHandler : MonoBehaviour, ISetupHandler
 
     #region - - - - - - Fields - - - - - -
     
-    [SerializeField] private GameObject m_PlayerObject;
+    [RequiredField]
+    [SerializeField]
+    private GameObject m_PlayerObject;
 
     private ISetupHandler m_NextHandler;
 
@@ -34,7 +36,6 @@ public class CameraSetupHandler : MonoBehaviour, ISetupHandler
 
         // Setup Camera Systems
         this.SetupLockOnCamera(setupContext.CameraController, setupContext.LockOnObserver);
-        SceneManager.Instance.CameraController = setupContext.CameraController;
         
         print("[LOG]: Completed Scene Camera setup.");
         this.m_NextHandler?.Handle(setupContext);

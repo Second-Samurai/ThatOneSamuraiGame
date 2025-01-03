@@ -43,6 +43,13 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
 
     #endregion Fields
 
+    #region - - - - - - Properties - - - - - -
+
+    public bool IsLockingOnTarget
+        => this.m_IsLockedOn;
+
+    #endregion Properties
+  
     #region - - - - - - Initializers - - - - - -
 
     public void Initialize(LockOnSystemInitializationData initializationData)

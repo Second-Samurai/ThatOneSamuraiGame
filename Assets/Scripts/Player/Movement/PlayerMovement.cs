@@ -1,5 +1,6 @@
 ﻿using System;
 using ThatOneSamuraiGame.Scripts.Base;
+using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
@@ -161,8 +162,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         }
 
         void IPlayerMovement.PrepareSprint(bool isSprinting)
-            => this.m_CurrentMovementState.PerformSprint(isSprinting);
-        
+        {
+            this.m_CurrentMovementState.PerformSprint(isSprinting);
+            this.m_CameraController.SelectCamera(isSprinting 
+                ? SceneCameras.FollowSprintPlayer 
+                : SceneCameras.FollowPlayer);
+        }
+
         // --------------------------------
         // Rotation
         // --------------------------------

@@ -1,10 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Runtime.CompilerServices;
+using UnityEngine;
 using UnityEngine.Playables;
 using Cinemachine;
-using ThatOneSamuraiGame.Legacy;
+using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using UnityEngine.Events;
 using UnityEngine.Timeline;
 using UnityEngine.InputSystem;
+using Object = UnityEngine.Object;
+using SceneManager = ThatOneSamuraiGame.Scripts.Scene.SceneManager.SceneManager;
 
 public class OpeningCutscene : MonoBehaviour
 {
@@ -13,6 +17,8 @@ public class OpeningCutscene : MonoBehaviour
     public SignalReceiver signalReceiver;
     bool bSkipped = false;
 
+    private ICameraController m_CameraController;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +26,9 @@ public class OpeningCutscene : MonoBehaviour
         if (endCutscene == null) endCutscene = new UnityEvent();
         if (signalReceiver == null) signalReceiver = GetComponent<SignalReceiver>();
         AssignTargets();
+
+        this.m_CameraController = SceneManager.Instance.CameraController
+            ?? throw new ArgumentNullException(nameof(SceneManager.Instance.CameraController));
     }
 
    
@@ -46,8 +55,12 @@ public class OpeningCutscene : MonoBehaviour
         }
     }
 
-    public void ChangeCamPriority()
-        => GameManager.instance.ThirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
+    // public void ChangeCamPriority()
+    //     => GameManager.instance.ThirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
+    //
+    
+    public void ChangeCameraToFollow()
+        => this.m_CameraController.SelectCamera(SceneCameras.FollowPlayer);
 
     private void Update()
     {

@@ -5,6 +5,8 @@ using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using SceneManager = ThatOneSamuraiGame.Scripts.Scene.SceneManager.SceneManager;
 
 // Tech-Debt: #35 - PlayerFunctions will be refactored to mitigate large class bloat.
 public class PlayerFunctions : MonoBehaviour
@@ -22,8 +24,7 @@ public class PlayerFunctions : MonoBehaviour
     public float parryTimerTarget;
     bool _bDontCheckParry = false;
 
-    [Header("Lock On Target")] 
-    public LockOnSystem LockOnSystem;
+    public ILockOnSystem LockOnSystem;
 
     [Header("IK Functions")]
     IKPuppet _IKPuppet;
@@ -79,6 +80,8 @@ public class PlayerFunctions : MonoBehaviour
         //enemyMask = ~enemyMask;
 
         this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
+
+        this.LockOnSystem = SceneManager.Instance.LockOnSystem;
 
         IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
         this.m_PlayerMovementState = _PlayerState.PlayerMovementState;

@@ -78,13 +78,8 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         
         public ICameraController CameraController { get; set; }
         
-        //
-        // public LockOnTracker LockOnTracker
-        // {
-        //     get { return this.m_LockOnTracker; }
-        //     set { this.m_LockOnTracker = value; }
-        // }
-
+        public ILockOnSystem LockOnSystem { get; set; }
+        
         public UnityEngine.Camera MainCamera
         {
             get { return this.m_MainCamera; }
@@ -151,9 +146,6 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
                    & GameValidator.NotNull(this.m_EnemyTracker, nameof(this.m_EnemyTracker))
                    & GameValidator.NotNull(this.m_EnemySpawnManager, nameof(this.m_EnemySpawnManager))
                    & GameValidator.NotNull(this.m_SceneLoader, nameof(this.m_SceneLoader))
-                   // & GameValidator.NotNull(this.m_CameraControl, nameof(this.m_CameraControl))
-                   // & GameValidator.NotNull(this.m_LockOnTracker, nameof(this.m_LockOnTracker))
-                   // & GameValidator.NotNull(this.m_ThirdPersonViewCamera, nameof(this.m_ThirdPersonViewCamera)) // removed
                    & GameValidator.NotNull(this.m_MainCamera, nameof(this.m_MainCamera));
         }
 

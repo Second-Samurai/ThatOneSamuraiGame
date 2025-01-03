@@ -27,6 +27,9 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
             SceneManager.Instance.EnemyTracker = this.m_EnemyTracker;
             GameManager.instance.gameSettings.enemySettings.SetTarget(FindFirstObjectByType<PlayerController>().transform);
             
+            // Initialize Enemy Tracker
+            this.m_EnemyTracker.Initialize(new EnemyTrackerInitializerData(setupContext.LockOnSystem));
+            
             print("[LOG]: Completed Scene Enemy setup.");
             this.m_NextHandler?.Handle(setupContext);
         }

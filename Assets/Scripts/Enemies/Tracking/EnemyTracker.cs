@@ -9,7 +9,25 @@ using Random = UnityEngine.Random;
 // Used to track all enemies in a scene through a list of transforms
 // This list is obtained by searching for enemy tags on awake
 
-public class EnemyTracker : MonoBehaviour
+public class EnemyTrackerInitializerData
+{
+
+    #region - - - - - - Properties - - - - - -
+
+    public ILockOnSystem LockOnSystem { get; set; }
+
+    #endregion Properties
+
+    #region - - - - - - Constructors - - - - - -
+
+    public EnemyTrackerInitializerData(ILockOnSystem lockOnSystem) 
+        => this.LockOnSystem = lockOnSystem;
+
+    #endregion Constructors
+  
+}
+
+public class EnemyTracker : MonoBehaviour, IInitialize<EnemyTrackerInitializerData>
 {
     public List<Transform> currentEnemies;
 
@@ -26,13 +44,14 @@ public class EnemyTracker : MonoBehaviour
     //Debug controls to stop enemies from approaching
     public bool bDebugStopApproaching;
 
-    private void Start()
+    public void Initialize(EnemyTrackerInitializerData initializerData)
     {
-        _enemySettings = GameManager.instance.gameSettings.enemySettings;
-        
-        this.m_LockOnSystem = SceneManager.Instance.LockOnSystem
-            ?? throw new ArgumentNullException(nameof(SceneManager.Instance.LockOnSystem));
+        this.m_LockOnSystem = initializerData.LockOnSystem 
+            ?? throw new ArgumentNullException(nameof(initializerData.LockOnSystem));
     }
+
+    private void Start() 
+        => _enemySettings = GameManager.instance.gameSettings.enemySettings;
 
     private void Update()
     {
@@ -111,7 +130,9 @@ public class EnemyTracker : MonoBehaviour
     {
         if (!bDebugStopApproaching)
         {
-            AISystem _CurrentlyTargeteEnemy = this.m_LockOnSystem.GetCurrentTarget().GetComponent<AISystem>();
+            AISystem _CurrentlyTargeteEnemy = this.m_LockOnSystem.IsLockingOnTarget 
+                ? this.m_LockOnSystem.GetCurrentTarget().GetComponent<AISystem>()
+                : null;
             
             // Don't pick a target if no enemies are in the tracker or if the player is charging a heavy attack
             if (currentEnemies.Count <= 0 || _bIsHeavyCharging)

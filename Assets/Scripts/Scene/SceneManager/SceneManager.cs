@@ -78,6 +78,8 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         
         public ICameraController CameraController { get; set; }
         
+        public HitstopController HitstopController { get; set; }
+        
         public ILockOnSystem LockOnSystem { get; set; }
 
         public ILockOnObserver LockOnObserver { get; set; }

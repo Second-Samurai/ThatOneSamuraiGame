@@ -11,6 +11,8 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
 
         #region - - - - - - Fields - - - - - -
 
+        [SerializeField] private HitstopController m_HitstopController;
+        
         private ISetupHandler m_NextHandler;
 
         #endregion Fields
@@ -33,8 +35,20 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
                 foreach (ISceneLoader _SceneLoader in _SceneLoaders)
                     _SceneLoader.Initialise(_MainCamera.transform);
             
+            // Set values from context object to Managers
+            this.AssignToSingletonManager(setupContext);
+            
             print("[LOG]: Completed Scene Loader setup.");
             this.m_NextHandler?.Handle(setupContext);
+        }
+
+        // Responsible for assigning available objects from the context object to the Singleton.
+        private void AssignToSingletonManager(SceneSetupContext setupContext)
+        {
+            SceneManager.Instance.HitstopController = this.m_HitstopController;
+            SceneManager.Instance.CameraController = setupContext.CameraController;
+            SceneManager.Instance.LockOnObserver = setupContext.LockOnObserver;
+            SceneManager.Instance.LockOnSystem = setupContext.LockOnSystem;
         }
 
         #endregion Methods

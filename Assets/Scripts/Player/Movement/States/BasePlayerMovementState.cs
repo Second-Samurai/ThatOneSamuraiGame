@@ -64,9 +64,9 @@ public class BasePlayerMovementState : IPlayerMovementState
     void IPlayerMovementState.PerformSprint(bool isSprinting)
     {
         if (this.m_InputDirection == Vector2.zero || !isSprinting)
-            this.m_PlayerAnimator.SetBool("IsSprinting", false);
+            this.m_PlayerAnimationComponent.SetSprinting(false);
         else
-            this.m_PlayerAnimator.SetBool("IsSprinting", true);
+            this.m_PlayerAnimationComponent.SetSprinting(true);
     }
     
     protected IEnumerator ApplyDodgeTranslation(Vector3 lastDirection, float force)

@@ -1,4 +1,5 @@
 ﻿using System;
+using Player.Animation;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
@@ -113,7 +114,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 this);
             this.m_FinisherMovement = new PlayerFinishMovement(
                 this.m_PlayerMovementState,
-                this.m_Animator,
+                this.m_PlayerAnimationComponent,
                 this.transform);
             
             this.m_CurrentMovementState = this.m_NormalMovement;
@@ -128,10 +129,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
             this.m_CurrentMovementState.CalculateMovement();
             this.m_CurrentMovementState.ApplyMovement();
-
-            // Perform specific movement behavior
-            this.LockPlayerRotationToAttackTarget();
-
+            
             if (IsSprinting())
                 TickSprintDuration();
         }
@@ -204,8 +202,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         {
             m_SprintDuration += Time.deltaTime;
         }
-
-
+        
         // --------------------------------
         // Rotation
         // --------------------------------

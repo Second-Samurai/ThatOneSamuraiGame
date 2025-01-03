@@ -1,4 +1,5 @@
 using System;
+using Player.Animation;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
@@ -169,23 +170,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_CombatController.ResetAttackCombo();
         }
         
-        private void StartHeavyAttack()
-        {
-            if (!this.m_PlayerAttackState.CanAttack)
-                return;
-            
-            this.m_ShowHeavyTelegraphEvent.Raise();
-
-            this.m_HeavyInputHeld = true;
-            this.m_PlayerAttackState.IsWeaponSheathed = true;
-            this.m_PlayerAttackState.IsHeavyAttackCharging = true;
-            
-            this.m_PlayerAnimationComponent.ResetAttackParameters();
-            this.m_PlayerAnimationComponent.ChargeHeavyAttack(true);
-
-            this.m_CameraController.RollCamera();
-        }
-        
         private void PerformHeavyAttack()
         {
             this.m_ShowHeavyTutorialEvent.Raise();
@@ -195,7 +179,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_PlayerAttackState.IsWeaponSheathed = false;
             this.m_GleamTimerFinished = false;
 
-            this.m_Animator.SetBool("HeavyAttackHeld", false);
+            //this.m_Animator.SetBool("HeavyAttackHeld", false);
+            this.m_PlayerAnimationComponent.TriggerHeavyAttack();
             
             // Rolls the camera
             IFreelookCameraController _FreeLookCamera = this.m_CameraController
@@ -203,8 +188,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
                 .GetComponent<IFreelookCameraController>();
             CameraRollAction _CameraRoll = new CameraRollAction(_FreeLookCamera, this);
             this.m_CameraController.SetCameraAction(_CameraRoll);
-
-            this.m_PlayerAnimationComponent.TriggerHeavyAttack();
         }
         
         private void TickHeavyTimer()
@@ -214,18 +197,21 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             if(!m_GleamTimerFinished)
                 CountdownGleamTimer();
         }
-
+        
         private void StartHeavyAttack()
         {
-            if (!this.m_PlayerAttackState.CanAttack && this.m_Animator.GetBool("HeavyAttackHeld"))
+            if (!this.m_PlayerAttackState.CanAttack /*&& this.m_Animator.GetBool("HeavyAttackHeld")*/)
                 return;
             
             this.m_ShowHeavyTelegraphEvent.Raise();
-
+            
             this.m_PlayerAttackState.IsWeaponSheathed = true;
             this.m_PlayerAttackState.IsHeavyAttackCharging = true;
-            this.m_Animator.SetBool("HeavyAttackHeld", true);
-
+            //this.m_Animator.SetBool("HeavyAttackHeld", true);
+            
+            this.m_PlayerAnimationComponent.ResetAttackParameters();
+            this.m_PlayerAnimationComponent.ChargeHeavyAttack(true);
+            
             // Ends the camera roll
             this.m_CameraController.EndCameraAction();
         }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
-using ThatOneSamuraiGame.Legacy;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using SceneManager = ThatOneSamuraiGame.Scripts.Scene.SceneManager.SceneManager;
 
 public class BasicArcher : MonoBehaviour, IDamageable
@@ -37,9 +35,14 @@ public class BasicArcher : MonoBehaviour, IDamageable
     private Vector3 _aimOffsetValue;
     private Vector3 playerPos;
 
+    private HitstopController m_HitstopController;
+
     private void Start()
     {
         audioManager = AudioManager.instance;
+        this.m_HitstopController = SceneManager.Instance.HitstopController
+            ?? throw new ArgumentNullException(nameof(SceneManager.Instance.HitstopController));
+        
         if(GameManager.instance.PlayerController != null)
             player = GameManager.instance.PlayerController.gameObject.transform;
         if(!draw) draw = AudioManager.instance.FindSound("Bow Draw");
@@ -127,7 +130,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
         col.enabled = false;
         currentState = CurrentState.Dead;
         camImpulse.FireImpulse();
-        GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.15f);
+        this.m_HitstopController.Hitstop(.15f);
         StartCoroutine(DodgeImpulseCoroutine(Vector3.back, damage * 4, .3f));
         
         // -------------------------------------------

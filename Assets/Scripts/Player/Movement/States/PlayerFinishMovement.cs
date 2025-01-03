@@ -1,9 +1,39 @@
-﻿namespace ThatOneSamuraiGame.Scripts.Player.Movement
+﻿using ThatOneSamuraiGame.Scripts.Player.Movement;
+using UnityEngine;
+
+public class PlayerFinishMovement : BasePlayerMovementState
 {
+    
+    #region - - - - - - Fields - - - - - -
 
-    public class PlayerFinishMovement
-    {
-        
-    }
+    private readonly ILockOnSystem m_LockOnSystem;
+    private GameObject m_TargetEnemy;
 
+    #endregion Fields
+
+    #region - - - - - - Constructors - - - - - -
+
+    public PlayerFinishMovement(
+        PlayerMovementState movementState,
+        Animator playerAnimator,
+        Transform playerTransform)
+        :base(playerAnimator, playerTransform, movementState) { }
+
+    #endregion Constructors
+  
+    #region - - - - - - Methods - - - - - -
+
+    public override void CalculateMovement() { }
+
+    public override void ApplyMovement() { }
+    
+    public override PlayerMovementStates GetState()
+        => PlayerMovementStates.Finisher;
+
+    public override void PerformDodge() { }
+
+    public override void SetInputDirection(Vector2 inputDirection) { }
+
+    #endregion Methods
+    
 }

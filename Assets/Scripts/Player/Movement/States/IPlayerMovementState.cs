@@ -5,14 +5,18 @@ public interface IPlayerMovementState
     
     #region - - - - - - Methods - - - - - -
 
-    void CalculateMovement();
-
     void ApplyMovement();
 
+    void CalculateMovement();
+
+    PlayerMovementStates GetState();
+
     void PerformDodge();
+
+    void PerformSprint(bool isSprinting);
 
     void SetInputDirection(Vector2 inputDirection);
 
     #endregion Methods
-    
+
 }

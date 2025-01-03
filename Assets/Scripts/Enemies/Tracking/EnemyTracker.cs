@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Enemies;
-using ThatOneSamuraiGame.Legacy;
+using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,16 +9,33 @@ using Random = UnityEngine.Random;
 // Used to track all enemies in a scene through a list of transforms
 // This list is obtained by searching for enemy tags on awake
 
-public class EnemyTracker : MonoBehaviour
+public class EnemyTrackerInitializerData
+{
+
+    #region - - - - - - Properties - - - - - -
+
+    public ILockOnSystem LockOnSystem { get; set; }
+
+    #endregion Properties
+
+    #region - - - - - - Constructors - - - - - -
+
+    public EnemyTrackerInitializerData(ILockOnSystem lockOnSystem) 
+        => this.LockOnSystem = lockOnSystem;
+
+    #endregion Constructors
+  
+}
+
+public class EnemyTracker : MonoBehaviour, IInitialize<EnemyTrackerInitializerData>
 {
     public List<Transform> currentEnemies;
 
-    private LockOnTracker _lockOnTracker;
-
     private EnemySettings _enemySettings;
+    private ILockOnSystem m_LockOnSystem;
+    
     private float _impatienceMeter;
     private bool _bReduceImpatience;
-
     private bool _bIsHeavyCharging = false;
     bool bFadedInDrums = false;
 
@@ -26,11 +44,14 @@ public class EnemyTracker : MonoBehaviour
     //Debug controls to stop enemies from approaching
     public bool bDebugStopApproaching;
 
-    private void Start()
+    public void Initialize(EnemyTrackerInitializerData initializerData)
     {
-        _enemySettings = GameManager.instance.gameSettings.enemySettings;
-        _lockOnTracker = GameManager.instance.LockOnTracker;
+        this.m_LockOnSystem = initializerData.LockOnSystem 
+            ?? throw new ArgumentNullException(nameof(initializerData.LockOnSystem));
     }
+
+    private void Start() 
+        => _enemySettings = GameManager.instance.gameSettings.enemySettings;
 
     private void Update()
     {
@@ -109,6 +130,10 @@ public class EnemyTracker : MonoBehaviour
     {
         if (!bDebugStopApproaching)
         {
+            AISystem _CurrentlyTargeteEnemy = this.m_LockOnSystem.IsLockingOnTarget 
+                ? this.m_LockOnSystem.GetCurrentTarget().GetComponent<AISystem>()
+                : null;
+            
             // Don't pick a target if no enemies are in the tracker or if the player is charging a heavy attack
             if (currentEnemies.Count <= 0 || _bIsHeavyCharging)
                 return;
@@ -117,10 +142,10 @@ public class EnemyTracker : MonoBehaviour
             int targetSelector = Random.Range(0, 10);
         
             // 80% chance if there is a targetAISystem
-            if(targetSelector >= 2  && _lockOnTracker.targetEnemyAISystem != null) 
+            if(targetSelector >= 2  && _CurrentlyTargeteEnemy!= null) 
             {
                 // If the target enemy isn't suitable (i.e. is not circling, stunned or dead) pick a random target instead
-                if (!CheckSuitableApproachTarget(_lockOnTracker.targetEnemyAISystem))
+                if (!CheckSuitableApproachTarget(_CurrentlyTargeteEnemy))
                 {
                     PickRandomTarget();
                 }

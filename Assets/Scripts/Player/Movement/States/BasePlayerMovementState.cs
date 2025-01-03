@@ -18,6 +18,8 @@ public class BasePlayerMovementState : IPlayerMovementState
     protected readonly PlayerAnimationComponent m_PlayerAnimationComponent;
     protected readonly Transform m_PlayerTransform;
 
+    // private bool m_IsSprinting;
+
     #endregion Fields
 
     #region - - - - - - Constructors - - - - - -
@@ -55,6 +57,17 @@ public class BasePlayerMovementState : IPlayerMovementState
     public virtual void PerformDodge() { }
 
     public virtual void SetInputDirection(Vector2 inputDirection) { }
+    
+    public virtual PlayerMovementStates GetState()
+        => PlayerMovementStates.Normal; // Returns normal movement by default. Just to satisfy return value.
+
+    void IPlayerMovementState.PerformSprint(bool isSprinting)
+    {
+        if (this.m_InputDirection == Vector2.zero || !isSprinting)
+            this.m_PlayerAnimator.SetBool("IsSprinting", false);
+        else
+            this.m_PlayerAnimator.SetBool("IsSprinting", true);
+    }
     
     protected IEnumerator ApplyDodgeTranslation(Vector3 lastDirection, float force)
     {

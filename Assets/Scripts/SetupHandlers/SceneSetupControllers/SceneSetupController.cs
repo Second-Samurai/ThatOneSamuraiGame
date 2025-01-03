@@ -3,7 +3,7 @@ using System.Linq;
 using ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport;
 using ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHandlers;
 using UnityEngine;
-using UnityEngine.Serialization;
+using Object = UnityEngine.Object;
 
 namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers
 {
@@ -13,7 +13,10 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers
 
         #region - - - - - - Fields - - - - - -
 
-        [FormerlySerializedAs("m_SetupHandlers")] [SerializeField] private List<GameObject> m_SetupHandlersObjects;
+        [SerializeField] private SceneSetupContext m_SceneSetupContext;
+        
+        [Space]
+        [SerializeField] private List<GameObject> m_SetupHandlersObjects;
 
         #endregion Fields
 
@@ -59,7 +62,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers
             }
             
             // Initiate the chain invocation.
-            _SetupHandlers.First().Handle();
+            _SetupHandlers.First().Handle(this.m_SceneSetupContext);
         }
 
         #endregion Methods

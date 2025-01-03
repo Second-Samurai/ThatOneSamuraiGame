@@ -3,35 +3,39 @@ using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using UnityEngine;
-using UnityEngine.Events;
 
-public interface ILockOnSystem
+public class LockOnSystemInitializationData
 {
 
-    #region - - - - - - Methods - - - - - -
+    #region - - - - - - Properties - - - - - -
 
-    void RemoveTargetFromTracking(Transform targetToRemove); //TODO replace all instances calling upon the death or removal of target from list.
+    public ICameraController CameraController { get; private set; }
 
-    void StartLockOn();
+    #endregion Properties
 
-    void EndLockOn();
+    #region - - - - - - Constructors - - - - - -
 
-    #endregion Methods
+    public LockOnSystemInitializationData(ICameraController cameraController) 
+        => this.CameraController = cameraController;
 
+    #endregion Constructors
+  
 }
 
-public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
+/// <summary>
+/// Responsible for managing the Player's LockOn behaviour.
+/// </summary>
+[RequireComponent(typeof(ILockOnObserver))]
+public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<LockOnSystemInitializationData>
 {
 
     #region - - - - - - Fields - - - - - -
 
-    public LockOnTargetTracking m_LockOnTargetTracker;
-    public CameraController m_CameraController; // Change to interface
-    public Animator m_Animator; // Should not be in here as this couples with the animation system.
-    public Transform m_FollowTransform;
+    [RequiredField] public LockOnTargetTracking m_LockOnTargetTracker;
+    [RequiredField] public Animator m_Animator; // Should not be in here as this couples with the animation system.
 
-    
-    private ILockOnCamera m_LockOnCamera;
+    private ICameraController m_CameraController;
+    private ILockOnObserver m_LockOnObserver;
     private Transform m_TargetTransform;
     private AISystem m_EnemyAISystem; // Maintained from before but should not be coupled.
 
@@ -39,42 +43,34 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
 
     #endregion Fields
 
-    #region - - - - - - Unity Methods - - - - - -
+    #region - - - - - - Properties - - - - - -
 
-    private void Start()
+    public bool IsLockingOnTarget
+        => this.m_IsLockedOn;
+
+    #endregion Properties
+  
+    #region - - - - - - Initializers - - - - - -
+
+    public void Initialize(LockOnSystemInitializationData initializationData)
     {
-        this.m_LockOnCamera = this.m_CameraController.GetCamera(SceneCameras.LockOn).GetComponent<ILockOnCamera>();
+        this.m_CameraController = initializationData.CameraController;
+        
+        this.m_LockOnObserver = this.GetComponent<ILockOnObserver>();
         this.m_LockOnTargetTracker.Initialise();
+        
+        this.m_LockOnObserver.OnLockOnDisable.AddListener(this.EndLockOn);
     }
 
-    #endregion Unity Methods
+    #endregion Initializers
 
-    #region - - - - - - Unity Events - - - - - -
-
-    public UnityEvent OnLockOnEnable;
-    
-    public UnityEvent<Transform> OnNewLockOnTarget;
-    
-    public UnityEvent OnLockOnDisable;
-
-    #endregion Unity Events
-  
-    #region - - - - - - Unity Event Methods - - - - - -
-
-    // private void OnTriggerExit(Collider other)
-    // {
-    //     if (other.CompareTag("Enemy") && other.transform == this.m_TargetTransform)
-    //         this.GetNearestTarget();
-    // }
-
-    #endregion Unity Event Methods
-  
     #region - - - - - - Methods - - - - - -
+
+    GameObject ILockOnSystem.GetCurrentTarget()
+        => this.m_TargetTransform.gameObject;
     
     public void StartLockOn()
     {
-        // if (!GameValidator.NotNull(this.m_TargetTransform, nameof(this.m_TargetTransform))) return;
-
         this.m_IsLockedOn = true;
         this.m_Animator.SetBool("LockedOn", true);
         
@@ -82,8 +78,8 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
         Transform _TargetTransform = this.GetNearestTarget();
         if (!_TargetTransform) return;
 
-        this.OnNewLockOnTarget.Invoke(_TargetTransform);
-        this.OnLockOnEnable.Invoke();
+        this.m_LockOnObserver.OnNewLockOnTarget.Invoke(_TargetTransform);
+        this.m_LockOnObserver.OnLockOnEnable.Invoke();
         
         // // TODO: Remove the lockOn camera to instead use the observer
         // this.m_LockOnCamera.SetLockOnTarget(_TargetTransform);
@@ -102,14 +98,24 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
         
     }
 
+    public void SelectNewTarget()
+    {
+        if (!this.m_IsLockedOn) return;
+        
+        Transform _TargetTransform = this.GetNearestTarget();
+        if (!_TargetTransform) return;
+
+        this.m_LockOnObserver.OnNewLockOnTarget.Invoke(_TargetTransform);
+    }
+
     public void EndLockOn()
     {
         if (!this.m_IsLockedOn) return;
 
-        this.OnLockOnDisable.Invoke();
+        this.m_LockOnObserver.OnLockOnDisable.Invoke();
         
         this.m_IsLockedOn = false;
-        // this.m_CameraController.SelectCamera(SceneCameras.FollowPlayer);
+        this.m_CameraController.SelectCamera(SceneCameras.FollowPlayer);
         this.m_LockOnTargetTracker.ClearTargets();
     }
 
@@ -150,9 +156,6 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem
         return this.m_TargetTransform;
     }
 
-    public void RemoveTargetFromTracking(Transform targetToRemove)
-        => this.m_LockOnTargetTracker.RemoveTarget(targetToRemove);
-
     #endregion Methods
-  
+
 }

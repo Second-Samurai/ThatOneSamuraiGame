@@ -34,9 +34,9 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         // Camera
         // -------------------------------
         
-        CameraControl CameraControl { get; set; }
-
-        LockOnTracker LockOnTracker { get; }
+        // CameraControl CameraControl { get; set; }
+        //
+        // LockOnTracker LockOnTracker { get; }
         
         UnityEngine.Camera MainCamera { get; set; }
 

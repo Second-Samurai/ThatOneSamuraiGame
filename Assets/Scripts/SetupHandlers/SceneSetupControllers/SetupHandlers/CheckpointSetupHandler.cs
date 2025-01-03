@@ -18,14 +18,14 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         void ISetupHandler.SetNext(ISetupHandler setupHandler)
             => this.m_NextHandler = setupHandler;
 
-        void ISetupHandler.Handle()
+        void ISetupHandler.Handle(SceneSetupContext setupContext)
         {
             CheckpointManager _CheckpointManager = FindFirstObjectByType<CheckpointManager>();
             _CheckpointManager.Initialize();
 
             SceneManager.Instance.CheckpointManager = _CheckpointManager;
             
-            this.m_NextHandler?.Handle();
+            this.m_NextHandler?.Handle(setupContext);
         }
 
         #endregion Methods

@@ -33,12 +33,13 @@ public class FollowPlayerCameraState : PausableMonoBehaviour, ICameraState
     {
         this.m_PlayerViewOrientationHandler = this.m_Player.GetComponent<IPlayerViewOrientationHandler>();
         _ = this.ValidateState();
+
+        this.m_FollowCamera.Follow = this.m_FollowCameraTargetPoint;
+        this.m_FollowCamera.LookAt = this.m_FollowCameraTargetPoint;
     }
 
-    public GameObject GetCameraObject()
-    {
-        return this.gameObject;
-    }
+    public GameObject GetCameraObject() 
+        => this.gameObject;
 
     #endregion Initializers
 
@@ -55,15 +56,11 @@ public class FollowPlayerCameraState : PausableMonoBehaviour, ICameraState
   
     #region - - - - - - Methods - - - - - -
     
-    public void StartState()
-    {
-        this.m_FollowCamera.gameObject.SetActive(true);
-    }
+    public void StartState() 
+        => this.m_FollowCamera.gameObject.SetActive(true);
 
-    public void EndState()
-    {
-        this.m_FollowCamera.gameObject.SetActive(false);
-    }
+    public void EndState() 
+        => this.m_FollowCamera.gameObject.SetActive(false);
 
     SceneCameras ICameraState.GetSceneState()
         => SceneCameras.FollowPlayer;

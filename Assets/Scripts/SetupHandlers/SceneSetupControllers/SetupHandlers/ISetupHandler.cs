@@ -8,7 +8,7 @@
 
         void SetNext(ISetupHandler setupHandler);
 
-        void Handle();
+        void Handle(SceneSetupContext setupContext);
 
         #endregion Methods
 

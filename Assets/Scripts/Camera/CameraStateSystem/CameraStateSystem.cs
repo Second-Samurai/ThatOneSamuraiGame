@@ -3,21 +3,6 @@ using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using UnityEngine;
 
-public interface ICameraStateSystem
-{
-
-    #region - - - - - - Methods - - - - - -
-
-    void Initialize();
-    
-    void SetState(SceneCameras selectedCamera);
-
-    List<ICameraState> GetCameraStates();
-
-    #endregion Methods
-
-}
-
 public class CameraStateSystem : MonoBehaviour, ICameraStateSystem
 {
 

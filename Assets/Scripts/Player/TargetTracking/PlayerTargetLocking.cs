@@ -2,7 +2,6 @@
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
-using Unity.XR.OpenVR;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
@@ -18,6 +17,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
         private ICombatController m_CombatController;
         private IPlayerMovement m_PlayerMovement;
         private ILockOnSystem m_LockOnSystem;
+
+        private bool m_IsLockedOn;
 
         #endregion Fields
 
@@ -37,15 +38,17 @@ namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
 
         void IPlayerTargetTracking.ToggleLockLeft()
         {
-            // TODO: Change to get new target
-            // if (this.m_CameraController.IsLockedOn)
-            //     this.m_CameraController.LockOn();
+            if (!this.m_IsLockedOn) return;
+            this.m_LockOnSystem.SelectNewTarget();
         }
 
         public void ToggleLockOn()
         {
             // Cannot run lock on targeting if no swords are drawn
-            if (!this.m_CombatController.IsSwordDrawn) return;
+            if (!this.m_CombatController.IsSwordDrawn)
+                return;
+
+            this.m_IsLockedOn = true;
             
             this.m_LockOnSystem.StartLockOn();
             this.m_CameraController.SelectCamera(SceneCameras.LockOn);
@@ -54,9 +57,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
 
         void IPlayerTargetTracking.ToggleLockRight()
         {
-            // TODO: Change to get new target
-            // if (this.m_CameraController.IsLockedOn)
-            //     this.m_CameraController.LockOn();
+            if (!this.m_IsLockedOn) return;
+            this.m_LockOnSystem.SelectNewTarget();
         }
 
         #endregion Methods

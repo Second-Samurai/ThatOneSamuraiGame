@@ -11,7 +11,7 @@ public class PlayerNormalMovement : BasePlayerMovementState
 
     private readonly IPlayerAttackHandler m_AttackHandler;
     private readonly PlayerAttackState m_AttackState;
-    private readonly CameraController m_CameraController;
+    private readonly ICameraController m_CameraController;
     private readonly MonoBehaviour m_RootReferenceMonoBehaviour; // Required for Coroutine
     
     private float m_CurrentAngleSmoothVelocity;
@@ -26,7 +26,7 @@ public class PlayerNormalMovement : BasePlayerMovementState
     public PlayerNormalMovement(
         IPlayerAttackHandler attackHandler,
         PlayerAttackState attackState,
-        CameraController cameraController,
+        ICameraController cameraController,
         PlayerMovementState movementState,
         PlayerAnimationComponent playerAnimationComponent,
         Transform playerTransform,

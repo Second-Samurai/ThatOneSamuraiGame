@@ -1,21 +1,41 @@
 using System;
-using Player.Animation;
-using ICameraController = ThatOneSamuraiGame.Legacy.ICameraController;
 using ThatOneSamuraiGame.Scripts.Base;
+using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Attack
 {
+
+    public class PlayerAttackInitializerData
+    {
+
+        #region - - - - - - Properties - - - - - -
+
+        public ICameraController CameraController { get; private set; }
+
+        #endregion Properties
+
+        #region - - - - - - Constructors - - - - - -
+
+        public PlayerAttackInitializerData(ICameraController cameraController) 
+            => this.CameraController = cameraController;
+
+        #endregion Constructors
+  
+    }
     
-    public class PlayerAttackHandler : PausableMonoBehaviour, IPlayerAttackHandler
+    public class PlayerAttackHandler : 
+        PausableMonoBehaviour, 
+        IInitialize<PlayerAttackInitializerData>,
+        IPlayerAttackHandler
     {
 
         #region - - - - - - Fields - - - - - -
-
+        
         private PlayerAnimationComponent m_PlayerAnimationComponent;
-        private Legacy.ICameraController m_CameraController;
+        private ICameraController m_CameraController;
         private ICombatController m_CombatController;
         private HitstopController m_HitstopController;
         private PlayerFunctions m_PlayerFunctions;
@@ -40,14 +60,24 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         #endregion Fields
 
+        #region - - - - - - Initializers - - - - - -
+
+        public void Initialize(PlayerAttackInitializerData initializerData)
+        {
+            this.m_CameraController = 
+                initializerData.CameraController 
+                    ?? throw new ArgumentNullException(nameof(initializerData.CameraController));
+        }
+
+        #endregion Initializers
+  
         #region - - - - - - Lifecycle Methods - - - - - -
 
         private void Start()
         {
             this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
-            this.m_CameraController = this.GetComponent<Legacy.ICameraController>();
+            this.m_CameraController = this.GetComponent<ICameraController>();
             this.m_CombatController = this.GetComponent<ICombatController>();
-            // this.m_HitstopController = GameManager.instance.GetComponent<HitstopController>();
             this.m_HitstopController = Object.FindFirstObjectByType<HitstopController>();
             this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
             this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
@@ -164,9 +194,16 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_PlayerAttackState.IsHeavyAttackCharging = false;
             this.m_PlayerAttackState.IsWeaponSheathed = false;
             this.m_GleamTimerFinished = false;
+
+            this.m_Animator.SetBool("HeavyAttackHeld", false);
             
-            this.m_CameraController.ResetCameraRoll();
-            
+            // Rolls the camera
+            IFreelookCameraController _FreeLookCamera = this.m_CameraController
+                .GetCamera(SceneCameras.FreeLook)
+                .GetComponent<IFreelookCameraController>();
+            CameraRollAction _CameraRoll = new CameraRollAction(_FreeLookCamera, this);
+            this.m_CameraController.SetCameraAction(_CameraRoll);
+
             this.m_PlayerAnimationComponent.TriggerHeavyAttack();
         }
         
@@ -176,6 +213,21 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             
             if(!m_GleamTimerFinished)
                 CountdownGleamTimer();
+        }
+
+        private void StartHeavyAttack()
+        {
+            if (!this.m_PlayerAttackState.CanAttack && this.m_Animator.GetBool("HeavyAttackHeld"))
+                return;
+            
+            this.m_ShowHeavyTelegraphEvent.Raise();
+
+            this.m_PlayerAttackState.IsWeaponSheathed = true;
+            this.m_PlayerAttackState.IsHeavyAttackCharging = true;
+            this.m_Animator.SetBool("HeavyAttackHeld", true);
+
+            // Ends the camera roll
+            this.m_CameraController.EndCameraAction();
         }
 
         // Tech-Debt: #36 - Create a simple universal timer to keep timer behaviour consistent.

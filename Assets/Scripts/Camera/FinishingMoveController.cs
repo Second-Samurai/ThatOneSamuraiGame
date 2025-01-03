@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using Cinemachine;
@@ -6,7 +7,14 @@ using Enemies;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
+/*
+ * Pitfalls to the FinisherMoveController:
+ *  - 
+ */
+[Obsolete]
 public class FinishingMoveController : MonoBehaviour
 {
     

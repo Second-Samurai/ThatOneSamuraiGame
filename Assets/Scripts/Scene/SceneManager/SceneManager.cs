@@ -1,5 +1,4 @@
-﻿using ThatOneSamuraiGame.Legacy;
-using ThatOneSamuraiGame.Scripts.Enumeration;
+﻿using ThatOneSamuraiGame.Scripts.Enumeration;
 using ThatOneSamuraiGame.Scripts.Scene.DataContainers;
 using ThatOneSamuraiGame.Scripts.Scene.Loaders;
 using UnityEngine;
@@ -28,8 +27,6 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         private EnemyTracker m_EnemyTracker;
 
         [Header("Camera")]
-        [SerializeField] public CameraControl m_CameraControl;
-        [SerializeField] public LockOnTracker m_LockOnTracker;
         [SerializeField] public GameObject m_ThirdPersonViewCamera;
         private UnityEngine.Camera m_MainCamera;
 
@@ -79,18 +76,14 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         // Camera
         // -------------------------------
         
-        public CameraControl CameraControl
-        {
-            get { return this.m_CameraControl; }
-            set { this.m_CameraControl = value; }
-        }
+        public ICameraController CameraController { get; set; }
+        
+        public HitstopController HitstopController { get; set; }
+        
+        public ILockOnSystem LockOnSystem { get; set; }
 
-        public LockOnTracker LockOnTracker
-        {
-            get { return this.m_LockOnTracker; }
-            set { this.m_LockOnTracker = value; }
-        }
-
+        public ILockOnObserver LockOnObserver { get; set; }
+        
         public UnityEngine.Camera MainCamera
         {
             get { return this.m_MainCamera; }
@@ -157,9 +150,6 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
                    & GameValidator.NotNull(this.m_EnemyTracker, nameof(this.m_EnemyTracker))
                    & GameValidator.NotNull(this.m_EnemySpawnManager, nameof(this.m_EnemySpawnManager))
                    & GameValidator.NotNull(this.m_SceneLoader, nameof(this.m_SceneLoader))
-                   & GameValidator.NotNull(this.m_CameraControl, nameof(this.m_CameraControl))
-                   & GameValidator.NotNull(this.m_LockOnTracker, nameof(this.m_LockOnTracker))
-                   & GameValidator.NotNull(this.m_ThirdPersonViewCamera, nameof(this.m_ThirdPersonViewCamera))
                    & GameValidator.NotNull(this.m_MainCamera, nameof(this.m_MainCamera));
         }
 

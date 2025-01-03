@@ -12,8 +12,12 @@ namespace ThatOneSamuraiGame.Scripts.Camera.VirtualCameraUtility
 
         #region - - - - - - Fields - - - - - -
 
-        [SerializeField] private Transform m_TargetTransform;
-        [SerializeField] private Vector3 m_PositionOffset;
+        [RequiredField]
+        [SerializeField] 
+        private Transform m_TargetTransform;
+        
+        [SerializeField] 
+        private Vector3 m_PositionOffset;
 
         #endregion Fields
 

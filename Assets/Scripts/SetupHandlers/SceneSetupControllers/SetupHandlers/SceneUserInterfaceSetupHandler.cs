@@ -21,7 +21,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         void ISetupHandler.SetNext(ISetupHandler setupHandler)
             => this.m_NextHandler = setupHandler;
 
-        void ISetupHandler.Handle()
+        void ISetupHandler.Handle(SceneSetupContext setupContext)
         {
             // Setup the ButtonController (actually is known as a Sword Canvas Controller)
             ButtonController _ButtonController = FindFirstObjectByType<ButtonController>();
@@ -36,7 +36,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
             GameManager.instance.InputManager.ConfigureMenuInputControl();
             GameManager.instance.PauseManager.PauseMediator.SetPauseMenuController(this.m_PauseMenu);
             
-            this.m_NextHandler?.Handle();
+            this.m_NextHandler?.Handle(setupContext);
         }
 
         #endregion Methods

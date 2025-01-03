@@ -2,6 +2,7 @@
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.ViewOrientation;
+using Unity.XR.OpenVR;
 using UnityEngine;
 
 /// <summary>
@@ -14,7 +15,7 @@ public class FollowSprintPlayerCameraState : PausableMonoBehaviour, ICameraState
 
     [SerializeField] private GameObject m_Player;
     [SerializeField] private Transform m_FollowCameraTargetPoint;
-    public CinemachineVirtualCamera m_SprintCamera;
+    [SerializeField] private CinemachineVirtualCamera m_SprintCamera;
     
     [SerializeField] private float m_RotationSpeed = 0.15f; // TODO: Change this to use the player prefs
     [SerializeField] private float m_MinimumPitchAngle = -35f;
@@ -33,12 +34,13 @@ public class FollowSprintPlayerCameraState : PausableMonoBehaviour, ICameraState
     {
         this.m_PlayerViewOrientationHandler = this.m_Player.GetComponent<IPlayerViewOrientationHandler>();
         _ = this.ValidateState();
+
+        this.m_SprintCamera.Follow = this.m_FollowCameraTargetPoint;
+        this.m_SprintCamera.LookAt = this.m_FollowCameraTargetPoint;
     }
 
-    public GameObject GetCameraObject()
-    {
-        return this.gameObject;
-    }
+    public GameObject GetCameraObject() 
+        => this.gameObject;
 
     #endregion Initializers
     
@@ -58,15 +60,11 @@ public class FollowSprintPlayerCameraState : PausableMonoBehaviour, ICameraState
     SceneCameras ICameraState.GetSceneState()
         => SceneCameras.FollowSprintPlayer;
 
-    void ICameraState.StartState()
-    {
-        this.m_SprintCamera.gameObject.SetActive(true);
-    }
+    void ICameraState.StartState() 
+        => this.m_SprintCamera.gameObject.SetActive(true);
 
-    void ICameraState.EndState()
-    {
-        this.m_SprintCamera.gameObject.SetActive(false);
-    }
+    void ICameraState.EndState() 
+        => this.m_SprintCamera.gameObject.SetActive(false);
 
     public bool ValidateState()
         => GameValidator.NotNull(this.m_Player, nameof(this.m_Player))

@@ -1,5 +1,6 @@
-﻿using Player.Animation;
+﻿using System;
 using ThatOneSamuraiGame.Scripts.Base;
+using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
@@ -8,17 +9,45 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.Player.Movement
 {
 
+    public class PlayerMovementInitializerData
+    {
+
+        #region - - - - - - Properties - - - - - -
+
+        public ICameraController CameraController { get; private set; }
+        
+        public ILockOnObserver LockOnObserver { get; private set; }
+
+        #endregion Properties
+
+        #region - - - - - - Constructors - - - - - -
+
+        public PlayerMovementInitializerData(ICameraController cameraController, ILockOnObserver lockOnObserver)
+        {
+            this.CameraController = cameraController;
+            this.LockOnObserver = lockOnObserver;
+        }
+
+        #endregion Constructors
+  
+    }
+    
     [RequireComponent(typeof(Animator))]
-    public class PlayerMovement : PausableMonoBehaviour, IPlayerMovement, IPlayerDodgeMovement
+    public class PlayerMovement : 
+        PausableMonoBehaviour, 
+        IInitialize<PlayerMovementInitializerData>,
+        IPlayerMovement, 
+        IPlayerDodgeMovement
     {
         
         #region - - - - - - Fields - - - - - -
         
-        // Make these injected
-        public CameraController CameraController;
-
+        [RequiredField]
+        [SerializeField]
         private PlayerAnimationComponent m_PlayerAnimationComponent;
-        private FinishingMoveController m_FinishingMoveController;
+        //private Animator m_Animator;
+        
+        private ICameraController m_CameraController;
         
         // Player data containers
         private PlayerAttackState m_PlayerAttackState;
@@ -27,11 +56,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         
         // Player states
         private IPlayerMovementState m_CurrentMovementState;
-        private PlayerNormalMovement m_NormalMovement;
-        private PlayerLockOnMovement m_LockOnMovement;
+        private IPlayerMovementState m_NormalMovement;
+        private IPlayerMovementState m_LockOnMovement;
+        private IPlayerMovementState m_FinisherMovement;
         
-        private float m_CurrentAngleSmoothVelocity;
-        private Vector2 m_InputDirection = Vector2.zero;
         private bool m_IsMovementEnabled = true;
         private bool m_IsRotationEnabled = true;
         private bool m_IsSprinting = false;
@@ -40,12 +68,26 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         
         #endregion Fields
         
+        #region - - - - - - Initializers - - - - - -
+
+        public void Initialize(PlayerMovementInitializerData initializerData)
+        {
+            this.m_CameraController = 
+                initializerData.CameraController 
+                ?? throw new ArgumentNullException(nameof(initializerData.CameraController));
+            
+            // Bind to observers
+            initializerData.LockOnObserver.OnLockOnDisable.AddListener(() => 
+                ((IPlayerMovement)this).SetState(PlayerMovementStates.Normal));
+        }
+
+        #endregion Initializers
+        
         #region - - - - - - Lifecycle Methods - - - - - -
 
         private void Start()
         {
             this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
-            this.m_FinishingMoveController = this.GetComponentInChildren<FinishingMoveController>();
             this.m_PlayerTargetTrackingState = this.GetComponent<IPlayerState>().PlayerTargetTrackingState;
 
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
@@ -56,7 +98,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_NormalMovement = new PlayerNormalMovement(
                 this.GetComponent<IPlayerAttackHandler>(),
                 this.m_PlayerAttackState,
-                this.CameraController, 
+                this.m_CameraController, 
                 this.m_PlayerMovementState,
                 this.m_PlayerAnimationComponent, 
                 this.transform,
@@ -67,7 +109,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 this.m_PlayerAnimationComponent, 
                 this.transform,
                 this.m_PlayerMovementState,
+                this.m_PlayerTargetTrackingState,
                 this);
+            this.m_FinisherMovement = new PlayerFinishMovement(
+                this.m_PlayerMovementState,
+                this.m_Animator,
+                this.transform);
             
             this.m_CurrentMovementState = this.m_NormalMovement;
             
@@ -76,13 +123,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         private void Update()
         {
-            if (this.IsPaused || !this.m_IsMovementEnabled || this.m_FinishingMoveController.bIsFinishing) 
+            if (this.IsPaused || !this.m_IsMovementEnabled)
                 return;
 
-            this.m_CurrentMovementState.SetInputDirection(this.m_InputDirection);
             this.m_CurrentMovementState.CalculateMovement();
             this.m_CurrentMovementState.ApplyMovement();
-            
+
             // Perform specific movement behavior
             this.LockPlayerRotationToAttackTarget();
 
@@ -94,6 +140,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         
         #region - - - - - - Methods - - - - - -
         
+        // --------------------------------
+        // Dodge
+        // --------------------------------
+        
         public void Dodge()
             => this.m_CurrentMovementState.PerformDodge();
 
@@ -102,6 +152,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         void IPlayerDodgeMovement.DisableDodge()
             => this.m_PlayerMovementState.CanDodge = false;
+        
+        // --------------------------------
+        // Movement
+        // --------------------------------
 
         public bool IsSprinting() => m_IsSprinting;
 
@@ -110,47 +164,61 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         void IPlayerMovement.DisableMovement()
             => this.m_IsMovementEnabled = false;
 
-        void IPlayerMovement.DisableRotation()
-            => this.m_IsRotationEnabled = false;
-
         void IPlayerMovement.EnableMovement()
             => this.m_IsMovementEnabled = true;
 
-        void IPlayerMovement.EnableRotation()
-            => this.m_IsRotationEnabled = true;
-
         void IPlayerMovement.PreparePlayerMovement(Vector2 moveDirection)
         {
-            if (this.m_FinishingMoveController.bIsFinishing)
-                return;
-            
             if (moveDirection == Vector2.zero)
+            {
+                this.m_CurrentMovementState.PerformSprint(false);
                 m_PlayerAnimationComponent.SetSprinting(false);
+            }
             
-            this.m_InputDirection = moveDirection;
+            this.m_CurrentMovementState.SetInputDirection(moveDirection);
         }
 
         void IPlayerMovement.PrepareSprint(bool isSprinting)
         {
+            this.m_CurrentMovementState.PerformSprint(isSprinting);
+            this.m_CameraController.SelectCamera(isSprinting 
+                ? SceneCameras.FollowSprintPlayer 
+                : SceneCameras.FollowPlayer);
+
             this.m_IsSprinting = isSprinting;
 
-            // Toggle sprinting animation
-            if (this.m_InputDirection == Vector2.zero || !this.m_IsSprinting)
-            {
-                m_SprintDuration = 0.0f;
-                m_PlayerAnimationComponent.SetSprinting(false);
-            }
-            else
-            {
-                m_SprintDuration = 0.0f;
-                m_PlayerAnimationComponent.SetSprinting(true);
-            }
+            // // Toggle sprinting animation
+            // if (this.m_InputDirection == Vector2.zero || !this.m_IsSprinting)
+            // {
+            //     m_SprintDuration = 0.0f;
+            //     m_PlayerAnimationComponent.SetSprinting(false);
+            // }
+            // else
+            // {
+            //     m_SprintDuration = 0.0f;
+            //     m_PlayerAnimationComponent.SetSprinting(true);
+            // }
         }
-
+        
         private void TickSprintDuration()
         {
             m_SprintDuration += Time.deltaTime;
         }
+
+
+        // --------------------------------
+        // Rotation
+        // --------------------------------
+
+        void IPlayerMovement.DisableRotation()
+            => this.m_IsRotationEnabled = false;
+
+        void IPlayerMovement.EnableRotation()
+            => this.m_IsRotationEnabled = true;
+        
+        // --------------------------------
+        // State Management
+        // --------------------------------
         
         void IPlayerMovement.SetState(PlayerMovementStates state)
         {
@@ -158,21 +226,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 this.m_CurrentMovementState = this.m_NormalMovement;
             else if (state == PlayerMovementStates.LockOn)
                 this.m_CurrentMovementState = this.m_LockOnMovement;
+            else if (state == PlayerMovementStates.Finisher)
+                this.m_CurrentMovementState = this.m_FinisherMovement;
             
             Debug.Log("Movement State is: " + state);
-        }
-
-        private void LockPlayerRotationToAttackTarget()
-        {
-            if (this.m_PlayerTargetTrackingState.AttackTarget == null) return;
-            
-            Vector3 _NewLookDirection = this.m_PlayerTargetTrackingState.AttackTarget.position - this.transform.position;
-            this.transform.rotation = Quaternion.Slerp(
-                this.transform.rotation,
-                Quaternion.LookRotation(_NewLookDirection),
-                this.m_RotationSpeed);
-            
-            this.transform.rotation = Quaternion.Euler(0, this.transform.rotation.eulerAngles.y, 0);
         }
 
         #endregion Methods

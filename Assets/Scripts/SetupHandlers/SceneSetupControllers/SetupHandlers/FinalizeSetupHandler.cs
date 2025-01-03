@@ -13,7 +13,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
 
         void ISetupHandler.SetNext(ISetupHandler setupHandler) { }
 
-        void ISetupHandler.Handle()
+        void ISetupHandler.Handle(SceneSetupContext setupContext)
         {
             // Validate management dependencies
             SceneManager.Instance.IsMembersValid();

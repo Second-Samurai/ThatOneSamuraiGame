@@ -1,15 +1,21 @@
-﻿using System.Collections;
-using ThatOneSamuraiGame.Legacy;
+﻿using System;
+using System.Collections;
+using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 
 namespace Enemies.Enemy_States
 {
     public class DeathEnemyState : EnemyState
     {
-        private LockOnTracker _lockOnTracker;
+
+        private readonly ILockOnObserver m_LockOnObserver;
+        private readonly ILockOnSystem m_LockOnSystem;
         
-        //Class constructor
         public DeathEnemyState(AISystem aiSystem) : base(aiSystem)
         {
+            this.m_LockOnObserver = SceneManager.Instance.LockOnObserver 
+                ?? throw new ArgumentNullException(nameof(SceneManager.Instance.LockOnObserver));
+            this.m_LockOnSystem = SceneManager.Instance.LockOnSystem 
+                ?? throw new ArgumentNullException(nameof(SceneManager.Instance.LockOnSystem));
         }
 
         public override IEnumerator BeginState()
@@ -20,13 +26,15 @@ namespace Enemies.Enemy_States
             AISystem.bIsDead = true;
             
             // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy)
-            _lockOnTracker = GameManager.instance.LockOnTracker;
-            _lockOnTracker.SwitchDeathTarget(AISystem.transform);
+            // _lockOnTracker = GameManager.instance.LockOnTracker;
+            // _lockOnTracker.SwitchDeathTarget(AISystem.transform);
+            this.m_LockOnSystem.SelectNewTarget();
             
             // Remove enemy from enemy tracker and lock on tracker
             TempWinTracker.instance.enemyCount--;
-            _lockOnTracker.RemoveEnemy(AISystem.transform);
+            // _lockOnTracker.RemoveEnemy(AISystem.transform);
             AISystem.enemyTracker.RemoveEnemy(AISystem.transform);
+            this.m_LockOnObserver.OnRemoveLockOnTarget.Invoke(AISystem.transform);
 
             // Enemy can no longer be damaged, enemies can no longer damage the player.
             AISystem.eDamageController.DisableDamage();

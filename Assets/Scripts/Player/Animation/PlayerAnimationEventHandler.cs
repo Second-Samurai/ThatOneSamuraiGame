@@ -19,7 +19,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         private IPlayerAttackHandler m_PlayerAttackHandler;
         private PlayerFunctions m_PlayerFunctions;
         private IPlayerMovement m_PlayerMovement;
-        private IPlayerSpecialAction m_PlayerSpecialAction;
         
         // Player states
         private PlayerAttackState m_PlayerAttackState;
@@ -36,7 +35,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
             this.m_PlayerDamage = this.GetComponent<IDamageable>();
             this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
             this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
-            this.m_PlayerSpecialAction = this.GetComponent<IPlayerSpecialAction>();
 
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
             this.m_PlayerAttackState = _PlayerState.PlayerAttackState;
@@ -64,6 +62,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         
         #region - - - - - - PlayerMovement Animation Events  - - - - - -
         
+        // ======== EVENT CALLED ========
+        
+        // 1stAttackEdit - 00:00
         public void DisableMovement() 
             => this.m_PlayerMovement.DisableMovement();
         
@@ -92,12 +93,17 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
 
         #region - - - - - - PlayerSpecialAction Animation Events - - - - - -
         
-        // public void BlockDodge() 
-        //     => this.m_PlayerSpecialActionState.CanDodge = false;
+        // 1stAttackEdit - 00:02
+        public void BlockDodge() 
+            => this.m_PlayerSpecialActionState.CanDodge = false;
 
-        // // TODO: Remove resets from happening exclusivly from the AnimationEventHandler.
-        // public void ResetDodge()
-        //     => this.m_PlayerSpecialAction.ResetDodge();
+        // TODO: Remove resets from happening exclusively from the AnimationEventHandler.
+        // 1stRecoveryEdit - 00:00
+        public void ResetDodge()
+        {
+            this.m_PlayerSpecialActionState.CanDodge = true;
+            this.m_PlayerSpecialActionState.IsDodging = false;
+        }
 
         public void StartDodging()
         {

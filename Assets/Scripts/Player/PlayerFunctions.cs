@@ -142,9 +142,11 @@ public class PlayerFunctions : MonoBehaviour
     }
      
 
+    // ======== EVENT CALLED ========
+    
+    // 1stAttackEdit - 00:00 - 15f
     public void ForwardImpulse(float force)
     {
-
         StartCoroutine(ImpulseWithTimer(transform.forward, force, .15f));
     }
 

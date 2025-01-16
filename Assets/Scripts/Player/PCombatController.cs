@@ -155,9 +155,11 @@ public class PCombatController : MonoBehaviour, ICombatController
     {
         _isInputBlocked = false;
     }
+    
+    // ======== EVENT CALLED ========
 
     //Summary: Enabled collision detection to apply damage to hit target.
-    //
+    // 1stAttackEdit - 00:01
     public void BeginAttacking()
     {
         _isAttacking = true;

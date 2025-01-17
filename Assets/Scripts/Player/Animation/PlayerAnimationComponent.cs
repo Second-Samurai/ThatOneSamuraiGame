@@ -190,16 +190,18 @@ namespace Player.Animation
         /// </summary>
         /// <param name="inputSpeed">The speed parameter the movement blend tree uses to determine what animation
         /// is to be player. Sprint multiplier is stored in PlayerMovement </param>
+        /// <param name="sprintMultiplier"> Multiplied to inputSpeed to determine the speed</param>
         /// <param name="movementSmoothingDampingTime"></param>
-        // INPUT SPEED THRESHOLDS
-        // x < 0.25 Walking
-        // 0.25 < x < 0.5 Jogging (Moving with no sprint)
-        // x == 1 Sprinting
-        public void SetInputSpeed(float inputSpeed, float movementSmoothingDampingTime = 0)
+        public void SetInputSpeed(float inputSpeed, float sprintMultiplier, float movementSmoothingDampingTime = 0)
         {
+            // INPUT SPEED THRESHOLDS
+            // x < 0.25 Walking
+            // 0.25 < x < 0.5 Jogging (Moving with no sprint)
+            // x == 1 Sprinting
+            
             m_Animator.SetFloat(
                 InputSpeed,
-                inputSpeed,
+                inputSpeed * sprintMultiplier,
                 movementSmoothingDampingTime,
                 Time.deltaTime);
         }

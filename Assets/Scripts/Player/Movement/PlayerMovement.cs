@@ -170,7 +170,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             if (moveDirection == Vector2.zero)
             {
                 this.m_CurrentMovementState.PerformSprint(false);
-                m_PlayerAnimationComponent.SetSprinting(false);
             }
             
             this.m_CurrentMovementState.SetInputDirection(moveDirection);

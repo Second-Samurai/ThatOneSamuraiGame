@@ -13,6 +13,9 @@ public class BasePlayerMovementState : IPlayerMovementState
     protected const float DODGE_TIME_LIMIT = .15f;
     
     protected readonly float m_DeltaTime;
+    protected float m_sprintMultiplier;
+    protected readonly float m_walkSpeed = 0.5f;
+    protected readonly float m_sprintSpeed = 1.0f;
     protected Vector2 m_InputDirection;
     protected readonly PlayerMovementState m_MovementState;
     protected readonly PlayerAnimationComponent m_PlayerAnimationComponent;
@@ -34,6 +37,8 @@ public class BasePlayerMovementState : IPlayerMovementState
         this.m_MovementState = movementState ?? throw new ArgumentNullException(nameof(movementState));
         
         this.m_DeltaTime = Time.deltaTime;
+
+        m_sprintMultiplier = m_walkSpeed;
     }
 
     #endregion Constructors
@@ -51,6 +56,7 @@ public class BasePlayerMovementState : IPlayerMovementState
         
         this.m_PlayerAnimationComponent.SetInputSpeed(
             this.m_InputDirection.magnitude,
+            this.m_sprintMultiplier,
             MOVEMENT_SMOOTHING_DAMPING_TIME);
     }
 
@@ -60,13 +66,19 @@ public class BasePlayerMovementState : IPlayerMovementState
     
     public virtual PlayerMovementStates GetState()
         => PlayerMovementStates.Normal; // Returns normal movement by default. Just to satisfy return value.
-
+    
     void IPlayerMovementState.PerformSprint(bool isSprinting)
     {
         if (this.m_InputDirection == Vector2.zero || !isSprinting)
+        {
             this.m_PlayerAnimationComponent.SetSprinting(false);
+            m_sprintMultiplier = m_walkSpeed;
+        }
         else
+        {
             this.m_PlayerAnimationComponent.SetSprinting(true);
+            m_sprintMultiplier = m_sprintSpeed;
+        }
     }
     
     protected IEnumerator ApplyDodgeTranslation(Vector3 lastDirection, float force)

@@ -34,6 +34,7 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
     [RequiredField] public LockOnTargetTracking m_LockOnTargetTracker;
     [RequiredField] public Animator m_Animator; // Should not be in here as this couples with the animation system.
 
+    private IPlayerAnimationDispatcher m_AnimationDispatcher;
     private ICameraController m_CameraController;
     private ILockOnObserver m_LockOnObserver;
     private Transform m_TargetTransform;
@@ -55,7 +56,8 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
     public void Initialize(LockOnSystemInitializationData initializationData)
     {
         this.m_CameraController = initializationData.CameraController;
-        
+
+        this.m_AnimationDispatcher = this.GetComponent<IPlayerAnimationDispatcher>();
         this.m_LockOnObserver = this.GetComponent<ILockOnObserver>();
         this.m_LockOnTargetTracker.Initialise();
         
@@ -112,6 +114,7 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
         
         this.m_IsLockedOn = false;
         this.m_CameraController.SelectCamera(SceneCameras.FollowPlayer);
+        this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.LockOn, false);
         this.m_LockOnTargetTracker.ClearTargets();
     }
 

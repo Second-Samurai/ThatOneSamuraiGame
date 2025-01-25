@@ -40,6 +40,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         private HitstopController m_HitstopController;
         private PlayerFunctions m_PlayerFunctions;
         private PlayerAttackState m_PlayerAttackState;
+        private IPlayerAnimationDispatcher m_AnimationDispatcher;
 
         [SerializeField] 
         private GameEvent m_ShowHeavyTutorialEvent; // This event feels out of place for this component.
@@ -75,6 +76,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_HitstopController = Object.FindFirstObjectByType<HitstopController>();
             this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
             this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
+            this.m_AnimationDispatcher = this.GetComponent<IPlayerAnimationDispatcher>();
 
             this.m_HeavyAttackTimer = this.m_HeavyAttackMaxTimer;
         }
@@ -168,7 +170,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             // Create gleam effect
             this.m_PlayerFunctions.parryEffects.PlayGleam();
             
-            this.m_Animator.SetBool("HeavyAttackHeld", false);
+            this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.EndHeavyAttachHeld);
             
             // Rolls the camera
             IFreelookCameraController _FreeLookCamera = this.m_CameraController
@@ -180,14 +182,15 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         private void StartHeavyAttack()
         {
-            if (!this.m_PlayerAttackState.CanAttack && this.m_Animator.GetBool("HeavyAttackHeld"))
+            if (!this.m_PlayerAttackState.CanAttack 
+                && this.m_AnimationDispatcher.CheckValue(PlayerAnimationCheckState.HeavyAttackHeld))
                 return;
             
             this.m_ShowHeavyTelegraphEvent.Raise();
 
             this.m_PlayerAttackState.IsWeaponSheathed = true;
             this.m_PlayerAttackState.IsHeavyAttackCharging = true;
-            this.m_Animator.SetBool("HeavyAttackHeld", true);
+            this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.StartHeavyAttackHeld);
 
             // Ends the camera roll
             this.m_CameraController.EndCameraAction();

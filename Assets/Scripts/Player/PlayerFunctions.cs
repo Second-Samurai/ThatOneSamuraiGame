@@ -57,7 +57,7 @@ public class PlayerFunctions : MonoBehaviour
     [SerializeField] LayerMask enemyMask;
     
     // Player States
-    private PlayerMovementState m_PlayerMovementState;
+    private PlayerMovementDataContainer _mPlayerMovementDataContainer;
     private PlayerSpecialActionState m_PlayerSpecialActionState;
 
     private IPlayerMovement m_PlayerMovement;
@@ -84,7 +84,7 @@ public class PlayerFunctions : MonoBehaviour
         this.LockOnSystem = SceneManager.Instance.LockOnSystem;
 
         IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
-        this.m_PlayerMovementState = _PlayerState.PlayerMovementState;
+        this._mPlayerMovementDataContainer = _PlayerState.PlayerMovementDataContainer;
         this.m_PlayerSpecialActionState = _PlayerState.PlayerSpecialActionState;
     }
     public void SetBlockCooldown()
@@ -133,9 +133,9 @@ public class PlayerFunctions : MonoBehaviour
 
         if (bAllowDeathMoveReset)
         {
-            if (bIsDead && this.m_PlayerMovementState.IsMovementEnabled)
+            if (bIsDead && this._mPlayerMovementDataContainer.IsMovementEnabled)
                 m_PlayerMovement.DisableMovement();
-            else if (!bIsDead && !this.m_PlayerMovementState.IsMovementEnabled)
+            else if (!bIsDead && !this._mPlayerMovementDataContainer.IsMovementEnabled)
                 m_PlayerMovement.EnableMovement();
         }
     }

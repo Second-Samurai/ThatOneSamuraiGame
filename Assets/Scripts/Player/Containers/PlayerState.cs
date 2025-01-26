@@ -3,6 +3,7 @@ using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Containers
 {
@@ -17,8 +18,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Containers
 
         [SerializeField]
         private PlayerAttackState m_PlayerAttackState;
+        [FormerlySerializedAs("m_PlayerMovementState")]
         [SerializeField]
-        private PlayerMovementState m_PlayerMovementState;
+        private PlayerMovementDataContainer mPlayerMovementDataContainer;
         [SerializeField]
         private PlayerSpecialActionState m_PlayerSpecialActionState;
         [SerializeField] 
@@ -32,7 +34,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Containers
         {
             // Initialise state if not already initialised
             this.m_PlayerAttackState ??= new PlayerAttackState();
-            this.m_PlayerMovementState ??= new PlayerMovementState();
+            this.mPlayerMovementDataContainer ??= new PlayerMovementDataContainer();
             this.m_PlayerSpecialActionState ??= new PlayerSpecialActionState();
             this.m_PlayerTargetTrackingState ??= new PlayerTargetTrackingState();
         }
@@ -54,16 +56,16 @@ namespace ThatOneSamuraiGame.Scripts.Player.Containers
             }
         }
 
-        PlayerMovementState IPlayerState.PlayerMovementState
+        PlayerMovementDataContainer IPlayerState.PlayerMovementDataContainer
         {
             get
             {
-                if (this.m_PlayerMovementState != null) 
-                    return this.m_PlayerMovementState;
+                if (this.mPlayerMovementDataContainer != null) 
+                    return this.mPlayerMovementDataContainer;
                 
                 Debug.LogError("PlayerMovementState was not found. Initialised default state is used.");
-                this.m_PlayerMovementState = new PlayerMovementState();                                  
-                return this.m_PlayerMovementState;
+                this.mPlayerMovementDataContainer = new PlayerMovementDataContainer();                                  
+                return this.mPlayerMovementDataContainer;
             }
         }
 

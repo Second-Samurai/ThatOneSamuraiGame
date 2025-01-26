@@ -6,7 +6,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
     
     // TODO: Rename to PlayerMovementDataContainer
     [Serializable]
-    public class PlayerMovementState
+    public class PlayerMovementDataContainer
     {
 
         #region - - - - - - Fields - - - - - -

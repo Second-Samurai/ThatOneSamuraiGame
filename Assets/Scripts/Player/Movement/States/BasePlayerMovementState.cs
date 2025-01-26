@@ -13,7 +13,7 @@ public class BasePlayerMovementState : IPlayerMovementState
     
     protected readonly float m_DeltaTime;
     protected Vector2 m_InputDirection;
-    protected readonly PlayerMovementState m_MovementState;
+    protected readonly PlayerMovementDataContainer MMovementDataContainer;
     protected readonly Animator m_PlayerAnimator;
     protected readonly Transform m_PlayerTransform;
 
@@ -26,11 +26,11 @@ public class BasePlayerMovementState : IPlayerMovementState
     public BasePlayerMovementState(
         Animator playerAnimator, 
         Transform playerTransform, 
-        PlayerMovementState movementState)
+        PlayerMovementDataContainer movementDataContainer)
     {
         this.m_PlayerAnimator = playerAnimator ?? throw new ArgumentNullException(nameof(playerAnimator));
         this.m_PlayerTransform = playerTransform ?? throw new ArgumentNullException(nameof(playerTransform));
-        this.m_MovementState = movementState ?? throw new ArgumentNullException(nameof(movementState));
+        this.MMovementDataContainer = movementDataContainer ?? throw new ArgumentNullException(nameof(movementDataContainer));
         
         this.m_DeltaTime = Time.deltaTime;
     }
@@ -80,7 +80,7 @@ public class BasePlayerMovementState : IPlayerMovementState
     
     protected IEnumerator ApplyDodgeTranslation(Vector3 lastDirection, float force)
     {
-        this.m_MovementState.CanDodge = false;
+        this.MMovementDataContainer.CanDodge = false;
         
         float _DodgeTimer = DODGE_TIME_LIMIT;
         while (_DodgeTimer > 0f)
@@ -91,7 +91,7 @@ public class BasePlayerMovementState : IPlayerMovementState
             yield return null;
         }
 
-        this.m_MovementState.CanDodge = true;
+        this.MMovementDataContainer.CanDodge = true;
     }
 
     #endregion Methods

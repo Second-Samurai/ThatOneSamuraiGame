@@ -23,7 +23,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         
         // Player states
         private PlayerAttackState m_PlayerAttackState;
-        private PlayerMovementState m_PlayerMovementState;
+        private PlayerMovementDataContainer _mPlayerMovementDataContainer;
         private PlayerSpecialActionState m_PlayerSpecialActionState;
 
         #endregion Fields
@@ -40,7 +40,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
 
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
             this.m_PlayerAttackState = _PlayerState.PlayerAttackState;
-            this.m_PlayerMovementState = _PlayerState.PlayerMovementState;
+            this._mPlayerMovementDataContainer = _PlayerState.PlayerMovementDataContainer;
             this.m_PlayerSpecialActionState = _PlayerState.PlayerSpecialActionState;
         }
 
@@ -76,19 +76,19 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
 
         public void LockMoveInput() // This is not being used anywhere
         { 
-            if (this.m_PlayerMovementState.IsMovementLocked)
+            if (this._mPlayerMovementDataContainer.IsMovementLocked)
                 return;
 
-            this.m_PlayerMovementState.IsMovementLocked = true;
+            this._mPlayerMovementDataContainer.IsMovementLocked = true;
             this.StartDodging(); // Note: I find it unusual that Dodging is invoked when not moving the character.
         }
 
         public void UnlockMoveInput()
         {
-            if (!this.m_PlayerMovementState.IsMovementLocked)
+            if (!this._mPlayerMovementDataContainer.IsMovementLocked)
                 return;
 
-            this.m_PlayerMovementState.IsMovementLocked = false;
+            this._mPlayerMovementDataContainer.IsMovementLocked = false;
             this.EndDodging();
         }
 

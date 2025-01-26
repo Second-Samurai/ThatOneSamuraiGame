@@ -30,10 +30,10 @@ public class PlayerLockOnMovement : BasePlayerMovementState
         PlayerAttackState attackState,
         Animator playerAnimator, 
         Transform playerTransform, 
-        PlayerMovementState movementState, 
+        PlayerMovementDataContainer movementDataContainer, 
         PlayerTargetTrackingState targetTrackingState,
         MonoBehaviour refMonoBehaviour) 
-        : base(playerAnimator, playerTransform, movementState)
+        : base(playerAnimator, playerTransform, movementDataContainer)
     {
         this.m_AttackHandler = attackHandler ?? throw new ArgumentNullException(nameof(attackHandler));
         this.m_AttackState = attackState ?? throw new ArgumentNullException(nameof(attackState));
@@ -49,11 +49,11 @@ public class PlayerLockOnMovement : BasePlayerMovementState
 
     public override void CalculateMovement()
     {
-        this.m_MovementState.MoveDirection = 
+        this.MMovementDataContainer.MoveDirection = 
             this.m_TargetTrackingState.AttackTarget.position - this.m_PlayerTransform.position;
         this.m_CurrentRotation = Quaternion.Slerp(
             this.m_PlayerTransform.rotation,
-            Quaternion.LookRotation(this.m_MovementState.MoveDirection),
+            Quaternion.LookRotation(this.MMovementDataContainer.MoveDirection),
             this.m_RotationSpeed);
     }
 
@@ -70,7 +70,7 @@ public class PlayerLockOnMovement : BasePlayerMovementState
 
     public override void PerformDodge()
     {
-        if (!this.m_MovementState.CanDodge) return;
+        if (!this.MMovementDataContainer.CanDodge) return;
         
         this.m_PlayerAnimator.SetTrigger("Dodge");
         this.m_PlayerAnimator.ResetTrigger("AttackLight");
@@ -80,7 +80,7 @@ public class PlayerLockOnMovement : BasePlayerMovementState
         
         this.m_RootReferenceMonoBehaviour.StartCoroutine(
             this.ApplyDodgeTranslation(
-                new Vector3(this.m_MovementState.MoveDirection.x, 0, this.m_MovementState.MoveDirection.y),
+                new Vector3(this.MMovementDataContainer.MoveDirection.x, 0, this.MMovementDataContainer.MoveDirection.y),
                 this.m_DodgeForce));
         this.m_AttackHandler.ResetAttack();
     }

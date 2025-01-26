@@ -50,7 +50,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         
         // Player data containers
         private PlayerAttackState m_PlayerAttackState;
-        private PlayerMovementState m_PlayerMovementState;
+        private PlayerMovementDataContainer _mPlayerMovementDataContainer;
         private PlayerTargetTrackingState m_PlayerTargetTrackingState;
         
         // Player states
@@ -87,14 +87,14 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
             this.m_PlayerAttackState = _PlayerState.PlayerAttackState;
-            this.m_PlayerMovementState = _PlayerState.PlayerMovementState;
+            this._mPlayerMovementDataContainer = _PlayerState.PlayerMovementDataContainer;
 
             // Initialize Movement States
             this.m_NormalMovement = new PlayerNormalMovement(
                 this.GetComponent<IPlayerAttackHandler>(),
                 this.m_PlayerAttackState,
                 this.m_CameraController, 
-                this.m_PlayerMovementState,
+                this._mPlayerMovementDataContainer,
                 this.m_Animator, 
                 this.transform,
                 this);
@@ -103,11 +103,11 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 this.m_PlayerAttackState,
                 this.m_Animator, 
                 this.transform,
-                this.m_PlayerMovementState,
+                this._mPlayerMovementDataContainer,
                 this.m_PlayerTargetTrackingState,
                 this);
             this.m_FinisherMovement = new PlayerFinishMovement(
-                this.m_PlayerMovementState,
+                this._mPlayerMovementDataContainer,
                 this.m_Animator,
                 this.transform);
             
@@ -137,10 +137,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             => this.m_CurrentMovementState.PerformDodge();
 
         void IPlayerDodgeMovement.EnableDodge()
-            => this.m_PlayerMovementState.CanDodge = true;
+            => this._mPlayerMovementDataContainer.CanDodge = true;
 
         void IPlayerDodgeMovement.DisableDodge()
-            => this.m_PlayerMovementState.CanDodge = false;
+            => this._mPlayerMovementDataContainer.CanDodge = false;
         
         // --------------------------------
         // Movement

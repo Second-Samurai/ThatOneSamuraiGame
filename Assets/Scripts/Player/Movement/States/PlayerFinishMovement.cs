@@ -14,10 +14,10 @@ public class PlayerFinishMovement : BasePlayerMovementState
     #region - - - - - - Constructors - - - - - -
 
     public PlayerFinishMovement(
-        PlayerMovementState movementState,
+        PlayerMovementDataContainer movementDataContainer,
         Animator playerAnimator,
         Transform playerTransform)
-        :base(playerAnimator, playerTransform, movementState) { }
+        :base(playerAnimator, playerTransform, movementDataContainer) { }
 
     #endregion Constructors
   

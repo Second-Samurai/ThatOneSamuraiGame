@@ -28,11 +28,11 @@ public class PlayerNormalMovement : BasePlayerMovementState
         IPlayerAttackHandler attackHandler,
         PlayerAttackState attackState,
         ICameraController cameraController,
-        PlayerMovementState movementState,
+        PlayerMovementDataContainer movementDataContainer,
         Animator playerAnimator,
         Transform playerTransform,
         MonoBehaviour refMonoBehaviour)
-        : base(playerAnimator, playerTransform, movementState)
+        : base(playerAnimator, playerTransform, movementDataContainer)
     {
         this.m_AttackHandler = attackHandler ?? throw new ArgumentNullException(nameof(attackHandler));
         this.m_AttackState = attackState ?? throw new ArgumentNullException(nameof(attackState));
@@ -56,7 +56,7 @@ public class PlayerNormalMovement : BasePlayerMovementState
     public override void CalculateMovement()
     {
         // Calculate Move Direction
-        this.m_MovementState.MoveDirection = new Vector3(this.m_InputDirection.x, 0, this.m_InputDirection.y).normalized;
+        this.MMovementDataContainer.MoveDirection = new Vector3(this.m_InputDirection.x, 0, this.m_InputDirection.y).normalized;
         
         // Calculate Rotation
         this.CalculatePlayerRotation();
@@ -64,7 +64,7 @@ public class PlayerNormalMovement : BasePlayerMovementState
 
     public override void PerformDodge()
     {
-        if (!this.m_MovementState.CanDodge) return;
+        if (!this.MMovementDataContainer.CanDodge) return;
         
         this.m_PlayerAnimator.SetTrigger("Dodge");
         this.m_PlayerAnimator.ResetTrigger("AttackLight");
@@ -82,7 +82,7 @@ public class PlayerNormalMovement : BasePlayerMovementState
 
     private void CalculatePlayerRotation()
     {
-        this.m_TargetAngleRotation = Mathf.Atan2(this.m_MovementState.MoveDirection.x, this.m_MovementState.MoveDirection.z)
+        this.m_TargetAngleRotation = Mathf.Atan2(this.MMovementDataContainer.MoveDirection.x, this.MMovementDataContainer.MoveDirection.z)
             * Mathf.Rad2Deg + this.m_CameraController.GetCameraEulerAngles().y;
         
         this.m_CurrentAngleRotation = Mathf.SmoothDampAngle(

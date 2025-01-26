@@ -21,7 +21,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
         
         // Player States
         private PlayerAttackState m_PlayerAttackState;
-        private PlayerMovementState m_PlayerMovementState;
+        private PlayerMovementDataContainer _mPlayerMovementDataContainer;
         private PlayerSpecialActionState m_PlayerSpecialActionState;
         
         private Animator m_Animator;
@@ -47,7 +47,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.SpecialAction
 
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>(); 
             this.m_PlayerAttackState = _PlayerState.PlayerAttackState;
-            this.m_PlayerMovementState = _PlayerState.PlayerMovementState;
+            this._mPlayerMovementDataContainer = _PlayerState.PlayerMovementDataContainer;
             this.m_PlayerSpecialActionState = _PlayerState.PlayerSpecialActionState;
         }
 

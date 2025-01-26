@@ -64,11 +64,15 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
             ILockOnObserver lockOnObserver)
         {
             // Initialize lock on system.
-            lockOnSystem.Initialize(new LockOnSystemInitializationData(cameraController));
+            lockOnSystem.Initialize(new() 
+            {
+                CameraController = cameraController, 
+                AnimationDispatcher = this.m_PlayerObject.GetComponent<IPlayerAnimationDispatcher>()
+            });
             
             // Assign values
             PlayerTargetTrackingState _PlayerTargetTrackingState = 
-                this.m_PlayerObject.GetComponent<IPlayerState>().PlayerTargetTrackingState;;
+                this.m_PlayerObject.GetComponent<IPlayerState>().PlayerTargetTrackingState;
             lockOnObserver.OnNewLockOnTarget
                 .AddListener(newTarget => _PlayerTargetTrackingState.AttackTarget = newTarget);
         }
@@ -78,6 +82,8 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
             ILockOnObserver lockOnObserver, 
             GameObject playerObject)
         {
+            this.m_PlayerObject = playerObject;
+            
             GameObject _TargetHolder = Instantiate(
                 GameManager.instance.gameSettings.targetHolderPrefab, 
                 GameManager.instance.gameSettings.targetHolderPrefab.transform.position, 

@@ -183,7 +183,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         private void StartHeavyAttack()
         {
             if (!this.m_PlayerAttackState.CanAttack 
-                && this.m_AnimationDispatcher.CheckValue(PlayerAnimationCheckState.HeavyAttackHeld))
+                && this.m_AnimationDispatcher.Check(PlayerAnimationCheckState.HeavyAttackHeld))
                 return;
             
             this.m_ShowHeavyTelegraphEvent.Raise();

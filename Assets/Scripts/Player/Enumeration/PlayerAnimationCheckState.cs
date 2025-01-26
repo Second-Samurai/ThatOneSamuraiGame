@@ -8,7 +8,7 @@ public class PlayerAnimationCheckState : SmartEnum
     #region - - - - - - Fields - - - - - -
 
     // Player LockOn checks
-    public static PlayerAnimationCheckState LockOn = new("LockedOn", 0, animator => animator.GetBool("LockedOn"));
+    public static PlayerAnimationCheckState IsLockedOn = new("LockedOn", 0, animator => animator.GetBool("LockedOn"));
 
     // Player Heavy Attack checks
     public static PlayerAnimationCheckState HeavyAttackHeld =

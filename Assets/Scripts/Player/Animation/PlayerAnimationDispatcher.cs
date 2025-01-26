@@ -5,7 +5,7 @@ public interface IPlayerAnimationDispatcher
 
     #region - - - - - - Methods - - - - - -
 
-    bool CheckValue(PlayerAnimationCheckState eventState);
+    bool Check(PlayerAnimationCheckState eventState);
 
     void Dispatch(PlayerAnimationEventStates eventState);
     
@@ -20,12 +20,15 @@ public interface IPlayerAnimationDispatcher
 /// <summary>
 /// Responsible for sending updates to the Player's animator.
 /// </summary>
+[RequireComponent(typeof(Animator))]
 public class PlayerAnimationDispatcher : MonoBehaviour, IPlayerAnimationDispatcher
 {
 
     #region - - - - - - Fields - - - - - -
 
-    public Animator m_PlayerAnimator;
+    [RequiredField]
+    [SerializeField]
+    private Animator m_PlayerAnimator;
 
     #endregion Fields
     
@@ -37,7 +40,7 @@ public class PlayerAnimationDispatcher : MonoBehaviour, IPlayerAnimationDispatch
 
     #region - - - - - - Methods - - - - - -
 
-    public bool CheckValue(PlayerAnimationCheckState eventState)
+    public bool Check(PlayerAnimationCheckState eventState)
         => eventState.CheckAction.Invoke(this.m_PlayerAnimator);
 
     public void Dispatch(PlayerAnimationEventStates eventState) 

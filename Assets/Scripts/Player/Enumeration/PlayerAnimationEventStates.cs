@@ -7,14 +7,16 @@ public class PlayerAnimationEventStates : SmartEnum
 
     #region - - - - - - Fields - - - - - -
     
-    // LockOn animation events
-    public static PlayerAnimationEventStates LockOn = new("LockedOn", 1, 
-        (animator, boolValue, _) => animator.SetBool("LockedOn", boolValue));
+    // LockOn animation states
+    public static PlayerAnimationEventStates StartLockOn = new("LockedOn", 0, 
+        (animator, _, _) => animator.SetBool("LockedOn", true));
+    public static PlayerAnimationEventStates EndLockOn = new("LockOn", 1,
+        (animator, _, _) => animator.SetBool("LockedOn", false));
 
-    // Finisher animation events
-    public static PlayerAnimationEventStates StartHeavyAttackHeld = new("HeavyAttackHeld", 0, 
+    // Finisher animation states
+    public static PlayerAnimationEventStates StartHeavyAttackHeld = new("HeavyAttackHeld", 1, 
         (animator, _, _) => animator.SetBool("HeavyAttackHeld", true));
-    public static PlayerAnimationEventStates EndHeavyAttachHeld = new("HeavyAttackHeld", 0, 
+    public static PlayerAnimationEventStates EndHeavyAttachHeld = new("HeavyAttackHeld", 2, 
         (animator, _, _) => animator.SetBool("HeavyAttackHeld", false));
 
     #endregion Fields

@@ -9,11 +9,13 @@ public class PlayerLockOnMovement : BasePlayerMovementState
 
     #region - - - - - - Fields - - - - - -
 
+    // Required Components
     private readonly IPlayerAttackHandler m_AttackHandler;
     private readonly PlayerAttackState m_AttackState;
     private readonly PlayerTargetTrackingState m_TargetTrackingState;
     private readonly MonoBehaviour m_RootReferenceMonoBehaviour; // Required for Coroutine
     
+    // Runtime Fields
     private readonly float m_DodgeForce = 10f;
     private readonly float m_RotationSpeed = 4f;
     

@@ -12,16 +12,18 @@ public class FollowPlayerCameraState : PausableMonoBehaviour, ICameraState
 
     #region - - - - - - Fields - - - - - -
 
+    // Required Components
     [SerializeField] private GameObject m_Player;
     [SerializeField] private Transform m_FollowCameraTargetPoint;
+    [SerializeField] private CinemachineVirtualCamera m_FollowCamera;
+    private IPlayerViewOrientationHandler m_PlayerViewOrientationHandler;
+    
+    // Camera State Fields
     [SerializeField] private float m_RotationSpeed = 0.15f; // TODO: Change this to use the player prefs
     [SerializeField] private float m_MinimumPitchAngle = -35f;
     [SerializeField] private float m_MaximumPitchAngle = 60f;
-
-    public CinemachineVirtualCamera m_FollowCamera;
-
-    private IPlayerViewOrientationHandler m_PlayerViewOrientationHandler;
-
+    
+    // Runtime Fields
     private float m_TargetYaw;
     private float m_TargetPitch;
 

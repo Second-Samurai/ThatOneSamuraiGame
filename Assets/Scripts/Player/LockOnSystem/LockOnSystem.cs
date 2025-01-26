@@ -25,7 +25,9 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
 
     #region - - - - - - Fields - - - - - -
 
-    [RequiredField] public LockOnTargetTracking m_LockOnTargetTracker;
+    [RequiredField] 
+    [SerializeField]
+    private LockOnTargetTracking m_LockOnTargetTracker;
 
     // Required components
     private IPlayerAnimationDispatcher m_AnimationDispatcher;

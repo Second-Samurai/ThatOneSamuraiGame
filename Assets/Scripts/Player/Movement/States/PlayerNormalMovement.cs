@@ -8,11 +8,13 @@ public class PlayerNormalMovement : BasePlayerMovementState
 
     #region - - - - - - Fields - - - - - -
 
+    // Required Components
     private readonly IPlayerAttackHandler m_AttackHandler;
     private readonly PlayerAttackState m_AttackState;
     private readonly ICameraController m_CameraController;
     private readonly MonoBehaviour m_RootReferenceMonoBehaviour; // Required for Coroutine
     
+    // Runtime Fields
     private float m_CurrentAngleSmoothVelocity;
     private float m_CurrentAngleRotation;
     private float m_TargetAngleRotation;

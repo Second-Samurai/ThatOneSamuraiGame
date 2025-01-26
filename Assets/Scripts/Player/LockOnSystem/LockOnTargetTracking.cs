@@ -9,15 +9,16 @@ public class LockOnTargetTracking : PausableMonoBehaviour
     
     public LayerMask m_TargetableLayers;
 
-    private float m_MaxRaycastDistance = 10f;
-
+    // Target Tracking Fields
     public List<Transform> m_PossibleTargets;
     public List<Transform> m_ValidTargetableEnemies;
     private Transform m_LastKilledTarget;
 
+    // Runtime Fields
     private Transform m_CameraTransform;
     private Vector3 m_EnemyFeetOffset = Vector3.up * 2; //Offset since the target point is at the enemy's feet
     private Vector3 m_RaycastStartPosition;
+    private float m_MaxRaycastDistance = 10f;
 
     #endregion Fields
 
@@ -64,7 +65,13 @@ public class LockOnTargetTracking : PausableMonoBehaviour
   
     #region - - - - - - Methods - - - - - -
 
-    public void RemoveTarget(Transform targetToRemove)
+    public void ClearTargets()
+    {
+        this.m_ValidTargetableEnemies.Clear();
+        this.m_PossibleTargets.Clear();
+    }
+
+    private void RemoveTarget(Transform targetToRemove)
     {
         this.m_ValidTargetableEnemies.Remove(targetToRemove);
         this.m_PossibleTargets.Remove(targetToRemove);
@@ -73,18 +80,12 @@ public class LockOnTargetTracking : PausableMonoBehaviour
         this.m_ValidTargetableEnemies.TrimExcess();
     }
 
-    public void ClearTargets()
-    {
-        this.m_ValidTargetableEnemies.Clear();
-        this.m_PossibleTargets.Clear();
-    }
-
     /* Observations of this class:
      *  - The targetable enemies need to be bigger than 2 units vertically in order to be physically detected
      *  - Only observes whatever is within a target radius determined by the sphere collider used for detection
      *  - The starting point is from the camera's position
      */
-    public void CollectTargetableEnemies()
+    private void CollectTargetableEnemies()
     {
         foreach (var enemyTransform in this.m_PossibleTargets)
         {

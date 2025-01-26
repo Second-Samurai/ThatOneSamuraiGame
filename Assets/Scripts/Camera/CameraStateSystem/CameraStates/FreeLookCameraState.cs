@@ -3,7 +3,6 @@ using Cinemachine;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using UnityEngine;
-using UnityEngine.Rendering;
 using Vector3 = System.Numerics.Vector3;
 
 public interface IFreelookCameraController
@@ -39,7 +38,9 @@ public class FreeLookCameraState : PausableMonoBehaviour, ICameraState, IFreeloo
 
     #region - - - - - - Fields - - - - - -
 
-    public CinemachineVirtualCamera m_FreeLookCamera;
+    [RequiredField]
+    [SerializeField]
+    private CinemachineVirtualCamera m_FreeLookCamera;
 
     #endregion Fields
 
@@ -79,22 +80,16 @@ public class FreeLookCameraState : PausableMonoBehaviour, ICameraState, IFreeloo
 
     #endregion Initializers
 
-    public GameObject GetCameraObject()
-    {
-        return this.gameObject;
-    }
-    
+    public GameObject GetCameraObject() 
+        => this.gameObject;
+
     #region - - - - - - Methods - - - - - -
 
-    public void StartState()
-    {
-        this.m_FreeLookCamera.gameObject.SetActive(true);
-    }
+    public void StartState() 
+        => this.m_FreeLookCamera.gameObject.SetActive(true);
 
-    public void EndState()
-    {
-        this.m_FreeLookCamera.gameObject.SetActive(false);
-    }
+    public void EndState() 
+        => this.m_FreeLookCamera.gameObject.SetActive(false);
 
     public bool ValidateState()
     {

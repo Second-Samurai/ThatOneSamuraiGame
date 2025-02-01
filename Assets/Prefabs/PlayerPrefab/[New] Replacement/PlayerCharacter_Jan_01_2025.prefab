@@ -5653,6 +5653,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 4241970461219713044}
+          m_TargetAssemblyTypeName: LockOnSystem, Assembly-CSharp
+          m_MethodName: EndLockOn
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1358172137163209729
 GameObject:
   m_ObjectHideFlags: 0
@@ -33730,9 +33742,8 @@ GameObject:
   - component: {fileID: 4919045232634534813}
   - component: {fileID: 4482437867961119914}
   - component: {fileID: 3756120450154336460}
-  - component: {fileID: 7811938678449757978}
+  - component: {fileID: 5558940729083604280}
   - component: {fileID: 1522242138330992770}
-  - component: {fileID: 902981292924639244}
   - component: {fileID: 7679672917170573754}
   - component: {fileID: 5633744344342286438}
   - component: {fileID: 2948093329356755429}
@@ -33765,7 +33776,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5395489358580600328}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.524107, y: 0.5, z: 36.05973}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -33844,7 +33855,7 @@ Animator:
   m_GameObject: {fileID: 5395489358580600328}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: ec8448545c3dc407ab5081bbc2313aaa, type: 3}
-  m_Controller: {fileID: 9100000, guid: dbd6aecbfc8dde2499bc2f9a72ef2751, type: 2}
+  m_Controller: {fileID: 9100000, guid: f2fd463caa2034214961427e84030aff, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -33856,7 +33867,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7811938678449757978
+--- !u!114 &5558940729083604280
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -33865,9 +33876,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5395489358580600328}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d766eabb7d667cd4c9c15d765382d85a, type: 3}
+  m_Script: {fileID: 11500000, guid: a8758a827a4148ec988c701a2fa52348, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_PlayerAnimator: {fileID: 3756120450154336460}
 --- !u!114 &1522242138330992770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33880,19 +33892,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 041da8dedcda451abaed63530cc565fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &902981292924639244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5395489358580600328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 449473c8ef00a744fba489e556f9200c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_attackInputBufferDuration: 0.4
 --- !u!114 &7679672917170573754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33923,7 +33922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65abbc4fd76943b3b5d8112ace964d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PlayerAnimationComponent: {fileID: 0}
+  m_Animator: {fileID: 3756120450154336460}
 --- !u!114 &2948093329356755429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33938,7 +33937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlayerAttackState:
     m_CanAttack: 1
-    m_IsParryStunned: 0
+    m_HasBeenParried: 0
     m_IsHeavyAttackCharging: 0
     m_IsWeaponSheathed: 0
   m_PlayerMovementState:
@@ -34195,13 +34194,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5395489358580600328}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74a2f49e149b419cad9028eaf73a44d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CameraController: {fileID: 0}
-  LockOnObserver: {fileID: 0}
+  LockOnObserver: {fileID: 4128458006612135491}
 --- !u!1 &5481850712639538546
 GameObject:
   m_ObjectHideFlags: 0
@@ -50124,7 +50123,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_LockOnTargetTracker: {fileID: 4205955361373828669}
-  m_Animator: {fileID: 3756120450154336460}
 --- !u!114 &4205955361373828669
 MonoBehaviour:
   m_ObjectHideFlags: 0

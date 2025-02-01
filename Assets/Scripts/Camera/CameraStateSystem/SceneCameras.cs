@@ -17,7 +17,7 @@ namespace ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem
 
         #region - - - - - - Constructors - - - - - -
 
-        public SceneCameras(string name, int value) : base(name, value) { }
+        private SceneCameras(string name, int value) : base(name, value) { }
 
         #endregion Constructors
   

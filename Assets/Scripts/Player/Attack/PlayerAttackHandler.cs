@@ -41,6 +41,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         private HitstopController m_HitstopController;
         private PlayerFunctions m_PlayerFunctions;
         private PlayerAttackState m_PlayerAttackState;
+        private IPlayerAnimationDispatcher m_AnimationDispatcher;
 
         [SerializeField] 
         private GameEvent m_ShowHeavyTutorialEvent; // This event feels out of place for this component.
@@ -81,6 +82,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_HitstopController = Object.FindFirstObjectByType<HitstopController>();
             this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
             this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
+            this.m_AnimationDispatcher = this.GetComponent<IPlayerAnimationDispatcher>();
 
             this.m_HeavyAttackRemainingChargeTime = this.m_HeavyAttackRequiredChargeTime;
             m_GleamTimer = m_HeavyAttackRequiredChargeTime - m_GleamPrecedeTime;
@@ -175,9 +177,14 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_PlayerAttackState.IsWeaponSheathed = false;
             this.m_GleamTimerFinished = false;
             this.m_HeavyAttackRemainingChargeTime = this.m_HeavyAttackRequiredChargeTime;
-
-            //this.m_Animator.SetBool("HeavyAttackHeld", false);
-            this.m_PlayerAnimationComponent.TriggerHeavyAttack();
+            
+            // Commenting line below from merge conflict with camera rework
+            //this.m_PlayerAnimationComponent.TriggerHeavyAttack();
+            
+            // Create gleam effect
+            this.m_PlayerFunctions.parryEffects.PlayGleam();
+            
+            this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.EndHeavyAttachHeld);
             
             // Rolls the camera
             IFreelookCameraController _FreeLookCamera = this.m_CameraController
@@ -197,17 +204,22 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         
         private void StartHeavyAttack()
         {
-            if (!this.m_PlayerAttackState.CanAttack /*&& this.m_Animator.GetBool("HeavyAttackHeld")*/)
+            // Commenting line below from merge conflict with camera rework
+            //if (!this.m_PlayerAttackState.CanAttack /*&& this.m_Animator.GetBool("HeavyAttackHeld")*/)
+            if (!this.m_PlayerAttackState.CanAttack 
+                && this.m_AnimationDispatcher.Check(PlayerAnimationCheckState.HeavyAttackHeld))
                 return;
             
             this.m_ShowHeavyTelegraphEvent.Raise();
             
             this.m_PlayerAttackState.IsWeaponSheathed = true;
             this.m_PlayerAttackState.IsHeavyAttackCharging = true;
-            //this.m_Animator.SetBool("HeavyAttackHeld", true);
+              
+            // Commenting line below from merge conflict with camera rework
+            // this.m_PlayerAnimationComponent.ResetAttackParameters();
+            // this.m_PlayerAnimationComponent.ChargeHeavyAttack(true);
             
-            this.m_PlayerAnimationComponent.ResetAttackParameters();
-            this.m_PlayerAnimationComponent.ChargeHeavyAttack(true);
+            this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.StartHeavyAttackHeld);
             
             // Ends the camera roll
             this.m_CameraController.EndCameraAction();

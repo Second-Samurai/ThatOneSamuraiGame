@@ -42,15 +42,29 @@ public class PlayerFinisherController :
 
     #region - - - - - - Fields - - - - - -
 
-    [RequiredField] public PlayerMovement m_PlayerMovement;
-    [RequiredField] public PlayerFinisherCutsceneDirector m_CutSceneDirector;
-    [RequiredField] public PDamageController m_PlayerDamageController;
-    [RequiredField] public PlayerAttackHandler m_PlayerAttackHandler;
-    [RequiredField] public GameObject m_PlayerObject;
-    [RequiredField] public GameObject PlayerDetector; // Note: Used for enemies for detecting the player.
-
+    // Required Components
+    [RequiredField] 
+    [SerializeField] 
+    private PlayerMovement m_PlayerMovement;
+    [RequiredField] 
+    [SerializeField] 
+    private PlayerFinisherCutsceneDirector m_CutSceneDirector;
+    [RequiredField] 
+    [SerializeField] 
+    private PDamageController m_PlayerDamageController;
+    [RequiredField] 
+    [SerializeField] 
+    private PlayerAttackHandler m_PlayerAttackHandler;
+    [RequiredField] 
+    [SerializeField] 
+    private GameObject m_PlayerObject;
+    [RequiredField] 
+    [SerializeField] 
+    private GameObject PlayerDetector; // Note: Used for enemies for detecting the player.
     private ICameraController m_CameraController;
     private ILockOnObserver m_LockOnObserver;
+    
+    // Runtime Fields
     private GameObject m_TargetEnemy;
 
     #endregion Fields

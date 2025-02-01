@@ -13,7 +13,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Containers
 
         PlayerAttackState PlayerAttackState { get; }
         
-        PlayerMovementState PlayerMovementState { get; }
+        PlayerMovementDataContainer PlayerMovementDataContainer { get; }
         
         PlayerSpecialActionState PlayerSpecialActionState { get; }
         

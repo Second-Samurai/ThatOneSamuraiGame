@@ -1,4 +1,6 @@
 ﻿
+using ThatOneSamuraiGame;
+
 public class DebugCommandConfigurator
 {
 
@@ -19,7 +21,8 @@ public class DebugCommandConfigurator
 
     public void ConfigureCommands()
     {
-        
+        // Camera system
+        new Debug_CameraController().RegisterCommand(this.m_DebugManager);
     }
 
     #endregion Methods

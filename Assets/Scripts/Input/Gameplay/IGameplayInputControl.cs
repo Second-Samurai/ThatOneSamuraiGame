@@ -63,6 +63,14 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         void OnPause(InputAction.CallbackContext context);
 
+        // -----------------------------------------------------
+        // Debug related Events
+        // -----------------------------------------------------
+
+        void OnDebug(InputAction.CallbackContext context);
+
+        void OnSubmitDebugCommand(InputAction.CallbackContext context);
+
         #endregion Event Handlers
 
         #region - - - - - - Methods - - - - - -

@@ -1,4 +1,5 @@
 ﻿using System;
+using Player.Animation;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
@@ -44,7 +45,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         
         [RequiredField]
         [SerializeField]
-        private Animator m_Animator;
+        private PlayerAnimationComponent m_PlayerAnimationComponent;
+        //private Animator m_Animator;
         
         private ICameraController m_CameraController;
         
@@ -61,7 +63,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         
         private bool m_IsMovementEnabled = true;
         private bool m_IsRotationEnabled = true;
-
+        private bool m_IsSprinting = false;
+        private float m_SprintDuration = 0.0f;
+        private float m_RotationSpeed = 4f;
+        
         #endregion Fields
         
         #region - - - - - - Initializers - - - - - -
@@ -83,6 +88,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         private void Start()
         {
+            this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
             this.m_PlayerTargetTrackingState = this.GetComponent<IPlayerState>().PlayerTargetTrackingState;
 
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
@@ -93,22 +99,22 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_NormalMovement = new PlayerNormalMovement(
                 this.GetComponent<IPlayerAttackHandler>(),
                 this.m_PlayerAttackState,
-                this.m_CameraController, 
+                this.m_CameraController,
                 this._mPlayerMovementDataContainer,
-                this.m_Animator, 
+                this.m_PlayerAnimationComponent, 
                 this.transform,
                 this);
             this.m_LockOnMovement = new PlayerLockOnMovement(
                 this.GetComponent<IPlayerAttackHandler>(),
                 this.m_PlayerAttackState,
-                this.m_Animator, 
+                this.m_PlayerAnimationComponent, 
                 this.transform,
                 this._mPlayerMovementDataContainer,
                 this.m_PlayerTargetTrackingState,
                 this);
             this.m_FinisherMovement = new PlayerFinishMovement(
                 this._mPlayerMovementDataContainer,
-                this.m_Animator,
+                this.m_PlayerAnimationComponent,
                 this.transform);
             
             this.m_CurrentMovementState = this.m_NormalMovement;
@@ -123,6 +129,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
             this.m_CurrentMovementState.CalculateMovement();
             this.m_CurrentMovementState.ApplyMovement();
+            
+            if (IsSprinting())
+                TickSprintDuration();
         }
 
         #endregion Lifecycle Methods
@@ -146,6 +155,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         // Movement
         // --------------------------------
 
+        public bool IsSprinting() => m_IsSprinting;
+
+        public float GetSprintDuration() => m_SprintDuration;
+
         void IPlayerMovement.DisableMovement()
             => this.m_IsMovementEnabled = false;
 
@@ -154,10 +167,11 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         void IPlayerMovement.PreparePlayerMovement(Vector2 moveDirection)
         {
-            // Ticket: #34 - Behaviour pertaining to animation will be moved to separate player animator component.
             if (moveDirection == Vector2.zero)
+            {
                 this.m_CurrentMovementState.PerformSprint(false);
-
+            }
+            
             this.m_CurrentMovementState.SetInputDirection(moveDirection);
         }
 
@@ -167,8 +181,27 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_CameraController.SelectCamera(isSprinting 
                 ? SceneCameras.FollowSprintPlayer 
                 : SceneCameras.FollowPlayer);
-        }
 
+            this.m_IsSprinting = isSprinting;
+
+            // // Toggle sprinting animation
+            // if (this.m_InputDirection == Vector2.zero || !this.m_IsSprinting)
+            // {
+            //     m_SprintDuration = 0.0f;
+            //     m_PlayerAnimationComponent.SetSprinting(false);
+            // }
+            // else
+            // {
+            //     m_SprintDuration = 0.0f;
+            //     m_PlayerAnimationComponent.SetSprinting(true);
+            // }
+        }
+        
+        private void TickSprintDuration()
+        {
+            m_SprintDuration += Time.deltaTime;
+        }
+        
         // --------------------------------
         // Rotation
         // --------------------------------

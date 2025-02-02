@@ -179,14 +179,15 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_HeavyAttackRemainingChargeTime = this.m_HeavyAttackRequiredChargeTime;
             
             // Commenting line below from merge conflict with camera rework
-            //this.m_PlayerAnimationComponent.TriggerHeavyAttack();
+            this.m_PlayerAnimationComponent.TriggerHeavyAttack();
             
             // Create gleam effect
-            this.m_PlayerFunctions.parryEffects.PlayGleam();
+            //this.m_PlayerFunctions.parryEffects.PlayGleam();
             
             this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.EndHeavyAttachHeld);
             
             // Rolls the camera
+            // TODO: Fix the error from the code below
             IFreelookCameraController _FreeLookCamera = this.m_CameraController
                 .GetCamera(SceneCameras.FreeLook)
                 .GetComponent<IFreelookCameraController>();
@@ -216,12 +217,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_PlayerAttackState.IsHeavyAttackCharging = true;
               
             // Commenting line below from merge conflict with camera rework
-            // this.m_PlayerAnimationComponent.ResetAttackParameters();
-            // this.m_PlayerAnimationComponent.ChargeHeavyAttack(true);
+            this.m_PlayerAnimationComponent.ResetAttackParameters();
+            this.m_PlayerAnimationComponent.ChargeHeavyAttack(true);
             
             this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.StartHeavyAttackHeld);
             
             // Ends the camera roll
+            // TODO: Fix the error from the line below
             this.m_CameraController.EndCameraAction();
         }
 

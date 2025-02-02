@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Attack
 {
@@ -12,8 +13,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         [SerializeField]
         private bool m_CanAttack = true;
-        [SerializeField] 
-        private bool m_HasBeenParried;
+        [FormerlySerializedAs("m_HasBeenParried")] [SerializeField] 
+        private bool m_IsParryStunned;
         [SerializeField]
         private bool m_IsHeavyAttackCharging;
         [SerializeField]
@@ -29,10 +30,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             set => this.m_CanAttack = value;
         }
 
-        public bool HasBeenParried
+        public bool ParryStunned
         {
-            get => this.m_HasBeenParried;
-            set => this.m_HasBeenParried = value;
+            get => this.m_IsParryStunned;
+            set => this.m_IsParryStunned = value;
         }
 
         public bool IsHeavyAttackCharging

@@ -79,7 +79,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""id"": ""bb4d4c72-aca8-4669-a79e-e0b19c891ba1"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Press"",
+                    ""interactions"": ""Press(behavior=1)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -197,6 +197,24 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DebugConsole"",
+                    ""type"": ""Button"",
+                    ""id"": ""e19d17e2-d7f9-47d1-809f-7cc3145f8e84"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SubmitDebugCommand"",
+                    ""type"": ""Button"",
+                    ""id"": ""63948a77-35e7-42c2-92ed-1c092d716046"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 }
             ],
@@ -684,6 +702,28 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""action"": ""StartHeavyAlternative"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0221cb45-2728-4410-9e45-222c23bd8b9b"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""DebugConsole"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""58fa2db5-ce3e-4340-8a6a-99dc95d79abd"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""SubmitDebugCommand"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -842,6 +882,24 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SubmitDebugCommand"",
+                    ""type"": ""Button"",
+                    ""id"": ""5bfb7003-e7fe-4e53-ae9c-34e972ec2d1f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DebugConsole"",
+                    ""type"": ""Button"",
+                    ""id"": ""0c7e29cb-370a-43a2-abf5-8ee0c8d9d306"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -864,6 +922,28 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Unpause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c47ffe89-2a9f-42db-a608-08324184938b"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""SubmitDebugCommand"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""763045d4-0a82-42df-ac66-15e18f6592c4"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""DebugConsole"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -921,6 +1001,8 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
         m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
         m_Gameplay_SwordDraw = m_Gameplay.FindAction("SwordDraw", throwIfNotFound: true);
         m_Gameplay_Sprint = m_Gameplay.FindAction("Sprint", throwIfNotFound: true);
+        m_Gameplay_DebugConsole = m_Gameplay.FindAction("DebugConsole", throwIfNotFound: true);
+        m_Gameplay_SubmitDebugCommand = m_Gameplay.FindAction("SubmitDebugCommand", throwIfNotFound: true);
         // Rewind
         m_Rewind = asset.FindActionMap("Rewind", throwIfNotFound: true);
         m_Rewind_Scrub = m_Rewind.FindAction("Scrub", throwIfNotFound: true);
@@ -930,6 +1012,8 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Unpause = m_Menu.FindAction("Unpause", throwIfNotFound: true);
+        m_Menu_SubmitDebugCommand = m_Menu.FindAction("SubmitDebugCommand", throwIfNotFound: true);
+        m_Menu_DebugConsole = m_Menu.FindAction("DebugConsole", throwIfNotFound: true);
     }
 
     ~@ControlMap()
@@ -1017,6 +1101,8 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Pause;
     private readonly InputAction m_Gameplay_SwordDraw;
     private readonly InputAction m_Gameplay_Sprint;
+    private readonly InputAction m_Gameplay_DebugConsole;
+    private readonly InputAction m_Gameplay_SubmitDebugCommand;
     public struct GameplayActions
     {
         private @ControlMap m_Wrapper;
@@ -1040,6 +1126,8 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
         public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
         public InputAction @SwordDraw => m_Wrapper.m_Gameplay_SwordDraw;
         public InputAction @Sprint => m_Wrapper.m_Gameplay_Sprint;
+        public InputAction @DebugConsole => m_Wrapper.m_Gameplay_DebugConsole;
+        public InputAction @SubmitDebugCommand => m_Wrapper.m_Gameplay_SubmitDebugCommand;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1106,6 +1194,12 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @DebugConsole.started += instance.OnDebugConsole;
+            @DebugConsole.performed += instance.OnDebugConsole;
+            @DebugConsole.canceled += instance.OnDebugConsole;
+            @SubmitDebugCommand.started += instance.OnSubmitDebugCommand;
+            @SubmitDebugCommand.performed += instance.OnSubmitDebugCommand;
+            @SubmitDebugCommand.canceled += instance.OnSubmitDebugCommand;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -1167,6 +1261,12 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @DebugConsole.started -= instance.OnDebugConsole;
+            @DebugConsole.performed -= instance.OnDebugConsole;
+            @DebugConsole.canceled -= instance.OnDebugConsole;
+            @SubmitDebugCommand.started -= instance.OnSubmitDebugCommand;
+            @SubmitDebugCommand.performed -= instance.OnSubmitDebugCommand;
+            @SubmitDebugCommand.canceled -= instance.OnSubmitDebugCommand;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -1259,11 +1359,15 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Menu;
     private List<IMenuActions> m_MenuActionsCallbackInterfaces = new List<IMenuActions>();
     private readonly InputAction m_Menu_Unpause;
+    private readonly InputAction m_Menu_SubmitDebugCommand;
+    private readonly InputAction m_Menu_DebugConsole;
     public struct MenuActions
     {
         private @ControlMap m_Wrapper;
         public MenuActions(@ControlMap wrapper) { m_Wrapper = wrapper; }
         public InputAction @Unpause => m_Wrapper.m_Menu_Unpause;
+        public InputAction @SubmitDebugCommand => m_Wrapper.m_Menu_SubmitDebugCommand;
+        public InputAction @DebugConsole => m_Wrapper.m_Menu_DebugConsole;
         public InputActionMap Get() { return m_Wrapper.m_Menu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1276,6 +1380,12 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
             @Unpause.started += instance.OnUnpause;
             @Unpause.performed += instance.OnUnpause;
             @Unpause.canceled += instance.OnUnpause;
+            @SubmitDebugCommand.started += instance.OnSubmitDebugCommand;
+            @SubmitDebugCommand.performed += instance.OnSubmitDebugCommand;
+            @SubmitDebugCommand.canceled += instance.OnSubmitDebugCommand;
+            @DebugConsole.started += instance.OnDebugConsole;
+            @DebugConsole.performed += instance.OnDebugConsole;
+            @DebugConsole.canceled += instance.OnDebugConsole;
         }
 
         private void UnregisterCallbacks(IMenuActions instance)
@@ -1283,6 +1393,12 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
             @Unpause.started -= instance.OnUnpause;
             @Unpause.performed -= instance.OnUnpause;
             @Unpause.canceled -= instance.OnUnpause;
+            @SubmitDebugCommand.started -= instance.OnSubmitDebugCommand;
+            @SubmitDebugCommand.performed -= instance.OnSubmitDebugCommand;
+            @SubmitDebugCommand.canceled -= instance.OnSubmitDebugCommand;
+            @DebugConsole.started -= instance.OnDebugConsole;
+            @DebugConsole.performed -= instance.OnDebugConsole;
+            @DebugConsole.canceled -= instance.OnDebugConsole;
         }
 
         public void RemoveCallbacks(IMenuActions instance)
@@ -1339,6 +1455,8 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnSwordDraw(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnDebugConsole(InputAction.CallbackContext context);
+        void OnSubmitDebugCommand(InputAction.CallbackContext context);
     }
     public interface IRewindActions
     {
@@ -1350,5 +1468,7 @@ public partial class @ControlMap: IInputActionCollection2, IDisposable
     public interface IMenuActions
     {
         void OnUnpause(InputAction.CallbackContext context);
+        void OnSubmitDebugCommand(InputAction.CallbackContext context);
+        void OnDebugConsole(InputAction.CallbackContext context);
     }
 }

@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Scripts.Player.Movement;
+﻿using Player.Animation;
+using ThatOneSamuraiGame.Scripts.Player.Movement;
 using UnityEngine;
 
 public class PlayerFinishMovement : BasePlayerMovementState
@@ -15,9 +16,9 @@ public class PlayerFinishMovement : BasePlayerMovementState
 
     public PlayerFinishMovement(
         PlayerMovementDataContainer movementDataContainer,
-        Animator playerAnimator,
+        PlayerAnimationComponent playerAnimationComponent,
         Transform playerTransform)
-        :base(playerAnimator, playerTransform, movementDataContainer) { }
+        :base(playerAnimationComponent, playerTransform, movementDataContainer) { }
 
     #endregion Constructors
   

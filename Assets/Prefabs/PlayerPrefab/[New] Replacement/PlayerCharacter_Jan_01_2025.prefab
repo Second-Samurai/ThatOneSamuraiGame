@@ -33744,6 +33744,7 @@ GameObject:
   - component: {fileID: 3756120450154336460}
   - component: {fileID: 5558940729083604280}
   - component: {fileID: 1522242138330992770}
+  - component: {fileID: 1439001672288933194}
   - component: {fileID: 7679672917170573754}
   - component: {fileID: 5633744344342286438}
   - component: {fileID: 2948093329356755429}
@@ -33756,6 +33757,7 @@ GameObject:
   - component: {fileID: 3700630804014182520}
   - component: {fileID: 6906141291813310879}
   - component: {fileID: 5350881421000212109}
+  - component: {fileID: 2896294781111244174}
   - component: {fileID: 4510125242194914599}
   - component: {fileID: 4803036319386816218}
   - component: {fileID: 4301220655726733025}
@@ -33855,7 +33857,7 @@ Animator:
   m_GameObject: {fileID: 5395489358580600328}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: ec8448545c3dc407ab5081bbc2313aaa, type: 3}
-  m_Controller: {fileID: 9100000, guid: f2fd463caa2034214961427e84030aff, type: 2}
+  m_Controller: {fileID: 9100000, guid: dbd6aecbfc8dde2499bc2f9a72ef2751, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -33892,6 +33894,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 041da8dedcda451abaed63530cc565fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1439001672288933194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5395489358580600328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d766eabb7d667cd4c9c15d765382d85a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7679672917170573754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33922,7 +33936,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65abbc4fd76943b3b5d8112ace964d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Animator: {fileID: 3756120450154336460}
+  m_PlayerAnimationComponent: {fileID: 0}
 --- !u!114 &2948093329356755429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33937,10 +33951,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PlayerAttackState:
     m_CanAttack: 1
-    m_HasBeenParried: 0
+    m_IsParryStunned: 0
     m_IsHeavyAttackCharging: 0
     m_IsWeaponSheathed: 0
-  m_PlayerMovementState:
+  mPlayerMovementDataContainer:
     m_CanOverrideMovement: 0
     m_IsMovementEnabled: 0
     m_IsMovementLocked: 1
@@ -34108,6 +34122,19 @@ MonoBehaviour:
   gravity: 25
   stepDown: 1
   canGround: 1
+--- !u!114 &2896294781111244174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5395489358580600328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 449473c8ef00a744fba489e556f9200c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_attackInputBufferDuration: 0.4
 --- !u!114 &4510125242194914599
 MonoBehaviour:
   m_ObjectHideFlags: 0

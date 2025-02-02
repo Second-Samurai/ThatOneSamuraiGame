@@ -46,6 +46,9 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
             this.m_InputControlData.PlayerTargetTracking = this.m_ActivePlayer.GetComponent<IPlayerTargetTracking>();
             this.m_InputControlData.PlayerViewOrientationHandler = this.m_ActivePlayer.GetComponent<IPlayerViewOrientationHandler>();
             
+            // Debug
+            this.m_InputControlData.DebugHandler = DebugManager.Instance.gameObject.gameObject.GetComponent<IDebugHandler>();
+            
             // Validate the values
             _ = GameValidator.NotNull(this.m_InputControlData.PauseActionHandler,
                     nameof(this.m_InputControlData.PauseActionHandler));

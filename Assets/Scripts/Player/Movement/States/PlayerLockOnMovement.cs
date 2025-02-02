@@ -1,4 +1,5 @@
 ﻿using System;
+using Player.Animation;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
@@ -28,12 +29,12 @@ public class PlayerLockOnMovement : BasePlayerMovementState
     public PlayerLockOnMovement(
         IPlayerAttackHandler attackHandler,
         PlayerAttackState attackState,
-        Animator playerAnimator, 
+        PlayerAnimationComponent playerAnimationComponent, 
         Transform playerTransform, 
         PlayerMovementDataContainer movementDataContainer, 
         PlayerTargetTrackingState targetTrackingState,
-        MonoBehaviour refMonoBehaviour) 
-        : base(playerAnimator, playerTransform, movementDataContainer)
+        MonoBehaviour refMonoBehaviour)
+        : base(playerAnimationComponent, playerTransform, movementDataContainer)
     {
         this.m_AttackHandler = attackHandler ?? throw new ArgumentNullException(nameof(attackHandler));
         this.m_AttackState = attackState ?? throw new ArgumentNullException(nameof(attackState));
@@ -72,10 +73,10 @@ public class PlayerLockOnMovement : BasePlayerMovementState
     {
         if (!this.MMovementDataContainer.CanDodge) return;
         
-        this.m_PlayerAnimator.SetTrigger("Dodge");
-        this.m_PlayerAnimator.ResetTrigger("AttackLight");
+        this.m_PlayerAnimationComponent.TriggerDodge();
+        this.m_PlayerAnimationComponent.ResetLightAttack();
     
-        if (this.m_AttackState.HasBeenParried)
+        if (this.m_AttackState.ParryStunned)
             this.m_AttackHandler.EndParryAction();
         
         this.m_RootReferenceMonoBehaviour.StartCoroutine(

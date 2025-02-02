@@ -19,6 +19,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         private GameplayInputControlData m_InputControlData;
         private ICommand m_InitializerCommand;
         private bool m_IsInputActive;
+        private bool m_IsDebugConsoleEnabled;
 
         #endregion Fields
 
@@ -28,6 +29,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         {
             this.m_InitializerCommand.Execute();
             this.m_IsInputActive = true;
+            this.m_IsDebugConsoleEnabled = false;
         }
         
         #endregion Lifecycle Methods
@@ -40,13 +42,13 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         void IGameplayInputControl.OnMovement(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || this.IsPaused) return;
+            if (this.IsInputControlValid()) return;
             this.m_InputControlData.PlayerMovement.PreparePlayerMovement(context.ReadValue<Vector2>());
         }
 
         void IGameplayInputControl.OnSprint(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || this.IsPaused) return;
+            if (this.IsInputControlValid()) return;
             this.m_InputControlData.PlayerMovement.PrepareSprint(context.ReadValueAsButton());
         }
 
@@ -56,19 +58,19 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         void IGameplayInputControl.OnLockOn(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || this.IsPaused) return;
+            if (this.IsInputControlValid()) return;
             this.m_InputControlData.PlayerTargetTracking.ToggleLockOn();
         }
 
         void IGameplayInputControl.OnToggleLockLeft(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || this.IsPaused) return;
+            if (this.IsInputControlValid()) return;
             this.m_InputControlData.PlayerTargetTracking.ToggleLockLeft();
         }
 
         void IGameplayInputControl.OnToggleLockRight(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || this.IsPaused) return;
+            if (this.IsInputControlValid()) return;
             this.m_InputControlData.PlayerTargetTracking.ToggleLockRight();
         }
 
@@ -78,39 +80,38 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         void IGameplayInputControl.OnAttack(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || this.IsPaused) return;
+            if (this.IsInputControlValid()) return;
             this.m_InputControlData.PlayerAttackHandler.Attack();
         }
 
         void IGameplayInputControl.OnSwordDraw(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || this.IsPaused) return;
+            if (this.IsInputControlValid()) return;
             this.m_InputControlData.PlayerAttackHandler.DrawSword();
         }
 
         void IGameplayInputControl.OnStartHeavy(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || this.IsPaused) return;
-
+            if (this.IsInputControlValid()) return;
             if (context.interaction is HoldInteraction)
                 this.m_InputControlData.PlayerAttackHandler.StartHeavy();
         }
 
         void IGameplayInputControl.OnStartHeavyAlternative(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || this.IsPaused) return;
+            if (this.IsInputControlValid()) return;
             this.m_InputControlData.PlayerAttackHandler.StartHeavyAlternative();
         }
 
         void IGameplayInputControl.OnStartBlock(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || this.IsPaused) return;
+            if (this.IsInputControlValid()) return;
             this.m_InputControlData.PlayerAttackHandler.StartBlock();
         }
 
         void IGameplayInputControl.OnEndBlock(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || this.IsPaused) return;
+            if (this.IsInputControlValid()) return;
             this.m_InputControlData.PlayerAttackHandler.EndBlock();
         }
 
@@ -120,13 +121,13 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         void IGameplayInputControl.OnDodge(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || this.IsPaused) return;
+            if (this.IsInputControlValid()) return;
             this.m_InputControlData.PlayerMovement.Dodge();
         }
 
         void IGameplayInputControl.OnInitRewind(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || this.IsPaused) return;
+            if (this.IsInputControlValid()) return;
             // this.m_InputControlData.PlayerSpecialAction.ActivateRewind();
             Debug.Log("Rewind has been removed.");
         }
@@ -144,12 +145,35 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         }
 
         // -----------------------------------------------------
+        // Debug related Events
+        // -----------------------------------------------------
+
+        void IGameplayInputControl.OnDebug(InputAction.CallbackContext context)
+        {
+            if (!this.m_IsInputActive)
+                return;
+
+            // Ticket #46 - Clarify handling on UI events against game logic.
+            this.m_InputControlData.DebugHandler.ToggleDebugMenu();
+            this.m_IsDebugConsoleEnabled = !this.m_IsDebugConsoleEnabled;
+        }
+
+        void IGameplayInputControl.OnSubmitDebugCommand(InputAction.CallbackContext context)
+        {
+            if (!this.m_IsInputActive)
+                return;
+            
+            // Ticket #46 - Clarify handling on UI events against game logic.
+            this.m_InputControlData.DebugHandler.SubmitDebugCommand();
+        }
+
+        // -----------------------------------------------------
         // View Orientation related Events
         // -----------------------------------------------------
 
         void IGameplayInputControl.OnRotateCamera(InputAction.CallbackContext context)
         {
-            if (!this.m_IsInputActive || this.IsPaused) return;
+            if (this.IsInputControlValid()) return;
             this.m_InputControlData.PlayerViewOrientationHandler.RotateViewOrientation(context.ReadValue<Vector2>());
         }
 
@@ -191,6 +215,10 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
             // View Orientation
             playerInput.actions["rotatecamera"].performed += ((IGameplayInputControl)this).OnRotateCamera;
             playerInput.actions["rotatecamera"].canceled += ((IGameplayInputControl)this).OnRotateCamera;
+
+            // Debugging
+            playerInput.actions["debugconsole"].performed += ((IGameplayInputControl)this).OnDebug;
+            playerInput.actions["submitdebugcommand"].performed += ((IGameplayInputControl)this).OnSubmitDebugCommand;
         }
 
         void IInputControl.EnableInput() 
@@ -204,6 +232,9 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
 
         void IGameplayInputControl.SetInputControlData(GameplayInputControlData inputControlData)
             => this.m_InputControlData = inputControlData;
+
+        private bool IsInputControlValid() 
+            => !this.m_IsInputActive || this.IsPaused || this.m_IsDebugConsoleEnabled;
 
         #endregion Methods
 

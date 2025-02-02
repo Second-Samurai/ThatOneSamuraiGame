@@ -19,7 +19,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         private IPlayerAttackHandler m_PlayerAttackHandler;
         private PlayerFunctions m_PlayerFunctions;
         private IPlayerMovement m_PlayerMovement;
-        private IPlayerSpecialAction m_PlayerSpecialAction;
         
         // Player states
         private PlayerAttackState m_PlayerAttackState;
@@ -36,7 +35,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
             this.m_PlayerDamage = this.GetComponent<IDamageable>();
             this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
             this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
-            this.m_PlayerSpecialAction = this.GetComponent<IPlayerSpecialAction>();
 
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
             this.m_PlayerAttackState = _PlayerState.PlayerAttackState;
@@ -53,25 +51,24 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
 
         public void EnableRotation()
             => this.m_PlayerMovement.EnableRotation();
-
-        // Tech Debt: #48 - Rename these methods to represent their action.
-        public void EndGotParried()
-            => this.m_PlayerAttackState.HasBeenParried = false;
-
-        // Tech Debt: #48 - Rename these methods to represent their action.
-        public void StartGotParried()
-            => this.m_PlayerAttackState.HasBeenParried = true;
+        
+        public void EndParryStunState()
+            => this.m_PlayerAttackState.ParryStunned = false;
+        
+        public void StartParryStunState()
+            => this.m_PlayerAttackState.ParryStunned = true;
 
         #endregion PlayerAttack Animation Events
         
         #region - - - - - - PlayerMovement Animation Events  - - - - - -
         
-        // Tech Debt: #48 - Rename these methods to represent their action.
-        public void OverrideMovement() 
+        // ======== EVENT CALLED ========
+        
+        // 1stAttackEdit - 00:00
+        public void DisableMovement() 
             => this.m_PlayerMovement.DisableMovement();
-
-        // Tech Debt: #48 - Rename these methods to represent their action.
-        public void RemoveOverride() 
+        
+        public void EnableMovement() 
             => this.m_PlayerMovement.EnableMovement();
 
         public void LockMoveInput() // This is not being used anywhere
@@ -82,7 +79,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
             this._mPlayerMovementDataContainer.IsMovementLocked = true;
             this.StartDodging(); // Note: I find it unusual that Dodging is invoked when not moving the character.
         }
-
+        
         public void UnlockMoveInput()
         {
             if (!this._mPlayerMovementDataContainer.IsMovementLocked)
@@ -96,12 +93,17 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
 
         #region - - - - - - PlayerSpecialAction Animation Events - - - - - -
         
-        // public void BlockDodge() 
-        //     => this.m_PlayerSpecialActionState.CanDodge = false;
+        // 1stAttackEdit - 00:02
+        public void BlockDodge() 
+            => this.m_PlayerSpecialActionState.CanDodge = false;
 
-        // // TODO: Remove resets from happening exclusivly from the AnimationEventHandler.
-        // public void ResetDodge()
-        //     => this.m_PlayerSpecialAction.ResetDodge();
+        // TODO: Remove resets from happening exclusively from the AnimationEventHandler.
+        // 1stRecoveryEdit - 00:00
+        public void ResetDodge()
+        {
+            this.m_PlayerSpecialActionState.CanDodge = true;
+            this.m_PlayerSpecialActionState.IsDodging = false;
+        }
 
         public void StartDodging()
         {

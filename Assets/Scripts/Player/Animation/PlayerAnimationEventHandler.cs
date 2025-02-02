@@ -3,7 +3,6 @@ using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
-using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Animation
 {
@@ -11,7 +10,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
     /// <summary>
     /// Responsible for handling animation events for the player.
     /// </summary>
-    public class PlayerAnimationEventHandler : TOSGMonoBehaviourBase
+    public class PlayerAnimationEventHandler : PausableMonoBehaviour
     {
 
         #region - - - - - - Fields - - - - - -
@@ -20,11 +19,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         private IPlayerAttackHandler m_PlayerAttackHandler;
         private PlayerFunctions m_PlayerFunctions;
         private IPlayerMovement m_PlayerMovement;
-        private IPlayerSpecialAction m_PlayerSpecialAction;
         
         // Player states
         private PlayerAttackState m_PlayerAttackState;
-        private PlayerMovementState m_PlayerMovementState;
+        private PlayerMovementDataContainer _mPlayerMovementDataContainer;
         private PlayerSpecialActionState m_PlayerSpecialActionState;
 
         #endregion Fields
@@ -37,11 +35,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
             this.m_PlayerDamage = this.GetComponent<IDamageable>();
             this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
             this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
-            this.m_PlayerSpecialAction = this.GetComponent<IPlayerSpecialAction>();
 
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
             this.m_PlayerAttackState = _PlayerState.PlayerAttackState;
-            this.m_PlayerMovementState = _PlayerState.PlayerMovementState;
+            this._mPlayerMovementDataContainer = _PlayerState.PlayerMovementDataContainer;
             this.m_PlayerSpecialActionState = _PlayerState.PlayerSpecialActionState;
         }
 
@@ -54,42 +51,41 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
 
         public void EnableRotation()
             => this.m_PlayerMovement.EnableRotation();
-
-        // Tech Debt: #48 - Rename these methods to represent their action.
-        public void EndGotParried()
-            => this.m_PlayerAttackState.HasBeenParried = false;
-
-        // Tech Debt: #48 - Rename these methods to represent their action.
-        public void StartGotParried()
-            => this.m_PlayerAttackState.HasBeenParried = true;
+        
+        public void EndParryStunState()
+            => this.m_PlayerAttackState.ParryStunned = false;
+        
+        public void StartParryStunState()
+            => this.m_PlayerAttackState.ParryStunned = true;
 
         #endregion PlayerAttack Animation Events
         
         #region - - - - - - PlayerMovement Animation Events  - - - - - -
         
-        // Tech Debt: #48 - Rename these methods to represent their action.
-        public void OverrideMovement() 
+        // ======== EVENT CALLED ========
+        
+        // 1stAttackEdit - 00:00
+        public void DisableMovement() 
             => this.m_PlayerMovement.DisableMovement();
-
-        // Tech Debt: #48 - Rename these methods to represent their action.
-        public void RemoveOverride() 
+        
+        public void EnableMovement() 
             => this.m_PlayerMovement.EnableMovement();
 
         public void LockMoveInput() // This is not being used anywhere
         { 
-            if (this.m_PlayerMovementState.IsMovementLocked)
+            if (this._mPlayerMovementDataContainer.IsMovementLocked)
                 return;
 
-            this.m_PlayerMovementState.IsMovementLocked = true;
+            this._mPlayerMovementDataContainer.IsMovementLocked = true;
             this.StartDodging(); // Note: I find it unusual that Dodging is invoked when not moving the character.
         }
-
+        
         public void UnlockMoveInput()
         {
-            if (!this.m_PlayerMovementState.IsMovementLocked)
+            if (!this._mPlayerMovementDataContainer.IsMovementLocked)
                 return;
 
-            this.m_PlayerMovementState.IsMovementLocked = false;
+            this._mPlayerMovementDataContainer.IsMovementLocked = false;
             this.EndDodging();
         }
 
@@ -97,11 +93,17 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
 
         #region - - - - - - PlayerSpecialAction Animation Events - - - - - -
         
+        // 1stAttackEdit - 00:02
         public void BlockDodge() 
             => this.m_PlayerSpecialActionState.CanDodge = false;
 
+        // TODO: Remove resets from happening exclusively from the AnimationEventHandler.
+        // 1stRecoveryEdit - 00:00
         public void ResetDodge()
-            => this.m_PlayerSpecialAction.ResetDodge();
+        {
+            this.m_PlayerSpecialActionState.CanDodge = true;
+            this.m_PlayerSpecialActionState.IsDodging = false;
+        }
 
         public void StartDodging()
         {
@@ -118,7 +120,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         public void EndDodging()
         {
             this.m_PlayerAttackState.CanAttack = true;
-            this.m_PlayerSpecialActionState.IsDodging = false;
+            // this.m_PlayerSpecialActionState.IsDodging = false;
             
             this.m_PlayerDamage.EnableDamage();
             this.m_PlayerFunctions.EnableBlock();

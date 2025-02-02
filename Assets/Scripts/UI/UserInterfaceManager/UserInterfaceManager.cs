@@ -12,51 +12,65 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
 
         #region - - - - - - Fields - - - - - -
 
+        public static UserInterfaceManager Instance;
+
         [SerializeField] private GameSettings m_GameSettings;
-        [SerializeField] private ButtonController m_ButtonController;
-        private GameObject m_GuardMeterCanvas;
+        [SerializeField] private ButtonController m_SwordCanvasController; // This is known as the 'ButtonController' from its source.
         
+        private GameObject m_GuardMeterCanvas;
         private IPauseMenuController m_PauseMenuController;
-        private UserInterfaceConfiguration m_UserInterfaceConfiguration;
 
         #endregion Fields
 
         #region - - - - - - Properties - - - - - -
 
-        IPauseMenuController IUserInterfaceManager.PauseMenu
-            => this.m_PauseMenuController;
+        public IPauseMenuController PauseMenu
+        {
+            get => this.m_PauseMenuController;
+            set => this.m_PauseMenuController = value;
+        }
 
-        ButtonController IUserInterfaceManager.ButtonController
-            => this.m_ButtonController;
+        public ButtonController ButtonController
+        {
+            get => this.m_SwordCanvasController;
+            set => this.m_SwordCanvasController = value;
+        }
+
+        public GameObject GuardMeterCanvas
+        {
+            get => this.m_GuardMeterCanvas;
+            set => this.m_GuardMeterCanvas = value;
+        }
 
         #endregion Properties
 
-        #region - - - - - - Lifecycle Methods - - - - - -
+        #region - - - - - - Unity Methods - - - - - -
 
-        // Note: Persistent services referred by the GameManager must initialise before MonoBehaviour.Start. 
-        private void Awake()
+        void Awake()
         {
-            this.m_UserInterfaceConfiguration = this.GetComponent<UserInterfaceConfiguration>();
-            
-            // Menus
-            this.m_PauseMenuController =
-                this.m_UserInterfaceConfiguration.PauseMenu.GetComponent<IPauseMenuController>();
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
         }
 
-        #endregion Lifecycle Methods
 
+        #endregion Unity Methods
+  
         #region - - - - - - Methods - - - - - -
 
-        void IUserInterfaceManager.SetupUserInterface()
+        public bool IsMembersValid()
         {
-            this.m_GuardMeterCanvas = Object.Instantiate(
-                                        this.m_GameSettings.guardCanvasPrefab, 
-                                        transform.position,
-                                        Quaternion.identity);
+            return GameValidator.NotNull(this.m_GameSettings, nameof(this.m_GameSettings))
+                   && GameValidator.NotNull(this.m_PauseMenuController, nameof(this.m_PauseMenuController))
+                   && GameValidator.NotNull(this.m_SwordCanvasController, nameof(this.m_SwordCanvasController));
+        }
+
+        public void SetupUserInterface()
+        {
         }
 
         #endregion Methods
-  
         
     }
 

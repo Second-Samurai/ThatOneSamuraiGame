@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using DG.Tweening;
-using TMPro;
-using UnityEngine.UI;
+﻿using DG.Tweening;
 
 public class FinisherPopup : Popup
 {

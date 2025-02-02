@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using ThatOneSamuraiGame.Scripts.Player.Attack;
+﻿using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
 
@@ -39,13 +37,13 @@ public class SwordPickup : MonoBehaviour
         if(weaponType == WeaponType.Katana)
         {
             swordManager.SetWeapon(true, GameManager.instance.gameSettings.katanaPrefab);
-            GameManager.instance.audioManager.LightSaber = false;
+            AudioManager.instance.LightSaber = false;
         }
         else if (weaponType == WeaponType.Lightsaber)
         {
             swordManager.SetWeapon(true, GameManager.instance.gameSettings.laserSword);
             this.gameObject.SetActive(false);
-            GameManager.instance.audioManager.LightSaber = true;
+            AudioManager.instance.LightSaber = true;
             return;
         }
         

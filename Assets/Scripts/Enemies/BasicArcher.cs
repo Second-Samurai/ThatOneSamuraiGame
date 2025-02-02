@@ -1,6 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using SceneManager = ThatOneSamuraiGame.Scripts.Scene.SceneManager.SceneManager;
 
 public class BasicArcher : MonoBehaviour, IDamageable
 {
@@ -34,9 +35,14 @@ public class BasicArcher : MonoBehaviour, IDamageable
     private Vector3 _aimOffsetValue;
     private Vector3 playerPos;
 
+    private HitstopController m_HitstopController;
+
     private void Start()
     {
-        audioManager = GameManager.instance.audioManager;
+        audioManager = AudioManager.instance;
+        this.m_HitstopController = SceneManager.Instance.HitstopController
+            ?? throw new ArgumentNullException(nameof(SceneManager.Instance.HitstopController));
+        
         if(GameManager.instance.PlayerController != null)
             player = GameManager.instance.PlayerController.gameObject.transform;
         if(!draw) draw = AudioManager.instance.FindSound("Bow Draw");
@@ -124,14 +130,24 @@ public class BasicArcher : MonoBehaviour, IDamageable
         col.enabled = false;
         currentState = CurrentState.Dead;
         camImpulse.FireImpulse();
-        GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.15f);
+        this.m_HitstopController.Hitstop(.15f);
         StartCoroutine(DodgeImpulseCoroutine(Vector3.back, damage * 4, .3f));
         
-        LockOnTracker lockOnTracker = GameManager.instance.LockOnTracker;
+        // -------------------------------------------
+        // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy). KEPT FOR RECORD
+        // -------------------------------------------
         
-        // Finds a new target on the enemy tracker (only if the dying enemy was the locked on enemy)
-        lockOnTracker.SwitchDeathTarget(transform);
-        lockOnTracker.RemoveEnemy(transform);
+        // LockOnTracker lockOnTracker = GameManager.instance.LockOnTracker;
+        // lockOnTracker.SwitchDeathTarget(transform);
+        // lockOnTracker.RemoveEnemy(transform);
+        
+        // Note: Temporary replacement, since the previous commented out behaviour above both assigns and removes itself from the tracked entities.
+        //  This feels cheap as this would mean that each Basic Archer can free manage the tracked transforms from the list. 
+        //  If this needs to be consistent with before, this should be managed by the events to ensure that changes to the recorded list can affect behaviour.
+        ILockOnSystem _LockOnSystem = SceneManager.Instance.LockOnSystem 
+            ?? throw new ArgumentNullException(nameof(SceneManager.Instance.LockOnSystem));
+        _LockOnSystem.SelectNewTarget();
+        
         GameManager.instance.EnemyTracker.RemoveEnemy(transform);
 
         if (particleSpawn) particleSpawn.SpawnParticles();

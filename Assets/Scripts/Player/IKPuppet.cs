@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class IKPuppet : MonoBehaviour
 {
@@ -17,8 +15,8 @@ public class IKPuppet : MonoBehaviour
 
     private void OnAnimatorIK(int layerIndex)
     {
-        //if (IKOn)
-        //{
+        if (!animator) return;
+        
         animator.SetIKPosition(AvatarIKGoal.RightHand, rHand.position);
         animator.SetIKRotation(AvatarIKGoal.RightHand, rHand.rotation);
         animator.SetIKPositionWeight(AvatarIKGoal.RightHand, IKWeight);
@@ -27,7 +25,6 @@ public class IKPuppet : MonoBehaviour
         animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, IKWeight);
         animator.SetIKRotation(AvatarIKGoal.LeftHand, lHand.rotation);
         animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, IKWeight);
-        //}
     }
 
     public void EnableIK()

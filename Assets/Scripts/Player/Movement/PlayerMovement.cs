@@ -1,5 +1,7 @@
-﻿using ThatOneSamuraiGame.Scripts.Base;
-using ThatOneSamuraiGame.Scripts.Camera;
+﻿using System;
+using Player.Animation;
+using ThatOneSamuraiGame.Scripts.Base;
+using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
@@ -7,169 +9,227 @@ using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Movement
 {
+
+    public class PlayerMovementInitializerData
+    {
+
+        #region - - - - - - Properties - - - - - -
+
+        public ICameraController CameraController { get; private set; }
+        
+        public ILockOnObserver LockOnObserver { get; private set; }
+
+        #endregion Properties
+
+        #region - - - - - - Constructors - - - - - -
+
+        public PlayerMovementInitializerData(ICameraController cameraController, ILockOnObserver lockOnObserver)
+        {
+            this.CameraController = cameraController;
+            this.LockOnObserver = lockOnObserver;
+        }
+
+        #endregion Constructors
+  
+    }
     
-    public class PlayerMovement : TOSGMonoBehaviourBase, IPlayerMovement
+    [RequireComponent(typeof(Animator))]
+    public class PlayerMovement : 
+        PausableMonoBehaviour, 
+        IInitialize<PlayerMovementInitializerData>,
+        IPlayerMovement, 
+        IPlayerDodgeMovement
     {
         
         #region - - - - - - Fields - - - - - -
-
-        private Animator m_Animator;
-        private ICameraController m_CameraController;
-        private IControlledCameraState m_CameraState;
-        private FinishingMoveController m_FinishingMoveController;
         
-        // Player states
+        [RequiredField]
+        [SerializeField]
+        private PlayerAnimationComponent m_PlayerAnimationComponent;
+        //private Animator m_Animator;
+        
+        private ICameraController m_CameraController;
+        
+        // Player data containers
         private PlayerAttackState m_PlayerAttackState;
-        private PlayerMovementState m_PlayerMovementState;
+        private PlayerMovementDataContainer _mPlayerMovementDataContainer;
         private PlayerTargetTrackingState m_PlayerTargetTrackingState;
         
-        private float m_CurrentAngleSmoothVelocity;
+        // Player states
+        private IPlayerMovementState m_CurrentMovementState;
+        private IPlayerMovementState m_NormalMovement;
+        private IPlayerMovementState m_LockOnMovement;
+        private IPlayerMovementState m_FinisherMovement;
+        
         private bool m_IsMovementEnabled = true;
         private bool m_IsRotationEnabled = true;
         private bool m_IsSprinting = false;
-        private Vector2 m_InputDirection = Vector2.zero;
+        private float m_SprintDuration = 0.0f;
         private float m_RotationSpeed = 4f;
-        private float m_MovementSmoothingDampingTime = .1f;
-
+        
         #endregion Fields
+        
+        #region - - - - - - Initializers - - - - - -
+
+        public void Initialize(PlayerMovementInitializerData initializerData)
+        {
+            this.m_CameraController = 
+                initializerData.CameraController 
+                ?? throw new ArgumentNullException(nameof(initializerData.CameraController));
+            
+            // Bind to observers
+            initializerData.LockOnObserver.OnLockOnDisable.AddListener(() => 
+                ((IPlayerMovement)this).SetState(PlayerMovementStates.Normal));
+        }
+
+        #endregion Initializers
         
         #region - - - - - - Lifecycle Methods - - - - - -
 
         private void Start()
         {
-            this.m_Animator = this.GetComponent<Animator>();
-            this.m_CameraController = this.GetComponent<ICameraController>();
-            this.m_CameraState = this.GetComponent<IControlledCameraState>();
-            this.m_FinishingMoveController = this.GetComponentInChildren<FinishingMoveController>();
+            this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
             this.m_PlayerTargetTrackingState = this.GetComponent<IPlayerState>().PlayerTargetTrackingState;
 
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
             this.m_PlayerAttackState = _PlayerState.PlayerAttackState;
-            this.m_PlayerMovementState = _PlayerState.PlayerMovementState;
+            this._mPlayerMovementDataContainer = _PlayerState.PlayerMovementDataContainer;
+
+            // Initialize Movement States
+            this.m_NormalMovement = new PlayerNormalMovement(
+                this.GetComponent<IPlayerAttackHandler>(),
+                this.m_PlayerAttackState,
+                this.m_CameraController,
+                this._mPlayerMovementDataContainer,
+                this.m_PlayerAnimationComponent, 
+                this.transform,
+                this);
+            this.m_LockOnMovement = new PlayerLockOnMovement(
+                this.GetComponent<IPlayerAttackHandler>(),
+                this.m_PlayerAttackState,
+                this.m_PlayerAnimationComponent, 
+                this.transform,
+                this._mPlayerMovementDataContainer,
+                this.m_PlayerTargetTrackingState,
+                this);
+            this.m_FinisherMovement = new PlayerFinishMovement(
+                this._mPlayerMovementDataContainer,
+                this.m_PlayerAnimationComponent,
+                this.transform);
+            
+            this.m_CurrentMovementState = this.m_NormalMovement;
+            
+            ((IPlayerDodgeMovement)this).EnableDodge();
         }
 
         private void Update()
         {
-            if (this.IsPaused || !this.m_IsMovementEnabled || this.m_FinishingMoveController.bIsFinishing) 
+            if (this.IsPaused || !this.m_IsMovementEnabled)
                 return;
 
-            // Move the player
-            this.CalculateMovementDirection();
-            this.RotatePlayerToMovementDirection();
-            this.PerformMovement();
+            this.m_CurrentMovementState.CalculateMovement();
+            this.m_CurrentMovementState.ApplyMovement();
             
-            // Perform specific movement behavior
-            this.LockPlayerRotationToAttackTarget();
+            if (IsSprinting())
+                TickSprintDuration();
         }
 
         #endregion Lifecycle Methods
         
         #region - - - - - - Methods - - - - - -
+        
+        // --------------------------------
+        // Dodge
+        // --------------------------------
+        
+        public void Dodge()
+            => this.m_CurrentMovementState.PerformDodge();
+
+        void IPlayerDodgeMovement.EnableDodge()
+            => this._mPlayerMovementDataContainer.CanDodge = true;
+
+        void IPlayerDodgeMovement.DisableDodge()
+            => this._mPlayerMovementDataContainer.CanDodge = false;
+        
+        // --------------------------------
+        // Movement
+        // --------------------------------
+
+        public bool IsSprinting() => m_IsSprinting;
+
+        public float GetSprintDuration() => m_SprintDuration;
 
         void IPlayerMovement.DisableMovement()
             => this.m_IsMovementEnabled = false;
 
-        void IPlayerMovement.DisableRotation()
-            => this.m_IsRotationEnabled = false;
-
         void IPlayerMovement.EnableMovement()
             => this.m_IsMovementEnabled = true;
 
-        void IPlayerMovement.EnableRotation()
-            => this.m_IsRotationEnabled = true;
-
         void IPlayerMovement.PreparePlayerMovement(Vector2 moveDirection)
         {
-            if (this.m_FinishingMoveController.bIsFinishing)
-                return;
-            
-            // Ticket: #34 - Behaviour pertaining to animation will be moved to separate player animator component.
             if (moveDirection == Vector2.zero)
-                this.m_Animator.SetBool("IsSprinting", false);
-
-            this.m_InputDirection = moveDirection;
+            {
+                this.m_CurrentMovementState.PerformSprint(false);
+            }
+            
+            this.m_CurrentMovementState.SetInputDirection(moveDirection);
         }
 
         void IPlayerMovement.PrepareSprint(bool isSprinting)
         {
+            this.m_CurrentMovementState.PerformSprint(isSprinting);
+            this.m_CameraController.SelectCamera(isSprinting 
+                ? SceneCameras.FollowSprintPlayer 
+                : SceneCameras.FollowPlayer);
+
             this.m_IsSprinting = isSprinting;
 
-            if (this.m_CameraState.IsCameraViewTargetLocked) 
-                return;
-            
-            this.m_CameraController.ToggleSprintCameraState(this.m_IsSprinting);
-            
-            // Toggle sprinting animation
-            // Ticket: #34 - Behaviour pertaining to animation will be moved to separate player animator component.
-            if (this.m_InputDirection == Vector2.zero || !this.m_IsSprinting)
-                this.m_Animator.SetBool("IsSprinting", false);
-            else
-                this.m_Animator.SetBool("IsSprinting", true);
+            // // Toggle sprinting animation
+            // if (this.m_InputDirection == Vector2.zero || !this.m_IsSprinting)
+            // {
+            //     m_SprintDuration = 0.0f;
+            //     m_PlayerAnimationComponent.SetSprinting(false);
+            // }
+            // else
+            // {
+            //     m_SprintDuration = 0.0f;
+            //     m_PlayerAnimationComponent.SetSprinting(true);
+            // }
         }
-
-        private Vector3 CalculateMovementDirection()
+        
+        private void TickSprintDuration()
         {
-            this.m_PlayerMovementState.MoveDirection = new Vector3(this.m_InputDirection.x, 0, this.m_InputDirection.y).normalized;
-            return this.m_PlayerMovementState.MoveDirection;
-        }        
-
-        private void LockPlayerRotationToAttackTarget()
-        {
-            if (!this.m_CameraState.IsCameraViewTargetLocked)
-                return;
-            
-            Vector3 _NewLookDirection = this.m_PlayerTargetTrackingState.AttackTarget.transform.position - this.transform.position;
-            this.transform.rotation = Quaternion.Slerp(
-                this.transform.rotation,
-                Quaternion.LookRotation(_NewLookDirection),
-                this.m_RotationSpeed);
-            
-            this.transform.rotation = Quaternion.Euler(0, this.transform.rotation.eulerAngles.y, 0);
+            m_SprintDuration += Time.deltaTime;
         }
+        
+        // --------------------------------
+        // Rotation
+        // --------------------------------
 
-        private void RotatePlayerToMovementDirection()
+        void IPlayerMovement.DisableRotation()
+            => this.m_IsRotationEnabled = false;
+
+        void IPlayerMovement.EnableRotation()
+            => this.m_IsRotationEnabled = true;
+        
+        // --------------------------------
+        // State Management
+        // --------------------------------
+        
+        void IPlayerMovement.SetState(PlayerMovementStates state)
         {
-            if (this.m_InputDirection == Vector2.zero
-                 || this.m_CameraState.IsCameraViewTargetLocked
-                 || !this.m_IsRotationEnabled
-                 || this.m_PlayerAttackState.IsWeaponSheathed)
-                return;
-
-            float _TargetAngle = Mathf.Atan2(this.m_PlayerMovementState.MoveDirection.x, this.m_PlayerMovementState.MoveDirection.z)
-                                 * Mathf.Rad2Deg + this.m_CameraState.CurrentEulerAngles.y;
-            float _NextAngleRotation = Mathf.SmoothDampAngle(
-                this.transform.eulerAngles.y,
-                _TargetAngle,
-                ref this.m_CurrentAngleSmoothVelocity,
-                this.m_MovementSmoothingDampingTime);
-
-            this.transform.rotation = Quaternion.Euler(0f, _NextAngleRotation, 0f);
-        }
-
-        // Ticket: #34 - Behaviour pertaining to animation will be moved to separate player animator component.
-        private void PerformMovement()
-        {
-            if (this.m_PlayerMovementState.IsMovementLocked)
-                return;
-
-            // Invokes player movement through the physically based animation movements
-            this.m_Animator.SetFloat(
-                "XInput", 
-                this.m_InputDirection.x, 
-                this.m_MovementSmoothingDampingTime, 
-                Time.deltaTime);
+            // A check is performed as the swordsman implementation might cause a stackoverflow,
+            //  by running this operation multiple times upon its death.
+            if (this.m_CurrentMovementState != null && this.m_CurrentMovementState.GetState() == state) return;
             
-            this.m_Animator.SetFloat(
-                "YInput",
-                this.m_InputDirection.y,
-                this.m_MovementSmoothingDampingTime,
-                Time.deltaTime);
+            if (state == PlayerMovementStates.Normal)
+                this.m_CurrentMovementState = this.m_NormalMovement;
+            else if (state == PlayerMovementStates.LockOn)
+                this.m_CurrentMovementState = this.m_LockOnMovement;
+            else if (state == PlayerMovementStates.Finisher)
+                this.m_CurrentMovementState = this.m_FinisherMovement;
             
-            this.m_Animator.SetFloat(
-                "InputSpeed",
-                this.m_InputDirection.magnitude,
-                this.m_MovementSmoothingDampingTime,
-                Time.deltaTime);
+            Debug.Log("Movement State is: " + state);
         }
 
         #endregion Methods

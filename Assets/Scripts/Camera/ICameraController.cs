@@ -1,39 +1,21 @@
-﻿using UnityEngine;
+﻿using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
+using UnityEngine;
 
-namespace ThatOneSamuraiGame.Scripts.Camera
+public interface ICameraController
 {
-    
-    // Note: This is not the correct behavior, this abstracts direct access of the player from the camera. 
-    //       This is so that the developer is prevented from modifying or invoking logic nested within the camera's scripts.
-    //       - The temporary solution will be acceptable for now.
-    //
-    // Consideration:
-    //       - Create a proxy within the player that will manage camera behaviours on the Camera's behalf
-    public interface ICameraController
-    {
 
-        #region - - - - - - Properties - - - - - -
+    #region - - - - - - Methods - - - - - -
 
-        bool IsLockedOn { get; }
+    GameObject GetCamera(SceneCameras targetCamera);
 
-        #endregion Properties
-        
-        #region - - - - - - Methods - - - - - -
+    Vector3 GetCameraEulerAngles();
 
-        bool LockOn();
+    void SelectCamera(SceneCameras selectedCamera);
 
-        void ToggleLockOn();
-        
-        void ToggleSprintCameraState(bool isSprinting);
+    void SetCameraAction(ICameraAction cameraAction);
 
-        void ResetCameraRoll();
+    void EndCameraAction();
 
-        void RollCamera();
+    #endregion Methods
 
-        void RotateCamera(Vector2 rotationVector);
-
-        #endregion Methods
-
-    }
-    
 }

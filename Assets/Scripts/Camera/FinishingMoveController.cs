@@ -1,43 +1,57 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using Cinemachine;
-using UnityEngine.Events;
-using UnityEngine.Timeline;
 using Enemies;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
+/*
+ * Pitfalls to the FinisherMoveController:
+ *  - 
+ */
+[Obsolete]
 public class FinishingMoveController : MonoBehaviour
 {
-    PlayableDirector _cutsceneDirector;
+    
+    #region - - - - - - Fields - - - - - -
 
     public GameObject detector;
-
     public PlayableAsset[] finishingMoves;
-
-    // public PlayerInputScript playerInputScript;
-
     public GameEvent showFinisherTutorialEvent;
+    public bool bIsFinishing = false;
 
-    GameObject targetEnemy;
+    PlayableDirector _cutsceneDirector;
     PDamageController damageController;
     List<Transform> enemies; 
     List<AISystem> enemiesCache;
+    GameObject targetEnemy;
 
-    public bool bIsFinishing = false;
+    #endregion Fields
 
-    // Start is called before the first frame update
-    void Start()
+    // #region - - - - - - Unity Lifecycle Methods - - - - - -
+
+    // void Start()
+    // {
+    //     _cutsceneDirector = GetComponent<PlayableDirector>();
+    //     BindToTrack("Cinemachine Track", GameManager.instance.MainCamera.GetComponent<CinemachineBrain>());
+    //     damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PDamageController>();
+    // }
+    //
+    // #endregion Unity Lifecycle Methods
+
+    #region - - - - - - Methods - - - - - -
+
+    public void Initialise()
     {
         _cutsceneDirector = GetComponent<PlayableDirector>();
         BindToTrack("Cinemachine Track", GameManager.instance.MainCamera.GetComponent<CinemachineBrain>());
         damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PDamageController>();
     }
-
-   
 
     void BindToTrack(string trackName, Object val)
     {
@@ -89,11 +103,6 @@ public class FinishingMoveController : MonoBehaviour
         _PlayerAttackState.CanAttack = false;
         
         enemies = GameManager.instance.EnemyTracker.currentEnemies;
-        //for (int i = 0; i < enemies.Count-1; i++)
-        //{
-        //    enemiesCache[i] = enemies[i].GetComponent<AISystem>();
-        //    enemies[i].GetComponent<AISystem>().OnEnemyRewind();
-        //}
     }
 
     public void KillEnemy()
@@ -117,12 +126,8 @@ public class FinishingMoveController : MonoBehaviour
         _PlayerAttackHandler.ResetAttack();
         
         bIsFinishing = false;
-        
-        //for (int i = 0; i < enemies.Count - 1; i++)
-        //{
-        //    enemies[i].GetComponent<AISystem>().EnemyState = enemiesCache[i].EnemyState;
-        //}
     }
 
-   
+    #endregion Methods
+  
 }

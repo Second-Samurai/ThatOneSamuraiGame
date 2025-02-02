@@ -1,13 +1,13 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using Enemies;
+using Player.Animation;
 using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using SceneManager = ThatOneSamuraiGame.Scripts.Scene.SceneManager.SceneManager;
 
 // Tech-Debt: #35 - PlayerFunctions will be refactored to mitigate large class bloat.
 public class PlayerFunctions : MonoBehaviour
@@ -25,10 +25,12 @@ public class PlayerFunctions : MonoBehaviour
     public float parryTimerTarget;
     bool _bDontCheckParry = false;
 
+    public ILockOnSystem LockOnSystem;
+
     [Header("IK Functions")]
     IKPuppet _IKPuppet;
 
-    Animator _animator;
+    private PlayerAnimationComponent m_PlayerAnimationComponent;
     PDamageController _pDamageController;
     public Rigidbody rb;
 
@@ -56,7 +58,7 @@ public class PlayerFunctions : MonoBehaviour
     [SerializeField] LayerMask enemyMask;
     
     // Player States
-    private PlayerMovementState m_PlayerMovementState;
+    private PlayerMovementDataContainer _mPlayerMovementDataContainer;
     private PlayerSpecialActionState m_PlayerSpecialActionState;
 
     private IPlayerMovement m_PlayerMovement;
@@ -71,7 +73,7 @@ public class PlayerFunctions : MonoBehaviour
 
         _pDamageController = GetComponent<PDamageController>();
 
-        _animator = GetComponent<Animator>();
+        m_PlayerAnimationComponent = GetComponent<PlayerAnimationComponent>();
 
         hitstopController = GameManager.instance.GetComponent<HitstopController>();
 
@@ -80,8 +82,10 @@ public class PlayerFunctions : MonoBehaviour
 
         this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
 
+        this.LockOnSystem = SceneManager.Instance.LockOnSystem;
+
         IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
-        this.m_PlayerMovementState = _PlayerState.PlayerMovementState;
+        this._mPlayerMovementDataContainer = _PlayerState.PlayerMovementDataContainer;
         this.m_PlayerSpecialActionState = _PlayerState.PlayerSpecialActionState;
     }
     public void SetBlockCooldown()
@@ -130,17 +134,19 @@ public class PlayerFunctions : MonoBehaviour
 
         if (bAllowDeathMoveReset)
         {
-            if (bIsDead && this.m_PlayerMovementState.IsMovementEnabled)
+            if (bIsDead && this._mPlayerMovementDataContainer.IsMovementEnabled)
                 m_PlayerMovement.DisableMovement();
-            else if (!bIsDead && !this.m_PlayerMovementState.IsMovementEnabled)
+            else if (!bIsDead && !this._mPlayerMovementDataContainer.IsMovementEnabled)
                 m_PlayerMovement.EnableMovement();
         }
     }
      
 
+    // ======== EVENT CALLED ========
+    
+    // 1stAttackEdit - 00:00 - 15f
     public void ForwardImpulse(float force)
     {
-
         StartCoroutine(ImpulseWithTimer(transform.forward, force, .15f));
     }
 
@@ -195,7 +201,7 @@ public class PlayerFunctions : MonoBehaviour
         {
             // if(bLockedOn)
             //transform.Translate(lastDir.normalized * force * Time.deltaTime);
-            _animator.applyRootMotion = false;
+            m_PlayerAnimationComponent.SetRootMotion(false);
             if (bIsSprintAttacking) CorrectAttackAngle(ref lastDir);
             rb.linearVelocity = lastDir.normalized * force ;
            // rb.MovePosition(transform.position + lastDir.normalized * force * Time.deltaTime);
@@ -204,7 +210,7 @@ public class PlayerFunctions : MonoBehaviour
             dodgeTimer -= Time.deltaTime;
             yield return null;
         }
-        _animator.applyRootMotion = true;
+        m_PlayerAnimationComponent.SetRootMotion(true);
         EnableBlock();
     }
 
@@ -290,7 +296,7 @@ public class PlayerFunctions : MonoBehaviour
         this.m_PlayerMovement.EnableMovement();
         this.m_PlayerMovement.EnableRotation();
         rb.linearVelocity = Vector3.zero;
-        _animator.applyRootMotion = true;
+        m_PlayerAnimationComponent.SetRootMotion(true);
     }
 
 
@@ -305,7 +311,7 @@ public class PlayerFunctions : MonoBehaviour
             playerSFX.Smack();
             //Debug.Log("HIT" + amount * direction);
             this.m_PlayerMovement.DisableRotation();
-            _animator.SetTrigger("KnockdownTrigger");
+            m_PlayerAnimationComponent.TriggerKnockdown();
             StartCoroutine(ImpulseWithTimer(direction, amount, duration));
         }
     }
@@ -313,7 +319,7 @@ public class PlayerFunctions : MonoBehaviour
     public void TriggerParry(GameObject attacker, float damage)
     {
         parryEffects.PlayParry();
-        _animator.SetTrigger("Parrying");
+        m_PlayerAnimationComponent.TriggerParry();
         if (attacker.GetComponent<AISystem>().enemyType != EnemyType.BOSS) hitstopController.SlowTime(.5f, 1);
         if(attacker != null)
         {
@@ -331,7 +337,7 @@ public class PlayerFunctions : MonoBehaviour
         parryEffects.PlayBlock();
         //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);
         bIsBlocking = false;
-        _animator.SetTrigger("GuardBreak");
+        m_PlayerAnimationComponent.TriggerGuardBreak();
         //Debug.LogWarning("Guard broken!");
         _IKPuppet.DisableIK();
     }
@@ -341,8 +347,7 @@ public class PlayerFunctions : MonoBehaviour
         if (!bIsDead)
         {
             // play anim
-            _animator.SetTrigger("Death");
-            _animator.SetBool("isDead", true);
+            m_PlayerAnimationComponent.SetDead(true);
             
             // trigger rewind
             bIsDead = true;
@@ -354,7 +359,7 @@ public class PlayerFunctions : MonoBehaviour
             //Debug.LogError("Player killed!");
             //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);
             //GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.3f);
-
+            this.LockOnSystem.EndLockOn();
         }
     }
 

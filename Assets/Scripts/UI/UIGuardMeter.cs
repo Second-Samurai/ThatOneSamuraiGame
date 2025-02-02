@@ -1,10 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 
-public class UIGuardMeter : MonoBehaviour
+// TODO: Seperate into a seperate file
+public interface IFloatingEnemyGuardMeter
+{
+
+    #region - - - - - - MyRegion - - - - - -
+
+    void ShowFinisherKey();
+
+    void HideFinisherKey();
+
+    #endregion MyRegion
+
+}
+
+public class UIGuardMeter : MonoBehaviour, IFloatingEnemyGuardMeter
 {
     public Slider guardSlider;
     public Canvas finisherKey;
@@ -15,6 +28,7 @@ public class UIGuardMeter : MonoBehaviour
     private Transform _entityTransform;
     private StatHandler _statHandler;
     private RectTransform _guardTransform;
+    private Transform m_TargetEnemyTransform;
 
     private Vector3 _entityDir;
     private Vector3 _cameraForward;
@@ -27,12 +41,13 @@ public class UIGuardMeter : MonoBehaviour
     private float _scaledYPos;
     private float _playerToEntityDist;
 
-    private LockOnTracker _lockOnTracker;
-
     // Start is called before the first frame update
     public void Init(Transform entityTransform, StatHandler statHandler, Camera camera, RectTransform parentTransform)
     {
-        _lockOnTracker = GameManager.instance.LockOnTracker;
+        // Wrapping field assignment in closure to avoid boilerplate
+        ILockOnObserver _LockOnObserver = SceneManager.Instance.LockOnObserver 
+            ?? throw new ArgumentNullException(nameof(SceneManager.Instance.LockOnObserver));
+        _LockOnObserver.OnNewLockOnTarget.AddListener(target => this.m_TargetEnemyTransform = target);
         
         this._entityTransform = entityTransform;
         this._statHandler = statHandler;
@@ -51,7 +66,7 @@ public class UIGuardMeter : MonoBehaviour
         //TODO - Ailin 14/10/24 refactor this out of update
         DestroyWhenEntityDead();
 
-        if (!CheckInCameraView() || _entityTransform != _lockOnTracker.targetEnemy)
+        if (!CheckInCameraView() || _entityTransform != this.m_TargetEnemyTransform)
         {
             if (guardSlider.gameObject.activeInHierarchy)
             {
@@ -62,7 +77,7 @@ public class UIGuardMeter : MonoBehaviour
         }
         else
         {
-            if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == _lockOnTracker.targetEnemy)
+            if (!guardSlider.gameObject.activeInHierarchy && _entityTransform == this.m_TargetEnemyTransform)
             {
                 guardSlider.gameObject.SetActive(true);
                 if (guardSlider.value == guardSlider.maxValue)
@@ -128,7 +143,7 @@ public class UIGuardMeter : MonoBehaviour
 
     public void ShowFinisherKey()
     {
-        if (guardSlider.gameObject.activeInHierarchy && _entityTransform == _lockOnTracker.targetEnemy)
+        if (guardSlider.gameObject.activeInHierarchy && _entityTransform == this.m_TargetEnemyTransform)
         {
             finisherKey.enabled = true;
         }
@@ -148,4 +163,5 @@ public class UIGuardMeter : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    
 }

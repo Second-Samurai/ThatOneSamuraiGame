@@ -1,6 +1,8 @@
+using ThatOneSamuraiGame.Legacy;
 using ThatOneSamuraiGame.Scripts;
 using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
+using ThatOneSamuraiGame.Scripts.SetupHandlers.GameSetupHandlers;
 using ThatOneSamuraiGame.Scripts.UI.Pause.PauseManager;
 using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
 using UnityEngine;
@@ -34,9 +36,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SceneManager m_SceneManager;
     [SerializeField] private UserInterfaceManager m_UserInterfaceManager;
     [SerializeField] private PauseManager m_PauseManager;
-    public AudioManager audioManager;
-    private IInputManager m_InputManager;
-    
+    [SerializeField] private InputManager m_InputManager;
+    [SerializeField] private AudioManager audioManager;
+
+    [Header("SetupHandler")]
+    [SerializeField] private GameSetupHandler m_GameSetupHandler;
+
     private GameState m_GameState;
     
     #endregion Fields
@@ -55,9 +60,6 @@ public class GameManager : MonoBehaviour
 
     public IPauseManager PauseManager
         => this.m_PauseManager;
-
-    public ISceneManager SceneManager
-        => this.m_SceneManager;
 
     public IUserInterfaceManager UserInterfaceManager
         => this.m_UserInterfaceManager;
@@ -82,12 +84,6 @@ public class GameManager : MonoBehaviour
     // ----------------------------------------------
     // Camera
     // ----------------------------------------------
-
-    public CameraControl CameraControl
-        => ((ISceneManager)this.m_SceneManager).CameraControl;
-    
-    public LockOnTracker LockOnTracker
-        => ((ISceneManager)this.m_SceneManager).LockOnTracker;
     
     public Camera MainCamera
         => ((ISceneManager)this.m_SceneManager).MainCamera;
@@ -100,7 +96,7 @@ public class GameManager : MonoBehaviour
     // ----------------------------------------------
 
     public PlayerController PlayerController
-        => ((ISceneManager)this.m_SceneManager).PlayerController;
+        => SceneManager.Instance.PlayerController;
     
     #endregion Properties
 
@@ -112,53 +108,31 @@ public class GameManager : MonoBehaviour
             instance = this;
         else
             Destroy(gameObject);
-
-        // Perform setup pipeline
-        // Ticket: #43 - Move this into its own pipeline handler to separate initialisation logic from the game manager.
-        
-        // Setup game scene
-        SetupGraphics();
-        SetupAudio();
-
-        // Locate services
-        this.m_GameState = this.GetComponent<GameState>();
-        this.m_InputManager = this.GetComponent<IInputManager>();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        ((ISceneManager)this.m_SceneManager).SetupScene();
-        ((IUserInterfaceManager)this.m_UserInterfaceManager).SetupUserInterface();
+        // Run GameSetupHandler
+        this.StartCoroutine(this.m_GameSetupHandler.RunSetup());
         
-        this.m_InputManager.ConfigureMenuInputControl();
-        this.m_InputManager.SwitchToMenuControls();
+        // Locate services
+        this.m_GameState = this.GetComponent<GameState>();
     }
 
     #endregion Lifecycle Methods
 
     #region - - - - - - Methods - - - - - -
 
-    void SetupGraphics() // Handled in pipeline
+    public bool IsMembersValid()
     {
-        //Add Post Processing
-        postProcessingController = Instantiate(gameSettings.dayPostProcessing, transform.position, Quaternion.identity).GetComponent<PostProcessingController>();
+        return GameValidator.NotNull(this.m_SceneManager, nameof(this.m_SceneManager))
+               && GameValidator.NotNull(this.m_UserInterfaceManager, nameof(this.m_UserInterfaceManager))
+               && GameValidator.NotNull(this.m_PauseManager, nameof(this.m_PauseManager))
+               && GameValidator.NotNull(this.m_InputManager, nameof(this.m_InputManager))
+               && GameValidator.NotNull(this.audioManager, nameof(this.audioManager))
+               && GameValidator.NotNull(this.m_GameState.SessionUser, nameof(this.m_GameState.SessionUser));
     }
-
-    void SetupAudio() // Handled in pipeline
-    {
-        if (FindObjectOfType<AudioManager>() == null) 
-            audioManager = Instantiate(gameSettings.audioManger, transform.position, Quaternion.identity).GetComponent<AudioManager>();
-    }
-    
-    // -----------------------------------------------------------
-    // Temporary: Actions pertaining to defined game events
-    // -----------------------------------------------------------
-
-    // Note: Should be refactored to its own definable hard-coded event.
-    public void OnOpeningSceneStart() // Scene manager - but possible delete if not used
-        => Debug.LogWarning("Not implemented");
 
     #endregion Methods
-
+  
 }

@@ -1,12 +1,11 @@
 using System;
 using System.Collections;
-using System.Diagnostics;
 using Enemies.Enemy_States;
 using Enemy_Scripts;
+using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
 using UnityEngine.AI;
 using Debug = UnityEngine.Debug;
-using UnityEngine.InputSystem;
 
 public enum EnemyType
 {
@@ -108,6 +107,8 @@ namespace Enemies
 
         //AUDIO
         private BackgroundAudio _backgroundAudio;
+
+        private ILockOnObserver m_LockOnObserver;
         
         #endregion
         
@@ -115,8 +116,9 @@ namespace Enemies
 
         private void Start()
         {
-
-
+            this.m_LockOnObserver = SceneManager.Instance.LockOnObserver
+                ?? throw new ArgumentNullException(nameof(SceneManager.Instance.LockOnObserver));
+            
             hitstopController = GameManager.instance.gameObject.GetComponent<HitstopController>();
             
             // Grab the enemy settings from the Game Manager > Game Settings > Enemy Settings
@@ -157,7 +159,7 @@ namespace Enemies
 
             particleSpawn = GetComponentInChildren<EnemyDeathParticleSpawn>();
 
-            _backgroundAudio = GameManager.instance.audioManager.backgroundAudio;
+            _backgroundAudio = AudioManager.instance.backgroundAudio;
         }
 
         private void Update()
@@ -878,13 +880,13 @@ namespace Enemies
         private void OnDisable()
         { 
             GameManager.instance.EnemyTracker.RemoveEnemy(rb.gameObject.transform);
-            GameManager.instance.LockOnTracker.RemoveEnemy(rb.gameObject.transform);
+            this.m_LockOnObserver.OnRemoveLockOnTarget.Invoke(rb.gameObject.transform);
         }
 
         private void OnDestroy()
         {
             GameManager.instance.EnemyTracker.RemoveEnemy(rb.gameObject.transform);
-            GameManager.instance.LockOnTracker.RemoveEnemy(rb.gameObject.transform);
+            this.m_LockOnObserver.OnRemoveLockOnTarget.Invoke(rb.gameObject.transform);
         }
         
     }

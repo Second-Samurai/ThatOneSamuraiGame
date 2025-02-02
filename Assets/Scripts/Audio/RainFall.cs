@@ -1,11 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Rendering;
+﻿using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using DG.Tweening;
-
-
 
 public class RainFall : MonoBehaviour
 {
@@ -15,12 +10,9 @@ public class RainFall : MonoBehaviour
 
     void Start()
     {
-        backgroundAudio = GameManager.instance.audioManager.backgroundAudio;
+        backgroundAudio = AudioManager.instance.backgroundAudio;
         GameManager.instance.postProcessingController.defaultVolume.profile.TryGet<ColorAdjustments>(out colorAdjustments);
-        
     }
-
-
 
     private void OnTriggerEnter(Collider other)
     {

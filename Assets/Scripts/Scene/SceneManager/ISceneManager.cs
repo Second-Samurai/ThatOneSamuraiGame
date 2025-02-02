@@ -1,4 +1,7 @@
-﻿using ThatOneSamuraiGame.Scripts.Scene.DataContainers;
+﻿using ThatOneSamuraiGame.Legacy;
+using ThatOneSamuraiGame.Scripts.Enumeration;
+using ThatOneSamuraiGame.Scripts.Scene.DataContainers;
+using ThatOneSamuraiGame.Scripts.Scene.Loaders;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
@@ -25,16 +28,18 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         
         EnemySpawnManager EnemySpawnManager { get; }
         
+        SceneLoader SceneLoader { get; }
+        
         // -------------------------------
         // Camera
         // -------------------------------
         
-        CameraControl CameraControl { get; }
+        // CameraControl CameraControl { get; set; }
+        //
+        // LockOnTracker LockOnTracker { get; }
         
-        LockOnTracker LockOnTracker { get; }
-        
-        UnityEngine.Camera MainCamera { get; }
-        
+        UnityEngine.Camera MainCamera { get; set; }
+
         GameObject ThirdPersonViewCamera { get;}
         
         // -------------------------------
@@ -47,7 +52,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
 
         #region - - - - - - Methods - - - - - -
 
-        void SetupScene();
+        void SetupCurrentScene(GameScenes currentScene);
 
         #endregion Methods
 

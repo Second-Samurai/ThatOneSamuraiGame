@@ -8,7 +8,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Menu
     /// <summary>
     /// Handles menu inputs for keyboard and mouse.
     /// </summary>
-    public class MenuMouseAndKeyboardInputControl : TOSGMonoBehaviourBase, IMenuInputControl
+    public class MenuMouseAndKeyboardInputControl : PausableMonoBehaviour, IMenuInputControl
     {
 
         #region - - - - - - Fields - - - - - -

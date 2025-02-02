@@ -1,11 +1,24 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using Enemies;
 
-public class Guarding : MonoBehaviour
+// Note: This is currently setup to handle guarding for the PlayerFinisherController.
+public interface IGuarding
+{
+
+    #region - - - - - - Properties - - - - - -
+ 
+    bool CanRunCooldownTimer { get; set; }
+    
+    bool CanRunRecoveryTimer { get; set; }
+    
+    IFloatingEnemyGuardMeter UIGuardMeter { get; } // Having the enemy provide its UI is incorrect as now the gamelogic and UI are coupled.
+    
+    #endregion Properties
+
+}
+
+public class Guarding : MonoBehaviour, IGuarding
 {
     public bool canParry = false;
     public bool canGuard = true;
@@ -34,21 +47,40 @@ public class Guarding : MonoBehaviour
     
     private Transform _player;
 
+    #region - - - - - - Properties - - - - - -
+
+    public bool CanRunCooldownTimer
+    {
+        get => this.bRunCooldownTimer;
+        set => this.bRunCooldownTimer = value;
+    }
+
+    public bool CanRunRecoveryTimer
+    {
+        get => this.bRunRecoveryTimer;
+        set => this.bRunRecoveryTimer = value;
+    }
+
+    public IFloatingEnemyGuardMeter UIGuardMeter
+        => this.uiGuardMeter;
+    
+    #endregion Properties
+
     public void Init(StatHandler statHandler)
     {
         this.statHandler = statHandler;
-
+        
         GameManager gameManager = GameManager.instance;
-
+        
         _guardMeterCanvas = Instantiate(gameManager.gameSettings.guardCanvasPrefab, transform);
         uiGuardMeter = Instantiate(gameManager.gameSettings.guardMeterPrefab, _guardMeterCanvas.transform).GetComponent<UIGuardMeter>();
-
+        
         uiGuardMeter.Init(transform, statHandler, gameManager.MainCamera, _guardMeterCanvas.GetComponent<RectTransform>());
         OnGuardEvent.AddListener(uiGuardMeter.UpdateGuideMeter);
-
+        
         _aiSystem = GetComponent<AISystem>();
         _guardCooldownTime = _aiSystem.enemySettings.GetEnemyStatType(_aiSystem.enemyType).guardCooldown;
-
+        
         _player = gameManager.PlayerController.gameObject.transform;
     }
 
@@ -57,7 +89,7 @@ public class Guarding : MonoBehaviour
     {
         RunGuardCooldown();
         RunRecoveryCooldown();
-
+        
         if (isStunned) 
         {
             if (Vector3.Magnitude(gameObject.transform.position - _player.transform.position) < 3.2)

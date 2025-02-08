@@ -1,4 +1,5 @@
 ﻿using System;
+using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.General.Services;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
@@ -60,6 +61,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
                 this.m_Player.GetComponentInChildren<IInitialize<PlayerFinisherControllerInitializerData>>();
             _PlayerFinisherControllerInitializer
                 .Initialize(new PlayerFinisherControllerInitializerData(this.m_CameraController, this.m_LockOnObserver));
+            
+            GameLogger.Log("Player has been initialized.");
         }
 
         #endregion Methods

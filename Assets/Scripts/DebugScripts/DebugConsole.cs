@@ -1,25 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class DebugConsole : MonoBehaviour
 {
-    private bool m_showConsole;
-    private bool m_showHelp;
 
-    private string m_input;
+    #region - - - - - - Fields - - - - - -
 
     private DebugManager m_debugManager;
-
+    
+    // Console Fields
+    private bool m_showConsole;
+    private bool m_showHelp;
+    private string m_input;
     private Vector2 m_scroll;
 
-    private void Start()
-    {
-        m_debugManager = DebugManager.Instance;
-    }
+    #endregion Fields
+
+    #region - - - - - - Unity Methods - - - - - -
+
+    private void Start() 
+        => m_debugManager = DebugManager.Instance;
+
+    #endregion Unity Methods
+
+    #region - - - - - - Methods - - - - - -
 
     public void OnConsolePressed()
     {
@@ -42,17 +46,13 @@ public class DebugConsole : MonoBehaviour
     public void OnEnterPressed()
     {
         if (m_showConsole)
-        {
             HandleInput();
-        }
     }
 
     private void OnGUI()
     {
         if (!m_showConsole)
-        { 
             return; 
-        }
 
         float y = 0f;
 
@@ -89,30 +89,25 @@ public class DebugConsole : MonoBehaviour
     private void HandleInput()
     {
         if (m_input == null || m_input == "" || string.IsNullOrWhiteSpace(m_input))
-        {
             return;
-        }
 
-        string[] inputs = m_input.Split(' ', System.StringSplitOptions.RemoveEmptyEntries);
+        string[] inputs = m_input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
         var targetCommand = m_debugManager.CommandList.Find(x => x is DebugCommandBase commandBase && inputs[0] == commandBase.CommandId);
 
         if (targetCommand != null)
         {
             if (targetCommand as DebugCommand != null)
-            {
                 (targetCommand as DebugCommand).Invoke();
-            }
             else if (targetCommand as DebugCommand<int> != null)
-            {
                 (targetCommand as DebugCommand<int>).Invoke(int.Parse(inputs[1]));
-            }
             else if (targetCommand as DebugCommand<string,int> != null)
-            {
                 (targetCommand as DebugCommand<string,int>).Invoke(inputs[1], int.Parse(inputs[2]));
-            }
         }
 
         m_input = "";
     }
+
+    #endregion Methods
+  
 }

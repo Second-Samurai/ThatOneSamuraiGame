@@ -1,4 +1,5 @@
 ﻿using Player.Animation;
+using ThatOneSamuraiGame;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
@@ -27,6 +28,9 @@ public class PCombatController : MonoBehaviour, ICombatController
 
     //Private Variables
     private PlayerFunctions _functions;
+    private KnockbackAttackHandler m_KnockbackAttackHandler;
+    private BlockingAttackHandler m_BlockingAttackHandler;
+    
     private PDamageController _damageController;
     private EntityAttackRegister _attackRegister;
     private CloseEnemyGuideControl _guideController;
@@ -65,6 +69,8 @@ public class PCombatController : MonoBehaviour, ICombatController
 
         _damageController = GetComponent<PDamageController>();
         _functions = GetComponent<PlayerFunctions>();
+        this.m_KnockbackAttackHandler = this.GetComponent<KnockbackAttackHandler>();
+        this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
         m_PlayerMovement = GetComponent<PlayerMovement>();
 
         m_PlayerBufferedInputs = GetComponent<PBufferedInputs>();
@@ -163,7 +169,8 @@ public class PCombatController : MonoBehaviour, ICombatController
     public void BeginAttacking()
     {
         _isAttacking = true;
-        _functions.DisableBlock();
+        // _functions.DisableBlock();
+        this.m_BlockingAttackHandler.DisableBlock();
         attackCol.enabled = true;
         //m_PlayerAnimationComponent.ResetLightAttack();
         _guideController.MoveToNearestEnemy();
@@ -174,7 +181,8 @@ public class PCombatController : MonoBehaviour, ICombatController
     public void EndAttacking()
     {
         _isAttacking = false;
-        _functions.EnableBlock();
+        // _functions.EnableBlock();
+        this.m_BlockingAttackHandler.EnableBlock();
         attackCol.enabled = false;
     }
 
@@ -221,7 +229,8 @@ public class PCombatController : MonoBehaviour, ICombatController
         _attackRegister.RegisterAttackTarget(attackEntity, swordManager.swordEffect, other, CalculateDamage(), true, isUnblockable);
         if (!isUnblockable) PlayHit();
         else PlayHeavyHit();
-        _functions.CancelMove();
+        // _functions.CancelMove();
+        this.m_KnockbackAttackHandler.CancelMove();
         swordAudio.bIgnoreNext = true;
     }
 

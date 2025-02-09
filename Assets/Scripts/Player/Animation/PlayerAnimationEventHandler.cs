@@ -3,6 +3,7 @@ using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
+using Unity.Collections;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Animation
 {
@@ -17,7 +18,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
 
         private IDamageable m_PlayerDamage;
         private IPlayerAttackHandler m_PlayerAttackHandler;
-        private PlayerFunctions m_PlayerFunctions;
+        // private PlayerFunctions m_PlayerFunctions;
+        private BlockingAttackHandler m_BlockingAttackHandler;
         private IPlayerMovement m_PlayerMovement;
         
         // Player states
@@ -33,7 +35,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         {
             this.m_PlayerAttackHandler = this.GetComponent<IPlayerAttackHandler>();
             this.m_PlayerDamage = this.GetComponent<IDamageable>();
-            this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
+            // this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
+            this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
             this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
 
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
@@ -113,7 +116,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
             this.m_PlayerAttackState.IsWeaponSheathed = false;
             
             this.m_PlayerDamage.DisableDamage();
-            this.m_PlayerFunctions.DisableBlock();
+            this.m_BlockingAttackHandler.DisableBlock();
             this.m_PlayerAttackHandler.ResetAttack();
         }
 
@@ -123,7 +126,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
             // this.m_PlayerSpecialActionState.IsDodging = false;
             
             this.m_PlayerDamage.EnableDamage();
-            this.m_PlayerFunctions.EnableBlock();
+            this.m_BlockingAttackHandler.EnableBlock();
             this.m_PlayerAttackHandler.ResetAttack();
         }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ThatOneSamuraiGame;
+using UnityEngine;
 
 public interface IDamageable {
     EntityType GetEntityType();
@@ -16,6 +17,7 @@ public class PDamageController : MonoBehaviour, IDamageable
 
     private StatHandler playerStats;
     private PlayerFunctions _functions;
+    private KnockbackAttackHandler m_KnockbackAttackHandler;
 
     public void Init(StatHandler playerStats) {
         this.playerStats = playerStats;
@@ -24,7 +26,7 @@ public class PDamageController : MonoBehaviour, IDamageable
     public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
         if (!_canDamage) return;
-        _functions.ApplyHit(attacker, unblockable, damage);
+        this.m_KnockbackAttackHandler.ApplyHit(attacker, unblockable, damage);
     }
 
     /* Summary: This disables the damage from this component.
@@ -45,6 +47,7 @@ public class PDamageController : MonoBehaviour, IDamageable
     private void Start()
     {
         _functions = GetComponent<PlayerFunctions>();
+        this.m_KnockbackAttackHandler = this.GetComponent<KnockbackAttackHandler>();
     }
 
     public bool CheckCanDamage()

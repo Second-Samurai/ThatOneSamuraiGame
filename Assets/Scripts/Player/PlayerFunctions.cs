@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Enemies;
 using Player.Animation;
 using ThatOneSamuraiGame.Scripts.Input;
@@ -6,10 +7,10 @@ using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using SceneManager = ThatOneSamuraiGame.Scripts.Scene.SceneManager.SceneManager;
 
 // Tech-Debt: #35 - PlayerFunctions will be refactored to mitigate large class bloat.
+[Obsolete]
 public class PlayerFunctions : MonoBehaviour
 {
     [Header("Block Variables")]
@@ -63,31 +64,31 @@ public class PlayerFunctions : MonoBehaviour
 
     private IPlayerMovement m_PlayerMovement;
 
-    private void Start()
-    {
-        playerSFX = gameObject.GetComponent<PlayerSFX>();
-
-        _IKPuppet = GetComponent<IKPuppet>();
-
-        rb = GetComponent<Rigidbody>();
-
-        _pDamageController = GetComponent<PDamageController>();
-
-        m_PlayerAnimationComponent = GetComponent<PlayerAnimationComponent>();
-
-        hitstopController = GameManager.instance.GetComponent<HitstopController>();
-
-        enemyMask = LayerMask.GetMask("Enemy");
-        //enemyMask = ~enemyMask;
-
-        this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
-
-        this.LockOnSystem = SceneManager.Instance.LockOnSystem;
-
-        IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
-        this._mPlayerMovementDataContainer = _PlayerState.PlayerMovementDataContainer;
-        this.m_PlayerSpecialActionState = _PlayerState.PlayerSpecialActionState;
-    }
+    // private void Start()
+    // {
+    //     playerSFX = gameObject.GetComponent<PlayerSFX>();
+    //
+    //     _IKPuppet = GetComponent<IKPuppet>();
+    //
+    //     rb = GetComponent<Rigidbody>();
+    //
+    //     _pDamageController = GetComponent<PDamageController>();
+    //
+    //     m_PlayerAnimationComponent = GetComponent<PlayerAnimationComponent>();
+    //
+    //     hitstopController = GameManager.instance.GetComponent<HitstopController>();
+    //
+    //     enemyMask = LayerMask.GetMask("Enemy");
+    //     //enemyMask = ~enemyMask;
+    //
+    //     this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
+    //
+    //     this.LockOnSystem = SceneManager.Instance.LockOnSystem;
+    //
+    //     IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
+    //     this._mPlayerMovementDataContainer = _PlayerState.PlayerMovementDataContainer;
+    //     this.m_PlayerSpecialActionState = _PlayerState.PlayerSpecialActionState;
+    // }
     public void SetBlockCooldown()
     {
         blockTimer = blockCooldown;
@@ -125,42 +126,42 @@ public class PlayerFunctions : MonoBehaviour
        // }
     }
 
-    private void Update()
-    {
-        CheckBlockCooldown();
-        CheckParry();
-        //remove this
-        if (_bDontCheckParry && !bInputtingBlock && bIsBlocking) EndBlock(); 
-
-        if (bAllowDeathMoveReset)
-        {
-            if (bIsDead && this._mPlayerMovementDataContainer.IsMovementEnabled)
-                m_PlayerMovement.DisableMovement();
-            else if (!bIsDead && !this._mPlayerMovementDataContainer.IsMovementEnabled)
-                m_PlayerMovement.EnableMovement();
-        }
-    }
-     
+    // private void Update()
+    // {
+    //     CheckBlockCooldown();
+    //     CheckParry();
+    //     //remove this
+    //     if (_bDontCheckParry && !bInputtingBlock && bIsBlocking) EndBlock(); 
+    //
+    //     if (bAllowDeathMoveReset)
+    //     {
+    //         if (bIsDead && this._mPlayerMovementDataContainer.IsMovementEnabled)
+    //             m_PlayerMovement.DisableMovement();
+    //         else if (!bIsDead && !this._mPlayerMovementDataContainer.IsMovementEnabled)
+    //             m_PlayerMovement.EnableMovement();
+    //     }
+    // }
+    //  
 
     // ======== EVENT CALLED ========
     
     // 1stAttackEdit - 00:00 - 15f
-    public void ForwardImpulse(float force)
-    {
-        StartCoroutine(ImpulseWithTimer(transform.forward, force, .15f));
-    }
-
-    public void JumpImpulseWithTimer(float timer)
-    {
-        bIsSprintAttacking = true;
-        transform.Translate(Vector3.up * 1);
-        StartCoroutine(ImpulseWithTimer(transform.forward, 20, timer));
-    }
-
-    public void ImpulseMove(Vector3 dir, float force)
-    {
-        StartCoroutine(DodgeImpulse(dir, force));
-    }
+    // public void ForwardImpulse(float force)
+    // {
+    //     StartCoroutine(ImpulseWithTimer(transform.forward, force, .15f));
+    // }
+    //
+    // public void JumpImpulseWithTimer(float timer)
+    // {
+    //     bIsSprintAttacking = true;
+    //     transform.Translate(Vector3.up * 1);
+    //     StartCoroutine(ImpulseWithTimer(transform.forward, 20, timer));
+    // }
+    //
+    // public void ImpulseMove(Vector3 dir, float force)
+    // {
+    //     StartCoroutine(DodgeImpulse(dir, force));
+    // }
 
     private void CheckParry()
     {
@@ -245,8 +246,6 @@ public class PlayerFunctions : MonoBehaviour
          
         Quaternion offsetAngle;
         Vector3 castAngle;
-
-
          
         for (int i = 0; i < rayCount; i++)
         {
@@ -258,7 +257,6 @@ public class PlayerFunctions : MonoBehaviour
             if (Physics.Raycast(origin.position, castAngle, out _hit, 10, layerMask))
             {
                 hit = _hit;
-
                 return true;
             }
             offsetValue += 10;

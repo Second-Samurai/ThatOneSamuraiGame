@@ -34242,14 +34242,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7a9f8bc10084e12b3d87f0137c7cebf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bIsBlocking: 0
-  blockTimer: 0
-  blockCooldown: 0.1
-  bCanBlock: 1
-  bInputtingBlock: 0
-  bIsParrying: 0
-  parryTimer: 0
-  parryEffects: {fileID: 2529928105090682668}
+  m_BlockCooldownLength: 0.1
+  m_BlockingEffects: {fileID: 2529928105090682668}
 --- !u!114 &6522895352503805165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34262,8 +34256,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a14f1a8ebb54ca79e68797b9af3ccea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bIsBlocking: 0
-  bInputtingBlock: 0
   bIsParrying: 0
   parryTimer: 0
   parryTimerTarget: 0.4

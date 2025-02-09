@@ -1,126 +1,123 @@
 ﻿using Player.Animation;
+using ThatOneSamuraiGame.Scripts.Base;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame
 {
 
-    public class BlockingAttackHandler : MonoBehaviour
+    public class BlockingAttackHandler : PausableMonoBehaviour
     {
+
+        #region - - - - - - Fields - - - - - -
+
         [Header("Block Variables")]
-        public bool bIsBlocking = false;
-        public float blockTimer = 0f;
-        public float blockCooldown;
-        public bool bCanBlock = true;
-        public bool bInputtingBlock = false;
+        [SerializeField] private float m_BlockCooldownLength;
+        [SerializeField] public ParryEffects m_BlockingEffects;
         
-        [Header("Parry Variables")]
-        public bool bIsParrying;
-        public float parryTimer = 0f; 
-        bool _bDontCheckParry = false;
-        public ParryEffects parryEffects;
-        
-        private PlayerSFX playerSFX;
-        private IKPuppet _IKPuppet;
-        
+        // Components
+        private PlayerSFX m_PlayerSFX;
+        private IKPuppet m_IKPuppet;
         private PlayerAnimationComponent m_PlayerAnimationComponent;
+        private KnockbackAttackHandler m_KnockbackAttackHandler;
         
+        // Block flags
+        private bool m_CanBlock = true;
+        private bool m_IsBlocking;
+        private float m_CurrentBlockCooldownTime;
+
+        #endregion Fields
+  
+        #region - - - - - - Unity Methods - - - - - -
+
         private void Start()
         {
-            playerSFX = gameObject.GetComponent<PlayerSFX>();
-            _IKPuppet = GetComponent<IKPuppet>();
+            this.m_KnockbackAttackHandler = this.GetComponent<KnockbackAttackHandler>();
+            this.m_PlayerSFX = this.gameObject.GetComponent<PlayerSFX>();
+            this.m_IKPuppet = this.GetComponent<IKPuppet>();
         }
         
         private void Update()
         {
-            CheckBlockCooldown();
-            if (_bDontCheckParry && !bInputtingBlock && bIsBlocking) EndBlock(); // no need to exist
+            if (this.IsPaused) return;
+            this.RunBlockCooldown();
         }
+
+        #endregion Unity Methods
+
+        #region - - - - - - Block Action Methods - - - - - -
 
         public void StartBlock()
         {
-            if (!bIsBlocking && blockTimer == 0f && bCanBlock)
+            if (this.m_IsBlocking && this.m_CurrentBlockCooldownTime >= 0f && !this.m_CanBlock)
             {
-                playerSFX.Armour();
-                bIsBlocking = true;
-                _bDontCheckParry = false;
-                parryEffects.PlayGleam();
-                _IKPuppet.EnableIK();
-                bInputtingBlock = true;
-                bIsParrying = true;
-                parryTimer = 0f;
+                Debug.LogError("bIsblocking: " + this.m_IsBlocking + " blockTimer: " + this.m_CurrentBlockCooldownTime + " bcanBlock: " + this.m_CanBlock);
+                return;
             }
-            else
-            {
-                Debug.LogError("bIsblocking: " + bIsBlocking + " blockTimer: " + blockTimer + " bcanBlock: " + bCanBlock);
-            }
+            
+            this.m_PlayerSFX.Armour();
+            this.m_BlockingEffects.PlayGleam();
+            this.m_IKPuppet.EnableIK();
+            this.m_KnockbackAttackHandler.StopParry();
+            
+            this.m_IsBlocking = true;
         }
 
         public void HandleBlockHit(out bool _IsHitBlocked)
         {
-            if (!bIsBlocking)
+            if (!this.m_IsBlocking)
             {
                 _IsHitBlocked = false;
                 return;
             }
             
             //rotate to face attacker
-            parryEffects.PlayBlock();
-            bIsBlocking = false;
-            m_PlayerAnimationComponent.TriggerGuardBreak();
-            _IKPuppet.DisableIK();
+            this.m_BlockingEffects.PlayBlock();
+            this.m_IsBlocking = false;
+            this.m_PlayerAnimationComponent.TriggerGuardBreak();
+            this.m_IKPuppet.DisableIK();
 
             _IsHitBlocked = true;
         }
         
         public void EndBlock()
         {
-            bIsBlocking = false;
-            bIsParrying = false;
-            parryTimer = 0f;
-            _IKPuppet.DisableIK();
-            SetBlockCooldown();
+            if (!this.m_IsBlocking) return;
             
-        }
-        
-        private void CheckBlockCooldown()
-        {
-            if (blockTimer != 0f)
-            {
-                if (blockTimer > 0f)
-                {
-                    blockTimer -= Time.deltaTime;
-                }
-                if (blockTimer < 0f)
-                    blockTimer = 0f;
-            }
-        }
-        
-        // Seems out of place as there is a start block method
-        public void TriggerBlock(GameObject attacker)
-        {
-            //rotate to face attacker
-            parryEffects.PlayBlock();
-            bIsBlocking = false;
-            m_PlayerAnimationComponent.TriggerGuardBreak();
-            _IKPuppet.DisableIK();
-        }
-        
-        public void SetBlockCooldown()
-        {
-            blockTimer = blockCooldown;
-        }
-        
-        public void DisableBlock()
-        {
-            bCanBlock = false;
-            _IKPuppet.DisableIK();
+            this.m_IsBlocking = false;
+            this.m_KnockbackAttackHandler.StopParry();
+            this.m_IKPuppet.DisableIK();
+            this.ResetBlockCooldown();
         }
 
-        public void EnableBlock()
+        #endregion Block Action Methods
+
+        #region - - - - - - Methods - - - - - -
+
+        private void RunBlockCooldown()
         {
-            bCanBlock = true;
+            if (this.m_CurrentBlockCooldownTime <= 0f)
+            {
+                this.m_CurrentBlockCooldownTime = 0f;
+                return;
+            }
+            
+            this.m_CurrentBlockCooldownTime -= Time.deltaTime;
         }
         
+        private void ResetBlockCooldown() 
+            => this.m_CurrentBlockCooldownTime = m_BlockCooldownLength;
+
+        public void DisableBlock()
+        {
+            this.m_CanBlock = false;
+            this.m_IKPuppet.DisableIK();
+        }
+
+        public void EnableBlock() 
+            => this.m_CanBlock = true;
+
+        #endregion Methods
+  
     }
 
 }

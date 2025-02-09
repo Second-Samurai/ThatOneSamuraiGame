@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using Enemies;
 using Player.Animation;
-using ThatOneSamuraiGame.Scripts.Input;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
@@ -13,10 +12,6 @@ namespace ThatOneSamuraiGame
 
     public class KnockbackAttackHandler : MonoBehaviour
     {
-        [Header("Block Variables")]
-        public bool bIsBlocking = false;
-        public bool bInputtingBlock = false;
-
         [Header("Parry Variables")]
         public bool bIsParrying = false;
         public float parryTimer = 0f; 
@@ -151,6 +146,13 @@ namespace ThatOneSamuraiGame
                 StartCoroutine(ImpulseWithTimer(direction, amount, duration));
             }
         }
+
+        public void StopParry()
+        {
+            bIsParrying = false;
+            _bDontCheckParry = false;
+            parryTimer = 0f;
+        }
         
         // Belongs to player health system
         // public void KillPlayer()
@@ -191,7 +193,7 @@ namespace ThatOneSamuraiGame
         {
             if (!_bDontCheckParry)
             {
-                if (bIsBlocking && parryTimer < parryTimerTarget)
+                if (parryTimer < parryTimerTarget)
                 {
                     parryTimer += Time.deltaTime;
                     bIsParrying = true;

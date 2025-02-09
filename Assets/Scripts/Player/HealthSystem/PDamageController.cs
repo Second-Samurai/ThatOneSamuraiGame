@@ -41,7 +41,7 @@ public class PDamageController : MonoBehaviour, IDamageable
 
     #endregion Initializers
 
-    #region - - - - - - Unity Methods - - - - - -
+    #region - - - - - - Damage Methods - - - - - -
 
     public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
@@ -59,7 +59,7 @@ public class PDamageController : MonoBehaviour, IDamageable
             this.KillPlayer();
     }
 
-    #endregion Unity Methods
+    #endregion Damage Methods
 
     #region - - - - - - Methods - - - - - -
     

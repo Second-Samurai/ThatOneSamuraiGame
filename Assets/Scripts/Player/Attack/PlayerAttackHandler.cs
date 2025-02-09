@@ -127,7 +127,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         // Tech-Debt: #35 - PlayerFunctions will be refactored to mitigate large class bloat.
         void IPlayerAttackHandler.EndBlock()
-            => this.m_BlockingAttackHandler.bInputtingBlock = false;
+            => this.m_BlockingAttackHandler.EndBlock();
 
         void IPlayerAttackHandler.EndParryAction()
         {
@@ -244,7 +244,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             
             m_GleamTimerFinished = true;
             m_GleamTimer = m_HeavyAttackRequiredChargeTime - m_GleamPrecedeTime;
-            m_BlockingAttackHandler.parryEffects.PlayGleam();
+            m_BlockingAttackHandler.m_BlockingEffects.PlayGleam(); // TODO: Change this to use interface instead.
         }
         
         #endregion Methods

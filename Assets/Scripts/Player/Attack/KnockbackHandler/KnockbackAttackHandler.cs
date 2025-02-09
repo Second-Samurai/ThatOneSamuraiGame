@@ -94,7 +94,6 @@ namespace ThatOneSamuraiGame
         
         public bool RadialCast(Transform origin, int rayCount, int offsetValue, int layerMask, ref RaycastHit hit)
         {
-         
             Quaternion offsetAngle;
             Vector3 castAngle;
          
@@ -114,30 +113,17 @@ namespace ThatOneSamuraiGame
             }
             return false;
         }
-        
-        // Should belong to health system
-        public void ApplyHit(GameObject attacker, bool unblockable, float damage)
-        {
-            if (!this.m_PlayerSpecialActionState.IsDodging)
-            { 
-                if (bIsParrying && !unblockable)
-                {
-                    TriggerParry(attacker, damage);
-                }
-                else if (!unblockable)
-                {
-                    if (bIsBlocking)
-                    {
-                        this.m_BlockAttackHandler.TriggerBlock(attacker);
-                    }
-                    else
-                    {
 
-                        KillPlayer();
-                    }
-                }
-                else KillPlayer();
+        public void HandleParryHit(GameObject attacker, float damage, out bool _IsHitParried)
+        {
+            if (this.m_PlayerSpecialActionState.IsDodging || !bIsParrying)
+            {
+                _IsHitParried = false;
+                return;
             }
+            
+            this.TriggerParry(attacker, damage);
+            _IsHitParried = true;
         }
         
         // Should belong to movement system
@@ -167,26 +153,26 @@ namespace ThatOneSamuraiGame
         }
         
         // Belongs to player health system
-        public void KillPlayer()
-        {
-            if (!bIsDead)
-            {
-                // play anim
-                m_PlayerAnimationComponent.SetDead(true);
-            
-                // trigger rewind
-                bIsDead = true;
-            
-                // Activate input switch to rewind
-                IInputManager _InputManager = GameManager.instance.InputManager;
-                _InputManager.SwitchToRewindControls();
-            
-                //Debug.LogError("Player killed!");
-                //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);
-                //GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.3f);
-                this.LockOnSystem.EndLockOn();
-            }
-        }
+        // public void KillPlayer()
+        // {
+        //     if (!bIsDead)
+        //     {
+        //         // play anim
+        //         m_PlayerAnimationComponent.SetDead(true);
+        //     
+        //         // trigger rewind
+        //         bIsDead = true;
+        //     
+        //         // Activate input switch to rewind
+        //         IInputManager _InputManager = GameManager.instance.InputManager;
+        //         _InputManager.SwitchToRewindControls();
+        //     
+        //         //Debug.LogError("Player killed!");
+        //         //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);
+        //         //GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.3f);
+        //         this.LockOnSystem.EndLockOn();
+        //     }
+        // }
         
         public void TriggerParry(GameObject attacker, float damage)
         {
@@ -216,7 +202,9 @@ namespace ThatOneSamuraiGame
                 {
                     bIsParrying = false;
                     _bDontCheckParry = true;
-                    if (!bInputtingBlock && bIsBlocking) this.m_BlockAttackHandler.EndBlock();
+                    
+                    // TOO many block checks made
+                    // if (!bInputtingBlock && bIsBlocking) this.m_BlockAttackHandler.EndBlock();
                 }
             }
         }

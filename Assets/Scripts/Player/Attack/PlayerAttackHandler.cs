@@ -39,9 +39,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         private ICameraController m_CameraController;
         private ICombatController m_CombatController;
         private HitstopController m_HitstopController;
-        private PlayerFunctions m_PlayerFunctions;
         private PlayerAttackState m_PlayerAttackState;
         private IPlayerAnimationDispatcher m_AnimationDispatcher;
+        private BlockingAttackHandler m_BlockingAttackHandler;
 
         [SerializeField] 
         private GameEvent m_ShowHeavyTutorialEvent; // This event feels out of place for this component.
@@ -80,7 +80,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_CameraController = this.GetComponent<ICameraController>();
             this.m_CombatController = this.GetComponent<ICombatController>();
             this.m_HitstopController = Object.FindFirstObjectByType<HitstopController>();
-            this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
             this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
             this.m_AnimationDispatcher = this.GetComponent<IPlayerAnimationDispatcher>();
 
@@ -128,7 +127,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         // Tech-Debt: #35 - PlayerFunctions will be refactored to mitigate large class bloat.
         void IPlayerAttackHandler.EndBlock()
-            => this.m_PlayerFunctions.bInputtingBlock = false;
+            => this.m_BlockingAttackHandler.bInputtingBlock = false;
 
         void IPlayerAttackHandler.EndParryAction()
         {
@@ -156,7 +155,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             if (this.m_PlayerAttackState.ParryStunned)
                 ((IPlayerAttackHandler)this).EndParryAction();
             
-            this.m_PlayerFunctions.StartBlock();
+            this.m_BlockingAttackHandler.StartBlock();
         }
         
         void IPlayerAttackHandler.ResetAttack()
@@ -245,7 +244,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             
             m_GleamTimerFinished = true;
             m_GleamTimer = m_HeavyAttackRequiredChargeTime - m_GleamPrecedeTime;
-            m_PlayerFunctions.parryEffects.PlayGleam();
+            m_BlockingAttackHandler.parryEffects.PlayGleam();
         }
         
         #endregion Methods

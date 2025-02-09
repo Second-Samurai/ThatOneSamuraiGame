@@ -33,7 +33,7 @@ namespace ThatOneSamuraiGame
         private void Update()
         {
             CheckBlockCooldown();
-            if (_bDontCheckParry && !bInputtingBlock && bIsBlocking) EndBlock(); 
+            if (_bDontCheckParry && !bInputtingBlock && bIsBlocking) EndBlock(); // no need to exist
         }
 
         public void StartBlock()
@@ -53,6 +53,23 @@ namespace ThatOneSamuraiGame
             {
                 Debug.LogError("bIsblocking: " + bIsBlocking + " blockTimer: " + blockTimer + " bcanBlock: " + bCanBlock);
             }
+        }
+
+        public void HandleBlockHit(out bool _IsHitBlocked)
+        {
+            if (!bIsBlocking)
+            {
+                _IsHitBlocked = false;
+                return;
+            }
+            
+            //rotate to face attacker
+            parryEffects.PlayBlock();
+            bIsBlocking = false;
+            m_PlayerAnimationComponent.TriggerGuardBreak();
+            _IKPuppet.DisableIK();
+
+            _IsHitBlocked = true;
         }
         
         public void EndBlock()

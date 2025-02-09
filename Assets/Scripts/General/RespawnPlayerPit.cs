@@ -9,7 +9,7 @@ public class RespawnPlayerPit : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<KnockbackAttackHandler>().KillPlayer();
+            other.gameObject.GetComponent<PDamageController>().KillPlayer();
         }
            // other.gameObject.transform.position = respawnPoint.position;
     }

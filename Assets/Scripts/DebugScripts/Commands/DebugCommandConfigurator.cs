@@ -1,5 +1,6 @@
 ﻿
 using ThatOneSamuraiGame;
+using ThatOneSamuraiGame.Scripts.Player.Attack.Debug;
 
 public class DebugCommandConfigurator
 {
@@ -23,6 +24,9 @@ public class DebugCommandConfigurator
     {
         // Camera system
         new Debug_CameraController().RegisterCommand(this.m_DebugManager);
+        
+        // Player
+        new Debug_PlayerAttack().RegisterCommand(this.m_DebugManager);
     }
 
     #endregion Methods

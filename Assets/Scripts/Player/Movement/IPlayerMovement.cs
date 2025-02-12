@@ -8,6 +8,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         
         #region - - - - - - Methods - - - - - -
 
+        void CancelMove();
+
         void DisableMovement();
 
         void DisableRotation();

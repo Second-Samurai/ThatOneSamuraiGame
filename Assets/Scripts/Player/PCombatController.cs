@@ -169,7 +169,6 @@ public class PCombatController : MonoBehaviour, ICombatController
     public void BeginAttacking()
     {
         _isAttacking = true;
-        // _functions.DisableBlock();
         this.m_BlockingAttackHandler.DisableBlock();
         attackCol.enabled = true;
         //m_PlayerAnimationComponent.ResetLightAttack();
@@ -229,8 +228,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         _attackRegister.RegisterAttackTarget(attackEntity, swordManager.swordEffect, other, CalculateDamage(), true, isUnblockable);
         if (!isUnblockable) PlayHit();
         else PlayHeavyHit();
-        // _functions.CancelMove();
-        this.m_KnockbackAttackHandler.CancelMove();
+        this.m_PlayerMovement.CancelMove();
         swordAudio.bIgnoreNext = true;
     }
 

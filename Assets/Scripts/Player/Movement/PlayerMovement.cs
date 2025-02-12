@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using Player.Animation;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
@@ -46,7 +47,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         [RequiredField]
         [SerializeField]
         private PlayerAnimationComponent m_PlayerAnimationComponent;
-        //private Animator m_Animator;
+        private Rigidbody m_Rigidbody;
         
         private ICameraController m_CameraController;
         
@@ -76,6 +77,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_CameraController = 
                 initializerData.CameraController 
                 ?? throw new ArgumentNullException(nameof(initializerData.CameraController));
+            this.m_Rigidbody = this.GetComponent<Rigidbody>() ??
+                               throw new ArgumentNullException(nameof(this.m_Rigidbody));
             
             // Bind to observers
             initializerData.LockOnObserver.OnLockOnDisable.AddListener(() => 
@@ -158,6 +161,15 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         public bool IsSprinting() => m_IsSprinting;
 
         public float GetSprintDuration() => m_SprintDuration;
+        
+        public void CancelMove()
+        {
+            StopAllCoroutines(); 
+            ((IPlayerMovement)this).EnableMovement();
+            ((IPlayerMovement)this).EnableRotation();
+            this.m_Rigidbody.linearVelocity = Vector3.zero;
+            this.m_PlayerAnimationComponent.SetRootMotion(true);
+        }
 
         void IPlayerMovement.DisableMovement()
             => this.m_IsMovementEnabled = false;

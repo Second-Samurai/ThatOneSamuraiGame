@@ -4,7 +4,6 @@ using Player.Animation;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
-using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame
@@ -12,6 +11,9 @@ namespace ThatOneSamuraiGame
 
     public class KnockbackAttackHandler : MonoBehaviour
     {
+
+        #region - - - - - - Fields - - - - - -
+
         [Header("Parry Variables")]
         public bool bIsParrying = false;
         public float parryTimer = 0f; 
@@ -20,12 +22,10 @@ namespace ThatOneSamuraiGame
         
         private Rigidbody rb;
         public ParryEffects parryEffects;
-        public ILockOnSystem LockOnSystem;
         private IPlayerMovement m_PlayerMovement;
         [SerializeField] private BlockingAttackHandler m_BlockAttackHandler;
         [SerializeField] private LayerMask enemyMask;
         private PlayerAnimationComponent m_PlayerAnimationComponent;
-        private PDamageController _pDamageController;
         private HitstopController hitstopController;
         private PlayerSFX playerSFX;
         private  RaycastHit sprintAttackTarget;
@@ -37,17 +37,19 @@ namespace ThatOneSamuraiGame
         // Player States
         private PlayerMovementDataContainer _mPlayerMovementDataContainer;
         private PlayerSpecialActionState m_PlayerSpecialActionState;
-        
+
+        #endregion Fields
+
+        #region - - - - - - Unity Methods - - - - - -
+
         private void Start()
         {
             playerSFX = gameObject.GetComponent<PlayerSFX>();
             rb = GetComponent<Rigidbody>();
-            _pDamageController = GetComponent<PDamageController>();
             m_PlayerAnimationComponent = GetComponent<PlayerAnimationComponent>();
             hitstopController = GameManager.instance.GetComponent<HitstopController>();
             enemyMask = LayerMask.GetMask("Enemy");
             this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
-            this.LockOnSystem = SceneManager.Instance.LockOnSystem;
 
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
             this._mPlayerMovementDataContainer = _PlayerState.PlayerMovementDataContainer;
@@ -66,20 +68,19 @@ namespace ThatOneSamuraiGame
                     m_PlayerMovement.EnableMovement();
             }
         }
-        
+
+        #endregion Unity Methods
+
+        #region - - - - - - Methods - - - - - -
+
         public IEnumerator ImpulseWithTimer(Vector3 lastDir, float force, float timer)
         {
             float dodgeTimer = timer;
             while (dodgeTimer > 0f)
             {
-                // if(bLockedOn)
-                //transform.Translate(lastDir.normalized * force * Time.deltaTime);
-                m_PlayerAnimationComponent.SetRootMotion(false);
+                this.m_PlayerAnimationComponent.SetRootMotion(false);
                 if (bIsSprintAttacking) CorrectAttackAngle(ref lastDir);
                 rb.linearVelocity = lastDir.normalized * force ;
-                // rb.MovePosition(transform.position + lastDir.normalized * force * Time.deltaTime);
-                //else
-                //    transform.position += lastDir.normalized * force * Time.deltaTime;
                 dodgeTimer -= Time.deltaTime;
                 yield return null;
             }
@@ -121,16 +122,6 @@ namespace ThatOneSamuraiGame
             _IsHitParried = true;
         }
         
-        // Should belong to movement system
-        public void CancelMove()
-        {
-            StopAllCoroutines(); 
-            this.m_PlayerMovement.EnableMovement();
-            this.m_PlayerMovement.EnableRotation();
-            rb.linearVelocity = Vector3.zero;
-            m_PlayerAnimationComponent.SetRootMotion(true);
-        }
-        
         public void Knockback(float amount, Vector3 direction, float duration, GameObject attacker)
         {
             if (bIsParrying)
@@ -140,7 +131,6 @@ namespace ThatOneSamuraiGame
             else if (!this.m_PlayerSpecialActionState.IsDodging)
             {
                 playerSFX.Smack();
-                //Debug.Log("HIT" + amount * direction);
                 this.m_PlayerMovement.DisableRotation();
                 m_PlayerAnimationComponent.TriggerKnockdown();
                 StartCoroutine(ImpulseWithTimer(direction, amount, duration));
@@ -154,28 +144,6 @@ namespace ThatOneSamuraiGame
             parryTimer = 0f;
         }
         
-        // Belongs to player health system
-        // public void KillPlayer()
-        // {
-        //     if (!bIsDead)
-        //     {
-        //         // play anim
-        //         m_PlayerAnimationComponent.SetDead(true);
-        //     
-        //         // trigger rewind
-        //         bIsDead = true;
-        //     
-        //         // Activate input switch to rewind
-        //         IInputManager _InputManager = GameManager.instance.InputManager;
-        //         _InputManager.SwitchToRewindControls();
-        //     
-        //         //Debug.LogError("Player killed!");
-        //         //GameManager.instance.mainCamera.gameObject.GetComponent<CameraShakeController>().ShakeCamera(1);
-        //         //GameManager.instance.gameObject.GetComponent<HitstopController>().Hitstop(.3f);
-        //         this.LockOnSystem.EndLockOn();
-        //     }
-        // }
-        
         public void TriggerParry(GameObject attacker, float damage)
         {
             parryEffects.PlayParry();
@@ -185,7 +153,6 @@ namespace ThatOneSamuraiGame
             {
                 // TODO: Fix with damage later
                 attacker.GetComponent<EDamageController>().OnParried(5); //Damage attacker's guard meter
-
             }
         }
         
@@ -204,16 +171,12 @@ namespace ThatOneSamuraiGame
                 {
                     bIsParrying = false;
                     _bDontCheckParry = true;
-                    
-                    // TOO many block checks made
-                    // if (!bInputtingBlock && bIsBlocking) this.m_BlockAttackHandler.EndBlock();
                 }
             }
         }
         
         void CorrectAttackAngle(ref Vector3 lastDir)
         {
-        
             if( RadialCast(transform, 10, -45, enemyMask, ref sprintAttackTarget))
             {
                 transform.LookAt(sprintAttackTarget.collider.gameObject.transform);
@@ -221,7 +184,9 @@ namespace ThatOneSamuraiGame
                 lastDir = sprintAttackTarget.collider.gameObject.transform.position - transform.position;
             } 
         }
-        
+
+        #endregion Methods
+  
     }
 
 }

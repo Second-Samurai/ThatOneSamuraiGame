@@ -3,6 +3,8 @@
 public interface ISwordManager
 {
     void SetWeapon(bool hasWeapon, GameObject swordPrefab);
+
+    bool IsWeaponEquipped();
 }
 
 public class PSwordManager : MonoBehaviour, ISwordManager
@@ -60,4 +62,8 @@ public class PSwordManager : MonoBehaviour, ISwordManager
     {
         swordEffect.CreateSlashEffect(slashAngle);
     }
+
+    public bool IsWeaponEquipped() 
+        => this.swordObject != null;
+    
 }

@@ -42,6 +42,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         private PlayerAttackState m_PlayerAttackState;
         private IPlayerAnimationDispatcher m_AnimationDispatcher;
         private BlockingAttackHandler m_BlockingAttackHandler;
+        private ISwordManager m_SwordManager; // TODO: Change to use PlayerWeaponSystems
 
         [SerializeField] 
         private GameEvent m_ShowHeavyTutorialEvent; // This event feels out of place for this component.
@@ -82,6 +83,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_HitstopController = Object.FindFirstObjectByType<HitstopController>();
             this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
             this.m_AnimationDispatcher = this.GetComponent<IPlayerAnimationDispatcher>();
+            this.m_SwordManager = this.GetComponent<ISwordManager>();
 
             this.m_HeavyAttackRemainingChargeTime = this.m_HeavyAttackRequiredChargeTime;
             m_GleamTimer = m_HeavyAttackRequiredChargeTime - m_GleamPrecedeTime;
@@ -102,10 +104,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         
         #region - - - - - - Methods - - - - - -
         
-        
         // NOTE: IPlayerAttackHandler.Attack() is a release input option (e.g. OnMouseUp)
         void IPlayerAttackHandler.Attack()
         {
+            // TODO: Change to use PlayerWeaponSystems
+            if (!this.m_SwordManager.IsWeaponEquipped()) return;
+            
             if (this.m_PlayerAttackState.IsHeavyAttackCharging) // HEAVY ATTACK
             {
                 Invoke("PerformHeavyAttack", m_HeavyAttackRemainingChargeTime);
@@ -137,6 +141,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         
         void IPlayerAttackHandler.StartHeavy()
         {
+            // TODO: Change to use PlayerWeaponSystems
+            if (!this.m_SwordManager.IsWeaponEquipped()) return;
+            
             this.m_HeavyAttackRemainingChargeTime = this.m_HeavyAttackRequiredChargeTime;
             this.StartHeavyAttack();
         }

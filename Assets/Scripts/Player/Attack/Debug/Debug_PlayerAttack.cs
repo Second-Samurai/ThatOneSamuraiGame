@@ -47,8 +47,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack.Debug
             GameObject _PlayerObject = this.GetPlayerObject();
             if (_PlayerObject != null)
             {
-                ISwordManager _SwordManager = _PlayerObject.GetComponent<ISwordManager>();
-                _SwordManager.SetWeapon(true, GameManager.instance.gameSettings.katanaPrefab);
+                IWeaponSystem _WeaponSystem = _PlayerObject.GetComponent<IWeaponSystem>();
+                _WeaponSystem.SetWeapon(GameManager.instance.gameSettings.katanaPrefab);
                 AudioManager.instance.LightSaber = false;
             }
         }
@@ -58,8 +58,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack.Debug
             GameObject _PlayerObject = this.GetPlayerObject();
             if (_PlayerObject != null)
             {
-                ISwordManager _SwordManager = _PlayerObject.GetComponent<ISwordManager>();
-                _SwordManager.SetWeapon(true, GameManager.instance.gameSettings.laserSword);
+                IWeaponSystem _WeaponSystem = _PlayerObject.GetComponent<IWeaponSystem>();
+                _WeaponSystem.SetWeapon(GameManager.instance.gameSettings.laserSword);
                 AudioManager.instance.LightSaber = true;
             }
         }

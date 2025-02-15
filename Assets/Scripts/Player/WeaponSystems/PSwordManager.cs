@@ -14,12 +14,12 @@ public class PSwordManager : MonoBehaviour, ISwordManager
 
     private PSwordHolder pSwordHolder;
     private GameObject swordObject;
-    private PlayerFunctions pFunctions;
+    // private PlayerFunctions pFunctions;
 
     public void Init()
     {
         this.pSwordHolder = this.GetComponentInChildren<PSwordHolder>();
-        pFunctions = GetComponent<PlayerFunctions>();
+        // pFunctions = GetComponent<PlayerFunctions>();
         pSwordHolder.Init(this.transform);
 
     }
@@ -35,8 +35,8 @@ public class PSwordManager : MonoBehaviour, ISwordManager
 
         swordObject = Instantiate(swordPrefab, pSwordHolder.transform);
         swordEffect = swordObject.GetComponent<WSwordEffect>();
-        pFunctions.parryEffects = swordObject.GetComponent<ParryEffects>();
-        swordEffect.Init(this.transform);
+        // pFunctions.parryEffects = swordObject.GetComponent<ParryEffects>();
+        // swordEffect.Init(this.transform);
     }
 
     /// <summary>

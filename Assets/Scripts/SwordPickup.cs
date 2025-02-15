@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Scripts.Player.Attack;
+﻿using ThatOneSamuraiGame;
+using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
 
@@ -32,16 +33,16 @@ public class SwordPickup : MonoBehaviour
     /// <summary>
     /// Sets gameobject to player's swordmanager
     /// </summary>
-    private void PickupSword(ISwordManager swordManager, GameObject holder)
+    private void PickupSword(IWeaponSystem weaponSystem, GameObject holder)
     {
         if(weaponType == WeaponType.Katana)
         {
-            swordManager.SetWeapon(true, GameManager.instance.gameSettings.katanaPrefab);
+            weaponSystem.SetWeapon(GameManager.instance.gameSettings.katanaPrefab);
             AudioManager.instance.LightSaber = false;
         }
         else if (weaponType == WeaponType.Lightsaber)
         {
-            swordManager.SetWeapon(true, GameManager.instance.gameSettings.laserSword);
+            weaponSystem.SetWeapon(GameManager.instance.gameSettings.laserSword);
             this.gameObject.SetActive(false);
             AudioManager.instance.LightSaber = true;
             return;
@@ -59,7 +60,7 @@ public class SwordPickup : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            PickupSword(other.GetComponent<ISwordManager>(), other.gameObject);
+            PickupSword(other.GetComponent<IWeaponSystem>(), other.gameObject);
         }
     }
 

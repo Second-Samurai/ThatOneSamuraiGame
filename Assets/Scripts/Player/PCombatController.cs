@@ -24,7 +24,8 @@ public class PCombatController : MonoBehaviour, ICombatController
     public Collider attackCol;
     public bool _isAttacking = false;
     public bool isUnblockable = false;
-    [HideInInspector] public PSwordManager swordManager;
+    // [HideInInspector] public PSwordManager swordManager;
+    private IWeaponSystem m_WeaponSystem;
 
     //Private Variables
     private PlayerFunctions _functions;
@@ -64,8 +65,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         m_PlayerAnimationComponent = GetComponent<PlayerAnimationComponent>();
         comboTracker = GetComponent<AttackChainTracker>();
 
-        swordManager = this.GetComponent<PSwordManager>();
-        swordManager.Init();
+        this.m_WeaponSystem = this.GetComponent<IWeaponSystem>();
 
         _damageController = GetComponent<PDamageController>();
         _functions = GetComponent<PlayerFunctions>();
@@ -101,7 +101,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     /// </summary>
     public void DrawSword() //TODO: SHOULD BE AUTOMATIC
     {
-        if (!swordManager.hasAWeapon) return;
+        if (!this.m_WeaponSystem.IsWeaponEquipped()) return;
         _isSwordDrawn = !_isSwordDrawn;
 
         _isInputBlocked = false;
@@ -191,13 +191,13 @@ public class PCombatController : MonoBehaviour, ICombatController
     public void Unblockable()
     {
         isUnblockable = true;
-        swordManager.swordEffect.BeginUnblockableEffect();
+        this.m_WeaponSystem.WeaponEffectHandler.BeginUnblockableEffect();
     }
 
     public void EndUnblockable()
     {
         isUnblockable = false;
-        swordManager.swordEffect.EndUnblockableEffect();
+        this.m_WeaponSystem.WeaponEffectHandler.EndUnblockableEffect();
     }
 
     public bool CheckIsAttacking()
@@ -214,18 +214,18 @@ public class PCombatController : MonoBehaviour, ICombatController
     {
         if (!_isAttacking) return;
         if (other.CompareTag("Level") || other.gameObject.CompareTag("LOD") || other.gameObject.layer == LayerMask.NameToLayer("Detector")) return;
-        if (!swordManager.hasAWeapon) return;
+        if (!this.m_WeaponSystem.IsWeaponEquipped()) return;
 
         //Gets IDamageable component of the entity
         IDamageable attackEntity = other.GetComponent<IDamageable>();
         if (attackEntity == null)
         {
-            swordManager.swordEffect.CreateImpactEffect(other.transform, HitType.GeneralTarget);
+            this.m_WeaponSystem.WeaponEffectHandler.CreateImpactEffect(other.transform, HitType.GeneralTarget);
             return;
         }
 
         //Registers attack to the attackRegister
-        _attackRegister.RegisterAttackTarget(attackEntity, swordManager.swordEffect, other, CalculateDamage(), true, isUnblockable);
+        _attackRegister.RegisterAttackTarget(attackEntity, this.m_WeaponSystem.WeaponEffectHandler, other, CalculateDamage(), true, isUnblockable);
         if (!isUnblockable) PlayHit();
         else PlayHeavyHit();
         this.m_PlayerMovement.CancelMove();

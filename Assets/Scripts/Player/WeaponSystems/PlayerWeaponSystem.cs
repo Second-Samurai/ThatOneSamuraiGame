@@ -32,8 +32,14 @@ namespace ThatOneSamuraiGame
 
         #region - - - - - - Unity Methods - - - - - -
 
-        private void Start() 
-            => this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
+        private void Start()
+        {
+            this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
+
+            IWeaponAnimationEvents _AnimationEvents = this.GetComponent<IWeaponAnimationEvents>();
+            _AnimationEvents.OnRevealWeapons.AddListener(this.RevealWeapon);
+            _AnimationEvents.OnHideWeapons.AddListener(this.HideWeapon);
+        }
 
         #endregion Unity Methods
   
@@ -55,10 +61,10 @@ namespace ThatOneSamuraiGame
             this.m_PlayerAttackState.CanAttack = true;
         }
         
-        public void RevealWeapon() 
+        private void RevealWeapon() 
             => this.m_EquippedWeapon.SetActive(true);
 
-        public void HideWeapon() 
+        private void HideWeapon() 
             => this.m_EquippedWeapon.SetActive(false);
 
         public void StartWeaponEffect(float slashAngle) 

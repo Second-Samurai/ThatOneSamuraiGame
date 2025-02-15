@@ -18,10 +18,6 @@ namespace ThatOneSamuraiGame
 
         void SetWeapon(GameObject weaponPrefab);
         
-        void RevealWeapon();
-        
-        void HideWeapon();
-
         void StartWeaponEffect(float slashAngle);
 
         bool IsWeaponEquipped();

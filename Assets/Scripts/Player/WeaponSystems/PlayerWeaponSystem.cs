@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using ThatOneSamuraiGame.Scripts.Player.Attack;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
+using UnityEngine;
 
 namespace ThatOneSamuraiGame
 {
@@ -14,6 +16,7 @@ namespace ThatOneSamuraiGame
         
         private GameObject m_EquippedWeapon;
         private IWeaponEffectHandler m_WeaponEffectHandler;
+        private PlayerAttackState m_PlayerAttackState;
 
         #endregion Fields
 
@@ -26,6 +29,13 @@ namespace ThatOneSamuraiGame
             => this.m_WeaponEffectHandler;
 
         #endregion Properties
+
+        #region - - - - - - Unity Methods - - - - - -
+
+        private void Start() 
+            => this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
+
+        #endregion Unity Methods
   
         #region - - - - - - Methods - - - - - -
 
@@ -38,6 +48,11 @@ namespace ThatOneSamuraiGame
             this.m_EquippedWeapon.GetComponent<IInitialize<WeaponEffectInitializerData>>()
                 .Initialize(new WeaponEffectInitializerData { ParentTransform = this.m_WeaponHolder });
             this.m_WeaponEffectHandler = this.m_EquippedWeapon.GetComponent<IWeaponEffectHandler>();
+
+            ICombatController playerCombatController = this.GetComponent<ICombatController>();
+            playerCombatController.DrawSword();
+            
+            this.m_PlayerAttackState.CanAttack = true;
         }
         
         public void RevealWeapon() 

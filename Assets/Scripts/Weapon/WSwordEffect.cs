@@ -1,7 +1,40 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class WSwordEffect : MonoBehaviour
+public interface IWeaponEffectHandler {
+
+    #region - - - - - - Methods - - - - - -
+
+    void BeginUnblockableEffect();
+
+    void EndUnblockableEffect();
+
+    void BeginBlockEffect();
+
+    void EndBlockEffect();
+
+    void CreateSlashEffect(float slashAngle);
+
+    void CreateImpactEffect(Transform targetPosition, HitType type);
+
+    IEnumerator DestroyAfterTime(GameObject effect, float time);
+
+    #endregion Methods
+
+}
+
+public class WeaponEffectInitializerData
+{
+
+    #region - - - - - - Properties - - - - - -
+
+    public Transform ParentTransform { get; set; }
+
+    #endregion Properties
+     
+}
+
+public class WSwordEffect : MonoBehaviour, IWeaponEffectHandler, IInitialize<WeaponEffectInitializerData>
 {
     public MeshRenderer bladeRenderer;
     public Material bladeGlowMat, bladeGlowWhiteMat, bladeOriginalMat;
@@ -14,17 +47,13 @@ public class WSwordEffect : MonoBehaviour
     private SwordImpactEffect _impactEffector;
     private ParryEffect _parryEffect;
 
-
-    /// <summary>
-    /// This sets the sword holder transform to this sword
-    /// </summary>
-    public void Init(Transform parentTransform)
+    public void Initialize(WeaponEffectInitializerData initializerData)
     {
         _gameSettings = GameManager.instance.gameSettings;
-        _swordmanTransform = parentTransform;
+        _swordmanTransform = initializerData.ParentTransform;
 
         _impactEffector = new SwordImpactEffect();
-        _impactEffector.Init(_gameSettings, this, parentTransform);
+        _impactEffector.Init(_gameSettings, this, initializerData.ParentTransform);
 
         _parryEffect = new ParryEffect();
         _parryEffect.Init();

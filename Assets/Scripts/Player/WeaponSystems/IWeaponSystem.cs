@@ -8,8 +8,10 @@ namespace ThatOneSamuraiGame
 
         #region - - - - - - Properties - - - - - -
 
+        GameObject EquippedWeapon { get; }
+        
         IWeaponEffectHandler WeaponEffectHandler { get; }
-
+        
         #endregion Properties
   
         #region - - - - - - Methods - - - - - -

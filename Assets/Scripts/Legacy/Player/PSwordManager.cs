@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public interface ISwordManager
 {
@@ -7,6 +8,7 @@ public interface ISwordManager
     bool IsWeaponEquipped();
 }
 
+[Obsolete]
 public class PSwordManager : MonoBehaviour, ISwordManager
 {
     [HideInInspector] public bool hasAWeapon = false; //Must check this with an actual gameobject

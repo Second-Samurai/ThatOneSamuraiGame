@@ -19,6 +19,9 @@ namespace ThatOneSamuraiGame
 
         #region - - - - - - Properties - - - - - -
 
+        public GameObject EquippedWeapon
+            => this.m_EquippedWeapon;
+        
         public IWeaponEffectHandler WeaponEffectHandler
             => this.m_WeaponEffectHandler;
 

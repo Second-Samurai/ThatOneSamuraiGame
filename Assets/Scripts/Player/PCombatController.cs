@@ -1,34 +1,50 @@
 ﻿using Player.Animation;
 using ThatOneSamuraiGame;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
-using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using UnityEngine;
 
-//Empty For now
 public interface ICombatController
 {
-    void AttemptLightAttack();
+
+    #region - - - - - - Properties - - - - - -
+
     bool IsSwordDrawn { get; }
+
+    #endregion Properties
+  
+    #region - - - - - - Methods - - - - - -
+
+    void AttemptLightAttack();
+    
     void BlockCombatInputs();
+    
     void UnblockCombatInputs();
+    
     void DrawSword();
+    
     bool CheckIsAttacking();
+    
     void EndAttack();
+    
     void ResetAttackCombo();
+
+    #endregion Methods
+  
 }
 
 public class PCombatController : MonoBehaviour, ICombatController
 {
+
+    #region - - - - - - Fields - - - - - -
+
     //Public variables
     public AttackChainTracker comboTracker;
     public Collider attackCol;
     public bool _isAttacking = false;
     public bool isUnblockable = false;
-    // [HideInInspector] public PSwordManager swordManager;
     private IWeaponSystem m_WeaponSystem;
 
     //Private Variables
-    private PlayerFunctions _functions;
     private KnockbackAttackHandler m_KnockbackAttackHandler;
     private BlockingAttackHandler m_BlockingAttackHandler;
     
@@ -54,7 +70,15 @@ public class PCombatController : MonoBehaviour, ICombatController
     public AudioClip[] saberwhoosh;
     public AudioClip[] lightSaberHit;
 
+    #endregion Fields
+
+    #region - - - - - - Properties - - - - - -
+
     public bool IsSwordDrawn => this._isSwordDrawn;
+
+    #endregion Properties
+
+    #region - - - - - - Initializers - - - - - -
 
     /// <summary>
     /// Initialises Combat Controller variables and related class components
@@ -68,7 +92,6 @@ public class PCombatController : MonoBehaviour, ICombatController
         this.m_WeaponSystem = this.GetComponent<IWeaponSystem>();
 
         _damageController = GetComponent<PDamageController>();
-        _functions = GetComponent<PlayerFunctions>();
         this.m_KnockbackAttackHandler = this.GetComponent<KnockbackAttackHandler>();
         this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
         m_PlayerMovement = GetComponent<PlayerMovement>();
@@ -82,7 +105,10 @@ public class PCombatController : MonoBehaviour, ICombatController
         _guideController.Init(this, this.gameObject.transform, this.GetComponent<Rigidbody>());
     }
 
-    #region - - - - - - Lifecycle Methods - - - - - -
+    #endregion Initializers
+  
+
+    #region - - - - - - Unity Methods - - - - - -
     
     public void Start()
     {
@@ -97,7 +123,29 @@ public class PCombatController : MonoBehaviour, ICombatController
         _AnimationEvents.OnAttackComboReset.AddListener(this.ResetAttackCombo);
     }
     
-    #endregion Lifecycle Methods
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!_isAttacking) return;
+        if (other.CompareTag("Level") || other.gameObject.CompareTag("LOD") || other.gameObject.layer == LayerMask.NameToLayer("Detector")) return;
+        if (!this.m_WeaponSystem.IsWeaponEquipped()) return;
+
+        //Gets IDamageable component of the entity
+        IDamageable attackEntity = other.GetComponent<IDamageable>();
+        if (attackEntity == null)
+        {
+            this.m_WeaponSystem.WeaponEffectHandler.CreateImpactEffect(other.transform, HitType.GeneralTarget);
+            return;
+        }
+
+        //Registers attack to the attackRegister
+        _attackRegister.RegisterAttackTarget(attackEntity, this.m_WeaponSystem.WeaponEffectHandler, other, CalculateDamage(), true, isUnblockable);
+        if (!isUnblockable) PlayHit();
+        else PlayHeavyHit();
+        this.m_PlayerMovement.CancelMove();
+        swordAudio.bIgnoreNext = true;
+    }
+    
+    #endregion Unity Methods
     
     #region - - - - - - Methods - - - - - -
     
@@ -213,28 +261,6 @@ public class PCombatController : MonoBehaviour, ICombatController
     private float CalculateDamage()
     {
         return _playerStats.baseDamage;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!_isAttacking) return;
-        if (other.CompareTag("Level") || other.gameObject.CompareTag("LOD") || other.gameObject.layer == LayerMask.NameToLayer("Detector")) return;
-        if (!this.m_WeaponSystem.IsWeaponEquipped()) return;
-
-        //Gets IDamageable component of the entity
-        IDamageable attackEntity = other.GetComponent<IDamageable>();
-        if (attackEntity == null)
-        {
-            this.m_WeaponSystem.WeaponEffectHandler.CreateImpactEffect(other.transform, HitType.GeneralTarget);
-            return;
-        }
-
-        //Registers attack to the attackRegister
-        _attackRegister.RegisterAttackTarget(attackEntity, this.m_WeaponSystem.WeaponEffectHandler, other, CalculateDamage(), true, isUnblockable);
-        if (!isUnblockable) PlayHit();
-        else PlayHeavyHit();
-        this.m_PlayerMovement.CancelMove();
-        swordAudio.bIgnoreNext = true;
     }
 
     public void IsParried()

@@ -39,6 +39,7 @@ namespace ThatOneSamuraiGame
             IWeaponAnimationEvents _AnimationEvents = this.GetComponent<IWeaponAnimationEvents>();
             _AnimationEvents.OnRevealWeapons.AddListener(this.RevealWeapon);
             _AnimationEvents.OnHideWeapons.AddListener(this.HideWeapon);
+            _AnimationEvents.OnPlayWeaponEffect.AddListener(this.StartWeaponEffect);
         }
 
         #endregion Unity Methods

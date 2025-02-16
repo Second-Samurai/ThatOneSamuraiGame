@@ -13,6 +13,10 @@ public interface IAttackAnimationEvents
     UnityEvent OnAttackComboReset { get; }
     
     UnityEvent OnHeavyAttack { get; }
+    
+    UnityEvent<float> OnForwardImpulse { get; }
+    
+    UnityEvent<float> OnForwardJumpImpulse { get; }
 
     #endregion Properties
   
@@ -30,6 +34,10 @@ public class PlayerAnimationReceiver_Attack : MonoBehaviour, IAttackAnimationEve
     private readonly UnityEvent m_OnAttackEnd = new();
     private readonly UnityEvent m_OnAttackComboReset = new();
     private readonly UnityEvent m_OnHeavyAttack = new();
+    
+    // TODO: Both these events are the same, should be combined
+    private readonly UnityEvent<float> m_OnForwardImpulse = new();
+    private readonly UnityEvent<float> m_OnForwardJumpImpulse = new();
 
     #endregion Fields
 
@@ -43,26 +51,39 @@ public class PlayerAnimationReceiver_Attack : MonoBehaviour, IAttackAnimationEve
 
     public UnityEvent OnHeavyAttack => this.m_OnHeavyAttack;
 
+    public UnityEvent<float> OnForwardImpulse => this.m_OnForwardImpulse;
+
+    public UnityEvent<float> OnForwardJumpImpulse => this.m_OnForwardJumpImpulse;
+
     #endregion Properties
 
     #region - - - - - - Methods - - - - - -
 
+    // ----------------------------------------------
     // Directly invoked by Unity's animation control
+    // ----------------------------------------------
+    
     public void BeginAttacking()
         => this.m_OnAttackStart.Invoke();
 
-    // Directly invoked by Unity's animation control
     public void EndAttacking()
         => this.m_OnAttackEnd.Invoke();
     
-    // Directly invoked by Unity's animation control
     // TODO: This is reliant on the animation completing. This should be timer based instead.
     public void ResetAttackCombo()
         => this.m_OnAttackComboReset.Invoke();
 
-    // Directly invoked by Unity's animation control
     public void PlayHeavySwing()
         => this.m_OnHeavyAttack.Invoke();
+
+    // ---------------------------------------------------------------
+    // TODO: Both these events are the same, should be combined
+    // ---------------------------------------------------------------
+    public void ForwardImpulse(float force)
+        => this.m_OnForwardImpulse.Invoke(force);
+
+    public void JumpImpulseWithTimer(float timer)
+        => this.m_OnForwardJumpImpulse.Invoke(timer);
 
     #endregion Methods
 

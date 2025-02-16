@@ -54,6 +54,16 @@ namespace ThatOneSamuraiGame
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
             this._mPlayerMovementDataContainer = _PlayerState.PlayerMovementDataContainer;
             this.m_PlayerSpecialActionState = _PlayerState.PlayerSpecialActionState;
+
+            IAttackAnimationEvents _AnimationEvents = this.GetComponent<IAttackAnimationEvents>();
+            _AnimationEvents.OnForwardImpulse.AddListener(force => 
+                StartCoroutine(ImpulseWithTimer(transform.forward, force, .15f)));
+            _AnimationEvents.OnForwardJumpImpulse.AddListener(timer =>
+            {
+                bIsSprintAttacking = true;
+                transform.Translate(Vector3.up * 1);
+                StartCoroutine(ImpulseWithTimer(transform.forward, 20, timer));
+            });
         }
         
         private void Update()

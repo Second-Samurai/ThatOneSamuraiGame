@@ -42,16 +42,20 @@ public class PlayerAnimationReceiver_Weapons: MonoBehaviour, IWeaponAnimationEve
   
     #region - - - - - - Methods - - - - - -
 
+    // ----------------------------------------------
     // Directly invoked by Unity's animation control
+    // ----------------------------------------------
+    
     public void RevealWeapons() 
         => this.m_OnRevealWeapons.Invoke();
 
-    // Directly invoked by Unity's animation control
     public void HideWeapons() 
         => this.m_OnHideWeapons.Invoke();
 
-    // Directly invoked by Unity's animation control
     public void BeginWeaponEffect(float attackAngle)
+        => this.m_OnPlayWeaponEffect.Invoke(attackAngle);
+
+    public void BeginSwordEffect(float attackAngle)
         => this.m_OnPlayWeaponEffect.Invoke(attackAngle);
 
     #endregion Methods

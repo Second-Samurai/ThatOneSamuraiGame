@@ -13,7 +13,7 @@ public interface ICombatController
     void UnblockCombatInputs();
     void DrawSword();
     bool CheckIsAttacking();
-    void EndAttacking();
+    void EndAttack();
     void ResetAttackCombo();
 }
 
@@ -90,6 +90,11 @@ public class PCombatController : MonoBehaviour, ICombatController
         lightSaberHit = AudioManager.instance.FindAll("lightSaber-Slash").ToArray();
         saberwhoosh = AudioManager.instance.FindAll("lightSaber-Swing ").ToArray();
 
+        IAttackAnimationEvents _AnimationEvents = this.GetComponent<IAttackAnimationEvents>();
+        _AnimationEvents.OnAttackStart.AddListener(this.BeginAttacking);
+        _AnimationEvents.OnAttackEnd.AddListener(this.EndAttack);
+        _AnimationEvents.OnHeavyAttack.AddListener(this.PlayHeavySwing);
+        _AnimationEvents.OnAttackComboReset.AddListener(this.ResetAttackCombo);
     }
     
     #endregion Lifecycle Methods
@@ -166,7 +171,7 @@ public class PCombatController : MonoBehaviour, ICombatController
 
     //Summary: Enabled collision detection to apply damage to hit target.
     // 1stAttackEdit - 00:01
-    public void BeginAttacking()
+    private void BeginAttacking()
     {
         _isAttacking = true;
         this.m_BlockingAttackHandler.DisableBlock();
@@ -177,7 +182,7 @@ public class PCombatController : MonoBehaviour, ICombatController
 
     //Summary: Disables the detection of the sword.
     //
-    public void EndAttacking()
+    public void EndAttack()
     {
         _isAttacking = false;
         // _functions.EnableBlock();
@@ -235,7 +240,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     public void IsParried()
     {
         EndUnblockable();
-        EndAttacking();
+        EndAttack();
         //_playerInput.RemoveOverride(); // Note: The override is unused
         m_PlayerAnimationComponent.TriggerIsParried();
 
@@ -276,7 +281,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         }
     }
 
-    public void PlayHeavySwing()
+    private void PlayHeavySwing()
     {
         if (audioManager.LightSaber == false)
         {

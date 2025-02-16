@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Scripts.Base;
+﻿using System;
+using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
@@ -11,6 +12,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
     /// <summary>
     /// Responsible for handling animation events for the player.
     /// </summary>
+    [Obsolete]
     public class PlayerAnimationEventHandler : PausableMonoBehaviour
     {
 
@@ -68,67 +70,67 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         // ======== EVENT CALLED ========
         
         // 1stAttackEdit - 00:00
-        public void DisableMovement() 
-            => this.m_PlayerMovement.DisableMovement();
+        // public void DisableMovement() 
+        //     => this.m_PlayerMovement.DisableMovement();
         
-        public void EnableMovement() 
-            => this.m_PlayerMovement.EnableMovement();
+        // public void EnableMovement() 
+        //     => this.m_PlayerMovement.EnableMovement();
 
-        public void LockMoveInput() // This is not being used anywhere
-        { 
-            if (this._mPlayerMovementDataContainer.IsMovementLocked)
-                return;
-
-            this._mPlayerMovementDataContainer.IsMovementLocked = true;
-            this.StartDodging(); // Note: I find it unusual that Dodging is invoked when not moving the character.
-        }
-        
-        public void UnlockMoveInput()
-        {
-            if (!this._mPlayerMovementDataContainer.IsMovementLocked)
-                return;
-
-            this._mPlayerMovementDataContainer.IsMovementLocked = false;
-            this.EndDodging();
-        }
+        // public void LockMoveInput() // This is not being used anywhere
+        // { 
+        //     if (this._mPlayerMovementDataContainer.IsMovementLocked)
+        //         return;
+        //
+        //     this._mPlayerMovementDataContainer.IsMovementLocked = true;
+        //     this.StartDodging(); // Note: I find it unusual that Dodging is invoked when not moving the character.
+        // }
+        //
+        // public void UnlockMoveInput()
+        // {
+        //     if (!this._mPlayerMovementDataContainer.IsMovementLocked)
+        //         return;
+        //
+        //     this._mPlayerMovementDataContainer.IsMovementLocked = false;
+        //     this.EndDodging();
+        // }
 
         #endregion PlayerMovement Animation Events
 
         #region - - - - - - PlayerSpecialAction Animation Events - - - - - -
         
         // 1stAttackEdit - 00:02
-        public void BlockDodge() 
-            => this.m_PlayerSpecialActionState.CanDodge = false;
+        // public void BlockDodge() 
+        //     => this.m_PlayerSpecialActionState.CanDodge = false;
 
         // TODO: Remove resets from happening exclusively from the AnimationEventHandler.
         // 1stRecoveryEdit - 00:00
-        public void ResetDodge()
-        {
-            this.m_PlayerSpecialActionState.CanDodge = true;
-            this.m_PlayerSpecialActionState.IsDodging = false;
-        }
-
-        public void StartDodging()
-        {
-            this.m_PlayerAttackState.CanAttack = false;
-            this.m_PlayerSpecialActionState.IsDodging = true;
-            this.m_PlayerAttackState.IsHeavyAttackCharging = false;
-            this.m_PlayerAttackState.IsWeaponSheathed = false;
-            
-            this.m_PlayerDamage.DisableDamage();
-            this.m_BlockingAttackHandler.DisableBlock();
-            this.m_PlayerAttackHandler.ResetAttack();
-        }
-
-        public void EndDodging()
-        {
-            this.m_PlayerAttackState.CanAttack = true;
-            // this.m_PlayerSpecialActionState.IsDodging = false;
-            
-            this.m_PlayerDamage.EnableDamage();
-            this.m_BlockingAttackHandler.EnableBlock();
-            this.m_PlayerAttackHandler.ResetAttack();
-        }
+        // public void ResetDodge()
+        // {
+        //     this.m_PlayerSpecialActionState.CanDodge = true;
+        //     this.m_PlayerSpecialActionState.IsDodging = false;
+        // }
+        //
+        // public void StartDodging()
+        // {
+        //     this.m_PlayerAttackState.CanAttack = false;
+        //     this.m_PlayerSpecialActionState.IsDodging = true;
+        //     this.m_PlayerAttackState.IsHeavyAttackCharging = false;
+        //     this.m_PlayerAttackState.IsWeaponSheathed = false;
+        //     
+        //     this.m_PlayerDamage.DisableDamage();
+        //     this.m_BlockingAttackHandler.DisableBlock();
+        //     this.m_PlayerAttackHandler.ResetAttack();
+        // }
+        //
+        // public void EndDodging()
+        // {
+        //     this.m_PlayerAttackState.CanAttack = true;
+        //     // this.m_PlayerSpecialActionState.IsDodging = false;
+        //     
+        //     this.m_PlayerDamage.EnableDamage();
+        //     this.m_BlockingAttackHandler.EnableBlock();
+        //     this.m_PlayerAttackHandler.ResetAttack();
+        // }
 
         #endregion PlayerSpecialAction Animation Events
 

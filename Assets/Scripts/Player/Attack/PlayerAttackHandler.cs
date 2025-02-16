@@ -84,6 +84,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
             this.m_AnimationDispatcher = this.GetComponent<IPlayerAnimationDispatcher>();
             this.m_WeaponSystem = this.GetComponent<IWeaponSystem>();
+            this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
 
             this.m_HeavyAttackRemainingChargeTime = this.m_HeavyAttackRequiredChargeTime;
             m_GleamTimer = m_HeavyAttackRequiredChargeTime - m_GleamPrecedeTime;
@@ -168,7 +169,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_PlayerAttackState.CanAttack = true;
             //this.m_HasPerformedAttack = false;
             
-            this.m_CombatController.EndAttacking();
+            this.m_CombatController.EndAttack();
             this.m_CombatController.ResetAttackCombo();
         }
         

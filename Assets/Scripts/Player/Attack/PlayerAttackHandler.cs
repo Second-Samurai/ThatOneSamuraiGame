@@ -87,6 +87,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
             this.m_HeavyAttackRemainingChargeTime = this.m_HeavyAttackRequiredChargeTime;
             m_GleamTimer = m_HeavyAttackRequiredChargeTime - m_GleamPrecedeTime;
+
+            IAttackAnimationEvents _AnimationEvents = this.GetComponent<IAttackAnimationEvents>();
+            _AnimationEvents.OnParryStunStateStart.AddListener(() => this.m_PlayerAttackState.ParryStunned = true);
+            _AnimationEvents.OnParryStunStateEnd.AddListener(() => this.m_PlayerAttackState.ParryStunned = false);
         }
 
         private void Update()

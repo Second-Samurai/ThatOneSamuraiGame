@@ -10,6 +10,10 @@ public interface IMovementAnimationEvents
     
     UnityEvent OnDisableMovement { get; }
     
+    UnityEvent OnEnableRotation { get; }
+    
+    UnityEvent OnDisableRotation { get; }
+    
     UnityEvent OnBlockDodge { get; }
     
     UnityEvent OnStartDodge { get; }
@@ -31,9 +35,13 @@ public class PlayerAnimationReceiver_Movement : MonoBehaviour, IMovementAnimatio
 
     #region - - - - - - Fields - - - - - -
 
+    // Movement events
     private readonly UnityEvent m_OnEnableMovement = new();
     private readonly UnityEvent m_OnDisableMovement = new();
+    private readonly UnityEvent m_OnEnableRotation = new();
+    private readonly UnityEvent m_OnDisableRotation = new();
     
+    // Block events
     private readonly UnityEvent m_OnBlockDodge = new();
     private readonly UnityEvent m_OnStartDodge = new();
     private readonly UnityEvent m_OnEndDodge = new();
@@ -50,6 +58,10 @@ public class PlayerAnimationReceiver_Movement : MonoBehaviour, IMovementAnimatio
     public UnityEvent OnEnableMovement => this.m_OnEnableMovement;
 
     public UnityEvent OnDisableMovement => this.m_OnDisableMovement;
+
+    public UnityEvent OnEnableRotation => this.m_OnEnableRotation;
+
+    public UnityEvent OnDisableRotation => this.m_OnDisableRotation;
 
     public UnityEvent OnBlockDodge => this.m_OnBlockDodge;
     
@@ -76,6 +88,12 @@ public class PlayerAnimationReceiver_Movement : MonoBehaviour, IMovementAnimatio
 
     public void DisableMovement()
         => this.m_OnDisableMovement.Invoke();
+
+    public void EnableRotation()
+        => this.m_OnEnableRotation.Invoke();
+
+    public void DisableRotation()
+        => this.m_OnDisableRotation.Invoke();
     
     public void BlockDodge() 
         => this.m_OnBlockDodge.Invoke();

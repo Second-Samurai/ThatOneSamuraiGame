@@ -104,6 +104,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             IMovementAnimationEvents _AnimationEvents = this.GetComponent<IMovementAnimationEvents>();
             _AnimationEvents.OnEnableMovement.AddListener(((IPlayerMovement)this).EnableMovement);
             _AnimationEvents.OnDisableMovement.AddListener(((IPlayerMovement)this).DisableMovement);
+            _AnimationEvents.OnEnableRotation.AddListener(((IPlayerMovement)this).EnableRotation);
+            _AnimationEvents.OnDisableRotation.AddListener(((IPlayerMovement)this).DisableRotation);
             _AnimationEvents.OnStartDodge.AddListener(this.StartDodging);
             _AnimationEvents.OnEndDodge.AddListener(this.EndDodging);
             _AnimationEvents.OnBlockDodge.AddListener(this.BlockDodge);

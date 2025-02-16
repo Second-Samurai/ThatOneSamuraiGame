@@ -51,17 +51,17 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
 
         #region - - - - - - PlayerAttack Animation Events - - - - - -
 
-        public void DisableRotation()
-            => this.m_PlayerMovement.DisableRotation();
-
-        public void EnableRotation()
-            => this.m_PlayerMovement.EnableRotation();
+        // public void DisableRotation()
+        //     => this.m_PlayerMovement.DisableRotation();
+        //
+        // public void EnableRotation()
+        //     => this.m_PlayerMovement.EnableRotation();
         
-        public void EndParryStunState()
-            => this.m_PlayerAttackState.ParryStunned = false;
-        
-        public void StartParryStunState()
-            => this.m_PlayerAttackState.ParryStunned = true;
+        // public void EndParryStunState()
+        //     => this.m_PlayerAttackState.ParryStunned = false;
+        //
+        // public void StartParryStunState()
+        //     => this.m_PlayerAttackState.ParryStunned = true;
 
         #endregion PlayerAttack Animation Events
         

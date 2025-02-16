@@ -17,6 +17,10 @@ public interface IAttackAnimationEvents
     UnityEvent<float> OnForwardImpulse { get; }
     
     UnityEvent<float> OnForwardJumpImpulse { get; }
+    
+    UnityEvent OnParryStunStateStart { get; }
+    
+    UnityEvent OnParryStunStateEnd { get; }
 
     #endregion Properties
   
@@ -30,6 +34,7 @@ public class PlayerAnimationReceiver_Attack : MonoBehaviour, IAttackAnimationEve
 
     #region - - - - - - Fields - - - - - -
 
+    // Main attack events
     private readonly UnityEvent m_OnAttackStart = new();
     private readonly UnityEvent m_OnAttackEnd = new();
     private readonly UnityEvent m_OnAttackComboReset = new();
@@ -38,6 +43,10 @@ public class PlayerAnimationReceiver_Attack : MonoBehaviour, IAttackAnimationEve
     // TODO: Both these events are the same, should be combined
     private readonly UnityEvent<float> m_OnForwardImpulse = new();
     private readonly UnityEvent<float> m_OnForwardJumpImpulse = new();
+    
+    // Stun State events
+    private readonly UnityEvent m_OnParryStunStateStart = new();
+    private readonly UnityEvent m_OnParryStunStateEnd = new();
 
     #endregion Fields
 
@@ -54,6 +63,10 @@ public class PlayerAnimationReceiver_Attack : MonoBehaviour, IAttackAnimationEve
     public UnityEvent<float> OnForwardImpulse => this.m_OnForwardImpulse;
 
     public UnityEvent<float> OnForwardJumpImpulse => this.m_OnForwardJumpImpulse;
+
+    public UnityEvent OnParryStunStateStart => this.m_OnParryStunStateStart;
+
+    public UnityEvent OnParryStunStateEnd => this.m_OnParryStunStateEnd;
 
     #endregion Properties
 
@@ -84,6 +97,12 @@ public class PlayerAnimationReceiver_Attack : MonoBehaviour, IAttackAnimationEve
 
     public void JumpImpulseWithTimer(float timer)
         => this.m_OnForwardJumpImpulse.Invoke(timer);
+
+    public void StartParryStunState()
+        => this.m_OnParryStunStateStart.Invoke();
+    
+    public void EndParryStunState()
+        => this.m_OnParryStunStateEnd.Invoke();
 
     #endregion Methods
 

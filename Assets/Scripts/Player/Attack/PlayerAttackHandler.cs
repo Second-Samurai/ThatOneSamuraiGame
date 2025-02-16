@@ -78,7 +78,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         private void Start()
         {
             this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
-            this.m_CameraController = this.GetComponent<ICameraController>();
             this.m_CombatController = this.GetComponent<ICombatController>();
             this.m_HitstopController = Object.FindFirstObjectByType<HitstopController>();
             this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
@@ -229,6 +228,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             
             // Ends the camera roll
             // TODO: Fix the error from the line below
+            GameLogging.GameLogger.Log(this.m_CameraController.ToString());
             this.m_CameraController.EndCameraAction();
         }
 

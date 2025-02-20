@@ -5,7 +5,6 @@ using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Attack
 {
@@ -53,14 +52,14 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         [SerializeField] 
         private GameEvent m_EndHeavyTelegraphEvent; // This event feels out of place for this component. 
 
-        private float m_HeavyAttackRemainingChargeTime;
+        // private float m_HeavyAttackRemainingChargeTime;
         private readonly float m_HeavyAttackChargeTime = 1.5f;
-        // private readonly float m_HeavyAttackTimer = new Timer
+        private EventTimer m_HeavyAttackTimer;
 
         // Gleam Effect Fields
-        private bool m_GleamTimerFinished;
-        private float m_GleamTimer;
-        private readonly float m_GleamPrecedeTime = 0.4f;
+        // private bool m_GleamTimerFinished;
+        // private float m_GleamTimer;
+        // private readonly float m_GleamPrecedeTime = 0.4f;
 
         #endregion Fields
 
@@ -87,8 +86,14 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_WeaponSystem = this.GetComponent<IWeaponSystem>();
             this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
 
-            this.m_HeavyAttackRemainingChargeTime = this.m_HeavyAttackChargeTime;
-            m_GleamTimer = m_HeavyAttackChargeTime - m_GleamPrecedeTime;
+            // this.m_HeavyAttackRemainingChargeTime = this.m_HeavyAttackChargeTime;
+            this.m_HeavyAttackTimer = new EventTimer(
+                this.m_HeavyAttackChargeTime,
+                Time.deltaTime,
+                this.m_BlockingAttackHandler.m_BlockingEffects.PlayGleam,
+                false,
+                false);
+            // m_GleamTimer = m_HeavyAttackChargeTime - m_GleamPrecedeTime;
 
             IAttackAnimationEvents _AnimationEvents = this.GetComponent<IAttackAnimationEvents>();
             _AnimationEvents.OnParryStunStateStart.AddListener(() => this.m_PlayerAttackState.ParryStunned = true);
@@ -101,9 +106,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
                 return;
             
             if (this.m_PlayerAttackState.IsHeavyAttackCharging) 
-                this.TickHeavyTimer();
-            else if (Mathf.Approximately(this.m_HeavyAttackRemainingChargeTime, this.m_HeavyAttackChargeTime))
-                this.m_HeavyAttackRemainingChargeTime = this.m_HeavyAttackChargeTime;
+                this.m_HeavyAttackTimer.TickTimer();
+            // else if (Mathf.Approximately(this.m_HeavyAttackRemainingChargeTime, this.m_HeavyAttackChargeTime))
+            //     this.m_HeavyAttackRemainingChargeTime = this.m_HeavyAttackChargeTime;
         }
 
         #endregion Lifecycle Methods
@@ -116,7 +121,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             if (!this.m_WeaponSystem.IsWeaponEquipped()) return;
             
             if (this.m_PlayerAttackState.IsHeavyAttackCharging) // HEAVY ATTACK
-                Invoke("PerformHeavyAttack", m_HeavyAttackRemainingChargeTime);
+                this.PerformHeavyAttack();
+                // Invoke("PerformHeavyAttack", m_HeavyAttackRemainingChargeTime);
             else if(this.m_PlayerAttackState.CanAttack) // LIGHT ATTACK
             {
                 this.m_CombatController.AttemptLightAttack();
@@ -164,47 +170,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         {
             if (!this.m_WeaponSystem.IsWeaponEquipped()) return;
             
-            this.m_HeavyAttackRemainingChargeTime = this.m_HeavyAttackChargeTime;
-            this.StartHeavyAttack();
-        }
-
-        // Note: This behaviour is not implemented, but will be open for future use.
-        void IPlayerAttackHandler.StartHeavyAlternative()
-            => throw new NotImplementedException();
-        
-        private void PerformHeavyAttack()
-        {
-            this.m_ShowHeavyTutorialEvent.Raise();
-            this.m_EndHeavyTelegraphEvent.Raise();
-
-            this.m_PlayerAttackState.IsHeavyAttackCharging = false;
-            this.m_PlayerAttackState.IsWeaponSheathed = false;
-            this.m_GleamTimerFinished = false;
-            this.m_HeavyAttackRemainingChargeTime = this.m_HeavyAttackChargeTime;
-            
-            this.m_PlayerAnimationComponent.TriggerHeavyAttack();
-            
-            // Create gleam effect
-            //this.m_PlayerFunctions.parryEffects.PlayGleam();
-            
-            this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.EndHeavyAttachHeld);
-            
-            // Rolls the camera
-            // TODO: Fix the error from the code below
-            IFreelookCameraController _FreeLookCamera = this.m_CameraController
-                .GetCamera(SceneCameras.FreeLook)
-                .GetComponent<IFreelookCameraController>();
-            CameraRollAction _CameraRoll = new CameraRollAction(_FreeLookCamera, this);
-            this.m_CameraController.SetCameraAction(_CameraRoll);
-        }
-        
-        private void StartHeavyAttack()
-        {
             // Commenting line below from merge conflict with camera rework
             //if (!this.m_PlayerAttackState.CanAttack /*&& this.m_Animator.GetBool("HeavyAttackHeld")*/)
             if (!this.m_PlayerAttackState.CanAttack 
                 && this.m_AnimationDispatcher.Check(PlayerAnimationCheckState.HeavyAttackHeld))
                 return;
+            
+            this.m_HeavyAttackTimer.StartTimer();
             
             this.m_ShowHeavyTelegraphEvent.Raise();
             
@@ -223,32 +195,62 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_CameraController.EndCameraAction();
         }
 
-        // Tech-Debt: #36 - Create a simple universal timer to keep timer behaviour consistent.
-        private void CountdownHeavyTimer()
+        // Note: This behaviour is not implemented, but will be open for future use.
+        void IPlayerAttackHandler.StartHeavyAlternative()
+            => throw new NotImplementedException();
+        
+        private void PerformHeavyAttack()
         {
-            this.m_HeavyAttackRemainingChargeTime -= Time.deltaTime;
-            
-            if (!(this.m_HeavyAttackRemainingChargeTime <= 0)) return;
-        }
+            this.m_ShowHeavyTutorialEvent.Raise();
+            this.m_EndHeavyTelegraphEvent.Raise();
 
-        private void TickHeavyTimer()
-        {
-            this.CountdownHeavyTimer();
+            this.m_PlayerAttackState.IsHeavyAttackCharging = false;
+            this.m_PlayerAttackState.IsWeaponSheathed = false;
             
-            if(!m_GleamTimerFinished)
-                this.CountdownGleamTimer();
+            this.m_HeavyAttackTimer.StopTimer();
+            this.m_HeavyAttackTimer.ResetTimer();
+            
+            this.m_PlayerAnimationComponent.TriggerHeavyAttack();
+            
+            //this.m_PlayerFunctions.parryEffects.PlayGleam();
+            
+            this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.EndHeavyAttachHeld);
+            
+            // Rolls the camera
+            // TODO: Fix the error from the code below
+            IFreelookCameraController _FreeLookCamera = this.m_CameraController
+                .GetCamera(SceneCameras.FreeLook)
+                .GetComponent<IFreelookCameraController>();
+            CameraRollAction _CameraRoll = new CameraRollAction(_FreeLookCamera, this);
+            this.m_CameraController.SetCameraAction(_CameraRoll);
         }
         
-        private void CountdownGleamTimer()
-        {
-            this.m_GleamTimer -= Time.deltaTime;
-            
-            if (!(this.m_GleamTimer <= 0)) return;
-            
-            this.m_GleamTimerFinished = true;
-            this.m_GleamTimer = m_HeavyAttackChargeTime - this.m_GleamPrecedeTime;
-            this.m_BlockingAttackHandler.m_BlockingEffects.PlayGleam(); // TODO: Change this to use interface instead.
-        }
+        // Tech-Debt: #36 - Create a simple universal timer to keep timer behaviour consistent.
+        // private void CountdownHeavyTimer()
+        // {
+        //     this.m_HeavyAttackRemainingChargeTime -= Time.deltaTime;
+        //     
+        //     if (!(this.m_HeavyAttackRemainingChargeTime <= 0)) return;
+        // }
+
+        // private void TickHeavyTimer()
+        // {
+        //     this.CountdownHeavyTimer();
+        //     
+        //     if(!m_GleamTimerFinished)
+        //         this.CountdownGleamTimer();
+        // }
+        
+        // private void CountdownGleamTimer()
+        // {
+        //     this.m_GleamTimer -= Time.deltaTime;
+        //     
+        //     if (!(this.m_GleamTimer <= 0)) return;
+        //     
+        //     this.m_GleamTimerFinished = true;
+        //     this.m_GleamTimer = m_HeavyAttackChargeTime - this.m_GleamPrecedeTime;
+        //     this.m_BlockingAttackHandler.m_BlockingEffects.PlayGleam(); // TODO: Change this to use interface instead.
+        // }
         
         #endregion Heavy Attack Methods
         

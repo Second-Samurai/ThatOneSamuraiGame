@@ -1,5 +1,7 @@
 ﻿using Player.Animation;
 using ThatOneSamuraiGame.Scripts.Base;
+using ThatOneSamuraiGame.Scripts.Player.Attack;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame
@@ -19,9 +21,11 @@ namespace ThatOneSamuraiGame
         private IKPuppet m_IKPuppet;
         private PlayerAnimationComponent m_PlayerAnimationComponent;
         private KnockbackAttackHandler m_KnockbackAttackHandler;
+        private PlayerWeaponSystem m_PlayerWeaponSystem;
+        private PlayerAttackState m_PlayerAttackState;
         
         // Block flags
-        private bool m_CanBlock = true;
+        private bool m_IsBlockingEnabled = true;
         private bool m_IsBlocking;
         private float m_CurrentBlockCooldownTime;
 
@@ -32,7 +36,9 @@ namespace ThatOneSamuraiGame
         private void Start()
         {
             this.m_KnockbackAttackHandler = this.GetComponent<KnockbackAttackHandler>();
-            this.m_PlayerSFX = this.gameObject.GetComponent<PlayerSFX>();
+            this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
+            this.m_PlayerSFX = this.GetComponent<PlayerSFX>();
+            this.m_PlayerWeaponSystem = this.GetComponent<PlayerWeaponSystem>();
             this.m_IKPuppet = this.GetComponent<IKPuppet>();
         }
         
@@ -48,11 +54,17 @@ namespace ThatOneSamuraiGame
 
         public void StartBlock()
         {
-            if (this.m_IsBlocking && this.m_CurrentBlockCooldownTime >= 0f && !this.m_CanBlock)
+            if (!this.CanBlock())
+                return;
+
+            if (this.m_IsBlocking && this.m_CurrentBlockCooldownTime >= 0f && !this.m_IsBlockingEnabled)
             {
-                Debug.LogError("bIsblocking: " + this.m_IsBlocking + " blockTimer: " + this.m_CurrentBlockCooldownTime + " bcanBlock: " + this.m_CanBlock);
+                Debug.LogError("bIsblocking: " + this.m_IsBlocking + " blockTimer: " + this.m_CurrentBlockCooldownTime + " bcanBlock: " + this.m_IsBlockingEnabled);
                 return;
             }
+            
+            if (this.m_PlayerAttackState.ParryStunned)
+                ((IPlayerAttackHandler)this).EndParryAction();
             
             this.m_PlayerSFX.Armour();
             this.m_BlockingEffects.PlayGleam();
@@ -109,12 +121,14 @@ namespace ThatOneSamuraiGame
 
         public void DisableBlock()
         {
-            this.m_CanBlock = false;
+            this.m_IsBlockingEnabled = false;
             this.m_IKPuppet.DisableIK();
         }
 
         public void EnableBlock() 
-            => this.m_CanBlock = true;
+            => this.m_IsBlockingEnabled = true;
+        
+        public bool CanBlock() => this.m_PlayerWeaponSystem.IsWeaponDrawn && this.m_IsBlockingEnabled;
 
         #endregion Methods
   

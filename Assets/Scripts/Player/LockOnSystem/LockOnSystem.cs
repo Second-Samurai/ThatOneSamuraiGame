@@ -34,7 +34,7 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
     private ICameraController m_CameraController;
     private ILockOnObserver m_LockOnObserver;
     private Transform m_TargetTransform;
-    private AISystem m_EnemyAISystem; // Maintained from before but should not be coupled.
+    // private AISystem m_EnemyAISystem; // Maintained from before but should not be coupled.
 
     private bool m_IsLockedOn;
 

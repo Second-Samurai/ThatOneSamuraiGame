@@ -18,6 +18,8 @@ namespace ThatOneSamuraiGame
         private IWeaponEffectHandler m_WeaponEffectHandler;
         private PlayerAttackState m_PlayerAttackState;
 
+        private bool m_IsWeaponDrawn;
+        
         #endregion Fields
 
         #region - - - - - - Properties - - - - - -
@@ -27,6 +29,8 @@ namespace ThatOneSamuraiGame
         
         public IWeaponEffectHandler WeaponEffectHandler
             => this.m_WeaponEffectHandler;
+
+        public bool IsWeaponDrawn => this.m_IsWeaponDrawn;
 
         #endregion Properties
 

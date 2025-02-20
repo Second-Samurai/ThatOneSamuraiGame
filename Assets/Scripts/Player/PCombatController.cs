@@ -1,7 +1,9 @@
-﻿using Player.Animation;
+﻿using System;
+using Player.Animation;
 using ThatOneSamuraiGame;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public interface ICombatController
 {
@@ -32,6 +34,7 @@ public interface ICombatController
   
 }
 
+[Obsolete]
 public class PCombatController : MonoBehaviour, ICombatController
 {
 
@@ -152,6 +155,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     /// <summary>
     /// Draws the player sword
     /// </summary>
+    ///  TODO: For Weapon system
     public void DrawSword() //TODO: SHOULD BE AUTOMATIC
     {
         if (!this.m_WeaponSystem.IsWeaponEquipped()) return;
@@ -165,6 +169,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     /// <summary>
     /// Primary method for running Light Attacks.
     /// </summary>
+    /// TODO: For Attack Handler
     public void AttemptLightAttack()
     {
         if (_isInputBlocked || !_isSwordDrawn)
@@ -194,22 +199,26 @@ public class PCombatController : MonoBehaviour, ICombatController
         comboTracker.RegisterInput(isSprintAttack);
     }
 
+    /// TODO: For Attack Handler
     private void HeavyAttack()
     {
         if (_isInputBlocked) return;
     }
 
+    /// TODO: For Attack Handler
     //Summary: Resets the AttackCombo after 'Animation Event' has finished.
     public void ResetAttackCombo() {
         //_animator.ResetTrigger("AttackLight");
         _comboHits = 0;
     }
 
+    /// TODO: For Attack Handler
     public void BlockCombatInputs()
     {
         _isInputBlocked = true;
     }
 
+    /// TODO: For Attack Handler
     public void UnblockCombatInputs()
     {
         _isInputBlocked = false;
@@ -277,6 +286,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         _playerDodgeMovement.EnableDodge();
     }
  
+    // TODO: Audio action
     public void PlaySlash()
     {
         if (audioManager.LightSaber == false)
@@ -292,6 +302,7 @@ public class PCombatController : MonoBehaviour, ICombatController
 
     }
 
+    // TODO: Audio action
     public void PlayHit()
     {
         if (audioManager.LightSaber == false)
@@ -307,6 +318,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         }
     }
 
+    // TODO: Audio action
     private void PlayHeavySwing()
     {
         if (audioManager.LightSaber == false)
@@ -321,6 +333,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         }
     }
 
+    // TODO: Audio action
     public void PlayHeavyHit()
     {
         if (audioManager.LightSaber == false)

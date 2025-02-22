@@ -20,7 +20,7 @@ namespace ThatOneSamuraiGame
         private PlayerSFX m_PlayerSFX;
         private IKPuppet m_IKPuppet;
         private PlayerAnimationComponent m_PlayerAnimationComponent;
-        private KnockbackAttackHandler m_KnockbackAttackHandler;
+        private ParryAttackHandler m_ParryAttackHandler;
         private PlayerWeaponSystem m_PlayerWeaponSystem;
         private PlayerAttackState m_PlayerAttackState;
         
@@ -35,7 +35,7 @@ namespace ThatOneSamuraiGame
 
         private void Start()
         {
-            this.m_KnockbackAttackHandler = this.GetComponent<KnockbackAttackHandler>();
+            this.m_ParryAttackHandler = this.GetComponent<ParryAttackHandler>();
             this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
             this.m_PlayerSFX = this.GetComponent<PlayerSFX>();
             this.m_PlayerWeaponSystem = this.GetComponent<PlayerWeaponSystem>();
@@ -69,7 +69,7 @@ namespace ThatOneSamuraiGame
             this.m_PlayerSFX.Armour();
             this.m_BlockingEffects.PlayGleam();
             this.m_IKPuppet.EnableIK();
-            this.m_KnockbackAttackHandler.StopParry();
+            this.m_ParryAttackHandler.StopParry();
             
             this.m_IsBlocking = true;
         }
@@ -96,7 +96,7 @@ namespace ThatOneSamuraiGame
             if (!this.m_IsBlocking) return;
             
             this.m_IsBlocking = false;
-            this.m_KnockbackAttackHandler.StopParry();
+            this.m_ParryAttackHandler.StopParry();
             this.m_IKPuppet.DisableIK();
             this.ResetBlockCooldown();
         }

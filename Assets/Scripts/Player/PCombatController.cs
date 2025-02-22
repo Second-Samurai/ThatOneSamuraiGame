@@ -26,7 +26,7 @@ public interface ICombatController
     
     bool CheckIsAttacking();
     
-    void EndAttack();
+    // void EndAttack();
     
     // void ResetAttackCombo();
 
@@ -48,7 +48,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     private IWeaponSystem m_WeaponSystem;
 
     //Private Variables
-    private KnockbackAttackHandler m_KnockbackAttackHandler;
+    private ParryAttackHandler m_ParryAttackHandler;
     private BlockingAttackHandler m_BlockingAttackHandler;
     
     private PDamageController _damageController;
@@ -95,7 +95,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         this.m_WeaponSystem = this.GetComponent<IWeaponSystem>();
 
         _damageController = GetComponent<PDamageController>();
-        this.m_KnockbackAttackHandler = this.GetComponent<KnockbackAttackHandler>();
+        this.m_ParryAttackHandler = this.GetComponent<ParryAttackHandler>();
         this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
         m_PlayerMovement = GetComponent<PlayerMovement>();
 
@@ -243,13 +243,13 @@ public class PCombatController : MonoBehaviour, ICombatController
     //
     // //Summary: Disables the detection of the sword.
     // //
-    public void EndAttack()
-    {
-        _isAttacking = false;
-        // _functions.EnableBlock();
-        this.m_BlockingAttackHandler.EnableBlock();
-        attackCol.enabled = false;
-    }
+    // public void EndAttack()
+    // {
+    //     _isAttacking = false;
+    //     // _functions.EnableBlock();
+    //     this.m_BlockingAttackHandler.EnableBlock();
+    //     attackCol.enabled = false;
+    // }
 
     //Summary: Methods towards enabling and disabling player blocking
     //
@@ -260,11 +260,11 @@ public class PCombatController : MonoBehaviour, ICombatController
     //     this.m_WeaponSystem.WeaponEffectHandler.BeginUnblockableEffect();
     // }
 
-    public void EndUnblockable()
-    {
-        isUnblockable = false;
-        this.m_WeaponSystem.WeaponEffectHandler.EndUnblockableEffect();
-    }
+    // public void EndUnblockable()
+    // {
+    //     isUnblockable = false;
+    //     this.m_WeaponSystem.WeaponEffectHandler.EndUnblockableEffect();
+    // }
 
     public bool CheckIsAttacking()
     {
@@ -276,10 +276,12 @@ public class PCombatController : MonoBehaviour, ICombatController
         return _playerStats.baseDamage;
     }
 
+    // TODO: Refactor this last, its responsibility is not clear
     public void IsParried()
     {
-        EndUnblockable();
-        // EndAttack();
+        // EndUnblockable(); // Was commented
+        this.m_WeaponSystem.WeaponEffectHandler.EndUnblockableEffect();
+        // EndAttack();  // Was commented
         //_playerInput.RemoveOverride(); // Note: The override is unused
         m_PlayerAnimationComponent.TriggerIsParried();
 

@@ -69,10 +69,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack.Debug
             GameObject _PlayerObject = this.GetPlayerObject();
             if (_PlayerObject != null)
             {
-                KnockbackAttackHandler _KnockbackHandler = _PlayerObject.GetComponent<KnockbackAttackHandler>();
+                ParryAttackHandler _ParryHandler = _PlayerObject.GetComponent<ParryAttackHandler>();
                 GameObject _NearestEnemy = this.GetNearestEnemyObject(_PlayerObject.transform);
                 
-                _KnockbackHandler.TriggerParry(_NearestEnemy, 20);
+                _ParryHandler.TriggerParry(_NearestEnemy, 20);
                 IDamageable _PlayerDamageable = _PlayerObject.GetComponent<IDamageable>();
                 _PlayerDamageable.OnEntityDamage(20, _NearestEnemy, false);
             }

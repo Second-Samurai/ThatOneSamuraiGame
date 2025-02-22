@@ -81,7 +81,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
             IAttackAnimationEvents _AnimationEvents = this.GetComponent<IAttackAnimationEvents>();
             _AnimationEvents.OnParryStunStateStart.AddListener(() => this.m_PlayerAttackState.ParryStunned = true);
-            _AnimationEvents.OnParryStunStateEnd.AddListener(() => this.m_PlayerAttackState.ParryStunned = false)
+            _AnimationEvents.OnParryStunStateEnd.AddListener(() => this.m_PlayerAttackState.ParryStunned = false);
             _AnimationEvents.OnAttackStart.AddListener(this.PrepareAttack);
             _AnimationEvents.OnAttackEnd.AddListener(this.EndAttack);
         }
@@ -137,8 +137,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         void IPlayerAttackHandler.ResetAttack()
         {
             this.m_PlayerAttackState.CanAttack = true;
-            
-            this.m_CombatController.EndAttack();
+            this.EndAttack();
         }
 
         #endregion General Methods

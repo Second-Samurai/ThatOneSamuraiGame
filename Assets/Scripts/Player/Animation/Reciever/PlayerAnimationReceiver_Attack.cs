@@ -104,6 +104,8 @@ public class PlayerAnimationReceiver_Attack : MonoBehaviour, IAttackAnimationEve
     public void EndParryStunState()
         => this.m_OnParryStunStateEnd.Invoke();
 
+    public void CheckCombo() { } // Included to provide a receiver for the animation event. Event is no longer needed.
+
     #endregion Methods
 
 }

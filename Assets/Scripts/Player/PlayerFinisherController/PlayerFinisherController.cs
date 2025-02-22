@@ -54,7 +54,7 @@ public class PlayerFinisherController :
     private PDamageController m_PlayerDamageController;
     [RequiredField] 
     [SerializeField] 
-    private PlayerAttackHandler m_PlayerAttackHandler;
+    private PlayerAttackSystem m_PlayerAttackHandler;
     [RequiredField] 
     [SerializeField] 
     private GameObject m_PlayerObject;

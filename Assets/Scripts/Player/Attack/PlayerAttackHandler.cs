@@ -27,7 +27,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
   
     }
     
-    public class PlayerAttackHandler : 
+    public class PlayerAttackSystem : 
         PausableMonoBehaviour, 
         IInitialize<PlayerAttackInitializerData>,
         IPlayerAttackHandler

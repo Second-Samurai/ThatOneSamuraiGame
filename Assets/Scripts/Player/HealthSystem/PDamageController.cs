@@ -22,7 +22,7 @@ public class PDamageController : MonoBehaviour, IDamageable
 
     private StatHandler playerStats;
     private BlockingAttackHandler m_BlockingAttackHandler;
-    private KnockbackAttackHandler m_KnockbackAttackHandler;
+    private ParryAttackHandler m_ParryAttackHandler;
     private PlayerAnimationComponent m_PlayerAnimationComponent;
     private ILockOnSystem m_LockOnSystem;
 
@@ -35,7 +35,7 @@ public class PDamageController : MonoBehaviour, IDamageable
         this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
         this.m_LockOnSystem = this.GetComponent<ILockOnSystem>();
         this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
-        this.m_KnockbackAttackHandler = this.GetComponent<KnockbackAttackHandler>();
+        this.m_ParryAttackHandler = this.GetComponent<ParryAttackHandler>();
         this.playerStats = playerStats;
     }
 
@@ -49,7 +49,7 @@ public class PDamageController : MonoBehaviour, IDamageable
 
         if (!unblockable)
         {
-            this.m_KnockbackAttackHandler.HandleParryHit(attacker, damage, out bool _IsHitParried);
+            this.m_ParryAttackHandler.HandleParryHit(attacker, damage, out bool _IsHitParried);
             this.m_BlockingAttackHandler.HandleBlockHit(out bool _IsHitBlocked);
             
             if (!_IsHitParried && !_IsHitBlocked)

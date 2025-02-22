@@ -9,7 +9,7 @@ using UnityEngine;
 namespace ThatOneSamuraiGame
 {
 
-    public class KnockbackAttackHandler : MonoBehaviour
+    public class ParryAttackHandler : MonoBehaviour
     {
 
         #region - - - - - - Fields - - - - - -

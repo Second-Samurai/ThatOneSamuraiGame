@@ -51,9 +51,9 @@ public class Checkpoint : MonoBehaviour
         IWeaponSystem _WeaponSystem = this.GetComponent<IWeaponSystem>();
         _WeaponSystem.SetWeapon(GameManager.instance.gameSettings.katanaPrefab);
 
-        PlayerFunctions _Player = GameManager.instance.PlayerController.gameObject.GetComponent<PlayerFunctions>();
-        ICombatController playerCombatController = _Player.gameObject.GetComponent<ICombatController>();
-        playerCombatController.DrawSword();
+        // PlayerFunctions _Player = GameManager.instance.PlayerController.gameObject.GetComponent<PlayerFunctions>();
+        // ICombatController playerCombatController = _Player.gameObject.GetComponent<ICombatController>();
+        // playerCombatController.DrawSword();
 
         this.m_PlayerAttackState.CanAttack = true;
     }

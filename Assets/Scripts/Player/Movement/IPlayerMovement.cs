@@ -5,7 +5,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
     
     public interface IPlayerMovement
     {
-        
+
+        #region - - - - - - Properties - - - - - -
+
+        bool IsSprinting { get; }
+
+        #endregion Properties
+  
         #region - - - - - - Methods - - - - - -
 
         void CancelMove();

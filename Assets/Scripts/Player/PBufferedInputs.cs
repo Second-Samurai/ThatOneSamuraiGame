@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[Obsolete]
 public class PBufferedInputs : MonoBehaviour
 {
     #region - - - - - - Fields - - - - - -
@@ -47,7 +48,7 @@ public class PBufferedInputs : MonoBehaviour
                 {
                     //Debug.Log("Performing cached attack");
                     m_isAttackInputCached = false;
-                    m_PlayerCombatController.AttemptLightAttack();
+                    // m_PlayerCombatController.AttemptLightAttack();
                 }
             }
         }

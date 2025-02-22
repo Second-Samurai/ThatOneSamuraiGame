@@ -9,24 +9,6 @@ using UnityEngine;
 namespace ThatOneSamuraiGame.Scripts.Player.Attack
 {
 
-    public class PlayerAttackInitializerData
-    {
-
-        #region - - - - - - Properties - - - - - -
-
-        public ICameraController CameraController { get; private set; }
-
-        #endregion Properties
-
-        #region - - - - - - Constructors - - - - - -
-
-        public PlayerAttackInitializerData(ICameraController cameraController) 
-            => this.CameraController = cameraController;
-
-        #endregion Constructors
-  
-    }
-    
     public class PlayerAttackSystem : 
         PausableMonoBehaviour, 
         IInitialize<PlayerAttackInitializerData>,
@@ -42,9 +24,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         private HitstopController m_HitstopController;
         private PlayerAttackState m_PlayerAttackState;
         private IPlayerAnimationDispatcher m_AnimationDispatcher;
-        private BlockingAttackHandler m_BlockingAttackHandler;
         private IWeaponSystem m_WeaponSystem;
-
+        
+        // Attack Component Fields
+        private BlockingAttackHandler m_BlockingAttackHandler;
+        private LightAttackHandler m_LightAttackHandler;
+        
         [SerializeField] 
         private GameEvent m_ShowHeavyTutorialEvent; // This event feels out of place for this component.
         [SerializeField] 
@@ -80,7 +65,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
             this.m_AnimationDispatcher = this.GetComponent<IPlayerAnimationDispatcher>();
             this.m_WeaponSystem = this.GetComponent<IWeaponSystem>();
+            
             this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
+            this.m_LightAttackHandler = this.GetComponent<LightAttackHandler>();
 
             this.m_HeavyAttackTimer = new EventTimer(
                 this.m_HeavyAttackChargeTime,
@@ -112,18 +99,15 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         // NOTE: IPlayerAttackHandler.Attack() is a release input option (e.g. OnMouseUp)
         void IPlayerAttackHandler.Attack()
         {
-            if (!this.m_WeaponSystem.IsWeaponEquipped()) return;
+            if (!this.m_WeaponSystem.IsWeaponEquipped() || !this.m_CanAttack) return;
             
             if (this.m_PlayerAttackState.IsHeavyAttackCharging) // HEAVY ATTACK
                 this.PerformHeavyAttack();
+            else
+                this.m_LightAttackHandler.QueueLightAttack();
             
-            else if(this.m_PlayerAttackState.CanAttack) // LIGHT ATTACK
-            {
-                this.m_CombatController.AttemptLightAttack();
-                
-                if (this.m_HitstopController.bIsSlowing)
-                    this.m_HitstopController.CancelEffects();
-            }
+            if (this.m_HitstopController.bIsSlowing)
+                this.m_HitstopController.CancelEffects();
         }
 
         public void EnableAttack()
@@ -159,35 +143,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         #endregion Parry and Block Methods
 
-        #region - - - - - - Light Attack Methods - - - - - -
-
-        private void RunLightAttack()
-        {
-            if (!this.m_CanAttack) return;
-            
-            if (m_PlayerBufferedInputs.IsAttackInputBufferRunning())
-            {
-                m_PlayerBufferedInputs.SetAttackInputCached(true);
-                return;
-            }
-            
-            // Start the buffer
-            m_PlayerBufferedInputs.StartAttackBuffer();
-        
-            // Increment combo
-            _comboHits++;
-            //_comboHits = Mathf.Clamp(_comboHits, 0, 4);
-            _chargeTime = 0;
-        
-            // Determine if the next attack should be a sprint attack
-            bool isSprintAttack = m_PlayerMovement.IsSprinting() && m_PlayerMovement.GetSprintDuration() > m_MinSprintTime;
-        
-            // Do the "Magic" of attacking
-            comboTracker.RegisterInput(isSprintAttack);
-        }
-
-        #endregion Light Attack Methods
-  
         #region - - - - - - Heavy Attack Methods - - - - - -
 
         void IPlayerAttackHandler.StartHeavy()
@@ -249,5 +204,24 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         #endregion Heavy Attack Methods
         
     }
+    
+    public class PlayerAttackInitializerData
+    {
+
+        #region - - - - - - Properties - - - - - -
+
+        public ICameraController CameraController { get; private set; }
+
+        #endregion Properties
+
+        #region - - - - - - Constructors - - - - - -
+
+        public PlayerAttackInitializerData(ICameraController cameraController) 
+            => this.CameraController = cameraController;
+
+        #endregion Constructors
+  
+    }
+
     
 }

@@ -45,6 +45,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
             this.m_InputControlData.PlayerMovement = this.m_ActivePlayer.GetComponent<IPlayerMovement>();
             this.m_InputControlData.PlayerTargetTracking = this.m_ActivePlayer.GetComponent<IPlayerTargetTracking>();
             this.m_InputControlData.PlayerViewOrientationHandler = this.m_ActivePlayer.GetComponent<IPlayerViewOrientationHandler>();
+            this.m_InputControlData.PlayerWeaponSystem = this.m_ActivePlayer.GetComponent<IWeaponSystem>();
             
             // Debug
             this.m_InputControlData.DebugHandler = DebugManager.Instance.gameObject.gameObject.GetComponent<IDebugHandler>();

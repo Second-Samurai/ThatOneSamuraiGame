@@ -73,7 +73,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private float m_RotationSpeed = 4f;
         
         #endregion Fields
-        
+
+        #region - - - - - - Properties - - - - - -
+
+        public bool IsSprinting => this.m_IsSprinting;
+
+        #endregion Properties
+  
         #region - - - - - - Initializers - - - - - -
 
         public void Initialize(PlayerMovementInitializerData initializerData)
@@ -153,7 +159,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_CurrentMovementState.CalculateMovement();
             this.m_CurrentMovementState.ApplyMovement();
             
-            if (IsSprinting())
+            if (IsSprinting)
                 TickSprintDuration();
         }
 
@@ -208,8 +214,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         // --------------------------------
         // Movement
         // --------------------------------
-
-        public bool IsSprinting() => m_IsSprinting;
 
         public float GetSprintDuration() => m_SprintDuration;
         

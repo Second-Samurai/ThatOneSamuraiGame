@@ -70,11 +70,17 @@ namespace ThatOneSamuraiGame
             this.m_PlayerAttackState.CanAttack = true;
         }
         
-        private void RevealWeapon() 
-            => this.m_EquippedWeapon.SetActive(true);
+        public void RevealWeapon()
+        {
+            this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.DrawSword);
+            this.m_EquippedWeapon.SetActive(true);
+        }
 
-        private void HideWeapon() 
-            => this.m_EquippedWeapon.SetActive(false);
+        public void HideWeapon()
+        {
+            this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.SheathSword);
+            this.m_EquippedWeapon.SetActive(false);
+        }
 
         public void StartWeaponEffect(float slashAngle) 
             => this.m_WeaponEffectHandler.CreateSlashEffect(slashAngle);

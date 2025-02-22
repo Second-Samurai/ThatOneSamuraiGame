@@ -25,6 +25,8 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         
         public IPlayerViewOrientationHandler PlayerViewOrientationHandler { get; set; }
         
+        public IWeaponSystem PlayerWeaponSystem { get; set; }
+        
         public IDebugHandler DebugHandler { get; set; }
 
         #endregion Properties

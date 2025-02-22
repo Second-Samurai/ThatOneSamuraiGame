@@ -16,13 +16,13 @@ public interface ICombatController
   
     #region - - - - - - Methods - - - - - -
 
-    void AttemptLightAttack();
+    // void AttemptLightAttack();
     
     void BlockCombatInputs();
     
     void UnblockCombatInputs();
     
-    void DrawSword();
+    // void DrawSword();
     
     bool CheckIsAttacking();
     
@@ -174,34 +174,34 @@ public class PCombatController : MonoBehaviour, ICombatController
     /// Primary method for running Light Attacks.
     /// </summary>
     /// TODO: For Attack Handler
-    public void AttemptLightAttack()
-    {
-        if (_isInputBlocked || !_isSwordDrawn)
-        {
-            //Debug.Log("Input blocked");
-            return;
-        }
-        
-        if (m_PlayerBufferedInputs.IsAttackInputBufferRunning())
-        {
-            m_PlayerBufferedInputs.SetAttackInputCached(true);
-            return;
-        }
-        
-        // Start the buffer
-        m_PlayerBufferedInputs.StartAttackBuffer();
-        
-        // Increment combo
-        _comboHits++;
-        //_comboHits = Mathf.Clamp(_comboHits, 0, 4);
-        _chargeTime = 0;
-        
-        // Determine if the next attack should be a sprint attack
-        bool isSprintAttack = m_PlayerMovement.IsSprinting() && m_PlayerMovement.GetSprintDuration() > m_MinSprintTime;
-        
-        // Do the "Magic" of attacking
-        comboTracker.RegisterInput(isSprintAttack);
-    }
+    // public void AttemptLightAttack()
+    // {
+    //     if (_isInputBlocked || !_isSwordDrawn)
+    //     {
+    //         //Debug.Log("Input blocked");
+    //         return;
+    //     }
+    //     
+    //     if (m_PlayerBufferedInputs.IsAttackInputBufferRunning())
+    //     {
+    //         m_PlayerBufferedInputs.SetAttackInputCached(true);
+    //         return;
+    //     }
+    //     
+    //     // Start the buffer
+    //     m_PlayerBufferedInputs.StartAttackBuffer();
+    //     
+    //     // Increment combo
+    //     _comboHits++;
+    //     //_comboHits = Mathf.Clamp(_comboHits, 0, 4);
+    //     _chargeTime = 0;
+    //     
+    //     // Determine if the next attack should be a sprint attack
+    //     bool isSprintAttack = m_PlayerMovement.IsSprinting() && m_PlayerMovement.GetSprintDuration() > m_MinSprintTime;
+    //     
+    //     // Do the "Magic" of attacking
+    //     comboTracker.RegisterInput(isSprintAttack);
+    // }
 
     /// TODO: For Attack Handler
     private void HeavyAttack()

@@ -47,12 +47,8 @@ public class SwordPickup : MonoBehaviour
             AudioManager.instance.LightSaber = true;
             return;
         }
-        
-        ICombatController playerCombatController = holder.GetComponent<ICombatController>();
-        playerCombatController.DrawSword();
 
         this.m_PlayerAttackState.CanAttack = true;
-        
         this.gameObject.SetActive(false);
     }
 

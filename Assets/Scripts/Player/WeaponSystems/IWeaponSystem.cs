@@ -20,6 +20,10 @@ namespace ThatOneSamuraiGame
         
         void StartWeaponEffect(float slashAngle);
 
+        void RevealWeapon();
+        
+        void HideWeapon();
+
         bool IsWeaponEquipped();
 
         #endregion Methods

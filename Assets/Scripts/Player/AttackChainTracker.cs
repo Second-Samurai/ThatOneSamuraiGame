@@ -1,6 +1,8 @@
-﻿using Player.Animation;
+﻿using System;
+using Player.Animation;
 using UnityEngine;
 
+[Obsolete]
 public class AttackChainTracker : MonoBehaviour
 {
     private PlayerAnimationComponent m_PlayerAnimationComponent;

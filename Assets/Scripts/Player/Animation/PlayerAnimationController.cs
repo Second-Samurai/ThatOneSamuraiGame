@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using ThatOneSamuraiGame.GameLogging;
+using UnityEngine;
 
 public interface IPlayerAnimationDispatcher
 {
@@ -13,11 +15,22 @@ public interface IPlayerAnimationDispatcher
 
 }
 
+public interface IAnimationClipDurationProvider
+{
+
+    #region - - - - - - Methods - - - - - -
+
+    float GetAnimationClipLength(string clipName);
+
+    #endregion Methods
+
+}
+
 /// <summary>
 /// Responsible for sending updates to the Player's animator.
 /// </summary>
 [RequireComponent(typeof(Animator))]
-public class PlayerAnimationDispatcher : MonoBehaviour, IPlayerAnimationDispatcher
+public class PlayerAnimationController : MonoBehaviour, IPlayerAnimationDispatcher, IAnimationClipDurationProvider
 {
 
     #region - - - - - - Fields - - - - - -
@@ -28,12 +41,6 @@ public class PlayerAnimationDispatcher : MonoBehaviour, IPlayerAnimationDispatch
 
     #endregion Fields
     
-    // ************************************************************
-    // IMPORTANT: 
-    // Optional Action<> arguments have not been implemented into the Animation event.
-    // The state implementation defines the usage but in here we default any boolean to false and floats to 0.0f.
-    // ************************************************************
-
     #region - - - - - - Methods - - - - - -
 
     public bool Check(PlayerAnimationCheckState eventState)
@@ -45,6 +52,16 @@ public class PlayerAnimationDispatcher : MonoBehaviour, IPlayerAnimationDispatch
         float floatValue = 0f, 
         int intValue = 0) 
         => eventState.Run(this.m_PlayerAnimator, boolValue, floatValue, intValue);
+
+    public float GetAnimationClipLength(string clipName)
+    {
+        if (this.m_PlayerAnimator.runtimeAnimatorController.animationClips.Any(ac => ac.name == clipName))
+            return this.m_PlayerAnimator.runtimeAnimatorController.animationClips
+                .First(ac => ac.name == clipName).length;
+        
+        GameLogger.LogError($"There is no animation clip under the name: '{clipName}'");
+        return 0.2f; // Default fallback time
+    }
 
     #endregion Methods
 

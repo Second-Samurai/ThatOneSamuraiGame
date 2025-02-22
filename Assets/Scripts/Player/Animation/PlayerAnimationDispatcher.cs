@@ -7,14 +7,10 @@ public interface IPlayerAnimationDispatcher
 
     bool Check(PlayerAnimationCheckState eventState);
 
-    void Dispatch(PlayerAnimationEventStates eventState);
+    void Dispatch(PlayerAnimationEventStates eventState, bool boolValue = false, float floatValue = 0f, int intValue = 0);
     
-    void Dispatch(PlayerAnimationEventStates eventState, bool value);
-    
-    void Dispatch(PlayerAnimationEventStates eventState, float value);
-
     #endregion Methods
-  
+
 }
 
 /// <summary>
@@ -43,14 +39,12 @@ public class PlayerAnimationDispatcher : MonoBehaviour, IPlayerAnimationDispatch
     public bool Check(PlayerAnimationCheckState eventState)
         => eventState.CheckAction.Invoke(this.m_PlayerAnimator);
 
-    public void Dispatch(PlayerAnimationEventStates eventState) 
-        => eventState.Action.Invoke(this.m_PlayerAnimator, false, 0.0f);
-
-    public void Dispatch(PlayerAnimationEventStates eventState, bool value) 
-        => eventState.Action.Invoke(this.m_PlayerAnimator, value, 0.0f);
-
-    public void Dispatch(PlayerAnimationEventStates eventState, float value) 
-        => eventState.Action.Invoke(this.m_PlayerAnimator, false, value);
+    public void Dispatch(
+        PlayerAnimationEventStates eventState, 
+        bool boolValue = false, 
+        float floatValue = 0f, 
+        int intValue = 0) 
+        => eventState.Run(this.m_PlayerAnimator, boolValue, floatValue, intValue);
 
     #endregion Methods
 

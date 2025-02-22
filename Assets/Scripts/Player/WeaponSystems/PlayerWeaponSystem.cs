@@ -17,6 +17,7 @@ namespace ThatOneSamuraiGame
         private GameObject m_EquippedWeapon;
         private IWeaponEffectHandler m_WeaponEffectHandler;
         private PlayerAttackState m_PlayerAttackState;
+        private IPlayerAnimationDispatcher m_AnimationDispatcher;
 
         private bool m_IsWeaponDrawn;
         
@@ -39,6 +40,7 @@ namespace ThatOneSamuraiGame
         private void Start()
         {
             this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
+            this.m_AnimationDispatcher = this.GetComponent<IPlayerAnimationDispatcher>();
 
             IWeaponAnimationEvents _AnimationEvents = this.GetComponent<IWeaponAnimationEvents>();
             _AnimationEvents.OnRevealWeapons.AddListener(this.RevealWeapon);
@@ -60,8 +62,10 @@ namespace ThatOneSamuraiGame
                 .Initialize(new WeaponEffectInitializerData { ParentTransform = this.m_WeaponHolder });
             this.m_WeaponEffectHandler = this.m_EquippedWeapon.GetComponent<IWeaponEffectHandler>();
 
-            ICombatController playerCombatController = this.GetComponent<ICombatController>();
-            playerCombatController.DrawSword();
+            IPlayerAttackHandler _AttackHandler = this.GetComponent<IPlayerAttackHandler>();
+            _AttackHandler.EnableAttack();
+            
+            this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.DrawSword);
             
             this.m_PlayerAttackState.CanAttack = true;
         }

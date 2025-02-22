@@ -126,6 +126,10 @@ public class PCombatController : MonoBehaviour, ICombatController
         _AnimationEvents.OnAttackComboReset.AddListener(this.ResetAttackCombo);
     }
     
+    // Makes no sense, the collision has to happen before the attack
+    // -------------------------------------------------------------------
+    // Cannot be triggered as Player's collider is not trigger based
+    // -------------------------------------------------------------------
     private void OnTriggerEnter(Collider other)
     {
         if (!_isAttacking) return;
@@ -155,16 +159,16 @@ public class PCombatController : MonoBehaviour, ICombatController
     /// <summary>
     /// Draws the player sword
     /// </summary>
-    ///  TODO: For Weapon system
-    public void DrawSword() //TODO: SHOULD BE AUTOMATIC
-    {
-        if (!this.m_WeaponSystem.IsWeaponEquipped()) return;
-        _isSwordDrawn = !_isSwordDrawn;
-
-        _isInputBlocked = false;
-
-        m_PlayerAnimationComponent.TriggerDrawSword();
-    }
+    // ///  TODO: For Weapon system
+    // public void DrawSword() //TODO: SHOULD BE AUTOMATIC
+    // {
+    //     if (!this.m_WeaponSystem.IsWeaponEquipped()) return;
+    //     _isSwordDrawn = !_isSwordDrawn;
+    //
+    //     _isInputBlocked = false;
+    //
+    //     m_PlayerAnimationComponent.TriggerDrawSword();
+    // }
     
     /// <summary>
     /// Primary method for running Light Attacks.

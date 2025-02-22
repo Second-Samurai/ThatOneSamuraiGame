@@ -8,7 +8,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         void Attack();
 
-        void DrawSword();
+        // void DrawWeapon();
 
         void ResetAttack();
 
@@ -21,6 +21,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         void StartBlock();
 
         void EndBlock();
+
+        void EnableAttack();
+
+        void DisableAttack();
 
         #endregion Methods
 

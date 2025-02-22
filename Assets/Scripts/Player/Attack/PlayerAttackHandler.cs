@@ -52,14 +52,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         [SerializeField] 
         private GameEvent m_EndHeavyTelegraphEvent; // This event feels out of place for this component. 
 
-        // private float m_HeavyAttackRemainingChargeTime;
         private readonly float m_HeavyAttackChargeTime = 1.5f;
         private EventTimer m_HeavyAttackTimer;
 
-        // Gleam Effect Fields
-        // private bool m_GleamTimerFinished;
-        // private float m_GleamTimer;
-        // private readonly float m_GleamPrecedeTime = 0.4f;
+        private bool m_CanAttack;
 
         #endregion Fields
 
@@ -86,14 +82,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_WeaponSystem = this.GetComponent<IWeaponSystem>();
             this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
 
-            // this.m_HeavyAttackRemainingChargeTime = this.m_HeavyAttackChargeTime;
             this.m_HeavyAttackTimer = new EventTimer(
                 this.m_HeavyAttackChargeTime,
                 Time.deltaTime,
                 this.m_BlockingAttackHandler.m_BlockingEffects.PlayGleam,
                 false,
                 false);
-            // m_GleamTimer = m_HeavyAttackChargeTime - m_GleamPrecedeTime;
 
             IAttackAnimationEvents _AnimationEvents = this.GetComponent<IAttackAnimationEvents>();
             _AnimationEvents.OnParryStunStateStart.AddListener(() => this.m_PlayerAttackState.ParryStunned = true);
@@ -122,7 +116,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             
             if (this.m_PlayerAttackState.IsHeavyAttackCharging) // HEAVY ATTACK
                 this.PerformHeavyAttack();
-                // Invoke("PerformHeavyAttack", m_HeavyAttackRemainingChargeTime);
+            
             else if(this.m_PlayerAttackState.CanAttack) // LIGHT ATTACK
             {
                 this.m_CombatController.AttemptLightAttack();
@@ -132,14 +126,15 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             }
         }
 
-        // TODO: Belongs to weapon system
-        void IPlayerAttackHandler.DrawSword() 
-            => this.m_CombatController?.DrawSword();
+        public void EnableAttack()
+            => this.m_CanAttack = true;
+
+        public void DisableAttack()
+            => this.m_CanAttack = false;
         
         void IPlayerAttackHandler.ResetAttack()
         {
             this.m_PlayerAttackState.CanAttack = true;
-            //this.m_HasPerformedAttack = false;
             
             this.m_CombatController.EndAttack();
             this.m_CombatController.ResetAttackCombo();
@@ -163,6 +158,35 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         }
 
         #endregion Parry and Block Methods
+
+        #region - - - - - - Light Attack Methods - - - - - -
+
+        private void RunLightAttack()
+        {
+            if (!this.m_CanAttack) return;
+            
+            if (m_PlayerBufferedInputs.IsAttackInputBufferRunning())
+            {
+                m_PlayerBufferedInputs.SetAttackInputCached(true);
+                return;
+            }
+            
+            // Start the buffer
+            m_PlayerBufferedInputs.StartAttackBuffer();
+        
+            // Increment combo
+            _comboHits++;
+            //_comboHits = Mathf.Clamp(_comboHits, 0, 4);
+            _chargeTime = 0;
+        
+            // Determine if the next attack should be a sprint attack
+            bool isSprintAttack = m_PlayerMovement.IsSprinting() && m_PlayerMovement.GetSprintDuration() > m_MinSprintTime;
+        
+            // Do the "Magic" of attacking
+            comboTracker.RegisterInput(isSprintAttack);
+        }
+
+        #endregion Light Attack Methods
   
         #region - - - - - - Heavy Attack Methods - - - - - -
 
@@ -211,9 +235,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_HeavyAttackTimer.ResetTimer();
             
             this.m_PlayerAnimationComponent.TriggerHeavyAttack();
-            
-            //this.m_PlayerFunctions.parryEffects.PlayGleam();
-            
             this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.EndHeavyAttachHeld);
             
             // Rolls the camera
@@ -224,34 +245,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             CameraRollAction _CameraRoll = new CameraRollAction(_FreeLookCamera, this);
             this.m_CameraController.SetCameraAction(_CameraRoll);
         }
-        
-        // Tech-Debt: #36 - Create a simple universal timer to keep timer behaviour consistent.
-        // private void CountdownHeavyTimer()
-        // {
-        //     this.m_HeavyAttackRemainingChargeTime -= Time.deltaTime;
-        //     
-        //     if (!(this.m_HeavyAttackRemainingChargeTime <= 0)) return;
-        // }
 
-        // private void TickHeavyTimer()
-        // {
-        //     this.CountdownHeavyTimer();
-        //     
-        //     if(!m_GleamTimerFinished)
-        //         this.CountdownGleamTimer();
-        // }
-        
-        // private void CountdownGleamTimer()
-        // {
-        //     this.m_GleamTimer -= Time.deltaTime;
-        //     
-        //     if (!(this.m_GleamTimer <= 0)) return;
-        //     
-        //     this.m_GleamTimerFinished = true;
-        //     this.m_GleamTimer = m_HeavyAttackChargeTime - this.m_GleamPrecedeTime;
-        //     this.m_BlockingAttackHandler.m_BlockingEffects.PlayGleam(); // TODO: Change this to use interface instead.
-        // }
-        
         #endregion Heavy Attack Methods
         
     }

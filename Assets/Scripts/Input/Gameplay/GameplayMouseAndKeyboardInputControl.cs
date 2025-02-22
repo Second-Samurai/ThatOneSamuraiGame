@@ -87,7 +87,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         void IGameplayInputControl.OnSwordDraw(InputAction.CallbackContext context)
         {
             if (this.IsInputControlValid()) return;
-            this.m_InputControlData.PlayerAttackHandler.DrawSword();
+            this.m_InputControlData.PlayerAttackHandler.DrawWeapon();
         }
 
         void IGameplayInputControl.OnStartHeavy(InputAction.CallbackContext context)

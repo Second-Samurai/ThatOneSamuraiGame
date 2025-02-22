@@ -53,6 +53,8 @@ public class LightAttackHandler : MonoBehaviour
 
     private IEnumerator PerformAttack()
     {
+        this.m_IsAttackRunning = true;
+        
         if (this.m_PlayerMovement.IsSprinting)
         {
             this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.SprintAttack);
@@ -74,7 +76,7 @@ public class LightAttackHandler : MonoBehaviour
 
         this.m_IsAttackRunning = false;
 
-        if (this.m_IsAttackQueued) yield break;
+        if (!this.m_IsAttackQueued) yield break;
         this.m_IsAttackQueued = false;
         this.StartCoroutine(this.PerformAttack());
     }

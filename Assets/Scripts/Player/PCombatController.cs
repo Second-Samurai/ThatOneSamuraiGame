@@ -99,7 +99,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
         m_PlayerMovement = GetComponent<PlayerMovement>();
 
-        m_PlayerBufferedInputs = GetComponent<PBufferedInputs>();
+        // m_PlayerBufferedInputs = GetComponent<PBufferedInputs>();
 
         _attackRegister = new EntityAttackRegister();
         _attackRegister.Init(this.gameObject, EntityType.Player);

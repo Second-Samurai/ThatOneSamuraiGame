@@ -16,6 +16,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
     {
 
         #region - - - - - - Fields - - - - - -
+
+        [SerializeField] private SphereCollider m_AttackCollider;
         
         // Component Fields
         private PlayerAnimationComponent m_PlayerAnimationComponent;
@@ -23,6 +25,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         private ICombatController m_CombatController;
         private HitstopController m_HitstopController;
         private PlayerAttackState m_PlayerAttackState;
+        private CloseEnemyGuideControl m_NearEnemyMovementGuideControl;
         private IPlayerAnimationDispatcher m_AnimationDispatcher;
         private IWeaponSystem m_WeaponSystem;
         
@@ -78,7 +81,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
             IAttackAnimationEvents _AnimationEvents = this.GetComponent<IAttackAnimationEvents>();
             _AnimationEvents.OnParryStunStateStart.AddListener(() => this.m_PlayerAttackState.ParryStunned = true);
-            _AnimationEvents.OnParryStunStateEnd.AddListener(() => this.m_PlayerAttackState.ParryStunned = false);
+            _AnimationEvents.OnParryStunStateEnd.AddListener(() => this.m_PlayerAttackState.ParryStunned = false)
+            _AnimationEvents.OnAttackStart.AddListener(this.PrepareAttack);
+            _AnimationEvents.OnAttackEnd.AddListener(this.EndAttack);
         }
 
         private void Update()
@@ -96,6 +101,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         #region - - - - - - General Methods - - - - - -
 
+        private void PrepareAttack()
+        {
+            this.m_BlockingAttackHandler.DisableBlock();
+            this.m_AttackCollider.enabled = true;
+            this.m_NearEnemyMovementGuideControl.MoveToNearestEnemy();
+        }
+
         // NOTE: IPlayerAttackHandler.Attack() is a release input option (e.g. OnMouseUp)
         void IPlayerAttackHandler.Attack()
         {
@@ -110,6 +122,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
                 this.m_HitstopController.CancelEffects();
         }
 
+        private void EndAttack()
+        {
+            this.m_BlockingAttackHandler.EnableBlock();
+            this.m_AttackCollider.enabled = false;
+        }
+
         public void EnableAttack()
             => this.m_CanAttack = true;
 
@@ -121,7 +139,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_PlayerAttackState.CanAttack = true;
             
             this.m_CombatController.EndAttack();
-            this.m_CombatController.ResetAttackCombo();
         }
 
         #endregion General Methods

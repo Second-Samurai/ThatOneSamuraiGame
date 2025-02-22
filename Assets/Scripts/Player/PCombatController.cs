@@ -18,17 +18,17 @@ public interface ICombatController
 
     // void AttemptLightAttack();
     
-    void BlockCombatInputs();
-    
-    void UnblockCombatInputs();
-    
+    // void BlockCombatInputs();
+    //
+    // void UnblockCombatInputs();
+    //
     // void DrawSword();
     
     bool CheckIsAttacking();
     
     void EndAttack();
     
-    void ResetAttackCombo();
+    // void ResetAttackCombo();
 
     #endregion Methods
   
@@ -120,10 +120,10 @@ public class PCombatController : MonoBehaviour, ICombatController
         saberwhoosh = AudioManager.instance.FindAll("lightSaber-Swing ").ToArray();
 
         IAttackAnimationEvents _AnimationEvents = this.GetComponent<IAttackAnimationEvents>();
-        _AnimationEvents.OnAttackStart.AddListener(this.BeginAttacking);
-        _AnimationEvents.OnAttackEnd.AddListener(this.EndAttack);
+        // _AnimationEvents.OnAttackStart.AddListener(this.BeginAttacking);
+        // _AnimationEvents.OnAttackEnd.AddListener(this.EndAttack);
         _AnimationEvents.OnHeavyAttack.AddListener(this.PlayHeavySwing);
-        _AnimationEvents.OnAttackComboReset.AddListener(this.ResetAttackCombo);
+        // _AnimationEvents.OnAttackComboReset.AddListener(this.ResetAttackCombo);
     }
     
     // Makes no sense, the collision has to happen before the attack
@@ -204,45 +204,45 @@ public class PCombatController : MonoBehaviour, ICombatController
     // }
 
     /// TODO: For Attack Handler
-    private void HeavyAttack()
-    {
-        if (_isInputBlocked) return;
-    }
+    // private void HeavyAttack()
+    // {
+    //     if (_isInputBlocked) return;
+    // }
 
     /// TODO: For Attack Handler
     //Summary: Resets the AttackCombo after 'Animation Event' has finished.
-    public void ResetAttackCombo() {
-        //_animator.ResetTrigger("AttackLight");
-        _comboHits = 0;
-    }
+    // public void ResetAttackCombo() {
+    //     //_animator.ResetTrigger("AttackLight");
+    //     _comboHits = 0;
+    // }
 
     /// TODO: For Attack Handler
-    public void BlockCombatInputs()
-    {
-        _isInputBlocked = true;
-    }
+    // public void BlockCombatInputs()
+    // {
+    //     _isInputBlocked = true;
+    // }
 
     /// TODO: For Attack Handler
-    public void UnblockCombatInputs()
-    {
-        _isInputBlocked = false;
-    }
+    // public void UnblockCombatInputs()
+    // {
+    //     _isInputBlocked = false;
+    // }
     
     // ======== EVENT CALLED ========
 
     //Summary: Enabled collision detection to apply damage to hit target.
     // 1stAttackEdit - 00:01
-    private void BeginAttacking()
-    {
-        _isAttacking = true;
-        this.m_BlockingAttackHandler.DisableBlock();
-        attackCol.enabled = true;
-        //m_PlayerAnimationComponent.ResetLightAttack();
-        _guideController.MoveToNearestEnemy();
-    }
-
-    //Summary: Disables the detection of the sword.
+    // private void BeginAttacking()
+    // {
+    //     _isAttacking = true;
+    //     this.m_BlockingAttackHandler.DisableBlock();
+    //     attackCol.enabled = true;
+    //     //m_PlayerAnimationComponent.ResetLightAttack();
+    //     _guideController.MoveToNearestEnemy();
+    // }
     //
+    // //Summary: Disables the detection of the sword.
+    // //
     public void EndAttack()
     {
         _isAttacking = false;
@@ -254,11 +254,11 @@ public class PCombatController : MonoBehaviour, ICombatController
     //Summary: Methods towards enabling and disabling player blocking
     //
 
-    public void Unblockable()
-    {
-        isUnblockable = true;
-        this.m_WeaponSystem.WeaponEffectHandler.BeginUnblockableEffect();
-    }
+    // public void Unblockable()
+    // {
+    //     isUnblockable = true;
+    //     this.m_WeaponSystem.WeaponEffectHandler.BeginUnblockableEffect();
+    // }
 
     public void EndUnblockable()
     {
@@ -279,7 +279,7 @@ public class PCombatController : MonoBehaviour, ICombatController
     public void IsParried()
     {
         EndUnblockable();
-        EndAttack();
+        // EndAttack();
         //_playerInput.RemoveOverride(); // Note: The override is unused
         m_PlayerAnimationComponent.TriggerIsParried();
 

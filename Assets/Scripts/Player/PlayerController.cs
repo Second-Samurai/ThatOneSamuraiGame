@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Cinemachine;
 using ThatOneSamuraiGame.Legacy;
+using ThatOneSamuraiGame.Scripts.Player.Attack;
 
 public interface IPlayerController {
     string GetStringID();
@@ -71,9 +72,12 @@ public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
         //freeLockCamera.Follow = this.transform;
         //freeLockCamera.LookAt = this.transform;
 
-        PCombatController combatController = this.GetComponent<PCombatController>();
-        combatController.Init(playerStats);
-        combatController.UnblockCombatInputs();
+        // PCombatController combatController = this.GetComponent<PCombatController>();
+        // combatController.Init(playerStats);
+        // combatController.UnblockCombatInputs();
+
+        IPlayerAttackHandler _AttackHandler = this.GetComponent<IPlayerAttackHandler>();
+        _AttackHandler.EnableAttack();
 
         SetState<PNormalState>();
     }

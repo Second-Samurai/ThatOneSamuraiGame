@@ -21,7 +21,7 @@ public class PlayerAnimationEventStates : SmartEnum
         (animator, _, _, _, state) => animator.SetTrigger(state.ToString()));
     public static PlayerAnimationEventStates ResetLightAttack = new("AttackLight", 0, "",
         (animator, _, _, _, state) => animator.ResetTrigger(state.ToString()));
-    public static PlayerAnimationEventStates AttackLight = new("AttackLight", 0, "AttackEDIT", // clip-name as two clips belong to same attack.
+    public static PlayerAnimationEventStates AttackLight = new("AttackLight", 0, "AttackEDIT", // generic clip-name as two clips belong to same attack.
         (animator, _, _, attackVariant, state) =>
         {
             animator.SetTrigger(state.ToString());

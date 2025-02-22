@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ThatOneSamuraiGame.Scripts.Player.Attack;
+using UnityEngine;
 
 //Summary:
 /* 
@@ -33,8 +34,11 @@ public class PNormalState : PlayerState
 
     public override void EndState()
     {
-        PCombatController combatController = this.GetComponent<PCombatController>();
-        combatController.BlockCombatInputs();
+        // PCombatController combatController = this.GetComponent<PCombatController>();
+        // combatController.BlockCombatInputs();
+
+        IPlayerAttackHandler _AttackHandler = this.GetComponent<IPlayerAttackHandler>();
+        _AttackHandler.DisableAttack();
 
         PDamageController damageController = this.GetComponent<PDamageController>();
         damageController.DisableDamage();

@@ -38,13 +38,13 @@ public class SwordPickup : MonoBehaviour
         if(weaponType == WeaponType.Katana)
         {
             weaponSystem.SetWeapon(GameManager.instance.gameSettings.katanaPrefab);
-            AudioManager.instance.LightSaber = false;
+            AudioManager.instance.IsLightSaber = false;
         }
         else if (weaponType == WeaponType.Lightsaber)
         {
             weaponSystem.SetWeapon(GameManager.instance.gameSettings.laserSword);
             this.gameObject.SetActive(false);
-            AudioManager.instance.LightSaber = true;
+            AudioManager.instance.IsLightSaber = true;
             return;
         }
 

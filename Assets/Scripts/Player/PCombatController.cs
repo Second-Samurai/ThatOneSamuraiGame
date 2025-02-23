@@ -100,12 +100,12 @@ public class PCombatController : MonoBehaviour, ICombatController
         m_PlayerMovement = GetComponent<PlayerMovement>();
 
         // m_PlayerBufferedInputs = GetComponent<PBufferedInputs>();
-
-        _attackRegister = new EntityAttackRegister();
-        _attackRegister.Init(this.gameObject, EntityType.Player);
-
-        _guideController = new CloseEnemyGuideControl();
-        _guideController.Init(this, this.gameObject.transform, this.GetComponent<Rigidbody>());
+        //
+        // _attackRegister = new EntityAttackRegister();
+        // _attackRegister.Init(this.gameObject, EntityType.Player);
+        //
+        // _guideController = new CloseEnemyGuideControl();
+        // _guideController.Init(this, this.gameObject.transform, this.GetComponent<Rigidbody>());
     }
 
     #endregion Initializers
@@ -119,10 +119,10 @@ public class PCombatController : MonoBehaviour, ICombatController
         lightSaberHit = AudioManager.instance.FindAll("lightSaber-Slash").ToArray();
         saberwhoosh = AudioManager.instance.FindAll("lightSaber-Swing ").ToArray();
 
-        IAttackAnimationEvents _AnimationEvents = this.GetComponent<IAttackAnimationEvents>();
+        // IAttackAnimationEvents _AnimationEvents = this.GetComponent<IAttackAnimationEvents>();
         // _AnimationEvents.OnAttackStart.AddListener(this.BeginAttacking);
         // _AnimationEvents.OnAttackEnd.AddListener(this.EndAttack);
-        _AnimationEvents.OnHeavyAttack.AddListener(this.PlayHeavySwing);
+        // _AnimationEvents.OnHeavyAttack.AddListener(this.PlayHeavySwing);
         // _AnimationEvents.OnAttackComboReset.AddListener(this.ResetAttackCombo);
     }
     
@@ -292,68 +292,68 @@ public class PCombatController : MonoBehaviour, ICombatController
         _playerDodgeMovement.EnableDodge();
     }
  
-    // TODO: Audio action
-    public void PlaySlash()
-    {
-        if (audioManager.LightSaber == false)
-        {
-            if (!slash1) slash1 = AudioManager.instance.FindSound("Light Attack Swing 1");
-            swordAudio.PlayOnce(slash1, audioManager.SFXVol);
-        }
-        else if (audioManager.LightSaber == true)
-        {
-            int j = Random.Range(0, saberwhoosh.Length);
-            swordAudio.PlayOnce(saberwhoosh[j], audioManager.SFXVol / 2);
-        }
-
-    }
-
-    // TODO: Audio action
-    public void PlayHit()
-    {
-        if (audioManager.LightSaber == false)
-        {
-            if (!hit1) hit1 = AudioManager.instance.FindSound("Light Attack Hit 1");
-            audio.PlayOnce(hit1, audioManager.SFXVol);
-        }
-
-        else if (audioManager.LightSaber == true)
-        {
-            int j = Random.Range(0, lightSaberHit.Length);
-            swordAudio.PlayOnce(lightSaberHit[j], audioManager.SFXVol / 2);
-        }
-    }
-
-    // TODO: Audio action
-    private void PlayHeavySwing()
-    {
-        if (audioManager.LightSaber == false)
-        {
-            if (!heavySlash) heavySlash = AudioManager.instance.FindSound("Heavy Attack Swing 2");
-            swordAudio.PlayOnce(heavySlash, audioManager.SFXVol);
-        }
-        else if (audioManager.LightSaber == true)
-        {
-            int j = Random.Range(0, saberwhoosh.Length);
-            swordAudio.PlayOnce(saberwhoosh[j], audioManager.SFXVol / 2, .5f, .7f);
-        }
-    }
-
-    // TODO: Audio action
-    public void PlayHeavyHit()
-    {
-        if (audioManager.LightSaber == false)
-        {
-            if (!heavyHit) heavyHit = AudioManager.instance.FindSound("Light Attack Hit 3");
-            audio.PlayOnce(heavyHit, audioManager.SFXVol);
-        }
-        else if (audioManager.LightSaber == true)
-        {
-            int j = Random.Range(0, lightSaberHit.Length);
-            swordAudio.PlayOnce(lightSaberHit[j], audioManager.SFXVol * 2, .5f, .7f);
-        }
-    }
-    
+    // // TODO: Audio action
+    // public void PlaySlash()
+    // {
+    //     if (audioManager.IsLightSaber == false)
+    //     {
+    //         if (!slash1) slash1 = AudioManager.instance.FindSound("Light Attack Swing 1");
+    //         swordAudio.PlayOnce(slash1, audioManager.SFXVol);
+    //     }
+    //     else if (audioManager.IsLightSaber == true)
+    //     {
+    //         int j = Random.Range(0, saberwhoosh.Length);
+    //         swordAudio.PlayOnce(saberwhoosh[j], audioManager.SFXVol / 2);
+    //     }
+    //
+    // }
+    //
+    // // TODO: Audio action
+    // public void PlayHit()
+    // {
+    //     if (audioManager.IsLightSaber == false)
+    //     {
+    //         if (!hit1) hit1 = AudioManager.instance.FindSound("Light Attack Hit 1");
+    //         audio.PlayOnce(hit1, audioManager.SFXVol);
+    //     }
+    //
+    //     else if (audioManager.IsLightSaber == true)
+    //     {
+    //         int j = Random.Range(0, lightSaberHit.Length);
+    //         swordAudio.PlayOnce(lightSaberHit[j], audioManager.SFXVol / 2);
+    //     }
+    // }
+    //
+    // // TODO: Audio action
+    // private void PlayHeavySwing()
+    // {
+    //     if (audioManager.IsLightSaber == false)
+    //     {
+    //         if (!heavySlash) heavySlash = AudioManager.instance.FindSound("Heavy Attack Swing 2");
+    //         swordAudio.PlayOnce(heavySlash, audioManager.SFXVol);
+    //     }
+    //     else if (audioManager.IsLightSaber == true)
+    //     {
+    //         int j = Random.Range(0, saberwhoosh.Length);
+    //         swordAudio.PlayOnce(saberwhoosh[j], audioManager.SFXVol / 2, .5f, .7f);
+    //     }
+    // }
+    //
+    // // TODO: Audio action
+    // public void PlayHeavyHit()
+    // {
+    //     if (audioManager.IsLightSaber == false)
+    //     {
+    //         if (!heavyHit) heavyHit = AudioManager.instance.FindSound("Light Attack Hit 3");
+    //         audio.PlayOnce(heavyHit, audioManager.SFXVol);
+    //     }
+    //     else if (audioManager.IsLightSaber == true)
+    //     {
+    //         int j = Random.Range(0, lightSaberHit.Length);
+    //         swordAudio.PlayOnce(lightSaberHit[j], audioManager.SFXVol * 2, .5f, .7f);
+    //     }
+    // }
+    //
     #endregion Methods
 
 }

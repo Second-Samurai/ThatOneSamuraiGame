@@ -14,12 +14,12 @@ namespace Enumeration
         public static WeaponPickupType Katana = new("Katana", 0, weaponSystem =>
         {
             weaponSystem.SetWeapon(GameManager.instance.gameSettings.katanaPrefab);
-            AudioManager.instance.LightSaber = false;
+            AudioManager.instance.IsLightSaber = false;
         });
         public static WeaponPickupType LaserSword = new("LaserSword", 1, weaponSystem =>
         {
             weaponSystem.SetWeapon(GameManager.instance.gameSettings.laserSword);
-            AudioManager.instance.LightSaber = true;
+            AudioManager.instance.IsLightSaber = true;
         });
         // public static WeaponPickupType MoeHammer = new("MoeHammer", 2, () => { }) 
 

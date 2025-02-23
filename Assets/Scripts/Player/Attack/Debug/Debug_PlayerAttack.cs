@@ -49,7 +49,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack.Debug
             {
                 IWeaponSystem _WeaponSystem = _PlayerObject.GetComponent<IWeaponSystem>();
                 _WeaponSystem.SetWeapon(GameManager.instance.gameSettings.katanaPrefab);
-                AudioManager.instance.LightSaber = false;
+                AudioManager.instance.IsLightSaber = false;
             }
         }
 
@@ -60,7 +60,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack.Debug
             {
                 IWeaponSystem _WeaponSystem = _PlayerObject.GetComponent<IWeaponSystem>();
                 _WeaponSystem.SetWeapon(GameManager.instance.gameSettings.laserSword);
-                AudioManager.instance.LightSaber = true;
+                AudioManager.instance.IsLightSaber = true;
             }
         }
 

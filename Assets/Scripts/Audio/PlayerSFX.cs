@@ -72,7 +72,7 @@ public class PlayerSFX : MonoBehaviour
 
     private void Whoosh()
     {
-        if (this.m_AudioManager.LightSaber == false)
+        if (this.m_AudioManager.IsLightSaber == false)
         {
             int j = Random.Range(0, whoosh.Length);
             audioPlayer.PlayOnce(whoosh[j], this.m_AudioManager.SFXVol * 2);

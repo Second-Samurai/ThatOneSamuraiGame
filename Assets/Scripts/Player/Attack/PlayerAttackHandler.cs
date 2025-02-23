@@ -22,12 +22,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         // Component Fields
         private PlayerAnimationComponent m_PlayerAnimationComponent;
         private ICameraController m_CameraController;
-        private ICombatController m_CombatController;
         private HitstopController m_HitstopController;
         private PlayerAttackState m_PlayerAttackState;
         private CloseEnemyGuideControl m_NearEnemyMovementGuideControl;
         private IPlayerAnimationDispatcher m_AnimationDispatcher;
         private IWeaponSystem m_WeaponSystem;
+        private IPlayerAttackAudio m_AttackAudio;
         
         // Attack Component Fields
         private BlockingAttackHandler m_BlockingAttackHandler;
@@ -54,6 +54,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_CameraController = 
                 initializerData.CameraController 
                     ?? throw new ArgumentNullException(nameof(initializerData.CameraController));
+            
+            // _attackRegister = new EntityAttackRegister();
+            // _attackRegister.Init(this.gameObject, EntityType.Player);
+            //
+            // this.m_NearEnemyMovementGuideControl = new CloseEnemyGuideControl();
+            // this.m_NearEnemyMovementGuideControl.Init(this, this.gameObject.transform, this.GetComponent<Rigidbody>());
         }
 
         #endregion Initializers
@@ -62,11 +68,11 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         private void Start()
         {
-            this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
-            this.m_CombatController = this.GetComponent<ICombatController>();
-            this.m_HitstopController = FindFirstObjectByType<HitstopController>();
-            this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
             this.m_AnimationDispatcher = this.GetComponent<IPlayerAnimationDispatcher>();
+            this.m_AttackAudio = this.GetComponent<IPlayerAttackAudio>();
+            this.m_HitstopController = FindFirstObjectByType<HitstopController>();
+            this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
+            this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
             this.m_WeaponSystem = this.GetComponent<IWeaponSystem>();
             
             this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
@@ -84,6 +90,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             _AnimationEvents.OnParryStunStateEnd.AddListener(() => this.m_PlayerAttackState.ParryStunned = false);
             _AnimationEvents.OnAttackStart.AddListener(this.PrepareAttack);
             _AnimationEvents.OnAttackEnd.AddListener(this.EndAttack);
+            _AnimationEvents.OnHeavyAttack.AddListener(this.m_AttackAudio.PlayHeavySwing);
         }
 
         private void Update()

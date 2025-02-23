@@ -16,7 +16,7 @@ public class AudioManager : MonoBehaviour
     public float SFXVol;
     public BackgroundAudio backgroundAudio;
     public TrackManager trackManager;
-    public bool LightSaber = false;
+    public bool IsLightSaber = false;
     public bool check = false;
 
     [FormerlySerializedAs("m_BossThemeManager")]

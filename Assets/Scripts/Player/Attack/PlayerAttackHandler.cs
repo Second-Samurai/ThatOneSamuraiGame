@@ -132,9 +132,9 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
                 // if (!this.m_BlockingAttackHandler.CanBlock()) 
                 //     this.m_AttackAudio.PlayHit();
                 // else 
-                //     this.m_AttackAudio.PlayHeavyHit();
-            
+                
                 this.m_PlayerMovement.CancelMove();
+                this.m_AttackAudio.PlayHeavyHit();
                 this.m_AttackAudio.IgnoreNextSwordPlayerTrack();
                 
                 return;

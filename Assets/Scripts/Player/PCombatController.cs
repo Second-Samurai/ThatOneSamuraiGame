@@ -4,73 +4,73 @@ using ThatOneSamuraiGame;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using UnityEngine;
 
-public interface ICombatController
-{
-
-    #region - - - - - - Properties - - - - - -
-
-    // bool IsSwordDrawn { get; }
-
-    #endregion Properties
-  
-    #region - - - - - - Methods - - - - - -
-
-    // void AttemptLightAttack();
-    
-    // void BlockCombatInputs();
-    //
-    // void UnblockCombatInputs();
-    //
-    // void DrawSword();
-    
-    // bool CheckIsAttacking();
-    
-    // void EndAttack();
-    
-    // void ResetAttackCombo();
-
-    #endregion Methods
-  
-}
+// public interface ICombatController
+// {
+//
+//     #region - - - - - - Properties - - - - - -
+//
+//     // bool IsSwordDrawn { get; }
+//
+//     #endregion Properties
+//   
+//     #region - - - - - - Methods - - - - - -
+//
+//     // void AttemptLightAttack();
+//     
+//     // void BlockCombatInputs();
+//     //
+//     // void UnblockCombatInputs();
+//     //
+//     // void DrawSword();
+//     
+//     // bool CheckIsAttacking();
+//     
+//     // void EndAttack();
+//     
+//     // void ResetAttackCombo();
+//
+//     #endregion Methods
+//   
+// }
 
 [Obsolete]
-public class PCombatController : MonoBehaviour, ICombatController
+public class PCombatController : MonoBehaviour//, ICombatController
 {
 
     #region - - - - - - Fields - - - - - -
 
     //Public variables
-    public AttackChainTracker comboTracker;
-    public Collider attackCol;
-    public bool _isAttacking = false;
-    public bool isUnblockable = false;
-    private IWeaponSystem m_WeaponSystem;
+    // public AttackChainTracker comboTracker;
+    // public Collider attackCol;
+    // public bool _isAttacking = false;
+    // public bool isUnblockable = false;
+    // private IWeaponSystem m_WeaponSystem;
 
     //Private Variables
-    private ParryAttackHandler m_ParryAttackHandler;
-    private BlockingAttackHandler m_BlockingAttackHandler;
-    
-    private PDamageController _damageController;
-    private EntityAttackRegister _attackRegister;
-    private CloseEnemyGuideControl _guideController;
-    private StatHandler _playerStats;
-    private PlayerMovement m_PlayerMovement;
-    private PlayerAnimationComponent m_PlayerAnimationComponent;
-    private PBufferedInputs m_PlayerBufferedInputs;
+    // private ParryAttackHandler m_ParryAttackHandler;
+    // private BlockingAttackHandler m_BlockingAttackHandler;
+    //
+    // private PDamageController _damageController;
+    // private EntityAttackRegister _attackRegister;
+    // private CloseEnemyGuideControl _guideController;
+    // private StatHandler _playerStats;
+    // private PlayerMovement m_PlayerMovement;
+    // private PlayerAnimationComponent m_PlayerAnimationComponent;
+    // private PBufferedInputs m_PlayerBufferedInputs;
 
-    private float m_MinSprintTime = 0.5f;
-    private float _chargeTime;
-    private int _comboHits;
-    private bool _isInputBlocked = false;
-    private bool _isSwordDrawn = false;
-
-    [Header("Audio")]
-    public AudioPlayer audio;
-    public AudioPlayer swordAudio;
-    public AudioClip slash1, hit1, heavySlash, heavyHit;
-    private AudioManager audioManager;
-    public AudioClip[] saberwhoosh;
-    public AudioClip[] lightSaberHit;
+    // private float m_MinSprintTime = 0.5f;
+    // private float _chargeTime;
+    // private int _comboHits;
+    // private bool _isInputBlocked = false;
+    // private bool _isSwordDrawn = false;
+    //
+    // [Header("Audio")]
+    // public AudioPlayer audio;
+    // public AudioPlayer swordAudio;
+    // public AudioClip slash1, hit1, heavySlash, heavyHit;
+    // private AudioManager audioManager;
+    // public AudioClip[] saberwhoosh;
+    // public AudioClip[] lightSaberHit;
 
     #endregion Fields
 

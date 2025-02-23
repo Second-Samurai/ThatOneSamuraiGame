@@ -12,6 +12,8 @@ namespace ThatOneSamuraiGame
         
         IWeaponEffectHandler WeaponEffectHandler { get; }
         
+        bool IsWeaponDrawn { get; }
+        
         #endregion Properties
   
         #region - - - - - - Methods - - - - - -

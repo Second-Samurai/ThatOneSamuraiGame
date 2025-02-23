@@ -33742,6 +33742,7 @@ GameObject:
   - component: {fileID: 4919045232634534813}
   - component: {fileID: 4482437867961119914}
   - component: {fileID: 3756120450154336460}
+  - component: {fileID: 7239345310255564742}
   - component: {fileID: 1439001672288933194}
   - component: {fileID: 5558940729083604280}
   - component: {fileID: 2914530232040528833}
@@ -33871,6 +33872,26 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7239345310255564742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5395489358580600328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5925808473da4d258e9a553b690a7077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_GeneralAudioPlayer: {fileID: 6588696144520330435}
+  m_SwordAudioPlayer: {fileID: 7948780441123302801}
+  m_LightAttackSlashSound: {fileID: 8300000, guid: 23725732b710e2f4e972426ceafa6fe0,
+    type: 3}
+  m_LightAttackHitSound: {fileID: 8300000, guid: 31fdccfe2bee01b4ca1d4547daa59c3f,
+    type: 3}
+  m_HeavySlashSound: {fileID: 8300000, guid: 4187372119a534444a491ad93f31846b, type: 3}
+  m_HeavyHitSound: {fileID: 8300000, guid: 2240883b679379b41b803e70d22d08c3, type: 3}
 --- !u!114 &1439001672288933194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34078,6 +34099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 288e5f7cc8b641a1b91cc0f577f8cc3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_AttackCollider: {fileID: 0}
   m_ShowHeavyTutorialEvent: {fileID: 11400000, guid: 025630d0818ca5241bd1f76f49d79651,
     type: 2}
   m_ShowHeavyTelegraphEvent: {fileID: 11400000, guid: 410948a5fa6416b4bbc2a539a516b4be,

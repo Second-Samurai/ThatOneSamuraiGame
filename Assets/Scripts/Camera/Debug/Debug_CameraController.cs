@@ -36,14 +36,14 @@ namespace ThatOneSamuraiGame
                 return;
             }
 
-            ICombatController _CombatController =
-                Object.FindFirstObjectByType<PCombatController>(FindObjectsInactive.Exclude);
-            if (!_CombatController.IsSwordDrawn)
+            IWeaponSystem _PlayerWeaponSystem =
+                Object.FindFirstObjectByType<PlayerWeaponSystem>(FindObjectsInactive.Exclude);
+            if (!_PlayerWeaponSystem.IsWeaponDrawn)
             {
                 Debug.Log("[DEBUG_CONSOLE]: Cannot LockOn if no sword is equipped");
                 return;
             }
-
+            
             IPlayerTargetTracking _PlayerTargetLocking =
                 Object.FindFirstObjectByType<PlayerTargetLocking>(FindObjectsInactive.Exclude);
             _PlayerTargetLocking.ToggleLockOn();

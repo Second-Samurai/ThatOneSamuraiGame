@@ -10,7 +10,7 @@ public class PlayerNormalMovement : BasePlayerMovementState
     #region - - - - - - Fields - - - - - -
 
     // Required Components
-    private readonly IPlayerAttackHandler m_AttackHandler;
+    private readonly IPlayerAttackSystem m_AttackHandler;
     private readonly PlayerAttackState m_AttackState;
     private readonly ICameraController m_CameraController;
     private readonly MonoBehaviour m_RootReferenceMonoBehaviour; // Required for Coroutine
@@ -26,7 +26,7 @@ public class PlayerNormalMovement : BasePlayerMovementState
     #region - - - - - - Constructors - - - - - -
 
     public PlayerNormalMovement(
-        IPlayerAttackHandler attackHandler,
+        IPlayerAttackSystem attackHandler,
         PlayerAttackState attackState,
         ICameraController cameraController,
         PlayerMovementDataContainer movementDataContainer,

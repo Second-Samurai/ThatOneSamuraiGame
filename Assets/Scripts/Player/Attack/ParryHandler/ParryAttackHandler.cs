@@ -36,7 +36,7 @@ public class ParryAttackHandler : MonoBehaviour, IPlayerParryActions
     // Player Component Fields
     private IPlayerMovement m_PlayerMovement;
     private IPlayerDodgeMovement m_DodgeMovement;
-    private IPlayerAttackHandler m_AttackHandler;
+    private IPlayerAttackSystem m_AttackHandler;
     private IWeaponSystem m_WeaponSystem;
     [SerializeField] private BlockingAttackHandler m_BlockAttackHandler;
     
@@ -68,7 +68,7 @@ public class ParryAttackHandler : MonoBehaviour, IPlayerParryActions
         this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
         this.m_DodgeMovement = this.GetComponent<IPlayerDodgeMovement>();
         this.m_WeaponSystem = this.GetComponent<IWeaponSystem>();
-        this.m_AttackHandler = this.GetComponent<IPlayerAttackHandler>();
+        this.m_AttackHandler = this.GetComponent<IPlayerAttackSystem>();
 
         IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
         this._mPlayerMovementDataContainer = _PlayerState.PlayerMovementDataContainer;

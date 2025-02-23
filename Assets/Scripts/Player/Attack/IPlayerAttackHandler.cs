@@ -1,7 +1,7 @@
 namespace ThatOneSamuraiGame.Scripts.Player.Attack
 {
     
-    public interface IPlayerAttackHandler
+    public interface IPlayerAttackSystem
     {
         
         #region - - - - - - Methods - - - - - -

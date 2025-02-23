@@ -19,7 +19,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
         #region - - - - - - Fields - - - - - -
 
         private IDamageable m_PlayerDamage;
-        private IPlayerAttackHandler m_PlayerAttackHandler;
+        private IPlayerAttackSystem m_PlayerAttackHandler;
         // private PlayerFunctions m_PlayerFunctions;
         private BlockingAttackHandler m_BlockingAttackHandler;
         private IPlayerMovement m_PlayerMovement;
@@ -35,7 +35,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Animation
 
         private void Start()
         {
-            this.m_PlayerAttackHandler = this.GetComponent<IPlayerAttackHandler>();
+            this.m_PlayerAttackHandler = this.GetComponent<IPlayerAttackSystem>();
             this.m_PlayerDamage = this.GetComponent<IDamageable>();
             // this.m_PlayerFunctions = this.GetComponent<PlayerFunctions>();
             this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();

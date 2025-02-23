@@ -51,7 +51,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         
         private ICameraController m_CameraController;
         private IDamageable m_PlayerDamage;
-        private IPlayerAttackHandler m_PlayerAttackHandler;
+        private IPlayerAttackSystem m_PlayerAttackHandler;
         private BlockingAttackHandler m_BlockingAttackHandler;
         
         // Player data containers
@@ -103,7 +103,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         {
             this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
             this.m_PlayerTargetTrackingState = this.GetComponent<IPlayerState>().PlayerTargetTrackingState;
-            this.m_PlayerAttackHandler = this.GetComponent<IPlayerAttackHandler>();
+            this.m_PlayerAttackHandler = this.GetComponent<IPlayerAttackSystem>();
             this.m_PlayerDamage = this.GetComponent<IDamageable>();
             this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
 
@@ -126,7 +126,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
             // Initialize Movement States
             this.m_NormalMovement = new PlayerNormalMovement(
-                this.GetComponent<IPlayerAttackHandler>(),
+                this.GetComponent<IPlayerAttackSystem>(),
                 this.m_PlayerAttackState,
                 this.m_CameraController,
                 this.m_PlayerMovementDataContainer,
@@ -134,7 +134,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
                 this.transform,
                 this);
             this.m_LockOnMovement = new PlayerLockOnMovement(
-                this.GetComponent<IPlayerAttackHandler>(),
+                this.GetComponent<IPlayerAttackSystem>(),
                 this.m_PlayerAttackState,
                 this.m_PlayerAnimationComponent, 
                 this.transform,

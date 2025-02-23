@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour, IEntity, ISecretValidator, IIniti
         // combatController.Init(playerStats);
         // combatController.UnblockCombatInputs();
 
-        IPlayerAttackHandler _AttackHandler = this.GetComponent<IPlayerAttackHandler>();
+        IPlayerAttackSystem _AttackHandler = this.GetComponent<IPlayerAttackSystem>();
         _AttackHandler.EnableAttack();
 
         this.SetState<PNormalState>();

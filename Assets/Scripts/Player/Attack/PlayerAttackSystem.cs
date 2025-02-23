@@ -13,7 +13,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
     public class PlayerAttackSystem : 
         PausableMonoBehaviour, 
         IInitialize<PlayerAttackInitializerData>,
-        IPlayerAttackHandler
+        IPlayerAttackSystem
     {
 
         #region - - - - - - Fields - - - - - -
@@ -155,7 +155,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         }
 
         // NOTE: IPlayerAttackHandler.Attack() is a release input option (e.g. OnMouseUp)
-        void IPlayerAttackHandler.Attack()
+        void IPlayerAttackSystem.Attack()
         {
             if (!this.m_WeaponSystem.IsWeaponEquipped() || !this.m_CanAttack) return;
             
@@ -180,7 +180,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         public void DisableAttack()
             => this.m_CanAttack = false;
         
-        void IPlayerAttackHandler.ResetAttack()
+        void IPlayerAttackSystem.ResetAttack()
         {
             this.m_PlayerAttackState.CanAttack = true;
             this.EndAttack();
@@ -191,13 +191,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         #region - - - - - - Parry and Block Methods - - - - - -
 
         // Tech-Debt: #35 - PlayerFunctions will be refactored to mitigate large class bloat.
-        void IPlayerAttackHandler.EndBlock()
+        void IPlayerAttackSystem.EndBlock()
             => this.m_BlockingAttackHandler.EndBlock();
         
-        void IPlayerAttackHandler.StartBlock() 
+        void IPlayerAttackSystem.StartBlock() 
             => this.m_BlockingAttackHandler.StartBlock();
 
-        void IPlayerAttackHandler.EndParryAction()
+        void IPlayerAttackSystem.EndParryAction()
         {
             this.m_PlayerAttackState.ParryStunned = false;
             this.m_HitstopController.CancelEffects();
@@ -207,7 +207,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
 
         #region - - - - - - Heavy Attack Methods - - - - - -
 
-        void IPlayerAttackHandler.StartHeavy()
+        void IPlayerAttackSystem.StartHeavy()
         {
             if (!this.m_WeaponSystem.IsWeaponEquipped()) return;
             
@@ -237,7 +237,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         }
 
         // Note: This behaviour is not implemented, but will be open for future use.
-        void IPlayerAttackHandler.StartHeavyAlternative()
+        void IPlayerAttackSystem.StartHeavyAlternative()
             => throw new NotImplementedException();
         
         private void PerformHeavyAttack()

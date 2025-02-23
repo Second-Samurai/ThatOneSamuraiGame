@@ -133,7 +133,7 @@ public class PlayerFinisherController :
         this.PlayerDetector.SetActive(true);
         this.m_PlayerDamageController.EnableDamage();
         ((IPlayerMovement)this.m_PlayerMovement).EnableMovement();
-        ((IPlayerAttackHandler)m_PlayerAttackHandler).ResetAttack();
+        ((IPlayerAttackSystem)m_PlayerAttackHandler).ResetAttack();
         
         this.m_CameraController.SelectCamera(SceneCameras.FollowPlayer);
         ((IPlayerMovement)this.m_PlayerMovement).SetState(PlayerMovementStates.Normal);

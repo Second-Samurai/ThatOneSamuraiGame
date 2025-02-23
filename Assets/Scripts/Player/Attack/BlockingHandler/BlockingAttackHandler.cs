@@ -64,7 +64,7 @@ namespace ThatOneSamuraiGame
             }
             
             if (this.m_PlayerAttackState.ParryStunned)
-                ((IPlayerAttackHandler)this).EndParryAction();
+                ((IPlayerAttackSystem)this).EndParryAction();
             
             this.m_PlayerSFX.Armour();
             this.m_BlockingEffects.PlayGleam();

@@ -122,7 +122,7 @@ public class FinishingMoveController : MonoBehaviour
         
         damageController.EnableDamage();
 
-        IPlayerAttackHandler _PlayerAttackHandler = this.transform.parent.GetComponent<IPlayerAttackHandler>();
+        IPlayerAttackSystem _PlayerAttackHandler = this.transform.parent.GetComponent<IPlayerAttackSystem>();
         _PlayerAttackHandler.ResetAttack();
         
         bIsFinishing = false;

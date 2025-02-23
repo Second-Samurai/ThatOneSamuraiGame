@@ -62,7 +62,7 @@ namespace ThatOneSamuraiGame
                 .Initialize(new WeaponEffectInitializerData { ParentTransform = this.m_WeaponHolder });
             this.m_WeaponEffectHandler = this.m_EquippedWeapon.GetComponent<IWeaponEffectHandler>();
 
-            IPlayerAttackHandler _AttackHandler = this.GetComponent<IPlayerAttackHandler>();
+            IPlayerAttackSystem _AttackHandler = this.GetComponent<IPlayerAttackSystem>();
             _AttackHandler.EnableAttack();
             
             this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.DrawSword);

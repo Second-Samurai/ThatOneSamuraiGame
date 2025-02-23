@@ -37,7 +37,7 @@ public class PNormalState : PlayerState
         // PCombatController combatController = this.GetComponent<PCombatController>();
         // combatController.BlockCombatInputs();
 
-        IPlayerAttackHandler _AttackHandler = this.GetComponent<IPlayerAttackHandler>();
+        IPlayerAttackSystem _AttackHandler = this.GetComponent<IPlayerAttackSystem>();
         _AttackHandler.DisableAttack();
 
         PDamageController damageController = this.GetComponent<PDamageController>();

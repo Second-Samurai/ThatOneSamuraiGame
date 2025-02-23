@@ -1,9 +1,6 @@
 using System;
-using Player.Animation;
 using ThatOneSamuraiGame;
-using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
-using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
@@ -20,33 +17,20 @@ public class PlayerAttackSystem :
     [SerializeField] private SphereCollider m_AttackCollider;
     
     // Component Fields
-    private PlayerAnimationComponent m_PlayerAnimationComponent;
-    private ICameraController m_CameraController;
     private EntityAttackRegister m_EntityAttackRegister;
     private HitstopController m_HitstopController;
     private PlayerAttackState m_PlayerAttackState;
     private IPlayerMovement m_PlayerMovement;
     private CloseEnemyGuideControl m_NearEnemyMovementGuideControl;
-    private IPlayerAnimationDispatcher m_AnimationDispatcher;
     private IWeaponSystem m_WeaponSystem;
     private IPlayerAttackAudio m_AttackAudio;
-
     private StatHandler m_PlayerStats;
     
     // Attack Component Fields
     private BlockingAttackHandler m_BlockingAttackHandler;
     private LightAttackHandler m_LightAttackHandler;
+    private HeavyAttackHandler m_HeavyAttackHandler;
     
-    [SerializeField] 
-    private GameEvent m_ShowHeavyTutorialEvent; // This event feels out of place for this component.
-    [SerializeField] 
-    private GameEvent m_ShowHeavyTelegraphEvent; // This event feels out of place for this component.
-    [SerializeField] 
-    private GameEvent m_EndHeavyTelegraphEvent; // This event feels out of place for this component. 
-
-    private readonly float m_HeavyAttackChargeTime = 1.5f;
-    private EventTimer m_HeavyAttackTimer;
-
     private bool m_CanAttack;
 
     #endregion Fields
@@ -55,10 +39,8 @@ public class PlayerAttackSystem :
 
     public void Initialize(PlayerAttackInitializerData initializerData)
     {
-        this.m_CameraController = 
-            initializerData.CameraController 
-                ?? throw new ArgumentNullException(nameof(initializerData.CameraController));
         this.m_PlayerStats = initializerData.StatHandler;
+        this.m_HeavyAttackHandler.Initialize(initializerData.CameraController);
         
         this.m_EntityAttackRegister = new EntityAttackRegister();
         this.m_EntityAttackRegister.Init(this.gameObject, EntityType.Player);
@@ -73,23 +55,15 @@ public class PlayerAttackSystem :
 
     private void Start()
     {
-        this.m_AnimationDispatcher = this.GetComponent<IPlayerAnimationDispatcher>();
         this.m_AttackAudio = this.GetComponent<IPlayerAttackAudio>();
         this.m_HitstopController = FindFirstObjectByType<HitstopController>();
-        this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
         this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
         this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
         this.m_WeaponSystem = this.GetComponent<IWeaponSystem>();
         
         this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
         this.m_LightAttackHandler = this.GetComponent<LightAttackHandler>();
-
-        this.m_HeavyAttackTimer = new EventTimer(
-            this.m_HeavyAttackChargeTime,
-            Time.deltaTime,
-            this.m_BlockingAttackHandler.m_BlockingEffects.PlayGleam,
-            false,
-            false);
+        this.m_HeavyAttackHandler = this.GetComponent<HeavyAttackHandler>();
 
         IAttackAnimationEvents _AnimationEvents = this.GetComponent<IAttackAnimationEvents>();
         _AnimationEvents.OnParryStunStateStart.AddListener(() => this.m_PlayerAttackState.ParryStunned = true);
@@ -99,15 +73,6 @@ public class PlayerAttackSystem :
         _AnimationEvents.OnHeavyAttack.AddListener(this.m_AttackAudio.PlayHeavySwing);
     }
 
-    private void Update()
-    {
-        if (this.IsPaused)
-            return;
-        
-        if (this.m_PlayerAttackState.IsHeavyAttackCharging) 
-            this.m_HeavyAttackTimer.TickTimer();
-    }
-    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Level") 
@@ -159,7 +124,7 @@ public class PlayerAttackSystem :
         if (!this.m_WeaponSystem.IsWeaponEquipped() || !this.m_CanAttack) return;
         
         if (this.m_PlayerAttackState.IsHeavyAttackCharging) // HEAVY ATTACK
-            this.PerformHeavyAttack();
+            this.m_HeavyAttackHandler.PerformHeavyAttack();
         else
             this.m_LightAttackHandler.QueueLightAttack();
         
@@ -206,61 +171,12 @@ public class PlayerAttackSystem :
 
     #region - - - - - - Heavy Attack Methods - - - - - -
 
-    void IPlayerAttackSystem.StartHeavy()
-    {
-        if (!this.m_WeaponSystem.IsWeaponEquipped()) return;
-        
-        // Commenting line below from merge conflict with camera rework
-        //if (!this.m_PlayerAttackState.CanAttack /*&& this.m_Animator.GetBool("HeavyAttackHeld")*/)
-        if (!this.m_PlayerAttackState.CanAttack 
-            && this.m_AnimationDispatcher.Check(PlayerAnimationCheckState.HeavyAttackHeld))
-            return;
-        
-        this.m_HeavyAttackTimer.StartTimer();
-        
-        this.m_ShowHeavyTelegraphEvent.Raise();
-        
-        this.m_PlayerAttackState.IsWeaponSheathed = true;
-        this.m_PlayerAttackState.IsHeavyAttackCharging = true;
-          
-        // Commenting line below from merge conflict with camera rework
-        this.m_PlayerAnimationComponent.ResetAttackParameters();
-        this.m_PlayerAnimationComponent.ChargeHeavyAttack(true);
-        
-        this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.StartHeavyAttackHeld);
-        
-        // Ends the camera roll
-        // TODO: Fix the error from the line below
-        GameLogger.Log(this.m_CameraController.ToString());
-        this.m_CameraController.EndCameraAction();
-    }
+    void IPlayerAttackSystem.StartHeavy() 
+        => this.m_HeavyAttackHandler.StartHeavyAttack();
 
     // Note: This behaviour is not implemented, but will be open for future use.
     void IPlayerAttackSystem.StartHeavyAlternative()
         => throw new NotImplementedException();
-    
-    private void PerformHeavyAttack()
-    {
-        this.m_ShowHeavyTutorialEvent.Raise();
-        this.m_EndHeavyTelegraphEvent.Raise();
-
-        this.m_PlayerAttackState.IsHeavyAttackCharging = false;
-        this.m_PlayerAttackState.IsWeaponSheathed = false;
-        
-        this.m_HeavyAttackTimer.StopTimer();
-        this.m_HeavyAttackTimer.ResetTimer();
-        
-        this.m_PlayerAnimationComponent.TriggerHeavyAttack();
-        this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.EndHeavyAttachHeld);
-        
-        // Rolls the camera
-        // TODO: Fix the error from the code below
-        IFreelookCameraController _FreeLookCamera = this.m_CameraController
-            .GetCamera(SceneCameras.FreeLook)
-            .GetComponent<IFreelookCameraController>();
-        CameraRollAction _CameraRoll = new CameraRollAction(_FreeLookCamera, this);
-        this.m_CameraController.SetCameraAction(_CameraRoll);
-    }
 
     #endregion Heavy Attack Methods
     

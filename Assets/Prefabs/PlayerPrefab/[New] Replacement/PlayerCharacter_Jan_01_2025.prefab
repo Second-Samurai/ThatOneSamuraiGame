@@ -33758,6 +33758,7 @@ GameObject:
   - component: {fileID: 3700630804014182520}
   - component: {fileID: 7679672917170573754}
   - component: {fileID: 8614178261580678340}
+  - component: {fileID: 4512740985698313737}
   - component: {fileID: 4697034401798734956}
   - component: {fileID: 6522895352503805165}
   - component: {fileID: 5949823175151218069}
@@ -34075,18 +34076,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae65c89287994f29b670ae4aabc4b02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comboTracker: {fileID: 0}
-  attackCol: {fileID: 661393663723552881}
-  _isAttacking: 0
-  isUnblockable: 0
-  audio: {fileID: 6588696144520330435}
-  swordAudio: {fileID: 7948780441123302801}
-  slash1: {fileID: 8300000, guid: 23725732b710e2f4e972426ceafa6fe0, type: 3}
-  hit1: {fileID: 8300000, guid: 31fdccfe2bee01b4ca1d4547daa59c3f, type: 3}
-  heavySlash: {fileID: 8300000, guid: 4187372119a534444a491ad93f31846b, type: 3}
-  heavyHit: {fileID: 8300000, guid: 2240883b679379b41b803e70d22d08c3, type: 3}
-  saberwhoosh: []
-  lightSaberHit: []
 --- !u!114 &7679672917170573754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34099,13 +34088,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 288e5f7cc8b641a1b91cc0f577f8cc3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AttackCollider: {fileID: 0}
-  m_ShowHeavyTutorialEvent: {fileID: 11400000, guid: 025630d0818ca5241bd1f76f49d79651,
-    type: 2}
-  m_ShowHeavyTelegraphEvent: {fileID: 11400000, guid: 410948a5fa6416b4bbc2a539a516b4be,
-    type: 2}
-  m_EndHeavyTelegraphEvent: {fileID: 11400000, guid: 80e07cf02196df74886f94260e523af8,
-    type: 2}
+  m_AttackCollider: {fileID: 661393663723552881}
 --- !u!114 &8614178261580678340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34118,6 +34101,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad95fd0f93941d3ae63f954298118c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4512740985698313737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5395489358580600328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e3565bc28043d2a18804368da6a77a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowHeavyTutorialEvent: {fileID: 11400000, guid: 025630d0818ca5241bd1f76f49d79651,
+    type: 2}
+  m_StartHeavyTelegraphEvent: {fileID: 11400000, guid: 410948a5fa6416b4bbc2a539a516b4be,
+    type: 2}
+  m_EndHeavyTelegraphEvent: {fileID: 11400000, guid: 80e07cf02196df74886f94260e523af8,
+    type: 2}
 --- !u!114 &4697034401798734956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34191,7 +34192,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5395489358580600328}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22fbb3e342d31fa489ba9b812584c5a2, type: 3}
   m_Name: 

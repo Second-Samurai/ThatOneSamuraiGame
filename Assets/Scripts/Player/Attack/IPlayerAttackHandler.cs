@@ -1,35 +1,30 @@
-namespace ThatOneSamuraiGame.Scripts.Player.Attack
+public interface IPlayerAttackSystem
 {
     
-    public interface IPlayerAttackSystem
-    {
-        
-        #region - - - - - - Methods - - - - - -
+    #region - - - - - - Methods - - - - - -
 
-        void Attack();
+    void Attack();
 
-        // void DrawWeapon();
+    // void DrawWeapon();
 
-        void EndAttack();
+    void EndAttack();
 
-        void ResetAttack();
+    void ResetAttack();
 
-        void StartHeavy();
+    void StartHeavy();
 
-        void StartHeavyAlternative();
+    void StartHeavyAlternative();
 
-        void EndParryAction();
+    void EndParryAction();
 
-        void StartBlock();
+    void StartBlock();
 
-        void EndBlock();
+    void EndBlock();
 
-        void EnableAttack();
+    void EnableAttack();
 
-        void DisableAttack();
+    void DisableAttack();
 
-        #endregion Methods
+    #endregion Methods
 
-    }
-    
 }

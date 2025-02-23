@@ -1,294 +1,290 @@
 using System;
 using Player.Animation;
+using ThatOneSamuraiGame;
 using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
+using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using UnityEngine;
 
-namespace ThatOneSamuraiGame.Scripts.Player.Attack
+public class PlayerAttackSystem : 
+    PausableMonoBehaviour, 
+    IInitialize<PlayerAttackInitializerData>,
+    IPlayerAttackSystem
 {
 
-    public class PlayerAttackSystem : 
-        PausableMonoBehaviour, 
-        IInitialize<PlayerAttackInitializerData>,
-        IPlayerAttackSystem
+    #region - - - - - - Fields - - - - - -
+
+    [SerializeField] private SphereCollider m_AttackCollider;
+    
+    // Component Fields
+    private PlayerAnimationComponent m_PlayerAnimationComponent;
+    private ICameraController m_CameraController;
+    private EntityAttackRegister m_EntityAttackRegister;
+    private HitstopController m_HitstopController;
+    private PlayerAttackState m_PlayerAttackState;
+    private IPlayerMovement m_PlayerMovement;
+    private CloseEnemyGuideControl m_NearEnemyMovementGuideControl;
+    private IPlayerAnimationDispatcher m_AnimationDispatcher;
+    private IWeaponSystem m_WeaponSystem;
+    private IPlayerAttackAudio m_AttackAudio;
+
+    private StatHandler m_PlayerStats;
+    
+    // Attack Component Fields
+    private BlockingAttackHandler m_BlockingAttackHandler;
+    private LightAttackHandler m_LightAttackHandler;
+    
+    [SerializeField] 
+    private GameEvent m_ShowHeavyTutorialEvent; // This event feels out of place for this component.
+    [SerializeField] 
+    private GameEvent m_ShowHeavyTelegraphEvent; // This event feels out of place for this component.
+    [SerializeField] 
+    private GameEvent m_EndHeavyTelegraphEvent; // This event feels out of place for this component. 
+
+    private readonly float m_HeavyAttackChargeTime = 1.5f;
+    private EventTimer m_HeavyAttackTimer;
+
+    private bool m_CanAttack;
+
+    #endregion Fields
+
+    #region - - - - - - Initializers - - - - - -
+
+    public void Initialize(PlayerAttackInitializerData initializerData)
     {
-
-        #region - - - - - - Fields - - - - - -
-
-        [SerializeField] private SphereCollider m_AttackCollider;
+        this.m_CameraController = 
+            initializerData.CameraController 
+                ?? throw new ArgumentNullException(nameof(initializerData.CameraController));
+        this.m_PlayerStats = initializerData.StatHandler;
         
-        // Component Fields
-        private PlayerAnimationComponent m_PlayerAnimationComponent;
-        private ICameraController m_CameraController;
-        private EntityAttackRegister m_EntityAttackRegister;
-        private HitstopController m_HitstopController;
-        private PlayerAttackState m_PlayerAttackState;
-        private IPlayerMovement m_PlayerMovement;
-        private CloseEnemyGuideControl m_NearEnemyMovementGuideControl;
-        private IPlayerAnimationDispatcher m_AnimationDispatcher;
-        private IWeaponSystem m_WeaponSystem;
-        private IPlayerAttackAudio m_AttackAudio;
-
-        private StatHandler m_PlayerStats;
+        this.m_EntityAttackRegister = new EntityAttackRegister();
+        this.m_EntityAttackRegister.Init(this.gameObject, EntityType.Player);
         
-        // Attack Component Fields
-        private BlockingAttackHandler m_BlockingAttackHandler;
-        private LightAttackHandler m_LightAttackHandler;
+        this.m_NearEnemyMovementGuideControl = new CloseEnemyGuideControl();
+        this.m_NearEnemyMovementGuideControl.Init(this, this.gameObject.transform, this.GetComponent<Rigidbody>());
+    }
+
+    #endregion Initializers
+
+    #region - - - - - - Unity Methods - - - - - -
+
+    private void Start()
+    {
+        this.m_AnimationDispatcher = this.GetComponent<IPlayerAnimationDispatcher>();
+        this.m_AttackAudio = this.GetComponent<IPlayerAttackAudio>();
+        this.m_HitstopController = FindFirstObjectByType<HitstopController>();
+        this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
+        this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
+        this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
+        this.m_WeaponSystem = this.GetComponent<IWeaponSystem>();
         
-        [SerializeField] 
-        private GameEvent m_ShowHeavyTutorialEvent; // This event feels out of place for this component.
-        [SerializeField] 
-        private GameEvent m_ShowHeavyTelegraphEvent; // This event feels out of place for this component.
-        [SerializeField] 
-        private GameEvent m_EndHeavyTelegraphEvent; // This event feels out of place for this component. 
+        this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
+        this.m_LightAttackHandler = this.GetComponent<LightAttackHandler>();
 
-        private readonly float m_HeavyAttackChargeTime = 1.5f;
-        private EventTimer m_HeavyAttackTimer;
+        this.m_HeavyAttackTimer = new EventTimer(
+            this.m_HeavyAttackChargeTime,
+            Time.deltaTime,
+            this.m_BlockingAttackHandler.m_BlockingEffects.PlayGleam,
+            false,
+            false);
 
-        private bool m_CanAttack;
+        IAttackAnimationEvents _AnimationEvents = this.GetComponent<IAttackAnimationEvents>();
+        _AnimationEvents.OnParryStunStateStart.AddListener(() => this.m_PlayerAttackState.ParryStunned = true);
+        _AnimationEvents.OnParryStunStateEnd.AddListener(() => this.m_PlayerAttackState.ParryStunned = false);
+        _AnimationEvents.OnAttackStart.AddListener(this.PrepareAttack);
+        _AnimationEvents.OnAttackEnd.AddListener(this.EndAttack);
+        _AnimationEvents.OnHeavyAttack.AddListener(this.m_AttackAudio.PlayHeavySwing);
+    }
 
-        #endregion Fields
+    private void Update()
+    {
+        if (this.IsPaused)
+            return;
+        
+        if (this.m_PlayerAttackState.IsHeavyAttackCharging) 
+            this.m_HeavyAttackTimer.TickTimer();
+    }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Level") 
+            || other.gameObject.CompareTag("LOD") 
+            || other.gameObject.layer == LayerMask.NameToLayer("Detector")
+            || !this.m_WeaponSystem.IsWeaponEquipped()) return;
 
-        #region - - - - - - Initializers - - - - - -
-
-        public void Initialize(PlayerAttackInitializerData initializerData)
+        IDamageable _EnemyDamageHandler = other.GetComponent<IDamageable>();
+        if (_EnemyDamageHandler != null)
         {
-            this.m_CameraController = 
-                initializerData.CameraController 
-                    ?? throw new ArgumentNullException(nameof(initializerData.CameraController));
-            this.m_PlayerStats = initializerData.StatHandler;
+            //Registers attack to the attackRegister
+            this.m_EntityAttackRegister.RegisterAttackTarget(
+                _EnemyDamageHandler, 
+                this.m_WeaponSystem.WeaponEffectHandler, 
+                other, 
+                this.m_PlayerStats.baseDamage,
+                true, 
+                false); // previously was unblockable
+        
+            // TODO: Fix when enemy attack states are clarified.
+            // if (!this.m_BlockingAttackHandler.CanBlock()) 
+            //     this.m_AttackAudio.PlayHit();
+            // else 
             
-            this.m_EntityAttackRegister = new EntityAttackRegister();
-            this.m_EntityAttackRegister.Init(this.gameObject, EntityType.Player);
+            this.m_PlayerMovement.CancelMove();
+            this.m_AttackAudio.PlayHeavyHit();
+            this.m_AttackAudio.IgnoreNextSwordPlayerTrack();
             
-            this.m_NearEnemyMovementGuideControl = new CloseEnemyGuideControl();
-            this.m_NearEnemyMovementGuideControl.Init(this, this.gameObject.transform, this.GetComponent<Rigidbody>());
-        }
-
-        #endregion Initializers
-  
-        #region - - - - - - Unity Methods - - - - - -
-
-        private void Start()
-        {
-            this.m_AnimationDispatcher = this.GetComponent<IPlayerAnimationDispatcher>();
-            this.m_AttackAudio = this.GetComponent<IPlayerAttackAudio>();
-            this.m_HitstopController = FindFirstObjectByType<HitstopController>();
-            this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
-            this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
-            this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
-            this.m_WeaponSystem = this.GetComponent<IWeaponSystem>();
-            
-            this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
-            this.m_LightAttackHandler = this.GetComponent<LightAttackHandler>();
-
-            this.m_HeavyAttackTimer = new EventTimer(
-                this.m_HeavyAttackChargeTime,
-                Time.deltaTime,
-                this.m_BlockingAttackHandler.m_BlockingEffects.PlayGleam,
-                false,
-                false);
-
-            IAttackAnimationEvents _AnimationEvents = this.GetComponent<IAttackAnimationEvents>();
-            _AnimationEvents.OnParryStunStateStart.AddListener(() => this.m_PlayerAttackState.ParryStunned = true);
-            _AnimationEvents.OnParryStunStateEnd.AddListener(() => this.m_PlayerAttackState.ParryStunned = false);
-            _AnimationEvents.OnAttackStart.AddListener(this.PrepareAttack);
-            _AnimationEvents.OnAttackEnd.AddListener(this.EndAttack);
-            _AnimationEvents.OnHeavyAttack.AddListener(this.m_AttackAudio.PlayHeavySwing);
-        }
-
-        private void Update()
-        {
-            if (this.IsPaused)
-                return;
-            
-            if (this.m_PlayerAttackState.IsHeavyAttackCharging) 
-                this.m_HeavyAttackTimer.TickTimer();
+            return;
         }
         
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.CompareTag("Level") 
-                || other.gameObject.CompareTag("LOD") 
-                || other.gameObject.layer == LayerMask.NameToLayer("Detector")
-                || !this.m_WeaponSystem.IsWeaponEquipped()) return;
+        this.m_WeaponSystem.WeaponEffectHandler.CreateImpactEffect(other.transform, HitType.GeneralTarget);
+    }
 
-            IDamageable _EnemyDamageHandler = other.GetComponent<IDamageable>();
-            if (_EnemyDamageHandler != null)
-            {
-                //Registers attack to the attackRegister
-                this.m_EntityAttackRegister.RegisterAttackTarget(
-                    _EnemyDamageHandler, 
-                    this.m_WeaponSystem.WeaponEffectHandler, 
-                    other, 
-                    this.m_PlayerStats.baseDamage,
-                    true, 
-                    false); // previously was unblockable
-            
-                // TODO: Fix when enemy attack states are clarified.
-                // if (!this.m_BlockingAttackHandler.CanBlock()) 
-                //     this.m_AttackAudio.PlayHit();
-                // else 
-                
-                this.m_PlayerMovement.CancelMove();
-                this.m_AttackAudio.PlayHeavyHit();
-                this.m_AttackAudio.IgnoreNextSwordPlayerTrack();
-                
-                return;
-            }
-            
-            this.m_WeaponSystem.WeaponEffectHandler.CreateImpactEffect(other.transform, HitType.GeneralTarget);
-        }
+    #endregion Unity Methods
 
-        #endregion Unity Methods
+    #region - - - - - - General Methods - - - - - -
 
-        #region - - - - - - General Methods - - - - - -
+    private void PrepareAttack()
+    {
+        this.m_BlockingAttackHandler.DisableBlock();
+        this.m_AttackCollider.enabled = true;
+        this.m_NearEnemyMovementGuideControl.MoveToNearestEnemy();
+    }
 
-        private void PrepareAttack()
-        {
-            this.m_BlockingAttackHandler.DisableBlock();
-            this.m_AttackCollider.enabled = true;
-            this.m_NearEnemyMovementGuideControl.MoveToNearestEnemy();
-        }
-
-        // NOTE: IPlayerAttackHandler.Attack() is a release input option (e.g. OnMouseUp)
-        void IPlayerAttackSystem.Attack()
-        {
-            if (!this.m_WeaponSystem.IsWeaponEquipped() || !this.m_CanAttack) return;
-            
-            if (this.m_PlayerAttackState.IsHeavyAttackCharging) // HEAVY ATTACK
-                this.PerformHeavyAttack();
-            else
-                this.m_LightAttackHandler.QueueLightAttack();
-            
-            if (this.m_HitstopController.bIsSlowing)
-                this.m_HitstopController.CancelEffects();
-        }
-
-        public void EndAttack()
-        {
-            this.m_BlockingAttackHandler.EnableBlock();
-            this.m_AttackCollider.enabled = false;
-        }
-
-        public void EnableAttack()
-            => this.m_CanAttack = true;
-
-        public void DisableAttack()
-            => this.m_CanAttack = false;
+    // NOTE: IPlayerAttackHandler.Attack() is a release input option (e.g. OnMouseUp)
+    void IPlayerAttackSystem.Attack()
+    {
+        if (!this.m_WeaponSystem.IsWeaponEquipped() || !this.m_CanAttack) return;
         
-        void IPlayerAttackSystem.ResetAttack()
-        {
-            this.m_PlayerAttackState.CanAttack = true;
-            this.EndAttack();
-        }
-
-        #endregion General Methods
-
-        #region - - - - - - Parry and Block Methods - - - - - -
-
-        // Tech-Debt: #35 - PlayerFunctions will be refactored to mitigate large class bloat.
-        void IPlayerAttackSystem.EndBlock()
-            => this.m_BlockingAttackHandler.EndBlock();
+        if (this.m_PlayerAttackState.IsHeavyAttackCharging) // HEAVY ATTACK
+            this.PerformHeavyAttack();
+        else
+            this.m_LightAttackHandler.QueueLightAttack();
         
-        void IPlayerAttackSystem.StartBlock() 
-            => this.m_BlockingAttackHandler.StartBlock();
-
-        void IPlayerAttackSystem.EndParryAction()
-        {
-            this.m_PlayerAttackState.ParryStunned = false;
+        if (this.m_HitstopController.bIsSlowing)
             this.m_HitstopController.CancelEffects();
-        }
-
-        #endregion Parry and Block Methods
-
-        #region - - - - - - Heavy Attack Methods - - - - - -
-
-        void IPlayerAttackSystem.StartHeavy()
-        {
-            if (!this.m_WeaponSystem.IsWeaponEquipped()) return;
-            
-            // Commenting line below from merge conflict with camera rework
-            //if (!this.m_PlayerAttackState.CanAttack /*&& this.m_Animator.GetBool("HeavyAttackHeld")*/)
-            if (!this.m_PlayerAttackState.CanAttack 
-                && this.m_AnimationDispatcher.Check(PlayerAnimationCheckState.HeavyAttackHeld))
-                return;
-            
-            this.m_HeavyAttackTimer.StartTimer();
-            
-            this.m_ShowHeavyTelegraphEvent.Raise();
-            
-            this.m_PlayerAttackState.IsWeaponSheathed = true;
-            this.m_PlayerAttackState.IsHeavyAttackCharging = true;
-              
-            // Commenting line below from merge conflict with camera rework
-            this.m_PlayerAnimationComponent.ResetAttackParameters();
-            this.m_PlayerAnimationComponent.ChargeHeavyAttack(true);
-            
-            this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.StartHeavyAttackHeld);
-            
-            // Ends the camera roll
-            // TODO: Fix the error from the line below
-            GameLogger.Log(this.m_CameraController.ToString());
-            this.m_CameraController.EndCameraAction();
-        }
-
-        // Note: This behaviour is not implemented, but will be open for future use.
-        void IPlayerAttackSystem.StartHeavyAlternative()
-            => throw new NotImplementedException();
-        
-        private void PerformHeavyAttack()
-        {
-            this.m_ShowHeavyTutorialEvent.Raise();
-            this.m_EndHeavyTelegraphEvent.Raise();
-
-            this.m_PlayerAttackState.IsHeavyAttackCharging = false;
-            this.m_PlayerAttackState.IsWeaponSheathed = false;
-            
-            this.m_HeavyAttackTimer.StopTimer();
-            this.m_HeavyAttackTimer.ResetTimer();
-            
-            this.m_PlayerAnimationComponent.TriggerHeavyAttack();
-            this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.EndHeavyAttachHeld);
-            
-            // Rolls the camera
-            // TODO: Fix the error from the code below
-            IFreelookCameraController _FreeLookCamera = this.m_CameraController
-                .GetCamera(SceneCameras.FreeLook)
-                .GetComponent<IFreelookCameraController>();
-            CameraRollAction _CameraRoll = new CameraRollAction(_FreeLookCamera, this);
-            this.m_CameraController.SetCameraAction(_CameraRoll);
-        }
-
-        #endregion Heavy Attack Methods
-        
     }
-    
-    public class PlayerAttackInitializerData
+
+    public void EndAttack()
     {
-
-        #region - - - - - - Properties - - - - - -
-
-        public ICameraController CameraController { get; private set; }
-        
-        public StatHandler StatHandler { get; private set; }
-
-        #endregion Properties
-
-        #region - - - - - - Constructors - - - - - -
-
-        public PlayerAttackInitializerData(ICameraController cameraController, StatHandler playerStats)
-        {
-            this.CameraController = cameraController ?? throw new ArgumentNullException(nameof(cameraController));
-            this.StatHandler = playerStats ?? throw new ArgumentNullException(nameof(playerStats));
-        }
-
-        #endregion Constructors
-  
+        this.m_BlockingAttackHandler.EnableBlock();
+        this.m_AttackCollider.enabled = false;
     }
 
+    public void EnableAttack()
+        => this.m_CanAttack = true;
+
+    public void DisableAttack()
+        => this.m_CanAttack = false;
     
+    void IPlayerAttackSystem.ResetAttack()
+    {
+        this.m_PlayerAttackState.CanAttack = true;
+        this.EndAttack();
+    }
+
+    #endregion General Methods
+
+    #region - - - - - - Parry and Block Methods - - - - - -
+
+    // Tech-Debt: #35 - PlayerFunctions will be refactored to mitigate large class bloat.
+    void IPlayerAttackSystem.EndBlock()
+        => this.m_BlockingAttackHandler.EndBlock();
+    
+    void IPlayerAttackSystem.StartBlock() 
+        => this.m_BlockingAttackHandler.StartBlock();
+
+    void IPlayerAttackSystem.EndParryAction()
+    {
+        this.m_PlayerAttackState.ParryStunned = false;
+        this.m_HitstopController.CancelEffects();
+    }
+
+    #endregion Parry and Block Methods
+
+    #region - - - - - - Heavy Attack Methods - - - - - -
+
+    void IPlayerAttackSystem.StartHeavy()
+    {
+        if (!this.m_WeaponSystem.IsWeaponEquipped()) return;
+        
+        // Commenting line below from merge conflict with camera rework
+        //if (!this.m_PlayerAttackState.CanAttack /*&& this.m_Animator.GetBool("HeavyAttackHeld")*/)
+        if (!this.m_PlayerAttackState.CanAttack 
+            && this.m_AnimationDispatcher.Check(PlayerAnimationCheckState.HeavyAttackHeld))
+            return;
+        
+        this.m_HeavyAttackTimer.StartTimer();
+        
+        this.m_ShowHeavyTelegraphEvent.Raise();
+        
+        this.m_PlayerAttackState.IsWeaponSheathed = true;
+        this.m_PlayerAttackState.IsHeavyAttackCharging = true;
+          
+        // Commenting line below from merge conflict with camera rework
+        this.m_PlayerAnimationComponent.ResetAttackParameters();
+        this.m_PlayerAnimationComponent.ChargeHeavyAttack(true);
+        
+        this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.StartHeavyAttackHeld);
+        
+        // Ends the camera roll
+        // TODO: Fix the error from the line below
+        GameLogger.Log(this.m_CameraController.ToString());
+        this.m_CameraController.EndCameraAction();
+    }
+
+    // Note: This behaviour is not implemented, but will be open for future use.
+    void IPlayerAttackSystem.StartHeavyAlternative()
+        => throw new NotImplementedException();
+    
+    private void PerformHeavyAttack()
+    {
+        this.m_ShowHeavyTutorialEvent.Raise();
+        this.m_EndHeavyTelegraphEvent.Raise();
+
+        this.m_PlayerAttackState.IsHeavyAttackCharging = false;
+        this.m_PlayerAttackState.IsWeaponSheathed = false;
+        
+        this.m_HeavyAttackTimer.StopTimer();
+        this.m_HeavyAttackTimer.ResetTimer();
+        
+        this.m_PlayerAnimationComponent.TriggerHeavyAttack();
+        this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.EndHeavyAttachHeld);
+        
+        // Rolls the camera
+        // TODO: Fix the error from the code below
+        IFreelookCameraController _FreeLookCamera = this.m_CameraController
+            .GetCamera(SceneCameras.FreeLook)
+            .GetComponent<IFreelookCameraController>();
+        CameraRollAction _CameraRoll = new CameraRollAction(_FreeLookCamera, this);
+        this.m_CameraController.SetCameraAction(_CameraRoll);
+    }
+
+    #endregion Heavy Attack Methods
+    
+}
+
+public class PlayerAttackInitializerData
+{
+
+    #region - - - - - - Properties - - - - - -
+
+    public ICameraController CameraController { get; private set; }
+    
+    public StatHandler StatHandler { get; private set; }
+
+    #endregion Properties
+
+    #region - - - - - - Constructors - - - - - -
+
+    public PlayerAttackInitializerData(ICameraController cameraController, StatHandler playerStats)
+    {
+        this.CameraController = cameraController ?? throw new ArgumentNullException(nameof(cameraController));
+        this.StatHandler = playerStats ?? throw new ArgumentNullException(nameof(playerStats));
+    }
+
+    #endregion Constructors
+
 }

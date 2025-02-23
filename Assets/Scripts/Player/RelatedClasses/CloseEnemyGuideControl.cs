@@ -7,6 +7,9 @@ using UnityEngine;
 /// </summary>
 public class CloseEnemyGuideControl
 {
+
+    #region - - - - - - Fields - - - - - -
+
     private Transform _attachedPlayer;
     private Transform _lastEnemy = null;
     private AttackSlide _slideController;
@@ -16,7 +19,11 @@ public class CloseEnemyGuideControl
     private List<GameObject> _enemyCollection;
     private GameObject _closestEnemy;
 
-    public void Init(PCombatController playerCombat, Transform playerTransform, Rigidbody rigidbody)
+    #endregion Fields
+
+    #region - - - - - - Initializers - - - - - -
+
+    public void Init(MonoBehaviour monoBehaviour, Transform playerTransform, Rigidbody rigidbody)
     {
         this._attachedPlayer = playerTransform;
         settings = GameManager.instance.gameSettings.playerSettings;
@@ -24,8 +31,12 @@ public class CloseEnemyGuideControl
         _enemyCollection = new List<GameObject>();
 
         _slideController = new AttackSlide();
-        _slideController.Init(playerCombat, rigidbody);
+        _slideController.Init(monoBehaviour, rigidbody);
     }
+
+    #endregion Initializers
+
+    #region - - - - - - Methods - - - - - -
 
     /// <summary>
     /// This finds the nearest forward object and steps closer in direction.
@@ -147,15 +158,14 @@ public class CloseEnemyGuideControl
 
     // Summary: Checks the distance between two positions and whether its below the threshold
     //
-    private bool CheckMinDistance(Vector3 playerPos, Vector3 enemyPos, float threshold)
-    {
-        return Vector3.Magnitude(playerPos - enemyPos) < threshold;
-    }
+    private bool CheckMinDistance(Vector3 playerPos, Vector3 enemyPos, float threshold) 
+        => Vector3.Magnitude(playerPos - enemyPos) < threshold;
 
     // Summary: Checks whether enemy entity is forward
     //
-    private bool CheckIfForward(Vector3 enemyDirection)
-    {
-        return Vector3.Dot(_attachedPlayer.forward.normalized, enemyDirection) > settings.forwardDotLimit;
-    }
+    private bool CheckIfForward(Vector3 enemyDirection) 
+        => Vector3.Dot(_attachedPlayer.forward.normalized, enemyDirection) > settings.forwardDotLimit;
+
+    #endregion Methods
+  
 }

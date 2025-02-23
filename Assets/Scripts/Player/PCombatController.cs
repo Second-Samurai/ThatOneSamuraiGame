@@ -3,14 +3,13 @@ using Player.Animation;
 using ThatOneSamuraiGame;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public interface ICombatController
 {
 
     #region - - - - - - Properties - - - - - -
 
-    bool IsSwordDrawn { get; }
+    // bool IsSwordDrawn { get; }
 
     #endregion Properties
   
@@ -24,7 +23,7 @@ public interface ICombatController
     //
     // void DrawSword();
     
-    bool CheckIsAttacking();
+    // bool CheckIsAttacking();
     
     // void EndAttack();
     
@@ -77,7 +76,7 @@ public class PCombatController : MonoBehaviour, ICombatController
 
     #region - - - - - - Properties - - - - - -
 
-    public bool IsSwordDrawn => this._isSwordDrawn;
+    // public bool IsSwordDrawn => this._isSwordDrawn;
 
     #endregion Properties
 
@@ -86,18 +85,18 @@ public class PCombatController : MonoBehaviour, ICombatController
     /// <summary>
     /// Initialises Combat Controller variables and related class components
     /// </summary>
-    public void Init(StatHandler playerStats)
-    {
-        this._playerStats = playerStats;
-        m_PlayerAnimationComponent = GetComponent<PlayerAnimationComponent>();
-        comboTracker = GetComponent<AttackChainTracker>();
+    // public void Init(StatHandler playerStats)
+    // {
+        // this._playerStats = playerStats;
+        // m_PlayerAnimationComponent = GetComponent<PlayerAnimationComponent>();
+        // comboTracker = GetComponent<AttackChainTracker>();
+        //
+        // this.m_WeaponSystem = this.GetComponent<IWeaponSystem>();
 
-        this.m_WeaponSystem = this.GetComponent<IWeaponSystem>();
-
-        _damageController = GetComponent<PDamageController>();
-        this.m_ParryAttackHandler = this.GetComponent<ParryAttackHandler>();
-        this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
-        m_PlayerMovement = GetComponent<PlayerMovement>();
+        // _damageController = GetComponent<PDamageController>();
+        // this.m_ParryAttackHandler = this.GetComponent<ParryAttackHandler>();
+        // this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
+        // m_PlayerMovement = GetComponent<PlayerMovement>();
 
         // m_PlayerBufferedInputs = GetComponent<PBufferedInputs>();
         //
@@ -106,7 +105,7 @@ public class PCombatController : MonoBehaviour, ICombatController
         //
         // _guideController = new CloseEnemyGuideControl();
         // _guideController.Init(this, this.gameObject.transform, this.GetComponent<Rigidbody>());
-    }
+    // }
 
     #endregion Initializers
   
@@ -115,9 +114,9 @@ public class PCombatController : MonoBehaviour, ICombatController
     
     public void Start()
     {
-        audioManager = AudioManager.instance;
-        lightSaberHit = AudioManager.instance.FindAll("lightSaber-Slash").ToArray();
-        saberwhoosh = AudioManager.instance.FindAll("lightSaber-Swing ").ToArray();
+        // audioManager = AudioManager.instance;
+        // lightSaberHit = AudioManager.instance.FindAll("lightSaber-Slash").ToArray();
+        // saberwhoosh = AudioManager.instance.FindAll("lightSaber-Swing ").ToArray();
 
         // IAttackAnimationEvents _AnimationEvents = this.GetComponent<IAttackAnimationEvents>();
         // _AnimationEvents.OnAttackStart.AddListener(this.BeginAttacking);
@@ -130,27 +129,27 @@ public class PCombatController : MonoBehaviour, ICombatController
     // -------------------------------------------------------------------
     // Cannot be triggered as Player's collider is not trigger based
     // -------------------------------------------------------------------
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!_isAttacking) return;
-        if (other.CompareTag("Level") || other.gameObject.CompareTag("LOD") || other.gameObject.layer == LayerMask.NameToLayer("Detector")) return;
-        if (!this.m_WeaponSystem.IsWeaponEquipped()) return;
-
-        //Gets IDamageable component of the entity
-        IDamageable attackEntity = other.GetComponent<IDamageable>();
-        if (attackEntity == null)
-        {
-            this.m_WeaponSystem.WeaponEffectHandler.CreateImpactEffect(other.transform, HitType.GeneralTarget);
-            return;
-        }
-
-        //Registers attack to the attackRegister
-        _attackRegister.RegisterAttackTarget(attackEntity, this.m_WeaponSystem.WeaponEffectHandler, other, CalculateDamage(), true, isUnblockable);
-        if (!isUnblockable) PlayHit();
-        else PlayHeavyHit();
-        this.m_PlayerMovement.CancelMove();
-        swordAudio.bIgnoreNext = true;
-    }
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (!_isAttacking) return;
+    //     if (other.CompareTag("Level") || other.gameObject.CompareTag("LOD") || other.gameObject.layer == LayerMask.NameToLayer("Detector")) return;
+    //     if (!this.m_WeaponSystem.IsWeaponEquipped()) return;
+    //
+    //     //Gets IDamageable component of the entity
+    //     IDamageable attackEntity = other.GetComponent<IDamageable>();
+    //     if (attackEntity == null)
+    //     {
+    //         this.m_WeaponSystem.WeaponEffectHandler.CreateImpactEffect(other.transform, HitType.GeneralTarget);
+    //         return;
+    //     }
+    //
+    //     //Registers attack to the attackRegister
+    //     _attackRegister.RegisterAttackTarget(attackEntity, this.m_WeaponSystem.WeaponEffectHandler, other, CalculateDamage(), true, isUnblockable);
+    //     if (!isUnblockable) PlayHit();
+    //     else PlayHeavyHit();
+    //     this.m_PlayerMovement.CancelMove();
+    //     swordAudio.bIgnoreNext = true;
+    // }
     
     #endregion Unity Methods
     
@@ -266,31 +265,30 @@ public class PCombatController : MonoBehaviour, ICombatController
     //     this.m_WeaponSystem.WeaponEffectHandler.EndUnblockableEffect();
     // }
 
-    public bool CheckIsAttacking()
-    {
-        return _isAttacking;
-    }
-
-    private float CalculateDamage()
-    {
-        return _playerStats.baseDamage;
-    }
+    // public bool CheckIsAttacking()
+    // {
+    //     return _isAttacking;
+    // }
+    //
+    // private float CalculateDamage()
+    // {
+    //     return _playerStats.baseDamage;
+    // }
 
     // TODO: Refactor this last, its responsibility is not clear
-    public void IsParried()
-    {
-        // EndUnblockable(); // Was commented
-        this.m_WeaponSystem.WeaponEffectHandler.EndUnblockableEffect();
-        // EndAttack();  // Was commented
-        //_playerInput.RemoveOverride(); // Note: The override is unused
-        m_PlayerAnimationComponent.TriggerIsParried();
-
-        // IPlayerSpecialAction _PlayerSpecialAction = this.GetComponent<IPlayerSpecialAction>();
-        // _PlayerSpecialAction.ResetDodge();
-
-        IPlayerDodgeMovement _playerDodgeMovement = this.GetComponent<IPlayerDodgeMovement>();
-        _playerDodgeMovement.EnableDodge();
-    }
+    // public void IsParried()
+    // {
+    //     // EndUnblockable(); // Was commented
+    //     // EndAttack();  // Was commented
+    //     //_playerInput.RemoveOverride(); // Note: The override is unused
+    //     m_PlayerAnimationComponent.TriggerIsParried();
+    //
+    //     // IPlayerSpecialAction _PlayerSpecialAction = this.GetComponent<IPlayerSpecialAction>();
+    //     // _PlayerSpecialAction.ResetDodge();
+    //
+    //     IPlayerDodgeMovement _playerDodgeMovement = this.GetComponent<IPlayerDodgeMovement>();
+    //     _playerDodgeMovement.EnableDodge();
+    // }
  
     // // TODO: Audio action
     // public void PlaySlash()

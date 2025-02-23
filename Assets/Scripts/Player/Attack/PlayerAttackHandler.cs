@@ -4,6 +4,7 @@ using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
+using ThatOneSamuraiGame.Scripts.Player.Movement;
 using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Player.Attack
@@ -22,12 +23,16 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         // Component Fields
         private PlayerAnimationComponent m_PlayerAnimationComponent;
         private ICameraController m_CameraController;
+        private EntityAttackRegister m_EntityAttackRegister;
         private HitstopController m_HitstopController;
         private PlayerAttackState m_PlayerAttackState;
+        private IPlayerMovement m_PlayerMovement;
         private CloseEnemyGuideControl m_NearEnemyMovementGuideControl;
         private IPlayerAnimationDispatcher m_AnimationDispatcher;
         private IWeaponSystem m_WeaponSystem;
         private IPlayerAttackAudio m_AttackAudio;
+
+        private StatHandler m_PlayerStats;
         
         // Attack Component Fields
         private BlockingAttackHandler m_BlockingAttackHandler;
@@ -54,17 +59,18 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_CameraController = 
                 initializerData.CameraController 
                     ?? throw new ArgumentNullException(nameof(initializerData.CameraController));
+            this.m_PlayerStats = initializerData.StatHandler;
             
-            // _attackRegister = new EntityAttackRegister();
-            // _attackRegister.Init(this.gameObject, EntityType.Player);
-            //
-            // this.m_NearEnemyMovementGuideControl = new CloseEnemyGuideControl();
-            // this.m_NearEnemyMovementGuideControl.Init(this, this.gameObject.transform, this.GetComponent<Rigidbody>());
+            this.m_EntityAttackRegister = new EntityAttackRegister();
+            this.m_EntityAttackRegister.Init(this.gameObject, EntityType.Player);
+            
+            this.m_NearEnemyMovementGuideControl = new CloseEnemyGuideControl();
+            this.m_NearEnemyMovementGuideControl.Init(this, this.gameObject.transform, this.GetComponent<Rigidbody>());
         }
 
         #endregion Initializers
   
-        #region - - - - - - Lifecycle Methods - - - - - -
+        #region - - - - - - Unity Methods - - - - - -
 
         private void Start()
         {
@@ -73,6 +79,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             this.m_HitstopController = FindFirstObjectByType<HitstopController>();
             this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
             this.m_PlayerAttackState = this.GetComponent<IPlayerState>().PlayerAttackState;
+            this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
             this.m_WeaponSystem = this.GetComponent<IWeaponSystem>();
             
             this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
@@ -100,11 +107,43 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
             
             if (this.m_PlayerAttackState.IsHeavyAttackCharging) 
                 this.m_HeavyAttackTimer.TickTimer();
-            // else if (Mathf.Approximately(this.m_HeavyAttackRemainingChargeTime, this.m_HeavyAttackChargeTime))
-            //     this.m_HeavyAttackRemainingChargeTime = this.m_HeavyAttackChargeTime;
+        }
+        
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Level") 
+                || other.gameObject.CompareTag("LOD") 
+                || other.gameObject.layer == LayerMask.NameToLayer("Detector")
+                || !this.m_WeaponSystem.IsWeaponEquipped()) return;
+
+            IDamageable _EnemyDamageHandler = other.GetComponent<IDamageable>();
+            if (_EnemyDamageHandler != null)
+            {
+                //Registers attack to the attackRegister
+                this.m_EntityAttackRegister.RegisterAttackTarget(
+                    _EnemyDamageHandler, 
+                    this.m_WeaponSystem.WeaponEffectHandler, 
+                    other, 
+                    this.m_PlayerStats.baseDamage,
+                    true, 
+                    false); // previously was unblockable
+            
+                // TODO: Fix when enemy attack states are clarified.
+                // if (!this.m_BlockingAttackHandler.CanBlock()) 
+                //     this.m_AttackAudio.PlayHit();
+                // else 
+                //     this.m_AttackAudio.PlayHeavyHit();
+            
+                this.m_PlayerMovement.CancelMove();
+                this.m_AttackAudio.IgnoreNextSwordPlayerTrack();
+                
+                return;
+            }
+            
+            this.m_WeaponSystem.WeaponEffectHandler.CreateImpactEffect(other.transform, HitType.GeneralTarget);
         }
 
-        #endregion Lifecycle Methods
+        #endregion Unity Methods
 
         #region - - - - - - General Methods - - - - - -
 
@@ -129,7 +168,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
                 this.m_HitstopController.CancelEffects();
         }
 
-        private void EndAttack()
+        public void EndAttack()
         {
             this.m_BlockingAttackHandler.EnableBlock();
             this.m_AttackCollider.enabled = false;
@@ -234,13 +273,18 @@ namespace ThatOneSamuraiGame.Scripts.Player.Attack
         #region - - - - - - Properties - - - - - -
 
         public ICameraController CameraController { get; private set; }
+        
+        public StatHandler StatHandler { get; private set; }
 
         #endregion Properties
 
         #region - - - - - - Constructors - - - - - -
 
-        public PlayerAttackInitializerData(ICameraController cameraController) 
-            => this.CameraController = cameraController;
+        public PlayerAttackInitializerData(ICameraController cameraController, StatHandler playerStats)
+        {
+            this.CameraController = cameraController ?? throw new ArgumentNullException(nameof(cameraController));
+            this.StatHandler = playerStats ?? throw new ArgumentNullException(nameof(playerStats));
+        }
 
         #endregion Constructors
   

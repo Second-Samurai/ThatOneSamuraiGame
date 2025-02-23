@@ -7,13 +7,16 @@ public class LightAttackHandler : MonoBehaviour
 
     #region - - - - - - Fields - - - - - -
 
+    // Component Fields
     private IPlayerMovement m_PlayerMovement;
     private IPlayerAnimationDispatcher m_AnimationDispatcher;
 
+    // Light-Attack Queue Fields
     private int m_AttackAnimationIndex;
     private bool m_IsAttackRunning;
     private bool m_IsAttackQueued;
 
+    // Animation timing Fields
     private float m_SprintAttackClipTimeLength;
     private float m_AttackVariantOneTimeLength;
     private float m_AttackVariationTwoTimeLength;

@@ -13,6 +13,8 @@ public interface IPlayerAttackAudio
     
     void PlayHeavyHit();
     
+    void IgnoreNextSwordPlayerTrack();
+    
     #endregion Methods
   
 }
@@ -35,8 +37,8 @@ public class PlayerAudioSystem : MonoBehaviour, IPlayerAttackAudio
     [SerializeField] private AudioClip m_LightAttackHitSound;
     [SerializeField] private AudioClip m_HeavySlashSound;
     [SerializeField] private AudioClip m_HeavyHitSound;
-    [SerializeField] private AudioClip[] m_SaberWhooshSounds;
-    [SerializeField] private AudioClip[] m_LightSaberHitSounds;
+    private AudioClip[] m_SaberWhooshSounds;
+    private AudioClip[] m_LightSaberHitSounds;
     
     private AudioManager m_AudioManager;
 
@@ -44,8 +46,12 @@ public class PlayerAudioSystem : MonoBehaviour, IPlayerAttackAudio
   
     #region - - - - - - Unity Methods - - - - - -
 
-    private void Start() 
-        => this.m_AudioManager = AudioManager.instance;
+    private void Start()
+    {
+        this.m_AudioManager = AudioManager.instance;
+        this.m_LightSaberHitSounds = AudioManager.instance.FindAll("lightSaber-Slash").ToArray();
+        this.m_SaberWhooshSounds = AudioManager.instance.FindAll("lightSaber-Swing ").ToArray();
+    }
 
     #endregion Unity Methods
   
@@ -107,6 +113,9 @@ public class PlayerAudioSystem : MonoBehaviour, IPlayerAttackAudio
         this.m_GeneralAudioPlayer.PlayOnce(this.m_HeavyHitSound, this.m_AudioManager.SFXVol);
     }
 
+    void IPlayerAttackAudio.IgnoreNextSwordPlayerTrack()
+        => this.m_SwordAudioPlayer.bIgnoreNext = true;
+
     #endregion Methods
-  
+
 }

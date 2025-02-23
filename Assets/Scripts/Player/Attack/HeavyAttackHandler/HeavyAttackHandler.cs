@@ -6,9 +6,8 @@ using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class HeavyAttackHandler : PausableMonoBehaviour
+public class HeavyAttackHandler : PausableMonoBehaviour, IInitialize<HeavyAttackInitializerData>
 {
 
     #region - - - - - - Fields - - - - - -
@@ -35,8 +34,8 @@ public class HeavyAttackHandler : PausableMonoBehaviour
 
     #region - - - - - - Initializers - - - - - -
 
-    public void Initialize(ICameraController cameraController)
-        => this.m_CameraController = cameraController;
+    public void Initialize(HeavyAttackInitializerData initializerData)
+        => this.m_CameraController = initializerData.CameraController;
 
     #endregion Initializers
   
@@ -125,5 +124,16 @@ public class HeavyAttackHandler : PausableMonoBehaviour
     }
 
     #endregion Methods
+  
+}
+
+public class HeavyAttackInitializerData
+{
+
+    #region - - - - - - Properties - - - - - -
+
+    public ICameraController CameraController { get; set; }
+
+    #endregion Properties
   
 }

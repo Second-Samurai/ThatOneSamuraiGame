@@ -59,6 +59,10 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
             IInitialize<PlayerAttackInitializerData> _PlayerAttackInitializer =
                 this.m_Player.GetComponent<IInitialize<PlayerAttackInitializerData>>();
             _PlayerAttackInitializer.Initialize(new PlayerAttackInitializerData(this.m_CameraController, _PlayerStats));
+            IInitialize<HeavyAttackInitializerData> _PlayerHeavyAttackInitializer =
+                this.m_Player.GetComponent<IInitialize<HeavyAttackInitializerData>>();
+            _PlayerHeavyAttackInitializer.Initialize(
+                new HeavyAttackInitializerData { CameraController = this.m_CameraController});
 
             IInitialize<PlayerMovementInitializerData> _PlayerMovementInitializer =
                 this.m_Player.GetComponent<IInitialize<PlayerMovementInitializerData>>();

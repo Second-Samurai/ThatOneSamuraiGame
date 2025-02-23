@@ -40,7 +40,6 @@ public class PlayerAttackSystem :
     public void Initialize(PlayerAttackInitializerData initializerData)
     {
         this.m_PlayerStats = initializerData.StatHandler;
-        this.m_HeavyAttackHandler.Initialize(initializerData.CameraController);
         
         this.m_EntityAttackRegister = new EntityAttackRegister();
         this.m_EntityAttackRegister.Init(this.gameObject, EntityType.Player);

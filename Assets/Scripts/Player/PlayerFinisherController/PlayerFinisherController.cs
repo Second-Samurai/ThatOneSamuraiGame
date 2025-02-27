@@ -85,7 +85,8 @@ public class PlayerFinisherController :
 
     private void Start()
     {
-        this.m_LockOnObserver.OnNewLockOnTarget.AddListener(((IFinisherController)this).SetFinishingTargetEnemy);
+        this.m_LockOnObserver.OnNewLockOnTarget.AddListener(enemyTransofrm => 
+            ((IFinisherController)this).SetFinishingTargetEnemy(enemyTransofrm.gameObject));
         
         CinemachineBrain _MainCameraCinemachineBrain = GameManager.instance.MainCamera.GetComponent<CinemachineBrain>();
         this.m_CutSceneDirector.BindToTrack("Cinemachine Track", _MainCameraCinemachineBrain);
@@ -95,12 +96,16 @@ public class PlayerFinisherController :
 
     #region - - - - - - Methods - - - - - -
 
-    void IFinisherController.StartFinishingAction()
+    public void RunFinishingAttack(GameObject targetEnemy = null)
     {
-        if (this.m_TargetEnemy)
+        if (targetEnemy == null && this.m_TargetEnemy == null)
+            return;
+        
+        // Validate target
+        IGuarding _EnemyGuard = (targetEnemy ?? this.m_TargetEnemy).GetComponent<IGuarding>();
+        if (_EnemyGuard != null)
         {
             // Disable the enemy guard and its UI.
-            IGuarding _EnemyGuard = this.m_TargetEnemy.GetComponent<IGuarding>();
             _EnemyGuard.CanRunCooldownTimer = false;
             _EnemyGuard.CanRunRecoveryTimer = false;
             _EnemyGuard.UIGuardMeter.HideFinisherKey();
@@ -119,13 +124,6 @@ public class PlayerFinisherController :
         this.m_CutSceneDirector.Play();
         this.PlayerDetector.SetActive(false);
     }
-    
-    // Transform is passed instead of GameObject as LockOnSystem relies on transform over gameobject.
-    void IFinisherController.SetFinishingTargetEnemy(Transform targetEnemyTransform)
-    {
-        this.m_TargetEnemy = targetEnemyTransform.gameObject;
-        this.m_CutSceneDirector.BindToTrack("Animation Track (1)", this.m_TargetEnemy);
-    }
 
     // This is being invoked by the SignalReciever component, triggered by the timeline played by the director.
     public void EndFinishingActionSequence()
@@ -137,6 +135,16 @@ public class PlayerFinisherController :
         
         this.m_CameraController.SelectCamera(SceneCameras.FollowPlayer);
         ((IPlayerMovement)this.m_PlayerMovement).SetState(PlayerMovementStates.Normal);
+    }
+    
+    public bool CanRunFinisherAttack(GameObject entity)
+        =>
+    
+    // Transform is passed instead of GameObject as LockOnSystem relies on transform over gameobject.
+    void IFinisherController.SetFinishingTargetEnemy(GameObject targetEnemy)
+    {
+        this.m_TargetEnemy = targetEnemy;
+        this.m_CutSceneDirector.BindToTrack("Animation Track (1)", this.m_TargetEnemy);
     }
 
     #endregion Methods

@@ -30,6 +30,7 @@ public class PlayerAttackSystem :
     private BlockingAttackHandler m_BlockingAttackHandler;
     private LightAttackHandler m_LightAttackHandler;
     private HeavyAttackHandler m_HeavyAttackHandler;
+    private IFinisherController m_FinisherAttackHandler;
     
     private bool m_CanAttack;
 
@@ -90,11 +91,13 @@ public class PlayerAttackSystem :
                 this.m_PlayerStats.baseDamage,
                 true, 
                 false); // previously was unblockable
-        
+            
             // TODO: Fix when enemy attack states are clarified.
             // if (!this.m_BlockingAttackHandler.CanBlock()) 
             //     this.m_AttackAudio.PlayHit();
             // else 
+            
+            this.m_FinisherAttackHandler.RunFinishingAttack(other.transform.gameObject);
             
             this.m_PlayerMovement.CancelMove();
             this.m_AttackAudio.PlayHeavyHit();

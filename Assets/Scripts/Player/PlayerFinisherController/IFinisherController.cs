@@ -5,9 +5,11 @@ public interface IFinisherController
 
     #region - - - - - - Methods - - - - - -
 
-    void StartFinishingAction();
+    void RunFinishingAttack(GameObject targetEnemy = null);
 
-    void SetFinishingTargetEnemy(Transform targetEnemyTransform);
+    void SetFinishingTargetEnemy(GameObject targetEnemy);
+
+    bool C { get; }
 
     #endregion Methods
 

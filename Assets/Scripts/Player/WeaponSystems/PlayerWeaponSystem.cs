@@ -73,12 +73,14 @@ namespace ThatOneSamuraiGame
         public void RevealWeapon()
         {
             this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.DrawSword);
+            this.m_IsWeaponDrawn = true;
             this.m_EquippedWeapon.SetActive(true);
         }
 
         public void HideWeapon()
         {
             this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.SheathSword);
+            this.m_IsWeaponDrawn = false;
             this.m_EquippedWeapon.SetActive(false);
         }
 

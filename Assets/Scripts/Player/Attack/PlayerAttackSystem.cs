@@ -90,6 +90,7 @@ public class PlayerAttackSystem :
             || other.CompareTag("Level")
             || other.gameObject.layer == LayerMask.NameToLayer("Detector")
             || !this.m_WeaponSystem.IsWeaponEquipped()
+            || !this.m_WeaponSystem.IsWeaponDrawn
             || !this.m_CanAttack) return;
 
         IDamageable _EnemyDamageHandler = other.GetComponent<IDamageable>();

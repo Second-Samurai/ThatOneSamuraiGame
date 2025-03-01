@@ -8,7 +8,9 @@ namespace ThatOneSamuraiGame
 
         #region - - - - - - Fields - - - - - -
 
-        public static GameTag Player = new("Player", 0);
+        public static GameTag Enemy = new("Enemy", 0);
+        public static GameTag Player = new("Player", 99);
+        public static GameTag Weapon = new("Weapon", 6);
 
         #endregion Fields
 

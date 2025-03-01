@@ -34,9 +34,9 @@ public class PlayerFinisherControllerInitializerData
 /// Facade for handling 'Finishing' action related behaviour. Its responsible for handling finishing sequences against
 /// bladed enemies.
 /// </summary>
-public class PlayerFinisherController : 
+public class PlayerFinisherAttackHandler : 
     PausableMonoBehaviour, 
-    IFinisherController, 
+    IFinisherAttackHandler, 
     IInitialize<PlayerFinisherControllerInitializerData>
 {
 
@@ -66,6 +66,7 @@ public class PlayerFinisherController :
     
     // Runtime Fields
     private GameObject m_TargetEnemy;
+    private bool m_CanRunFinisherAttack;
 
     #endregion Fields
     
@@ -86,7 +87,7 @@ public class PlayerFinisherController :
     private void Start()
     {
         this.m_LockOnObserver.OnNewLockOnTarget.AddListener(enemyTransofrm => 
-            ((IFinisherController)this).SetFinishingTargetEnemy(enemyTransofrm.gameObject));
+            ((IFinisherAttackHandler)this).SetFinishingTargetEnemy(enemyTransofrm.gameObject));
         
         CinemachineBrain _MainCameraCinemachineBrain = GameManager.instance.MainCamera.GetComponent<CinemachineBrain>();
         this.m_CutSceneDirector.BindToTrack("Cinemachine Track", _MainCameraCinemachineBrain);
@@ -98,7 +99,7 @@ public class PlayerFinisherController :
 
     public void RunFinishingAttack(GameObject targetEnemy = null)
     {
-        if (targetEnemy == null && this.m_TargetEnemy == null)
+        if (targetEnemy == null && this.m_TargetEnemy == null || !this.m_CanRunFinisherAttack)
             return;
         
         // Validate target
@@ -137,11 +138,14 @@ public class PlayerFinisherController :
         ((IPlayerMovement)this.m_PlayerMovement).SetState(PlayerMovementStates.Normal);
     }
     
-    public bool CanRunFinisherAttack(GameObject entity)
-        =>
+    public void EnableFinisherAttack()
+        => this.m_CanRunFinisherAttack = true;
+    
+    public void DisableFinisherAttack()
+        => this.m_CanRunFinisherAttack = false;
     
     // Transform is passed instead of GameObject as LockOnSystem relies on transform over gameobject.
-    void IFinisherController.SetFinishingTargetEnemy(GameObject targetEnemy)
+    void IFinisherAttackHandler.SetFinishingTargetEnemy(GameObject targetEnemy)
     {
         this.m_TargetEnemy = targetEnemy;
         this.m_CutSceneDirector.BindToTrack("Animation Track (1)", this.m_TargetEnemy);

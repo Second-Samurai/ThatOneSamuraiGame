@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public interface IFinisherController
+public interface IFinisherAttackHandler
 {
 
     #region - - - - - - Methods - - - - - -
@@ -9,7 +9,9 @@ public interface IFinisherController
 
     void SetFinishingTargetEnemy(GameObject targetEnemy);
 
-    bool C { get; }
+    void EnableFinisherAttack();
+
+    void DisableFinisherAttack();
 
     #endregion Methods
 

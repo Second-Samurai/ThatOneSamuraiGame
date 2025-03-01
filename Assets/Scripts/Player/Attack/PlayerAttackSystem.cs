@@ -13,8 +13,17 @@ public class PlayerAttackSystem :
 {
 
     #region - - - - - - Fields - - - - - -
-
-    [SerializeField] private SphereCollider m_AttackCollider;
+    
+    // ***********************
+    // Public / Serialized Fields
+    // ***********************
+    
+    [SerializeField, RequiredField] private SphereCollider m_AttackCollider;
+    [SerializeField, RequiredField] private PlayerFinisherAttackHandler m_FinisherAttackHandler;
+    
+    // ***********************
+    // Non-Serialized Fields
+    // ***********************
     
     // Component Fields
     private EntityAttackRegister m_EntityAttackRegister;
@@ -30,7 +39,6 @@ public class PlayerAttackSystem :
     private BlockingAttackHandler m_BlockingAttackHandler;
     private LightAttackHandler m_LightAttackHandler;
     private HeavyAttackHandler m_HeavyAttackHandler;
-    private IFinisherController m_FinisherAttackHandler;
     
     private bool m_CanAttack;
 
@@ -73,12 +81,16 @@ public class PlayerAttackSystem :
         _AnimationEvents.OnHeavyAttack.AddListener(this.m_AttackAudio.PlayHeavySwing);
     }
 
+    /// <summary>
+    /// Handles attack on trigger collision through the attack collider.
+    /// </summary>
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Level") 
-            || other.gameObject.CompareTag("LOD") 
+        if (!other.gameObject.CompareTag(GameTag.Enemy)
+            || other.CompareTag("Level")
             || other.gameObject.layer == LayerMask.NameToLayer("Detector")
-            || !this.m_WeaponSystem.IsWeaponEquipped()) return;
+            || !this.m_WeaponSystem.IsWeaponEquipped()
+            || !this.m_CanAttack) return;
 
         IDamageable _EnemyDamageHandler = other.GetComponent<IDamageable>();
         if (_EnemyDamageHandler != null)

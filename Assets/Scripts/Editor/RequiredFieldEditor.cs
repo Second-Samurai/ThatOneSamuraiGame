@@ -16,6 +16,9 @@ public class RequiredFieldEditor : Editor
     {
         base.OnInspectorGUI();
 
+        if (this.CheckForMissingRequiredFields())
+            GUI.backgroundColor = new Color(1f, 0.6f, 0.6f);
+
         object _TargetObject = target;
         FieldInfo[] fields = _TargetObject.GetType()
             .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -31,6 +34,23 @@ public class RequiredFieldEditor : Editor
                     EditorGUILayout.HelpBox($"{field.Name} is required but not assigned.", MessageType.Error);
             }
         }
+    }
+
+    private bool CheckForMissingRequiredFields()
+    {
+        object _TargetObject = target;
+        FieldInfo[] fields = _TargetObject.GetType()
+            .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+        foreach (var field in fields)
+        {
+            RequiredFieldAttribute _RequiredAttribute = (RequiredFieldAttribute)Attribute
+                .GetCustomAttribute(field, typeof(RequiredFieldAttribute));
+            if (_RequiredAttribute != null)
+                return true;
+        }
+
+        return false;
     }
 
     #endregion Methods

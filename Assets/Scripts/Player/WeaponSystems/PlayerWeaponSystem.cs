@@ -10,15 +10,23 @@ namespace ThatOneSamuraiGame
 
         #region - - - - - - Fields - - - - - -
 
-        [RequiredField]
-        [SerializeField] 
-        private Transform m_WeaponHolder;
+        // ****************************
+        // Public / Serialized Fields
+        // ****************************
         
-        private GameObject m_EquippedWeapon;
+        [SerializeField, RequiredField] private Transform m_WeaponHolder;
+        
+        // ****************************
+        // Non-Serialized Fields
+        // ****************************
+        
+        // Component Fields
         private IWeaponEffectHandler m_WeaponEffectHandler;
-        private PlayerAttackState m_PlayerAttackState;
         private IPlayerAnimationDispatcher m_AnimationDispatcher;
 
+        // Runtime Fields
+        private PlayerAttackState m_PlayerAttackState;
+        private GameObject m_EquippedWeapon;
         private bool m_IsWeaponDrawn;
         
         #endregion Fields

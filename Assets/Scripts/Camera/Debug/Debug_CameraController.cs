@@ -46,7 +46,7 @@ namespace ThatOneSamuraiGame
             
             IPlayerTargetTracking _PlayerTargetLocking =
                 Object.FindFirstObjectByType<PlayerTargetLocking>(FindObjectsInactive.Exclude);
-            _PlayerTargetLocking.ToggleLockOn();
+            _PlayerTargetLocking.ToggleTargetLocking();
         }
 
         private void SwitchToFollowCamera()

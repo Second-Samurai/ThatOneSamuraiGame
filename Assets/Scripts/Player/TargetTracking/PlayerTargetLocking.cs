@@ -42,16 +42,20 @@ namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
             this.m_LockOnSystem.SelectNewTarget();
         }
 
-        public void ToggleLockOn()
+        public void ToggleTargetLocking()
         {
             // Cannot run lock on targeting if no swords are drawn
             if (!this.m_WeaponSystem.IsWeaponDrawn)
                 return;
 
+            if (this.m_IsLockedOn)
+            {
+                this.m_LockOnSystem.EndLockOn();
+                return;
+            }
+
             this.m_IsLockedOn = true;
-            
             this.m_LockOnSystem.StartLockOn();
-            this.m_CameraController.SelectCamera(SceneCameras.LockOn);
             this.m_PlayerMovement.SetState(PlayerMovementStates.LockOn);
         }
 

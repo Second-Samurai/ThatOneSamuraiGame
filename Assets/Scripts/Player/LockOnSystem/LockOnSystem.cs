@@ -1,4 +1,5 @@
 ﻿using Enemies;
+using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using UnityEngine;
@@ -69,6 +70,7 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
     {
         this.m_IsLockedOn = true;
         this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.StartLockOn);
+        this.m_CameraController.SelectCamera(SceneCameras.LockOn);
 
         // Set target to camera
         Transform _TargetTransform = this.GetNearestTarget();
@@ -142,9 +144,20 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
                     _NextEnemy = this.m_TargetTransform;
             }
 
+            if (_NextEnemy == null)
+            {
+                GameLogger.Log("No Enemies to lock to were found nearby.");
+                return null;
+            }
+
             // If the target enemy is not the same as the referred enemy then change target.
             if (_NextEnemy != this.m_TargetTransform)
-                this.m_TargetTransform = _NextEnemy;
+            {
+                // This is a hack to ensure that locking behaviour always 'looks' to its appropriate transform instead of its feet.
+                IPreferredLockingTransformProvider _PreferredTransformProvider =
+                    _NextEnemy.GetComponent<IPreferredLockingTransformProvider>();
+                this.m_TargetTransform = _PreferredTransformProvider.GetPreferredTransform();
+            }
             
             Debug.DrawLine(this.transform.position, (_NextEnemy.position + Vector3.up - this.transform.position).normalized * 90, Color.magenta);
         }

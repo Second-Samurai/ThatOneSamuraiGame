@@ -19,12 +19,9 @@ public class HeavyAttackHandler : PausableMonoBehaviour, IInitialize<HeavyAttack
     private PlayerAttackState m_PlayerAttackState;
     private IWeaponSystem m_WeaponSystem;
     
-    [SerializeField] 
-    private GameEvent m_ShowHeavyTutorialEvent;
-    [SerializeField] 
-    private GameEvent m_StartHeavyTelegraphEvent;
-    [SerializeField] 
-    private GameEvent m_EndHeavyTelegraphEvent; 
+    [SerializeField] private GameEvent m_ShowHeavyTutorialEvent;
+    [SerializeField] private GameEvent m_StartHeavyTelegraphEvent;
+    [SerializeField] private GameEvent m_EndHeavyTelegraphEvent; 
     
     // Heavy Attack Timer Fields
     private readonly float m_HeavyAttackChargeTime = 1.5f;

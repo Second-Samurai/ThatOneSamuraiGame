@@ -44,28 +44,37 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         
         #region - - - - - - Fields - - - - - -
         
-        [RequiredField]
-        [SerializeField]
-        private PlayerAnimationComponent m_PlayerAnimationComponent;
-        private Rigidbody m_Rigidbody;
+        // ****************************
+        // Public / Serialized Fields
+        // ****************************
         
+        [SerializeField, RequiredField] private PlayerAnimationComponent m_PlayerAnimationComponent;
+        
+        // ****************************
+        // Non-Serialized Fields
+        // ****************************
+        
+        // Component Fields
+        private BlockingAttackHandler m_BlockingAttackHandler;
         private ICameraController m_CameraController;
+        private ILockOnSystem m_LockOnSystem; 
         private IDamageable m_PlayerDamage;
         private IPlayerAttackSystem m_PlayerAttackHandler;
-        private BlockingAttackHandler m_BlockingAttackHandler;
+        private Rigidbody m_Rigidbody;
         
-        // Player data containers
+        // Player data containers Fields
         private PlayerAttackState m_PlayerAttackState;
         private PlayerMovementDataContainer m_PlayerMovementDataContainer;
         private PlayerTargetTrackingState m_PlayerTargetTrackingState;
         private PlayerSpecialActionState m_PlayerSpecialActionState;
         
-        // Player states
+        // Player states Fields
         private IPlayerMovementState m_CurrentMovementState;
         private IPlayerMovementState m_NormalMovement;
         private IPlayerMovementState m_LockOnMovement;
         private IPlayerMovementState m_FinisherMovement;
         
+        // Runtime Fields
         private bool m_IsMovementEnabled = true;
         private bool m_IsRotationEnabled = true;
         private bool m_IsSprinting = false;
@@ -101,11 +110,12 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         private void Start()
         {
+            this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
+            this.m_LockOnSystem = this.GetComponentInChildren<LockOnSystem>();
             this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
             this.m_PlayerTargetTrackingState = this.GetComponent<IPlayerState>().PlayerTargetTrackingState;
             this.m_PlayerAttackHandler = this.GetComponent<IPlayerAttackSystem>();
             this.m_PlayerDamage = this.GetComponent<IDamageable>();
-            this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
 
             IMovementAnimationEvents _AnimationEvents = this.GetComponent<IMovementAnimationEvents>();
             _AnimationEvents.OnEnableMovement.AddListener(((IPlayerMovement)this).EnableMovement);
@@ -245,9 +255,11 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         void IPlayerMovement.PrepareSprint(bool isSprinting)
         {
             this.m_CurrentMovementState.PerformSprint(isSprinting);
-            this.m_CameraController.SelectCamera(isSprinting 
-                ? SceneCameras.FollowSprintPlayer 
-                : SceneCameras.FollowPlayer);
+            
+            if (!this.m_LockOnSystem.IsLockingOnTarget)
+                this.m_CameraController.SelectCamera(isSprinting
+                    ? SceneCameras.FollowSprintPlayer 
+                    : SceneCameras.FollowPlayer);
 
             this.m_IsSprinting = isSprinting;
 

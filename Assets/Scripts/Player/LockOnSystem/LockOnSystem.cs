@@ -70,7 +70,6 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
     {
         this.m_IsLockedOn = true;
         this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.StartLockOn);
-        this.m_CameraController.SelectCamera(SceneCameras.LockOn);
 
         // Set target to camera
         Transform _TargetTransform = this.GetNearestTarget();
@@ -78,6 +77,8 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
 
         this.m_LockOnObserver.OnNewLockOnTarget.Invoke(_TargetTransform);
         this.m_LockOnObserver.OnLockOnEnable.Invoke();
+        
+        this.m_CameraController.SelectCamera(SceneCameras.LockOn);
 
         // ******************************************************
         // Logic below is commented out as the Enemy objects will be reworked entirely

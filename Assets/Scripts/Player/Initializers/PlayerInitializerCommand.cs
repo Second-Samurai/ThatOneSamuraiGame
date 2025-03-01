@@ -50,7 +50,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
             
             // Initialize Components
             PlayerTargetLocking _PlayerTargetLocking = this.m_Player.GetComponent<PlayerTargetLocking>();
-            _PlayerTargetLocking.Initialize(this.m_CameraController);
+            _PlayerTargetLocking.Initialize();
 
             IInitialize<PlayerControllerInitializerData> _PlayerController = 
                 this.m_Player.GetComponent<IInitialize<PlayerControllerInitializerData>>();

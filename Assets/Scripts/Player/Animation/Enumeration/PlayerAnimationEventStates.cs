@@ -45,8 +45,8 @@ public class PlayerAnimationEventStates : SmartEnum
     // LockOn animation states
     public static PlayerAnimationEventStates StartLockOn = new("LockedOn", 0, "",
         (animator, _, _, _, state) => animator.SetBool(state.ToString(), true));
-    public static PlayerAnimationEventStates EndLockOn = new("LockOn", 1, "",
-        (animator, _, _, _, state) => animator.SetBool(state.ToString(), false));
+    public static PlayerAnimationEventStates EndLockOn = new("EndLockOn", 1, "",
+        (animator, _, _, _, _) => animator.SetBool(StartLockOn.ToString(), false)); // EndLockOn use same string identifier as StartLockOn
 
     // Finisher animation states
     public static PlayerAnimationEventStates StartHeavyAttackHeld = new("HeavyAttackHeld", 1, "",

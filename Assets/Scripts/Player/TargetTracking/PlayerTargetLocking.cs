@@ -1,6 +1,4 @@
-﻿using System;
-using ThatOneSamuraiGame.Scripts.Base;
-using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
+﻿using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using UnityEngine;
 
@@ -13,7 +11,6 @@ namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
 
         #region - - - - - - Fields - - - - - -
 
-        private ICameraController m_CameraController;
         private IPlayerMovement m_PlayerMovement;
         private ILockOnSystem m_LockOnSystem;
         private IWeaponSystem m_WeaponSystem;
@@ -24,9 +21,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
 
         #region - - - - - - Initializers - - - - - -
 
-        public void Initialize(ICameraController cameraController)
+        public void Initialize()
         {
-            this.m_CameraController = cameraController ?? throw new ArgumentNullException(nameof(cameraController));
             this.m_PlayerMovement = this.GetComponent<IPlayerMovement>();
             this.m_LockOnSystem = this.GetComponentInChildren<ILockOnSystem>();
             this.m_WeaponSystem = this.GetComponent<IWeaponSystem>();
@@ -38,7 +34,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
 
         void IPlayerTargetTracking.ToggleLockLeft()
         {
-            if (!this.m_IsLockedOn) return;
+            if (!this.m_LockOnSystem.IsLockingOnTarget) return;
             this.m_LockOnSystem.SelectNewTarget();
         }
 
@@ -48,20 +44,19 @@ namespace ThatOneSamuraiGame.Scripts.Player.TargetTracking
             if (!this.m_WeaponSystem.IsWeaponDrawn)
                 return;
 
-            if (this.m_IsLockedOn)
+            if (this.m_LockOnSystem.IsLockingOnTarget)
             {
                 this.m_LockOnSystem.EndLockOn();
                 return;
             }
 
-            this.m_IsLockedOn = true;
             this.m_LockOnSystem.StartLockOn();
             this.m_PlayerMovement.SetState(PlayerMovementStates.LockOn);
         }
 
         void IPlayerTargetTracking.ToggleLockRight()
         {
-            if (!this.m_IsLockedOn) return;
+            if (!this.m_LockOnSystem.IsLockingOnTarget) return;
             this.m_LockOnSystem.SelectNewTarget();
         }
 

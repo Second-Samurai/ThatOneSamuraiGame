@@ -21,7 +21,7 @@ public class PNormalState : PlayerState
         combatController.Init(playerEntity.GetPlayerStats());
         combatController.UnblockCombatInputs();*/
 
-        PDamageController damageController = this.GetComponent<PDamageController>();
+        PlayerHealthSystem damageController = this.GetComponent<PlayerHealthSystem>();
         damageController.Init(playerEntity.GetPlayerStats());
         damageController.EnableDamage();
     }
@@ -40,7 +40,7 @@ public class PNormalState : PlayerState
         IPlayerAttackSystem _AttackHandler = this.GetComponent<IPlayerAttackSystem>();
         _AttackHandler.DisableAttack();
 
-        PDamageController damageController = this.GetComponent<PDamageController>();
+        PlayerHealthSystem damageController = this.GetComponent<PlayerHealthSystem>();
         damageController.DisableDamage();
     }
 }

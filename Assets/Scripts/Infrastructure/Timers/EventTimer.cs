@@ -77,4 +77,5 @@ public class EventTimer
         => this.m_TimeLeft <= 0;
         
     #endregion Methods
+    
 }

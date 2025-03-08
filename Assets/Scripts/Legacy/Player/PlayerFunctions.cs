@@ -32,7 +32,7 @@ public class PlayerFunctions : MonoBehaviour
     IKPuppet _IKPuppet;
 
     private PlayerAnimationComponent m_PlayerAnimationComponent;
-    PDamageController _pDamageController;
+    PlayerHealthSystem _playerHealthSystem;
     public Rigidbody rb;
 
     HitstopController hitstopController;

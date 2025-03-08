@@ -12,7 +12,7 @@ public interface IDamageable {
     void EnableDamage();
 }
 
-public class PDamageController : MonoBehaviour, IDamageable
+public class PlayerHealthSystem : MonoBehaviour, IDamageable
 {
 
     #region - - - - - - Fields - - - - - -

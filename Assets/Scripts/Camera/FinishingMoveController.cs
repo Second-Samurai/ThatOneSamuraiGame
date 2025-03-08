@@ -26,7 +26,7 @@ public class FinishingMoveController : MonoBehaviour
     public bool bIsFinishing = false;
 
     PlayableDirector _cutsceneDirector;
-    PDamageController damageController;
+    PlayerHealthSystem damageController;
     List<Transform> enemies; 
     List<AISystem> enemiesCache;
     GameObject targetEnemy;
@@ -50,7 +50,7 @@ public class FinishingMoveController : MonoBehaviour
     {
         _cutsceneDirector = GetComponent<PlayableDirector>();
         BindToTrack("Cinemachine Track", GameManager.instance.MainCamera.GetComponent<CinemachineBrain>());
-        damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PDamageController>();
+        damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PlayerHealthSystem>();
     }
 
     void BindToTrack(string trackName, Object val)

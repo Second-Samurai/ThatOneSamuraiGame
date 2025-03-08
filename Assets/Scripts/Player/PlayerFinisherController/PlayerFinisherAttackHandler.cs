@@ -51,7 +51,7 @@ public class PlayerFinisherAttackHandler :
     private PlayerFinisherCutsceneDirector m_CutSceneDirector;
     [RequiredField] 
     [SerializeField] 
-    private PDamageController m_PlayerDamageController;
+    private PlayerHealthSystem m_PlayerDamageController;
     [RequiredField] 
     [SerializeField] 
     private PlayerAttackSystem m_PlayerAttackHandler;

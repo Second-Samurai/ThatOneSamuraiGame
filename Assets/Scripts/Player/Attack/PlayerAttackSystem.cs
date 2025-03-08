@@ -1,5 +1,6 @@
 using System;
 using ThatOneSamuraiGame;
+using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
@@ -191,10 +192,10 @@ public class PlayerAttackSystem :
 
     // Note: This behaviour is not implemented, but will be open for future use.
     void IPlayerAttackSystem.StartHeavyAlternative()
-        => throw new NotImplementedException();
+        => GameLogger.LogError("Start Heavy Alternative is not implemented.");
 
     #endregion Heavy Attack Methods
-    
+
 }
 
 public class PlayerAttackInitializerData

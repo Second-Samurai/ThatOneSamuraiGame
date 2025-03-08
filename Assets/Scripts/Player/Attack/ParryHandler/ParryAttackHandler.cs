@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Enemies;
+using Enemies.Attacking;
 using Player.Animation;
 using ThatOneSamuraiGame;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
@@ -25,6 +26,8 @@ public class ParryAttackHandler : MonoBehaviour, IPlayerParryActions
 
     public float m_ParryDetectionTime;
     public bool m_IsParryActive;
+    
+    public ParryEffects m_ParryEffects;
 
     private EventTimer m_ParryDetectionEventTimer;
 
@@ -262,6 +265,18 @@ public class ParryAttackHandler : MonoBehaviour, IPlayerParryActions
         this.m_ParryDetectionEventTimer.StopTimer();
     }
 
+    public void PerformParry(GameObject attacker)
+    {
+        if (this.m_PlayerSpecialActionState.IsDodging || !bIsParrying)
+            return;
+        
+        this.m_ParryEffects.PlayParry();
+        m_PlayerAnimationComponent.TriggerParry();
+
+        IEnemyAttackSystem _EnemyAttackSystem = attacker.GetComponent<IEnemyAttackSystem>();
+        _EnemyAttackSystem.HandleAttackDeflection();
+    }
+    
     #endregion New Parry Methods
 
 }

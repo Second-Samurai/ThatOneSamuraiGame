@@ -30,6 +30,13 @@ namespace ThatOneSamuraiGame
         private float m_CurrentBlockCooldownTime;
 
         #endregion Fields
+
+        #region - - - - - - Properties - - - - - -
+
+        public bool IsBlocking
+            => this.m_IsBlocking;
+
+        #endregion Properties
   
         #region - - - - - - Unity Methods - - - - - -
 
@@ -128,7 +135,8 @@ namespace ThatOneSamuraiGame
         public void EnableBlock() 
             => this.m_IsBlockingEnabled = true;
         
-        public bool CanBlock() => this.m_PlayerWeaponSystem.IsWeaponDrawn && this.m_IsBlockingEnabled;
+        public bool CanBlock() 
+            => this.m_PlayerWeaponSystem.IsWeaponDrawn && this.m_IsBlockingEnabled;
 
         #endregion Methods
   

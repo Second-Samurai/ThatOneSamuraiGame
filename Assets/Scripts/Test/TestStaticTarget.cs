@@ -20,6 +20,10 @@ public class TestStaticTarget : MonoBehaviour, IDamageable
         enemyGuard.Init(testEnemyStats);
     }
 
+    public void HandleAttack(float damage, GameObject attacker)
+    {
+    }
+
     public void DisableDamage()
     {
         //Not needed

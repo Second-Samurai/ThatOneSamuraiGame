@@ -4,12 +4,23 @@ using ThatOneSamuraiGame.Scripts.Input;
 using UnityEngine;
 
 public interface IDamageable {
-    EntityType GetEntityType();
-    bool CheckCanDamage();
 
-    void OnEntityDamage(float damage, GameObject attacker, bool unblockable);
+    #region - - - - - - Methods - - - - - -
+
+    EntityType GetEntityType();
+    
+    bool CheckCanDamage(); // Redundant
+
+    void OnEntityDamage(float damage, GameObject attacker, bool unblockable); // TODO: Make redundant
+
+    void HandleAttack(float damage, GameObject attacker);
+    
     void DisableDamage();
+    
     void EnableDamage();
+
+    #endregion Methods
+  
 }
 
 public class PlayerHealthSystem : MonoBehaviour, IDamageable
@@ -18,7 +29,7 @@ public class PlayerHealthSystem : MonoBehaviour, IDamageable
     #region - - - - - - Fields - - - - - -
 
     [SerializeField] private bool GodMode;
-    [SerializeField] private bool _canDamage;
+    [SerializeField] private bool m_CanDamage;
 
     private StatHandler playerStats;
     private BlockingAttackHandler m_BlockingAttackHandler;
@@ -49,16 +60,28 @@ public class PlayerHealthSystem : MonoBehaviour, IDamageable
     // ---------------------------------------------------
     public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
-        if (!_canDamage) return;
+        // if (!m_CanDamage) return;
+        //
+        // if (!unblockable)
+        // {
+        //     this.m_ParryAttackHandler.HandleParryHit(attacker, damage, out bool _IsHitParried);
+        //     this.m_BlockingAttackHandler.HandleBlockHit(out bool _IsHitBlocked);
+        //     
+        //     if (!_IsHitParried && !_IsHitBlocked)
+        //         this.KillPlayer();
+        // }
+        // else
+        //     this.KillPlayer();
+    }
 
-        if (!unblockable)
-        {
-            this.m_ParryAttackHandler.HandleParryHit(attacker, damage, out bool _IsHitParried);
-            this.m_BlockingAttackHandler.HandleBlockHit(out bool _IsHitBlocked);
-            
-            if (!_IsHitParried && !_IsHitBlocked)
-                this.KillPlayer();
-        }
+    public void HandleAttack(float damage, GameObject attacker)
+    {
+        if (!this.m_CanDamage) return;
+
+        if (this.m_ParryAttackHandler.IsParrying)
+            this.m_ParryAttackHandler.PerformParry(attacker);
+        else if (this.m_BlockingAttackHandler.IsBlocking)
+            this.m_BlockingAttackHandler.HandleBlockHit(out bool _);
         else
             this.KillPlayer();
     }
@@ -82,16 +105,16 @@ public class PlayerHealthSystem : MonoBehaviour, IDamageable
      *          But can be only used when in a state that does
      *          not require it.*/
     public void DisableDamage() 
-        => _canDamage = false;
+        => m_CanDamage = false;
 
     public void EnableDamage()
     {
         if (GodMode) return;
-        _canDamage = true;
+        m_CanDamage = true;
     }
 
     public bool CheckCanDamage() 
-        => _canDamage;
+        => m_CanDamage;
 
     public EntityType GetEntityType() 
         => EntityType.Player;

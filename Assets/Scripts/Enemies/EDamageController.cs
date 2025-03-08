@@ -95,6 +95,10 @@ public class EDamageController : MonoBehaviour, IDamageable
         }
     }
 
+    public void HandleAttack(float damage, GameObject attacker)
+    {
+    }
+
     /* Summary: This disables the damage from this component.
      *          But can be only used when in a state that does
      *          not require it.*/

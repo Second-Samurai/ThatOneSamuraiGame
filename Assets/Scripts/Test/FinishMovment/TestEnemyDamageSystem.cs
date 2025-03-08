@@ -29,6 +29,10 @@ public class TestEnemyDamageSystem : PausableMonoBehaviour, IDamageable
         // }
     }
 
+    public void HandleAttack(float damage, GameObject attacker)
+    {
+    }
+
     public void DisableDamage() 
         => throw new NotImplementedException();
 

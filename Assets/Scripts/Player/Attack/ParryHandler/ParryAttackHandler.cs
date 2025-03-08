@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Enemies;
-using Enemies.Attacking;
 using Player.Animation;
 using ThatOneSamuraiGame;
 using ThatOneSamuraiGame.Scripts.Player.Containers;

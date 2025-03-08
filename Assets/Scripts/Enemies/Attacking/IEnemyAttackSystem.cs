@@ -1,15 +1,10 @@
-﻿namespace Enemies.Attacking
+﻿public interface IEnemyAttackSystem
 {
 
-    public interface IEnemyAttackSystem
-    {
+    #region - - - - - - Methods - - - - - -
 
-        #region - - - - - - Methods - - - - - -
+    void HandleAttackDeflection();
 
-        void HandleAttackDeflection();
-
-        #endregion Methods
-
-    }
+    #endregion Methods
 
 }

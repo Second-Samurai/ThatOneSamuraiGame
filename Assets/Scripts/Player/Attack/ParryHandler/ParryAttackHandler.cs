@@ -2,7 +2,6 @@
 using Enemies;
 using Player.Animation;
 using ThatOneSamuraiGame;
-using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using ThatOneSamuraiGame.Scripts.Player.Movement;
 using ThatOneSamuraiGame.Scripts.Player.SpecialAction;

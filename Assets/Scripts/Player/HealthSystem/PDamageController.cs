@@ -43,6 +43,10 @@ public class PDamageController : MonoBehaviour, IDamageable
 
     #region - - - - - - Damage Methods - - - - - -
 
+    // ---------------------------------------------------
+    // This implementation feels inappropriate. It is not based on any event but rather direct method calls from
+    // associated classes.
+    // ---------------------------------------------------
     public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
         if (!_canDamage) return;

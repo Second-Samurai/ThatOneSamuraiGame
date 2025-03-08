@@ -21,7 +21,16 @@ public interface IPlayerParryActions
 public class ParryAttackHandler : MonoBehaviour, IPlayerParryActions
 {
 
-    #region - - - - - - Fields - - - - - -
+    #region - - - - - - New Fields - - - - - -
+
+    public float m_ParryDetectionTime;
+    public bool m_IsParryActive;
+
+    private EventTimer m_ParryDetectionEventTimer;
+
+    #endregion New Fields
+    
+    #region - - - - - - Old Fields - - - - - -
 
     [Header("Parry Variables")]
     public bool bIsParrying = false;
@@ -53,12 +62,26 @@ public class ParryAttackHandler : MonoBehaviour, IPlayerParryActions
     private PlayerMovementDataContainer _mPlayerMovementDataContainer;
     private PlayerSpecialActionState m_PlayerSpecialActionState;
 
-    #endregion Fields
+    #endregion Old Fields
 
+    #region - - - - - - Properties - - - - - -
+
+    public bool IsParrying
+        => this.m_IsParryActive;
+
+    #endregion Properties
+  
     #region - - - - - - Unity Methods - - - - - -
 
     private void Start()
     {
+        this.m_ParryDetectionEventTimer = new EventTimer(
+            this.m_ParryDetectionTime, 
+            Time.deltaTime, 
+            this.EndParry, 
+            canRestart: false, 
+            startImmediately: false);
+        
         playerSFX = gameObject.GetComponent<PlayerSFX>();
         rb = GetComponent<Rigidbody>();
         m_PlayerAnimationComponent = GetComponent<PlayerAnimationComponent>();
@@ -86,6 +109,8 @@ public class ParryAttackHandler : MonoBehaviour, IPlayerParryActions
     
     private void Update()
     {
+        this.m_ParryDetectionEventTimer.TickTimer();
+        
         CheckParry();
 
         if (bAllowDeathMoveReset)
@@ -99,7 +124,7 @@ public class ParryAttackHandler : MonoBehaviour, IPlayerParryActions
 
     #endregion Unity Methods
 
-    #region - - - - - - Methods - - - - - -
+    #region - - - - - - Old Parry Methods - - - - - -
 
     public IEnumerator ImpulseWithTimer(Vector3 lastDir, float force, float timer)
     {
@@ -221,6 +246,22 @@ public class ParryAttackHandler : MonoBehaviour, IPlayerParryActions
         } 
     }
     
-    #endregion Methods
+    #endregion Old Parry Methods
+
+    #region - - - - - - New Parry Methods - - - - - -
+
+    public void StartParry()
+    {
+        this.m_IsParryActive = true;
+        this.m_ParryDetectionEventTimer.StartTimer();
+    }
+
+    public void EndParry()
+    {
+        this.m_IsParryActive = false;
+        this.m_ParryDetectionEventTimer.StopTimer();
+    }
+
+    #endregion New Parry Methods
 
 }

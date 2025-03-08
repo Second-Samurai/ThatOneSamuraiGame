@@ -40,6 +40,7 @@ public class PlayerAttackSystem :
     private BlockingAttackHandler m_BlockingAttackHandler;
     private LightAttackHandler m_LightAttackHandler;
     private HeavyAttackHandler m_HeavyAttackHandler;
+    private ParryAttackHandler m_ParryAttackHandler;
     
     private bool m_CanAttack;
 
@@ -170,12 +171,18 @@ public class PlayerAttackSystem :
 
     #region - - - - - - Parry and Block Methods - - - - - -
 
+    void IPlayerAttackSystem.StartBlock()
+    {
+        this.m_ParryAttackHandler.StartParry();
+        this.m_BlockingAttackHandler.StartBlock();
+    }
+
     // Tech-Debt: #35 - PlayerFunctions will be refactored to mitigate large class bloat.
     void IPlayerAttackSystem.EndBlock()
-        => this.m_BlockingAttackHandler.EndBlock();
-    
-    void IPlayerAttackSystem.StartBlock() 
-        => this.m_BlockingAttackHandler.StartBlock();
+    {
+        this.m_ParryAttackHandler.EndParry();
+        this.m_BlockingAttackHandler.EndBlock();
+    }
 
     void IPlayerAttackSystem.EndParryAction()
     {

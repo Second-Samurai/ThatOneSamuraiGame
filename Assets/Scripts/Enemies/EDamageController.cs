@@ -1,7 +1,9 @@
+using System;
 using Enemies;
 using ThatOneSamuraiGame.Legacy;
 using UnityEngine;
 
+[Obsolete]
 public class EDamageController : MonoBehaviour, IDamageable
 {
     private StatHandler _enemyStats;

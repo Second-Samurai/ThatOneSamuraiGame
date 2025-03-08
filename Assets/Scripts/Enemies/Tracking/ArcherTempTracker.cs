@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
+[Obsolete]
 public class ArcherTempTracker : MonoBehaviour
 {
     private BasicArcher _basicArcher;

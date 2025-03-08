@@ -1,4 +1,5 @@
-﻿using Enemies.Enemy_States;
+﻿using System;
+using Enemies.Enemy_States;
 using UnityEngine;
 
 namespace Enemy_Scripts
@@ -10,6 +11,7 @@ namespace Enemy_Scripts
     // 3. To give AI system monobehaviour and it's functions
     // If we're looking to expand on state management, this is the place to do it
 
+    [Obsolete]
     public class EnemyStateMachine : MonoBehaviour
     {
         // Breaking standard naming conventions for the sake of state naming

@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using SceneManager = ThatOneSamuraiGame.Scripts.Scene.SceneManager.SceneManager;
 
+[Obsolete]
 public class BasicArcher : MonoBehaviour, IDamageable
 {
     public Transform player, shotOrigin;

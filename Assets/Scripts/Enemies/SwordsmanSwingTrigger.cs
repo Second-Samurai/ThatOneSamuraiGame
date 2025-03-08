@@ -1,6 +1,8 @@
-﻿using Enemies;
+﻿using System;
+using Enemies;
 using UnityEngine;
 
+[Obsolete]
 public class SwordsmanSwingTrigger : MonoBehaviour
 {
     private AISystem _aiSystem;

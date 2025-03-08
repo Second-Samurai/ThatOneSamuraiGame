@@ -42,6 +42,10 @@ public class PlayerAnimationEventStates : SmartEnum
     public static PlayerAnimationEventStates SecondAttack = new("SecondAttack", 1, "",
         (animator, enabled, _, _, state) => animator.SetBool(state.ToString(), enabled));
     
+    // Parry States
+    public static PlayerAnimationEventStates Parrying = new("Parrying", 0, "",
+        (animator, _, _, _, state) => animator.SetTrigger(state.ToString()));
+    
     // LockOn animation states
     public static PlayerAnimationEventStates StartLockOn = new("LockedOn", 0, "",
         (animator, _, _, _, state) => animator.SetBool(state.ToString(), true));

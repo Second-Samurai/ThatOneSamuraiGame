@@ -29,6 +29,8 @@ public class ParryAttackHandler : MonoBehaviour, IPlayerParryActions
     
     public ParryEffects m_ParryEffects;
 
+    private IPlayerAnimationDispatcher m_AnimationDispatcher;
+
     private EventTimer m_ParryDetectionEventTimer;
 
     #endregion New Fields
@@ -84,6 +86,7 @@ public class ParryAttackHandler : MonoBehaviour, IPlayerParryActions
             this.EndParry, 
             canRestart: false, 
             startImmediately: false);
+        this.m_AnimationDispatcher = this.GetComponent<IPlayerAnimationDispatcher>();
         
         playerSFX = gameObject.GetComponent<PlayerSFX>();
         rb = GetComponent<Rigidbody>();
@@ -271,7 +274,7 @@ public class ParryAttackHandler : MonoBehaviour, IPlayerParryActions
             return;
         
         this.m_ParryEffects.PlayParry();
-        m_PlayerAnimationComponent.TriggerParry();
+        this.m_AnimationDispatcher.Dispatch(PlayerAnimationEventStates.Parrying);
 
         IEnemyAttackSystem _EnemyAttackSystem = attacker.GetComponent<IEnemyAttackSystem>();
         _EnemyAttackSystem.HandleAttackDeflection();

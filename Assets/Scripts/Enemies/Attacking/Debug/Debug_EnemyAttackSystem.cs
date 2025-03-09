@@ -30,20 +30,37 @@ public class Debug_EnemyAttackSystem : IDebugCommandRegistrater
         GameObject _PlayerObject = this.GetPlayerObject();
         
         ILockOnSystem _LockOnSystem = _PlayerObject.GetComponentInChildren<LockOnSystem>();
-        if (!_LockOnSystem.IsLockingOnTarget)
+        GameObject _CurrentTargetEnemy = (((IDebuggable)_LockOnSystem).GetDebugInfo() as DebuggingLockOnSystemInfo)?.TargetEnemy;
+        if (!_LockOnSystem.IsLockingOnTarget || _CurrentTargetEnemy == null)
         {
             Debug.Log("Player is not locked onto target.");
             return;
         }
 
-        GameObject _CurrentTargetEnemy = _LockOnSystem.GetCurrentTarget();
         IEnemyAttackSystem _EnemyAttackSystem = _CurrentTargetEnemy.GetComponent<IEnemyAttackSystem>();
         _EnemyAttackSystem.HandleAttackDeflection();
     }
 
     private void DepleteCurrentEnemysGuard()
     {
+        GameObject _PlayerObject = this.GetPlayerObject();
         
+        ILockOnSystem _LockOnSystem = _PlayerObject.GetComponentInChildren<LockOnSystem>();
+        GameObject _CurrentTargetEnemy = (((IDebuggable)_LockOnSystem).GetDebugInfo() as DebuggingLockOnSystemInfo)?.TargetEnemy;
+        if (!_LockOnSystem.IsLockingOnTarget || _CurrentTargetEnemy == null)
+        {
+            Debug.Log("Player is not locked onto target.");
+            return;
+        }
+
+        DebuggingAttackDeflectionInfo _EnemyGuardInfo = _CurrentTargetEnemy
+            .GetComponent<IDebuggable<DebuggingAttackDeflectionInfo>>()
+            .GetDebugInfo();
+        IEnemyAttackSystem _EnemyAttackSystem = _CurrentTargetEnemy.GetComponent<IEnemyAttackSystem>();
+        for (float _ProjectedGuardAmount = _EnemyGuardInfo.MaxGuard;
+             _ProjectedGuardAmount > 0;
+             _ProjectedGuardAmount -= _EnemyGuardInfo.GuardDamage)
+            _EnemyAttackSystem.HandleAttackDeflection();
     }
 
     #endregion Methods

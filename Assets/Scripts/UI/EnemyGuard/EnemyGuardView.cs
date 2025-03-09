@@ -32,7 +32,7 @@ public class EnemyGuardView : MonoBehaviour
         => this.m_ContentGroup.SetActive(true);
 
     public void HideEnemyGuard()
-        => this.m_ContentGroup.SetActive(true);
+        => this.m_ContentGroup.SetActive(false);
 
     #endregion Methods
 

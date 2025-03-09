@@ -735,6 +735,16 @@ PrefabInstance:
       propertyPath: m_CinematicBars
       value: 
       objectReference: {fileID: 971464791}
+    - target: {fileID: 3481449637298654970, guid: b58e05ab784d6bc4496f0923a1fcb847,
+        type: 3}
+      propertyPath: m_SetupHandlersObjects.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3481449637298654970, guid: b58e05ab784d6bc4496f0923a1fcb847,
+        type: 3}
+      propertyPath: 'm_SetupHandlersObjects.Array.data[3]'
+      value: 
+      objectReference: {fileID: 1417282976}
     - target: {fileID: 6666339593087945426, guid: b58e05ab784d6bc4496f0923a1fcb847,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -815,7 +825,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GameSettings: {fileID: 11400000, guid: c71a704aefd554b1fa5b61875141ac6c, type: 2}
   m_PauseMenu: {fileID: 0}
-  m_GuardMeter: {fileID: 0}
+  m_GuardMeter: {fileID: 1773193523}
 --- !u!1 &1473656082
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,6 +1150,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1734140834}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1773193523 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8636592181021669745, guid: baa64f25e1db86e46bb055344f6f3908,
+    type: 3}
+  m_PrefabInstance: {fileID: 1943169711}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1801732177
 GameObject:
   m_ObjectHideFlags: 0

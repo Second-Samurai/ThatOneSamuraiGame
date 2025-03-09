@@ -1,4 +1,4 @@
-﻿using Enemies;
+﻿using System;
 using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
@@ -21,7 +21,11 @@ public class LockOnSystemInitializationData
 /// Responsible for managing the Player's LockOn behaviour.
 /// </summary>
 [RequireComponent(typeof(ILockOnObserver))]
-public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<LockOnSystemInitializationData>
+public class LockOnSystem : 
+    PausableMonoBehaviour, 
+    ILockOnSystem, 
+    IInitialize<LockOnSystemInitializationData>,
+    IDebuggable
 {
 
     #region - - - - - - Fields - - - - - -
@@ -34,8 +38,9 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
     private IPlayerAnimationDispatcher m_AnimationDispatcher;
     private ICameraController m_CameraController;
     private ILockOnObserver m_LockOnObserver;
+
+    private GameObject m_TargetEnemy; 
     private Transform m_TargetTransform;
-    // private AISystem m_EnemyAISystem; // Maintained from before but should not be coupled.
 
     private bool m_IsLockedOn;
 
@@ -157,6 +162,7 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
                 // This is a hack to ensure that locking behaviour always 'looks' to its appropriate transform instead of its feet.
                 IPreferredLockingTransformProvider _PreferredTransformProvider =
                     _NextEnemy.GetComponent<IPreferredLockingTransformProvider>();
+                this.m_TargetEnemy = _NextEnemy.gameObject;
                 this.m_TargetTransform = _PreferredTransformProvider.GetPreferredTransform();
             }
             
@@ -168,4 +174,26 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
 
     #endregion Methods
 
+    #region - - - - - - Debugging Methods - - - - - -
+
+    void IDebuggable.DebugInvoke()
+    {
+    }
+
+    object IDebuggable.GetDebugInfo() 
+        => new DebuggingLockOnSystemInfo { TargetEnemy = this.m_TargetEnemy };
+
+    #endregion Debugging Methods
+  
+}
+
+public class DebuggingLockOnSystemInfo
+{
+
+    #region - - - - - - Properties - - - - - -
+
+    public GameObject TargetEnemy { get; set; }
+    
+    #endregion Properties
+  
 }

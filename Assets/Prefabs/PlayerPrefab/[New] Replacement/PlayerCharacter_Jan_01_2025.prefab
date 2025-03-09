@@ -34062,7 +34062,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GodMode: 0
-  _canDamage: 0
+  m_CanDamage: 0
 --- !u!114 &7679672917170573754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34133,6 +34133,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a14f1a8ebb54ca79e68797b9af3ccea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ParryDetectionTime: 0
+  m_IsParryActive: 0
+  m_ParryEffects: {fileID: 0}
   bIsParrying: 0
   parryTimer: 0
   parryTimerTarget: 0.4
@@ -34244,7 +34247,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5395489358580600328}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74a2f49e149b419cad9028eaf73a44d8, type: 3}
   m_Name: 

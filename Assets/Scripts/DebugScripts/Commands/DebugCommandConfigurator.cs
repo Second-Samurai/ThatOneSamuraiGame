@@ -27,6 +27,9 @@ public class DebugCommandConfigurator
         
         // Player
         new Debug_PlayerAttack().RegisterCommand(this.m_DebugManager);
+        
+        // Enemy
+        new Debug_EnemyAttackSystem().RegisterCommand(this.m_DebugManager);
     }
 
     #endregion Methods

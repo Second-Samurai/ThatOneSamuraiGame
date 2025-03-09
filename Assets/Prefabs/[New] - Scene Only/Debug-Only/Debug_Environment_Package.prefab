@@ -140,6 +140,7 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+  m_ScrollDeltaPerTick: 6
 --- !u!1 &6581326741716861415
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,6 +744,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4472253552627851453, guid: 1dfaf59a5685a934590fed49583c8942,
+        type: 3}
+      propertyPath: m_HitstopController
+      value: 
+      objectReference: {fileID: 2486201180181475452}
     - target: {fileID: 6221481633557151142, guid: 1dfaf59a5685a934590fed49583c8942,
         type: 3}
       propertyPath: m_Name
@@ -879,6 +885,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 043df20fc66be5b47bd017be690dbc75, type: 3}
+--- !u!114 &2486201180181475452 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7650449399018349549, guid: 043df20fc66be5b47bd017be690dbc75,
+    type: 3}
+  m_PrefabInstance: {fileID: 5236307565499470737}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ab8acebd0bd0c546a63b5ec86af3e8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2999977370834143937 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6992144613646457168, guid: 043df20fc66be5b47bd017be690dbc75,

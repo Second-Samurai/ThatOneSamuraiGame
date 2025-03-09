@@ -3,7 +3,7 @@ using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
 
-public class EnemyGuardController : PausableMonoBehaviour
+public class EnemyGuardController : PausableMonoBehaviour, IGuardMeter
 {
 
     #region - - - - - - Fields - - - - - -

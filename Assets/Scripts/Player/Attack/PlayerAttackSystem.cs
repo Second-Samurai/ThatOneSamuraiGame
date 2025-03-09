@@ -74,6 +74,7 @@ public class PlayerAttackSystem :
         this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
         this.m_LightAttackHandler = this.GetComponent<LightAttackHandler>();
         this.m_HeavyAttackHandler = this.GetComponent<HeavyAttackHandler>();
+        this.m_ParryAttackHandler = this.GetComponent<ParryAttackHandler>();
 
         IAttackAnimationEvents _AnimationEvents = this.GetComponent<IAttackAnimationEvents>();
         _AnimationEvents.OnParryStunStateStart.AddListener(() => this.m_PlayerAttackState.ParryStunned = true);

@@ -1,4 +1,5 @@
 ﻿using System;
+using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
@@ -18,6 +19,8 @@ public class EnemyGuardController : PausableMonoBehaviour, IGuardMeter
 
     private void Start()
     {
+        this.m_View = this.GetComponent<EnemyGuardView>();
+        
         ILockOnObserver _LockOnObserver = SceneManager.Instance.LockOnObserver 
             ?? throw new ArgumentNullException(nameof(SceneManager.Instance.LockOnObserver));
         _LockOnObserver.OnNewLockOnTarget.AddListener(target => this.m_TargetEnemy = target);
@@ -45,6 +48,12 @@ public class EnemyGuardController : PausableMonoBehaviour, IGuardMeter
 
     private void UpdateEnemyGuardPosition()
     {
+        if (this.m_TargetEnemy == null)
+        {
+            GameLogger.LogError("No Target Enemy Found.");
+            return;
+        }
+        
         Vector2 _ScreenPosition = RectTransformUtility.WorldToScreenPoint(
             this.m_MainCamera, 
             this.m_TargetEnemy.position + new Vector3(0, 3.5f));

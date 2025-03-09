@@ -16,7 +16,7 @@ public class EnemyGuardView : MonoBehaviour
     #region - - - - - - Properties - - - - - -
 
     public bool IsVisible
-        => this.m_ContentGroup.activeInHierarchy;
+        => this.m_ContentGroup.activeSelf;
 
     #endregion Properties
   

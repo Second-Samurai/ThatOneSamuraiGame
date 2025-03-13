@@ -1,5 +1,4 @@
-﻿using System;
-using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
+﻿using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
 using UnityEngine;
 
 public class TestEnemyAttackSystem : MonoBehaviour, IEnemyAttackSystem, IDebuggable<DebuggingAttackDeflectionInfo>

@@ -51,23 +51,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa27a15b6da194499b2a3af694f5cf62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraSettings: {fileID: 11400000, guid: 1ba687951cce45d43aab3b64e3428338, type: 2}
   gameSettings: {fileID: 11400000, guid: c71a704aefd554b1fa5b61875141ac6c, type: 2}
-  playerSpawnPoint: {fileID: 0}
   bShowAttackPopups: 1
-  mainCamera: {fileID: 0}
-  thirdPersonViewCamera: {fileID: 0}
-  lockOnTracker: {fileID: 0}
-  playerController: {fileID: 0}
-  cameraControl: {fileID: 0}
-  rewindManager: {fileID: 0}
-  enemyTracker: {fileID: 0}
   postProcessingController: {fileID: 0}
+  m_SceneManager: {fileID: 0}
+  m_UserInterfaceManager: {fileID: 0}
+  m_PauseManager: {fileID: 0}
+  m_InputManager: {fileID: 0}
   audioManager: {fileID: 0}
-  checkpointManager: {fileID: 7710084464813942032}
-  enemySpawnManager: {fileID: 2384791255153466089}
-  buttonController: {fileID: 0}
-  bossThemeManager: {fileID: 0}
-  guardMeterCanvas: {fileID: 0}
+  m_GameSetupHandler: {fileID: 0}
 --- !u!114 &951383260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,9 +119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9309e39ae22e44708cfcea2b57e5dc40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ActivePlayer: {fileID: 0}
+  IsGameplayActive: 0
   m_SessionUser: {fileID: 0}
-  m_PauseMenu: {fileID: 0}
 --- !u!114 &2836624284058732656
 MonoBehaviour:
   m_ObjectHideFlags: 0

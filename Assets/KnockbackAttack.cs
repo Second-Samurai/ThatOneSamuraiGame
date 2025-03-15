@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ThatOneSamuraiGame;
+using UnityEngine;
 
 public class KnockbackAttack : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class KnockbackAttack : MonoBehaviour
         {
             Vector3 dir = enemy.position - other.transform.position;
             dir.y = 0;
-            other.GetComponent<PlayerFunctions>().Knockback(knockbackAmount, -dir, duration, enemy.gameObject);
+            other.GetComponent<ParryAttackHandler>().Knockback(knockbackAmount, -dir, duration, enemy.gameObject);
         }
     }
 }

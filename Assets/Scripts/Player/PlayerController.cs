@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Cinemachine;
 using ThatOneSamuraiGame.Legacy;
+using ThatOneSamuraiGame.Scripts.Player.Attack;
 
 public interface IPlayerController {
     string GetStringID();
@@ -20,7 +21,7 @@ public interface ISecretValidator
     int GetKeyCount();
 }
 
-public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
+public class PlayerController : MonoBehaviour, IEntity, ISecretValidator, IInitialize<PlayerControllerInitializerData>
 {
     
     #region - - - - - - Fields - - - - - -
@@ -55,27 +56,31 @@ public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
 
     //Summary: Sets initial state and initialise variables
     //
-    public void Init(GameObject targetHolder)
+    public void Initialize(PlayerControllerInitializerData initializerData)
     {
-        GameManager gameManager = GameManager.instance;
-        playerSettings = gameManager.gameSettings.playerSettings;
-        EntityStatData playerData = playerSettings.playerStats;
+        // GameManager gameManager = GameManager.instance;
+        // playerSettings = gameManager.gameSettings.playerSettings;
+        // EntityStatData playerData = playerSettings.playerStats;
+        //
+        // playerStats = new StatHandler();
+        // playerStats.Init(playerData);
 
-        playerStats = new StatHandler();
-        playerStats.Init(playerData);
-
-        stateMachine = this.gameObject.AddComponent<PlayerStateMachine>();
+        this.playerStats = initializerData.PlayerStatHandler;
+        this.stateMachine = this.gameObject.AddComponent<PlayerStateMachine>();
 
         //This assigns the thirdperson camera targets to this player
         // CinemachineFreeLook freeLockCamera = gameManager.ThirdPersonViewCamera.GetComponent<CinemachineFreeLook>();
         //freeLockCamera.Follow = this.transform;
         //freeLockCamera.LookAt = this.transform;
 
-        PCombatController combatController = this.GetComponent<PCombatController>();
-        combatController.Init(playerStats);
-        combatController.UnblockCombatInputs();
+        // PCombatController combatController = this.GetComponent<PCombatController>();
+        // combatController.Init(playerStats);
+        // combatController.UnblockCombatInputs();
 
-        SetState<PNormalState>();
+        IPlayerAttackSystem _AttackHandler = this.GetComponent<IPlayerAttackSystem>();
+        _AttackHandler.EnableAttack();
+
+        this.SetState<PNormalState>();
     }
 
     //Summary: Clears and Sets the new specified state for player.
@@ -97,4 +102,15 @@ public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
 
     #endregion Methods
     
+}
+
+public class PlayerControllerInitializerData
+{
+
+    #region - - - - - - Properties - - - - - -
+
+    public StatHandler PlayerStatHandler { get; set; }
+
+    #endregion Properties
+  
 }

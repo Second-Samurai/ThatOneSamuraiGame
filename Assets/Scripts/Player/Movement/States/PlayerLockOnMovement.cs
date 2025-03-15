@@ -11,7 +11,7 @@ public class PlayerLockOnMovement : BasePlayerMovementState
     #region - - - - - - Fields - - - - - -
 
     // Required Components
-    private readonly IPlayerAttackHandler m_AttackHandler;
+    private readonly IPlayerAttackSystem m_AttackHandler;
     private readonly PlayerAttackState m_AttackState;
     private readonly PlayerTargetTrackingState m_TargetTrackingState;
     private readonly MonoBehaviour m_RootReferenceMonoBehaviour; // Required for Coroutine
@@ -27,7 +27,7 @@ public class PlayerLockOnMovement : BasePlayerMovementState
     #region - - - - - - Constructors - - - - - -
 
     public PlayerLockOnMovement(
-        IPlayerAttackHandler attackHandler,
+        IPlayerAttackSystem attackHandler,
         PlayerAttackState attackState,
         PlayerAnimationComponent playerAnimationComponent, 
         Transform playerTransform, 

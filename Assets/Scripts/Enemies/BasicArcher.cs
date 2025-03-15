@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using SceneManager = ThatOneSamuraiGame.Scripts.Scene.SceneManager.SceneManager;
 
+[Obsolete]
 public class BasicArcher : MonoBehaviour, IDamageable
 {
     public Transform player, shotOrigin;
@@ -156,6 +157,10 @@ public class BasicArcher : MonoBehaviour, IDamageable
 
 
         //Invoke("HideArcher", 2.0f);
+    }
+
+    public void HandleAttack(float damage, GameObject attacker)
+    {
     }
 
     private IEnumerator DodgeImpulseCoroutine(Vector3 lastDir, float force, float timer)

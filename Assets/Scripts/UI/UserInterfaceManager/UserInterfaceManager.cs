@@ -17,7 +17,7 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
         [SerializeField] private GameSettings m_GameSettings;
         [SerializeField] private ButtonController m_SwordCanvasController; // This is known as the 'ButtonController' from its source.
         
-        private GameObject m_GuardMeterCanvas;
+        private IGuardMeter m_GuardMeter;
         private IPauseMenuController m_PauseMenuController;
 
         #endregion Fields
@@ -36,10 +36,10 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
             set => this.m_SwordCanvasController = value;
         }
 
-        public GameObject GuardMeterCanvas
+        public IGuardMeter GuardMeter
         {
-            get => this.m_GuardMeterCanvas;
-            set => this.m_GuardMeterCanvas = value;
+            get => this.m_GuardMeter;
+            set => this.m_GuardMeter = value;
         }
 
         #endregion Properties

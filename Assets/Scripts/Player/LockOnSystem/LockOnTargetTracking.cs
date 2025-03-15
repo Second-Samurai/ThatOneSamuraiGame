@@ -34,9 +34,17 @@ public class LockOnTargetTracking : PausableMonoBehaviour
     }
 
     #endregion Initializers
-  
-    #region - - - - - - Unity Event Handlers - - - - - -
 
+    #region - - - - - - Unity Methods - - - - - -
+
+    private void FixedUpdate()
+    {
+        if (this.IsPaused || !this.m_CameraTransform) return;
+        
+        // Constantly searches for the nearby enemy.
+        this.CollectTargetableEnemies();
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
@@ -49,21 +57,9 @@ public class LockOnTargetTracking : PausableMonoBehaviour
             this.RemoveTarget(other.transform);
     }
 
-    #endregion Unity Event Handlers
-
-    #region - - - - - - Methods - - - - - -
-
-    private void FixedUpdate()
-    {
-        if (this.IsPaused || !this.m_CameraTransform) return;
-        
-        // Constantly searches for the nearby enemy.
-        this.CollectTargetableEnemies();
-    }
-
     #endregion Methods
   
-    #region - - - - - - Methods - - - - - -
+    #region - - - - - - Unity Methods - - - - - -
 
     public void ClearTargets()
     {

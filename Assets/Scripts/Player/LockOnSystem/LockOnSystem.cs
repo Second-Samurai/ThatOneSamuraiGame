@@ -1,4 +1,5 @@
-﻿using Enemies;
+﻿using System;
+using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using UnityEngine;
@@ -20,7 +21,11 @@ public class LockOnSystemInitializationData
 /// Responsible for managing the Player's LockOn behaviour.
 /// </summary>
 [RequireComponent(typeof(ILockOnObserver))]
-public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<LockOnSystemInitializationData>
+public class LockOnSystem : 
+    PausableMonoBehaviour, 
+    ILockOnSystem, 
+    IInitialize<LockOnSystemInitializationData>,
+    IDebuggable
 {
 
     #region - - - - - - Fields - - - - - -
@@ -33,8 +38,9 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
     private IPlayerAnimationDispatcher m_AnimationDispatcher;
     private ICameraController m_CameraController;
     private ILockOnObserver m_LockOnObserver;
+
+    private GameObject m_TargetEnemy; 
     private Transform m_TargetTransform;
-    private AISystem m_EnemyAISystem; // Maintained from before but should not be coupled.
 
     private bool m_IsLockedOn;
 
@@ -76,6 +82,8 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
 
         this.m_LockOnObserver.OnNewLockOnTarget.Invoke(_TargetTransform);
         this.m_LockOnObserver.OnLockOnEnable.Invoke();
+        
+        this.m_CameraController.SelectCamera(SceneCameras.LockOn);
 
         // ******************************************************
         // Logic below is commented out as the Enemy objects will be reworked entirely
@@ -142,9 +150,21 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
                     _NextEnemy = this.m_TargetTransform;
             }
 
+            if (_NextEnemy == null)
+            {
+                GameLogger.Log("No Enemies to lock to were found nearby.");
+                return null;
+            }
+
             // If the target enemy is not the same as the referred enemy then change target.
             if (_NextEnemy != this.m_TargetTransform)
-                this.m_TargetTransform = _NextEnemy;
+            {
+                // This is a hack to ensure that locking behaviour always 'looks' to its appropriate transform instead of its feet.
+                IPreferredLockingTransformProvider _PreferredTransformProvider =
+                    _NextEnemy.GetComponent<IPreferredLockingTransformProvider>();
+                this.m_TargetEnemy = _NextEnemy.gameObject;
+                this.m_TargetTransform = _PreferredTransformProvider.GetPreferredTransform();
+            }
             
             Debug.DrawLine(this.transform.position, (_NextEnemy.position + Vector3.up - this.transform.position).normalized * 90, Color.magenta);
         }
@@ -154,4 +174,26 @@ public class LockOnSystem : PausableMonoBehaviour, ILockOnSystem, IInitialize<Lo
 
     #endregion Methods
 
+    #region - - - - - - Debugging Methods - - - - - -
+
+    void IDebuggable.DebugInvoke()
+    {
+    }
+
+    object IDebuggable.GetDebugInfo() 
+        => new DebuggingLockOnSystemInfo { TargetEnemy = this.m_TargetEnemy };
+
+    #endregion Debugging Methods
+  
+}
+
+public class DebuggingLockOnSystemInfo
+{
+
+    #region - - - - - - Properties - - - - - -
+
+    public GameObject TargetEnemy { get; set; }
+    
+    #endregion Properties
+  
 }

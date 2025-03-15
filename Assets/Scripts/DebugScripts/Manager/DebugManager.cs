@@ -17,7 +17,6 @@ public class DebugManager : MonoBehaviour, IDebugCommandSystem
 
     #endregion Fields
 
-
     #region - - - - - - Unity Methods - - - - - -
 
     private void Awake()

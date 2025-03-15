@@ -21,12 +21,16 @@ public class TestEnemyDamageSystem : PausableMonoBehaviour, IDamageable
 
     public void OnEntityDamage(float damage, GameObject attacker, bool unblockable)
     {
-        if (this.CanTriggerFinishMovement)
-        {
-            IFinisherController _FinisherController = attacker.GetComponentInChildren<PlayerFinisherController>();
-            _FinisherController.SetFinishingTargetEnemy(this.transform);
-            _FinisherController.StartFinishingAction();
-        }
+        // if (this.CanTriggerFinishMovement)
+        // {
+        //     IFinisherController _FinisherController = attacker.GetComponentInChildren<PlayerFinisherController>();
+        //     _FinisherController.SetFinishingTargetEnemy(this.transform);
+        //     _FinisherController.StartFinishingAction();
+        // }
+    }
+
+    public void HandleAttack(float damage, GameObject attacker)
+    {
     }
 
     public void DisableDamage() 

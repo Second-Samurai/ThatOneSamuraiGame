@@ -11,6 +11,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
 
         [SerializeField] private GameSettings m_GameSettings;
         [SerializeField] private PauseMenu m_PauseMenu;
+        [SerializeField] private GameObject m_GuardMeter;
         
         private ISetupHandler m_NextHandler;
 
@@ -28,10 +29,7 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
             
             UserInterfaceManager.Instance.ButtonController = _ButtonController;
             UserInterfaceManager.Instance.PauseMenu = this.m_PauseMenu;
-            UserInterfaceManager.Instance.GuardMeterCanvas = Instantiate(
-                this.m_GameSettings.guardCanvasPrefab, 
-                transform.position,
-                Quaternion.identity);
+            UserInterfaceManager.Instance.GuardMeter = this.m_GuardMeter.GetComponent<IGuardMeter>();
 
             GameManager.instance.InputManager.ConfigureMenuInputControl();
             GameManager.instance.PauseManager.PauseMediator.SetPauseMenuController(this.m_PauseMenu);

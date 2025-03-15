@@ -18,6 +18,10 @@ public class BoardBreak : MonoBehaviour, IDamageable
         isBuilt = true;
     }
 
+    public void HandleAttack(float damage, GameObject attacker)
+    {
+    }
+
     public void DisableDamage()
     {
        

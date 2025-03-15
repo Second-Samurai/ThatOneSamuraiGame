@@ -25,7 +25,8 @@ public class GameManager : MonoBehaviour
     //Singleton instance
     public static GameManager instance = null;
 
-    [Header("Game Settings")]
+    [Header("Game Settings")] 
+    public CameraSettings CameraSettings;
     public GameSettings gameSettings;
     public bool bShowAttackPopups = true;
 

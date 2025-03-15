@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Legacy;
+﻿using ThatOneSamuraiGame;
+using ThatOneSamuraiGame.Legacy;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
@@ -46,12 +47,13 @@ public class Checkpoint : MonoBehaviour
         GameManager.instance.ThirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
 
         // Note: The sword manager exists on the root parent fo the player object
-        PSwordManager _PlayerSwordManager = this.GetComponent<PSwordManager>();
-        _PlayerSwordManager.SetWeapon(true, GameManager.instance.gameSettings.katanaPrefab);
+        // PSwordManager _PlayerSwordManager = this.GetComponent<PSwordManager>();
+        IWeaponSystem _WeaponSystem = this.GetComponent<IWeaponSystem>();
+        _WeaponSystem.SetWeapon(GameManager.instance.gameSettings.katanaPrefab);
 
-        PlayerFunctions _Player = GameManager.instance.PlayerController.gameObject.GetComponent<PlayerFunctions>();
-        ICombatController playerCombatController = _Player.gameObject.GetComponent<ICombatController>();
-        playerCombatController.DrawSword();
+        // PlayerFunctions _Player = GameManager.instance.PlayerController.gameObject.GetComponent<PlayerFunctions>();
+        // ICombatController playerCombatController = _Player.gameObject.GetComponent<ICombatController>();
+        // playerCombatController.DrawSword();
 
         this.m_PlayerAttackState.CanAttack = true;
     }

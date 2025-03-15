@@ -41,16 +41,28 @@ namespace ThatOneSamuraiGame.Scripts.Player.Initializers
 
         public void Execute()
         {
+            // Initialize stats
+            GameManager _GameManager = GameManager.instance;
+            PlayerSettings _PlayerSettings = _GameManager.gameSettings.playerSettings;
+            EntityStatData _PlayerData = _PlayerSettings.playerStats;
+            StatHandler _PlayerStats = new StatHandler();
+            _PlayerStats.Init(_PlayerData);
+            
+            // Initialize Components
             PlayerTargetLocking _PlayerTargetLocking = this.m_Player.GetComponent<PlayerTargetLocking>();
-            _PlayerTargetLocking.Initialize(this.m_CameraController);
+            _PlayerTargetLocking.Initialize();
 
-            // TODO: Migrate PlayerController specific initialization here.
-            PlayerController _PlayerController = this.m_Player.GetComponent<PlayerController>();
-            _PlayerController.Init(this.m_TargetHolder);
-
+            IInitialize<PlayerControllerInitializerData> _PlayerController = 
+                this.m_Player.GetComponent<IInitialize<PlayerControllerInitializerData>>();
+            _PlayerController.Initialize(new PlayerControllerInitializerData { PlayerStatHandler = _PlayerStats });
+            
             IInitialize<PlayerAttackInitializerData> _PlayerAttackInitializer =
                 this.m_Player.GetComponent<IInitialize<PlayerAttackInitializerData>>();
-            _PlayerAttackInitializer.Initialize(new PlayerAttackInitializerData(this.m_CameraController));
+            _PlayerAttackInitializer.Initialize(new PlayerAttackInitializerData(this.m_CameraController, _PlayerStats));
+            IInitialize<HeavyAttackInitializerData> _PlayerHeavyAttackInitializer =
+                this.m_Player.GetComponent<IInitialize<HeavyAttackInitializerData>>();
+            _PlayerHeavyAttackInitializer.Initialize(
+                new HeavyAttackInitializerData { CameraController = this.m_CameraController});
 
             IInitialize<PlayerMovementInitializerData> _PlayerMovementInitializer =
                 this.m_Player.GetComponent<IInitialize<PlayerMovementInitializerData>>();

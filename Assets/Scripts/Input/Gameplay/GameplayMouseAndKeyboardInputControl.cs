@@ -59,7 +59,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         void IGameplayInputControl.OnLockOn(InputAction.CallbackContext context)
         {
             if (this.IsInputControlValid()) return;
-            this.m_InputControlData.PlayerTargetTracking.ToggleLockOn();
+            this.m_InputControlData.PlayerTargetTracking.ToggleTargetLocking();
         }
 
         void IGameplayInputControl.OnToggleLockLeft(InputAction.CallbackContext context)
@@ -87,7 +87,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         void IGameplayInputControl.OnSwordDraw(InputAction.CallbackContext context)
         {
             if (this.IsInputControlValid()) return;
-            this.m_InputControlData.PlayerAttackHandler.DrawSword();
+            this.m_InputControlData.PlayerWeaponSystem.RevealWeapon();
         }
 
         void IGameplayInputControl.OnStartHeavy(InputAction.CallbackContext context)

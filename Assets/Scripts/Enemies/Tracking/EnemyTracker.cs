@@ -27,6 +27,7 @@ public class EnemyTrackerInitializerData
   
 }
 
+[Obsolete]
 public class EnemyTracker : MonoBehaviour, IInitialize<EnemyTrackerInitializerData>
 {
     public List<Transform> currentEnemies;

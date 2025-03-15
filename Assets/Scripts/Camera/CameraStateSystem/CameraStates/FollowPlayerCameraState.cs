@@ -15,7 +15,8 @@ public class FollowPlayerCameraState : PausableMonoBehaviour, ICameraState
     // Required Components
     [SerializeField] private GameObject m_Player;
     [SerializeField] private Transform m_FollowCameraTargetPoint;
-    [SerializeField] private CinemachineVirtualCamera m_FollowCamera;
+    [SerializeField, RequiredField] private CinemachineVirtualCamera m_FollowCamera;
+    [SerializeField, RequiredField] private VirtualCameraModifier m_FollowCameraModifier;
     private IPlayerViewOrientationHandler m_PlayerViewOrientationHandler;
     
     // Camera State Fields
@@ -46,6 +47,12 @@ public class FollowPlayerCameraState : PausableMonoBehaviour, ICameraState
     #endregion Initializers
 
     #region - - - - - - Unity Methods - - - - - -
+
+    private void Start()
+    {
+        // Invoked during start to ensure the managers are initialised before the modifiers can be applied.
+        this.m_FollowCameraModifier.ApplyVirtualCameraSettings();
+    }
 
     private void LateUpdate()
     {

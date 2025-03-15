@@ -15,7 +15,7 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         
         public IPauseActionHandler PauseActionHandler { get; set; }
 
-        public IPlayerAttackHandler PlayerAttackHandler { get; set; }
+        public IPlayerAttackSystem PlayerAttackHandler { get; set; }
         
         public IPlayerMovement PlayerMovement { get; set; }
         
@@ -24,6 +24,8 @@ namespace ThatOneSamuraiGame.Scripts.Input.Gameplay
         public IPlayerSpecialAction PlayerSpecialAction { get; set; }
         
         public IPlayerViewOrientationHandler PlayerViewOrientationHandler { get; set; }
+        
+        public IWeaponSystem PlayerWeaponSystem { get; set; }
         
         public IDebugHandler DebugHandler { get; set; }
 

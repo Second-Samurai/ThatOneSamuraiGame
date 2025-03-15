@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Playables;
 using Cinemachine;
+using ThatOneSamuraiGame;
 using ThatOneSamuraiGame.Legacy;
 using UnityEngine.Events;
 using UnityEngine.Timeline;
@@ -33,7 +34,7 @@ public class EndCutscene : MonoBehaviour
         BindToTrack("Cinemachine Track", GameManager.instance.MainCamera.GetComponent<CinemachineBrain>());
         BindToTrack("Animation Track", GameManager.instance.PlayerController.gameObject.GetComponent<Animator>());
 
-        BindToTrack("Activation Track", GameManager.instance.PlayerController.gameObject.GetComponent<PCombatController>().swordManager.swordEffect.gameObject);
+        BindToTrack("Activation Track", GameManager.instance.PlayerController.GetComponent<IWeaponSystem>().EquippedWeapon);
         //endCutscene.AddListener(GameManager.instance.playerController.gameObject.GetComponent<PlayerInputScript>().EnableInput);
         //signalReceiver.ChangeReactionAtIndex(1, endCutscene);
         // signalReceiver.AddEmptyReaction(endCutscene);

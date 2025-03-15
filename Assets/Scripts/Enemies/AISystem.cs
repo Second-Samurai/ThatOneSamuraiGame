@@ -23,6 +23,7 @@ namespace Enemies
     // AISystem is responsible for receiving calls to tell the enemy what to perform. It should also
     // Be responsible for storing enemy data (i.e. Guard meter, remaining guard etc.) BUT
     // any enemy behaviours should be handled through the state machine
+    [Obsolete]
     public class AISystem : EnemyStateMachine
     {
 

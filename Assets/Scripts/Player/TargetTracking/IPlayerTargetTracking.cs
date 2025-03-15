@@ -8,7 +8,7 @@
 
         void ToggleLockLeft();
         
-        void ToggleLockOn();
+        void ToggleTargetLocking();
 
         void ToggleLockRight();
 

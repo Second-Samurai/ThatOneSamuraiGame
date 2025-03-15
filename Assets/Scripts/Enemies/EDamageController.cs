@@ -1,7 +1,9 @@
+using System;
 using Enemies;
 using ThatOneSamuraiGame.Legacy;
 using UnityEngine;
 
+[Obsolete]
 public class EDamageController : MonoBehaviour, IDamageable
 {
     private StatHandler _enemyStats;
@@ -51,7 +53,7 @@ public class EDamageController : MonoBehaviour, IDamageable
                 if (enemyGuard.canParry)
                 {
                     _aiSystem.OnParry();
-                    attacker.GetComponent<PCombatController>().IsParried();
+                    attacker.GetComponent<IPlayerParryActions>().AttackDeflected();
                     return;
                 }
                 
@@ -91,6 +93,10 @@ public class EDamageController : MonoBehaviour, IDamageable
             _aiSystem.ApplyHit(attacker);
             _aiSystem.ImpulseWithDirection(damage*5, dir, .3f);
         }
+    }
+
+    public void HandleAttack(float damage, GameObject attacker)
+    {
     }
 
     /* Summary: This disables the damage from this component.

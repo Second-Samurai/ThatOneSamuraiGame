@@ -83,7 +83,7 @@ public class BackgroundAudio : MonoBehaviour
             backgroundMusicSource.volume = this.m_AudioManager.BGMVol;
         }
 
-        if (this.m_AudioManager.LightSaber == true && this.m_AudioManager.check == false)
+        if (this.m_AudioManager.IsLightSaber == true && this.m_AudioManager.check == false)
         {
             PlayHum();
             this.m_AudioManager.check = true;

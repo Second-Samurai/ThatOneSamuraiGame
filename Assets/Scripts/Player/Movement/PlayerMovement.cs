@@ -4,6 +4,7 @@ using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
 using ThatOneSamuraiGame.Scripts.Player.Attack;
 using ThatOneSamuraiGame.Scripts.Player.Containers;
+using ThatOneSamuraiGame.Scripts.Player.SpecialAction;
 using ThatOneSamuraiGame.Scripts.Player.TargetTracking;
 using UnityEngine;
 
@@ -43,24 +44,37 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         
         #region - - - - - - Fields - - - - - -
         
-        [RequiredField]
-        [SerializeField]
-        private PlayerAnimationComponent m_PlayerAnimationComponent;
-        //private Animator m_Animator;
+        // ****************************
+        // Public / Serialized Fields
+        // ****************************
         
+        [SerializeField, RequiredField] private PlayerAnimationComponent m_PlayerAnimationComponent;
+        
+        // ****************************
+        // Non-Serialized Fields
+        // ****************************
+        
+        // Component Fields
+        private BlockingAttackHandler m_BlockingAttackHandler;
         private ICameraController m_CameraController;
+        private ILockOnSystem m_LockOnSystem; 
+        private IDamageable m_PlayerDamage;
+        private IPlayerAttackSystem m_PlayerAttackHandler;
+        private Rigidbody m_Rigidbody;
         
-        // Player data containers
+        // Player data containers Fields
         private PlayerAttackState m_PlayerAttackState;
-        private PlayerMovementDataContainer _mPlayerMovementDataContainer;
+        private PlayerMovementDataContainer m_PlayerMovementDataContainer;
         private PlayerTargetTrackingState m_PlayerTargetTrackingState;
+        private PlayerSpecialActionState m_PlayerSpecialActionState;
         
-        // Player states
+        // Player states Fields
         private IPlayerMovementState m_CurrentMovementState;
         private IPlayerMovementState m_NormalMovement;
         private IPlayerMovementState m_LockOnMovement;
         private IPlayerMovementState m_FinisherMovement;
         
+        // Runtime Fields
         private bool m_IsMovementEnabled = true;
         private bool m_IsRotationEnabled = true;
         private bool m_IsSprinting = false;
@@ -68,7 +82,13 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private float m_RotationSpeed = 4f;
         
         #endregion Fields
-        
+
+        #region - - - - - - Properties - - - - - -
+
+        public bool IsSprinting => this.m_IsSprinting;
+
+        #endregion Properties
+  
         #region - - - - - - Initializers - - - - - -
 
         public void Initialize(PlayerMovementInitializerData initializerData)
@@ -76,6 +96,8 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_CameraController = 
                 initializerData.CameraController 
                 ?? throw new ArgumentNullException(nameof(initializerData.CameraController));
+            this.m_Rigidbody = this.GetComponent<Rigidbody>() ??
+                               throw new ArgumentNullException(nameof(this.m_Rigidbody));
             
             // Bind to observers
             initializerData.LockOnObserver.OnLockOnDisable.AddListener(() => 
@@ -88,32 +110,49 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
 
         private void Start()
         {
+            this.m_BlockingAttackHandler = this.GetComponent<BlockingAttackHandler>();
+            this.m_LockOnSystem = this.GetComponentInChildren<LockOnSystem>();
             this.m_PlayerAnimationComponent = this.GetComponent<PlayerAnimationComponent>();
             this.m_PlayerTargetTrackingState = this.GetComponent<IPlayerState>().PlayerTargetTrackingState;
+            this.m_PlayerAttackHandler = this.GetComponent<IPlayerAttackSystem>();
+            this.m_PlayerDamage = this.GetComponent<IDamageable>();
+
+            IMovementAnimationEvents _AnimationEvents = this.GetComponent<IMovementAnimationEvents>();
+            _AnimationEvents.OnEnableMovement.AddListener(((IPlayerMovement)this).EnableMovement);
+            _AnimationEvents.OnDisableMovement.AddListener(((IPlayerMovement)this).DisableMovement);
+            _AnimationEvents.OnEnableRotation.AddListener(((IPlayerMovement)this).EnableRotation);
+            _AnimationEvents.OnDisableRotation.AddListener(((IPlayerMovement)this).DisableRotation);
+            _AnimationEvents.OnStartDodge.AddListener(this.StartDodging);
+            _AnimationEvents.OnEndDodge.AddListener(this.EndDodging);
+            _AnimationEvents.OnBlockDodge.AddListener(this.BlockDodge);
+            _AnimationEvents.OnResetDodge.AddListener(this.ResetDodge);
+            _AnimationEvents.OnLockMoveInput.AddListener(this.LockMoveInput);
+            _AnimationEvents.OnUnlockMoveInput.AddListener(this.UnlockMoveInput);
 
             IPlayerState _PlayerState = this.GetComponent<IPlayerState>();
             this.m_PlayerAttackState = _PlayerState.PlayerAttackState;
-            this._mPlayerMovementDataContainer = _PlayerState.PlayerMovementDataContainer;
+            this.m_PlayerMovementDataContainer = _PlayerState.PlayerMovementDataContainer;
+            this.m_PlayerSpecialActionState = _PlayerState.PlayerSpecialActionState;
 
             // Initialize Movement States
             this.m_NormalMovement = new PlayerNormalMovement(
-                this.GetComponent<IPlayerAttackHandler>(),
+                this.GetComponent<IPlayerAttackSystem>(),
                 this.m_PlayerAttackState,
                 this.m_CameraController,
-                this._mPlayerMovementDataContainer,
+                this.m_PlayerMovementDataContainer,
                 this.m_PlayerAnimationComponent, 
                 this.transform,
                 this);
             this.m_LockOnMovement = new PlayerLockOnMovement(
-                this.GetComponent<IPlayerAttackHandler>(),
+                this.GetComponent<IPlayerAttackSystem>(),
                 this.m_PlayerAttackState,
                 this.m_PlayerAnimationComponent, 
                 this.transform,
-                this._mPlayerMovementDataContainer,
+                this.m_PlayerMovementDataContainer,
                 this.m_PlayerTargetTrackingState,
                 this);
             this.m_FinisherMovement = new PlayerFinishMovement(
-                this._mPlayerMovementDataContainer,
+                this.m_PlayerMovementDataContainer,
                 this.m_PlayerAnimationComponent,
                 this.transform);
             
@@ -130,7 +169,7 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             this.m_CurrentMovementState.CalculateMovement();
             this.m_CurrentMovementState.ApplyMovement();
             
-            if (IsSprinting())
+            if (IsSprinting)
                 TickSprintDuration();
         }
 
@@ -146,18 +185,56 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
             => this.m_CurrentMovementState.PerformDodge();
 
         void IPlayerDodgeMovement.EnableDodge()
-            => this._mPlayerMovementDataContainer.CanDodge = true;
+            => this.m_PlayerMovementDataContainer.CanDodge = true;
 
         void IPlayerDodgeMovement.DisableDodge()
-            => this._mPlayerMovementDataContainer.CanDodge = false;
+            => this.m_PlayerMovementDataContainer.CanDodge = false;
+        
+        private void BlockDodge() 
+            => this.m_PlayerSpecialActionState.CanDodge = false;
+        
+        private void ResetDodge()
+        {
+            this.m_PlayerSpecialActionState.CanDodge = true;
+            this.m_PlayerSpecialActionState.IsDodging = false;
+        }
+
+        private void StartDodging()
+        {
+            this.m_PlayerAttackState.CanAttack = false;
+            this.m_PlayerSpecialActionState.IsDodging = true;
+            this.m_PlayerAttackState.IsHeavyAttackCharging = false;
+            this.m_PlayerAttackState.IsWeaponSheathed = false;
+            
+            this.m_PlayerDamage.DisableDamage();
+            this.m_BlockingAttackHandler.DisableBlock();
+            this.m_PlayerAttackHandler.ResetAttack();
+        }
+
+        private void EndDodging()
+        {
+            this.m_PlayerAttackState.CanAttack = true;
+            // this.m_PlayerSpecialActionState.IsDodging = false;
+            
+            this.m_PlayerDamage.EnableDamage();
+            this.m_BlockingAttackHandler.EnableBlock();
+            this.m_PlayerAttackHandler.ResetAttack();
+        }
         
         // --------------------------------
         // Movement
         // --------------------------------
 
-        public bool IsSprinting() => m_IsSprinting;
-
         public float GetSprintDuration() => m_SprintDuration;
+        
+        public void CancelMove()
+        {
+            StopAllCoroutines(); 
+            ((IPlayerMovement)this).EnableMovement();
+            ((IPlayerMovement)this).EnableRotation();
+            this.m_Rigidbody.linearVelocity = Vector3.zero;
+            this.m_PlayerAnimationComponent.SetRootMotion(true);
+        }
 
         void IPlayerMovement.DisableMovement()
             => this.m_IsMovementEnabled = false;
@@ -178,9 +255,11 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         void IPlayerMovement.PrepareSprint(bool isSprinting)
         {
             this.m_CurrentMovementState.PerformSprint(isSprinting);
-            this.m_CameraController.SelectCamera(isSprinting 
-                ? SceneCameras.FollowSprintPlayer 
-                : SceneCameras.FollowPlayer);
+            
+            if (!this.m_LockOnSystem.IsLockingOnTarget)
+                this.m_CameraController.SelectCamera(isSprinting
+                    ? SceneCameras.FollowSprintPlayer 
+                    : SceneCameras.FollowPlayer);
 
             this.m_IsSprinting = isSprinting;
 
@@ -200,6 +279,24 @@ namespace ThatOneSamuraiGame.Scripts.Player.Movement
         private void TickSprintDuration()
         {
             m_SprintDuration += Time.deltaTime;
+        }
+        
+        private void LockMoveInput() // This is not being used anywhere
+        { 
+            if (this.m_PlayerMovementDataContainer.IsMovementLocked)
+                return;
+
+            this.m_PlayerMovementDataContainer.IsMovementLocked = true;
+            this.StartDodging(); // Note: I find it unusual that Dodging is invoked when not moving the character.
+        }
+        
+        private void UnlockMoveInput()
+        {
+            if (!this.m_PlayerMovementDataContainer.IsMovementLocked)
+                return;
+
+            this.m_PlayerMovementDataContainer.IsMovementLocked = false;
+            this.EndDodging();
         }
         
         // --------------------------------

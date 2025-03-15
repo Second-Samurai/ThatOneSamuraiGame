@@ -27,15 +27,9 @@ public class LockOnCameraState : PausableMonoBehaviour, ICameraState, ILockOnCam
     #region - - - - - - Fields - - - - - -
 
     // Required Components
-    [RequiredField]
-    [SerializeField]
-    private Transform m_FollowCameraTargetPoint; // NOTE: This might not be needed anymore.
-    [RequiredField]
-    [SerializeField]
-    private CinemachineFreeLook m_LockOnCamera;
-    [RequiredField]
-    [SerializeField]
-    private CinematicBars m_CinematicBars;
+    [SerializeField, RequiredField] private Transform m_FollowCameraTargetPoint; // NOTE: This might not be needed anymore.
+    [SerializeField, RequiredField] private CinematicBars m_CinematicBars;
+    [SerializeField, RequiredField] private CinemachineFreeLook m_LockOnCamera;
 
     // Runtime Fields
     private Transform m_TargetTransform;

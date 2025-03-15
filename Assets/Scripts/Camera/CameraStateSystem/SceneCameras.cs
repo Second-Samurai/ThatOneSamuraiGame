@@ -33,4 +33,13 @@ namespace ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem
   
     }
 
+    // This exists as a quick workaround to creating a custom property drawer for the smart enum
+    public enum SceneCameraEnum
+    {
+        FollowPlayer,
+        FollowSprintPlayer,
+        FreeLook,
+        LockOn
+    }
+
 }

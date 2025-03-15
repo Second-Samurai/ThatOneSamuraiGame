@@ -15,7 +15,8 @@ public class FollowSprintPlayerCameraState : PausableMonoBehaviour, ICameraState
 
     [SerializeField] private GameObject m_Player;
     [SerializeField] private Transform m_FollowCameraTargetPoint;
-    [SerializeField] private CinemachineVirtualCamera m_SprintCamera;
+    [SerializeField, RequiredField] private CinemachineVirtualCamera m_SprintCamera;
+    [SerializeField, RequiredField] private VirtualCameraModifier m_SprintCameraModifier;
     
     [SerializeField] private float m_RotationSpeed = 0.15f; // TODO: Change this to use the player prefs
     [SerializeField] private float m_MinimumPitchAngle = -35f;
@@ -45,6 +46,12 @@ public class FollowSprintPlayerCameraState : PausableMonoBehaviour, ICameraState
     #endregion Initializers
     
     #region - - - - - - Unity Methods - - - - - -
+    
+    private void Start()
+    {
+        // Invoked during start to ensure the managers are initialised before the modifiers can be applied.
+        this.m_SprintCameraModifier.ApplyVirtualCameraSettings();
+    }
 
     private void LateUpdate()
     {

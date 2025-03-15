@@ -14,6 +14,8 @@ public class EnemyGuardController : PausableMonoBehaviour, IGuardMeter
     private Transform m_TargetEnemy;
     private Transform m_ReferencePlayer;
 
+    private float m_CalculatedScale;
+
     #endregion Fields
 
     #region - - - - - - Unity Methods - - - - - -
@@ -59,27 +61,21 @@ public class EnemyGuardController : PausableMonoBehaviour, IGuardMeter
             this.m_MainCamera, 
             this.m_TargetEnemy.position);
         
-        float _MinScaleDist = 2 * 2; // full size
-        float _MaxScaleDist = 6 * 6f; // scaled size
-        float _Distance = (this.m_TargetEnemy.position - this.m_ReferencePlayer.position).sqrMagnitude;
-        float _ClampedDistance = Mathf.Clamp(_Distance, _MinScaleDist, _MaxScaleDist);
-
-        float _NormalizedDist = (_ClampedDistance - _MinScaleDist) / (_MaxScaleDist - _MinScaleDist);
-        float _Scale = Mathf.Lerp(1.0f, 0.6f, _NormalizedDist);
-        
-        this.m_View.UpdateEnemyGuardScreenPosition(_ScreenPosition, _Scale);
+        this.m_View.UpdateEnemyGuardScreenPosition(_ScreenPosition, this.m_CalculatedScale);
     }
 
     private void UpdateEnemyGuardRelativeScale()
     {
         float _MinScaleDist = 2 * 2; // full size
         float _MaxScaleDist = 6 * 6f; // scaled size
-        float _Distance = (this.m_TargetEnemy.position - this.m_ReferencePlayer.position).sqrMagnitude;
-        float _ClampedDistance = Mathf.Clamp(_Distance, _MinScaleDist, _MaxScaleDist);
+        float _ClampedDistance = Mathf.Clamp(
+            (this.m_TargetEnemy.position - this.m_ReferencePlayer.position).sqrMagnitude, 
+            _MinScaleDist, 
+            _MaxScaleDist);
 
         float _NormalizedDist = (_ClampedDistance - _MinScaleDist) / (_MaxScaleDist - _MinScaleDist);
-        float _Scale = Mathf.Lerp(1.0f, 0.6f, _NormalizedDist);
-        this.m_View.UpdateEnemyGuardScale(_Scale);
+        this.m_CalculatedScale = Mathf.Lerp(1.0f, 0.6f, _NormalizedDist);
+        this.m_View.UpdateEnemyGuardScale(this.m_CalculatedScale);
     }
 
     #endregion Methods

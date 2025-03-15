@@ -97,6 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2344650719091073699}
   - component: {fileID: 5575855119631726892}
+  - component: {fileID: 1192145136778579513}
   m_Layer: 0
   m_Name: SprintCamera_VC
   m_TagString: Untagged
@@ -141,7 +142,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 50
+    FieldOfView: 80
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 900
@@ -159,3 +160,17 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 1756239610792528096}
+--- !u!114 &1192145136778579513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8648210994443416475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c507a98d249414fba49501272f5feea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_VirtualCamera: {fileID: 5575855119631726892}
+  m_CameraSelection: 1

@@ -678,12 +678,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53f858c2bd7b7144fb9cc50471371c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &1031942941 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 575143360168773017, guid: baa64f25e1db86e46bb055344f6f3908,
-    type: 3}
-  m_PrefabInstance: {fileID: 1943169711}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1241462971
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -860,6 +854,12 @@ PrefabInstance:
       addedObject: {fileID: 1641808789}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d94a8df34a141f245a1ceb39eae35e01, type: 3}
+--- !u!225 &1248173964 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 4951338269752044243, guid: baa64f25e1db86e46bb055344f6f3908,
+    type: 3}
+  m_PrefabInstance: {fileID: 1943169711}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1412644702 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 695735869279663370, guid: d94a8df34a141f245a1ceb39eae35e01,
@@ -1598,71 +1598,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 70369672}
     m_Modifications:
+    - target: {fileID: 2967002849089238658, guid: baa64f25e1db86e46bb055344f6f3908,
+        type: 3}
+      propertyPath: m_LocalCanvasGroup
+      value: 
+      objectReference: {fileID: 1248173964}
     - target: {fileID: 5668670900189093187, guid: baa64f25e1db86e46bb055344f6f3908,
         type: 3}
       propertyPath: m_CanvasRectTransform
       value: 
       objectReference: {fileID: 70369672}
-    - target: {fileID: 5668670900189093187, guid: baa64f25e1db86e46bb055344f6f3908,
-        type: 3}
-      propertyPath: m_ContentGroupTransform
-      value: 
-      objectReference: {fileID: 1031942941}
-    - target: {fileID: 5668670900189093187, guid: baa64f25e1db86e46bb055344f6f3908,
-        type: 3}
-      propertyPath: m_GuardPositionOffset.x
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821930070861401778, guid: baa64f25e1db86e46bb055344f6f3908,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6821930070861401778, guid: baa64f25e1db86e46bb055344f6f3908,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7727749317387198460, guid: baa64f25e1db86e46bb055344f6f3908,
-        type: 3}
-      propertyPath: m_Pivot.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7727749317387198460, guid: baa64f25e1db86e46bb055344f6f3908,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7727749317387198460, guid: baa64f25e1db86e46bb055344f6f3908,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7727749317387198460, guid: baa64f25e1db86e46bb055344f6f3908,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 7727749317387198460, guid: baa64f25e1db86e46bb055344f6f3908,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 85
-      objectReference: {fileID: 0}
-    - target: {fileID: 7727749317387198460, guid: baa64f25e1db86e46bb055344f6f3908,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0.000061035156
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910177906754910701, guid: baa64f25e1db86e46bb055344f6f3908,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910177906754910701, guid: baa64f25e1db86e46bb055344f6f3908,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8600455793181195308, guid: baa64f25e1db86e46bb055344f6f3908,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1767,16 +1712,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Guard_Meter
-      objectReference: {fileID: 0}
-    - target: {fileID: 8636592181021669745, guid: baa64f25e1db86e46bb055344f6f3908,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9174190096620559100, guid: baa64f25e1db86e46bb055344f6f3908,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

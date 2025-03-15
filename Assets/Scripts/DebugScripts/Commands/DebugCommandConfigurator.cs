@@ -1,5 +1,4 @@
-﻿
-using ThatOneSamuraiGame;
+﻿using ThatOneSamuraiGame;
 using ThatOneSamuraiGame.Scripts.Player.Attack.Debug;
 
 public class DebugCommandConfigurator

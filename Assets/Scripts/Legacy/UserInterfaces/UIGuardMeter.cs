@@ -17,6 +17,7 @@ public interface IFloatingEnemyGuardMeter
 
 }
 
+[Obsolete]
 public class UIGuardMeter : MonoBehaviour, IFloatingEnemyGuardMeter
 {
     public Slider guardSlider;

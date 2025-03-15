@@ -5,6 +5,7 @@ public class EnemyGuardView : MonoBehaviour
 
     #region - - - - - - Fields - - - - - -
 
+    // Canvas Fields
     [SerializeField] private RectTransform m_CanvasRectTransform;
     [SerializeField] private GameObject m_ContentGroup;
     

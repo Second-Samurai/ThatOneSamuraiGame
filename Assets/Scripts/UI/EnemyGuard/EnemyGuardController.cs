@@ -8,12 +8,15 @@ public class EnemyGuardController : PausableMonoBehaviour, IGuardMeter
 
     #region - - - - - - Fields - - - - - -
 
+    // Required Component Fields
     private EnemyGuardView m_View;
     private Camera m_MainCamera;
     
+    // Reference Target Fields
     private Transform m_TargetEnemy;
     private Transform m_ReferencePlayer;
 
+    // Runtime Fields
     private float m_CalculatedScale;
 
     #endregion Fields
@@ -66,8 +69,8 @@ public class EnemyGuardController : PausableMonoBehaviour, IGuardMeter
 
     private void UpdateEnemyGuardRelativeScale()
     {
-        float _MinScaleDist = 2 * 2; // full size
-        float _MaxScaleDist = 6 * 6f; // scaled size
+        const float _MinScaleDist = 2 * 2; // full size
+        const float _MaxScaleDist = 6 * 6f; // scaled size
         float _ClampedDistance = Mathf.Clamp(
             (this.m_TargetEnemy.position - this.m_ReferencePlayer.position).sqrMagnitude, 
             _MinScaleDist, 

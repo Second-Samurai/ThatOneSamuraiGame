@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using ThatOneSamuraiGame.Scripts.Base;
+using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
 using UnityEngine;
 
 public class CinematicBarsController : PausableMonoBehaviour
@@ -20,11 +21,34 @@ public class CinematicBarsController : PausableMonoBehaviour
     private void Start()
     {
         this.m_View = this.GetComponent<CinematicBarsView>();
+
+        IUIEventCollection _EventCollection = UserInterfaceManager.Instance.UIEventCollection;
+        _EventCollection.RegisterEvent(CinematicBarsUIEvents.ShowCinematicBars, this.ShowCinematicBars);
+        _EventCollection.RegisterEvent(
+            CinematicBarsUIEvents.HideCinematicBars, 
+            () =>
+            {
+                this.StopAllCoroutines();
+                this.StartCoroutine(this.HideCinematicBars());
+            });
     }
 
     #endregion Unity Methods
 
     #region - - - - - - Methods - - - - - -
+
+    private void ShowCinematicBars()
+    {
+        this.m_View.ShowGUI();
+        this.StopAllCoroutines();
+        this.StartCoroutine(this.AnimateBarHeight(this.m_OpeningAnimationCurve));
+    }
+
+    private IEnumerator HideCinematicBars()
+    {
+        yield return this.AnimateBarHeight(this.m_ClosingAnimationCurve);
+        this.m_View.HideGUI();
+    }
 
     private IEnumerator AnimateBarHeight(AnimationCurve selectedCurve)
     {

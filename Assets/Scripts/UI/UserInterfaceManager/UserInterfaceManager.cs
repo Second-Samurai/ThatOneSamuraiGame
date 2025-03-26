@@ -16,10 +16,13 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
 
         [SerializeField] private GameSettings m_GameSettings;
         [SerializeField] private ButtonController m_SwordCanvasController; // This is known as the 'ButtonController' from its source.
+
+        private IUIEventMediator m_EventMediator;
+        private IUIEventCollection m_EventCollection;
         
         private IGuardMeter m_GuardMeter;
         private IPauseMenuController m_PauseMenuController;
-
+        
         #endregion Fields
 
         #region - - - - - - Properties - - - - - -
@@ -42,6 +45,18 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
             set => this.m_GuardMeter = value;
         }
 
+        public IUIEventMediator UIEventMediator
+        {
+            get => this.m_EventMediator;
+            set => this.m_EventMediator = value;
+        }
+
+        public IUIEventCollection UIEventCollection
+        {
+            get => this.m_EventCollection;
+            set => this.m_EventCollection = value;
+        }
+
         #endregion Properties
 
         #region - - - - - - Unity Methods - - - - - -
@@ -53,7 +68,6 @@ namespace ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager
             else
                 Destroy(gameObject);
         }
-
 
         #endregion Unity Methods
   

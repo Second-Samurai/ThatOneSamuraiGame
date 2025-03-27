@@ -3,6 +3,7 @@ using Cinemachine;
 using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Camera.CameraStateSystem;
+using ThatOneSamuraiGame.Scripts.UI.UserInterfaceManager;
 using UnityEngine;
 
 public interface ILockOnCamera
@@ -28,9 +29,9 @@ public class LockOnCameraState : PausableMonoBehaviour, ICameraState, ILockOnCam
 
     // Required Components
     [SerializeField, RequiredField] private Transform m_FollowCameraTargetPoint; // NOTE: This might not be needed anymore.
-    [SerializeField, RequiredField] private CinematicBars m_CinematicBars;
     [SerializeField, RequiredField] private CinemachineFreeLook m_LockOnCamera;
-
+    private IUIEventMediator m_UIEventMediator;
+    
     // Runtime Fields
     private Transform m_TargetTransform;
     private Transform m_FollowedTransform;
@@ -44,6 +45,13 @@ public class LockOnCameraState : PausableMonoBehaviour, ICameraState, ILockOnCam
         => this.m_LockOnCamera.Follow = this.m_FollowCameraTargetPoint;
 
     #endregion Initialize
+
+    #region - - - - - - Unity Methods - - - - - -
+
+    private void Start() 
+        => this.m_UIEventMediator = UserInterfaceManager.Instance.UIEventMediator;
+
+    #endregion Unity Methods
   
     #region - - - - - - Methods - - - - - -
 
@@ -68,7 +76,7 @@ public class LockOnCameraState : PausableMonoBehaviour, ICameraState, ILockOnCam
         this.m_LockOnCamera.Follow = this.m_FollowedTransform;
         
         this.m_RunLockCancelTimer = false;
-        this.m_CinematicBars.ShowBars(200f, .3f); // TODO: Move to lock on controller
+        this.m_UIEventMediator.Dispatch(CinematicBarsUIEvents.ShowCinematicBars);
     }
 
     public void EndState()
@@ -76,7 +84,7 @@ public class LockOnCameraState : PausableMonoBehaviour, ICameraState, ILockOnCam
         this.m_LockOnCamera.gameObject.SetActive(false);
         
         // End LockOn
-        this.m_CinematicBars.HideBars(.3f);
+        this.m_UIEventMediator.Dispatch(CinematicBarsUIEvents.HideCinematicBars);
     }
     
     public bool ValidateState()

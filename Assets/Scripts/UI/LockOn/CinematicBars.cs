@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
+[Obsolete]
 public class CinematicBars : MonoBehaviour
 {
     RectTransform _topBar, _bottomBar;

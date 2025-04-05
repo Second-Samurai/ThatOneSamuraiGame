@@ -1195,9 +1195,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 670281433}
-  - component: {fileID: 670281436}
   - component: {fileID: 670281435}
+  - component: {fileID: 670281436}
   - component: {fileID: 670281434}
+  - component: {fileID: 670281441}
+  - component: {fileID: 670281440}
+  - component: {fileID: 670281439}
+  - component: {fileID: 670281438}
+  - component: {fileID: 670281437}
   m_Layer: 0
   m_Name: Archer_BehaviourTree
   m_TagString: Untagged
@@ -1235,12 +1240,13 @@ MonoBehaviour:
   title: Root
   rect:
     serializedVersion: 2
-    x: 400
-    y: 200
+    x: 440
+    y: 100
     width: 160
     height: 44
   parent: {fileID: 0}
-  children: []
+  children:
+  - {fileID: 670281437}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -1256,7 +1262,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b2217e4d35c0c94ea02cf2166c17e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  variables: []
+  variables:
+  - {fileID: 670281439}
   masterBlackboard: {fileID: 0}
 --- !u!114 &670281436
 MonoBehaviour:
@@ -1274,6 +1281,142 @@ MonoBehaviour:
   repeatOnFinish: 0
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
+--- !u!114 &670281437
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670281432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c78c7da6b00e1b46bad07949050f82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Sequence
+  rect:
+    serializedVersion: 2
+    x: 440
+    y: 180
+    width: 160
+    height: 44
+  parent: {fileID: 670281434}
+  children:
+  - {fileID: 670281440}
+  - {fileID: 670281438}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  random: 0
+--- !u!114 &670281438
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670281432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2613f57cf1442c19bcc26e59bd5e3a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Idle Archer
+  rect:
+    serializedVersion: 2
+    x: 680
+    y: 340
+    width: 160
+    height: 44
+  parent: {fileID: 670281437}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+--- !u!114 &670281439
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670281432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: HasDiscoveredPlayer
+  val: 0
+--- !u!114 &670281440
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670281432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 534e3ec7de6cd444e984c2e7f68e42e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: HasDiscoveredPlayer
+  rect:
+    serializedVersion: 2
+    x: 200
+    y: 340
+    width: 160
+    height: 44
+  parent: {fileID: 670281437}
+  children:
+  - {fileID: 670281441}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  abort: 1
+  invert: 0
+  type: 0
+  boolReference:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 670281435}
+    key: HasDiscoveredPlayer
+    constantValue: 0
+  objectReference:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: {fileID: 0}
+  transformReference:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: {fileID: 0}
+--- !u!114 &670281441
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670281432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08540605df275034fafc8e05c6704214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Combat
+  rect:
+    serializedVersion: 2
+    x: 200
+    y: 400
+    width: 160
+    height: 44
+  parent: {fileID: 670281440}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  random: 0
 --- !u!1 &717851132
 GameObject:
   m_ObjectHideFlags: 0

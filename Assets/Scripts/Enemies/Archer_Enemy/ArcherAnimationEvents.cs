@@ -15,7 +15,7 @@ public class ArcherAnimationEvents : AnimationEventsEnum
                 _BlendDirection = new Vector2(-1, -1);
                 break;
             case 1:
-                _BlendDirection = new Vector2(-1, 1);
+                _BlendDirection = new Vector2(-1, 1.2f);
                 break;
             case 2:
                 _BlendDirection = new Vector2(1, -1);

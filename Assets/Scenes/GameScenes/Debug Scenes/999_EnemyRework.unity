@@ -1198,11 +1198,18 @@ GameObject:
   - component: {fileID: 670281435}
   - component: {fileID: 670281436}
   - component: {fileID: 670281434}
-  - component: {fileID: 670281441}
   - component: {fileID: 670281440}
   - component: {fileID: 670281439}
   - component: {fileID: 670281438}
   - component: {fileID: 670281437}
+  - component: {fileID: 670281447}
+  - component: {fileID: 670281446}
+  - component: {fileID: 670281445}
+  - component: {fileID: 670281444}
+  - component: {fileID: 670281443}
+  - component: {fileID: 670281442}
+  - component: {fileID: 670281441}
+  - component: {fileID: 670281448}
   m_Layer: 0
   m_Name: Archer_BehaviourTree
   m_TagString: Untagged
@@ -1264,6 +1271,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variables:
   - {fileID: 670281439}
+  - {fileID: 670281443}
+  - {fileID: 670281442}
+  - {fileID: 670281441}
   masterBlackboard: {fileID: 0}
 --- !u!114 &670281436
 MonoBehaviour:
@@ -1277,8 +1287,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 0}
-  repeatOnFinish: 0
+  selectedEditorNode: {fileID: 670281438}
+  repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
 --- !u!114 &670281437
@@ -1302,7 +1312,6 @@ MonoBehaviour:
     height: 44
   parent: {fileID: 670281434}
   children:
-  - {fileID: 670281440}
   - {fileID: 670281438}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
@@ -1332,6 +1341,7 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
+  m_RepetitionCount: 2
 --- !u!114 &670281439
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -1365,9 +1375,9 @@ MonoBehaviour:
     y: 340
     width: 160
     height: 44
-  parent: {fileID: 670281437}
+  parent: {fileID: 0}
   children:
-  - {fileID: 670281441}
+  - {fileID: 670281447}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -1401,22 +1411,178 @@ MonoBehaviour:
   m_GameObject: {fileID: 670281432}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08540605df275034fafc8e05c6704214, type: 3}
+  m_Script: {fileID: 11500000, guid: dbc98ff6538275b4c9a8383882546ee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: PlayerTransform
+  val: {fileID: 1469493480}
+--- !u!114 &670281442
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670281432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e5f4db414f0ab4c82c187a7653e99d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: AimDetectionThreshold
+  val: 0.5
+--- !u!114 &670281443
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670281432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e5f4db414f0ab4c82c187a7653e99d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: AimRotationSpeed
+  val: 5
+--- !u!114 &670281444
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670281432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58fe7bc6a9b18e148b82820c7c1c0a90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Wait
+  rect:
+    serializedVersion: 2
+    x: 380
+    y: 560
+    width: 160
+    height: 44
+  parent: {fileID: 670281447}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  time:
+    useConstant: 1
+    mode: 0
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: 1
+  randomDeviation: 0
+  continueOnRestart: 0
+--- !u!114 &670281445
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670281432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad5699c9d76744c49d3ba19d5e03e4f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Fire Arrow
+  rect:
+    serializedVersion: 2
+    x: 200
+    y: 560
+    width: 160
+    height: 44
+  parent: {fileID: 670281447}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+--- !u!114 &670281446
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670281432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324b9936029541599be22b13cb9a8c35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Aim to Player
+  rect:
+    serializedVersion: 2
+    x: 20
+    y: 560
+    width: 160
+    height: 44
+  parent: {fileID: 670281447}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  m_PlayerTransform:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 670281435}
+    key: PlayerTransform
+    constantValue: {fileID: 0}
+  m_RotationSpeed:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 670281435}
+    key: AimRotationSpeed
+    constantValue: 0
+  m_AimDetectionThreshold:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 670281435}
+    key: AimDetectionThreshold
+    constantValue: 0
+--- !u!114 &670281447
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670281432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c78c7da6b00e1b46bad07949050f82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   title: Combat
   rect:
     serializedVersion: 2
     x: 200
-    y: 400
+    y: 420
     width: 160
     height: 44
   parent: {fileID: 670281440}
-  children: []
+  children:
+  - {fileID: 670281446}
+  - {fileID: 670281445}
+  - {fileID: 670281444}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
   random: 0
+--- !u!114 &670281448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670281432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e5f392bbea2fa2499665ed8b604ff86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monoBehaviourTree: {fileID: 670281436}
 --- !u!1 &717851132
 GameObject:
   m_ObjectHideFlags: 0
@@ -4282,6 +4448,7 @@ GameObject:
   - component: {fileID: 1924484833}
   - component: {fileID: 1924484832}
   - component: {fileID: 1924484831}
+  - component: {fileID: 1924484836}
   m_Layer: 0
   m_Name: Archer
   m_TagString: Untagged
@@ -4400,6 +4567,18 @@ Transform:
   - {fileID: 670281433}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1924484836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924484830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47294df1a2de4dfc96445dff538d8480, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1943169711
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4585,7 +4764,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2106703252}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!224 &2143893626 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7521696630251897670, guid: 53dab12b6fea3ee4cbaa88d5e13b1ac2,

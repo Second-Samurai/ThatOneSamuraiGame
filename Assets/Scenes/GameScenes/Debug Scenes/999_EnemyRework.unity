@@ -952,6 +952,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 298263223}
+  - component: {fileID: 298263224}
   m_Layer: 0
   m_Name: Aim_Target
   m_TagString: Untagged
@@ -974,6 +975,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1016035762}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &298263224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298263222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 682b909dca694353bd0d0e7947d1b431, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &338975649 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7849413152475417484, guid: d94a8df34a141f245a1ceb39eae35e01,
+    type: 3}
+  m_PrefabInstance: {fileID: 1241462971}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &344928424 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7360204487000304918, guid: d94a8df34a141f245a1ceb39eae35e01,
@@ -5133,6 +5152,10 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 462034488}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7849413152475417484, guid: d94a8df34a141f245a1ceb39eae35e01,
+        type: 3}
+      insertIndex: 10
+      addedObject: {fileID: 1469493509}
     - targetCorrespondingSourceObject: {fileID: 3044249120881132843, guid: d94a8df34a141f245a1ceb39eae35e01,
         type: 3}
       insertIndex: -1
@@ -5934,6 +5957,19 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1241462971}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1469493509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338975649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c75cea371e174461b61685800975e6d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TargetAimTransform: {fileID: 462034488}
 --- !u!1 &1473656082
 GameObject:
   m_ObjectHideFlags: 0

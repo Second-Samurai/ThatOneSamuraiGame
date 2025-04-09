@@ -6,6 +6,7 @@ public class ArcherAnimationEvents : AnimationEventsEnum
 
     #region - - - - - - Fields - - - - - -
 
+    // Idle Events
     public static ArcherAnimationEvents ArcherIdle = new("ArcherIdle", 0, "", (animator, _, _, index, _) =>
     {
         Vector2 _BlendDirection = Vector2.zero;
@@ -28,6 +29,8 @@ public class ArcherAnimationEvents : AnimationEventsEnum
         animator.SetFloat(IdleBlendX, _BlendDirection.x);
         animator.SetFloat(IdleBlendY, _BlendDirection.y);
     });
+    
+    // Combat Events
     public static ArcherAnimationEvents EquipBow = new("Equip_Bow", 1, "equip-bow", (animator, _, _, _, _) =>
         animator.SetTrigger(EquipBow));
     public static ArcherAnimationEvents DisarmBow = new("Disarm_Bow", 2, "disarm-bow", (animator, _, _, _, _) =>
@@ -36,6 +39,13 @@ public class ArcherAnimationEvents : AnimationEventsEnum
         animator.SetTrigger(FireBow));
     public static ArcherAnimationEvents DrawBow = new("Draw_Bow", 3, "draw-reload", (animator, _, _, _, _) =>
         animator.SetTrigger(DrawBow));
+    
+    public static ArcherAnimationEvents TurnLeft = new("TurnLeft", 5, "archer-turn-left", (animator, _, _, _, _) =>
+        animator.SetTrigger(TurnLeft));
+    public static ArcherAnimationEvents TurnRight = new("TurnRight", 6, "archer-turn-right", (animator, _, _, _, _) =>
+        animator.SetTrigger(TurnRight));
+    public static ArcherAnimationEvents SetLegsLayerOverride = new("SetLegsLayerOverride", 7, "",
+        (animator, _, weight, _, _) => animator.SetLayerWeight(1, weight));
 
     private static readonly int IdleBlendX = Animator.StringToHash("Idle_Blend_X");
     private static readonly int IdleBlendY = Animator.StringToHash("Idle_Blend_Y");

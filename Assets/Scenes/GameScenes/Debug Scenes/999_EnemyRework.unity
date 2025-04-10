@@ -982,7 +982,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 298263222}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 682b909dca694353bd0d0e7947d1b431, type: 3}
   m_Name: 
@@ -3110,7 +3110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 670281444}
+  selectedEditorNode: {fileID: 670281446}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -3339,6 +3339,55 @@ MonoBehaviour:
     blackboard: {fileID: 670281435}
     key: AimDetectionThreshold
     constantValue: 0
+  m_LayerWeightLerpTime: 0.5
+  m_EnableWeightCurves:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_DisableWeightCurves:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.0041666664
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.0041809
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &670281447
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -3913,13 +3962,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 827971366}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.6364231, y: -0.38369748, z: 0.3034299, w: 0.5963826}
-  m_LocalPosition: {x: 0.000000011758412, y: 0.09900001, z: -0.33200073}
+  m_LocalRotation: {x: -0.6028521, y: -0.30733344, z: -0.38057834, w: -0.6302981}
+  m_LocalPosition: {x: -0.000000053900294, y: 0.09899997, z: -0.33200073}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 616248755}
-  m_LocalEulerAnglesHint: {x: -31.753, y: -97.06, z: 89.61}
+  m_LocalEulerAnglesHint: {x: 31.737, y: -275.684, z: 91.114}
 --- !u!1 &838289821
 GameObject:
   m_ObjectHideFlags: 0
@@ -7632,9 +7681,10 @@ GameObject:
   - component: {fileID: 1924484837}
   - component: {fileID: 1924484831}
   - component: {fileID: 1924484836}
-  m_Layer: 0
+  - component: {fileID: 1924484839}
+  m_Layer: 10
   m_Name: Archer
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7817,6 +7867,26 @@ MonoBehaviour:
   - m_Rig: {fileID: 570467046}
     m_Active: 1
   m_Effectors: []
+--- !u!114 &1924484839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924484830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68b981d9b9dc471987be3501fef810b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RigLayers: []
+  m_MasterWeightControl: 0
+  m_InterpolationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &1943169711
 PrefabInstance:
   m_ObjectHideFlags: 0

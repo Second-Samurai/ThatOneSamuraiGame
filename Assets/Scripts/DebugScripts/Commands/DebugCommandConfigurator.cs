@@ -29,6 +29,7 @@ public class DebugCommandConfigurator
         
         // Enemy
         new Debug_EnemyAttackSystem().RegisterCommand(this.m_DebugManager);
+        new Debug_ArcherEnemy().RegisterCommand(this.m_DebugManager);
         
         // UI
         new Debug_CinematicBars().RegisterCommand(this.m_DebugManager);

@@ -13,7 +13,7 @@ public interface IIKWeightControl
 
 }
 
-public class IKCharacterControl : MonoBehaviour, IIKWeightControl
+public class AnimationRigControl : MonoBehaviour, IIKWeightControl
 {
 
     #region - - - - - - Fields - - - - - -

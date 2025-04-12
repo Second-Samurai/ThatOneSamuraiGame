@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using MBT;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ public class AimToPlayer : Leaf
     [SerializeField] private FloatReference m_RotationSpeed = new();
     [SerializeField] private FloatReference m_AimDetectionThreshold = new();
     [SerializeField] private float m_LayerWeightLerpTime;
+    [SerializeField] private float m_TurnAngleSize;
 
     [Space]
     [SerializeField] private AnimationCurve m_EnableWeightCurves;
@@ -21,8 +23,18 @@ public class AimToPlayer : Leaf
     private Animator m_ArcherAnimator;
     private AnimationRigControl m_RigControl;
     private Transform m_ArcherTransform;
-    private bool m_CanMakeTurnMotion = true;
     private bool m_HasDrawnBow;
+    
+    // Turn motion fields
+    private bool m_CanMakeTurnMotion = true;
+    private float m_TurnLeftClipLength;
+    private float m_TurnRightClipLength;
+    
+    // Aiming calculation fields
+    private float m_AngleToPlayer;
+    private Vector3 m_DirectionToTarget;
+    private Vector3 m_Forward;
+    private Quaternion m_TargetRotation;
 
     #endregion Fields
   
@@ -36,6 +48,11 @@ public class AimToPlayer : Leaf
 
         ArcherAnimationReciever _AnimationReceiver = this.GetComponentInParent<ArcherAnimationReciever>();
         _AnimationReceiver.OnTurnCompletion.AddListener(() => this.m_CanMakeTurnMotion = true);
+
+        this.m_TurnLeftClipLength = this.m_ArcherAnimator.runtimeAnimatorController.animationClips
+            .SingleOrDefault(c => c.name == ArcherAnimationEvents.TurnLeft.ClipName)?.length ?? 1f;
+        this.m_TurnRightClipLength = this.m_ArcherAnimator.runtimeAnimatorController.animationClips
+            .SingleOrDefault(c => c.name == ArcherAnimationEvents.TurnRight.ClipName)?.length ?? 1f;
     }
 
     #endregion Unity Methods
@@ -48,45 +65,47 @@ public class AimToPlayer : Leaf
         {
             this.m_HasDrawnBow = true;
             ArcherAnimationEvents.DrawBow.Run(this.m_ArcherAnimator);
+            this.m_RigControl.ActivateAllLayers();
             
             this.m_RigControl.StopAllCoroutines();
-            this.m_RigControl.StartCoroutine(this.RampUpLegAnimatorLayerWeight());
+            this.m_RigControl.StartCoroutine(this.AnimateLegsLayerMasterWeight(this.m_EnableWeightCurves));
         }
 
-        Vector3 _Forward = this.m_ArcherTransform.forward;
-        Vector3 _Direction = (this.m_PlayerTransform.Value.position - this.m_ArcherTransform.position).normalized;
-        _Direction.y = 0;
-        Quaternion _TargetRotation = Quaternion.LookRotation(_Direction);
+        this.m_Forward = this.m_ArcherTransform.forward;
+        this.m_DirectionToTarget = (this.m_PlayerTransform.Value.position - this.m_ArcherTransform.position).normalized;
+        this.m_DirectionToTarget.y = 0;
+        Quaternion _TargetRotation = Quaternion.LookRotation(this.m_DirectionToTarget);
         
-        float _AngleToPlayer = Quaternion.Angle(this.m_ArcherTransform.rotation, _TargetRotation);
-        if (_AngleToPlayer <= this.m_AimDetectionThreshold.Value)
+        this.m_AngleToPlayer = Quaternion.Angle(this.m_ArcherTransform.rotation, _TargetRotation);
+        if (this.m_AngleToPlayer <= this.m_AimDetectionThreshold.Value)
         {
             this.m_HasDrawnBow = false;
-            this.m_RigControl.StopAllCoroutines();
-            this.m_RigControl.StartCoroutine(this.RampDownLegAnimatorLayerWeight());
+            this.m_RigControl.StartCoroutine(this.AnimateLegsLayerMasterWeight(this.m_DisableWeightCurves));
+            this.StopAllCoroutines();
+            
             return NodeResult.success;
         }
 
         if (this.m_CanMakeTurnMotion)
         {
             // Trigger turn motion
-            float _SignedAngle = Vector3.SignedAngle(_Forward, _Direction, Vector3.up);
+            float _SignedAngle = Vector3.SignedAngle(this.m_Forward, this.m_DirectionToTarget, Vector3.up);
             if (_SignedAngle > 0f)
             {
                 ArcherAnimationEvents.TurnRight.Run(this.m_ArcherAnimator);
-                this.m_CanMakeTurnMotion = false;
+                this.StartCoroutine(this.TurnRotationOverride(this.m_TurnRightClipLength, _SignedAngle));
             }
             else if (_SignedAngle < 0f)
             {
                 ArcherAnimationEvents.TurnLeft.Run(this.m_ArcherAnimator);
-                this.m_CanMakeTurnMotion = false;
+                this.StartCoroutine(this.TurnRotationOverride(this.m_TurnLeftClipLength, _SignedAngle));
             }
         }
         
         return NodeResult.running;
     }
 
-    private IEnumerator RampUpLegAnimatorLayerWeight()
+    private IEnumerator AnimateLegsLayerMasterWeight(AnimationCurve selectedCurve)
     {
         float _TotalTime = 0;
         while (_TotalTime < this.m_LayerWeightLerpTime)
@@ -94,24 +113,30 @@ public class AimToPlayer : Leaf
             float _T = Mathf.Clamp01(_TotalTime / this.m_LayerWeightLerpTime);
             ArcherAnimationEvents.SetLegsLayerOverride.Run(
                 animator: this.m_ArcherAnimator,
-                floatValue: this.m_EnableWeightCurves.Evaluate(_T));
+                floatValue: selectedCurve.Evaluate(_T));
             _TotalTime += Time.deltaTime;
             yield return null;
         }
     }
     
-    private IEnumerator RampDownLegAnimatorLayerWeight()
+    // This is done since root motion could not be properly applied on anything but the base layer
+    // Its highly possible that this is also a bug 'https://discussions.unity.com/t/root-motion-from-additive-layer-not-applied/845597'
+    private IEnumerator TurnRotationOverride(float clipLength, float signedAngle)
     {
-        float _TotalTime = 0;
-        while (_TotalTime < this.m_LayerWeightLerpTime)
+        float _Angle = signedAngle > 0f ? this.m_TurnAngleSize : -this.m_TurnAngleSize;
+        Quaternion _StartRotation = this.m_ArcherTransform.rotation;
+        Quaternion _EndRotation = _StartRotation * Quaternion.Euler(0f, _Angle, 0f);
+
+        float _ElapsedTime = 0f;
+        while (_ElapsedTime < clipLength)
         {
-            float _T = Mathf.Clamp01(1 - _TotalTime / this.m_LayerWeightLerpTime);
-            ArcherAnimationEvents.SetLegsLayerOverride.Run(
-                animator: this.m_ArcherAnimator,
-                floatValue: this.m_DisableWeightCurves.Evaluate(_T));
-            _TotalTime += Time.deltaTime;
+            this.m_ArcherTransform.rotation = Quaternion.Slerp(_StartRotation, _EndRotation, _ElapsedTime / clipLength);
+            _ElapsedTime += Time.deltaTime;
             yield return null;
         }
+
+        this.m_ArcherTransform.rotation = _EndRotation;
+        this.m_CanMakeTurnMotion = false;
     }
 
 

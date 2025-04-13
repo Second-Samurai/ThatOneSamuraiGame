@@ -12,15 +12,24 @@ public class AnimationRigControl : PausableMonoBehaviour
 
     public List<RigLayerMasterControl> RigWeightLayers;
     public Transform AimTarget;
+    [Tooltip("Motion is controlled via 'Root Motion'. Provide the character's transform.")]
+    public Transform CharacterRootTransform;
 
     #endregion Fields
 
     #region - - - - - - Unity Methods - - - - - -
 
+    private void Awake()
+    {
+        foreach (IRigLayerControl _RigLayerControl in this.RigWeightLayers)
+            _RigLayerControl.SetDefaultRigValues();
+        this.DeActivateAllLayers();
+    }
+
     private void Start()
     {
         foreach (IRigLayerControl _RigLayerControl in this.RigWeightLayers)
-            _RigLayerControl.OnStart(this, this.AimTarget);
+            _RigLayerControl.OnStart(this.CharacterRootTransform, this.AimTarget);
     }
 
     private void Update()
@@ -59,7 +68,7 @@ public class AnimationRigControl : PausableMonoBehaviour
         foreach (var _RigLayer in this.RigWeightLayers)
         {
             if (_RigLayer is RigLayerMasterControl _MasterControl)
-                _MasterControl.DrawDebugGizmos(this.transform, this.AimTarget);
+                _MasterControl.DrawDebugGizmos(this.CharacterRootTransform, this.AimTarget);
         }
     }
 
@@ -67,6 +76,7 @@ public class AnimationRigControl : PausableMonoBehaviour
   
 }
 
+// TODO: Move to seperate file.
 public interface IRigLayerControl
 {
 
@@ -78,14 +88,17 @@ public interface IRigLayerControl
   
     #region - - - - - - Methods - - - - - -
 
-    void OnStart(AnimationRigControl rigControl, Transform aimTarget);
+    void OnStart(Transform characterTransform, Transform aimTarget);
     
     void UpdateControl();
+
+    void SetDefaultRigValues();
 
     #endregion Methods
 
 }
 
+// TODO: Move to a seperate file
 [Serializable]
 public class RigLayerMasterControl : IRigLayerControl
 {
@@ -119,10 +132,10 @@ public class RigLayerMasterControl : IRigLayerControl
   
     #region - - - - - - Methods - - - - - -
 
-    public void OnStart(AnimationRigControl rigControl, Transform aimTarget)
+    public void OnStart(Transform characterTransform, Transform aimTarget)
     {
         this.m_TargetTransform = aimTarget;
-        this.m_CharacterTransform = rigControl.transform;
+        this.m_CharacterTransform = characterTransform;
     }
 
     public void UpdateControl()
@@ -145,6 +158,12 @@ public class RigLayerMasterControl : IRigLayerControl
             _T = 1;
         
         this.m_AffectedRig.weight = this.m_FrustumWeightCurve.Evaluate(_T);
+    }
+
+    public void SetDefaultRigValues()
+    {
+        // On start the weight should be set to default as Unity animator will default its influence to 1.0f
+        this.m_AffectedRig.weight = 0f;
     }
 
     #endregion Methods

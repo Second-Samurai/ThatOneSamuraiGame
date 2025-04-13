@@ -10,6 +10,7 @@ public class AimToPlayer : Leaf
 
     #region - - - - - - Fields - - - - - -
 
+    //TODO: Properly organise these fields
     [SerializeField] private TransformReference m_PlayerTransform = new();
     [SerializeField] private FloatReference m_RotationSpeed = new();
     [SerializeField] private FloatReference m_AimDetectionThreshold = new();

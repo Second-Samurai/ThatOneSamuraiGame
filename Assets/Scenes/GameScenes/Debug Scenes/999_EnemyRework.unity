@@ -969,7 +969,7 @@ Transform:
   m_GameObject: {fileID: 298263222}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.366, y: 2.937, z: 2.525}
+  m_LocalPosition: {x: -4.38, y: 2.81, z: 0.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3215,7 +3215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 670281446}
+  selectedEditorNode: {fileID: 670281440}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -7830,11 +7830,16 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 1e018357eee3ddf49af971551e391201, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'mixamorig:Head'\n\tTransform 'mixamorig:LeftArm'\n\tTransform
+    'mixamorig:Hips'\n\tTransform 'mixamorig:LeftForeArm'\n\tTransform 'mixamorig:Neck'\n\tTransform
+    'mixamorig:Spine'\n\tTransform 'mixamorig:LeftHand'\n\tTransform 'mixamorig:Head'\n\tTransform
+    'mixamorig:LeftArm'\n\tTransform 'mixamorig:Hips'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -7994,22 +7999,22 @@ MonoBehaviour:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.004166413
-        value: 1.0047107
-        inSlope: -0.016158095
-        outSlope: -0.016158095
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.44680864
+        outWeight: 0
       - serializedVersion: 3
-        time: 0.99999595
-        value: -0.000017821789
-        inSlope: -2.000203
-        outSlope: -2.000203
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.06275768
+        inWeight: 0
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -8054,22 +8059,22 @@ MonoBehaviour:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.004166413
-        value: 1.0047107
-        inSlope: -0.016158095
-        outSlope: -0.016158095
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.44680864
+        outWeight: 0
       - serializedVersion: 3
-        time: 0.99999595
-        value: -0.000017821789
-        inSlope: -2.000203
-        outSlope: -2.000203
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.06275768
+        inWeight: 0
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -8077,6 +8082,7 @@ MonoBehaviour:
     m_AffectedRig: {fileID: 877612183}
     m_CanDrawGizmos: 0
   AimTarget: {fileID: 298263223}
+  CharacterRootTransform: {fileID: 1030814849}
 --- !u!1001 &1943169711
 PrefabInstance:
   m_ObjectHideFlags: 0

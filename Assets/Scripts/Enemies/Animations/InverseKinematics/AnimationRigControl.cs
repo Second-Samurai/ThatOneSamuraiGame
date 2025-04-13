@@ -56,10 +56,10 @@ public class AnimationRigControl : PausableMonoBehaviour
     {
         if (this.RigWeightLayers == null) return;
 
-        foreach (var rigLayer in this.RigWeightLayers)
+        foreach (var _RigLayer in this.RigWeightLayers)
         {
-            if (rigLayer is RigLayerMasterControl masterControl)
-                masterControl.DrawDebugGizmos(transform, this.AimTarget);
+            if (_RigLayer is RigLayerMasterControl _MasterControl)
+                _MasterControl.DrawDebugGizmos(this.transform, this.AimTarget);
         }
     }
 
@@ -103,6 +103,8 @@ public class RigLayerMasterControl : IRigLayerControl
     private Transform m_TargetTransform;
     private Transform m_CharacterTransform;
 
+    [SerializeField] private bool m_CanDrawGizmos;
+
     #endregion Fields
 
     #region - - - - - - Properties - - - - - -
@@ -128,15 +130,20 @@ public class RigLayerMasterControl : IRigLayerControl
         if (!this.m_IsActive) return;
         
         Vector3 _DirectionToTarget = (this.m_TargetTransform.position - this.m_CharacterTransform.position).normalized;
+        _DirectionToTarget.y = 0f;
         Vector3 _Forward = this.m_CharacterTransform.forward;
         Vector3 _Up = this.m_CharacterTransform.up;
 
         float _SignedAngle = Vector3.SignedAngle(_Forward, _DirectionToTarget, _Up);
-        float _AbsSignedAngle = Mathf.Abs(_SignedAngle);
-        float _WithinAngleRange = this.m_MaxWeightAffectedAngle - m_ViewPaddingAngle;
-        float _FadeAngle = _AbsSignedAngle - _WithinAngleRange;
-        float _T = 1f - Mathf.Clamp01(_FadeAngle / _WithinAngleRange);
-
+        float _AbsAngle = Mathf.Abs(_SignedAngle);
+        float _FullWeightAngle = this.m_MaxWeightAffectedAngle - this.m_ViewPaddingAngle;
+        float _T = 0;
+        
+        if (_AbsAngle > _FullWeightAngle && _AbsAngle <= this.m_MaxWeightAffectedAngle)
+            _T = 1f - Mathf.Clamp01((_AbsAngle - _FullWeightAngle) / _FullWeightAngle);
+        else if (_AbsAngle <= _FullWeightAngle)
+            _T = 1;
+        
         this.m_AffectedRig.weight = this.m_FrustumWeightCurve.Evaluate(_T);
     }
 
@@ -146,40 +153,51 @@ public class RigLayerMasterControl : IRigLayerControl
 
     public void DrawDebugGizmos(Transform characterTransform, Transform aimTarget)
     {
-        if (aimTarget == null || this.m_AffectedRig == null) return;
+        if (!this.m_CanDrawGizmos || aimTarget == null || this.m_AffectedRig == null) return;
         
         Vector3 _Origin = characterTransform.position;
         Vector3 _Forward = characterTransform.forward;
         Vector3 _Up = characterTransform.up;
 
-        float _TotalAngle = m_MaxWeightAffectedAngle;
-        float _ViewRange = m_MaxWeightAffectedAngle - m_ViewPaddingAngle;
+        float _TotalAngle = this.m_MaxWeightAffectedAngle;
+        float _ViewRange = this.m_MaxWeightAffectedAngle - this.m_ViewPaddingAngle;
 
-        // Draw total view arc
 #if UNITY_EDITOR
+        // Draw total view arc
         Handles.color = new Color(0f, 1f, 0f, 0.15f); // Green
         Handles.DrawSolidArc(_Origin, _Up, Quaternion.AngleAxis(-_TotalAngle, _Up) * _Forward, _TotalAngle * 2f, 2f);
 
         // Draw inner "full weight" arc
-        Handles.color = new Color(1f, 1f, 0f, 0.15f); // Yellow
+        Handles.color = new Color(1f, 1f, 0f, 0.25f); // Yellow
         Handles.DrawSolidArc(_Origin, _Up, Quaternion.AngleAxis(-_ViewRange, _Up) * _Forward, _ViewRange * 2f, 1.5f);
 #endif
 
         // Draw direction to target
-        Vector3 toTarget = (aimTarget.position - _Origin).normalized;
+        Vector3 _ToTarget = (aimTarget.position - _Origin).normalized;
+        _ToTarget.y = 0f; // strictly in the x-y plane
         Gizmos.color = Color.red;
         Gizmos.DrawLine(_Origin, aimTarget.position);
 
-        float signedAngle = Vector3.SignedAngle(_Forward, toTarget, _Up);
-        float absAngle = Mathf.Abs(signedAngle);
-        float fadeAngle = absAngle - _ViewRange;
-        float t = 1f - Mathf.Clamp01(fadeAngle / (_TotalAngle - _ViewRange));
-        float currentWeight = m_FrustumWeightCurve.Evaluate(t) * m_AffectedRig.weight;
+        float _SignedAngle = Vector3.SignedAngle(_Forward, _ToTarget, _Up);
+        float _AbsAngle = Mathf.Abs(_SignedAngle);
+        float _T = 0f;
+        
+        if (_AbsAngle > _ViewRange && _AbsAngle <= this.m_MaxWeightAffectedAngle)
+            _T = 1f - Mathf.Clamp01((_AbsAngle - _ViewRange) / _ViewRange);
+        else if (_AbsAngle <= _ViewRange)
+            _T = 1;
+        float _CurrentWeight = this.m_FrustumWeightCurve.Evaluate(_T);
 
 #if UNITY_EDITOR
-        Handles.color = Color.white;
+        // Display rig information debug panel
+        Handles.color = Color.magenta;
         Handles.Label(_Origin + Vector3.up * 2f, 
-            $"{m_LayerName}\nAngle: {signedAngle:F1}°\nWeight: {currentWeight:F2}");
+            $"{this.m_LayerName}\n" +
+            $"Angle: {_SignedAngle:F1}°\n" +
+            $"Weight: {_CurrentWeight:F2}\n" +
+            $"SignedAngle: {_SignedAngle:F2}\n" +
+            $"CurveTime: {_T}\n" +
+            $"FadeArc: {(_AbsAngle - _ViewRange):F2} / FullFadeArc: {(_TotalAngle - _ViewRange):F2}");
 #endif
     }
 

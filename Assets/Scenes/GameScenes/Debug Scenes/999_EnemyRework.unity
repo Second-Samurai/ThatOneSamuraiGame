@@ -1619,6 +1619,7 @@ GameObject:
   m_Component:
   - component: {fileID: 570467047}
   - component: {fileID: 570467046}
+  - component: {fileID: 570467048}
   m_Layer: 0
   m_Name: Head_Rig
   m_TagString: Untagged
@@ -1690,6 +1691,48 @@ Transform:
   - {fileID: 251963835}
   m_Father: {fileID: 1016035762}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &570467048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570467045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a43a4ca863f47ecaea3a7468d41e49e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsActive: 0
+  m_MaxWeightAffectedAngle: 61
+  m_FrustumWeightCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_AffectedRig: {fileID: 570467046}
+  m_TargetTransform: {fileID: 298263223}
+  m_CharacterTransform: {fileID: 1164957679}
+  m_CanDrawGizmos: 0
 --- !u!4 &606747109 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6515712193588681746, guid: 368d93d39483acd4099a3811c5a16537,
@@ -4163,6 +4206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 877612182}
   - component: {fileID: 877612183}
+  - component: {fileID: 877612184}
   m_Layer: 0
   m_Name: Arm_Rig
   m_TagString: Untagged
@@ -4216,6 +4260,48 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
     m_Visible: 1
+--- !u!114 &877612184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877612181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a43a4ca863f47ecaea3a7468d41e49e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsActive: 0
+  m_MaxWeightAffectedAngle: 74
+  m_FrustumWeightCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_AffectedRig: {fileID: 877612183}
+  m_TargetTransform: {fileID: 298263223}
+  m_CharacterTransform: {fileID: 1164957679}
+  m_CanDrawGizmos: 0
 --- !u!4 &888487360 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8a3cec911378be740ab31cac091cdbea,
@@ -6901,6 +6987,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1697196391}
   - component: {fileID: 1697196392}
+  - component: {fileID: 1697196393}
   m_Layer: 0
   m_Name: BodyRig
   m_TagString: Untagged
@@ -6938,6 +7025,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 0
   m_Effectors: []
+--- !u!114 &1697196393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697196390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a43a4ca863f47ecaea3a7468d41e49e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsActive: 0
+  m_MaxWeightAffectedAngle: 55
+  m_FrustumWeightCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_AffectedRig: {fileID: 1697196392}
+  m_TargetTransform: {fileID: 298263223}
+  m_CharacterTransform: {fileID: 1164957679}
+  m_CanDrawGizmos: 0
 --- !u!114 &1730956809
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -8021,98 +8150,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RigWeightLayers:
-  - m_LayerName: Head_Rig
-    m_IsActive: 0
-    m_MaxWeightAffectedAngle: 61
-    m_ViewPaddingAngle: 28.3
-    m_FrustumWeightCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-    m_AffectedRig: {fileID: 570467046}
-    m_CanDrawGizmos: 0
-  - m_LayerName: Body_Rig
-    m_IsActive: 0
-    m_MaxWeightAffectedAngle: 55
-    m_ViewPaddingAngle: 24.2
-    m_FrustumWeightCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-    m_AffectedRig: {fileID: 1697196392}
-    m_CanDrawGizmos: 1
-  - m_LayerName: Arms_Rig
-    m_IsActive: 0
-    m_MaxWeightAffectedAngle: 74
-    m_ViewPaddingAngle: 28.63
-    m_FrustumWeightCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 0
-    m_AffectedRig: {fileID: 877612183}
-    m_CanDrawGizmos: 0
-  AimTarget: {fileID: 298263223}
-  CharacterRootTransform: {fileID: 1164957679}
+  - {fileID: 1697196393}
+  - {fileID: 877612184}
+  - {fileID: 570467048}
 --- !u!1001 &1943169711
 PrefabInstance:
   m_ObjectHideFlags: 0

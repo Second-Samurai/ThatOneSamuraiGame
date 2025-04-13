@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ThatOneSamuraiGame.Scripts.Base;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -48,6 +49,21 @@ public class AnimationRigControl : PausableMonoBehaviour
     }
 
     #endregion Methods
+
+    #region - - - - - - Gizmos - - - - - -
+
+    private void OnDrawGizmos()
+    {
+        if (this.RigWeightLayers == null) return;
+
+        foreach (var rigLayer in this.RigWeightLayers)
+        {
+            if (rigLayer is RigLayerMasterControl masterControl)
+                masterControl.DrawDebugGizmos(transform, this.AimTarget);
+        }
+    }
+
+    #endregion Gizmos
   
 }
 
@@ -125,5 +141,48 @@ public class RigLayerMasterControl : IRigLayerControl
     }
 
     #endregion Methods
+
+    #region - - - - - - Gizmos - - - - - -
+
+    public void DrawDebugGizmos(Transform characterTransform, Transform aimTarget)
+    {
+        if (aimTarget == null || this.m_AffectedRig == null) return;
+        
+        Vector3 _Origin = characterTransform.position;
+        Vector3 _Forward = characterTransform.forward;
+        Vector3 _Up = characterTransform.up;
+
+        float _TotalAngle = m_MaxWeightAffectedAngle;
+        float _ViewRange = m_MaxWeightAffectedAngle - m_ViewPaddingAngle;
+
+        // Draw total view arc
+#if UNITY_EDITOR
+        Handles.color = new Color(0f, 1f, 0f, 0.15f); // Green
+        Handles.DrawSolidArc(_Origin, _Up, Quaternion.AngleAxis(-_TotalAngle, _Up) * _Forward, _TotalAngle * 2f, 2f);
+
+        // Draw inner "full weight" arc
+        Handles.color = new Color(1f, 1f, 0f, 0.15f); // Yellow
+        Handles.DrawSolidArc(_Origin, _Up, Quaternion.AngleAxis(-_ViewRange, _Up) * _Forward, _ViewRange * 2f, 1.5f);
+#endif
+
+        // Draw direction to target
+        Vector3 toTarget = (aimTarget.position - _Origin).normalized;
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(_Origin, aimTarget.position);
+
+        float signedAngle = Vector3.SignedAngle(_Forward, toTarget, _Up);
+        float absAngle = Mathf.Abs(signedAngle);
+        float fadeAngle = absAngle - _ViewRange;
+        float t = 1f - Mathf.Clamp01(fadeAngle / (_TotalAngle - _ViewRange));
+        float currentWeight = m_FrustumWeightCurve.Evaluate(t) * m_AffectedRig.weight;
+
+#if UNITY_EDITOR
+        Handles.color = Color.white;
+        Handles.Label(_Origin + Vector3.up * 2f, 
+            $"{m_LayerName}\nAngle: {signedAngle:F1}°\nWeight: {currentWeight:F2}");
+#endif
+    }
+
+    #endregion Gizmos
   
 }

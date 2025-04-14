@@ -8,17 +8,19 @@ public class RigLayerControl : MonoBehaviour, IRigLayerControl
 
     #region - - - - - - Fields - - - - - -
 
-    // TODO: Clean up fields
-    public bool m_IsActive;
+    [Header("Rig Controls")]
+    [SerializeField] private bool m_IsActive;
     [Range(0f, 180f)]
-    public float m_MaxWeightAffectedAngle;
-    public AnimationCurve m_FrustumWeightCurve;
-    public Rig m_AffectedRig;
+    [SerializeField] private float m_MaxWeightAffectedAngle;
+    [SerializeField] private AnimationCurve m_FrustumWeightCurve;
+    [SerializeField] private Rig m_AffectedRig;
 
-    public Transform m_TargetTransform;
-    public Transform m_CharacterTransform;
-    private bool m_IsAnimatingWeights = false;
+    [Header("Transform Targets")]
+    [SerializeField] private Transform m_TargetTransform;
+    [SerializeField] private Transform m_CharacterTransform;
+    private bool m_IsAnimatingWeights;
 
+    [Header("Debug")]
     [SerializeField] private bool m_CanDrawGizmos;
 
     #endregion Fields

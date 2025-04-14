@@ -12,6 +12,5 @@
     void SetDefaultRigValues();
 
     #endregion Methods
-
     
 }

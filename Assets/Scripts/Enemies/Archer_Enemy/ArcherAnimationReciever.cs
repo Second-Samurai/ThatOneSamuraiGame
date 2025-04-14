@@ -8,7 +8,12 @@ public class ArcherAnimationReciever : MonoBehaviour
     #region - - - - - - Properties - - - - - -
 
     public UnityEvent OnIdleCompletion { get; } = new();
+    
     public UnityEvent OnTurnCompletion { get; } = new();
+
+    public UnityEvent OnDrawBow { get; } = new();
+
+    public UnityEvent OnBowRelease { get; } = new();
 
     #endregion Properties
 
@@ -19,6 +24,12 @@ public class ArcherAnimationReciever : MonoBehaviour
 
     public void CompleteTurnClip()
         => this.OnTurnCompletion.Invoke();
+
+    public void DrawBow()
+        => this.OnDrawBow.Invoke();
+
+    public void ReleaseBow()
+        => this.OnBowRelease.Invoke();
 
     #endregion Methods
 

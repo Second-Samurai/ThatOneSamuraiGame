@@ -6,7 +6,7 @@ public class AnimationRigControl : PausableMonoBehaviour
 
     #region - - - - - - Fields - - - - - -
 
-    public List<RigLayerControl> RigWeightLayers;
+    public List<RigLayerToggle> RigWeightLayers;
 
     #endregion Fields
 

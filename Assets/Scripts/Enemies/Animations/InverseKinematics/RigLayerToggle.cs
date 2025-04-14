@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class RigLayerControl : MonoBehaviour, IRigLayerControl
+public class RigLayerToggle : MonoBehaviour, IRigLayerControl
 {
 
     #region - - - - - - Fields - - - - - -
@@ -37,6 +37,9 @@ public class RigLayerControl : MonoBehaviour, IRigLayerControl
 
     #region - - - - - - Unity Methods - - - - - -
 
+    private void Start() 
+        => GameValidator.NotNull(this.m_AffectedRig, nameof(m_AffectedRig));
+
     private void Update()
     {
         if (!this.m_IsActive || this.m_IsAnimatingWeights) return;
@@ -48,27 +51,34 @@ public class RigLayerControl : MonoBehaviour, IRigLayerControl
 
         float _SignedAngle = Vector3.SignedAngle(_Forward, _DirectionToTarget, _Up);
         float _AbsAngle = Mathf.Abs(_SignedAngle);
-        // float _FullWeightAngle = this.m_MaxWeightAffectedAngle - this.m_ViewPaddingAngle;
 
         if (_AbsAngle > this.m_MaxWeightAffectedAngle && this.m_AffectedRig.weight > 0)
         {
             this.StopAllCoroutines();
-            this.StartCoroutine(this.AnimateRigWeights(-1));
-            // _T = 1f - Mathf.Clamp01((_AbsAngle - _FullWeightAngle) / _FullWeightAngle);
+            this.StartCoroutine(this.AnimateRigWeights(-1, 1));
         }
         else if (_AbsAngle <= this.m_MaxWeightAffectedAngle && this.m_AffectedRig.weight < 1)
         {
             this.StopAllCoroutines();
-            this.StartCoroutine(this.AnimateRigWeights(1));
-            // _T = 1;
+            this.StartCoroutine(this.AnimateRigWeights(1, 1));
         }
-        
-        // this.m_AffectedRig.weight = this.m_FrustumWeightCurve.Evaluate(_T);
     }
 
     #endregion Unity Methods
   
     #region - - - - - - Methods - - - - - -
+
+    public void AnimateEnableRigWeight(float speedMultiplier)
+    {
+        this.StopAllCoroutines();
+        this.StartCoroutine(this.AnimateRigWeights(-1, speedMultiplier));
+    }
+
+    public void AnimateDisableRigWeight(float speedMultiplier)
+    {
+        this.StopAllCoroutines();
+        this.StartCoroutine(this.AnimateRigWeights(1, speedMultiplier));
+    }
 
     public void SetDefaultRigValues()
     {
@@ -76,7 +86,7 @@ public class RigLayerControl : MonoBehaviour, IRigLayerControl
         this.m_AffectedRig.weight = 0f;
     }
 
-    private IEnumerator AnimateRigWeights(float direction)
+    private IEnumerator AnimateRigWeights(float direction, float speedMultiplier)
     {
         this.m_IsAnimatingWeights = true;
         
@@ -85,7 +95,7 @@ public class RigLayerControl : MonoBehaviour, IRigLayerControl
         {
             float _T = Mathf.Clamp01(_TotalTime / 0.5f) * direction;
             this.m_AffectedRig.weight = this.m_FrustumWeightCurve.Evaluate(_T);
-            _TotalTime += Time.deltaTime;
+            _TotalTime += Time.deltaTime * speedMultiplier;
             yield return null;
         }
         

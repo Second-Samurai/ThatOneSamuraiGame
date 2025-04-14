@@ -4207,6 +4207,7 @@ GameObject:
   - component: {fileID: 877612182}
   - component: {fileID: 877612183}
   - component: {fileID: 877612184}
+  - component: {fileID: 877612185}
   m_Layer: 0
   m_Name: Arm_Rig
   m_TagString: Untagged
@@ -4302,6 +4303,21 @@ MonoBehaviour:
   m_TargetTransform: {fileID: 298263223}
   m_CharacterTransform: {fileID: 1164957679}
   m_CanDrawGizmos: 0
+--- !u!114 &877612185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877612181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24bdcb5d12df4b90a00114be219f1c58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AnimationReceiver: {fileID: 1924484836}
+  m_RigLayerToggle: {fileID: 877612184}
+  m_AnimateSpeedMultiplier: 1
 --- !u!4 &888487360 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8a3cec911378be740ab31cac091cdbea,
@@ -7998,12 +8014,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed
-    by Humanoid clips.\n\tTransform 'mixamorig:Head'\n\tTransform 'mixamorig:LeftArm'\n\tTransform
-    'mixamorig:Hips'\n\tTransform 'mixamorig:LeftForeArm'\n\tTransform 'mixamorig:Neck'\n\tTransform
-    'mixamorig:Spine'\n\tTransform 'mixamorig:LeftHand'\n\tTransform 'mixamorig:Head'\n\tTransform
-    'mixamorig:LeftArm'\n\tTransform 'mixamorig:Hips'\n\tand more ..."
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0

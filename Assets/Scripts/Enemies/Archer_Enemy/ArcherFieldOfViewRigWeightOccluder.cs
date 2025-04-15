@@ -21,9 +21,6 @@ public class ArcherFieldOfViewRigWeightOccluder : PausableMonoBehaviour
     private Rig m_AffectedRig; 
     private RigLayerToggle m_RigLayerToggler;
 
-    [Header("Debug")]
-    [SerializeField] private bool m_CanDrawGizmos;
-    
     #endregion Fields
 
     #region - - - - - - Unity Methods - - - - - -
@@ -67,7 +64,7 @@ public class ArcherFieldOfViewRigWeightOccluder : PausableMonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (!this.m_CanDrawGizmos || this.m_TargetTransform == null || this.m_AffectedRig == null)
+        if (this.m_TargetTransform == null || this.m_AffectedRig == null)
         {
             this.m_AffectedRig = this.GetComponent<Rig>();
             this.m_RigLayerToggler = this.GetComponent<RigLayerToggle>();

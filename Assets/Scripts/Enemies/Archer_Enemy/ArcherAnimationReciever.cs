@@ -28,7 +28,7 @@ public class ArcherAnimationReciever : MonoBehaviour
     public void DrawBow()
         => this.OnDrawBow.Invoke();
 
-    public void ReleaseBow()
+    public void ReleaseBow() 
         => this.OnBowRelease.Invoke();
 
     #endregion Methods

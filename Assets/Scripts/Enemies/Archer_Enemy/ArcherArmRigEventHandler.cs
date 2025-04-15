@@ -28,6 +28,6 @@ public class ArcherArmRigEventHandler : MonoBehaviour, IInitialize
             this.m_RigLayerToggle.AnimateDisableRigWeight(this.m_AnimateSpeedMultiplier));
     }
 
-    #endregion Initializers
+    #endregion Initializers    
   
 }

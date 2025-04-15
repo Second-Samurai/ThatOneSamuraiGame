@@ -1620,6 +1620,7 @@ GameObject:
   - component: {fileID: 570467047}
   - component: {fileID: 570467046}
   - component: {fileID: 570467048}
+  - component: {fileID: 570467049}
   m_Layer: 0
   m_Name: Head_Rig
   m_TagString: Untagged
@@ -1704,8 +1705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsActive: 0
-  m_MaxWeightAffectedAngle: 61
-  m_FrustumWeightCurve:
+  m_TransitionWeightCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -1730,6 +1730,19 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   m_AffectedRig: {fileID: 570467046}
+--- !u!114 &570467049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570467045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aebd4c05f76044a9b886a2af01a1caa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MaxWeightAffectedAngle: 0
   m_TargetTransform: {fileID: 298263223}
   m_CharacterTransform: {fileID: 1164957679}
   m_CanDrawGizmos: 0
@@ -4208,6 +4221,7 @@ GameObject:
   - component: {fileID: 877612183}
   - component: {fileID: 877612184}
   - component: {fileID: 877612185}
+  - component: {fileID: 877612186}
   m_Layer: 0
   m_Name: Arm_Rig
   m_TagString: Untagged
@@ -4274,8 +4288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsActive: 0
-  m_MaxWeightAffectedAngle: 74
-  m_FrustumWeightCurve:
+  m_TransitionWeightCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -4300,9 +4313,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   m_AffectedRig: {fileID: 877612183}
-  m_TargetTransform: {fileID: 298263223}
-  m_CharacterTransform: {fileID: 1164957679}
-  m_CanDrawGizmos: 0
 --- !u!114 &877612185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4318,6 +4328,22 @@ MonoBehaviour:
   m_AnimationReceiver: {fileID: 1924484836}
   m_RigLayerToggle: {fileID: 877612184}
   m_AnimateSpeedMultiplier: 1
+--- !u!114 &877612186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877612181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aebd4c05f76044a9b886a2af01a1caa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MaxWeightAffectedAngle: 53
+  m_TargetTransform: {fileID: 298263223}
+  m_CharacterTransform: {fileID: 1164957679}
+  m_CanDrawGizmos: 1
 --- !u!4 &888487360 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8a3cec911378be740ab31cac091cdbea,
@@ -7004,6 +7030,7 @@ GameObject:
   - component: {fileID: 1697196391}
   - component: {fileID: 1697196392}
   - component: {fileID: 1697196393}
+  - component: {fileID: 1697196394}
   m_Layer: 0
   m_Name: BodyRig
   m_TagString: Untagged
@@ -7054,8 +7081,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IsActive: 0
-  m_MaxWeightAffectedAngle: 55
-  m_FrustumWeightCurve:
+  m_TransitionWeightCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -7080,9 +7106,22 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   m_AffectedRig: {fileID: 1697196392}
+--- !u!114 &1697196394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697196390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aebd4c05f76044a9b886a2af01a1caa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MaxWeightAffectedAngle: 61
   m_TargetTransform: {fileID: 298263223}
   m_CharacterTransform: {fileID: 1164957679}
-  m_CanDrawGizmos: 0
+  m_CanDrawGizmos: 1
 --- !u!114 &1730956809
 MonoBehaviour:
   m_ObjectHideFlags: 3

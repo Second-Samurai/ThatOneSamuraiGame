@@ -702,6 +702,37 @@ MonoBehaviour:
       x: 1
       y: 1
       z: 1
+--- !u!1 &252237943
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 252237944}
+  m_Layer: 0
+  m_Name: red_HipsLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &252237944
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 252237943}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1030814849}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!4 &257225611 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -3321919801592875672, guid: 368d93d39483acd4099a3811c5a16537,
@@ -1742,7 +1773,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aebd4c05f76044a9b886a2af01a1caa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxWeightAffectedAngle: 57
+  m_MaxWeightAffectedAngle: 161.9
   m_TargetTransform: {fileID: 298263223}
   m_CharacterTransform: {fileID: 1164957679}
 --- !u!4 &606747109 stripped
@@ -3027,10 +3058,18 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 570467047}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 368d93d39483acd4099a3811c5a16537,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 921218791}
     - targetCorrespondingSourceObject: {fileID: 5465940246521907071, guid: 368d93d39483acd4099a3811c5a16537,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1164957679}
+    - targetCorrespondingSourceObject: {fileID: 5465940246521907071, guid: 368d93d39483acd4099a3811c5a16537,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 252237944}
     - targetCorrespondingSourceObject: {fileID: 366175167995203695, guid: 368d93d39483acd4099a3811c5a16537,
         type: 3}
       insertIndex: -1
@@ -4339,7 +4378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aebd4c05f76044a9b886a2af01a1caa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxWeightAffectedAngle: 53
+  m_MaxWeightAffectedAngle: 129
   m_TargetTransform: {fileID: 298263223}
   m_CharacterTransform: {fileID: 1164957679}
 --- !u!4 &888487360 stripped
@@ -4437,6 +4476,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a3cec911378be740ab31cac091cdbea, type: 3}
+--- !u!1 &921218790
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 921218791}
+  m_Layer: 0
+  m_Name: ref_CharacterTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &921218791
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 921218790}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1016035762}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &980034885
 GameObject:
   m_ObjectHideFlags: 0
@@ -4952,7 +5022,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1164957679}
   m_Layer: 0
-  m_Name: ref_RootHips
+  m_Name: ref_HipsForward
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7116,7 +7186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aebd4c05f76044a9b886a2af01a1caa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MaxWeightAffectedAngle: 61
+  m_MaxWeightAffectedAngle: 161
   m_TargetTransform: {fileID: 298263223}
   m_CharacterTransform: {fileID: 1164957679}
 --- !u!114 &1730956809

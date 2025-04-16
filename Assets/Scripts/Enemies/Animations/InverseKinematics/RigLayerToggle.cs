@@ -59,6 +59,12 @@ public class RigLayerToggle : MonoBehaviour, IRigLayerControl
         this.StartCoroutine(this.AnimateRigWeights(1f, 0f, speedMultiplier, onCompletion));
     }
 
+    public void SetWeight(float weight)
+    {
+        this.ResetAnimationCoroutines();
+        this.m_AffectedRig.weight = weight;
+    }
+
     public void SetDefaultRigValues()
     {
         // On start the weight should be set to default as Unity animator will default its influence to 1.0f

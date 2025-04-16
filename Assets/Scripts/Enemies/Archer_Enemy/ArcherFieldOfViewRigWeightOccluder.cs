@@ -98,7 +98,6 @@ public class ArcherFieldOfViewRigWeightOccluder : PausableMonoBehaviour
             _T = 1f - Mathf.Clamp01((_AbsAngle - _ViewRange) / _ViewRange);
         else if (_AbsAngle <= _ViewRange)
             _T = 1;
-        float _CurrentWeight = this.m_RigLayerToggler.TransitionWeightCurve.Evaluate(_T);
 
 #if UNITY_EDITOR
         // Display rig information debug panel
@@ -106,7 +105,7 @@ public class ArcherFieldOfViewRigWeightOccluder : PausableMonoBehaviour
         Handles.Label(_Origin + Vector3.up * 2f, 
             $"{this.gameObject.name}\n" +
             $"Angle: {_SignedAngle:F1}°\n" +
-            $"Weight: {_CurrentWeight:F2}\n" +
+            $"Weight: {this.m_AffectedRig.weight:F2}\n" +
             $"SignedAngle: {_SignedAngle:F2}\n" +
             $"CurveTime: {_T}\n" +
             $"FadeArc: {(_AbsAngle - _ViewRange):F2} / FullFadeArc: {(_TotalAngle - _ViewRange):F2}");

@@ -22,10 +22,10 @@ public class ArcherArmRigEventHandler : MonoBehaviour, IInitialize
         GameValidator.NotNull(this.m_RigLayerToggle, nameof(m_RigLayerToggle));
         GameValidator.NotNull(this.m_AnimationReceiver, nameof(m_AnimationReceiver));
         
-        this.m_AnimationReceiver.OnDrawBow.AddListener(() => 
-            this.m_RigLayerToggle.AnimateEnableRigWeight(this.m_AnimateSpeedMultiplier));
-        this.m_AnimationReceiver.OnBowRelease.AddListener(() => 
-            this.m_RigLayerToggle.AnimateDisableRigWeight(this.m_AnimateSpeedMultiplier));
+        // this.m_AnimationReceiver.OnDrawBow.AddListener(() => 
+        //     this.m_RigLayerToggle.AnimateEnableRigWeight(this.m_AnimateSpeedMultiplier));
+        // this.m_AnimationReceiver.OnBowRelease.AddListener(() => 
+        //     this.m_RigLayerToggle.AnimateDisableRigWeight(this.m_AnimateSpeedMultiplier));
     }
 
     #endregion Initializers    

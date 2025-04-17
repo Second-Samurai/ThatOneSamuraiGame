@@ -15,6 +15,10 @@ public class ArcherAnimationReciever : MonoBehaviour
 
     public UnityEvent OnBowRelease { get; } = new();
 
+    public UnityEvent OnBowEquip { get; } = new();
+
+    public UnityEvent OnBowDisarm { get; } = new();
+
     #endregion Properties
 
     #region - - - - - - Methods - - - - - -
@@ -30,6 +34,12 @@ public class ArcherAnimationReciever : MonoBehaviour
 
     public void ReleaseBow() 
         => this.OnBowRelease.Invoke();
+
+    public void EquipBow()
+        => this.OnBowEquip.Invoke();
+
+    public void DisarmBow()
+        => this.OnBowDisarm.Invoke();
 
     #endregion Methods
 

@@ -25,6 +25,9 @@ public class RigLayerToggle : MonoBehaviour, IRigLayerControl
         set => this.m_IsActive = value;
     }
 
+    public bool IsAnimating
+        => this.m_IsAnimating;
+
     public AnimationCurve TransitionWeightCurve
         => this.m_TransitionWeightCurve;
 
@@ -41,28 +44,18 @@ public class RigLayerToggle : MonoBehaviour, IRigLayerControl
 
     public void AnimateEnableRigWeight(float speedMultiplier, Action onCompletion = null)
     {
-        if (!this.m_IsActive) return;
+        if (!this.m_IsActive || this.m_IsAnimating) return;
         
-        if (this.m_IsAnimating)
-            this.ResetAnimationCoroutines(onCompletion);
-        
+        this.ResetAnimationCoroutines();
         this.StartCoroutine(this.AnimateRigWeights(0f, 1f, speedMultiplier, onCompletion));
     }
 
     public void AnimateDisableRigWeight(float speedMultiplier, Action onCompletion = null)
     {
-        if (!this.m_IsActive) return;
+        if (!this.m_IsActive || this.m_IsAnimating) return;
         
-        if (this.m_IsAnimating)
-            this.ResetAnimationCoroutines(onCompletion);
-        
-        this.StartCoroutine(this.AnimateRigWeights(1f, 0f, speedMultiplier, onCompletion));
-    }
-
-    public void SetWeight(float weight)
-    {
         this.ResetAnimationCoroutines();
-        this.m_AffectedRig.weight = weight;
+        this.StartCoroutine(this.AnimateRigWeights(1f, 0f, speedMultiplier, onCompletion));
     }
 
     public void SetDefaultRigValues()
@@ -94,11 +87,10 @@ public class RigLayerToggle : MonoBehaviour, IRigLayerControl
         this.m_IsAnimating = false;
     }
 
-    private void ResetAnimationCoroutines(Action onCompletion = null)
+    private void ResetAnimationCoroutines()
     {
         this.StopAllCoroutines();
         this.m_IsAnimating = false;
-        onCompletion?.Invoke();
     }
 
     #endregion Methods

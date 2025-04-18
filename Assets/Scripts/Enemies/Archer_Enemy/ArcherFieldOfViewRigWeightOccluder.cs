@@ -3,19 +3,32 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
+public interface IFieldOfViewOcclusionState
+{
+
+    #region - - - - - - Properties - - - - - -
+
+    public bool IsWithinFieldOfView { get; }
+
+    #endregion Properties
+  
+}
+
 // TODO: This class is not optimised
-public class ArcherFieldOfViewRigWeightOccluder : PausableMonoBehaviour
+public class ArcherFieldOfViewRigWeightOccluder : PausableMonoBehaviour, IFieldOfViewOcclusionState
 {
 
     #region - - - - - - Fields - - - - - -
 
     [Header("Rig Controls")]
     [SerializeField, Range(0f, 180f)] private float m_MaxWeightAffectedAngle;
+    [SerializeField] private bool m_EnableFadeOut = true;
+    [SerializeField] private bool m_EnableFadeIn = true;
+    private bool m_IsWithinView;
     
     [Header("Transform Targets")]
     [SerializeField] private Transform m_TargetTransform;
     [SerializeField] private Transform m_CharacterTransform;
-    private bool m_IsAnimatingWeights;
     
     // Required Dependencies
     private Rig m_AffectedRig; 
@@ -23,6 +36,12 @@ public class ArcherFieldOfViewRigWeightOccluder : PausableMonoBehaviour
 
     #endregion Fields
 
+    #region - - - - - - Properties - - - - - -
+
+    public bool IsWithinFieldOfView => this.m_IsWithinView;
+
+    #endregion Properties
+  
     #region - - - - - - Unity Methods - - - - - -
 
     private void Start()
@@ -36,26 +55,27 @@ public class ArcherFieldOfViewRigWeightOccluder : PausableMonoBehaviour
 
     private void Update()
     {
-        if (this.IsPaused || !this.m_RigLayerToggler.IsActive || this.m_IsAnimatingWeights) return;
+        if (this.IsPaused || !this.m_RigLayerToggler.IsActive || this.m_RigLayerToggler.IsAnimating) return;
         
         Vector3 _DirectionToTarget = (this.m_TargetTransform.position - this.m_CharacterTransform.position).normalized;
         _DirectionToTarget.y = 0f;
-        Vector3 _Forward = this.m_CharacterTransform.forward;
-        Vector3 _Up = this.m_CharacterTransform.up;
 
-        float _SignedAngle = Vector3.SignedAngle(_Forward, _DirectionToTarget, _Up);
+        float _SignedAngle = Vector3.SignedAngle(
+            this.m_CharacterTransform.forward, 
+            _DirectionToTarget, 
+            this.m_CharacterTransform.up);
         float _AbsAngle = Mathf.Abs(_SignedAngle);
 
-        if (_AbsAngle > this.m_MaxWeightAffectedAngle && this.m_AffectedRig.weight > 0)
-        {
-            this.m_RigLayerToggler.AnimateDisableRigWeight(1, () => this.m_IsAnimatingWeights = false);
-            this.m_IsAnimatingWeights = true;
-        }
-        else if (_AbsAngle <= this.m_MaxWeightAffectedAngle && this.m_AffectedRig.weight < 1)
-        {
-            this.m_RigLayerToggler.AnimateEnableRigWeight(1, () => this.m_IsAnimatingWeights = false);
-            this.m_IsAnimatingWeights = true;
-        }
+        // Handle coroutines for enabled state of animation.
+        this.m_IsWithinView = _AbsAngle <= this.m_MaxWeightAffectedAngle;
+        if (_AbsAngle > this.m_MaxWeightAffectedAngle 
+            && this.m_AffectedRig.weight > 0 
+            && this.m_EnableFadeOut)
+            this.m_RigLayerToggler.AnimateDisableRigWeight(1);
+        else if (_AbsAngle <= this.m_MaxWeightAffectedAngle 
+                 && this.m_AffectedRig.weight < 1 
+                 && this.m_EnableFadeIn)
+            this.m_RigLayerToggler.AnimateEnableRigWeight(1);
     }
 
     #endregion Unity Methods

@@ -10,7 +10,7 @@ public class TransformReferenceInterpolator : PausableMonoBehaviour
 
     #region - - - - - - Fields - - - - - -
 
-    [Header("Depencencies")]
+    [Header("Required Dependencies")]
     [SerializeField, RequiredField] private ArcherAnimationReciever m_AnimationReceiver;
     [SerializeField, RequiredField] private Transform m_AffectedTransform;
     

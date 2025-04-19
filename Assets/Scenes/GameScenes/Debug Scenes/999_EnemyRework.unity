@@ -6707,6 +6707,43 @@ MonoBehaviour:
       x: 1
       y: 1
       z: 1
+--- !u!1 &1563501155
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1563501156}
+  m_Layer: 0
+  m_Name: ref_FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1563501156
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563501155}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0, y: -0.0746, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1565907651}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!4 &1565907651 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8091132604151060672, guid: 985fa63d79b63ad489b560d2d16aa381,
+    type: 3}
+  m_PrefabInstance: {fileID: 2128133567}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1573208324
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8233,6 +8270,7 @@ GameObject:
   - component: {fileID: 1924484831}
   - component: {fileID: 1924484836}
   - component: {fileID: 1924484839}
+  - component: {fileID: 1924484840}
   m_Layer: 10
   m_Name: Archer
   m_TagString: Enemy
@@ -8434,6 +8472,24 @@ MonoBehaviour:
   - {fileID: 1697196393}
   - {fileID: 877612184}
   - {fileID: 570467048}
+--- !u!114 &1924484840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924484830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c9d03112e9c426b8d91d39a5d4091c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AimTarget: {fileID: 298263223}
+  m_FirePoint: {fileID: 1563501156}
+  m_Blackboard: {fileID: 670281435}
+  m_ProjectilePrefab: {fileID: 3554549179312115800, guid: 59efa1b0006afe640ac4bcb3cb67210b,
+    type: 3}
+  m_DetectionDistance: 20
 --- !u!1001 &1943169711
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9049,7 +9105,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8091132604151060672, guid: 985fa63d79b63ad489b560d2d16aa381,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1563501156}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 985fa63d79b63ad489b560d2d16aa381,
         type: 3}

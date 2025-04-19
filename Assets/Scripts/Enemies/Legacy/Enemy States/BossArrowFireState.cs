@@ -175,7 +175,7 @@ namespace Enemies.Enemy_States
                 GameObject _arrow = ObjectPooler.instance.ReturnObject("Arrow");
                 //GameObject _arrow = Instantiate(arrow, shotOrigin.position, Quaternion.identity);
                 _arrow.transform.position = AISystem.firePoint.position;
-                _arrow.GetComponent<Projectile>().Launch(shotDirection, _target);
+                _arrow.GetComponent<Projectile_Legacy>().Launch(shotDirection, _target);
 
             }
             else
@@ -184,17 +184,17 @@ namespace Enemies.Enemy_States
                 
                 GameObject _arrow = ObjectPooler.instance.ReturnObject("Arrow");
                 _arrow.transform.position = AISystem.firePoint.position;
-                _arrow.GetComponent<Projectile>().Launch(shotDirection, _target);
+                _arrow.GetComponent<Projectile_Legacy>().Launch(shotDirection, _target);
                  
                 _arrow = ObjectPooler.instance.ReturnObject("Arrow");
                 Vector3 shotDirectionMod = Quaternion.Euler(0,15,0) * shotDirection;
                 _arrow.transform.position = AISystem.firePoint.position;
-                _arrow.GetComponent<Projectile>().Launch(shotDirectionMod, _target);
+                _arrow.GetComponent<Projectile_Legacy>().Launch(shotDirectionMod, _target);
                 
                 _arrow = ObjectPooler.instance.ReturnObject("Arrow");
                 shotDirectionMod = Quaternion.Euler(0, -15, 0) * shotDirection;
                 _arrow.transform.position = AISystem.firePoint.position;
-                _arrow.GetComponent<Projectile>().Launch(shotDirectionMod, _target);
+                _arrow.GetComponent<Projectile_Legacy>().Launch(shotDirectionMod, _target);
             }
 
             AISystem.shotTimer = 1;

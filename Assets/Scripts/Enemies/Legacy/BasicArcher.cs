@@ -105,7 +105,7 @@ public class BasicArcher : MonoBehaviour, IDamageable
                     GameObject _arrow = ObjectPooler.instance.ReturnObject("Arrow");
                     //GameObject _arrow = Instantiate(arrow, shotOrigin.position, Quaternion.identity);
                     _arrow.transform.position = shotOrigin.position;
-                    _arrow.GetComponent<Projectile>().Launch(shotDirection, playerPos);
+                    _arrow.GetComponent<Projectile_Legacy>().Launch(shotDirection, playerPos);
                     anim.SetTrigger("Fire");
                     source.StopSource();
                     source.PlayOnce(release, audioManager.SFXVol);

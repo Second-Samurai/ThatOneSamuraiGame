@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+[Obsolete]
+public class Projectile_Legacy : MonoBehaviour
 { //script for basic projectile
 
     TrailRenderer trail;

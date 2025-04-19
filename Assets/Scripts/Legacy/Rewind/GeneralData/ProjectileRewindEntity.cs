@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[Obsolete]
 public class ProjectileRewindEntity : RewindEntity
 {
     public List<ProjectileTimeData> ProjectileDataList;

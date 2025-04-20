@@ -28,7 +28,7 @@ public class RigLayerToggle : MonoBehaviour, IRigLayerControl
     public bool IsAnimating
         => this.m_IsAnimating;
 
-    public AnimationCurve TransitionWeightCurve
+    public AnimationCurve TransitionWeightCurve // TODO: Check whether we need to remove this
         => this.m_TransitionWeightCurve;
 
     #endregion Properties

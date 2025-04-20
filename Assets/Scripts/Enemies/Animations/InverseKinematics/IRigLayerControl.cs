@@ -9,7 +9,7 @@
   
     #region - - - - - - Methods - - - - - -
 
-    void SetDefaultRigValues();
+    void SetDefaultRigValues(); // TODO: Check whether we need this
 
     #endregion Methods
     

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MBT;
 using ThatOneSamuraiGame;
 using UnityEngine;
 
@@ -15,8 +16,14 @@ public class Debug_ArcherEnemy : IDebugCommandRegistrater
             "Triggers all archers in view of camera to turn.", 
             "archer_triggerturn", 
             this.TriggerArcherTurn);
+        DebugCommand _TriggerDeath = new DebugCommand(
+            "archer_triggerdeath", 
+            "Triggers all archers in view of camera to die.", 
+            "archer_triggerdeath", 
+            this.TriggerDeath);
         
         debugCommandSystem.RegisterCommand(_TriggerArcherTurn);
+        debugCommandSystem.RegisterCommand(_TriggerDeath);
     }
 
     private void TriggerArcherTurn()
@@ -29,6 +36,21 @@ public class Debug_ArcherEnemy : IDebugCommandRegistrater
         foreach (ArcherAnimationReciever _Receiver in _AffectedAnimationRecievers)
         {
             _Receiver.CompleteTurnClip();
+        }
+    }
+
+    private void TriggerDeath()
+    {
+        List<Blackboard> _AffectedArcherBlackboards = this.GetAllArchersInCameraView()
+            .Select(g => g.GetComponentInChildren<Blackboard>())
+            .Where(par => par != null)
+            .ToList();
+        
+        foreach (Blackboard _BehaviourTree in _AffectedArcherBlackboards)
+        {
+            BoolVariable _IsDeadReference =
+                _BehaviourTree.GetVariable<BoolVariable>(ArcherBehaviourTreeConstants.IsDead);
+            _IsDeadReference.Value = true;
         }
     }
 

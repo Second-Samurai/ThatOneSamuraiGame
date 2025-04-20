@@ -19,6 +19,10 @@ public class ArcherAnimationReciever : MonoBehaviour
 
     public UnityEvent OnBowDisarm { get; } = new();
 
+    public UnityEvent OnEnableRagdoll { get; } = new();
+
+    public UnityEvent OnDeath { get; } = new();
+
     #endregion Properties
 
     #region - - - - - - Methods - - - - - -
@@ -40,6 +44,12 @@ public class ArcherAnimationReciever : MonoBehaviour
 
     public void DisarmBow()
         => this.OnBowDisarm.Invoke();
+
+    public void EnableRagdoll()
+        => this.OnEnableRagdoll.Invoke();
+    
+    public void KillArcher()
+        => this.OnDeath.Invoke();
 
     #endregion Methods
 

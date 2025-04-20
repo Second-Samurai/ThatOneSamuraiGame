@@ -19,8 +19,6 @@ public class ArcherWeaponSystem : PausableMonoBehaviour, IEnemyWeaponSystem
 {
 
     #region - - - - - - Fields - - - - - -
-
-    private const string HAS_DETECTED_PLAYER = "HasDiscoveredPlayer";
     
     [Header("Required Dependencies")]
     [SerializeField, RequiredField] private Transform m_AimTarget;
@@ -83,7 +81,8 @@ public class ArcherWeaponSystem : PausableMonoBehaviour, IEnemyWeaponSystem
             Quaternion.LookRotation(this.m_AimTarget.position - this.m_FirePoint.position));
 
     private void BindActionsToBehaviourTree() 
-        => this.m_HasDetectedPlayer = this.m_Blackboard.GetVariable<BoolVariable>(HAS_DETECTED_PLAYER);
+        => this.m_HasDetectedPlayer = this.m_Blackboard.GetVariable<BoolVariable>(
+            ArcherBehaviourTreeConstants.HasDetectedPlayer);
 
     #endregion Methods
 

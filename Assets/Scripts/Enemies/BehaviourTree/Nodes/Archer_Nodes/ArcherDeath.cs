@@ -7,20 +7,6 @@ using UnityEngine;
 [MBTNode(name = "Tasks/ArcherDeath")]
 public class ArcherDeath : Leaf
 {
-    // Needs to:
-    // - Deactivate all unecessary objects in hierachy
-
-    // #region - - - - - - Enumerations - - - - - -
-    //
-    // private enum DeathDirection
-    // {
-    //     Forward = 0,
-    //     Backward = 1,
-    //     Left = 2, 
-    //     Right = 3
-    // }
-    //
-    // #endregion Enumerations
   
     #region - - - - - - Fields - - - - - -
 
@@ -84,21 +70,6 @@ public class ArcherDeath : Leaf
     #endregion MBT Methods
   
     #region - - - - - - Methods - - - - - -
-
-    // private DeathDirection GetDirection(Vector3 direction)
-    // {
-    //     int _DirectionX = (int)Mathf.Clamp((float)Math.Round(direction.x), -1, 1);
-    //     int _DirectionY = (int)Mathf.Clamp((float)Math.Round(direction.y), -1, 1);
-    //
-    //     return _DirectionX switch
-    //     {
-    //         0 when _DirectionY == 1 => DeathDirection.Forward,
-    //         0 when _DirectionY == -1 => DeathDirection.Backward,
-    //         -1 when _DirectionY == 0 => DeathDirection.Left,
-    //         1 when _DirectionY == 0 => DeathDirection.Right,
-    //         _ => DeathDirection.Right
-    //     };
-    // }
 
     private IEnumerator KillArcher()
     {

@@ -1,4 +1,5 @@
-﻿using Player.Animation;
+﻿using System;
+using Player.Animation;
 using ThatOneSamuraiGame;
 using ThatOneSamuraiGame.Scripts.Input;
 using UnityEngine;
@@ -52,6 +53,19 @@ public class PlayerHealthSystem : MonoBehaviour, IDamageable
 
     #endregion Initializers
 
+    #region - - - - - - Unity Methods - - - - - -
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == GameTag.Player)
+        {
+            // TODO: Flesh out more behaviour to affect on player
+            Debug.Log("Player has been damaged");
+        }
+    }
+
+    #endregion Unity Methods
+  
     #region - - - - - - Damage Methods - - - - - -
 
     // ---------------------------------------------------

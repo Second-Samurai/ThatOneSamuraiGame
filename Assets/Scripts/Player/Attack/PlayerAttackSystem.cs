@@ -87,6 +87,7 @@ public class PlayerAttackSystem :
     /// <summary>
     /// Handles attack on trigger collision through the attack collider.
     /// </summary>
+    // TODO: Needs to be moved into its own collision handler
     private void OnTriggerEnter(Collider other)
     {
         if (!other.gameObject.CompareTag(GameTag.Enemy)

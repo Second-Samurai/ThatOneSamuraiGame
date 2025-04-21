@@ -9381,15 +9381,16 @@ GameObject:
   - component: {fileID: 1924484834}
   - component: {fileID: 1924484833}
   - component: {fileID: 1924484832}
+  - component: {fileID: 1924484836}
   - component: {fileID: 1924484838}
   - component: {fileID: 1924484837}
   - component: {fileID: 1924484831}
   - component: {fileID: 1924484843}
-  - component: {fileID: 1924484836}
   - component: {fileID: 1924484839}
   - component: {fileID: 1924484840}
   - component: {fileID: 1924484841}
   - component: {fileID: 1924484842}
+  - component: {fileID: 1924484844}
   m_Layer: 10
   m_Name: Archer
   m_TagString: Enemy
@@ -9500,7 +9501,7 @@ Transform:
   m_GameObject: {fileID: 1924484830}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.285, y: 3.981, z: -3.26}
+  m_LocalPosition: {x: 11.75, y: 3.981, z: -3.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9684,6 +9685,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1924484844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924484830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57bb3a9b49e24eb9b99dcf41e1c9e0d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BehaviourTree: {fileID: 670281435}
+  m_MaxHitCount: 1
 --- !u!1001 &1943169711
 PrefabInstance:
   m_ObjectHideFlags: 0

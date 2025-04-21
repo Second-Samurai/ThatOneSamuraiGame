@@ -22,7 +22,7 @@ public class AnimationRigControl : PausableMonoBehaviour
     public void DeActivateAllLayers()
     {
         foreach (IRigLayerControl _RigLayerControl in this.RigWeightLayers)
-            _RigLayerControl.IsActive = false;
+            _RigLayerControl.DisableLayer();
     }
 
     #endregion Methods

@@ -11,6 +11,8 @@
 
     void SetDefaultRigValues(); // TODO: Check whether we need this
 
+    void DisableLayer();
+
     #endregion Methods
-    
+
 }

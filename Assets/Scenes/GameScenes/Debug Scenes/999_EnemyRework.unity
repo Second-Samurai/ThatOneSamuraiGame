@@ -4450,6 +4450,7 @@ MonoBehaviour:
   runtimePriority: 0
   breakpoint: 0
   m_Animator: {fileID: 1924484832}
+  m_EventObserver: {fileID: 1924484843}
   m_RigControl: {fileID: 1924484839}
   m_RagdollController: {fileID: 1924484841}
   m_ArcherTransform: {fileID: 1924484835}
@@ -9383,10 +9384,12 @@ GameObject:
   - component: {fileID: 1924484838}
   - component: {fileID: 1924484837}
   - component: {fileID: 1924484831}
+  - component: {fileID: 1924484843}
   - component: {fileID: 1924484836}
   - component: {fileID: 1924484839}
   - component: {fileID: 1924484840}
   - component: {fileID: 1924484841}
+  - component: {fileID: 1924484842}
   m_Layer: 10
   m_Name: Archer
   m_TagString: Enemy
@@ -9497,7 +9500,7 @@ Transform:
   m_GameObject: {fileID: 1924484830}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.285, y: 3.981, z: -3.673}
+  m_LocalPosition: {x: 11.285, y: 3.981, z: -3.26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9631,6 +9634,56 @@ MonoBehaviour:
     m_Bits: 0
   m_SpineRigidbody: {fileID: 1182329388}
   m_RagdollForce: 30
+--- !u!114 &1924484842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924484830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b91772522f294600abc4396ffb3bbd24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ScriptsToDisable:
+  - {fileID: 1924484836}
+  - {fileID: 1924484839}
+  - {fileID: 1924484840}
+  m_ObjectsToDisable:
+  - {fileID: 298263222}
+  - {fileID: 1697196390}
+  - {fileID: 877612181}
+  - {fileID: 1736034085}
+  - {fileID: 570467045}
+  - {fileID: 921218790}
+--- !u!114 &1924484843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924484830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c109f224f9d147599c6cf40e3f095b2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEnemyDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1924484842}
+        m_TargetAssemblyTypeName: BehaviourScriptDisabler, Assembly-CSharp
+        m_MethodName: DisableObjectsAndScripts
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1943169711
 PrefabInstance:
   m_ObjectHideFlags: 0

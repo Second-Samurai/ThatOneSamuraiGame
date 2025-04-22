@@ -25,6 +25,8 @@ public class Debug_ArcherEnemy : IDebugCommandRegistrater
         debugCommandSystem.RegisterCommand(_TriggerArcherTurn);
         debugCommandSystem.RegisterCommand(_TriggerDeath);
     }
+    
+    private void Activate 
 
     private void TriggerArcherTurn()
     {

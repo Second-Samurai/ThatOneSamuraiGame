@@ -1,4 +1,4 @@
-﻿public class ArcherBehaviourTreeConstants
+﻿public class ArcherBehaviourTreeConstants : EnemyBehaviourTreeConstants
 {
 
     #region - - - - - - Fields - - - - - -

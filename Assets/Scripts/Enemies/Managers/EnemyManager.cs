@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class EnemyManager : MonoBehaviour
     // TODO: Change to use getter-only properties
     // TODO: Should be managed by the scene area level
     public EnemyControlObserver EnemyObserver;
+    
+    // TODO: Move to seperate controller watching over all entities
+    public List<GameObject> m_SceneEnemyObjects;
 
     #endregion Fields
 
@@ -26,6 +30,10 @@ public class EnemyManager : MonoBehaviour
     private void Start()
     {
         GameValidator.NotNull(this.EnemyObserver, nameof(EnemyObserver));
+        
+        // TODO: Move to pipeline
+        for (int i = 0; i < this.m_SceneEnemyObjects.Count; i++)
+            this.m_SceneEnemyObjects[i].GetComponent<ArcherInitializationCommand>().Initialize();
     }
 
     #endregion Unity Methods

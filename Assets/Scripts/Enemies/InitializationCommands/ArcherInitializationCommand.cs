@@ -23,7 +23,7 @@ public class ArcherInitializationCommand : MonoBehaviour, IInitialize
         GameValidator.NotNull(this.m_BehaviourTree, nameof(m_BehaviourTree));
         GameValidator.NotNull(this.m_EnemyObserver, nameof(m_EnemyObserver));
 
-        this.m_IsDead = this.m_BehaviourTree.GetVariable<BoolVariable>(ArcherBehaviourTreeConstants.IsDead);
+        this.m_IsDead = this.m_BehaviourTree.GetVariable<BoolVariable>(EnemyBehaviourTreeConstants.IsActive);
         
         this.BindActiveToggleMethods();
     }

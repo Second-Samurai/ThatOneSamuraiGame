@@ -2,6 +2,7 @@
 using System.Linq;
 using MBT;
 using ThatOneSamuraiGame;
+using ThatOneSamuraiGame.GameLogging;
 using UnityEngine;
 
 public class Debug_ArcherEnemy : IDebugCommandRegistrater
@@ -11,6 +12,16 @@ public class Debug_ArcherEnemy : IDebugCommandRegistrater
 
     public void RegisterCommand(IDebugCommandSystem debugCommandSystem)
     {
+        DebugCommand _ActivateAllArchers = new DebugCommand(
+            "archer_activatearchers", 
+            "Activates all Archers.", 
+            "archer_activatearchers", 
+            this.ActivateAllArchers);
+        DebugCommand _DeactivateAllArchers = new DebugCommand(
+            "archer_deactivatearchers", 
+            "Deactivates all Archers.", 
+            "archer_deactivatearchers", 
+            this.DeactivateAllArchers);
         DebugCommand _TriggerArcherTurn = new DebugCommand(
             "archer_triggerturn", 
             "Triggers all archers in view of camera to turn.", 
@@ -22,11 +33,23 @@ public class Debug_ArcherEnemy : IDebugCommandRegistrater
             "archer_triggerdeath", 
             this.TriggerDeath);
         
+        debugCommandSystem.RegisterCommand(_ActivateAllArchers);
+        debugCommandSystem.RegisterCommand(_DeactivateAllArchers);
         debugCommandSystem.RegisterCommand(_TriggerArcherTurn);
         debugCommandSystem.RegisterCommand(_TriggerDeath);
     }
-    
-    private void Activate 
+
+    private void ActivateAllArchers()
+    {
+        EnemyManager.Instance.EnemyObserver.OnEnemyStart.Invoke();
+        GameLogger.Log("Activated all archers.");
+    }
+
+    private void DeactivateAllArchers()
+    {
+        EnemyManager.Instance.EnemyObserver.OnEnemyStop.Invoke();
+        GameLogger.Log("Deactivated all archers.");
+    }
 
     private void TriggerArcherTurn()
     {

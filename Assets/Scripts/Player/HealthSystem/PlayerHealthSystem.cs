@@ -1,5 +1,4 @@
-﻿using System;
-using Player.Animation;
+﻿using Player.Animation;
 using ThatOneSamuraiGame;
 using ThatOneSamuraiGame.Scripts.Input;
 using UnityEngine;
@@ -57,7 +56,7 @@ public class PlayerHealthSystem : MonoBehaviour, IDamageable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == GameTag.Player)
+        if (other.tag == GameTag.Enemy)
         {
             // TODO: Flesh out more behaviour to affect on player
             Debug.Log("Player has been damaged");

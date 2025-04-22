@@ -3718,6 +3718,8 @@ GameObject:
   - component: {fileID: 670281457}
   - component: {fileID: 670281459}
   - component: {fileID: 670281458}
+  - component: {fileID: 670281461}
+  - component: {fileID: 670281460}
   m_Layer: 0
   m_Name: Archer_BehaviourTree
   m_TagString: Untagged
@@ -3756,12 +3758,12 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 200
-    y: 100
+    y: 0
     width: 160
     height: 44
   parent: {fileID: 0}
   children:
-  - {fileID: 670281449}
+  - {fileID: 670281461}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -3784,6 +3786,7 @@ MonoBehaviour:
   - {fileID: 670281441}
   - {fileID: 670281450}
   - {fileID: 670281457}
+  - {fileID: 670281460}
   masterBlackboard: {fileID: 0}
 --- !u!114 &670281436
 MonoBehaviour:
@@ -3797,7 +3800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 670281459}
+  selectedEditorNode: {fileID: 0}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -4136,7 +4139,7 @@ MonoBehaviour:
     y: 200
     width: 160
     height: 44
-  parent: {fileID: 670281434}
+  parent: {fileID: 670281461}
   children:
   - {fileID: 670281458}
   - {fileID: 670281440}
@@ -4462,6 +4465,66 @@ MonoBehaviour:
     key: PlayerTransform
     constantValue: {fileID: 0}
   m_TimeTillDestroy: 6
+--- !u!114 &670281460
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670281432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ae15c5e6bcb1714080f2e8296c3d17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: IsActive
+  val: 0
+--- !u!114 &670281461
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670281432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 534e3ec7de6cd444e984c2e7f68e42e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Is Enemy Active
+  rect:
+    serializedVersion: 2
+    x: 200
+    y: 140
+    width: 160
+    height: 44
+  parent: {fileID: 670281434}
+  children:
+  - {fileID: 670281449}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  abort: 3
+  invert: 0
+  type: 0
+  boolReference:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 670281435}
+    key: IsActive
+    constantValue: 0
+  objectReference:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: {fileID: 0}
+  transformReference:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: {fileID: 0}
 --- !u!4 &699738714 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8a3cec911378be740ab31cac091cdbea,

@@ -33,7 +33,7 @@ public class EnemyManager : MonoBehaviour
         
         // TODO: Move to pipeline
         for (int i = 0; i < this.m_SceneEnemyObjects.Count; i++)
-            this.m_SceneEnemyObjects[i].GetComponent<ArcherInitializationCommand>().Initialize();
+            this.m_SceneEnemyObjects[i].GetComponent<ArcherInitializationCommand>().Execute();
     }
 
     #endregion Unity Methods

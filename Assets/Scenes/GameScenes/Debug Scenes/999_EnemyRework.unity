@@ -4841,6 +4841,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &815287400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 815287401}
+  - component: {fileID: 815287402}
+  m_Layer: 9
+  m_Name: HurtBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &815287401
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815287400}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1469493480}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &815287402
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815287400}
+  m_Material: {fileID: 13400000, guid: e35cfc16422720f4fadfb63a02dc1464, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.56
+  m_Height: 1.88
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.95, z: 0}
 --- !u!1 &827971366
 GameObject:
   m_ObjectHideFlags: 0
@@ -6494,6 +6549,11 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 15.63
       objectReference: {fileID: 0}
+    - target: {fileID: 1357147198557610883, guid: d94a8df34a141f245a1ceb39eae35e01,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1745925703622177070, guid: d94a8df34a141f245a1ceb39eae35e01,
         type: 3}
       propertyPath: m_IsTrigger
@@ -6538,6 +6598,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ComponentOwner
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2737420358410747794, guid: d94a8df34a141f245a1ceb39eae35e01,
+        type: 3}
+      propertyPath: m_Name
+      value: HitBox
       objectReference: {fileID: 0}
     - target: {fileID: 2747029254361786648, guid: d94a8df34a141f245a1ceb39eae35e01,
         type: 3}
@@ -6784,6 +6849,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1417282977}
+    - targetCorrespondingSourceObject: {fileID: 2647058447993931462, guid: d94a8df34a141f245a1ceb39eae35e01,
+        type: 3}
+      insertIndex: 5
+      addedObject: {fileID: 815287401}
     - targetCorrespondingSourceObject: {fileID: 2647058447993931462, guid: d94a8df34a141f245a1ceb39eae35e01,
         type: 3}
       insertIndex: -1

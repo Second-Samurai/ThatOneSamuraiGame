@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-// TODO: Come up with a better name
-public class DynamicWeaponBody : MonoBehaviour
+public class WeaponPhysicsController : MonoBehaviour
 {
 
     #region - - - - - - Fields - - - - - -

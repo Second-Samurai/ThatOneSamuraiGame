@@ -14,7 +14,7 @@ public interface IFieldOfViewOcclusionState
   
 }
 
-// TODO: This class is not optimised
+// TODO: Multiple calculations are being performed. My suspician is that it may be slow
 public class ArcherFieldOfViewRigWeightOccluder : PausableMonoBehaviour, IFieldOfViewOcclusionState
 {
 

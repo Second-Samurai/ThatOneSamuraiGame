@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-// TODO: Convert users to instead use an interface implementation containing its properties
 public class ArcherAnimationReciever : MonoBehaviour
 {
 

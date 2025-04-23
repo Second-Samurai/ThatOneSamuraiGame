@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-// TODO: Change actions to be interface based
 public class AnimationRagdollController : MonoBehaviour
 {
 

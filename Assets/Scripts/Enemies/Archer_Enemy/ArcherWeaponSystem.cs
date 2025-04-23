@@ -1,6 +1,8 @@
 ﻿using MBT;
 using ThatOneSamuraiGame.Scripts.Base;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
+using UnityEngine.Serialization;
 
 public interface IEnemyWeaponSystem
 {
@@ -23,7 +25,8 @@ public class ArcherWeaponSystem : PausableMonoBehaviour, IEnemyWeaponSystem
     [Header("Required Dependencies")]
     [SerializeField, RequiredField] private Transform m_AimTarget;
     [SerializeField, RequiredField] private Transform m_FirePoint;
-    [SerializeField, RequiredField] private Blackboard m_Blackboard;
+    [SerializeField, RequiredField] private Blackboard m_BehaviourTree;
+    [SerializeField, RequiredField] private AnimationRigControl m_RigControl;
     private ArcherAnimationReciever m_AnimationReceiver;
     
     [Header("Projectile Info")]
@@ -41,10 +44,11 @@ public class ArcherWeaponSystem : PausableMonoBehaviour, IEnemyWeaponSystem
         this.m_AnimationReceiver = this.GetComponent<ArcherAnimationReciever>();
         
         GameValidator.NotNull(this.m_AimTarget, nameof(m_AimTarget));
-        GameValidator.NotNull(this.m_FirePoint, nameof(m_FirePoint));
         GameValidator.NotNull(this.m_AnimationReceiver, nameof(m_AnimationReceiver));
-        GameValidator.NotNull(this.m_Blackboard, nameof(m_Blackboard));
+        GameValidator.NotNull(this.m_BehaviourTree, nameof(m_BehaviourTree));
+        GameValidator.NotNull(this.m_FirePoint, nameof(m_FirePoint));
         GameValidator.NotNull(this.m_ProjectilePrefab, nameof(m_ProjectilePrefab));
+        GameValidator.NotNull(this.m_RigControl, nameof(m_RigControl));
         
         this.BindActionsToBehaviourTree();
         
@@ -81,7 +85,7 @@ public class ArcherWeaponSystem : PausableMonoBehaviour, IEnemyWeaponSystem
             Quaternion.LookRotation(this.m_AimTarget.position - this.m_FirePoint.position));
 
     private void BindActionsToBehaviourTree() 
-        => this.m_HasDetectedPlayer = this.m_Blackboard.GetVariable<BoolVariable>(
+        => this.m_HasDetectedPlayer = this.m_BehaviourTree.GetVariable<BoolVariable>(
             ArcherBehaviourTreeConstants.HasDetectedPlayer);
 
     #endregion Methods

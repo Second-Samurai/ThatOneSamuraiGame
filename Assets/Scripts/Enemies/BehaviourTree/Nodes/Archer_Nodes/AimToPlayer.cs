@@ -10,9 +10,9 @@ public class AimToPlayer : Leaf
 
     #region - - - - - - Fields - - - - - -
 
-    //TODO: Properly organise these fields
+    [Header("Aiming Modifiers")]
     [SerializeField] private TransformReference m_PlayerTransform = new();
-    [SerializeField] private FloatReference m_RotationSpeed = new();
+    [SerializeField] private FloatReference m_RotationSpeed = new(); // TODO: This needs to be utilized for finer control.
     [SerializeField] private FloatReference m_AimDetectionThreshold = new();
     [SerializeField] private float m_LayerWeightLerpTime;
     [SerializeField] private float m_TurnAngleSize;
@@ -21,10 +21,10 @@ public class AimToPlayer : Leaf
     [SerializeField] private AnimationCurve m_EnableWeightCurves;
     [SerializeField] private AnimationCurve m_DisableWeightCurves;
 
+    // Required Dependencies
     private Animator m_ArcherAnimator;
     private AnimationRigControl m_RigControl;
     private Transform m_ArcherTransform;
-    private bool m_HasDrawnBow;
     
     // Turn motion fields
     private bool m_CanMakeTurnMotion = true;
@@ -35,6 +35,7 @@ public class AimToPlayer : Leaf
     private float m_AngleToPlayer;
     private Vector3 m_DirectionToTarget;
     private Vector3 m_Forward;
+    private bool m_HasDrawnBow;
     private Quaternion m_TargetRotation;
 
     #endregion Fields

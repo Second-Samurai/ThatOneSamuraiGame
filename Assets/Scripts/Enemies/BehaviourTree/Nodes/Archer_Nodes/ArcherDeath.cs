@@ -2,6 +2,7 @@
 using MBT;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [AddComponentMenu("")]
 [MBTNode(name = "Tasks/ArcherDeath")]
@@ -17,7 +18,7 @@ public class ArcherDeath : Leaf
     [SerializeField, RequiredField] private AnimationRigControl m_RigControl;
     [SerializeField, RequiredField] private AnimationRagdollController m_RagdollController;
     [SerializeField, RequiredField] private Transform m_ArcherTransform;
-    [SerializeField, RequiredField] private DynamicWeaponBody m_WeaponBody;
+    [FormerlySerializedAs("m_WeaponBody")] [SerializeField, RequiredField] private WeaponPhysicsController mWeaponPhysicsController;
     private ILockOnObserver m_LockOnObserver;
     
     [Space]
@@ -39,7 +40,7 @@ public class ArcherDeath : Leaf
         GameValidator.NotNull(this.m_LockOnObserver, nameof(m_LockOnObserver));
         GameValidator.NotNull(this.m_RagdollController, nameof(m_RagdollController));
         GameValidator.NotNull(this.m_PlayerTransform, nameof(m_PlayerTransform));
-        GameValidator.NotNull(this.m_WeaponBody, nameof(m_WeaponBody));
+        GameValidator.NotNull(this.mWeaponPhysicsController, nameof(mWeaponPhysicsController));
     }
 
     #endregion Unity Methods
@@ -57,8 +58,8 @@ public class ArcherDeath : Leaf
         this.m_RagdollController.ApplyForce(_Direction);
         
         // Make the weapon model subject to physics
-        this.m_WeaponBody.ChangeToDynamic();
-        this.m_WeaponBody.ApplyForce(_Direction, 8); // Arbitrary Force
+        this.mWeaponPhysicsController.ChangeToDynamic();
+        this.mWeaponPhysicsController.ApplyForce(_Direction, 8); // Arbitrary Force
 
         EnemyManager.Instance.SceneEnemyController.EnemyObserver.OnEnemyDeath.Invoke(this.transform.root.gameObject);
         this.m_BehaviourDisabler.DisableObjectsAndScripts();

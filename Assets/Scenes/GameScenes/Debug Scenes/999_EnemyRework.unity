@@ -3855,7 +3855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 670281445}
+  selectedEditorNode: {fileID: 0}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -4512,7 +4512,7 @@ MonoBehaviour:
   m_RigControl: {fileID: 1924484839}
   m_RagdollController: {fileID: 1924484841}
   m_ArcherTransform: {fileID: 1924484835}
-  m_WeaponBody: {fileID: 403716611}
+  mWeaponPhysicsController: {fileID: 403716611}
   m_PlayerTransform:
     useConstant: 0
     mode: 0
@@ -9931,7 +9931,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AimTarget: {fileID: 298263223}
   m_FirePoint: {fileID: 1563501156}
-  m_Blackboard: {fileID: 670281435}
+  m_BehaviourTree: {fileID: 670281435}
+  m_RigControl: {fileID: 1924484839}
   m_ProjectilePrefab: {fileID: 3554549179312115800, guid: 59efa1b0006afe640ac4bcb3cb67210b,
     type: 3}
   m_DetectionDistance: 20

@@ -9,7 +9,7 @@ public class AnimationRigControl : PausableMonoBehaviour
     public List<RigLayerToggle> RigWeightLayers;
 
     #endregion Fields
-
+  
     #region - - - - - - Methods - - - - - -
 
     public void ActivateAllLayers()
@@ -18,7 +18,6 @@ public class AnimationRigControl : PausableMonoBehaviour
             _RigLayerControl.IsActive = true;
     }
 
-    // Todo: Implement exit behaviour when the player is too far away.
     public void DeActivateAllLayers()
     {
         foreach (IRigLayerControl _RigLayerControl in this.RigWeightLayers)

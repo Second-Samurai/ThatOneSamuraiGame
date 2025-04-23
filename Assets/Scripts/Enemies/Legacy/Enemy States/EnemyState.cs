@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Enemies.Enemy_States
 {
@@ -7,6 +9,7 @@ namespace Enemies.Enemy_States
     // This acts as the connection between the state machine and states. All enemy states inherit from this class. Other
     // states will override it's functions, most commonly, Start(). Other functions can be added and overriden here too.
     
+    [Obsolete]
     public abstract class EnemyState
     {
         // Breaking standard naming conventions for the sake of state naming

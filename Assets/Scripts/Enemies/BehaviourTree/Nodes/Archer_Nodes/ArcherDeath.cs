@@ -12,7 +12,8 @@ public class ArcherDeath : Leaf
 
     [Header("Required Dependencies")]
     [SerializeField, RequiredField] private Animator m_Animator;
-    [SerializeField, RequiredField] private EnemyStateObserver m_EventObserver;
+
+    [SerializeField, RequiredField] private BehaviourScriptDisabler m_BehaviourDisabler;
     [SerializeField, RequiredField] private AnimationRigControl m_RigControl;
     [SerializeField, RequiredField] private AnimationRagdollController m_RagdollController;
     [SerializeField, RequiredField] private Transform m_ArcherTransform;
@@ -35,7 +36,6 @@ public class ArcherDeath : Leaf
         
         GameValidator.NotNull(this.m_Animator, nameof(m_Animator));
         GameValidator.NotNull(this.m_ArcherTransform, nameof(m_ArcherTransform));
-        GameValidator.NotNull(this.m_EventObserver, nameof(m_EventObserver));
         GameValidator.NotNull(this.m_LockOnObserver, nameof(m_LockOnObserver));
         GameValidator.NotNull(this.m_RagdollController, nameof(m_RagdollController));
         GameValidator.NotNull(this.m_PlayerTransform, nameof(m_PlayerTransform));
@@ -60,7 +60,8 @@ public class ArcherDeath : Leaf
         this.m_WeaponBody.ChangeToDynamic();
         this.m_WeaponBody.ApplyForce(_Direction, 8); // Arbitrary Force
 
-        this.m_EventObserver.OnEnemyDeath.Invoke();
+        EnemyManager.Instance.SceneEnemyController.EnemyObserver.OnEnemyDeath.Invoke(this.transform.root.gameObject);
+        this.m_BehaviourDisabler.DisableObjectsAndScripts();
         this.StartCoroutine(this.KillArcher());
         this.m_HasPlayedAnimation = true;
         

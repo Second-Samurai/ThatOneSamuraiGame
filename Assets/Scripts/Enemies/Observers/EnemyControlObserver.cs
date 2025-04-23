@@ -12,6 +12,8 @@ public class EnemyControlObserver : MonoBehaviour
     // TODO: Come up with a better name for the event
     public UnityEvent OnEnemyStop = new();
 
+    public UnityEvent<GameObject> OnEnemyDeath = new();
+
     #endregion Fields
 
 }

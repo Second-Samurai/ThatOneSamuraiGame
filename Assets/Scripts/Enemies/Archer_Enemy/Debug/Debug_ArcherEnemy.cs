@@ -41,13 +41,13 @@ public class Debug_ArcherEnemy : IDebugCommandRegistrater
 
     private void ActivateAllArchers()
     {
-        EnemyManager.Instance.EnemyObserver.OnEnemyStart.Invoke();
+        EnemyManager.Instance.SceneEnemyController.EnemyObserver.OnEnemyStart.Invoke();
         GameLogger.Log("Activated all archers.");
     }
 
     private void DeactivateAllArchers()
     {
-        EnemyManager.Instance.EnemyObserver.OnEnemyStop.Invoke();
+        EnemyManager.Instance.SceneEnemyController.EnemyObserver.OnEnemyStop.Invoke();
         GameLogger.Log("Deactivated all archers.");
     }
 

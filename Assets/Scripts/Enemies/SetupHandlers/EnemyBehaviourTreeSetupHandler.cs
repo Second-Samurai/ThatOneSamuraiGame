@@ -1,8 +1,10 @@
 ﻿using MBT;
-using ThatOneSamuraiGame.Scripts.General.Services;
 using UnityEngine;
 
-public class ArcherInitializationCommand : MonoBehaviour, ICommand
+/// <summary>
+/// Responsible for common setup handling logic for enemy behaviour trees
+/// </summary>
+public class EnemyBehaviourTreeSetupHandler : MonoBehaviour
 {
 
     #region - - - - - - Fields - - - - - -
@@ -13,12 +15,12 @@ public class ArcherInitializationCommand : MonoBehaviour, ICommand
     private EnemyControlObserver m_EnemyObserver;
 
     #endregion Fields
-  
-    #region - - - - - - Methods - - - - - -
-    
-    public void Execute()
+
+    #region - - - - - - Unity Methods - - - - - -
+
+    private void Start()
     {
-        this.m_EnemyObserver = EnemyManager.Instance.EnemyObserver;
+        this.m_EnemyObserver = EnemyManager.Instance.SceneEnemyController.EnemyObserver;
 
         GameValidator.NotNull(this.m_BehaviourTree, nameof(m_BehaviourTree));
         GameValidator.NotNull(this.m_EnemyObserver, nameof(m_EnemyObserver));
@@ -27,12 +29,16 @@ public class ArcherInitializationCommand : MonoBehaviour, ICommand
         this.BindActiveToggleMethods();
     }
 
+    #endregion Unity Methods
+  
+    #region - - - - - - Methods - - - - - -
+
     private void BindActiveToggleMethods()
     {
         this.m_EnemyObserver.OnEnemyStart.AddListener(() => this.m_IsActive.Value = true);
         this.m_EnemyObserver.OnEnemyStop.AddListener(() => this.m_IsActive.Value = false);
     }
-
+    
     #endregion Methods
 
 }

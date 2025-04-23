@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using ThatOneSamuraiGame;
 using ThatOneSamuraiGame.Scripts.Base;
+using ThatOneSamuraiGame.Scripts.Enumeration;
 using UnityEngine;
 
 public class LockOnTargetTracking : PausableMonoBehaviour
@@ -47,19 +49,19 @@ public class LockOnTargetTracking : PausableMonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag(GameTag.Enemy) && other.gameObject.layer == GameLayer.Enemy)
             this.m_PossibleTargets.Add(other.transform);
     }
     
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Enemy")) 
+        if (other.CompareTag(GameTag.Enemy) && other.gameObject.layer == GameLayer.Enemy) 
             this.RemoveTarget(other.transform);
     }
 
-    #endregion Methods
+    #endregion Unity Methods
   
-    #region - - - - - - Unity Methods - - - - - -
+    #region - - - - - - Methods - - - - - -
 
     public void ClearTargets()
     {

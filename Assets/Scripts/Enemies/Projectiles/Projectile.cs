@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.GameLogging;
+﻿using System;
+using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Enumeration;
 using UnityEngine;
@@ -21,7 +22,7 @@ public class Projectile : PausableMonoBehaviour
         this.m_Rigidbody.linearVelocity = this.transform.forward * this.m_ProjectileSpeed;
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.layer == GameLayer.Enemy) return;
 

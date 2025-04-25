@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MBT;
 using ThatOneSamuraiGame;
 using UnityEngine;
 
@@ -12,9 +13,7 @@ public class SceneEnemyController : MonoBehaviour
     // TODO: Should be managed by the scene area level
     public EnemyControlObserver EnemyObserver;
     public List<GameObject> SceneEnemyObjects;
-
-    public Transform CenterTrackingPoint;
-    public Vector3 m_TrackingBounds;
+    [SerializeField, RequiredField] private SceneObserver m_Observer;
 
     #endregion Fields
 
@@ -23,8 +22,11 @@ public class SceneEnemyController : MonoBehaviour
     private void Start()
     {
         GameValidator.NotNull(this.EnemyObserver, nameof(EnemyObserver));
+        GameValidator.NotNull(this.m_Observer, nameof(m_Observer));
         
         this.EnemyObserver.OnEnemyDeath.AddListener(this.RemoveEnemyTrackingWithinScene);
+        this.m_Observer.OnSceneActive.AddListener(this.ActivateSceneEnemyController);
+        
         this.CollectAllEnemiesWithinScene();
     }
 
@@ -32,10 +34,21 @@ public class SceneEnemyController : MonoBehaviour
 
     #region - - - - - - Methods - - - - - -
 
+    private void ActivateSceneEnemyController()
+    {
+        EnemyManager.Instance.SetActiveSceneEnemyController(this);
+        for (int i = 0; i < this.SceneEnemyObjects.Count; i++)
+            this.SceneEnemyObjects[i].SetActive(true);
+    }
+    
     private void CollectAllEnemiesWithinScene()
     {
-        GameObject[] _EnemiesWithinScene = GameObject.FindGameObjectsWithTag(GameTag.Enemy);
-        for (int i = 0; i < _EnemiesWithinScene.Length; i++)
+        List<GameObject> _EnemiesWithinScene = 
+            FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+                .Where(g => g.tag == GameTag.Enemy)
+                .ToList();
+        
+        for (int i = 0; i < _EnemiesWithinScene.Count; i++)
             if (_EnemiesWithinScene[i].scene == this.gameObject.scene)
                 this.SceneEnemyObjects.Add(_EnemiesWithinScene[i]);
     }
@@ -44,17 +57,5 @@ public class SceneEnemyController : MonoBehaviour
         => this.SceneEnemyObjects.Remove(enemy);
 
     #endregion Methods
-  
-    #region - - - - - - Gizmos - - - - - -
 
-    private void OnDrawGizmosSelected()
-    {
-        if (this.CenterTrackingPoint == null) return;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawCube(this.CenterTrackingPoint.position, this.m_TrackingBounds);
-    }
-
-    #endregion Gizmos
-  
 }

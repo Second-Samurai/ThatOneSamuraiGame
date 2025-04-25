@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -8,11 +6,18 @@ public class EnemyManager : MonoBehaviour
     #region - - - - - - Fields - - - - - -
 
     public static EnemyManager Instance;
-        
-    public SceneEnemyController SceneEnemyController;
+    
+    private SceneEnemyController m_ActiveSceneEnemyControllers;
 
     #endregion Fields
 
+    #region - - - - - - Properties - - - - - -
+
+    public SceneEnemyController SceneEnemyController
+        => this.m_ActiveSceneEnemyControllers;
+
+    #endregion Properties
+  
     #region - - - - - - Unity Methods - - - - - -
 
     private void Awake()
@@ -24,5 +29,12 @@ public class EnemyManager : MonoBehaviour
     }
 
     #endregion Unity Methods
+
+    #region - - - - - - Methods - - - - - -
+
+    public void SetActiveSceneEnemyController(SceneEnemyController sceneEnemyController) 
+        => this.m_ActiveSceneEnemyControllers = sceneEnemyController;
+
+    #endregion Methods
   
 }

@@ -2,6 +2,7 @@
 using ThatOneSamuraiGame.Scripts.Scene.DataContainers;
 using ThatOneSamuraiGame.Scripts.Scene.Loaders;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
 {
@@ -15,7 +16,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         #region - - - - - - Fields - - - - - -
 
         public static SceneManager Instance;
-        
+
         [Header("Data State")]
         [SerializeField] public GameSettings m_GameSettings;
         [SerializeField] public SceneState m_SceneState;
@@ -34,7 +35,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         [SerializeField] public PlayerController m_PlayerController;
         [SerializeField] public Transform m_PlayerSpawnPoint;
 
-        private GameScenes m_CurrentGameScene;
+        private GameScene m_CurrentGameScene;
         
         #endregion Fields
         
@@ -69,7 +70,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         EnemySpawnManager ISceneManager.EnemySpawnManager
             => this.m_EnemySpawnManager;
 
-        SceneLoader ISceneManager.SceneLoader
+        public SceneLoader SceneLoader
             => this.m_SceneLoader;
         
         // -------------------------------
@@ -125,7 +126,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
 
         #region - - - - - - Methods - - - - - -
         
-        void ISceneManager.SetupCurrentScene(GameScenes gameScene) 
+        void ISceneManager.SetupCurrentScene(GameScene gameScene) 
             => this.m_CurrentGameScene = gameScene;
 
         // This appears to be less relevant and more debug related

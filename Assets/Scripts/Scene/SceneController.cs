@@ -8,10 +8,21 @@ namespace ThatOneSamuraiGame.Scripts.Scene
 
         #region - - - - - - Fields - - - - - -
 
-        [SerializeField] public EnemyTracker m_EnemyTracker;
-        [SerializeField] public EnemySpawnManager m_EnemySpawnManager;
-
+        [SerializeField, RequiredField] private BoxCollider Collider;
+        
         #endregion Fields
+        
+        #region - - - - - - Gizmos - - - - - -
+
+        private void OnDrawGizmosSelected()
+        {
+            if (this.transform == null) return;
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawCube(this.transform.position, this.Collider.bounds.size);
+        }
+
+        #endregion Gizmos
 
     }
 

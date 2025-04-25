@@ -18,7 +18,7 @@ public class ArcherDeath : Leaf
     [SerializeField, RequiredField] private AnimationRigControl m_RigControl;
     [SerializeField, RequiredField] private AnimationRagdollController m_RagdollController;
     [SerializeField, RequiredField] private Transform m_ArcherTransform;
-    [FormerlySerializedAs("m_WeaponBody")] [SerializeField, RequiredField] private WeaponPhysicsController mWeaponPhysicsController;
+    [SerializeField, RequiredField] private WeaponPhysicsController m_WeaponPhysicsController;
     private ILockOnObserver m_LockOnObserver;
     
     [Space]
@@ -40,7 +40,7 @@ public class ArcherDeath : Leaf
         GameValidator.NotNull(this.m_LockOnObserver, nameof(m_LockOnObserver));
         GameValidator.NotNull(this.m_RagdollController, nameof(m_RagdollController));
         GameValidator.NotNull(this.m_PlayerTransform, nameof(m_PlayerTransform));
-        GameValidator.NotNull(this.mWeaponPhysicsController, nameof(mWeaponPhysicsController));
+        GameValidator.NotNull(this.m_WeaponPhysicsController, nameof(m_WeaponPhysicsController));
     }
 
     #endregion Unity Methods
@@ -58,8 +58,8 @@ public class ArcherDeath : Leaf
         this.m_RagdollController.ApplyForce(_Direction);
         
         // Make the weapon model subject to physics
-        this.mWeaponPhysicsController.ChangeToDynamic();
-        this.mWeaponPhysicsController.ApplyForce(_Direction, 8); // Arbitrary Force
+        this.m_WeaponPhysicsController.ChangeToDynamic();
+        this.m_WeaponPhysicsController.ApplyForce(_Direction, 8); // Arbitrary Force
 
         EnemyManager.Instance.SceneEnemyController.EnemyObserver.OnEnemyDeath.Invoke(this.transform.root.gameObject);
         this.m_BehaviourDisabler.DisableObjectsAndScripts();

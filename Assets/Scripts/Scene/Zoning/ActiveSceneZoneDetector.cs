@@ -1,6 +1,7 @@
 ﻿using ThatOneSamuraiGame;
 using UnityEngine;
 
+// TODO: Create a scene deactivator for when the player leaves the scene
 public class ActiveSceneZoneDetector : MonoBehaviour
 {
 

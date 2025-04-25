@@ -19,8 +19,8 @@
         // Does not correspond to scene list, but represents all debug scenes first opened.
         public static GameScene Debug_Scene = new("Debug_Scene", 999);
         public static GameScene Debug_AdditiveLoadingTest = new("Debug_AdditiveLoadingTest", 8);
-        public static GameScene Debug_AdditiveScene_1 = new("Debug_AdditiveScene_1", 9);
-        public static GameScene Debug_AdditiveScene_2 = new("Debug_AdditiveScene_2", 9);
+        public static GameScene Debug_AdditiveScene_1 = new("999_Additive_1", 9);
+        public static GameScene Debug_AdditiveScene_2 = new("999_Additive_2", 9);
         
         #endregion Fields
   

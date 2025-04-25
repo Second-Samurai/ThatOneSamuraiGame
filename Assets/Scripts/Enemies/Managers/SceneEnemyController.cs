@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ThatOneSamuraiGame;
+using ThatOneSamuraiGame.Scripts.General.Services;
 using UnityEngine;
 
 public class SceneEnemyController : MonoBehaviour
@@ -37,7 +38,10 @@ public class SceneEnemyController : MonoBehaviour
     {
         EnemyManager.Instance.SetActiveSceneEnemyController(this);
         for (int i = 0; i < this.SceneEnemyObjects.Count; i++)
-            this.SceneEnemyObjects[i].SetActive(true);
+        {
+            ICommand _SetupCommand = this.SceneEnemyObjects[i].GetComponent<ICommand>();
+            _SetupCommand.Execute();
+        }
     }
     
     private void CollectAllEnemiesWithinScene()
@@ -51,7 +55,7 @@ public class SceneEnemyController : MonoBehaviour
             if (_EnemiesWithinScene[i].scene == this.gameObject.scene)
                 this.SceneEnemyObjects.Add(_EnemiesWithinScene[i]);
     }
-
+    
     private void RemoveEnemyTrackingWithinScene(GameObject enemy) 
         => this.SceneEnemyObjects.Remove(enemy);
 

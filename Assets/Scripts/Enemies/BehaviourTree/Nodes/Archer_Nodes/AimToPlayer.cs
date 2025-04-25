@@ -24,7 +24,7 @@ public class AimToPlayer : Leaf
     // Required Dependencies
     private Animator m_ArcherAnimator;
     private AnimationRigControl m_RigControl;
-    private Transform m_ArcherTransform;
+    private Transform m_ArcherTransform; // TODO: Chan this to instead retrieve from the behaviour tree variables
     
     // Turn motion fields
     private bool m_CanMakeTurnMotion = true;

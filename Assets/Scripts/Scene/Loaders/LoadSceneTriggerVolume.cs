@@ -27,7 +27,6 @@ public class LoadSceneTriggerVolume : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.tag);
         if (other.tag != GameTag.Player) return;
         
         this.m_SceneLoader.LoadScene(this.m_LoadGameScene, LoadSceneMode.Additive);

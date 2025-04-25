@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Responsible for common setup handling logic for enemy behaviour trees
 /// </summary>
-public class EnemyBehaviourTreeSetupHandler : MonoBehaviour
+public class EnemyBehaviourTreeSetupHandler : MonoBehaviour, IInitialize
 {
 
     #region - - - - - - Fields - - - - - -
@@ -16,9 +16,8 @@ public class EnemyBehaviourTreeSetupHandler : MonoBehaviour
 
     #endregion Fields
 
-    #region - - - - - - Unity Methods - - - - - -
-
-    private void Start()
+    #region - - - - - - Initializers - - - - - -
+    void IInitialize.Initialize()
     {
         this.m_EnemyObserver = EnemyManager.Instance.SceneEnemyController.EnemyObserver;
 
@@ -29,7 +28,7 @@ public class EnemyBehaviourTreeSetupHandler : MonoBehaviour
         this.BindActiveToggleMethods();
     }
 
-    #endregion Unity Methods
+    #endregion Initializers
   
     #region - - - - - - Methods - - - - - -
 

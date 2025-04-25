@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Enumeration;
+using ThatOneSamuraiGame.Scripts.General.Services;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -52,8 +54,20 @@ namespace ThatOneSamuraiGame.Scripts.Scene.Loaders
 
             while (!_AsyncOperation.isDone)
                 yield return null;
-
+            
             this.m_SceneManager.SetupCurrentScene(gameScene);
+            
+            // Run initialization on scene objects or services for optimisation
+            // As soon as game objects are loaded additively, performance drops drastically
+            // UnityEngine.SceneManagement.Scene _LoadedScene =
+            //     UnityEngine.SceneManagement.SceneManager.GetSceneByName(gameScene);
+            // GameObject[] _RootObjects = _LoadedScene.GetRootGameObjects();
+            // IEnumeratorCommand _LoadCommand = _RootObjects
+            //     .SingleOrDefault(g => g.TryGetComponent<SceneController>(out _))?
+            //     .GetComponent<IEnumeratorCommand>(); // TODO: This is really inefficient
+
+            // if (_LoadCommand != null)
+            //     yield return _LoadCommand.Execute();
 
             yield return null;
         }

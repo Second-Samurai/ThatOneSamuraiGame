@@ -8,10 +8,21 @@ namespace ThatOneSamuraiGame.Scripts.Scene
 
         #region - - - - - - Fields - - - - - -
 
-        [SerializeField, RequiredField] private BoxCollider Collider;
+        [SerializeField, RequiredField] private BoxCollider m_Collider;
+        [SerializeField, RequiredField] private SceneEnemyController m_SceneEnemyController;
         
         #endregion Fields
-        
+
+        #region - - - - - - Unity Methods - - - - - -
+
+        private void Start()
+        {
+            GameValidator.NotNull(this.m_Collider, nameof(m_Collider));
+            GameValidator.NotNull(this.m_SceneEnemyController, nameof(m_SceneEnemyController));
+        }
+
+        #endregion Unity Methods
+  
         #region - - - - - - Gizmos - - - - - -
 
         private void OnDrawGizmosSelected()
@@ -19,7 +30,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene
             if (this.transform == null) return;
 
             Gizmos.color = Color.red;
-            Gizmos.DrawCube(this.transform.position, this.Collider.bounds.size);
+            Gizmos.DrawCube(this.transform.position, this.m_Collider.bounds.size);
         }
 
         #endregion Gizmos

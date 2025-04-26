@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using ThatOneSamuraiGame.Scripts.Base;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
@@ -9,6 +10,8 @@ public interface IAnimationRigBuilder
     #region - - - - - - Methods - - - - - -
 
     void BuildRig();
+
+    IEnumerator GraduallyBuildRig();
 
     #endregion Methods
 
@@ -42,6 +45,31 @@ public class AnimationRigControl : PausableMonoBehaviour, IAnimationRigBuilder
     {
         this.m_RigBuilder.Build();
         this.m_RigBuilder.enabled = true;
+    }
+
+    public IEnumerator GraduallyBuildRig()
+    {
+        foreach (var _Layer in m_RigBuilder.layers)
+        {
+            if (_Layer.rig != null && _Layer.rig.enabled)
+            {
+                _Layer.rig.gameObject.SetActive(false);
+                yield return null;
+            }
+        }
+        
+        this.m_RigBuilder.Build();
+        this.m_RigBuilder.enabled = true;
+        yield return null;
+        
+        foreach (var _Layer in m_RigBuilder.layers)
+        {
+            if (_Layer.rig != null)
+            {
+                _Layer.rig.gameObject.SetActive(true);
+                yield return null;
+            }
+        }
     }
     
     #endregion Methods

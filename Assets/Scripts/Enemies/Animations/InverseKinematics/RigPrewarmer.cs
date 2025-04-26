@@ -1,35 +1,24 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public static class RigPrewarmer
+public class RigPrewarmer : MonoBehaviour
 {
 
-    #region - - - - - - Methods - - - - - -
+    #region - - - - - - Fields - - - - - -
 
-    public static IEnumerator Prewarm(GameObject rigRoot)
+    private RigBuilder m_RigBuilder;
+
+    #endregion Fields
+  
+    #region - - - - - - Unity Methods - - - - - -
+
+    private void Start()
     {
-        if (rigRoot == null)
-            yield break;
-
-        bool _WasActive = rigRoot.activeSelf;
-
-        if (!_WasActive)
-            rigRoot.SetActive(true);
-
-        yield return null;
-
-        var _RigBuilder = rigRoot.GetComponent<RigBuilder>();
-        if (_RigBuilder != null)
-            _RigBuilder.Build();
-
-        yield return null;
-
-        if (!_WasActive)
-            rigRoot.SetActive(false);
+        this.m_RigBuilder = this.GetComponent<RigBuilder>();
+        this.m_RigBuilder.Build();
     }
 
-    #endregion Methods
-  
+    #endregion Unity Methods
+    
   
 }

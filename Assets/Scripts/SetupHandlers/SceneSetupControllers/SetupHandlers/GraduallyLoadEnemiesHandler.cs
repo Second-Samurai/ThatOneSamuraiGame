@@ -40,7 +40,7 @@ public class GraduallyLoadEnemiesHandler : MonoBehaviour, ISetupHandler
         for (int i = 0; i < this.m_SceneEnemyController.SceneEnemyObjects.Count; i++)
         {
             IAnimationRigBuilder _Builder = this.m_SceneEnemyController.SceneEnemyObjects[i].GetComponent<IAnimationRigBuilder>();
-            _Builder?.BuildRig();
+            yield return _Builder?.GraduallyBuildRig();
             yield return null;
         }
     }

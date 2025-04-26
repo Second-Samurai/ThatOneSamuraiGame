@@ -1,13 +1,27 @@
 ﻿using System.Collections.Generic;
 using ThatOneSamuraiGame.Scripts.Base;
+using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
-public class AnimationRigControl : PausableMonoBehaviour
+public interface IAnimationRigBuilder
+{
+
+    #region - - - - - - Methods - - - - - -
+
+    void BuildRig();
+
+    #endregion Methods
+
+}
+
+public class AnimationRigControl : PausableMonoBehaviour, IAnimationRigBuilder
 {
 
     #region - - - - - - Fields - - - - - -
 
-    public List<RigLayerToggle> RigWeightLayers;
-
+    [SerializeField, RequiredField] private List<RigLayerToggle> RigWeightLayers;
+    [SerializeField, RequiredField] private RigBuilder m_RigBuilder;
+    
     #endregion Fields
   
     #region - - - - - - Methods - - - - - -
@@ -24,6 +38,12 @@ public class AnimationRigControl : PausableMonoBehaviour
             _RigLayerControl.DisableLayer();
     }
 
+    public void BuildRig()
+    {
+        this.m_RigBuilder.Build();
+        this.m_RigBuilder.enabled = true;
+    }
+    
     #endregion Methods
   
 }

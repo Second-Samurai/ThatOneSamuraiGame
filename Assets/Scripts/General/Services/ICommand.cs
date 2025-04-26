@@ -14,15 +14,4 @@ namespace ThatOneSamuraiGame.Scripts.General.Services
 
     }
 
-    public interface IEnumeratorCommand
-    {
-
-        #region - - - - - - Methods - - - - - -
-
-        IEnumerator Execute();
-
-        #endregion Methods
-
-    }
-
 }

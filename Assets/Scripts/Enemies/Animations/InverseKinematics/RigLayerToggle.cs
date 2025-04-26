@@ -31,6 +31,8 @@ public class RigLayerToggle : MonoBehaviour, IRigLayerControl
     public AnimationCurve TransitionWeightCurve // TODO: Check whether we need to remove this
         => this.m_TransitionWeightCurve;
 
+    public Rig Rig => this.m_AffectedRig;
+
     #endregion Properties
 
     #region - - - - - - Unity Methods - - - - - -

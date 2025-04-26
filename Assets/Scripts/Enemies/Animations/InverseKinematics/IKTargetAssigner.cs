@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Scripts.Base;
+﻿using ThatOneSamuraiGame.GameLogging;
+using ThatOneSamuraiGame.Scripts.Base;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
 
@@ -24,6 +25,12 @@ public class IKTargetAssigner : PausableMonoBehaviour
     {
         if (this.IsPaused) return;
 
+        if (this.m_AimTransform == null)
+        {
+            GameLogger.LogWarning("No Aim Transform is set");
+            return;
+        }
+        
         this.transform.position = this.m_AimTransform.position;
     }
 

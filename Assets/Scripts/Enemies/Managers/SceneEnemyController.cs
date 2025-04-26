@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ThatOneSamuraiGame;
-using ThatOneSamuraiGame.Scripts.General.Services;
 using UnityEngine;
 
 public class SceneEnemyController : MonoBehaviour
@@ -25,26 +24,29 @@ public class SceneEnemyController : MonoBehaviour
         GameValidator.NotNull(this.m_Observer, nameof(m_Observer));
         
         this.EnemyObserver.OnEnemyDeath.AddListener(this.RemoveEnemyTrackingWithinScene);
-        this.m_Observer.OnSceneActive.AddListener(this.ActivateSceneEnemyController);
+        // this.m_Observer.OnSceneActive.AddListener(() => this.StartCoroutine(this.ActivateSceneEnemyController()));
         
-        this.CollectAllEnemiesWithinScene();
+        // TODO: The placement of this is unusual
+        EnemyManager.Instance.SetActiveSceneEnemyController(this);
     }
 
     #endregion Unity Methods
 
     #region - - - - - - Methods - - - - - -
 
-    private void ActivateSceneEnemyController()
-    {
-        EnemyManager.Instance.SetActiveSceneEnemyController(this);
-        for (int i = 0; i < this.SceneEnemyObjects.Count; i++)
-        {
-            ICommand _SetupCommand = this.SceneEnemyObjects[i].GetComponent<ICommand>();
-            _SetupCommand.Execute();
-        }
-    }
+    // private IEnumerator ActivateSceneEnemyController()
+    // {
+    //     EnemyManager.Instance.SetActiveSceneEnemyController(this);
+    //     for (int i = 0; i < this.SceneEnemyObjects.Count; i++)
+    //     {
+    //         this.SceneEnemyObjects[i].SetActive(true);
+    //         ICommand _SetupCommand = this.SceneEnemyObjects[i].GetComponent<ICommand>();
+    //         _SetupCommand.Execute();
+    //         yield return null;
+    //     }
+    // }
     
-    private void CollectAllEnemiesWithinScene()
+    public void CollectAllEnemiesWithinScene()
     {
         List<GameObject> _EnemiesWithinScene = 
             FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None)

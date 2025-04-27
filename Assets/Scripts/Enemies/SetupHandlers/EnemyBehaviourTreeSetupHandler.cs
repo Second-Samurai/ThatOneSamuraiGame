@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class EnemyBehaviourTreeSetupHandler : MonoBehaviour, IInitialize
 {
-
+    // TODO: This class may not be needed at all. Its bringing activation logic as an external concern
     #region - - - - - - Fields - - - - - -
 
     [SerializeField, RequiredField] private Blackboard m_BehaviourTree;
@@ -26,6 +26,9 @@ public class EnemyBehaviourTreeSetupHandler : MonoBehaviour, IInitialize
 
         this.m_IsActive = this.m_BehaviourTree.GetVariable<BoolVariable>(EnemyBehaviourTreeConstants.IsActive);
         this.BindActiveToggleMethods();
+        
+        // Set the player as being active
+        this.m_IsActive.Value = true;
     }
 
     #endregion Initializers

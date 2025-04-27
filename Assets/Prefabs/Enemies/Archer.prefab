@@ -1235,6 +1235,10 @@ GameObject:
   - component: {fileID: 2959726757447746642}
   - component: {fileID: 2804102841682210041}
   - component: {fileID: 3602235765685265134}
+  - component: {fileID: 8196778238182637855}
+  - component: {fileID: 8373111124813046613}
+  - component: {fileID: 8156973989037363900}
+  - component: {fileID: 4407811381040910659}
   m_Layer: 0
   m_Name: Archer_BehaviourTree
   m_TagString: Untagged
@@ -1277,6 +1281,7 @@ MonoBehaviour:
   - {fileID: 4835853454245037210}
   - {fileID: 1030051864497367249}
   - {fileID: 2804102841682210041}
+  - {fileID: 8373111124813046613}
   masterBlackboard: {fileID: 0}
 --- !u!114 &4137918311325503055
 MonoBehaviour:
@@ -1290,7 +1295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 3405559080090716628}
+  selectedEditorNode: {fileID: 5450075065949808992}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -1309,8 +1314,8 @@ MonoBehaviour:
   title: Root
   rect:
     serializedVersion: 2
-    x: 200
-    y: 0
+    x: 142
+    y: -120
     width: 160
     height: 44
   parent: {fileID: 0}
@@ -1334,13 +1339,12 @@ MonoBehaviour:
   title: HasDiscoveredPlayer
   rect:
     serializedVersion: 2
-    x: 140
-    y: 340
+    x: -560
+    y: 740
     width: 160
     height: 44
-  parent: {fileID: 4711393579173598612}
-  children:
-  - {fileID: 8047855996907539899}
+  parent: {fileID: 0}
+  children: []
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
@@ -1419,7 +1423,7 @@ MonoBehaviour:
   title: Combat
   rect:
     serializedVersion: 2
-    x: 400
+    x: 480
     y: 560
     width: 160
     height: 44
@@ -1447,7 +1451,7 @@ MonoBehaviour:
   title: Aim to Player
   rect:
     serializedVersion: 2
-    x: 220
+    x: 300
     y: 660
     width: 160
     height: 44
@@ -1539,7 +1543,7 @@ MonoBehaviour:
   title: Fire Arrow
   rect:
     serializedVersion: 2
-    x: 400
+    x: 480
     y: 660
     width: 160
     height: 44
@@ -1563,7 +1567,7 @@ MonoBehaviour:
   title: Wait
   rect:
     serializedVersion: 2
-    x: 580
+    x: 660
     y: 660
     width: 160
     height: 44
@@ -1650,14 +1654,14 @@ MonoBehaviour:
   title: Selector
   rect:
     serializedVersion: 2
-    x: 200
-    y: 200
+    x: 140
+    y: 140
     width: 160
     height: 44
   parent: {fileID: 2959726757447746642}
   children:
   - {fileID: 5450075065949808992}
-  - {fileID: 4500594579662402843}
+  - {fileID: 8196778238182637855}
   - {fileID: 257050139103850361}
   behaviourTree: {fileID: 0}
   runtimePriority: 0
@@ -1678,7 +1682,7 @@ MonoBehaviour:
   title: IsWeaponRevealed
   rect:
     serializedVersion: 2
-    x: 400
+    x: 480
     y: 500
     width: 160
     height: 44
@@ -1738,7 +1742,7 @@ MonoBehaviour:
   title: Is Weapon Not Revealed
   rect:
     serializedVersion: 2
-    x: -100
+    x: -40
     y: 500
     width: 160
     height: 44
@@ -1784,7 +1788,7 @@ MonoBehaviour:
   title: Reveal Bow
   rect:
     serializedVersion: 2
-    x: -180
+    x: -120
     y: 660
     width: 160
     height: 44
@@ -1808,7 +1812,7 @@ MonoBehaviour:
   title: Set Boolean
   rect:
     serializedVersion: 2
-    x: 0
+    x: 40
     y: 660
     width: 160
     height: 44
@@ -1845,10 +1849,10 @@ MonoBehaviour:
   rect:
     serializedVersion: 2
     x: 140
-    y: 400
+    y: 340
     width: 160
     height: 44
-  parent: {fileID: 4500594579662402843}
+  parent: {fileID: 8196778238182637855}
   children:
   - {fileID: 439891238677289622}
   - {fileID: 3890463589159735242}
@@ -1871,7 +1875,7 @@ MonoBehaviour:
   title: Sequence
   rect:
     serializedVersion: 2
-    x: -100
+    x: -40
     y: 560
     width: 160
     height: 44
@@ -1912,8 +1916,8 @@ MonoBehaviour:
   title: ArcherDeath
   rect:
     serializedVersion: 2
-    x: -260
-    y: 400
+    x: -704
+    y: 407
     width: 160
     height: 44
   parent: {fileID: 5450075065949808992}
@@ -1949,8 +1953,8 @@ MonoBehaviour:
   title: Is Dead
   rect:
     serializedVersion: 2
-    x: -260
-    y: 340
+    x: -704
+    y: 347
     width: 160
     height: 44
   parent: {fileID: 4711393579173598612}
@@ -1995,8 +1999,8 @@ MonoBehaviour:
   title: Is Enemy Active
   rect:
     serializedVersion: 2
-    x: 200
-    y: 140
+    x: 140
+    y: 80
     width: 160
     height: 44
   parent: {fileID: 5817928225102260987}
@@ -2053,6 +2057,144 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BehaviourTree: {fileID: 4055222965844814459}
+--- !u!114 &8196778238182637855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5702792015918959252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb0b7cfe3e9cfba47a378c725cf5d0b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: IsWithinDetection
+  rect:
+    serializedVersion: 2
+    x: 140
+    y: 280
+    width: 160
+    height: 44
+  parent: {fileID: 4711393579173598612}
+  children:
+  - {fileID: 8047855996907539899}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  comparator: 1
+  distance:
+    useConstant: 1
+    mode: 0
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: 25
+  transform1:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 4055222965844814459}
+    key: ReferenceCharacterTransform
+    constantValue: {fileID: 0}
+  transform2:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 4055222965844814459}
+    key: PlayerTransform
+    constantValue: {fileID: 0}
+--- !u!114 &8373111124813046613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5702792015918959252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbc98ff6538275b4c9a8383882546ee9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: ReferenceCharacterTransform
+  val: {fileID: 5007324824763354318}
+--- !u!114 &8156973989037363900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5702792015918959252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb0b7cfe3e9cfba47a378c725cf5d0b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: IsOutsideDetection
+  rect:
+    serializedVersion: 2
+    x: -680
+    y: 600
+    width: 160
+    height: 44
+  parent: {fileID: 0}
+  children:
+  - {fileID: 4407811381040910659}
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  comparator: 0
+  distance:
+    useConstant: 1
+    mode: 0
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: 25
+  transform1:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 4055222965844814459}
+    key: ReferenceCharacterTransform
+    constantValue: {fileID: 0}
+  transform2:
+    useConstant: 0
+    mode: 0
+    blackboard: {fileID: 4055222965844814459}
+    key: PlayerTransform
+    constantValue: {fileID: 0}
+--- !u!114 &4407811381040910659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5702792015918959252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a491dc0bc41ade74e85756aea423797c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: Unset HasDiscoveredPlayer
+  rect:
+    serializedVersion: 2
+    x: -680
+    y: 660
+    width: 160
+    height: 59
+  parent: {fileID: 8156973989037363900}
+  children: []
+  behaviourTree: {fileID: 0}
+  runtimePriority: 0
+  breakpoint: 0
+  source:
+    useConstant: 1
+    mode: 0
+    blackboard: {fileID: 0}
+    key: 
+    constantValue: 0
+  destination:
+    useConstant: 0
+    mode: 1
+    blackboard: {fileID: 4055222965844814459}
+    key: HasDiscoveredPlayer
+    constantValue: 0
 --- !u!1 &5951799711604832936
 GameObject:
   m_ObjectHideFlags: 0

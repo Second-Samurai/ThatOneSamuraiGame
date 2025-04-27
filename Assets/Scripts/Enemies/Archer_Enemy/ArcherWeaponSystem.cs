@@ -58,24 +58,25 @@ public class ArcherWeaponSystem : PausableMonoBehaviour, IEnemyWeaponSystem
     private void Update()
     {
         if (this.IsPaused) return;
-        ((IEnemyWeaponSystem)this).HasSensedPlayer();
+        // ((IEnemyWeaponSystem)this).HasSensedPlayer();
     }
 
     #endregion Unity Methods
   
     #region - - - - - - Methods - - - - - -
 
+    // TODO: Does not belong here, this is detection logic not weapon logic
     void IEnemyWeaponSystem.HasSensedPlayer()
     {
-        // The player's position is always known. All relevant systems 'react' to the player's position
-        float _Distance = (this.m_AimTarget.position - this.transform.position).sqrMagnitude;
-        if (_Distance < this.m_DetectionDistance * this.m_DetectionDistance)
-        {
-            this.m_HasDetectedPlayer.Value = true;
-            return;
-        }
-
-        this.m_HasDetectedPlayer.Value = false;
+        // // The player's position is always known. All relevant systems 'react' to the player's position
+        // float _Distance = (this.m_AimTarget.position - this.transform.position).sqrMagnitude;
+        // if (_Distance < this.m_DetectionDistance * this.m_DetectionDistance)
+        // {
+        //     this.m_HasDetectedPlayer.Value = true;
+        //     return;
+        // }
+        //
+        // this.m_HasDetectedPlayer.Value = false;
     }
 
     void IEnemyWeaponSystem.PerformAttack() 

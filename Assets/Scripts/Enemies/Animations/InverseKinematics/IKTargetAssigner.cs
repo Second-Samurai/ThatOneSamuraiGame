@@ -19,6 +19,7 @@ public class IKTargetAssigner : PausableMonoBehaviour
         GameObject _Player = SceneManager.Instance.SceneState.ActivePlayer;
         IKLookAtAimTargetProvider _IKTargetProvider = _Player.GetComponent<IKLookAtAimTargetProvider>();
         this.m_AimTransform = _IKTargetProvider.GetAimTarget();
+        this.transform.position = this.m_AimTransform.position;
     }
 
     private void Update()
@@ -35,5 +36,5 @@ public class IKTargetAssigner : PausableMonoBehaviour
     }
 
     #endregion Unity Methods
-  
+
 }

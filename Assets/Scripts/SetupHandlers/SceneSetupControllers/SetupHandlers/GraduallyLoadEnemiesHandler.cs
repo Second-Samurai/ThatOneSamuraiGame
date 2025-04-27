@@ -31,18 +31,7 @@ public class GraduallyLoadEnemiesHandler : MonoBehaviour, ISetupHandler
 
     private IEnumerator HandleEnemyLoad()
     {
-        yield return this.PreBuildAllEnemyRigs();
         yield return this.ActivateSceneEnemyController();
-    }
-
-    private IEnumerator PreBuildAllEnemyRigs()
-    {
-        for (int i = 0; i < this.m_SceneEnemyController.SceneEnemyObjects.Count; i++)
-        {
-            IAnimationRigBuilder _Builder = this.m_SceneEnemyController.SceneEnemyObjects[i].GetComponent<IAnimationRigBuilder>();
-            yield return _Builder?.GraduallyBuildRig();
-            yield return null;
-        }
     }
     
     private IEnumerator ActivateSceneEnemyController()

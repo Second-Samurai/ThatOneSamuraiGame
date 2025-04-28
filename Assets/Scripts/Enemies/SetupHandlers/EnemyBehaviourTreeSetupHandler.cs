@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class EnemyBehaviourTreeSetupHandler : MonoBehaviour, IInitialize
 {
-    // TODO: This class may not be needed at all. Its bringing activation logic as an external concern
+    
     #region - - - - - - Fields - - - - - -
 
     [SerializeField, RequiredField] private Blackboard m_BehaviourTree;

@@ -28,9 +28,6 @@ public class RigLayerToggle : MonoBehaviour, IRigLayerControl
     public bool IsAnimating
         => this.m_IsAnimating;
 
-    public AnimationCurve TransitionWeightCurve // TODO: Check whether we need to remove this
-        => this.m_TransitionWeightCurve;
-
     public Rig Rig => this.m_AffectedRig;
 
     #endregion Properties
@@ -67,12 +64,6 @@ public class RigLayerToggle : MonoBehaviour, IRigLayerControl
         this.StartCoroutine(this.AnimateRigWeights(1f, 0f, 1));
     }
 
-    public void SetDefaultRigValues()
-    {
-        // On start the weight should be set to default as Unity animator will default its influence to 1.0f
-        this.m_AffectedRig.weight = 0f;
-    }
-    
     private IEnumerator AnimateRigWeights(float startWeight, float endWeight, float speedMultiplier, Action onCompletion = null)
     {
         this.m_IsAnimating = true;

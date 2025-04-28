@@ -73,11 +73,14 @@ public class AimToPlayer : Leaf
             this.m_RigControl.StartCoroutine(this.AnimateLegsLayerMasterWeight(this.m_EnableWeightCurves));
         }
 
+        // Calculate target rotation
         this.m_Forward = this.m_ArcherTransform.forward;
         this.m_DirectionToTarget = (this.m_PlayerTransform.Value.position - this.m_ArcherTransform.position).normalized;
         this.m_DirectionToTarget.y = 0;
         Quaternion _TargetRotation = Quaternion.LookRotation(this.m_DirectionToTarget);
         
+        // Trigger rotation to player routine
+        // TODO: Move to its own method
         this.m_AngleToPlayer = Quaternion.Angle(this.m_ArcherTransform.rotation, _TargetRotation);
         if (this.m_AngleToPlayer <= this.m_AimDetectionThreshold.Value)
         {
@@ -88,6 +91,7 @@ public class AimToPlayer : Leaf
             return NodeResult.success;
         }
 
+        // TODO: Move to its own method
         if (this.m_CanMakeTurnMotion)
         {
             // Trigger turn motion

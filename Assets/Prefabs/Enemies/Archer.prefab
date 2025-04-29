@@ -391,8 +391,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AimTarget: {fileID: 4692348705509955575}
   m_FirePoint: {fileID: 6867927429109728906}
-  m_BehaviourTree: {fileID: 4055222965844814459}
-  m_RigControl: {fileID: 8527681507114876533}
   m_ProjectilePrefab: {fileID: 3554549179312115800, guid: 59efa1b0006afe640ac4bcb3cb67210b,
     type: 3}
   m_DetectionDistance: 20
@@ -1295,7 +1293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b25af8627659c6949b60949c3aa8d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedEditorNode: {fileID: 5450075065949808992}
+  selectedEditorNode: {fileID: 1601334089432233287}
   repeatOnFinish: 1
   maxExecutionsPerTick: 1000
   parent: {fileID: 0}
@@ -1460,18 +1458,18 @@ MonoBehaviour:
   behaviourTree: {fileID: 0}
   runtimePriority: 0
   breakpoint: 0
-  m_PlayerTransform:
+  m_PlayerTransformReference:
     useConstant: 0
     mode: 0
     blackboard: {fileID: 4055222965844814459}
     key: PlayerTransform
     constantValue: {fileID: 0}
-  m_RotationSpeed:
+  m_ArcherTransformReference:
     useConstant: 0
     mode: 0
     blackboard: {fileID: 4055222965844814459}
-    key: AimRotationSpeed
-    constantValue: 0
+    key: ReferenceCharacterTransform
+    constantValue: {fileID: 0}
   m_AimDetectionThreshold:
     useConstant: 0
     mode: 0

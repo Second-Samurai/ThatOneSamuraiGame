@@ -1,8 +1,6 @@
 ﻿using MBT;
 using ThatOneSamuraiGame.Scripts.Base;
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
-using UnityEngine.Serialization;
 
 public interface IEnemyWeaponSystem
 {

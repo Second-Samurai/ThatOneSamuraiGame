@@ -13,6 +13,7 @@ public class ActiveSceneZoneDetector : MonoBehaviour
 
     #region - - - - - - Unity Methods - - - - - -
 
+    
     private void Start()
         => GameValidator.NotNull(this.m_SceneObserver, nameof(m_SceneObserver));
 

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using ThatOneSamuraiGame.Scripts.Enumeration;
+using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Scene
 {

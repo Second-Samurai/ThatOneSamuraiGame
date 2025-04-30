@@ -1,4 +1,5 @@
-﻿using ThatOneSamuraiGame.Scripts.Enumeration;
+﻿using System.Collections.Generic;
+using ThatOneSamuraiGame.Scripts.Enumeration;
 using ThatOneSamuraiGame.Scripts.Scene.DataContainers;
 using ThatOneSamuraiGame.Scripts.Scene.Loaders;
 using UnityEngine;
@@ -35,6 +36,8 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         [SerializeField] public PlayerController m_PlayerController;
         [SerializeField] public Transform m_PlayerSpawnPoint;
 
+        [Header("Scene Management")]
+        [SerializeField] private List<GameScene> m_LoadedScenes;
         private GameScene m_CurrentGameScene;
         
         #endregion Fields
@@ -125,6 +128,11 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         #endregion Lifecycle Methods
 
         #region - - - - - - Methods - - - - - -
+
+        public void AddLoadedScene(GameScene scene)
+        {
+            
+        }
         
         void ISceneManager.SetupCurrentScene(GameScene gameScene) 
             => this.m_CurrentGameScene = gameScene;

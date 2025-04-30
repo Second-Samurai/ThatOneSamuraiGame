@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using ThatOneSamuraiGame.Scripts.Enumeration;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Scene
 {
@@ -12,9 +10,17 @@ namespace ThatOneSamuraiGame.Scripts.Scene
 
         [SerializeField, RequiredField] private BoxCollider m_Collider;
         [SerializeField, RequiredField] private SceneEnemyController m_SceneEnemyController;
+
+        public Transform m_SceneCenter; // TODO: Clean up
         
         #endregion Fields
 
+        #region - - - - - - Properties - - - - - -
+
+        public Vector3 CenterPosition => this.m_SceneCenter.position;
+
+        #endregion Properties
+  
         #region - - - - - - Unity Methods - - - - - -
 
         private void Start()
@@ -24,6 +30,20 @@ namespace ThatOneSamuraiGame.Scripts.Scene
         }
 
         #endregion Unity Methods
+
+        #region - - - - - - Methods - - - - - -
+
+        public void ActivateScene()
+        {
+            
+        }
+
+        public void DeactivateScene()
+        {
+            
+        }
+        
+        #endregion Methods
   
         #region - - - - - - Gizmos - - - - - -
 

@@ -129,11 +129,6 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
 
         #region - - - - - - Methods - - - - - -
 
-        public void AddLoadedScene(GameScene scene)
-        {
-            
-        }
-        
         void ISceneManager.SetupCurrentScene(GameScene gameScene) 
             => this.m_CurrentGameScene = gameScene;
 

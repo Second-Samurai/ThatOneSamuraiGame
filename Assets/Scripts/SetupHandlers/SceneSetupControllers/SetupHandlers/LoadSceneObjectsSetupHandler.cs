@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHandlers;
 using UnityEngine;
@@ -13,7 +12,7 @@ public class LoadSceneObjectsSetupHandler : MonoBehaviour, ISetupHandler
 
     #region - - - - - - Fields - - - - - -
 
-    [SerializeField] private List<GameObject> m_ObjectsToEnableInSequence;
+    [SerializeField, RequiredField] private ObjectGroupEnablerSystem m_ObjectEnabler;
     
     private ISetupHandler m_NextHandler;
 
@@ -26,22 +25,10 @@ public class LoadSceneObjectsSetupHandler : MonoBehaviour, ISetupHandler
 
     public void Handle(SceneSetupContext setupContext)
     {
-        this.StartCoroutine(this.GraduallyLoadObjects());
+        this.m_ObjectEnabler.EnableObjects();
         GameLogger.Log("Scene objects are loaded");
         
         this.m_NextHandler?.Handle(setupContext);
-    }
-
-    private IEnumerator GraduallyLoadObjects()
-    {
-        for (int i = 0; i < this.m_ObjectsToEnableInSequence.Count; i++)
-        {
-            if (this.m_ObjectsToEnableInSequence[i].activeInHierarchy)
-                GameLogger.LogWarning($"'{this.m_ObjectsToEnableInSequence[i].name}' should be disabled before running.");
-            
-            this.m_ObjectsToEnableInSequence[i].SetActive(true);
-            yield return null;
-        }
     }
 
     #endregion Methods

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using ThatOneSamuraiGame.Scripts.Base;
-using ThatOneSamuraiGame.Scripts.Scene;
 using ThatOneSamuraiGame.Scripts.Scene.Loaders;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
@@ -40,17 +39,14 @@ public class ActiveSceneTrackingController : PausableMonoBehaviour
             if (this.IsWithinTrackingRadius(_SceneCenter))
             {
                 if (this.IsWithinActivationRadius(_SceneCenter))
-                {
                     _TrackedSceneController.ActivateScene();
-                }
                 else
-                {
                     _TrackedSceneController.DeactivateScene();
-                }
             }
             else
             {
-                
+                this.m_TrackedSceneControllers.Remove(_TrackedSceneController);
+                _TrackedSceneController.CloseScene();
             }
         }
     }
@@ -60,19 +56,7 @@ public class ActiveSceneTrackingController : PausableMonoBehaviour
     #region - - - - - - Methods - - - - - -
 
     public void RegisterScene(SceneController sceneController)
-    {
-        this.m_TrackedSceneControllers.Add(sceneController);
-    }
-
-    public void DeregisterScene(SceneController sceneController)
-    {
-        
-    }
-
-    public void UnloadScene()
-    {
-        
-    }
+        => this.m_TrackedSceneControllers.Add(sceneController);
 
     private bool IsWithinTrackingRadius(Vector3 sceneCenter) =>
         (this.m_PlayerTransform.position - sceneCenter).sqrMagnitude <
@@ -82,5 +66,17 @@ public class ActiveSceneTrackingController : PausableMonoBehaviour
         => (this.m_PlayerTransform.position - sceneCenter).sqrMagnitude < this.m_ActiveRadius * this.m_ActiveRadius;
 
     #endregion Methods
+
+    #region - - - - - - Gizmos - - - - - -
+
+    private void OnDrawGizmosSelected()
+    {
+        if (this.m_PlayerTransform == null) return;
+        
+        Gizmos.DrawSphere(this.m_PlayerTransform.position, this.m_ActiveRadius);
+        Gizmos.DrawSphere(this.m_PlayerTransform.position, this.m_TrackingRadius);
+    }
+
+    #endregion Gizmos
   
 }

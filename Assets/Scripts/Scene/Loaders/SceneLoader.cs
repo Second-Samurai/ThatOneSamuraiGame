@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Linq;
 using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.Enumeration;
-using ThatOneSamuraiGame.Scripts.General.Services;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,6 +15,8 @@ namespace ThatOneSamuraiGame.Scripts.Scene.Loaders
         #region - - - - - - Methods - - - - - -
 
         void LoadScene(GameSceneEnum selectedGameScene, LoadSceneMode loadSceneMode);
+
+        void UnloadScene(GameSceneEnum selectedGameScene);
 
         #endregion Methods
 
@@ -44,6 +44,9 @@ namespace ThatOneSamuraiGame.Scripts.Scene.Loaders
         public void LoadScene(GameSceneEnum selectedGameScene, LoadSceneMode loadSceneMode) 
             => this.StartCoroutine(this.LoadSceneRoutine(selectedGameScene, loadSceneMode));
 
+        public void UnloadScene(GameSceneEnum selectedGameScene) 
+            => this.StartCoroutine(this.UnloadSceneRoutine(selectedGameScene));
+
         private IEnumerator LoadSceneRoutine(GameScene gameScene, LoadSceneMode loadSceneMode)
         {
             if (gameScene > this.m_SceneCount)
@@ -56,20 +59,15 @@ namespace ThatOneSamuraiGame.Scripts.Scene.Loaders
                 yield return null;
             
             this.m_SceneManager.SetupCurrentScene(gameScene);
-            
-            // Run initialization on scene objects or services for optimisation
-            // As soon as game objects are loaded additively, performance drops drastically
-            // UnityEngine.SceneManagement.Scene _LoadedScene =
-            //     UnityEngine.SceneManagement.SceneManager.GetSceneByName(gameScene);
-            // GameObject[] _RootObjects = _LoadedScene.GetRootGameObjects();
-            // IEnumeratorCommand _LoadCommand = _RootObjects
-            //     .SingleOrDefault(g => g.TryGetComponent<SceneController>(out _))?
-            //     .GetComponent<IEnumeratorCommand>(); // TODO: This is really inefficient
+        }
 
-            // if (_LoadCommand != null)
-            //     yield return _LoadCommand.Execute();
+        private IEnumerator UnloadSceneRoutine(GameScene gameScene)
+        {
+            var _AsyncOperation = UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(gameScene.GetValue());
+            GameLogger.Log($"[LOG]: Unload scene {gameScene.GetValue()} -> '{gameScene}'");
 
-            yield return null;
+            while (!_AsyncOperation.isDone)
+                yield return null;
         }
 
         #endregion Methods

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using ThatOneSamuraiGame.Scripts.Enumeration;
+using ThatOneSamuraiGame.Scripts.Scene.Loaders;
+using UnityEngine;
 
 namespace ThatOneSamuraiGame.Scripts.Scene
 {
@@ -8,10 +10,12 @@ namespace ThatOneSamuraiGame.Scripts.Scene
 
         #region - - - - - - Fields - - - - - -
 
+        public GameSceneEnum AssignedGameScene;
         [SerializeField, RequiredField] private BoxCollider m_Collider;
         [SerializeField, RequiredField] private SceneEnemyController m_SceneEnemyController;
 
         public Transform m_SceneCenter; // TODO: Clean up
+        private ISceneLoader m_SceneLoader;
         
         #endregion Fields
 
@@ -27,6 +31,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene
         {
             GameValidator.NotNull(this.m_Collider, nameof(m_Collider));
             GameValidator.NotNull(this.m_SceneEnemyController, nameof(m_SceneEnemyController));
+            GameValidator.NotNull(this.m_SceneLoader, nameof(m_SceneLoader));
         }
 
         #endregion Unity Methods
@@ -41,6 +46,11 @@ namespace ThatOneSamuraiGame.Scripts.Scene
         public void DeactivateScene()
         {
             
+        }
+
+        public void CloseScene()
+        {
+            this.m_SceneLoader.UnloadScene(this.AssignedGameScene);
         }
         
         #endregion Methods

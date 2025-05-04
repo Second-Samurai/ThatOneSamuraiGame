@@ -26,6 +26,8 @@ public class ActiveSceneTrackingController : PausableMonoBehaviour
 
         GameValidator.NotNull(this.m_PlayerTransform, nameof(m_PlayerTransform));
         GameValidator.NotNull(this.m_SceneLoader, nameof(m_SceneLoader));
+
+        SceneManager.Instance.ActiveSceneTracker = this;
     }
 
     private void Update()
@@ -72,8 +74,11 @@ public class ActiveSceneTrackingController : PausableMonoBehaviour
     private void OnDrawGizmosSelected()
     {
         if (this.m_PlayerTransform == null) return;
-        
+
+        Gizmos.color = Color.green;
         Gizmos.DrawSphere(this.m_PlayerTransform.position, this.m_ActiveRadius);
+
+        Gizmos.color = Color.red;
         Gizmos.DrawSphere(this.m_PlayerTransform.position, this.m_TrackingRadius);
     }
 

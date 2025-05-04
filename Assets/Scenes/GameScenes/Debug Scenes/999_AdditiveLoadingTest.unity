@@ -354,7 +354,7 @@ GameObject:
   m_Component:
   - component: {fileID: 196589148}
   m_Layer: 0
-  m_Name: '[Group] Environment'
+  m_Name: '[GROUP] Environment'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1008,7 +1008,7 @@ GameObject:
   - component: {fileID: 381857013}
   - component: {fileID: 381857012}
   m_Layer: 0
-  m_Name: '[Group] Pickups'
+  m_Name: '[GROUP] Pickups'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1302,6 +1302,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 679094108}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &680762283
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 680762284}
+  m_Layer: 0
+  m_Name: '[GROUP] Controllers'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &680762284
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680762283}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 841085045}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &757591507
 GameObject:
   m_ObjectHideFlags: 0
@@ -1313,7 +1345,7 @@ GameObject:
   - component: {fileID: 757591509}
   - component: {fileID: 757591508}
   m_Layer: 0
-  m_Name: '[Group] Scene Triggers'
+  m_Name: '[GROUP] Scene Triggers'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1600,6 +1632,54 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 768250386}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &841085043
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 841085045}
+  - component: {fileID: 841085044}
+  m_Layer: 0
+  m_Name: ActiveSceneTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &841085044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841085043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e155c6c7e91e400ab140269f9b3abae7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TrackedSceneControllers: []
+  m_PlayerTransform: {fileID: 1241462972}
+  m_ActiveRadius: 80
+  m_TrackingRadius: 150
+--- !u!4 &841085045
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841085043}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 680762284}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &914750545
 GameObject:
@@ -2098,6 +2178,12 @@ PrefabInstance:
       addedObject: {fileID: 1444732206}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d94a8df34a141f245a1ceb39eae35e01, type: 3}
+--- !u!4 &1241462972 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2647058447993931462, guid: d94a8df34a141f245a1ceb39eae35e01,
+    type: 3}
+  m_PrefabInstance: {fileID: 1241462971}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1290236097 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1819577764841782450, guid: 26c046c17a4e2854aa20b8b2ae55a276,
@@ -3850,6 +3936,7 @@ SceneRoots:
   - {fileID: 1241462971}
   - {fileID: 196589148}
   - {fileID: 381857013}
-  - {fileID: 21135284}
   - {fileID: 757591509}
+  - {fileID: 680762284}
+  - {fileID: 21135284}
   - {fileID: 390440929}

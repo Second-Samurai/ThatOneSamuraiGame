@@ -36,8 +36,6 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         [SerializeField] public PlayerController m_PlayerController;
         [SerializeField] public Transform m_PlayerSpawnPoint;
 
-        [Header("Scene Management")]
-        [SerializeField, RequiredField] private ActiveSceneTrackingController m_ActiveSceneTracker;
         private GameScene m_CurrentGameScene;
         
         #endregion Fields
@@ -76,8 +74,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.SceneManager
         public SceneLoader SceneLoader
             => this.m_SceneLoader;
 
-        public ActiveSceneTrackingController ActiveSceneTracker
-            => this.m_ActiveSceneTracker;
+        public ActiveSceneTrackingController ActiveSceneTracker { get; set; }
         
         // -------------------------------
         // Camera

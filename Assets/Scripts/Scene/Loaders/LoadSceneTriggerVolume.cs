@@ -1,8 +1,6 @@
 ﻿using ThatOneSamuraiGame;
 using ThatOneSamuraiGame.Scripts.Enumeration;
-using ThatOneSamuraiGame.Scripts.Scene.Loaders;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using SceneManager = ThatOneSamuraiGame.Scripts.Scene.SceneManager.SceneManager;
 
 public class LoadSceneTriggerVolume : MonoBehaviour
@@ -10,26 +8,25 @@ public class LoadSceneTriggerVolume : MonoBehaviour
 
     #region - - - - - - Fields - - - - - -
 
-    [SerializeField] private GameSceneEnum m_LoadGameScene;
-
-    private ISceneLoader m_SceneLoader;
+    private ActiveSceneTrackingController m_SceneTracker;
 
     #endregion Fields
 
     #region - - - - - - Unity Methods - - - - - -
+    [SerializeField] private GameSceneEnum m_LoadGameScene;
 
     private void Start()
     {
-        this.m_SceneLoader = SceneManager.Instance.SceneLoader;
+        this.m_SceneTracker = SceneManager.Instance.ActiveSceneTracker;
 
-        GameValidator.NotNull(this.m_SceneLoader, nameof(m_SceneLoader));
+        GameValidator.NotNull(this.m_SceneTracker, nameof(m_SceneTracker));
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag != GameTag.Player) return;
         
-        this.m_SceneLoader.LoadScene(this.m_LoadGameScene, LoadSceneMode.Additive);
+        this.m_SceneTracker.Loa
     }
 
     #endregion Unity Methods

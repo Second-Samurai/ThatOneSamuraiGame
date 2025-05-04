@@ -14,7 +14,10 @@ public class ActiveSceneTrackingController : PausableMonoBehaviour
     private ISceneLoader m_SceneLoader;
 
     public float m_ActiveRadius;
+    public float m_DeActivationRadius;
     public float m_TrackingRadius;
+
+    public bool m_IsGizmosInWireframe;
 
     #endregion Fields
 
@@ -38,11 +41,12 @@ public class ActiveSceneTrackingController : PausableMonoBehaviour
         {
             SceneController _TrackedSceneController = this.m_TrackedSceneControllers[i];
             Vector3 _SceneCenter = _TrackedSceneController.CenterPosition;
+            
             if (this.IsWithinTrackingRadius(_SceneCenter))
             {
-                if (this.IsWithinActivationRadius(_SceneCenter))
+                if (this.IsWithinActivationRadius(_SceneCenter) && !_TrackedSceneController.IsSceneActive)
                     _TrackedSceneController.ActivateScene();
-                else
+                else if (this.IsWithinDeActivationRadius(_SceneCenter) && _TrackedSceneController.IsSceneActive)
                     _TrackedSceneController.DeactivateScene();
             }
             else
@@ -67,6 +71,9 @@ public class ActiveSceneTrackingController : PausableMonoBehaviour
     private bool IsWithinActivationRadius(Vector3 sceneCenter) 
         => (this.m_PlayerTransform.position - sceneCenter).sqrMagnitude < this.m_ActiveRadius * this.m_ActiveRadius;
 
+    private bool IsWithinDeActivationRadius(Vector3 sceneCenter)
+        => (this.m_PlayerTransform.position - sceneCenter).sqrMagnitude < this.m_DeActivationRadius * this.m_ActiveRadius;
+
     #endregion Methods
 
     #region - - - - - - Gizmos - - - - - -
@@ -76,10 +83,26 @@ public class ActiveSceneTrackingController : PausableMonoBehaviour
         if (this.m_PlayerTransform == null) return;
 
         Gizmos.color = Color.green;
-        Gizmos.DrawSphere(this.m_PlayerTransform.position, this.m_ActiveRadius);
+        if (this.m_IsGizmosInWireframe)
+            Gizmos.DrawWireSphere(this.m_PlayerTransform.position, this.m_ActiveRadius);
+        else
+            Gizmos.DrawSphere(this.m_PlayerTransform.position, this.m_ActiveRadius);
+
+        Gizmos.color = Color.yellow;
+        if (this.m_IsGizmosInWireframe)
+            Gizmos.DrawWireSphere(this.m_PlayerTransform.position, this.m_DeActivationRadius);
+        else
+            Gizmos.DrawSphere(this.m_PlayerTransform.position, this.m_DeActivationRadius);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(this.m_PlayerTransform.position, this.m_TrackingRadius);
+        if (this.m_IsGizmosInWireframe)
+            Gizmos.DrawWireSphere(this.m_PlayerTransform.position, this.m_TrackingRadius);
+        else
+            Gizmos.DrawSphere(this.m_PlayerTransform.position, this.m_TrackingRadius);
+
+        Gizmos.color = Color.blue;
+        foreach (SceneController _TrackedSceneController in this.m_TrackedSceneControllers)
+            Gizmos.DrawSphere(_TrackedSceneController.transform.position, 5f);
     }
 
     #endregion Gizmos

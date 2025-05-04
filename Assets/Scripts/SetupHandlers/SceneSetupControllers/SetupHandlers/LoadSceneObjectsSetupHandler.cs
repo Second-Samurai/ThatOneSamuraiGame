@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ThatOneSamuraiGame.GameLogging;
+﻿using ThatOneSamuraiGame.GameLogging;
 using ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHandlers;
 using UnityEngine;
 

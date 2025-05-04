@@ -30,6 +30,7 @@ public class ObjectGroupEnablerSystem : MonoBehaviour
         for (int i = 0; i < this.m_ObjectGroups.Count; i++)
         {
             this.m_ObjectGroups[i].SetActive(true);
+            Debug.Log(this.m_ObjectGroups[i].name);
             yield return null;
         }
     }

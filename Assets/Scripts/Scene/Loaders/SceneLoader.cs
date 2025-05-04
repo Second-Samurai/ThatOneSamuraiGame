@@ -5,6 +5,7 @@ using ThatOneSamuraiGame.Scripts.Enumeration;
 using ThatOneSamuraiGame.Scripts.Scene.SceneManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
 namespace ThatOneSamuraiGame.Scripts.Scene.Loaders
 {
@@ -41,8 +42,11 @@ namespace ThatOneSamuraiGame.Scripts.Scene.Loaders
             this.m_SceneManager = SceneManager.SceneManager.Instance;
         }
 
-        public void LoadScene(GameSceneEnum selectedGameScene, LoadSceneMode loadSceneMode) 
-            => this.StartCoroutine(this.LoadSceneRoutine(selectedGameScene, loadSceneMode));
+        public void LoadScene(GameSceneEnum selectedGameScene, LoadSceneMode loadSceneMode)
+        {
+            if (this.IsSceneLoaded(selectedGameScene)) return;
+            this.StartCoroutine(this.LoadSceneRoutine(selectedGameScene, loadSceneMode));
+        }
 
         public void UnloadScene(GameSceneEnum selectedGameScene) 
             => this.StartCoroutine(this.UnloadSceneRoutine(selectedGameScene));
@@ -52,7 +56,7 @@ namespace ThatOneSamuraiGame.Scripts.Scene.Loaders
             if (gameScene > this.m_SceneCount)
                 throw new ArgumentOutOfRangeException();
 
-            var _AsyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(gameScene.GetValue(), loadSceneMode);
+            var _AsyncOperation = UnitySceneManager.LoadSceneAsync(gameScene.GetValue(), loadSceneMode);
             GameLogger.Log($"[LOG]: Loading scene {gameScene.GetValue()} -> '{gameScene}'");
 
             while (!_AsyncOperation.isDone)
@@ -63,11 +67,22 @@ namespace ThatOneSamuraiGame.Scripts.Scene.Loaders
 
         private IEnumerator UnloadSceneRoutine(GameScene gameScene)
         {
-            var _AsyncOperation = UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(gameScene.GetValue());
+            var _AsyncOperation = UnitySceneManager.UnloadSceneAsync(gameScene.GetValue());
             GameLogger.Log($"[LOG]: Unload scene {gameScene.GetValue()} -> '{gameScene}'");
 
             while (!_AsyncOperation.isDone)
                 yield return null;
+        }
+
+        private bool IsSceneLoaded(GameScene gameScene)
+        {
+            for (int i = 0; i < UnitySceneManager.sceneCount; i++)
+            {
+                if (UnitySceneManager.GetSceneAt(i).name == gameScene)
+                    return true;
+            }
+
+            return false;
         }
 
         #endregion Methods

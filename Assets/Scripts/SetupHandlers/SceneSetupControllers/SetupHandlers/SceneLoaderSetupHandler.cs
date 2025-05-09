@@ -26,13 +26,13 @@ namespace ThatOneSamuraiGame.Scripts.SetupHandlers.SceneSetupControllers.SetupHa
         {
             Transform _MainCamera = SceneManager.Instance.MainCamera.transform;
             
-            List<ISceneLoader> _SceneLoaders = Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None)
-                .Where(sho => sho.GetComponent<ISceneLoader>() != null)
-                .Select(sho => sho.GetComponent<ISceneLoader>())
+            List<IScenePlatformLoader> _SceneLoaders = Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None)
+                .Where(sho => sho.GetComponent<IScenePlatformLoader>() != null)
+                .Select(sho => sho.GetComponent<IScenePlatformLoader>())
                 .ToList();
 
             if (_SceneLoaders.Count != 0)
-                foreach (ISceneLoader _SceneLoader in _SceneLoaders)
+                foreach (IScenePlatformLoader _SceneLoader in _SceneLoaders)
                     _SceneLoader.Initialise(_MainCamera.transform);
             
             // Set values from context object to Managers

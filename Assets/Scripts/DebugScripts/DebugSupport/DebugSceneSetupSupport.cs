@@ -85,7 +85,7 @@ namespace ThatOneSamuraiGame.Scripts.DebugScripts.DebugSupport
             this.DeactivateScene();
             
             // Loads the persistent scene first
-            SceneManager.LoadScene(GameScenes.PersistenceScene.GetValue(), LoadSceneMode.Additive);
+            SceneManager.LoadScene(GameScene.PersistenceScene.GetValue(), LoadSceneMode.Additive);
         }
 
         private void DeactivateScene()

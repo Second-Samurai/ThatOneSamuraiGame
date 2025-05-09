@@ -52,6 +52,19 @@ public class PlayerHealthSystem : MonoBehaviour, IDamageable
 
     #endregion Initializers
 
+    #region - - - - - - Unity Methods - - - - - -
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == GameTag.Enemy)
+        {
+            // TODO: Flesh out more behaviour to affect on player
+            Debug.Log("Player has been damaged");
+        }
+    }
+
+    #endregion Unity Methods
+  
     #region - - - - - - Damage Methods - - - - - -
 
     // ---------------------------------------------------

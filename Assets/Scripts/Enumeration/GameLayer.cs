@@ -10,6 +10,8 @@
         #region - - - - - - Fields - - - - - -
 
         public static GameLayer Ignore = new GameLayer("Ignore", 7);
+        public static GameLayer Player = new GameLayer("Player", 9);
+        public static GameLayer Enemy = new GameLayer("Enemy", 10);
 
         #endregion Fields
 

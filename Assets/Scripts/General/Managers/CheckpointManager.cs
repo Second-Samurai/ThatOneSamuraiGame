@@ -1,59 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+// SCOPE: SCENE-ONLY
 public class CheckpointManager : MonoBehaviour
 {
+
+    #region - - - - - - Fields - - - - - -
+
     public List<Checkpoint> checkpoints;
     public int activeCheckpoint;
 
-    private void Awake()
-    { 
-        SaveSystem.LoadGame();
-    }
+    #endregion Fields
 
-    private void Start()
+    #region - - - - - - Initializers - - - - - -
+
+    public void Initialize()
     {
-        GetSaveDataCheckpoint();
-        if(CheckIfCheckpointAvailable()) GameManager.instance.buttonController.EnableContinue();
+        this.GetSaveDataCheckpoint();
+        
+        if(this.CheckIfCheckpointAvailable()) 
+            GameManager.instance.UserInterfaceManager.ButtonController.EnableContinue();
     }
 
-    public bool CheckIfCheckpointAvailable()
-    {
-        foreach (Checkpoint checkpoint in checkpoints)
-        {
-            if (checkpoint.bIsActive) return true;
-        }
-        return false;
-    }
+    #endregion Initializers
+  
+    #region - - - - - - Unity Methods - - - - - -
 
-    public void SaveActiveCheckpoint()
-    {
-        GameData.currentCheckpoint = activeCheckpoint;
-        SaveSystem.SaveGame();
-    }
+    private void Awake() 
+        => SaveSystem.LoadGame();
 
-    public void GetSaveDataCheckpoint()
-    {
-        activeCheckpoint = GameData.currentCheckpoint;
-        //Debug.Log(activeCheckpoint);
-        foreach (Checkpoint checkpoint in checkpoints)
-        {
-            checkpoint.bIsActive = false;
-        }
-        if (GameData.bLoaded)
-        {
-
-            checkpoints[activeCheckpoint].bIsActive = true;
-        }
-    }
-
-      
+    #endregion Unity Methods
+  
+    #region - - - - - - Methods - - - - - -
+    
     public void LoadCheckpoint()
     {
-        if(checkpoints[activeCheckpoint] != null && checkpoints[activeCheckpoint].bIsActive) checkpoints[activeCheckpoint].LoadCheckpoint();
+        if(checkpoints[activeCheckpoint] != null && checkpoints[activeCheckpoint].IsActive) 
+            this.checkpoints[activeCheckpoint].LoadCheckpoint();
         else
         {
             Debug.LogError("No active Checkpoint! Restarting");
@@ -66,10 +51,32 @@ public class CheckpointManager : MonoBehaviour
     public void ResetCheckpoints()
     {
         foreach (Checkpoint checkpoint in checkpoints)
-        {
-            checkpoint.bIsActive = false;
-        }
+            checkpoint.IsActive = false;
+        
         activeCheckpoint = 0;
     }
-   
+
+    private bool CheckIfCheckpointAvailable() 
+        => this.checkpoints.Any(c => c.IsActive);
+
+    public void SaveActiveCheckpoint()
+    {
+        GameData.currentCheckpoint = activeCheckpoint;
+        SaveSystem.SaveGame();
+    }
+
+    // Retrieves all the checkpoints from the GameData
+    private void GetSaveDataCheckpoint()
+    {
+        this.activeCheckpoint = GameData.currentCheckpoint;
+        
+        foreach (Checkpoint _CheckPoint in checkpoints)
+            _CheckPoint.IsActive = false;
+        
+        if (GameData.bLoaded)
+            this.checkpoints[activeCheckpoint].IsActive = true;
+    }
+
+    #endregion Methods
+  
 }

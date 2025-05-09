@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 public class SwordImpactEffect
@@ -17,15 +15,15 @@ public class SwordImpactEffect
     }
 
     //Summary: Creates particle effects when hitting non damageable items
-    //
     public void CreateGeneralImpact(Vector3 impactPosition, Vector3 impactRotation)
     {
         GameObject sparkFalloff = GameObject.Instantiate(_gameSettings.sparkFallOff01, impactPosition, Quaternion.Euler(impactRotation));
+        Debug.Log(_swordControl);
+        Debug.Log(sparkFalloff);
         _swordControl.StartCoroutine(_swordControl.DestroyAfterTime(sparkFalloff, 4f));
     }
 
     //Summary: Creates particle effects relevant to player hitting damageable entity
-    //
     public void CreateDamageableImpact(Vector3 impactPosition, Vector3 impactRotation)
     {
         GameObject sparkImpact = GameObject.Instantiate(_gameSettings.slashImpact01, impactPosition, Quaternion.Euler(impactRotation));
@@ -35,7 +33,6 @@ public class SwordImpactEffect
     }
 
     //Summary: Uses raycast to determine the hitpoint from player to target
-    //
     public Vector3 RayCastToHitPoint(Transform hitTarget)
     {
         Vector3 startPosition = _swordHolder.position;
@@ -52,10 +49,7 @@ public class SwordImpactEffect
         hit = hitResult.Where(predicate: x => x.collider.GetComponent<IDamageable>() != null).FirstOrDefault();
 
         if (hit.collider == null)
-        {
-            //Debug.LogWarning(">> PSword: hit raycast has returned nothing");
             return this._swordControl.transform.position;
-        }
 
         if (hit.collider.GetComponent<IDamageable>().GetEntityType() != EntityType.Player)
         {

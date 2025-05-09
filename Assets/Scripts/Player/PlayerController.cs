@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Cinemachine;
+using ThatOneSamuraiGame.Legacy;
+using ThatOneSamuraiGame.Scripts.Player.Attack;
 
 public interface IPlayerController {
     string GetStringID();
@@ -21,78 +21,96 @@ public interface ISecretValidator
     int GetKeyCount();
 }
 
-public class PlayerController : MonoBehaviour, IEntity, ISecretValidator
+public class PlayerController : MonoBehaviour, IEntity, ISecretValidator, IInitialize<PlayerControllerInitializerData>
 {
+    
+    #region - - - - - - Fields - - - - - -
+
     public string playerID = "defaultID1234";
     [HideInInspector] public StatHandler playerStats;
     [HideInInspector] public PlayerSettings playerSettings;
     [HideInInspector] public PlayerStateMachine stateMachine;
-    [HideInInspector] public CameraControl cameraController;
+    // [HideInInspector] public CameraControl cameraController; // TODO: Remove any old reference to this
 
     [HideInInspector] public int totalCollectedKeys = 0;
     [HideInInspector] public int totalKillCount = 0;
 
+    private PlayerState m_PlayerState;
+
+    #endregion Fields
+
+    #region - - - - - - Lifecycle Methods - - - - - -
+
     //NOTE: Once object is spawned through code init through awake instead.
     void Awake() {
         //NOTE: This is only temporary to fix the camera referencing issues
-        GameManager.instance.playerController = this;
+        // GameManager.instance.PlayerController = this;
     }
+
+    private void Start() 
+        => this.m_PlayerState = this.GetComponent<PlayerState>();
+
+    #endregion Lifecycle Methods
+
+    #region - - - - - - Methods - - - - - -
 
     //Summary: Sets initial state and initialise variables
     //
-    public void Init(GameObject targetHolder)
+    public void Initialize(PlayerControllerInitializerData initializerData)
     {
-        GameManager gameManager = GameManager.instance;
-        playerSettings = gameManager.gameSettings.playerSettings;
-        EntityStatData playerData = playerSettings.playerStats;
+        // GameManager gameManager = GameManager.instance;
+        // playerSettings = gameManager.gameSettings.playerSettings;
+        // EntityStatData playerData = playerSettings.playerStats;
+        //
+        // playerStats = new StatHandler();
+        // playerStats.Init(playerData);
 
-        playerStats = new StatHandler();
-        playerStats.Init(playerData);
-
-        stateMachine = this.gameObject.AddComponent<PlayerStateMachine>();
+        this.playerStats = initializerData.PlayerStatHandler;
+        this.stateMachine = this.gameObject.AddComponent<PlayerStateMachine>();
 
         //This assigns the thirdperson camera targets to this player
-        CinemachineFreeLook freeLockCamera = gameManager.thirdPersonViewCamera.GetComponent<CinemachineFreeLook>();
+        // CinemachineFreeLook freeLockCamera = gameManager.ThirdPersonViewCamera.GetComponent<CinemachineFreeLook>();
         //freeLockCamera.Follow = this.transform;
         //freeLockCamera.LookAt = this.transform;
 
-        PCombatController combatController = this.GetComponent<PCombatController>();
-        combatController.Init(playerStats);
-        combatController.UnblockCombatInputs();
+        // PCombatController combatController = this.GetComponent<PCombatController>();
+        // combatController.Init(playerStats);
+        // combatController.UnblockCombatInputs();
 
-        //Sets up the player's camera controller
-        cameraController = this.GetComponent<CameraControl>();
-        cameraController.Init(this.transform);
+        IPlayerAttackSystem _AttackHandler = this.GetComponent<IPlayerAttackSystem>();
+        _AttackHandler.EnableAttack();
 
-        LockOnTargetManager lockOnManager = this.gameObject.GetComponentInChildren<LockOnTargetManager>();
-        lockOnManager.targetHolder = targetHolder; //Sets the holder from the gamemanager into the LockOn script
-
-        SetState<PNormalState>();
+        this.SetState<PNormalState>();
     }
 
     //Summary: Clears and Sets the new specified state for player.
     //
     public void SetState<T>() where T : PlayerState 
-    {
-        stateMachine.AddState<T>();
-    }
+        => stateMachine.AddState<T>();
 
-    public string GetStringID() {
-        return playerID;
-    }
+    public string GetStringID() 
+        => playerID;
 
-    public StatHandler GetPlayerStats()
-    {
-        return playerStats;
-    }
+    public StatHandler GetPlayerStats() 
+        => playerStats;
 
-    public int GetKillCount()
-    {
-        return totalKillCount;
-    }
+    public int GetKillCount() 
+        => totalKillCount;
 
-    public int GetKeyCount()
-    {
-        return totalCollectedKeys;
-    }
+    public int GetKeyCount() 
+        => totalCollectedKeys;
+
+    #endregion Methods
+    
+}
+
+public class PlayerControllerInitializerData
+{
+
+    #region - - - - - - Properties - - - - - -
+
+    public StatHandler PlayerStatHandler { get; set; }
+
+    #endregion Properties
+  
 }

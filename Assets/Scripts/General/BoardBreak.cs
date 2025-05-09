@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardBreak : MonoBehaviour, IDamageable
@@ -17,6 +16,10 @@ public class BoardBreak : MonoBehaviour, IDamageable
         foreach (Rigidbody child in children) boards.Add(child);
         thisCol = GetComponent<BoxCollider>();
         isBuilt = true;
+    }
+
+    public void HandleAttack(float damage, GameObject attacker)
+    {
     }
 
     public void DisableDamage()
@@ -49,7 +52,7 @@ public class BoardBreak : MonoBehaviour, IDamageable
             foreach (Rigidbody board in boards)
             {
                 board.isKinematic = true;
-                board.velocity = Vector3.zero;
+                board.linearVelocity = Vector3.zero;
             }
         }
     }

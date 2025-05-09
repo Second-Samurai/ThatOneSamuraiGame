@@ -1,39 +1,46 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Handling slide manuvers to target enemy during attacks
+/// Handling slide maneuvers to target enemy during attacks
 /// </summary>
 public class AttackSlide
 {
-    private PCombatController _combatController;
-    private Rigidbody _playerRB;
-    private PlayerSettings _settings;
-    private float _targetDistance;
+
+    #region - - - - - - Fields - - - - - -
+
+    private MonoBehaviour m_MonoBehaviour;
+    private Rigidbody m_PlayerRigidbody;
+    private PlayerSettings m_settings;
+    private float m_TargetDistance;
+
+    #endregion Fields
+
+    #region - - - - - - Initializers - - - - - -
 
     /// <summary>
     /// Attack slide Init function
     /// </summary>
-    public void Init(PCombatController controller, Rigidbody playerRB)
+    public void Init(MonoBehaviour monoBehaviour, Rigidbody playerRB)
     {
-        _combatController = controller;
-        _playerRB = playerRB;
-        _settings = GameManager.instance.gameSettings.playerSettings;
+        this.m_MonoBehaviour = monoBehaviour;
+        this.m_PlayerRigidbody = playerRB;
+        this.m_settings = GameManager.instance.gameSettings.playerSettings;
     }
+
+    #endregion Initializers
+
+    #region - - - - - - Methods - - - - - -
 
     // Summary: Trigger sliding towards intended enemies
     //
     public void SlideToEnemy(Transform targetEnemy)
     {
         if (CheckWithinMinDist(targetEnemy))
-        {
-            //Debug.Log(">> AttackSlide: Is within minimum: " + (Vector3.Distance(_playerRB.transform.position, targetEnemy.position) <= _settings.minimumAttackDist));
             return;
-        }
 
-        _combatController.StopCoroutine(SlideOverTime(targetEnemy));
-        _combatController.StartCoroutine(SlideOverTime(targetEnemy));
+        this.m_MonoBehaviour.StopCoroutine(SlideOverTime(targetEnemy));
+        this.m_MonoBehaviour.StartCoroutine(SlideOverTime(targetEnemy));
     }
 
     /// <summary>
@@ -41,32 +48,32 @@ public class AttackSlide
     /// </summary>
     public void SlideForward()
     {
-        _combatController.StopCoroutine(JustSlideForward());
-        _combatController.StartCoroutine(JustSlideForward());
+        this.m_MonoBehaviour.StopCoroutine(JustSlideForward());
+        this.m_MonoBehaviour.StartCoroutine(JustSlideForward());
     }
 
     // Summary: Checks whether the player is within the minimum dist against enemy
     //
     private bool CheckWithinMinDist(Transform targetEnemy)
     {
-        _targetDistance = Vector3.Magnitude(_playerRB.transform.position - targetEnemy.position);
-        return _targetDistance <= _settings.minimumAttackDist;
+        this.m_TargetDistance = Vector3.Magnitude(this.m_PlayerRigidbody.transform.position - targetEnemy.position);
+        return this.m_TargetDistance <= this.m_settings.minimumAttackDist;
     }
 
     private void FaceTowardsEnemy(Transform targetEnemy)
     {
-        Vector3 direction = targetEnemy.position - _playerRB.transform.position;
-        float angle = Vector3.Angle(_playerRB.transform.forward, direction);
-        angle *= Vector3.Dot(_playerRB.transform.right.normalized, direction.normalized) < 0 ? -1 : 1;
+        Vector3 direction = targetEnemy.position - this.m_PlayerRigidbody.transform.position;
+        float angle = Vector3.Angle(this.m_PlayerRigidbody.transform.forward, direction);
+        angle *= Vector3.Dot(this.m_PlayerRigidbody.transform.right.normalized, direction.normalized) < 0 ? -1 : 1;
 
-        _playerRB.transform.Rotate(0, angle, 0);
+        this.m_PlayerRigidbody.transform.Rotate(0, angle, 0);
     }
 
     // Summary: Coroutine for sliding player to forward target
     //
     private IEnumerator SlideOverTime(Transform targetEnemy)
     {
-        float velocity = _settings.slideSpeed;
+        float velocity = this.m_settings.slideSpeed;
 
         FaceTowardsEnemy(targetEnemy);
 
@@ -74,21 +81,24 @@ public class AttackSlide
         {
             if (CheckWithinMinDist(targetEnemy)) yield break;
 
-            velocity -= _settings.slideSpeed * _settings.slideDuration;
-            _playerRB.position += _playerRB.transform.forward * velocity;
+            velocity -= this.m_settings.slideSpeed * this.m_settings.slideDuration;
+            this.m_PlayerRigidbody.position += this.m_PlayerRigidbody.transform.forward * velocity;
             yield return null;
         }
     }
 
     private IEnumerator JustSlideForward()
     {
-        float velocity = _settings.slideSpeed;
+        float velocity = this.m_settings.slideSpeed;
 
         while (velocity > 0)
         {
-            velocity -= _settings.slideSpeed * _settings.slideDuration;
-            _playerRB.position += _playerRB.transform.forward * velocity;
+            velocity -= this.m_settings.slideSpeed * this.m_settings.slideDuration;
+            this.m_PlayerRigidbody.position += this.m_PlayerRigidbody.transform.forward * velocity;
             yield return null;
         }
     }
+
+    #endregion Methods
+  
 }

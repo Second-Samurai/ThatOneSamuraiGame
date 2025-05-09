@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawnManager : MonoBehaviour
@@ -24,7 +23,6 @@ public class EnemySpawnManager : MonoBehaviour
             
             Debug.Log(enemySpawnDictionary.Values);
         }
-        else Debug.LogError("NO DATA TO SPAWN");
     }
 
     public void SetSpawnValue()

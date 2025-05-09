@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using ThatOneSamuraiGame;
 using UnityEngine;
 
 public class RespawnPlayerPit : MonoBehaviour
@@ -10,7 +9,7 @@ public class RespawnPlayerPit : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<PlayerFunctions>().KillPlayer();
+            other.gameObject.GetComponent<PlayerHealthSystem>().KillPlayer();
         }
            // other.gameObject.transform.position = respawnPoint.position;
     }

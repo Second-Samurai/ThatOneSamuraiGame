@@ -1,40 +1,57 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using Cinemachine;
-using UnityEngine.Events;
-using UnityEngine.Timeline;
 using Enemies;
+using ThatOneSamuraiGame.Scripts.Player.Attack;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
+using ThatOneSamuraiGame.Scripts.Player.Movement;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
+/*
+ * Pitfalls to the FinisherMoveController:
+ *  - 
+ */
+[Obsolete]
 public class FinishingMoveController : MonoBehaviour
 {
-    PlayableDirector _cutsceneDirector;
+    
+    #region - - - - - - Fields - - - - - -
 
     public GameObject detector;
-
     public PlayableAsset[] finishingMoves;
-
-    public PlayerInputScript playerInputScript;
-
     public GameEvent showFinisherTutorialEvent;
-
-    GameObject targetEnemy;
-    PDamageController damageController;
-    List<Transform> enemies; 
-    List<AISystem> enemiesCache;
-
     public bool bIsFinishing = false;
 
-    // Start is called before the first frame update
-    void Start()
+    PlayableDirector _cutsceneDirector;
+    PlayerHealthSystem damageController;
+    List<Transform> enemies; 
+    List<AISystem> enemiesCache;
+    GameObject targetEnemy;
+
+    #endregion Fields
+
+    // #region - - - - - - Unity Lifecycle Methods - - - - - -
+
+    // void Start()
+    // {
+    //     _cutsceneDirector = GetComponent<PlayableDirector>();
+    //     BindToTrack("Cinemachine Track", GameManager.instance.MainCamera.GetComponent<CinemachineBrain>());
+    //     damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PDamageController>();
+    // }
+    //
+    // #endregion Unity Lifecycle Methods
+
+    #region - - - - - - Methods - - - - - -
+
+    public void Initialise()
     {
         _cutsceneDirector = GetComponent<PlayableDirector>();
-        BindToTrack("Cinemachine Track", GameManager.instance.mainCamera.GetComponent<CinemachineBrain>());
-        damageController = GameManager.instance.playerController.gameObject.GetComponent<PDamageController>();
+        BindToTrack("Cinemachine Track", GameManager.instance.MainCamera.GetComponent<CinemachineBrain>());
+        damageController = GameManager.instance.PlayerController.gameObject.GetComponent<PlayerHealthSystem>();
     }
-
-   
 
     void BindToTrack(string trackName, Object val)
     {
@@ -72,19 +89,20 @@ public class FinishingMoveController : MonoBehaviour
 
         detector.SetActive(false);
         damageController.DisableDamage();
-        playerInputScript.DisableMovement();
+        
+        // Note: This is only a temporary solution
+        IPlayerMovement _PlayerMovement = this.transform.parent.GetComponent<IPlayerMovement>();
+        _PlayerMovement.DisableMovement();
+        
         SetTargetEnemy(enemy.GetComponentInChildren<Animator>());
         SelectFinishingMove();
         _cutsceneDirector.Play();
-        playerInputScript.bCanAttack = false;
         
-        enemies = GameManager.instance.enemyTracker.currentEnemies;
-        //Debug.LogError(enemies.Count);
-        //for (int i = 0; i < enemies.Count-1; i++)
-        //{
-        //    enemiesCache[i] = enemies[i].GetComponent<AISystem>();
-        //    enemies[i].GetComponent<AISystem>().OnEnemyRewind();
-        //}
+        // Note: This is only a temporary solution
+        PlayerAttackState _PlayerAttackState = this.transform.parent.GetComponent<IPlayerState>().PlayerAttackState;
+        _PlayerAttackState.CanAttack = false;
+        
+        enemies = GameManager.instance.EnemyTracker.currentEnemies;
     }
 
     public void KillEnemy()
@@ -92,18 +110,24 @@ public class FinishingMoveController : MonoBehaviour
         targetEnemy.GetComponent<AISystem>().bFinish = true;
         targetEnemy.GetComponent<AISystem>().OnEnemyDeath();
         detector.SetActive(true);
-        GameManager.instance.rewindManager.IncreaseRewindAmount();
-        playerInputScript.bCanAttack = true;
-        playerInputScript.EnableMovement();
+        //GameManager.instance.RewindManager.IncreaseRewindAmount();
+        // playerInputScript.bCanAttack = true;
+        // playerInputScript.EnableMovement();
+        // playerInputScript.bAlreadyAttacked = false;
+        // playerInputScript.ResetAttack();
+        
+        // Note: This is only a temporary solution
+        IPlayerMovement _PlayerMovement = this.transform.parent.GetComponent<IPlayerMovement>();
+        _PlayerMovement.EnableMovement();
+        
         damageController.EnableDamage();
-        playerInputScript.bAlreadyAttacked = false;
-        playerInputScript.ResetAttack();
+
+        IPlayerAttackSystem _PlayerAttackHandler = this.transform.parent.GetComponent<IPlayerAttackSystem>();
+        _PlayerAttackHandler.ResetAttack();
+        
         bIsFinishing = false;
-        //for (int i = 0; i < enemies.Count - 1; i++)
-        //{
-        //    enemies[i].GetComponent<AISystem>().EnemyState = enemiesCache[i].EnemyState;
-        //}
     }
 
-   
+    #endregion Methods
+  
 }

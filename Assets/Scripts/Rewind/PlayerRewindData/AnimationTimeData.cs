@@ -1,9 +1,4 @@
-﻿using Microsoft.SqlServer.Server;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class AnimationTimeData
+﻿public class AnimationTimeData
 {
 
     public float currentFrame;
@@ -21,7 +16,7 @@ public class AnimationTimeData
     // new anim params
 
     public AnimationTimeData(float _currentFrame, int _currentClip, float _inputSpeed, float _xInput, float _yinput,
-                                bool _lockedOn, bool _vGuard, int _comboCount, bool _firstAttack, bool _secondAttack, bool _loopAttack, bool _isDead, bool _HeavyAttackHeld, bool _FinisherSetup)
+                                bool _lockedOn, bool _vGuard, /*int _comboCount,*/ bool _firstAttack, bool _secondAttack, /*bool _loopAttack,*/ bool _isDead/*, bool _HeavyAttackHeld, bool _FinisherSetup*/)
     {
         currentFrame = _currentFrame;
         currentClip = _currentClip;
@@ -30,12 +25,12 @@ public class AnimationTimeData
         xInput = _xInput;
         lockedOn = _lockedOn;
         vGuard = _vGuard;
-        comboCount = _comboCount;
+        //comboCount = _comboCount;
         firstAttack = _firstAttack;
         secondAttack = _secondAttack;
-        loopAttack = _loopAttack;
+        //loopAttack = _loopAttack;
         isDead = _isDead;
-        HeavyAttackHeld = _HeavyAttackHeld;
-        FinisherSetup = _FinisherSetup;
+        //HeavyAttackHeld = _HeavyAttackHeld;
+        //FinisherSetup = _FinisherSetup;
     }
 }

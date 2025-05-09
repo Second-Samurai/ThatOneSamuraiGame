@@ -1,5 +1,4 @@
-﻿using System;
-using Enemies;
+﻿using Enemies;
 using UnityEngine;
 
 public class SwordColliderOverride : MonoBehaviour
@@ -35,9 +34,7 @@ public class SwordColliderOverride : MonoBehaviour
             // animation is playing AND it calls ColOff, ColOn can be triggered by the light attack animation.
             // Likely an animation exit time issue
             if (!_aiSystem.bIsDead)
-            {
                 swordCollider.enabled = true;
-            }
         }
         else
         {

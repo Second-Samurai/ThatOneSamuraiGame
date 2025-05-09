@@ -62,7 +62,6 @@ public class LPedestalLevitation : MonoBehaviour
         {
             if (!hasObjectCompleted[index])
             {
-                Debug.Log("Is Lerping");
                 tilePosition = walkwayTiles[index].localPosition;
                 walkwayTiles[index].localPosition = new Vector3(tilePosition.x, tilePosition.y + 0.07f, tilePosition.z);
                 if (walkwayTiles[index].localPosition.y >= tileHeights[index]) {
@@ -75,7 +74,6 @@ public class LPedestalLevitation : MonoBehaviour
 
             if (hasObjectCompleted[hasObjectCompleted.Length - 1])
             {
-                Debug.Log("Has completed");
                 isCompleted = true;
                 yield return null;
             }

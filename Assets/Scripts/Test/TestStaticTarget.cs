@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
 
 
 public class TestStaticTarget : MonoBehaviour, IDamageable
@@ -21,6 +18,10 @@ public class TestStaticTarget : MonoBehaviour, IDamageable
 
         enemyGuard = this.gameObject.AddComponent<Guarding>();
         enemyGuard.Init(testEnemyStats);
+    }
+
+    public void HandleAttack(float damage, GameObject attacker)
+    {
     }
 
     public void DisableDamage()
@@ -46,7 +47,6 @@ public class TestStaticTarget : MonoBehaviour, IDamageable
     void CalculateDamage(float damage)
     {
         testEnemyStats.CurrentHealth -= damage;
-        Debug.Log(">> " + gameObject.name + ", Damage applied: " + damage);
     }
 
     public bool CheckCanDamage()

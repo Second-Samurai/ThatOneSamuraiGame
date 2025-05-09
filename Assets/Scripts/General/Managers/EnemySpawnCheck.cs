@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemySpawnCheck : MonoBehaviour
 {
@@ -11,7 +9,7 @@ public class EnemySpawnCheck : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        spawnManager = GameManager.instance.enemySpawnManager;
+        spawnManager = GameManager.instance.EnemySpawnManager;
         spawnManager.enemies.Add(this);
         myName = gameObject.name;
         if(!GameData.bLoaded) spawnManager.enemySpawnDictionary[myName] = true;

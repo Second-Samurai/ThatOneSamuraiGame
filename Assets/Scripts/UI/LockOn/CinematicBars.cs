@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+[Obsolete]
 public class CinematicBars : MonoBehaviour
 {
     RectTransform _topBar, _bottomBar;
@@ -67,7 +67,6 @@ public class CinematicBars : MonoBehaviour
                 {
                     sizeDelta.y = targetSize;
                     _isActive = false;
-                   // Debug.Log("Done!");
                 }
             }
             else

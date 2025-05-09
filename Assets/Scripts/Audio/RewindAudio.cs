@@ -1,12 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RewindAudio : MonoBehaviour
-{
-    [HideInInspector]
-    private RewindManager _rewindManager;
-    public AudioManager audioManager;
+{ 
+    private AudioManager m_AudioManager;
     private AudioClip heartBeat;
     private AudioPlayer audioPlayer;
     private AudioClip timeFreeze;
@@ -28,18 +24,18 @@ public class RewindAudio : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        this.m_AudioManager = AudioManager.instance;
+        
         played = false;
-        _rewindManager = gameObject.GetComponent<RewindManager>();
-        maxRewind = _rewindManager.maxRewindResource;
-        audioManager = GameManager.instance.audioManager;
+        
         audioPlayer = gameObject.GetComponent<AudioPlayer>();
-        heartBeat = GameManager.instance.audioManager.FindSound("HeartBeatSlow");
-        timeFreeze = GameManager.instance.audioManager.FindSound("freeze");
-        timeResume = GameManager.instance.audioManager.FindSound("Restarts");
-        idle = GameManager.instance.audioManager.FindSound("idle");
-        Death = GameManager.instance.audioManager.FindSound("deathsfx");
+        heartBeat = this.m_AudioManager.FindSound("HeartBeatSlow");
+        timeFreeze = this.m_AudioManager.FindSound("freeze");
+        timeResume = this.m_AudioManager.FindSound("Restarts");
+        idle = this.m_AudioManager.FindSound("idle");
+        Death = this.m_AudioManager.FindSound("deathsfx");
 
-        bossThemeManager = GameManager.instance.bossThemeManager;
+        bossThemeManager = this.m_AudioManager.BossThemeManager;
         
         heartSource.loop = true;
         heartSource.playOnAwake = false;
@@ -59,60 +55,46 @@ public class RewindAudio : MonoBehaviour
 
         deathSource.loop = false;
         deathSource.playOnAwake = false;
-        deathSource.clip = Death;
-
+        deathSource.clip = Death; 
     }
 
     public void HeartBeat()
     {
-        heartSource.volume = audioManager.SFXVol;
-        heartSource.Play();
-       // audioPlayer.PlayOnce(heartBeat, audioManager.SFXVol, 1f, 1f, true);
+        heartSource.volume = this.m_AudioManager.SFXVol;
+        heartSource.Play(); 
     }
 
     public void Idle()
     {
-        idleSource.volume = audioManager.SFXVol;
-        idleSource.Play();
-
+        idleSource.volume = this.m_AudioManager.SFXVol;
+        idleSource.Play(); 
     }
 
     public void Freeze()
     {
         bossThemeManager.PauseAll();
-        freezeSource.volume = audioManager.SFXVol;
-        freezeSource.Play();
-
+        freezeSource.volume = this.m_AudioManager.SFXVol;
+        freezeSource.Play(); 
     }
 
     public void Resume()
     {
         bossThemeManager.UnPauseAll();
-        resumeSource.volume = audioManager.SFXVol;
-        resumeSource.Play();
-
+        resumeSource.volume = this.m_AudioManager.SFXVol;
+        resumeSource.Play(); 
     }
 
     public void DeathSFX()
     {
         bossThemeManager.StopAll();
-        deathSource.volume = audioManager.SFXVol;
+        deathSource.volume = this.m_AudioManager.SFXVol;
         deathSource.Play();
     }
 
     public void StopSource() 
-    {
-
+    { 
         resumeSource.Stop();
         idleSource.Stop();
-        freezeSource.Stop();
-        if (_rewindManager.maxRewindResource <= 0) 
-        {
-            heartSource.Stop();
-        }
-
-    }
-
-   
-
+        freezeSource.Stop();  
+    } 
 }

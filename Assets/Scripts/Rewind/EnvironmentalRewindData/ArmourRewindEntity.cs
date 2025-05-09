@@ -1,6 +1,5 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class ArmourRewindEntity : RewindEntity
@@ -12,13 +11,8 @@ public class ArmourRewindEntity : RewindEntity
     private Rigidbody ArmourRigidBody;
     // Start is called before the first frame update
     protected new void Start()
-    {
-        _rewindInput = GameManager.instance.rewindManager.GetComponent<RewindManager>();
-        ArmourDataList = new List<ArmourTimeData>();
-        _rewindInput.Reset += ResetTimeline;
-        _rewindInput.OnEndRewind += ApplyData;
-        _rewindInput.OnStartRewind += DisableEvents;
-        _rewindInput.OnEndRewind += EnableEvents;
+    { 
+        ArmourDataList = new List<ArmourTimeData>(); 
 
         armourPiece = gameObject.GetComponent<ArmourPiece>();
         ArmourRigidBody = gameObject.GetComponent<Rigidbody>();
@@ -27,126 +21,28 @@ public class ArmourRewindEntity : RewindEntity
     }
 
     public override void FixedUpdate()
-    {
-        if (_rewindInput.isTravelling == false)
-        {
-            RecordPast();
+    { 
+    } 
 
-        }
-
-        if (isTravelling)
-        {
-
-        }
-        
-    }
-    public void DisableEvents()
-    {
-        ArmourRigidBody.isKinematic = true;
-    }
-
-    public void EnableEvents()
-    {
-
-
-    }
-
-    public new void ResetTimeline()
-    {
-        for (int i = currentIndex; i > 0; i--)
-        {
-            if (currentIndex <= ArmourDataList.Count - 1)
-            {
-                ArmourDataList.RemoveAt(i);
-            }
-        }
-        ArmourDataList.TrimExcess();
-    }
-
-    public new void RecordPast()
-    {
-        //maybe make 10f into a global variable
-        //how much data is cached before list starts being culled (currently 10 seconds)
-        if (ArmourDataList.Count > _rewindInput.rewindTime)
-        {
-            ArmourDataList.RemoveAt(ArmourDataList.Count - 1);
-        }
-
-        //move to arguments need to be added rewind entity
-        ArmourDataList.Insert(0, new ArmourTimeData(armourPiece.col.enabled, armourPiece.destroyed, ArmourRigidBody.velocity, transform.parent));
-
-        base.RecordPast();
-    }
-
+    [Obsolete("Deprecated", false)]
     public override void StepBack()
     {
-
-        if (ArmourDataList.Count > 0)
-        {
-            if (currentIndex < ArmourDataList.Count - 1)
-            {
-                currentIndex++;
-                if (currentIndex >= ArmourDataList.Count - 1)
-                {
-                    currentIndex = ArmourDataList.Count - 1;
-                }
-                SetPosition();
-            }
-        }
+         
     }
 
+    [Obsolete("Deprecated", false)]
     public override void StepForward()
-    {
-        if (ArmourDataList.Count > 0)
-        {
-            if (currentIndex > 0)
-            {
-                SetPosition();
-                currentIndex--;
-            }
-        }
+    { 
     }
 
-    public new void SetPosition()
-    {
-        base.SetPosition();
-        if (currentIndex <= ArmourDataList.Count - 1)
-        {
-            if (!armourPiece.destroyed)
-            {
-                transform.localPosition = armourPiece.originPos;
-                transform.localRotation = armourPiece.originRot;
-            }
-        }
-        // needs to set the enemy targeting
-    }
-
+    [Obsolete("Deprecated", false)]
     public override void ApplyData()
     {
-        if (currentIndex <= ArmourDataList.Count - 1)
-        {
-            transform.parent = ArmourDataList[currentIndex].parent;
-            armourPiece.destroyed = ArmourDataList[currentIndex].destroyed;
-            armourPiece.rb.velocity = ArmourDataList[currentIndex].velocity;
-            armourPiece.col.enabled = ArmourDataList[currentIndex].isEnabled;
-            armourPiece.rb.isKinematic = !ArmourDataList[currentIndex].isEnabled;
-            if (!armourPiece.destroyed) 
-            {
-                transform.localPosition = armourPiece.originPos;
-                transform.localRotation = armourPiece.originRot;
-            }
-        }
-
-        //base.ApplyData();
+        
     }
 
     protected new void OnDestroy()
-    {
-
-        _rewindInput.Reset -= ResetTimeline;
-        _rewindInput.OnEndRewind -= EnableEvents;
-        _rewindInput.OnStartRewind -= DisableEvents;
-        _rewindInput.OnEndRewind -= ApplyData;
+    { 
         base.OnDestroy();
     }
 }

@@ -1,14 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public interface ISceneLoader
+public interface IScenePlatformLoader
 {
     void Initialise(Transform cameraTransform);
 }
 
-public class ScenePlatformLoader : MonoBehaviour, ISceneLoader
+public class ScenePlatformLoader : MonoBehaviour, IScenePlatformLoader
 {
     public enum CheckMethod
     {

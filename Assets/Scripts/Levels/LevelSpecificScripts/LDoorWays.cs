@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LDoorWays : MonoBehaviour
 {
@@ -43,8 +41,8 @@ public class LDoorWays : MonoBehaviour
 
     private void Start()
     {
-        bossTheme = GameManager.instance.bossThemeManager;
-        _backgroundAudio = GameManager.instance.audioManager.backgroundAudio;
+        bossTheme = AudioManager.instance.BossThemeManager;
+        _backgroundAudio = AudioManager.instance.backgroundAudio;
     }
 
     void FixedUpdate()
@@ -94,8 +92,6 @@ public class LDoorWays : MonoBehaviour
         bossTheme.gameObject.SetActive(true);
         currentRotation = doorPivot.rotation.eulerAngles;
         doorPivot.Rotate(0, rotationSpeed * Time.fixedDeltaTime, 0);
-
-        //Debug.Log(Quaternion.Euler(currentRotation).eulerAngles);
 
         //catches reverse angles
         if (inReverse)

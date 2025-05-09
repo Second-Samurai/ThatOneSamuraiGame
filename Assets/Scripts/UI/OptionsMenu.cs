@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using ThatOneSamuraiGame.Legacy;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,8 +15,9 @@ public class OptionsMenu : MonoBehaviour
 
     private void Start()
     {
-        camTargetScript = GameManager.instance.playerController.gameObject.GetComponent<CameraControl>().camTargetScript;
-        audioManager = GameManager.instance.audioManager.GetComponent<AudioManager>();
+        // TODO: Change this to be the current camera control.
+        // camTargetScript = GameManager.instance.PlayerController.gameObject.GetComponent<CameraControl>().camTargetScript;
+        audioManager = AudioManager.instance;
         _sensitivitySlider = GetComponentInChildren<Slider>();
         _sensitivitySlider.value = camTargetScript.rotationSpeed;
         if (!indicatorToggle) indicatorToggle = GetComponentInChildren<Toggle>();
@@ -26,8 +26,6 @@ public class OptionsMenu : MonoBehaviour
         indicatorToggle.isOn = GameManager.instance.bShowAttackPopups;
         SFXVol.value = PlayerPrefs.GetFloat("SFXVolume");
         BGMVol.value = PlayerPrefs.GetFloat("BGMVolume");
-
-
     }
 
     public void SetSensitivity(float var)

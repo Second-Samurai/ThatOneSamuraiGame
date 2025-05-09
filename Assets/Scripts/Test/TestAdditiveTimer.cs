@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TestAdditiveTimer : MonoBehaviour
 {
@@ -15,6 +13,5 @@ public class TestAdditiveTimer : MonoBehaviour
     void FixedUpdate()
     {
         time += Time.fixedDeltaTime;
-        //Debug.Log(time);
     }
 }

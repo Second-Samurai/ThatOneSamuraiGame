@@ -1,55 +1,74 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using ThatOneSamuraiGame;
+using ThatOneSamuraiGame.Legacy;
+using ThatOneSamuraiGame.Scripts.Player.Attack;
+using ThatOneSamuraiGame.Scripts.Player.Containers;
 using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    CheckpointManager checkpointManager;
-    public bool bIsActive = false;
-    public Transform spawnPos;
 
-    // Start is called before the first frame update
-    void Awake()
+    #region - - - - - - Methods - - - - - -
+
+    public bool IsActive;
+    public Transform SpawnPosition;
+
+    private CheckpointManager m_CheckpointManager;
+    private PlayerAttackState m_PlayerAttackState;
+
+    #endregion Methods
+
+    #region - - - - - - Unity Methods - - - - - -
+
+    private void Start()
     {
-        checkpointManager = GameManager.instance.checkpointManager;
-        //checkpointManager.checkpoints.Add(this); 
+        // TODO: Move this so it is handled by pipeline.
+        this.m_CheckpointManager = FindFirstObjectByType<CheckpointManager>();
+        this.m_PlayerAttackState = GameManager.instance.PlayerController
+            .GetComponent<IPlayerState>()
+            .PlayerAttackState;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player") && !bIsActive)
-        {
-            Debug.Log("Checkpoint Set");
-            SetActiveCheckpoint();
-        }
+        if (!other.gameObject.CompareTag("Player") && this.IsActive)
+            return;
+        
+        this.SetActiveCheckpoint();
     }
 
-    public void SetActiveCheckpoint()
-    {
-        foreach (Checkpoint checkpoint in checkpointManager.checkpoints)
-        {
-            checkpoint.bIsActive = false;
-        }
-        checkpointManager.activeCheckpoint = checkpointManager.checkpoints.IndexOf(this);
-        bIsActive = true;
-        GameManager.instance.enemySpawnManager.SaveEnemyList();
-        GameManager.instance.rewindManager.IncreaseRewindAmount();
-    }
+    #endregion Unity Methods
+
+    #region - - - - - - Methods - - - - - -
 
     public void LoadCheckpoint()
     {
-        GameManager.instance.playerController.gameObject.transform.position = spawnPos.position;
-        GameManager.instance.EnableInput();
-        GameManager.instance.thirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
-        GameManager.instance.rewindManager.isTravelling = false;
-        PlayerFunctions player = GameManager.instance.playerController.gameObject.GetComponent<PlayerFunctions>();
+        GameManager.instance.PlayerController.gameObject.transform.position = SpawnPosition.position;
+        GameManager.instance.InputManager.EnableActiveInputControl();
+        GameManager.instance.ThirdPersonViewCamera.GetComponent<ThirdPersonCamController>().SetPriority(11);
 
-        player.playerInputScript._pCombatController.swordManager.SetWeapon(true, GameManager.instance.gameSettings.katanaPrefab);
+        // Note: The sword manager exists on the root parent fo the player object
+        // PSwordManager _PlayerSwordManager = this.GetComponent<PSwordManager>();
+        IWeaponSystem _WeaponSystem = this.GetComponent<IWeaponSystem>();
+        _WeaponSystem.SetWeapon(GameManager.instance.gameSettings.katanaPrefab);
 
-        ICombatController playerCombatController = player.gameObject.GetComponent<ICombatController>();
-        playerCombatController.DrawSword();
-         
-        player.gameObject.GetComponent<PlayerInputScript>().bCanAttack = true; //TODO: CHANGE: input not incharge of attacking (combat controller maybe doing it already)
+        // PlayerFunctions _Player = GameManager.instance.PlayerController.gameObject.GetComponent<PlayerFunctions>();
+        // ICombatController playerCombatController = _Player.gameObject.GetComponent<ICombatController>();
+        // playerCombatController.DrawSword();
+
+        this.m_PlayerAttackState.CanAttack = true;
     }
+
+    private void SetActiveCheckpoint()
+    {
+        foreach (Checkpoint checkpoint in m_CheckpointManager.checkpoints) 
+            checkpoint.IsActive = false;
+        
+        this.m_CheckpointManager.activeCheckpoint = this.m_CheckpointManager.checkpoints.IndexOf(this);
+        this.IsActive = true;
+        
+        GameManager.instance.EnemySpawnManager.SaveEnemyList();
+    }
+
+    #endregion Methods
 
 }
